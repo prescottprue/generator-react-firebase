@@ -1,5 +1,5 @@
 {
-  "name": "<%= name %>",
+  "name": "<%= appName %>",
   "version": "<%= version %>",
   "main": "bin/server.js",
   "scripts": {
@@ -15,10 +15,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/<%= githubUser %>/<%= name %>"
+    "url": "https://github.com/<%= githubUser %>/<%= appName %>"
   },
   "bugs": {
-    "url": "https://github.com/<%= githubUser %>/<%= name %>/issues"
+    "url": "https://github.com/<%= githubUser %>/<%= appName %>/issues"
   },
   "keywords": [
     "webpack",
@@ -30,9 +30,12 @@
     "tessellate"
   ],
   "dependencies": {
+    "bluebird": "^3.4.0",
     "express": "4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
+    "firebase": "^2.4.2",
     "history": "1.13.0",
+    "immutable": "^3.8.1",
     "lodash": "^4.13.1",
     "material-ui": "0.14.4",
     "proxy-middleware": "^0.15.0",
@@ -43,8 +46,8 @@
     "react-router-redux": "4.0.0-rc.1",
     "react-tap-event-plugin": "0.2.1",
     "redux": "3.2.1",
+    "redux-react-firebase": "^1.12.1",
     "redux-thunk": "2.1.0",
-    "redux-react-firebase": "^1.12.0",
     "serve-static": "1.10.2",
     "webpack": "1.13.0"
   },
@@ -54,6 +57,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-plugin-lodash": "^3.1.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-loader": "^6.2.4",
     "css-loader": "^0.23.1",
     "json-loader": "^0.5.4",

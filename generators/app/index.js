@@ -8,7 +8,7 @@ var _ = require('lodash')
 module.exports = yeoman.Base.extend({
   initializing: function () {
     this.argument('name', { type: String, required: false })
-    this.name = path.basename(process.cwd()) || 'react-firebase-starter'
+    this.appName = this.name || path.basename(process.cwd()) || 'kyper-react-starter'
     this.appPath = this.env.options.appPath
     this.version = '0.0.1'
   },
@@ -58,36 +58,24 @@ module.exports = yeoman.Base.extend({
     }.bind(this))
   },
 
-  writing: {
-    app: function () {
-      var appFilesArray = [
-        { src: '_index.html', dest: 'index.html' },
-        { src: 'app/**', dest: 'app' },
-        { src: 'assets/**', dest: 'assets' },
-        { src: 'bin/**', dest: 'bin' },
-        { src: 'lib/**', dest: 'lib' }
-      ]
-      this.copyFiles(appFilesArray)
-      // Add matter specific files
-    },
-    projectfiles: function () {
-      var projectFilesArray = [
-        { src: '_package.json', dest: 'package.json' },
-        { src: '_README.md', dest: 'README.md' },
-        { src: 'Procfile', dest: 'Procfile' },
-        { src: 'webpack-dev.config.js' },
-        { src: 'webpack-production.config.js' },
-        { src: 'webpack-server-production.config.js' },
-        { src: 'gitignore', dest: '.gitignore' },
-        { src: 'babelrc', dest: '.babelrc' }
-      ]
-      if (this.answers.includeTravis) {
-        projectFilesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
-      }
-      this.copyFiles(projectFilesArray)
-
-      projectFilesArray.forEach((loc) => this.fs.copy(this.templatePath(loc), this.destinationRoot()))
-    }
+  writing: function () {
+    var appFilesArray = [
+      { src: '_index.html', dest: 'index.html' },
+      { src: 'app/**', dest: 'app' },
+      { src: 'assets/**', dest: 'assets' },
+      { src: 'bin/**', dest: 'bin' },
+      { src: 'lib/**', dest: 'lib' },
+      { src: '_package.json', dest: 'package.json' },
+      { src: '_README.md', dest: 'README.md' },
+      { src: 'Procfile', dest: 'Procfile' },
+      { src: 'webpack-dev.config.js' },
+      { src: 'webpack-production.config.js' },
+      { src: 'webpack-server-production.config.js' },
+      { src: 'gitignore', dest: '.gitignore' },
+      { src: 'babelrc', dest: '.babelrc' }
+    ]
+    console.log('calling copy files with:', appFilesArray)
+    this.copyFiles(appFilesArray)
   },
 
   install: function () {
