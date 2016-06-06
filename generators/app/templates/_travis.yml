@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+- 6.2.0
+
+sudo: false
+
+branches:
+  only:
+    - master
+
+script: npm run build
+
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  api_key:
+    secure: $HEROKU
+  app: <%=  appName %>
