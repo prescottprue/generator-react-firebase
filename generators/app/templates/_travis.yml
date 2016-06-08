@@ -10,10 +10,3 @@ branches:
     - master
 
 script: npm run build
-
-deploy:
-  skip_cleanup: true
-  provider: heroku
-  api_key:
-    secure: $HEROKU
-  app: <%=  appName %>
