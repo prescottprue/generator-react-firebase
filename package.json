@@ -1,12 +1,12 @@
 {
   "name": "generator-react-firebase",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Starter that uses React and Firebase (with Redux)",
   "homepage": "github.com/prescottprue/generator-react-firebase",
   "author": {
     "name": "Scott Prue",
     "email": "sprue.dev@gmail.com",
-    "url": "prue.io"
+    "url": "github.com/prescottprue"
   },
   "files": [
     "generators"
@@ -21,34 +21,26 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.22.5",
+    "yeoman-generator": "^0.23.0",
     "chalk": "^1.0.0",
     "yosay": "^1.0.0"
   },
   "devDependencies": {
-    "yeoman-test": "^1.0.0",
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "isparta": "^4.0.0",
+    "mocha": "^2.5.3",
+    "standard": "^7.1.2",
     "yeoman-assert": "^2.0.0",
-    "eslint": "^2.1.0",
-    "eslint-config-xo-space": "^0.13.0",
-    "gulp": "^3.9.0",
-    "gulp-eslint": "^2.0.0",
-    "gulp-exclude-gitignore": "^1.0.0",
-    "gulp-line-ending-corrector": "^1.0.1",
-    "gulp-istanbul": "^0.10.3",
-    "gulp-mocha": "^2.0.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-nsp": "^2.1.0"
+    "yeoman-test": "^1.0.0"
   },
-  "eslintConfig": {
-    "extends": "xo-space",
-    "env": {
-      "mocha": true
-    }
-  },
-  "repository": "prescottprue/generator-react-firebase",
+  "repository": "github.com/prescottprue/generator-react-firebase",
   "scripts": {
-    "prepublish": "gulp prepublish",
-    "test": "gulp"
+    "prepublish": "npm run lint && npm run test",
+    "lint": "standard src",
+    "test": "mocha -R spec --compilers js:babel-core/register ./test/setup.js ./test/**/*.spec.js",
+    "test:cov": "babel-node $(npm bin)/isparta cover --report lcov ./node_modules/mocha/bin/_mocha -- ./test/** --recursive"
   },
   "license": "MIT"
 }

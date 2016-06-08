@@ -9,13 +9,48 @@
 
 ## Getting Started
 
-1. Install dependencies through npm:
+1. Install dependencies: `npm install`
 
-  `npm install <%= appName %> --save`
+2. Start Development server: `npm start`
 
-2. Start Development server:
+## Production
 
-  `npm start`
+`npm run build` command has been provided to build production bundle version of code. Production build is located in `dist` after build is complete. If you choose to use Travis-CI this is handled automatically using the included `.travis.yml`.
+
+After build is complete, use `npm run production` to run production server
+
+### Continuous Integration
+
+A Travis-CI file has been included for enable CI builds (NOTE: [Travis can be used to deploy to certain services](https://docs.travis-ci.com/user/deployment/) like Heroku and S3 by using the `deploy` parameter)
+
+## Deployment
+
+Make sure that build happens before deployment and that `npm run production` is being run instead of `npm start`
+
+### Heroku
+
+A Procfile has been included for out of the box deployment to Heroku.
+
+To deploy to Heroku through Travis:
+1. Enable Repo on Travis-CI Account
+2. Get API Key from Heroku Dashboard
+3. Place API key in Travis-CI environment variables as `HEROKU` (settings page)
+
+
+### Static Hosting vs Server-side Rendering
+
+You have the option of hosting Static HTML file or enable Server-side Rendering through React and NodeJS. Server-side rendering allows pre-population of data into your application, which can improve SEO (Google is attempting to fix).
+
+**Static**
+
+Static hosting services such as Firebase Hosting or AWS S3 can be used to host the project. You will want to upload the entire dist folder.
+
+**Server-Side**
+
+In order to enable server-side rendering with React, you must host a NodeJS server. This server is included and can be run using `npm run production` (runs if deployed to Heroku).
+
+
+
 
 [npm-image]: https://img.shields.io/npm/v/<%= appName %>.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/<%= appName %>

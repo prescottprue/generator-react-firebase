@@ -3,7 +3,6 @@ var yeoman = require('yeoman-generator')
 var chalk = require('chalk')
 var yosay = require('yosay')
 var path = require('path')
-var _ = require('lodash')
 
 module.exports = yeoman.Base.extend({
   initializing: function () {
@@ -13,8 +12,6 @@ module.exports = yeoman.Base.extend({
     this.version = '0.0.1'
   },
   prompting: function () {
-    var done = this.async()
-
     // Have Yeoman greet the user.
     this.log(yosay(
       'Welcome to the ' + chalk.red('React Firebase') + ' generator!'
@@ -49,17 +46,16 @@ module.exports = yeoman.Base.extend({
       }
     ]
 
-    return this.prompt(prompts, function (props) {
+    return this.prompt(prompts).then(function (props) {
       this.answers = props
       this.githubUser = this.answers.githubUser
       this.firebaseName = this.answers.firebaseName
       // To access prompt answers later use this.answers.someOption
-      done()
     }.bind(this))
   },
 
   writing: function () {
-    var appFilesArray = [
+    const appFilesArray = [
       { src: '_index.html', dest: 'index.html' },
       { src: 'app/**', dest: 'app' },
       { src: 'assets/**', dest: 'assets' },
@@ -74,49 +70,17 @@ module.exports = yeoman.Base.extend({
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'babelrc', dest: '.babelrc' }
     ]
-    console.log('calling copy files with:', appFilesArray)
     this.copyFiles(appFilesArray)
   },
 
   install: function () {
     this.npmInstall()
   },
-  /**
- * @param {Array|Object} filesArray
- */
+
   copyFiles: function (filesArray) {
-    console.log('files array:', filesArray)
-    if (!filesArray) return
-    filesArray.forEach(file => {
-      var src = ''
-      var destination = ''
-      if (!_.has(file, 'src')) {
-        if (_.isString(file)) {
-          src = file
-        } else {
-          console.error('Invalid source for file copying.')
-          throw new Error('Invalid source for file copy.')
-        }
-      }
-      if (_.isObject(file)) {
-        src = file.src
-        destination = file.dest || file.src // Make destination source if not provided
-      }
-      if (src.charAt(0) === '_') { // template if filename starts with _
-        // Copy with templating
-        this.template(src, destination, this.templateContext)
-      } else if (src.indexOf('*') !== -1 || src.indexOf('/**') !== -1) {
-        // TODO: make this work better (work with nested folders and use src correctly)
-        src.replace('**', '') // Remove /**
-        src.replace('/', '') // Remove /
-        this.directory(destination, destination)
-      } else {
-        // Normal copy
-        this.fs.copy(
-          this.templatePath(src),
-          this.destinationPath(destination)
-        )
-      }
-    })
+    if (!filesArray) return // Skip initializing call
+    filesArray.forEach(file =>
+      this.template(file.src || file, file.dest || file.src || file, this.templateContext)
+    )
   }
 })
