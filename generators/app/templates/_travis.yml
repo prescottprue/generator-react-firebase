@@ -10,3 +10,21 @@ branches:
     - master
 
 script: npm run build
+<% if (deployTo === 'heroku') { %>
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  api_key:
+    secure: $HEROKU
+  app: <%=  appName %>
+<% } %>
+<% if (deployTo === 's3') { %>
+deploy:
+  skip_cleanup: true
+  provider: s3
+  access_key_id: $AWS_KEY
+  secret_access_key: $AWS_SECRET
+  bucket: $AWS_BUCKET
+  acl: public_read
+  local_dir: build
+<% } %>
