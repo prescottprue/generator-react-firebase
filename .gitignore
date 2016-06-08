@@ -1,2 +1,5 @@
 node_modules
 coverage
+npm-debug.log
+.DS_Store
+**/.DS_Store
