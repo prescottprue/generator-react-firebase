@@ -1,4 +1,7 @@
-# generator-react-firebase [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-react-firebase
+
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+
 > Starter that uses React and Firebase (with Redux)
 
 ## Installation
@@ -28,9 +31,9 @@ yo react-firebase
 MIT © [Scott Prue](prue.io)
 
 
-[npm-image]: https://badge.fury.io/js/generator-react-firebase.svg
+[npm-image]: https://img.shields.io/npm/v/generator-react-firebase.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/generator-react-firebase
-[travis-image]: https://travis-ci.org/prescottprue/generator-react-firebase.svg?branch=master
+[travis-image]: https://img.shields.io/travis/prescottprue/generator-react-firebase.svg?style=flat-square
 [travis-url]: https://travis-ci.org/prescottprue/generator-react-firebase
-[daviddm-image]: https://david-dm.org/prescottprue/generator-react-firebase.svg?theme=shields.io
+[daviddm-image]: https://img.shields.io/david/prescottprue/generator-react-firebase.svg?style=flat-square
 [daviddm-url]: https://david-dm.org/prescottprue/generator-react-firebase
