@@ -7,12 +7,8 @@ branches:
   only:
     - master
 
-script: npm run test
+script: npm run test && npm run test:cov
 
 addons:
   code_climate:
     repo_token: $CODE_CLIMATE
-
-after_success:
-  - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < coverage/lcov.info

@@ -63,21 +63,22 @@ Selecting AWS S3 from the deploy options when running the generator adds deploy 
 
 1. Get your AWS Key and Secret from the AWS Console Credentials page
 2. Set the following environment vars within the Travis-CI repo settings page:
-  * AWS_KEY - Your AWS key
-  * AWS_SECRET - Your AWS secret
-  * BUCKET - Your S3 Bucket
+  * `AWS_KEY` - Your AWS key
+  * `AWS_SECRET` - Your AWS secret
+  * `S3_BUCKET` - Your S3 Bucket
 
 #### Heroku
 
 Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment.
 
-To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.org):
+To deploy:
+
 1. Enable Repo on Travis-CI Account
 2. Get API Key from Heroku Dashboard
 3. Create a new App (this name will be used in travis env var)
 4. Set the following environment vars within the Travis-CI repo settings page:
-  * HEROKU_KEY - Your Heroku API key
-  * APP - Your Heroku App name
+  * `HEROKU_KEY` - Your Heroku API key
+  * `HEROKU_APP` - Your Heroku App name
 
 
 ## Sub generators
@@ -184,7 +185,7 @@ export default class Cars extends Component {
 
 ## Examples
 
-Complete examples available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
+Complete example of generator out available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/example)
 
 ### Server-side Rendering
 
@@ -194,7 +195,6 @@ In order to enable server-side rendering with React, you must host a NodeJS serv
 
 
 ## In the future
-* Prompt for deployment options
 * Option to not include redux
 * Prompt about props/state vars in Container (which Firebase location to bind to props)
 * Non-decorators implementation for props binding (pure redux and firebase implementations)

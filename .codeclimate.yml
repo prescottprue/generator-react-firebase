@@ -3,7 +3,7 @@ languages:
 exclude_paths:
 - "lib/**"
 - "test/**"
-- "examples/**"
+- "example/**"
 - "bin/**"
 - "webpack.config.base.js"
 - "webpack.config.development.js"
