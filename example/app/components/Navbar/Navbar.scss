@@ -1,0 +1,22 @@
+@import '../../variables';
+
+.Navbar {
+  background-color: $navbar;
+  padding: 10px;
+  font-size: 1.5em;
+  line-height: 1.3em;
+  display: flex;
+  box-sizing: border-box;
+  &-Brand {
+    font-size: 1em;
+    a {
+      color: $primary;
+      &:hover {
+        color: $secondary;
+      }
+    }
+  }
+  &-Spacer {
+    flex: 1;
+  }
+}

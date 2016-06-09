@@ -90,7 +90,8 @@ module.exports = yeoman.Base.extend({
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'babelrc', dest: '.babelrc' }
     ]
-    if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml'})
+    if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
+    if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
     this.copyFiles(filesArray)
   },
 

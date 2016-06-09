@@ -1,6 +1,5 @@
 node_modules
-example/node_modules
-coverage
 npm-debug.log
+stats.json
 .DS_Store
 **/.DS_Store

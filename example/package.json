@@ -1,6 +1,6 @@
 {
-  "name": "<%= appName %>",
-  "version": "<%= version %>",
+  "name": "example",
+  "version": "0.0.1",
   "main": "bin/server.js",
   "scripts": {
     "build": "npm run clean && npm run build-bundle && npm run build-server && npm run build-copy",
@@ -11,14 +11,14 @@
     "start": "node bin/dev-server",
     "production": "node bin/server"
   },
-  "author": "<%= githubUser %>",
+  "author": "prescottprue",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/<%= githubUser %>/<%= appName %>"
+    "url": "https://github.com/prescottprue/example"
   },
   "bugs": {
-    "url": "https://github.com/<%= githubUser %>/<%= appName %>/issues"
+    "url": "https://github.com/prescottprue/example/issues"
   },
   "keywords": [
     "webpack",

@@ -1,0 +1,42 @@
+.AccountDropdown {
+  &-Link {
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  &-Open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .5rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    margin-top: -1px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    top: 20;
+    right:0;
+    z-index: 1000;
+    -webkit-overflow-scrolling: touch;
+    button {
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+  }
+  &-Closed {
+    padding-right: .4rem;
+    button {
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+  }
+}
