@@ -1,9 +1,9 @@
-# <%= appName %>
+# example
 
 [![NPM version][npm-image]][npm-url]
-<% if (answers.includeTravis) { %>[![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]<% } %>
-<% if (answers.codeClimate) { %>[![Code Climate][climate-image]][climate-url]<% } %>
+[![Build Status][travis-image]][travis-url]
+[![Dependency Status][daviddm-image]][daviddm-url]
+
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -56,17 +56,14 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
   * APP - Your Heroku App name
 
 
-[npm-image]: https://img.shields.io/npm/v/<%= appName %>.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/<%= appName %>
-<% if (answers.includeTravis) { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
-[daviddm-image]: https://img.shields.io/david/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/<%= githubUser %>/<%= appName %><% } %>
-<% if (answers.codeClimate) { %>[climate-image]: https://img.shields.io/codeclimate/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[climate-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %>
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %> <% } %>
-[license-image]: https://img.shields.io/npm/l/<%= appName %>.svg?style=flat-square
-[license-url]: https://github.com/<%= githubUser %>/<%= appName %>/blob/master/LICENSE
+[npm-image]: https://img.shields.io/npm/v/example.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/example
+[travis-image]: https://img.shields.io/travis/prescottprue/example/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/prescottprue/example
+[daviddm-image]: https://img.shields.io/david/prescottprue/example.svg?style=flat-square
+[daviddm-url]: https://david-dm.org/prescottprue/example
+
+[license-image]: https://img.shields.io/npm/l/example.svg?style=flat-square
+[license-url]: https://github.com/prescottprue/example/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/

@@ -27,15 +27,12 @@ module.exports = yeoman.Base.extend({
 
     return this.prompt(prompts).then(function (props) {
       this.answers = props
-      this.addStyle = this.answers.addStyle
-      // To access prompt answers later use this.answers.someOption
     }.bind(this))
   },
 
   writing: function () {
-    const rootPath = 'app/components/' // TODO: Handle different root location
-    const destPath = rootPath + this.name + '/' + this.name
+    const destPath = 'app/components/' + this.name + '/' + this.name
     this.template('_main.js', destPath + '.js', this.templateContext)
-    if (this.addStyle) this.template('_main.scss', destPath + '.scss', this.templateContext)
+    if (this.answers.addStyle) this.template('_main.scss', destPath + '.scss', this.templateContext)
   }
 })

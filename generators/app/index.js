@@ -43,6 +43,26 @@ module.exports = yeoman.Base.extend({
         name: 'includeTravis',
         message: 'Would to include config for Travis CI?',
         default: true
+      },
+      {
+        type: 'list',
+        name: 'deployTo',
+        choices: [
+          {
+            name: 'Firebase',
+            value: 'firebase'
+          },
+          {
+            name: 'AWS S3',
+            value: 's3'
+          },
+          {
+            name: 'Heroku',
+            value: 'heroku'
+          }
+        ],
+        message: 'What service are you deploying to?',
+        default: [1]
       }
     ]
 
@@ -50,12 +70,13 @@ module.exports = yeoman.Base.extend({
       this.answers = props
       this.githubUser = this.answers.githubUser
       this.firebaseName = this.answers.firebaseName
+      this.deployTo = this.answers.deployTo
       // To access prompt answers later use this.answers.someOption
     }.bind(this))
   },
 
   writing: function () {
-    const appFilesArray = [
+    let filesArray = [
       { src: '_index.html', dest: 'index.html' },
       { src: 'app/**', dest: 'app' },
       { src: 'assets/**', dest: 'assets' },
@@ -63,14 +84,15 @@ module.exports = yeoman.Base.extend({
       { src: 'lib/**', dest: 'lib' },
       { src: '_package.json', dest: 'package.json' },
       { src: '_README.md', dest: 'README.md' },
-      { src: 'Procfile', dest: 'Procfile' },
       { src: 'webpack-dev.config.js' },
       { src: 'webpack-production.config.js' },
       { src: 'webpack-server-production.config.js' },
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'babelrc', dest: '.babelrc' }
     ]
-    this.copyFiles(appFilesArray)
+    if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
+    if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
+    this.copyFiles(filesArray)
   },
 
   install: function () {

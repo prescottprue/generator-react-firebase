@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react'
-<% if(usingRedux) { %>
+<% if(answers.usingRedux) { %>
 import { firebase, helpers } from 'redux-react-firebase'
 <% } %>
-<% if(addStyle) { %>
+<% if(answers.addStyle) { %>
 import './<%= name %>.scss'
 <% } %>
 
-<% if(usingRedux) { %>
+<% if(answers.usingRedux) { %>
 const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
 
 // Props decorators

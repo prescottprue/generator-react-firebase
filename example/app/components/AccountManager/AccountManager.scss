@@ -1,0 +1,17 @@
+@import '../../variables';
+.AccountManager {
+  display: flex;
+  &-Buttons {
+    display: inline;
+    padding-right: 10px;
+  }
+  &-Button {
+    margin-right: 10px;
+    margin-left: 10px;
+    text-decoration: none;
+    & :hover {
+      color: $secondary;
+      text-decoration: underline;
+    }
+  }
+}

@@ -10,10 +10,26 @@ branches:
     - master
 
 script: npm run build
-
+<% if (answers.codeClimate) { %>
+addons:
+  code_climate:
+    repo_token: $CODE_CLIMATE
+<% } %>
+<% if (answers.deployTo === 'heroku') { %>
 deploy:
   skip_cleanup: true
   provider: heroku
   api_key:
-    secure: $HEROKU
-  app: <%=  appName %>
+    secure: $HEROKU_KEY
+  app: $HEROKU_APP
+<% } %>
+<% if (answers.deployTo === 's3') { %>
+deploy:
+  skip_cleanup: true
+  provider: s3
+  access_key_id: $AWS_KEY
+  secret_access_key: $AWS_SECRET
+  bucket: $AWS_BUCKET
+  acl: public_read
+  local_dir: build
+<% } %>

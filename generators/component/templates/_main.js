@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-<% if(addStyle) { %>
+<% if(answers.addStyle) { %>
 import './<%= name %>.scss'
 <%}%>
 

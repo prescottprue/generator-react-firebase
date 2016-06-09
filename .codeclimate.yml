@@ -1,0 +1,15 @@
+languages:
+  JavaScript: true
+exclude_paths:
+- "lib/**"
+- "test/**"
+- "examples/**"
+- "bin/**"
+- "webpack.config.base.js"
+- "webpack.config.development.js"
+- "webpack.config.production.js"
+- "LICENSE"
+- "README.md"
+- "config.json"
+- "package.json"
+- "generators/**/templates"
