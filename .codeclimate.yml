@@ -3,9 +3,7 @@ languages:
 exclude_paths:
 - "lib/**"
 - "test/**"
-- "dist/**"
 - "examples/**"
-- "docs/**"
 - "bin/**"
 - "webpack.config.base.js"
 - "webpack.config.development.js"
@@ -14,3 +12,4 @@ exclude_paths:
 - "README.md"
 - "config.json"
 - "package.json"
+- "generators/**/templates"
