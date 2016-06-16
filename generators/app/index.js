@@ -85,7 +85,11 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     let filesArray = [
       { src: '_index.html', dest: 'index.html' },
-      { src: 'index.js', dest: 'index.js' },
+      { src: 'app/config.js', dest: 'app/config.js' },
+      { src: 'app/index.js', dest: 'app/index.js' },
+      { src: 'app/theme.js', dest: 'app/theme.js' },
+      { src: 'app/routes.js', dest: 'app/routes.js' },
+      { src: 'app/variables.scss', dest: 'app/variables.scss' },
       { src: 'app/components/**', dest: 'app/components' },
       { src: 'app/containers/**', dest: 'app/containers' },
       { src: 'assets/**', dest: 'assets' },
@@ -101,11 +105,12 @@ module.exports = yeoman.Base.extend({
     ]
     if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
     if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
+    // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' }) // TODO: Make server side rendering work
     if (this.includeRedux) {
       filesArray.concat([
         { src: 'app/actions/**', dest: 'app/actions' },
         { src: 'app/store/**', dest: 'app/store' },
-        { src: 'app/reducers/**', dest: 'app/reducers' },
+        { src: 'app/reducers/**', dest: 'app/reducers' }
       ])
     }
     this.copyFiles(filesArray)

@@ -22,7 +22,7 @@ import {
       <Route path='*' component={ NotFound } />
     </Route>
   </Router>
-)<% } %><% if (answers.includeRedux) { %>export default () => (
+)<% } %><% if (!answers.includeRedux) { %>export default () => (
   <Router history={ browserHistory }>
     <Route path='/' component={ App }>
       <IndexRoute component={ Home } />

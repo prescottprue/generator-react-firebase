@@ -14,19 +14,7 @@ import FontIcon from 'material-ui/lib/font-icon'
 // styles
 import './Login.scss'
 
-<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-react-firebase'
-const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
 
-// Props decorators
-@firebase()
-@connect(
-  ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-    profile: pathToJS(firebase, 'profile')
-  })
-)<% } %>
 export default class Login extends Component {
   constructor (props) {
     super(props)
@@ -94,8 +82,8 @@ export default class Login extends Component {
           </Link>
         </div>
         <Snackbar
-          <% if (answers.includeRedux) { %>open={ isLoaded(authError) && !isEmpty(authError) && snackCanOpen }<% } %>
-          <% if (!answers.includeRedux) { %>open={ snackCanOpen }<% } %>
+
+          open={ snackCanOpen }
           message={ authError ? authError.toString() : 'Error' }
           action="close"
           autoHideDuration={ 3000 }
