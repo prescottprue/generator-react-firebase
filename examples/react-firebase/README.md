@@ -1,4 +1,4 @@
-# example
+# react-firebase
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
@@ -56,14 +56,14 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
   * APP - Your Heroku App name
 
 
-[npm-image]: https://img.shields.io/npm/v/example.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/example
-[travis-image]: https://img.shields.io/travis/prescottprue/example/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/prescottprue/example
-[daviddm-image]: https://img.shields.io/david/prescottprue/example.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/prescottprue/example
+[npm-image]: https://img.shields.io/npm/v/react-firebase.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/react-firebase
+[travis-image]: https://img.shields.io/travis/testuser/react-firebase/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/testuser/react-firebase
+[daviddm-image]: https://img.shields.io/david/testuser/react-firebase.svg?style=flat-square
+[daviddm-url]: https://david-dm.org/testuser/react-firebase
 
-[license-image]: https://img.shields.io/npm/l/example.svg?style=flat-square
-[license-url]: https://github.com/prescottprue/example/blob/master/LICENSE
+[license-image]: https://img.shields.io/npm/l/react-firebase.svg?style=flat-square
+[license-url]: https://github.com/testuser/react-firebase/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/

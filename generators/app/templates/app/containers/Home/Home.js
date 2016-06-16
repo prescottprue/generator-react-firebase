@@ -7,7 +7,7 @@ export default class Home extends Component {
     return (
       <div className='Home'>
         <h2>Welcome to <%= appName %></h2>
-        <p>Example application built with React and Redux. </p>
+        <p>Example application built React and Firebase. </p>
         <Link to="/cars">Cars List Example</Link>
       </div>
     )

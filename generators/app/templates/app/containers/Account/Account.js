@@ -1,9 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
+
+// styles
+import './Account.scss'
+
+// firebase
+import firebaseUtil from '../../utils/firebase'
+
 <% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../../actions'<% } %>
-import './Account.scss'
 <% if (!answers.includeRedux) { %>export default class Acccount extends Component {<% } %>
 <% if (answers.includeRedux) { %>class Acccount extends Component {<% } %>
   constructor (props) {

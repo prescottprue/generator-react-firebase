@@ -1,7 +1,13 @@
 import React, { Component, PropTypes } from 'react'
+
+
+// something only firebase
+
+
 import './Cars.scss'
 
 export default class Cars extends Component {
+
   constructor (props) {
     super(props)
   }
@@ -12,13 +18,13 @@ export default class Cars extends Component {
   }
 
   handleClick = () => {
-    //TODO: Call action to add car
+    console.log('add car clicked')
   }
 
   render () {
-    const carsList = this.props.cars.map((car, i) => (
-        <li key={ i }>{ car.name } - { car.hp }</li>
-    ))
+    const carsList = this.props.cars.map((car, i) => {
+      return <li key={ i }>{ car.name } - { car.hp }</li>
+    })
     return (
       <div className='Cars'>
         <h2>Cars</h2>
@@ -30,3 +36,4 @@ export default class Cars extends Component {
     )
   }
 }
+

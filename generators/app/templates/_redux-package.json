@@ -1,6 +1,6 @@
 {
-  "name": "test",
-  "version": "0.0.1",
+  "name": "<%= appName %>",
+  "version": "<%= version %>",
   "main": "bin/server.js",
   "scripts": {
     "build": "npm run clean && npm run build-bundle && npm run build-server && npm run build-copy",
@@ -11,14 +11,14 @@
     "start": "node bin/dev-server",
     "production": "node bin/server"
   },
-  "author": "prescottprue",
+  "author": "<%= githubUser %>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prescottprue/test"
+    "url": "https://github.com/<%= githubUser %>/<%= appName %>"
   },
   "bugs": {
-    "url": "https://github.com/prescottprue/test/issues"
+    "url": "https://github.com/<%= githubUser %>/<%= appName %>/issues"
   },
   "keywords": [
     "webpack",
@@ -33,7 +33,7 @@
     "bluebird": "^3.4.0",
     "express": "4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
-    "firebase": "^2.4.2",
+    "firebase": "^3.0.2%",
     "history": "1.13.0",
     "immutable": "^3.8.1",
     "lodash": "^4.13.1",

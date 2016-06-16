@@ -1,22 +1,30 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
-// Components
+// components
 import LoginForm from '../../components/LoginForm/LoginForm'
+
+// material-ui components
 import Paper from 'material-ui/lib/paper'
 import CircularProgress from 'material-ui/lib/circular-progress'
 import Snackbar from 'material-ui/lib/snackbar'
 import RaisedButton from 'material-ui/lib/raised-button'
 import FontIcon from 'material-ui/lib/font-icon'
 
+// styles
 import './Login.scss'
+
+// firebase
+import firebase from '../../utils/firebase'
+
 
 export default class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
       snackCanOpen: false,
-      errors: { username: null, password: null }
+      errors: { username: null, password: null },
+      errorMessage: null
     }
   }
 
@@ -32,16 +40,38 @@ export default class Login extends Component {
   handleRequestClose = () => this.setState({ snackCanOpen: false })
 
   render () {
-    const { isLoading, snackCanOpen } = this.state
+    const { isLoading, snackCanOpen, errorMessage } = this.state
     const { authError } = this.props
     const handleLogin = loginData => {
       this.setState({
         snackCanOpen: true,
         isLoading: true
       })
-      // event({ category: 'User', action: 'Email Login' })
-      this.props.firebase.login(loginData)
-        .then(() => this.context.router.push('/sheets'))
+  
+  const { email, password, provider } = loginData
+    let newState = {
+      isLoading: false,
+      errors: { username: null, email: null }
+    }
+    if (!provider && (!email || !password)) {
+      newState.errors.email = email ? 'Email is required' : null
+      newState.errors.password = password ? 'Password is required' : null
+      console.error('missing info', loginData, email, password)
+      return this.setState(newState)
+    }
+    if (email && password) {
+      firebase.auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch((error) => {
+          if (error) {
+            console.error('Error logging in:', error)
+            newState.errorMessage = error.message || 'Error with login'
+          } else {
+            console.log('time to redirect or login?', error)
+          }
+          this.setState(newState)
+        })
+    }
     }
     const closeToast = () => this.setState({ snackCanOpen: false })
 
@@ -78,8 +108,9 @@ export default class Login extends Component {
           </Link>
         </div>
         <Snackbar
-          open={ snackCanOpen }
-          message={ authError ? authError.toString() : 'Error' }
+          open={ snackCanOpen && typeof errorMessage !== 'null' }
+          message={ errorMessage }
+          
           action="close"
           autoHideDuration={ 3000 }
           onRequestClose={ this.handleRequestClose }

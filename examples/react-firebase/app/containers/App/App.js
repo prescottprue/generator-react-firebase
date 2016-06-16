@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 
+
 // Components
 import Navbar from '../../components/Navbar/Navbar'
+
 // Styling
 import Theme from '../../theme'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
@@ -10,6 +12,7 @@ import './App.scss'
 // Tap Plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
+
 
 export default class Main extends Component {
   constructor (props) {
@@ -52,3 +55,4 @@ export default class Main extends Component {
     )
   }
 }
+

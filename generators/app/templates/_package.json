@@ -45,9 +45,6 @@
     "react-router": "2.0.0",
     "react-router-redux": "4.0.0-rc.1",
     "react-tap-event-plugin": "0.2.1",
-    "redux": "3.2.1",
-    "redux-react-firebase": "^1.12.1",
-    "redux-thunk": "2.1.0",
     "serve-static": "1.10.2",
     "webpack": "1.13.0"
   },

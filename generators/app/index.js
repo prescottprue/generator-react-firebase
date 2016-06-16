@@ -22,12 +22,13 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'githubUser',
         message: 'Github Username',
-        default: 'prescottprue'
+        default: 'testuser'
       },
       {
         name: 'firebaseName',
         message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
+        default: 'testing',
         validate: function (input) {
           if (!input) return false
           if (input.match('http') || input.match('firebaseio.com')) return chalk.red('Just include the Firebase name, not the entire URL')
@@ -48,7 +49,7 @@ module.exports = yeoman.Base.extend({
         type: 'confirm',
         name: 'includeRedux',
         message: 'Would to include redux for local state-management?',
-        default: true
+        default: false
       },
       {
         type: 'list',
@@ -89,19 +90,18 @@ module.exports = yeoman.Base.extend({
       { src: 'app/index.js', dest: 'app/index.js' },
       { src: 'app/theme.js', dest: 'app/theme.js' },
       { src: 'app/routes.js', dest: 'app/routes.js' },
+      { src: 'app/utils/**', dest: 'app/utils' },
       { src: 'app/variables.scss', dest: 'app/variables.scss' },
       { src: 'app/components/**', dest: 'app/components' },
       { src: 'app/containers/**', dest: 'app/containers' },
       { src: 'assets/**', dest: 'assets' },
       { src: 'bin/**', dest: 'bin' },
       { src: 'lib/**', dest: 'lib' },
-      { src: '_package.json', dest: 'package.json' },
       { src: '_README.md', dest: 'README.md' },
       { src: 'webpack-dev.config.js' },
       { src: 'webpack-production.config.js' },
       { src: 'webpack-server-production.config.js' },
-      { src: 'gitignore', dest: '.gitignore' },
-      { src: 'babelrc', dest: '.babelrc' }
+      { src: 'gitignore', dest: '.gitignore' }
     ]
     if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
     if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
@@ -110,7 +110,15 @@ module.exports = yeoman.Base.extend({
       filesArray.concat([
         { src: 'app/actions/**', dest: 'app/actions' },
         { src: 'app/store/**', dest: 'app/store' },
-        { src: 'app/reducers/**', dest: 'app/reducers' }
+        { src: 'app/reducers/**', dest: 'app/reducers' },
+        { src: '_redux-package.json', dest: 'package.json' },
+        { src: 'redux-babelrc', dest: '.babelrc' }
+      ])
+    } else {
+      // Handle files that do not do internal string templateing well
+      filesArray.concat([
+        { src: '_package.json', dest: 'package.json' },
+        { src: 'babelrc', dest: '.babelrc' }
       ])
     }
     this.copyFiles(filesArray)

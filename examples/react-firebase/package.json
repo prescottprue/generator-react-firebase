@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "react-firebase",
   "version": "0.0.1",
   "main": "bin/server.js",
   "scripts": {
@@ -11,14 +11,14 @@
     "start": "node bin/dev-server",
     "production": "node bin/server"
   },
-  "author": "prescottprue",
+  "author": "testuser",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prescottprue/example"
+    "url": "https://github.com/testuser/react-firebase"
   },
   "bugs": {
-    "url": "https://github.com/prescottprue/example/issues"
+    "url": "https://github.com/testuser/react-firebase/issues"
   },
   "keywords": [
     "webpack",
@@ -41,9 +41,13 @@
     "proxy-middleware": "^0.15.0",
     "react": "0.14.7",
     "react-dom": "0.14.7",
+    "react-redux": "4.4.5",
     "react-router": "2.0.0",
     "react-router-redux": "4.0.0-rc.1",
     "react-tap-event-plugin": "0.2.1",
+    "redux": "3.2.1",
+    "redux-react-firebase": "^1.12.1",
+    "redux-thunk": "2.1.0",
     "serve-static": "1.10.2",
     "webpack": "1.13.0"
   },

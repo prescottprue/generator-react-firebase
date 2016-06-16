@@ -1,8 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
+
+// styles
 import './Account.scss'
 
+// firebase
+import firebaseUtil from '../../utils/firebase'
+
+
 export default class Acccount extends Component {
+
   constructor (props) {
     super(props)
   }
@@ -36,3 +43,4 @@ export default class Acccount extends Component {
     )
   }
 }
+
