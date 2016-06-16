@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react'
+<% if (answers.includeRedux) { %>
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../../actions/cars'
+<% } %>
+<% if (!answers.includeRedux) { %>import Firebase from './utils/firebase'<% } %>
+
 import './Cars.scss'
 
 class Cars extends Component {

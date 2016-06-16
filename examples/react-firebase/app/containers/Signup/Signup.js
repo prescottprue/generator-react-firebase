@@ -2,28 +2,14 @@ import { capitalize, find } from 'lodash'
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
-// components
+// Components
 import SignupForm from '../../components/SignupForm/SignupForm'
-
-// material-ui components
 import Paper from 'material-ui/lib/paper'
 import RaisedButton from 'material-ui/lib/raised-button'
 import CircularProgress from 'material-ui/lib/circular-progress'
 import Snackbar from 'material-ui/lib/snackbar'
-
-// styles
 import './Signup.scss'
 
-<% if (answers.includeRedux) { %>import { firebase, helpers } from 'redux-react-firebase'
-
-const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
-
-@firebase()
-@connect(
-  ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-  })
-)<% } %>
 export default class Signup extends Component {
   constructor (props) {
     super(props)

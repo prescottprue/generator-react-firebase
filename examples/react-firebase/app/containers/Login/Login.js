@@ -1,31 +1,16 @@
 import React, { Component, PropTypes } from 'react'
-// components
-import LoginForm from '../../components/LoginForm/LoginForm'
+import { Link } from 'react-router'
 
-// material-ui components
+// Components
+import LoginForm from '../../components/LoginForm/LoginForm'
 import Paper from 'material-ui/lib/paper'
 import CircularProgress from 'material-ui/lib/circular-progress'
 import Snackbar from 'material-ui/lib/snackbar'
 import RaisedButton from 'material-ui/lib/raised-button'
 import FontIcon from 'material-ui/lib/font-icon'
 
-// styles
 import './Login.scss'
 
-<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Link } from 'react-router'
-import { firebase, helpers } from 'redux-react-firebase'
-const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
-
-// Props decorators
-@firebase()
-@connect(
-  ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-    profile: pathToJS(firebase, 'profile')
-  })
-)<% } %>
 export default class Login extends Component {
   constructor (props) {
     super(props)
@@ -93,7 +78,7 @@ export default class Login extends Component {
           </Link>
         </div>
         <Snackbar
-          open={ isLoaded(authError) && !isEmpty(authError) && snackCanOpen }
+          open={ snackCanOpen }
           message={ authError ? authError.toString() : 'Error' }
           action="close"
           autoHideDuration={ 3000 }

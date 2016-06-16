@@ -1,5 +1,5 @@
 export const firebase = {
-  url: 'https://idealgardens.firebaseio.com/',
+  url: 'https://react-firebase.firebaseio.com/',
   userFolder: 'users'
 }
 export default { firebase }

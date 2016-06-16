@@ -45,6 +45,12 @@ module.exports = yeoman.Base.extend({
         default: true
       },
       {
+        type: 'confirm',
+        name: 'includeRedux',
+        message: 'Would to include redux for local state-management?',
+        default: true
+      },
+      {
         type: 'list',
         name: 'deployTo',
         choices: [
@@ -71,6 +77,7 @@ module.exports = yeoman.Base.extend({
       this.githubUser = this.answers.githubUser
       this.firebaseName = this.answers.firebaseName
       this.deployTo = this.answers.deployTo
+      this.includeRedux = this.answers.includeRedux
       // To access prompt answers later use this.answers.someOption
     }.bind(this))
   },
@@ -78,7 +85,9 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     let filesArray = [
       { src: '_index.html', dest: 'index.html' },
-      { src: 'app/**', dest: 'app' },
+      { src: 'index.js', dest: 'index.js' },
+      { src: 'app/components/**', dest: 'app/components' },
+      { src: 'app/containers/**', dest: 'app/containers' },
       { src: 'assets/**', dest: 'assets' },
       { src: 'bin/**', dest: 'bin' },
       { src: 'lib/**', dest: 'lib' },
@@ -92,6 +101,13 @@ module.exports = yeoman.Base.extend({
     ]
     if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
     if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
+    if (this.includeRedux) {
+      filesArray.concat([
+        { src: 'app/actions/**', dest: 'app/actions' },
+        { src: 'app/store/**', dest: 'app/store' },
+        { src: 'app/reducers/**', dest: 'app/reducers' },
+      ])
+    }
     this.copyFiles(filesArray)
   },
 

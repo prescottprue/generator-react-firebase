@@ -1,5 +1,5 @@
 import React from 'react' // eslint-disable-line
-import { Route, IndexRoute, Router } from 'react-router'
+import { Route, IndexRoute, Router, browserHistory } from 'react-router'
 import {
     App,
     Home,
@@ -10,7 +10,7 @@ import {
     NotFound,
     Cars
   } from './containers'
-export default (history) => (
+<% if (answers.includeRedux) { %>export default (history) => (
   <Router history={ history }>
     <Route path='/' component={ App }>
       <IndexRoute component={ Home } />
@@ -22,4 +22,16 @@ export default (history) => (
       <Route path='*' component={ NotFound } />
     </Route>
   </Router>
-)
+)<% } %><% if (answers.includeRedux) { %>export default () => (
+  <Router history={ browserHistory }>
+    <Route path='/' component={ App }>
+      <IndexRoute component={ Home } />
+      <Route path='login' component={ Login }/>
+      <Route path='signup' component={ Signup }/>
+      <Route path='about' component={ About } />
+      <Route path='account' component={ Account } />
+      <Route path='cars' component={ Cars } />
+      <Route path='*' component={ NotFound } />
+    </Route>
+  </Router>
+)<% } %>
