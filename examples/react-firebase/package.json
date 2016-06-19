@@ -1,6 +1,6 @@
 {
-  "name": "<%= appName %>",
-  "version": "<%= version %>",
+  "name": "react-firebase",
+  "version": "0.0.1",
   "main": "bin/server.js",
   "scripts": {
     "build": "npm run clean && npm run build-bundle && npm run build-server && npm run build-copy",
@@ -11,14 +11,14 @@
     "start": "node bin/dev-server",
     "production": "node bin/server"
   },
-  "author": "<%= githubUser %>",
+  "author": "testuser",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/<%= githubUser %>/<%= appName %>"
+    "url": "https://github.com/testuser/react-firebase"
   },
   "bugs": {
-    "url": "https://github.com/<%= githubUser %>/<%= appName %>/issues"
+    "url": "https://github.com/testuser/react-firebase/issues"
   },
   "keywords": [
     "webpack",
@@ -33,7 +33,7 @@
     "bluebird": "^3.4.0",
     "express": "4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
-    "firebase": "^2.4.2",
+    "firebase": "^3.0.2",
     "history": "1.13.0",
     "immutable": "^3.8.1",
     "lodash": "^4.13.1",
@@ -45,6 +45,9 @@
     "react-router": "2.0.0",
     "react-router-redux": "4.0.0-rc.1",
     "react-tap-event-plugin": "0.2.1",
+    "redux": "3.2.1",
+    "redux-react-firebase": "^1.12.1",
+    "redux-thunk": "2.1.0",
     "serve-static": "1.10.2",
     "webpack": "1.13.0"
   },

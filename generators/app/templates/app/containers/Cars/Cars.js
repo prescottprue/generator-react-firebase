@@ -1,10 +1,17 @@
 import React, { Component, PropTypes } from 'react'
+<% if (answers.includeRedux) { %>
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../../actions/cars'
-import './Cars.scss'
+<% } %>
+<% if (!answers.includeRedux) { %>
+// something only firebase
+<% } %>
 
-class Cars extends Component {
+import './Cars.scss'
+<% if (answers.includeRedux) { %>class Cars extends Component <% } %>
+<% if (!answers.includeRedux) { %>export default class Cars extends Component {<% } %>
+
   constructor (props) {
     super(props)
   }
@@ -15,9 +22,7 @@ class Cars extends Component {
   }
 
   handleClick = () => {
-    //TODO: Call action to add car
-    console.log('action should be called to add car')
-    console.warn('action not enabled')
+    console.log('add car clicked')
   }
 
   render () {
@@ -35,6 +40,7 @@ class Cars extends Component {
     )
   }
 }
+<% if (answers.includeRedux) { %>
 // Place state of redux store into props of component
 const mapStateToProps = (state) => {
   return {
@@ -47,3 +53,4 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cars)
+<% } %>

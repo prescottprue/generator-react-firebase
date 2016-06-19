@@ -22,12 +22,13 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'githubUser',
         message: 'Github Username',
-        default: 'prescottprue'
+        default: 'testuser'
       },
       {
         name: 'firebaseName',
         message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
+        default: 'testing',
         validate: function (input) {
           if (!input) return false
           if (input.match('http') || input.match('firebaseio.com')) return chalk.red('Just include the Firebase name, not the entire URL')
@@ -43,6 +44,12 @@ module.exports = yeoman.Base.extend({
         name: 'includeTravis',
         message: 'Would to include config for Travis CI?',
         default: true
+      },
+      {
+        type: 'confirm',
+        name: 'includeRedux',
+        message: 'Would to include redux for local state-management?',
+        default: false
       },
       {
         type: 'list',
@@ -71,6 +78,7 @@ module.exports = yeoman.Base.extend({
       this.githubUser = this.answers.githubUser
       this.firebaseName = this.answers.firebaseName
       this.deployTo = this.answers.deployTo
+      this.includeRedux = this.answers.includeRedux
       // To access prompt answers later use this.answers.someOption
     }.bind(this))
   },
@@ -78,20 +86,41 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     let filesArray = [
       { src: '_index.html', dest: 'index.html' },
-      { src: 'app/**', dest: 'app' },
+      { src: 'app/config.js', dest: 'app/config.js' },
+      { src: 'app/index.js', dest: 'app/index.js' },
+      { src: 'app/theme.js', dest: 'app/theme.js' },
+      { src: 'app/routes.js', dest: 'app/routes.js' },
+      { src: 'app/utils/**', dest: 'app/utils' },
+      { src: 'app/variables.scss', dest: 'app/variables.scss' },
+      { src: 'app/components/**', dest: 'app/components' },
+      { src: 'app/containers/**', dest: 'app/containers' },
       { src: 'assets/**', dest: 'assets' },
       { src: 'bin/**', dest: 'bin' },
       { src: 'lib/**', dest: 'lib' },
-      { src: '_package.json', dest: 'package.json' },
       { src: '_README.md', dest: 'README.md' },
       { src: 'webpack-dev.config.js' },
       { src: 'webpack-production.config.js' },
       { src: 'webpack-server-production.config.js' },
-      { src: 'gitignore', dest: '.gitignore' },
-      { src: 'babelrc', dest: '.babelrc' }
+      { src: 'gitignore', dest: '.gitignore' }
     ]
     if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
     if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
+    // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' }) // TODO: Make server side rendering work
+    if (this.includeRedux) {
+      filesArray.concat([
+        { src: 'app/actions/**', dest: 'app/actions' },
+        { src: 'app/store/**', dest: 'app/store' },
+        { src: 'app/reducers/**', dest: 'app/reducers' },
+        { src: '_redux-package.json', dest: 'package.json' },
+        { src: 'redux-babelrc', dest: '.babelrc' }
+      ])
+    } else {
+      // Handle files that do not do internal string templateing well
+      filesArray.concat([
+        { src: '_package.json', dest: 'package.json' },
+        { src: 'babelrc', dest: '.babelrc' }
+      ])
+    }
     this.copyFiles(filesArray)
   },
 

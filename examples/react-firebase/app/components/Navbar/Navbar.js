@@ -67,7 +67,7 @@ export default class Navbar extends Component {
     ) : mainMenu
     return (
       <AppBar
-        title={<Link className="Navbar-Brand" to={ brandLinkLoc }><%= appName %></Link>}
+        title={<Link className="Navbar-Brand" to={ brandLinkLoc }>react-firebase</Link>}
         className="Navbar"
         showMenuIconButton={ false }
         iconElementRight={ rightMenu }

@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions'<% } %>
+
 
 // Components
 import Navbar from '../../components/Navbar/Navbar'
@@ -15,8 +13,8 @@ import './App.scss'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
-<% if (answers.includeRedux) { %>class Main extends Component {<% } %>
-<% if (!answers.includeRedux) { %>export default class Main extends Component {<% } %>
+
+export default class Main extends Component {
   constructor (props) {
     super(props)
   }
@@ -57,17 +55,4 @@ injectTapEventPlugin()
     )
   }
 }
-<% if (answers.includeRedux) { %>
-// Place state of redux store into props of component
-const mapStateToProps = (state) => {
-  return {
-    account: state.account,
-    router: state.router
-  }
-}
 
-// Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
-<% } %>

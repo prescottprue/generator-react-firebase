@@ -17,16 +17,7 @@ import firebaseUtil from '../../utils/firebase'
 // styles
 import './Signup.scss'
 
-<% if (answers.includeRedux) { %>import { firebase, helpers } from 'redux-react-firebase'
 
-const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
-
-@firebase()
-@connect(
-  ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-  })
-)<% } %>
 export default class Signup extends Component {
   constructor (props) {
     super(props)
@@ -47,8 +38,7 @@ export default class Signup extends Component {
       username: null,
       email: null,
       name: null,
-      snackCanOpen: false,
-      errorMessage: null
+      snackCanOpen: false
     })
 
   render () {
@@ -62,18 +52,8 @@ export default class Signup extends Component {
     const handleSignup = signupData => {
       const { username, email, provider, password } = signupData
       this.setState({ snackCanOpen: true, isLoading: true })
-      <% if (answers.includeRedux) { %>if (provider) {
-        return this.props.firebase.login(signupData)
-          .then(response => {
-            console.log('response:', response)
-            this.props.firebase.createUser(response, response)
-          })
-          .catch(error => {
-            console.error('error signing up:', error, error.toString())
-          })
-      }
-      this.props.firebase.createUser(signupData, { username, email })<% } %>
-      <% if (!answers.includeRedux) { %>let newState = {
+      
+      let newState = {
           isLoading: false,
           errors: { username: null, email: null }
         }
@@ -96,7 +76,7 @@ export default class Signup extends Component {
           })
       } else {
         console.warn('other signups not currently supported', provider)
-      }<% } %>
+      }
     }
 
     const closeToast = () => this.setState({ snackCanOpen: false })
@@ -130,9 +110,8 @@ export default class Signup extends Component {
           <Link className="Signup-Login-Link" to="/login">Login</Link>
         </div>
         <Snackbar
-          <% if (answers.includeRedux) { %>open={ error !== null && this.state.snackCanOpen }
-          message={ error || 'Signup error' }<% } %><% if (!answers.includeRedux) { %>open={ this.state.snackCanOpen }
-          message={ this.state.errorMessage || 'Signup error'}<% } %>
+          open={ this.state.snackCanOpen }
+          message={ this.state.errorMessage || 'Signup error'}
           action="close"
           autoHideDuration={ 3000 }
           onRequestClose={ closeToast }

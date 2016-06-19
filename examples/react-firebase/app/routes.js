@@ -1,5 +1,5 @@
 import React from 'react' // eslint-disable-line
-import { Route, IndexRoute, Router } from 'react-router'
+import { Route, IndexRoute, Router, browserHistory } from 'react-router'
 import {
     App,
     Home,
@@ -10,8 +10,8 @@ import {
     NotFound,
     Cars
   } from './containers'
-export default (history) => (
-  <Router history={ history }>
+export default () => (
+  <Router history={ browserHistory }>
     <Route path='/' component={ App }>
       <IndexRoute component={ Home } />
       <Route path='login' component={ Login }/>
