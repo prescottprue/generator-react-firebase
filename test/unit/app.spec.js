@@ -5,13 +5,9 @@ import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
 
 const appFiles = [
-  'app/client.js',
-  'app/router.js',
   'app/config.js',
   'app/theme.js',
-  'app/index.js',
   'app/variables.scss',
-  'app/actions/index.js',
   'app/components/AccountDropdown/AccountDropdown.js',
   'app/components/AccountDropdown/AccountDropdown.scss',
   'app/components/AccountManager/AccountManager.js',
@@ -21,24 +17,30 @@ const appFiles = [
   'app/components/Navbar/Navbar.js',
   'app/components/Navbar/Navbar.scss',
   'app/components/SignupForm/SignupForm.js',
-  'app/components/SignupForm/SignupForm.scss',
+  'app/components/SignupForm/SignupForm.scss'
+]
+
+const reduxFiles = [
+  'app/client.js',
+  'app/router.js',
+  'app/index.js',
+  'app/actions/index.js',
   'app/reducers/index.js',
   'app/reducers/cars.js',
   'app/store/configureStore.js',
   'app/store/configureStore.dev.js',
   'app/store/configureStore.prod.js'
 ]
-
 const projectFiles = [
-  'package.json',
+  // 'package.json',
   '.gitignore',
-  '.babelrc'
+  // '.babelrc'
 ]
 
 describe('generator-react-firebase:app', () => {
   before(() =>
     helpers.run(path.join(__dirname, '../../generators/app'))
-      .withPrompts({someAnswer: true})
+      .withPrompts({githubUser: 'testuser', firebaseInstance: 'testing', includeTravis: 'Y', includeRedux: 'N'})
       .toPromise()
   )
   describe('project', () => {
