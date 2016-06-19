@@ -187,7 +187,7 @@ export default class Cars extends Component {
 
 Complete example of generator out available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/example)
 
-### Server-side Rendering
+## Server-side Rendering
 
 You have the option to enable Server-side Rendering through React and NodeJS. Server-side rendering allows pre-population of data into your application, which can improve SEO (Google is improving static crawling).
 
@@ -195,8 +195,7 @@ In order to enable server-side rendering with React, you must host a NodeJS serv
 
 
 ## In the future
-* Option to not include redux
-* Prompt about props/state vars in Container (which Firebase location to bind to props)
+* Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
 * Non-decorators implementation for props binding (pure redux and firebase implementations)
 * Open to ideas
 

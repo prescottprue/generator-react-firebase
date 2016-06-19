@@ -1,7 +1,7 @@
 {
   "name": "generator-react-firebase",
-  "version": "0.1.1",
-  "description": "Starter that uses React and Firebase (with Redux)",
+  "version": "0.1.2",
+  "description": "Starter that uses React and Firebase (with option for Redux)",
   "homepage": "github.com/prescottprue/generator-react-firebase",
   "author": {
     "name": "Scott Prue",
