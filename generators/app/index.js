@@ -107,19 +107,19 @@ module.exports = yeoman.Base.extend({
     if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
     // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' }) // TODO: Make server side rendering work
     if (this.includeRedux) {
-      filesArray.concat([
+      filesArray.push(
         { src: 'app/actions/**', dest: 'app/actions' },
         { src: 'app/store/**', dest: 'app/store' },
         { src: 'app/reducers/**', dest: 'app/reducers' },
         { src: '_redux-package.json', dest: 'package.json' },
         { src: 'redux-babelrc', dest: '.babelrc' }
-      ])
+      )
     } else {
       // Handle files that do not do internal string templateing well
-      filesArray.concat([
+      filesArray.push(
         { src: '_package.json', dest: 'package.json' },
         { src: 'babelrc', dest: '.babelrc' }
-      ])
+      )
     }
     this.copyFiles(filesArray)
   },
