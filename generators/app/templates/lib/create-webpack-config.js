@@ -29,7 +29,7 @@ function createWebpackConfig (options) {
 
   const output = {
     path: path.resolve(__dirname, '..', buildPath),
-    filename: options.outputFilename || (options.dev ? 'bundle.js' : 'bundle.[hash].js'),
+    filename: options.outputFilename || (options.dev ? 'bundle.js' : publicPath + '/bundle.[hash].js'),
     publicPath: options.dev
     ? 'http://localhost:' + webpackPort + '/' + publicPath + '/'
     : '/',
@@ -39,7 +39,7 @@ function createWebpackConfig (options) {
   var plugins = [
     new webpack.NoErrorsPlugin(),
     new webpack.IgnorePlugin(/vertx/),
-    new ExtractTextPlugin('style.[hash].css', {allChunks: true})
+    new ExtractTextPlugin(publicPath + '/style.[hash].css', {allChunks: true})
   ]
 
   if (options.dev) {
@@ -133,7 +133,7 @@ function createWebpackConfig (options) {
     {
       test: /\.json$/,
       loader: 'json'
-    },
+    }
     // npm i --save-dev url-loader file-loader
     // {
     //   test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,

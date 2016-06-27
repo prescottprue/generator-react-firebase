@@ -14,7 +14,7 @@ export default class LoginForm extends Component {
     super(props)
   }
 
-  state = { errors:{ username: null, password: null } }
+  state = { errors: { username: null, password: null } }
 
   static propTypes = {
     onLogin: PropTypes.func
@@ -25,12 +25,12 @@ export default class LoginForm extends Component {
    * @description Update the state with the values from the form inputs.
    * @fires context#setState
    */
-   handleInputChange = (name, e) => {
-     e.preventDefault();
-     this.setState({
-       [name]: e.target.value
-     })
-   }
+  handleInputChange = (name, e) => {
+    e.preventDefault()
+    this.setState({
+      [name]: e.target.value
+    })
+  }
 
   /**
   * @function handlePrivateChange
@@ -56,7 +56,7 @@ export default class LoginForm extends Component {
     }
     const loginData = { username, password: this.password }
     if (this.props.onLogin) this.props.onLogin(loginData)
- }
+  }
 
   googleLogin = () => {
     this.props.onLogin('google')
@@ -64,41 +64,41 @@ export default class LoginForm extends Component {
 
   render () {
     return (
-      <form className="LoginForm" onSubmit={ this.handleLogin }>
+      <form className='LoginForm' onSubmit={this.handleLogin}>
         <TextField
-          hintText="some@email.com"
-          floatingLabelText="Username/Email"
-          onChange={ this.handleInputChange.bind(this, 'username') }
-          errorText={ this.state.errors.username }
-          style={ fieldStyle }
+          hintText='some@email.com'
+          floatingLabelText='Username/Email'
+          onChange={this.handleInputChange.bind(this, 'username')}
+          errorText={this.state.errors.username}
+          style={fieldStyle}
         />
         <TextField
-          hintText="password"
-          floatingLabelText="Password"
-          type="password"
-          onChange={ this.handlePrivateChange.bind(this, 'password') }
-          errorText={ this.state.errors.password }
-          style={ fieldStyle }
+          hintText='password'
+          floatingLabelText='Password'
+          type='password'
+          onChange={this.handlePrivateChange.bind(this, 'password')}
+          errorText={this.state.errors.password}
+          style={fieldStyle}
         />
-        <div className="LoginForm-Submit">
+        <div className='LoginForm-Submit'>
           <RaisedButton
-            label="Login"
-            primary={ true }
-            type="submit"
-            disabled={ this.props.account && this.props.account.isFetching}
-            style={ buttonStyle }
+            label='Login'
+            primary
+            type='submit'
+            disabled={this.props.account && this.props.account.isFetching}
+            style={buttonStyle}
           />
         </div>
-        <div className="LoginForm-Options">
-          <div className="LoginForm-Remember">
+        <div className='LoginForm-Options'>
+          <div className='LoginForm-Remember'>
             <Checkbox
-              name="remember"
-              value="remember"
-              label="Remember"
+              name='remember'
+              value='remember'
+              label='Remember'
               labelStyle={{ fontSize: '.8rem' }}
             />
           </div>
-          <Link className="LoginForm-Recover-Link" to="/recover">
+          <Link className='LoginForm-Recover-Link' to='/recover'>
           Forgot Password?
           </Link>
         </div>

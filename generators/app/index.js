@@ -31,7 +31,9 @@ module.exports = yeoman.Base.extend({
         default: 'testing',
         validate: function (input) {
           if (!input) return false
-          if (input.match('http') || input.match('firebaseio.com')) return chalk.red('Just include the Firebase name, not the entire URL')
+          if (input.match('http') || input.match('firebaseio.com')) {
+            return chalk.red('Just include the Firebase name, not the entire URL')
+          }
           if (!input.match(/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/)) {
             return chalk.red('Your Firebase name may only contain [a-z], [0-9], and hyphen (-). ' +
               'It may not start or end with a hyphen.')
@@ -103,9 +105,12 @@ module.exports = yeoman.Base.extend({
       { src: 'webpack-server-production.config.js' },
       { src: 'gitignore', dest: '.gitignore' }
     ]
-    if (this.answers.includeTravis) filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
+    if (this.answers.includeTravis) {
+      filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
+    }
     if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
-    // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' }) // TODO: Make server side rendering work
+    // TODO: Make server side rendering work
+    // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' })
     if (this.includeRedux) {
       filesArray.push(
         { src: 'app/actions/**', dest: 'app/actions' },

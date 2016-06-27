@@ -23,24 +23,24 @@ export default class AccountDropdown extends Component {
   }
 
   render () {
-    if(!this.state.isOpen) {
+    if (!this.state.isOpen) {
       return (
-        <div className="AccountDropdown-Closed">
-          <button onClick={ this.toggleDropdown }>
+        <div className='AccountDropdown-Closed'>
+          <button onClick={this.toggleDropdown}>
             {this.props.account.username}
           </button>
         </div>
-      );
+      )
     }
     return (
-      <div className="AccountDropdown-Open">
-        <button onClick={ this.toggleDropdown }>
+      <div className='AccountDropdown-Open'>
+        <button onClick={this.toggleDropdown}>
           {this.props.account.username}
         </button>
-        <Link className="AccountDropdown-Link" to="/account">
+        <Link className='AccountDropdown-Link' to='/account'>
           Profile
         </Link>
-        <button onClick={ this.props.onLogoutClick }>
+        <button onClick={this.props.onLogoutClick}>
           Logout
         </button>
       </div>

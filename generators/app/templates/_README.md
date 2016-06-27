@@ -3,7 +3,8 @@
 [![NPM version][npm-image]][npm-url]
 <% if (answers.includeTravis) { %>[![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]<% } %>
-<% if (answers.codeClimate) { %>[![Code Climate][climate-image]][climate-url]<% } %>
+<% if (answers.codeClimate) { %>[![Code Coverage][coverage-image]][coverage-url]
+[![Code Climate][climate-image]][climate-url]<% } %>
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 

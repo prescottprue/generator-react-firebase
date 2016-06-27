@@ -12,11 +12,11 @@ export default class SignupForm extends Component {
     super(props)
   }
 
-  state = { errors:{} }
+  state = { errors: {} }
 
   reset = () =>
     this.setState({
-      errors:{},
+      errors: {},
       username: null,
       email: null,
       name: null
@@ -29,7 +29,7 @@ export default class SignupForm extends Component {
   handleSignup = e => {
     e.preventDefault()
     let newAccountData = this.state
-    if(this.requireInputs()){
+    if (this.requireInputs()) {
       newAccountData.password = this.password
       newAccountData.confirm = this.confirm
       this.props.onSignup(newAccountData)
@@ -46,10 +46,10 @@ export default class SignupForm extends Component {
       {name: 'email', val: this.state.email},
       {name: 'name', val: this.state.name},
       {name: 'password', val: this.password},
-      {name: 'confirm', val: this.confirm},
+      {name: 'confirm', val: this.confirm}
     ]
     const firstError = find(requiredInputs, (input) => {
-      if(!input.val || input.val == ''){
+      if (!input.val || input.val == '') {
         return true
       }
     })
@@ -89,36 +89,36 @@ export default class SignupForm extends Component {
 
   render () {
     return (
-      <form className="SignupForm" onSubmit={ this.handleSignup }>
+      <form className='SignupForm' onSubmit={this.handleSignup}>
         <TextField
-          hintText="username"
-          floatingLabelText="Username"
+          hintText='username'
+          floatingLabelText='Username'
           onChange={this.handleInputChange.bind(this, 'username')}
-          errorText={ this.state.errors.username }
-          style={ fieldStyle }
+          errorText={this.state.errors.username}
+          style={fieldStyle}
         />
         <TextField
-          hintText="email"
-          floatingLabelText="Email"
+          hintText='email'
+          floatingLabelText='Email'
           onChange={this.handleInputChange.bind(this, 'email')}
-          errorText={ this.state.errors.email }
-          style={ fieldStyle }
+          errorText={this.state.errors.email}
+          style={fieldStyle}
         />
         <TextField
-          hintText="password"
-          floatingLabelText="Password"
-          onChange={ this.handlePrivateChange.bind(this, 'password') }
-          errorText={ this.state.errors.password }
-          style={ fieldStyle }
-          type="password"
+          hintText='password'
+          floatingLabelText='Password'
+          onChange={this.handlePrivateChange.bind(this, 'password')}
+          errorText={this.state.errors.password}
+          style={fieldStyle}
+          type='password'
         />
-        <div className="SignupForm-Submit">
+        <div className='SignupForm-Submit'>
           <RaisedButton
-            label="Sign Up"
-            primary={true}
-            type="submit"
-            disabled={ this.props.account && this.props.account.isFetching}
-            style={ buttonStyle }
+            label='Sign Up'
+            primary
+            type='submit'
+            disabled={this.props.account && this.props.account.isFetching}
+            style={buttonStyle}
           />
         </div>
       </form>

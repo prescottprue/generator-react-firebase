@@ -14,20 +14,20 @@ export default class AccountManager extends Component {
   };
 
   render () {
-    if(this.props.account && this.props.account.username){
+    if (this.props.account && this.props.account.username) {
       return (
         <AccountDropdown
-          account={ this.props.account }
-          onLogoutClick={ this.props.onLogoutClick }
+          account={this.props.account}
+          onLogoutClick={this.props.onLogoutClick}
         />
       )
     }
     return (
-      <div className="AccountManager-Buttons">
-        <Link className="AccountManager-Button" to="/login">
+      <div className='AccountManager-Buttons'>
+        <Link className='AccountManager-Button' to='/login'>
           Login
         </Link>
-        <Link className="AccountManager-Button" to="/signup">
+        <Link className='AccountManager-Button' to='/signup'>
           Signup
         </Link>
       </div>

@@ -4,6 +4,7 @@
 [![NPM downloads][npm-downloads-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
+[![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
@@ -185,7 +186,7 @@ export default class Cars extends Component {
 
 ## Examples
 
-Complete example of generator out available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/example)
+Complete example of generator out available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
 
 ## Server-side Rendering
 
@@ -201,7 +202,7 @@ In order to enable server-side rendering with React, you must host a NodeJS serv
 
 ## License
 
-MIT © [Scott Prue](prue.io)
+MIT © [Scott Prue](http://prue.io)
 
 [npm-image]: https://img.shields.io/npm/v/generator-react-firebase.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/generator-react-firebase
