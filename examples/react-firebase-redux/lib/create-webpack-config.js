@@ -114,7 +114,8 @@ function createWebpackConfig (options) {
 
   const loaders = [
     {
-      exclude: [/node_modules/],
+      // exclude: [/node_modules/],
+      include: [path.join(__dirname, '..', 'app'), path.join(__dirname, '..', 'lib')],
       test: /\.js$/,
       loaders: options.dev
       ? ['react-hot', 'babel']

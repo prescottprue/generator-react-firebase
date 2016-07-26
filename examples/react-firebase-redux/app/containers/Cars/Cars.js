@@ -9,14 +9,12 @@ const { isLoaded, isEmpty, pathToJS, dataToJS } = helpers
 // Props decorators
 @firebase([ 'cars' ])
 @connect(
-  ({fb}) => {
-    console.log('fb:', fb)
-    return {
-      cars: dataToJS(fb, '/cars')
-    }
-  }
+  ({fb}) => ({
+    cars: dataToJS(fb, 'cars')
+  })
 )
 export default class Cars extends Component {
+
   static propTypes = {
     addCar: PropTypes.func
   }
