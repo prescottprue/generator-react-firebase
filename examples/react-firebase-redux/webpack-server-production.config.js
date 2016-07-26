@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var createWebpackConfig = require('./lib/create-webpack-config');
+var createWebpackConfig = require('./lib/create-webpack-config')
 
 module.exports = createWebpackConfig({
   dev: false,
@@ -8,4 +8,4 @@ module.exports = createWebpackConfig({
   target: 'node',
   outputFilename: 'bundle-server.js',
   outputLibraryTarget: 'umd'
-});
+})

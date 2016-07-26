@@ -5,6 +5,7 @@ import * as Actions from '../../actions'
 
 // Components
 import Navbar from '../../components/Navbar/Navbar'
+
 // Styling
 import Theme from '../../theme'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
@@ -15,6 +16,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 class Main extends Component {
+
   constructor (props) {
     super(props)
   }
@@ -68,3 +70,4 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)
+

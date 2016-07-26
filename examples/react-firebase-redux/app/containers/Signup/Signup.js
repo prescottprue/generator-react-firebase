@@ -1,18 +1,24 @@
 import { capitalize, find } from 'lodash'
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import * as Actions from '../../actions'
-// Components
+
+// components
 import SignupForm from '../../components/SignupForm/SignupForm'
+
+// material-ui components
 import Paper from 'material-ui/lib/paper'
 import RaisedButton from 'material-ui/lib/raised-button'
 import CircularProgress from 'material-ui/lib/circular-progress'
 import Snackbar from 'material-ui/lib/snackbar'
-import { firebase, helpers } from 'redux-react-firebase'
 
+
+
+// styles
 import './Signup.scss'
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
 const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
 
 @firebase()
@@ -22,14 +28,11 @@ const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
   })
 )
 export default class Signup extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      errors: { username: null, password: null },
-      snackCanOpen: false
-    }
+  state = {
+    errors: { username: null, password: null },
+    snackCanOpen: false,
+    errorMessage: null
   }
-
   /**
    * @function reset
    * @description Reset whole state (inputs, errors, snackbar open/close)
@@ -40,7 +43,8 @@ export default class Signup extends Component {
       username: null,
       email: null,
       name: null,
-      snackCanOpen: false
+      snackCanOpen: false,
+      errorMessage: null
     })
 
   render () {
@@ -52,9 +56,8 @@ export default class Signup extends Component {
      * @description Call signup through redux-devshare action
      */
     const handleSignup = signupData => {
-      const { username, email, provider } = signupData
+      const { username, email, provider, password } = signupData
       this.setState({ snackCanOpen: true, isLoading: true })
-      console.log('signup data:', signupData)
       if (provider) {
         return this.props.firebase.login(signupData)
           .then(response => {
@@ -66,42 +69,43 @@ export default class Signup extends Component {
           })
       }
       this.props.firebase.createUser(signupData, { username, email })
+      
     }
 
     const closeToast = () => this.setState({ snackCanOpen: false })
 
     if (isLoading) {
       return (
-        <div className="Signup">
-          <div className="Signup-Progress">
-            <CircularProgress  mode="indeterminate" />
+        <div className='Signup'>
+          <div className='Signup-Progress'>
+            <CircularProgress  mode='indeterminate' />
           </div>
         </div>
       )
     }
     return (
-      <div className="Signup">
-        <Paper className="Signup-Panel">
+      <div className='Signup'>
+        <Paper className='Signup-Panel'>
           <SignupForm onSignup={ handleSignup } />
         </Paper>
-        <div className="Signup-Or">
+        <div className='Signup-Or'>
           or
         </div>
         <RaisedButton
-          label="Sign in with Google"
+          label='Sign in with Google'
           secondary={ true }
           onTouchTap={ handleSignup.bind(this, { provider: 'google', type: 'popup' }) }
         />
-        <div className="Signup-Login">
-          <span className="Signup-Login-Label">
+        <div className='Signup-Login'>
+          <span className='Signup-Login-Label'>
             Already have an account?
           </span>
-          <Link className="Signup-Login-Link" to="/login">Login</Link>
+          <Link className='Signup-Login-Link' to='/login'>Login</Link>
         </div>
         <Snackbar
           open={ error !== null && this.state.snackCanOpen }
           message={ error || 'Signup error' }
-          action="close"
+          action='close'
           autoHideDuration={ 3000 }
           onRequestClose={ closeToast }
         />

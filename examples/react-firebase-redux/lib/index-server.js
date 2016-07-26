@@ -25,7 +25,7 @@ export default (url, cb) => {
     const finalState = store.getState()
 
     const rootComponent = renderToString(
-      <Provider store={ store }>
+      <Provider store={store}>
         <RouterContext {...renderProps} />
       </Provider>
     )

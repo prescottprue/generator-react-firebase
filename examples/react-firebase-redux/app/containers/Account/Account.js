@@ -1,9 +1,15 @@
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
+
+// styles
+import './Account.scss'
+
+// firebase
+import firebaseUtil from '../../utils/firebase'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as Actions from '../../actions'
-import { Link } from 'react-router'
-import './Account.scss'
 
 class Acccount extends Component {
   constructor (props) {
@@ -47,7 +53,6 @@ const mapStateToProps = (state) => {
     router: state.router
   }
 }
-
 
 // Place action methods into props
 const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)

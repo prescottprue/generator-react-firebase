@@ -1,21 +1,21 @@
 import React, { Component, PropTypes } from 'react'
-<% if (answers.includeRedux) { %>
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions/cars'
-<% } %>
-<% if (!answers.includeRedux) { %>
-// something only firebase
-<% } %>
 
 import './Cars.scss'
-<% if (answers.includeRedux) { %>class Cars extends Component <% } %>
-<% if (!answers.includeRedux) { %>export default class Cars extends Component {<% } %>
+<% if (!answers.includeRedux) { %>import firebase from '../../utils/firebase'<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, pathToJS } = helpers
 
-  constructor (props) {
-    super(props)
-  }
-
+// Props decorators
+@firebase([
+  'cars'
+])
+@connect(
+  ({firebase}) => ({
+    cars: pathToJS(firebase, 'cars'),
+    profile: pathToJS(firebase, 'profile')
+  })
+)<% } %>
+export default class Cars extends Component {
   static propTypes = {
     cars: PropTypes.array,
     addCar: PropTypes.func
@@ -26,31 +26,19 @@ import './Cars.scss'
   }
 
   render () {
-    const carsList = this.props.cars.map((car, i) => {
-      return <li key={ i }>{ car.name } - { car.hp }</li>
-    })
+    const carsList = this.props.cars ? this.props.cars.map((car, i) =>
+      (<li key={ i }>{ car.name } - { car.hp }</li>)
+    ) : null
     return (
       <div className='Cars'>
         <h2>Cars</h2>
         <div className='ClassList'>
-          { carsList }
+          <ul>
+            { carsList }
+          </ul>
           <button onClick={ this.handleClick.bind(this) }>Add tesla</button>
         </div>
       </div>
     )
   }
 }
-<% if (answers.includeRedux) { %>
-// Place state of redux store into props of component
-const mapStateToProps = (state) => {
-  return {
-    cars: state.cars,
-    router: state.router
-  }
-}
-
-// Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cars)
-<% } %>

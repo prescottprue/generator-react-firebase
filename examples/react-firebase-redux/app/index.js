@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import AppRouter from './routes'
 import configureStore from './store/configureStore'
 import { Provider } from 'react-redux'
-import AppRouter from './routes'
 
 const initialState = { }
 

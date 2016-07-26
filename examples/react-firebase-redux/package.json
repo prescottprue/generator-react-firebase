@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "react-firebase-redux",
   "version": "0.0.1",
   "main": "bin/server.js",
   "scripts": {
@@ -15,10 +15,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prescottprue/example"
+    "url": "https://github.com/prescottprue/react-firebase-redux"
   },
   "bugs": {
-    "url": "https://github.com/prescottprue/example/issues"
+    "url": "https://github.com/prescottprue/react-firebase-redux/issues"
   },
   "keywords": [
     "webpack",
@@ -30,10 +30,9 @@
     "tessellate"
   ],
   "dependencies": {
-    "bluebird": "^3.4.0",
     "express": "4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
-    "firebase": "^2.4.2",
+    "firebase": "^3.2.0",
     "history": "1.13.0",
     "immutable": "^3.8.1",
     "lodash": "^4.13.1",
@@ -46,7 +45,7 @@
     "react-router-redux": "4.0.0-rc.1",
     "react-tap-event-plugin": "0.2.1",
     "redux": "3.2.1",
-    "redux-react-firebase": "^1.12.1",
+    "redux-firebasev3": "0.0.1",
     "redux-thunk": "2.1.0",
     "serve-static": "1.10.2",
     "webpack": "1.13.0"
