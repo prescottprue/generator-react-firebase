@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Starter that uses React and Firebase (with option for Redux)",
   "homepage": "github.com/prescottprue/generator-react-firebase",
   "author": {
@@ -38,6 +38,7 @@
     "eslint-plugin-react": "^5.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "fs-extra": "^0.30.0",
+    "husky": "^0.11.6",
     "isparta": "^4.0.0",
     "mocha": "^2.5.3",
     "standard": "^7.1.2",
@@ -47,11 +48,11 @@
   "repository": "github.com/prescottprue/generator-react-firebase",
   "scripts": {
     "prepublish": "npm run lint && npm run test",
-    "lint": "standard generators",
     "lint": "eslint generators",
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha -R spec --compilers js:babel-core/register ./test/setup.js ./test/**/*.spec.js",
-    "test:cov": "babel-node $(npm bin)/isparta cover --report lcov ./node_modules/mocha/bin/_mocha -- ./test/** --recursive"
+    "test:cov": "babel-node $(npm bin)/isparta cover --report lcov ./node_modules/mocha/bin/_mocha -- ./test/** --recursive",
+    "prepush": "npm run lint:fix && npm run test:cov"
   },
   "license": "MIT"
 }
