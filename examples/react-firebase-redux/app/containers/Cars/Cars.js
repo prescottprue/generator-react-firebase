@@ -1,29 +1,34 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions/cars'
+
 import './Cars.scss'
 
-class Cars extends Component {
-  constructor (props) {
-    super(props)
-  }
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, pathToJS, dataToJS } = helpers
+
+// Props decorators
+@firebase([ 'cars' ])
+@connect(
+  ({fb}) => ({
+    cars: dataToJS(fb, 'cars')
+  })
+)
+export default class Cars extends Component {
 
   static propTypes = {
-    cars: PropTypes.array,
     addCar: PropTypes.func
   }
 
   handleClick = () => {
-    //TODO: Call action to add car
-    console.log('action should be called to add car')
-    console.warn('action not enabled')
+    console.log('add car clicked')
+    console.log('this.props', this.props)
   }
 
   render () {
-    const carsList = this.props.cars.map((car, i) => {
-      return <li key={ i }>{ car.name } - { car.hp }</li>
-    })
+    const { cars } = this.props
+    const carsList = this.props.cars ? this.props.cars.map((car, i) =>
+      (<li key={ i }>{ car.name } - { car.hp }</li>)
+    ) : null
     return (
       <div className='Cars'>
         <h2>Cars</h2>
@@ -35,15 +40,3 @@ class Cars extends Component {
     )
   }
 }
-// Place state of redux store into props of component
-const mapStateToProps = (state) => {
-  return {
-    cars: state.cars,
-    router: state.router
-  }
-}
-
-// Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cars)

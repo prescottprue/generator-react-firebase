@@ -42,6 +42,11 @@ module.exports = yeoman.Base.extend({
         }
       },
       {
+        name: 'firebaseKey',
+        message: 'Firebase apiKey',
+        required: true
+      },
+      {
         type: 'confirm',
         name: 'includeTravis',
         message: 'Would to include config for Travis CI?',
@@ -79,6 +84,7 @@ module.exports = yeoman.Base.extend({
       this.answers = props
       this.githubUser = this.answers.githubUser
       this.firebaseName = this.answers.firebaseName
+      this.firebaseKey = this.answers.firebaseKey
       this.deployTo = this.answers.deployTo
       this.includeRedux = this.answers.includeRedux
       // To access prompt answers later use this.answers.someOption

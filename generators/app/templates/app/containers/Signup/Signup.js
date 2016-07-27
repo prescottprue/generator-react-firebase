@@ -11,14 +11,14 @@ import RaisedButton from 'material-ui/lib/raised-button'
 import CircularProgress from 'material-ui/lib/circular-progress'
 import Snackbar from 'material-ui/lib/snackbar'
 
-// firebase
-import firebaseUtil from '../../utils/firebase'
+<% if (!answers.includeRedux) { %>import firebaseUtil from '../../utils/firebase'<% } %>
 
 // styles
 import './Signup.scss'
 
-<% if (answers.includeRedux) { %>import { firebase, helpers } from 'redux-react-firebase'
-
+<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
 const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
 
 @firebase()
@@ -28,15 +28,11 @@ const {isLoaded, isEmpty,  dataToJS, pathToJS} = helpers
   })
 )<% } %>
 export default class Signup extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      errors: { username: null, password: null },
-      snackCanOpen: false,
-      errorMessage: null
-    }
+  state = {
+    errors: { username: null, password: null },
+    snackCanOpen: false,
+    errorMessage: null
   }
-
   /**
    * @function reset
    * @description Reset whole state (inputs, errors, snackbar open/close)
@@ -103,37 +99,37 @@ export default class Signup extends Component {
 
     if (isLoading) {
       return (
-        <div className="Signup">
-          <div className="Signup-Progress">
-            <CircularProgress  mode="indeterminate" />
+        <div className='Signup'>
+          <div className='Signup-Progress'>
+            <CircularProgress  mode='indeterminate' />
           </div>
         </div>
       )
     }
     return (
-      <div className="Signup">
-        <Paper className="Signup-Panel">
+      <div className='Signup'>
+        <Paper className='Signup-Panel'>
           <SignupForm onSignup={ handleSignup } />
         </Paper>
-        <div className="Signup-Or">
+        <div className='Signup-Or'>
           or
         </div>
         <RaisedButton
-          label="Sign in with Google"
+          label='Sign in with Google'
           secondary={ true }
           onTouchTap={ handleSignup.bind(this, { provider: 'google', type: 'popup' }) }
         />
-        <div className="Signup-Login">
-          <span className="Signup-Login-Label">
+        <div className='Signup-Login'>
+          <span className='Signup-Login-Label'>
             Already have an account?
           </span>
-          <Link className="Signup-Login-Link" to="/login">Login</Link>
+          <Link className='Signup-Login-Link' to='/login'>Login</Link>
         </div>
         <Snackbar
           <% if (answers.includeRedux) { %>open={ error !== null && this.state.snackCanOpen }
           message={ error || 'Signup error' }<% } %><% if (!answers.includeRedux) { %>open={ this.state.snackCanOpen }
           message={ this.state.errorMessage || 'Signup error'}<% } %>
-          action="close"
+          action='close'
           autoHideDuration={ 3000 }
           onRequestClose={ closeToast }
         />
