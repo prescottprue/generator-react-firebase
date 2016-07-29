@@ -2,12 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import './Navbar.scss'
 import { Link } from 'react-router'
 
-//Components
 import AppBar from 'material-ui/lib/app-bar'
-import IconButton from 'material-ui/lib/icon-button'
-import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
 import IconMenu from 'material-ui/lib/menus/icon-menu'
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import FlatButton from 'material-ui/lib/flat-button'
 import Avatar from 'material-ui/lib/avatar'
@@ -18,10 +14,6 @@ const avatarSize = 50
 const buttonStyle = { color: 'white' }
 
 export default class Navbar extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   static propTypes = {
     account: PropTypes.object,
     onMenuClick: PropTypes.func,
@@ -39,11 +31,11 @@ export default class Navbar extends Component {
 
   render() {
     const { username, avatar_url } = this.props.account ? this.props.account : {}
-    const brandLinkLoc = username ? `/${username}` : '/'
+    const brandLinkLoc = `/${username || ''}`
     const iconButton = (
       <Avatar
         className="Navbar-Avatar"
-        src={ avatar_url ? avatar_url : stockPhotoUrl }
+        src={ avatar_url || stockPhotoUrl }
         size={ avatarSize }
       />
     )
@@ -67,7 +59,11 @@ export default class Navbar extends Component {
     ) : mainMenu
     return (
       <AppBar
-        title={<Link className="Navbar-Brand" to={ brandLinkLoc }>react-firebase-redux</Link>}
+        title={
+          <Link className="Navbar-Brand" to={ brandLinkLoc }>
+            react-firebase-redux
+          </Link>
+        }
         className="Navbar"
         showMenuIconButton={ false }
         iconElementRight={ rightMenu }

@@ -102,7 +102,6 @@ function createWebpackConfig (options) {
     alias: {
       assets: path.resolve(__dirname, '..', 'assets')
     },
-    fallback: path.join(__dirname, 'node_modules'),
     extensions: ['', '.js']
   }
 
@@ -114,8 +113,7 @@ function createWebpackConfig (options) {
 
   const loaders = [
     {
-      // exclude: [/node_modules/],
-      include: [path.join(__dirname, '..', 'app'), path.join(__dirname, '..', 'lib')],
+      exclude: /node_modules/,
       test: /\.js$/,
       loaders: options.dev
       ? ['react-hot', 'babel']
@@ -149,9 +147,6 @@ function createWebpackConfig (options) {
     output: output,
     plugins: plugins,
     resolve: resolve,
-    resolveLoader: {
-      fallback: path.join(__dirname, 'node_modules')
-    },
     module: { loaders: loaders },
     target: options.target,
 

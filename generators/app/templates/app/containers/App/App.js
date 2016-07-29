@@ -17,23 +17,25 @@ injectTapEventPlugin()
 
 <% if (answers.includeRedux) { %>class Main extends Component {<% } %>
 <% if (!answers.includeRedux) { %>export default class Main extends Component {<% } %>
-  constructor (props) {
-    super(props)
-  }
-
   static childContextTypes = {
-    muiTheme: React.PropTypes.object
+    muiTheme: PropTypes.object
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   }
 
-  getChildContext = () => {
-    return {
+  static propTypes = {
+    account: PropTypes.object,
+    children: PropTypes.array,
+    logout: PropTypes.func
+  }
+
+  getChildContext = () => (
+    {
       muiTheme: ThemeManager.getMuiTheme(Theme)
     }
-  }
+  )
 
   handleClick = loc => {
     this.context.router.push(`/${loc}`)

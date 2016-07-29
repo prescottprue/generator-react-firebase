@@ -13,7 +13,7 @@ const store = configureStore(initialState, createHistory)
 let rootElement = document.getElementById('root')
 
 ReactDOM.render(
-  <Provider store={ store }>
-    { createRoutes(browserHistory) }
+  <Provider store={store}>
+    {createRoutes(browserHistory)}
   </Provider>, rootElement
 )

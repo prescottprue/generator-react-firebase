@@ -6,7 +6,7 @@ import { firebase as fbConfig } from '../config'
 
 export default function configureStore (initialState, history) {
   const createStoreWithMiddleware = compose(
-    reduxReactFirebase(fbConfig),
+    reduxReactFirebase(fbConfig, { userProfile: fbConfig.userFolder }),
     applyMiddleware(thunk)
   )(createStore)
   const store = createStoreWithMiddleware(rootReducer, initialState)
