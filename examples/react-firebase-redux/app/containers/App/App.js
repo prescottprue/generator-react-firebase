@@ -1,22 +1,27 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as Actions from '../../actions'
-
+import { firebase, helpers } from 'redux-firebasev3'
+const { pathToJS } = helpers
 // Components
-import Navbar from '../../components/Navbar/Navbar'
+import Navbar from '../Navbar/Navbar'
 
 // Styling
 import Theme from '../../theme'
-import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import './App.scss'
 
 // Tap Plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
-class Main extends Component {
-
+//Pass Firebase Profile to account prop
+@firebase()
+@connect(
+  ({firebase}) => ({
+    account: pathToJS(firebase, 'profile')
+  })
+)
+export default class Main extends Component {
   static childContextTypes = {
     muiTheme: PropTypes.object
   }
@@ -28,12 +33,14 @@ class Main extends Component {
   static propTypes = {
     account: PropTypes.object,
     children: PropTypes.object,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    firebase: PropTypes.object,
+    authError: PropTypes.object
   }
 
   getChildContext = () => (
     {
-      muiTheme: ThemeManager.getMuiTheme(Theme)
+      muiTheme: getMuiTheme(Theme)
     }
   )
 
@@ -42,7 +49,7 @@ class Main extends Component {
   }
 
   handleLogout = () => {
-    this.props.logout()
+    this.props.firebase.logout()
     this.context.router.push(`/`)
   }
 
@@ -59,17 +66,3 @@ class Main extends Component {
     )
   }
 }
-
-// Place state of redux store into props of component
-const mapStateToProps = (state) => {
-  return {
-    account: state.account,
-    router: state.router
-  }
-}
-
-// Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
-

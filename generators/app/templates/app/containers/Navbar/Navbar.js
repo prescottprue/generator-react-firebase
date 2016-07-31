@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import './Navbar.scss'
 import { Link } from 'react-router'
+import { project as projectSettings } from '../../config'
 
-import AppBar from 'material-ui/lib/app-bar'
-import IconMenu from 'material-ui/lib/menus/icon-menu'
-import MenuItem from 'material-ui/lib/menus/menu-item'
-import FlatButton from 'material-ui/lib/flat-button'
-import Avatar from 'material-ui/lib/avatar'
+import AppBar from 'material-ui/AppBar'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import FlatButton from 'material-ui/FlatButton'
+import Avatar from 'material-ui/Avatar'
 
 const stockPhotoUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 const originSettings = { horizontal: 'right', vertical: 'top' }
@@ -20,18 +21,15 @@ export default class Navbar extends Component {
     onLogoutClick: PropTypes.func
   }
 
-  selectItem = (item) => {
-    if (item === 'logout' && this.props.onLogoutClick) {
+  selectItem = (e, val) => {
+    if (val === 'logout' && this.props.onLogoutClick) {
       return this.props.onLogoutClick()
     }
-    if (this.props.onMenuClick) {
-      this.props.onMenuClick(item)
-    }
+    this.props.onMenuClick(val)
   }
 
   render() {
     const { username, avatar_url } = this.props.account ? this.props.account : {}
-    const brandLinkLoc = `/${username || ''}`
     const iconButton = (
       <Avatar
         className='Navbar-Avatar'
@@ -41,8 +39,8 @@ export default class Navbar extends Component {
     )
     const mainMenu = (
       <div className='Navbar-Main-Menu'>
-        <FlatButton label='Sign Up' style={ buttonStyle } onClick={ () => this.selectItem('signup') } />
-        <FlatButton label='Login' style={ buttonStyle } onClick={ () => this.selectItem('login') } />
+        <Link to='/signup'><FlatButton label='Sign Up' style={ buttonStyle } /></Link>
+        <Link to='/login'><FlatButton label='Login' style={ buttonStyle } /></Link>
       </div>
     )
     const rightMenu = username ? (
@@ -52,16 +50,15 @@ export default class Navbar extends Component {
         anchorOrigin={ originSettings }
         onChange={ this.selectItem }
       >
-        <MenuItem primaryText='Account' value='account' />
-        <MenuItem primaryText='About' value='about'/>
+        <Link to='/account'><MenuItem primaryText='Account' value='account' /></Link>
         <MenuItem primaryText='Sign out' value='logout'/>
       </IconMenu>
     ) : mainMenu
     return (
       <AppBar
         title={
-          <Link className='Navbar-Brand' to={ brandLinkLoc }>
-            <%= appName %>
+          <Link className='Navbar-Brand' to='/'>
+            {projectSettings.name}
           </Link>
         }
         className='Navbar'

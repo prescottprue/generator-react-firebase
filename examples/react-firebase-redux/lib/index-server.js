@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react' //eslint-disable-line
-import createRoutes from '../app/router'
+import createRoutes from '../app/routes'
 import { match, RouterContext } from 'react-router'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'

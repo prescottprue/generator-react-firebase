@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react' //eslint-disable-line
 
 export default class RequireLogin extends Component {
   static propTypes = {

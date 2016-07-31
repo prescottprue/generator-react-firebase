@@ -28,7 +28,7 @@ module.exports = yeoman.Base.extend({
         name: 'firebaseName',
         message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
-        default: 'react-firebase-example-bb4f0',
+        // default: 'react-firebase-example-bb4f0',
         validate: function (input) {
           if (!input) return false
           if (input.match('http') || input.match('firebaseio.com')) {
