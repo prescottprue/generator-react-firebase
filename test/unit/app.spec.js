@@ -8,14 +8,10 @@ const appFiles = [
   'app/config.js',
   'app/theme.js',
   'app/variables.scss',
-  'app/components/AccountDropdown/AccountDropdown.js',
-  'app/components/AccountDropdown/AccountDropdown.scss',
-  'app/components/AccountManager/AccountManager.js',
-  'app/components/AccountManager/AccountManager.scss',
   'app/components/LoginForm/LoginForm.js',
   'app/components/LoginForm/LoginForm.scss',
-  'app/components/Navbar/Navbar.js',
-  'app/components/Navbar/Navbar.scss',
+  'app/containers/Navbar/Navbar.js',
+  'app/containers/Navbar/Navbar.scss',
   'app/components/SignupForm/SignupForm.js',
   'app/components/SignupForm/SignupForm.scss'
 ]
