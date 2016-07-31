@@ -44,8 +44,7 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-    <% if (answers.includeRedux) { %>this.props.firebase.login(loginData).then(() => this.context.router.push('/sheets'))<% } %>
-    <% if (!answers.includeRedux) { %>const { email, password } = loginData
+    <% if (answers.includeRedux) { %>this.props.firebase.login(loginData).then(() => this.context.router.push('/sheets'))<% } %><% if (!answers.includeRedux) { %>const { email, password } = loginData
     if (email && password) {
       firebase.auth()
         .signInWithEmailAndPassword(email, password)
@@ -59,6 +58,11 @@ export default class Login extends Component {
           this.setState({ isLoading: false })
         })
     }<% } %>
+  }
+
+  googleLogin = () => {
+    // TODO: Handle Google Login
+    console.log('google')
   }
 
   render () {
@@ -83,7 +87,7 @@ export default class Login extends Component {
         <div className='Login-Or'>
           or
         </div>
-        <GoogleButton onClick={ handleLogin.bind(this, { provider: 'google', type: 'popup' }) } />
+        <GoogleButton onClick={ this.googleLogin } />
         <div className='Login-Signup'>
           <span className='Login-Signup-Label'>
             Need an account?

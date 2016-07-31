@@ -45,7 +45,12 @@ export default class Login extends Component {
       isLoading: true
     })
     this.props.firebase.login(loginData).then(() => this.context.router.push('/sheets'))
-    
+
+  }
+
+  googleLogin = () => {
+    // TODO: Handle Google Login
+    console.log('google')
   }
 
   render () {
@@ -70,7 +75,7 @@ export default class Login extends Component {
         <div className='Login-Or'>
           or
         </div>
-        <GoogleButton onClick={ handleLogin.bind(this, { provider: 'google', type: 'popup' }) } />
+        <GoogleButton onClick={ this.googleLogin } />
         <div className='Login-Signup'>
           <span className='Login-Signup-Label'>
             Need an account?
