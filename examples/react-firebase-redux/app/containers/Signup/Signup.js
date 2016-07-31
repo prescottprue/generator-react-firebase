@@ -4,15 +4,12 @@ import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { dataToJS, pathToJS } = helpers
 
-// components
 import GoogleButton from 'react-google-button'
+import Paper from 'material-ui/Paper'
+import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress'
+import Snackbar from 'material-ui/Snackbar'
 import SignupForm from '../../components/SignupForm/SignupForm'
-
-// material-ui components
-import Paper from 'material-ui/lib/paper'
-import RaisedButton from 'material-ui/lib/raised-button'
-import CircularProgress from 'material-ui/lib/circular-progress'
-import Snackbar from 'material-ui/lib/snackbar'
 
 // styles
 import './Signup.scss'
@@ -87,11 +84,13 @@ export default class Signup extends Component {
           <span className='Signup-Login-Label'>
             Already have an account?
           </span>
-          <Link className='Signup-Login-Link' to='/login'>Login</Link>
+          <Link className='Signup-Login-Link' to='/login'>
+            Login
+          </Link>
         </div>
         <Snackbar
           open={error !== null && this.state.snackCanOpen}
-          message={ error || 'Signup error' }
+          message={error || 'Signup error'}
           action='close'
           autoHideDuration={3000}
           onRequestClose={this.reset}

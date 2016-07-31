@@ -8,7 +8,7 @@ import Navbar from '../../components/Navbar/Navbar'
 
 // Styling
 import Theme from '../../theme'
-import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import './App.scss'
 
 // Tap Plugin
@@ -33,7 +33,7 @@ injectTapEventPlugin()
 
   getChildContext = () => (
     {
-      muiTheme: ThemeManager.getMuiTheme(Theme)
+      muiTheme: getMuiTheme(Theme)
     }
   )
 

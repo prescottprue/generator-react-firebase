@@ -1,13 +1,13 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
-import TextField from 'material-ui/lib/text-field'
-import RaisedButton from 'material-ui/lib/raised-button'
-import Checkbox from 'material-ui/lib/checkbox'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+import Checkbox from 'material-ui/Checkbox'
 import { reduxForm } from 'redux-form'
 
 import './LoginForm.scss'
-const fieldStyle = { width: '80%' }
-const buttonStyle = { width: '100%' }
+const fieldStyle = {width: '80%'}
+const buttonStyle = {width: '100%'}
 
 export const fields = [ 'username', 'password' ]
 

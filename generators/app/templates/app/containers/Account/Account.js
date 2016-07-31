@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 
-// styles
 import './Account.scss'
 
 <% if (!answers.includeRedux) { %>import firebaseUtil from '../../utils/firebase'<% } %><% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'

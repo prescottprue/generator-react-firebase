@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react'
 import './Navbar.scss'
 import { Link } from 'react-router'
 
-import AppBar from 'material-ui/lib/app-bar'
-import IconMenu from 'material-ui/lib/menus/icon-menu'
-import MenuItem from 'material-ui/lib/menus/menu-item'
-import FlatButton from 'material-ui/lib/flat-button'
-import Avatar from 'material-ui/lib/avatar'
+import AppBar from 'material-ui/AppBar'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import FlatButton from 'material-ui/FlatButton'
+import Avatar from 'material-ui/Avatar'
 
 const stockPhotoUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 const originSettings = { horizontal: 'right', vertical: 'top' }

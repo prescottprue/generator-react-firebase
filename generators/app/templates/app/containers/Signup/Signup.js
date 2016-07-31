@@ -4,15 +4,12 @@ import { Link } from 'react-router'
 import { firebase, helpers } from 'redux-firebasev3'
 const { dataToJS, pathToJS } = helpers<% } %>
 
-// components
 import GoogleButton from 'react-google-button'
+import Paper from 'material-ui/Paper'
+import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress'
+import Snackbar from 'material-ui/Snackbar'
 import SignupForm from '../../components/SignupForm/SignupForm'
-
-// material-ui components
-import Paper from 'material-ui/lib/paper'
-import RaisedButton from 'material-ui/lib/raised-button'
-import CircularProgress from 'material-ui/lib/circular-progress'
-import Snackbar from 'material-ui/lib/snackbar'
 
 // styles
 import './Signup.scss'

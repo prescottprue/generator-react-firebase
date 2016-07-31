@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 
-// styles
 import './Account.scss'
 
 import { bindActionCreators } from 'redux'

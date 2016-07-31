@@ -4,18 +4,14 @@ import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
-// components
 import GoogleButton from 'react-google-button'
+import Paper from 'material-ui/Paper'
+import CircularProgress from 'material-ui/CircularProgress'
+import Snackbar from 'material-ui/Snackbar'
+import RaisedButton from 'material-ui/RaisedButton'
+import FontIcon from 'material-ui/FontIcon'
 import LoginForm from '../../components/LoginForm/LoginForm'
 
-// material-ui components
-import Paper from 'material-ui/lib/paper'
-import CircularProgress from 'material-ui/lib/circular-progress'
-import Snackbar from 'material-ui/lib/snackbar'
-import RaisedButton from 'material-ui/lib/raised-button'
-import FontIcon from 'material-ui/lib/font-icon'
-
-// styles
 import './Login.scss'
 
 // Props decorators
