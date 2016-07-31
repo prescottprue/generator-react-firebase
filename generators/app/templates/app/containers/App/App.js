@@ -27,7 +27,7 @@ injectTapEventPlugin()
 
   static propTypes = {
     account: PropTypes.object,
-    children: PropTypes.array,
+    children: PropTypes.object,
     logout: PropTypes.func
   }
 

@@ -20,7 +20,7 @@ export default class Navbar extends Component {
     onLogoutClick: PropTypes.func
   }
 
-  selectItem = (e, item) => {
+  selectItem = (item) => {
     if (item === 'logout' && this.props.onLogoutClick) {
       return this.props.onLogoutClick()
     }
@@ -41,8 +41,8 @@ export default class Navbar extends Component {
     )
     const mainMenu = (
       <div className='Navbar-Main-Menu'>
-        <FlatButton label='Sign Up' style={ buttonStyle } onClick={ this.selectItem.bind(this, null, 'signup') } />
-        <FlatButton label='Login' style={ buttonStyle } onClick={ this.selectItem.bind(this, null, 'login') } />
+        <FlatButton label='Sign Up' style={ buttonStyle } onClick={ () => this.selectItem('signup') } />
+        <FlatButton label='Login' style={ buttonStyle } onClick={ () => this.selectItem('login') } />
       </div>
     )
     const rightMenu = username ? (

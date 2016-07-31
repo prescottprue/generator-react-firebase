@@ -44,7 +44,6 @@ module.exports = yeoman.Base.extend({
       {
         name: 'firebaseKey',
         message: 'Firebase apiKey',
-        default: 'AIzaSyD6Q8_kdM30MSaWnrQmJOaGXgh0w9_JjbQ',
         required: true
       },
       {

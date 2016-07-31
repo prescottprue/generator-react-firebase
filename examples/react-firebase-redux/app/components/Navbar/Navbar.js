@@ -20,7 +20,7 @@ export default class Navbar extends Component {
     onLogoutClick: PropTypes.func
   }
 
-  selectItem = (e, item) => {
+  selectItem = (item) => {
     if (item === 'logout' && this.props.onLogoutClick) {
       return this.props.onLogoutClick()
     }
@@ -34,15 +34,15 @@ export default class Navbar extends Component {
     const brandLinkLoc = `/${username || ''}`
     const iconButton = (
       <Avatar
-        className="Navbar-Avatar"
+        className='Navbar-Avatar'
         src={ avatar_url || stockPhotoUrl }
         size={ avatarSize }
       />
     )
     const mainMenu = (
-      <div className="Navbar-Main-Menu">
-        <FlatButton label="Sign Up" style={ buttonStyle } onClick={ this.selectItem.bind(this, null, 'signup') } />
-        <FlatButton label="Login" style={ buttonStyle } onClick={ this.selectItem.bind(this, null, 'login') } />
+      <div className='Navbar-Main-Menu'>
+        <FlatButton label='Sign Up' style={ buttonStyle } onClick={ () => this.selectItem('signup') } />
+        <FlatButton label='Login' style={ buttonStyle } onClick={ () => this.selectItem('login') } />
       </div>
     )
     const rightMenu = username ? (
@@ -52,19 +52,19 @@ export default class Navbar extends Component {
         anchorOrigin={ originSettings }
         onChange={ this.selectItem }
       >
-        <MenuItem primaryText="Account" value="account" />
-        <MenuItem primaryText="About" value="about"/>
-        <MenuItem primaryText="Sign out" value="logout"/>
+        <MenuItem primaryText='Account' value='account' />
+        <MenuItem primaryText='About' value='about'/>
+        <MenuItem primaryText='Sign out' value='logout'/>
       </IconMenu>
     ) : mainMenu
     return (
       <AppBar
         title={
-          <Link className="Navbar-Brand" to={ brandLinkLoc }>
+          <Link className='Navbar-Brand' to={ brandLinkLoc }>
             react-firebase-redux
           </Link>
         }
-        className="Navbar"
+        className='Navbar'
         showMenuIconButton={ false }
         iconElementRight={ rightMenu }
       />

@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import TextField from 'material-ui/lib/text-field'
 import RaisedButton from 'material-ui/lib/raised-button'
 import './SignupForm.scss'
+import { capitalize } from 'lodash'
 
 const fieldStyle = { width: '80%' }
 const buttonStyle = { width: '96%', marginBottom: '.5rem' }
@@ -9,6 +10,7 @@ const buttonStyle = { width: '96%', marginBottom: '.5rem' }
 export default class SignupForm extends Component {
   static propTypes = {
     account: PropTypes.object,
+    signup: PropTypes.func,
     onSignup: PropTypes.func
   }
 
