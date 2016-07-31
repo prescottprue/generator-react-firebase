@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import './Navbar.scss'
 import { Link } from 'react-router'
+import { project as projectSettings } from '../../config'
 
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
@@ -14,10 +15,6 @@ const avatarSize = 50
 const buttonStyle = { color: 'white' }
 
 export default class Navbar extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  }
-
   static propTypes = {
     account: PropTypes.object,
     onMenuClick: PropTypes.func,
@@ -26,7 +23,6 @@ export default class Navbar extends Component {
 
   selectItem = (e, val) => {
     if (val === 'logout' && this.props.onLogoutClick) {
-      this.context.router.push(`/`)
       return this.props.onLogoutClick()
     }
     this.props.onMenuClick(val)
@@ -34,7 +30,6 @@ export default class Navbar extends Component {
 
   render() {
     const { username, avatar_url } = this.props.account ? this.props.account : {}
-    const brandLinkLoc = `/${username || ''}`
     const iconButton = (
       <Avatar
         className='Navbar-Avatar'
@@ -62,8 +57,8 @@ export default class Navbar extends Component {
     return (
       <AppBar
         title={
-          <Link className='Navbar-Brand' to={ brandLinkLoc }>
-            react-firebase-redux
+          <Link className='Navbar-Brand' to='/'>
+            {projectSettings.name}
           </Link>
         }
         className='Navbar'

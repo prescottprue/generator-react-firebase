@@ -52,7 +52,7 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha -R spec --compilers js:babel-core/register ./test/setup.js ./test/**/*.spec.js",
     "test:cov": "babel-node $(npm bin)/isparta cover --report lcov ./node_modules/mocha/bin/_mocha -- ./test/** --recursive",
-    "prepush": "npm run lint:fix && npm run test:cov"
+    "prepush": "npm run lint:fix"
   },
   "license": "MIT"
 }

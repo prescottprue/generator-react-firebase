@@ -11,7 +11,7 @@ import Snackbar from 'material-ui/Snackbar'
 import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon'
 import LoginForm from '../../components/LoginForm/LoginForm'
-
+import { project as projectSettings } from '../../config'
 import './Login.scss'
 
 // Props decorators
@@ -19,10 +19,20 @@ import './Login.scss'
 @connect(
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
-    profile: pathToJS(firebase, 'profile')
+    account: pathToJS(firebase, 'profile')
   })
 )
 export default class Login extends Component {
+  static propTypes = {
+    account: PropTypes.object,
+    firebase: PropTypes.object,
+    authError: PropTypes.object
+  }
+
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   state = {
     snackCanOpen: false,
     errorMessage: null
@@ -44,8 +54,8 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-    console.log('handle login called with:', loginData)
     this.props.firebase.login(loginData)
+        .then(() => this.context.router.push(`/${projectSettings.postLoginRoute}`))
   }
 
   googleLogin = () => {

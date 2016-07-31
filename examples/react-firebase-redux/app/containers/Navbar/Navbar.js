@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import './Navbar.scss'
 import { Link } from 'react-router'
+import { project as projectSettings } from '../../config'
 
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
@@ -34,7 +35,6 @@ export default class Navbar extends Component {
 
   render() {
     const { username, avatar_url } = this.props.account ? this.props.account : {}
-    const brandLinkLoc = `/${username || ''}`
     const iconButton = (
       <Avatar
         className='Navbar-Avatar'
@@ -55,16 +55,15 @@ export default class Navbar extends Component {
         anchorOrigin={ originSettings }
         onChange={ this.selectItem }
       >
-        <MenuItem primaryText='Account' value='account' />
-        <MenuItem primaryText='About' value='about'/>
+        <Link to='/account'><MenuItem primaryText='Account' value='account' /></Link>
         <MenuItem primaryText='Sign out' value='logout'/>
       </IconMenu>
     ) : mainMenu
     return (
       <AppBar
         title={
-          <Link className='Navbar-Brand' to={ brandLinkLoc }>
-            react-firebase-redux
+          <Link className='Navbar-Brand' to='/'>
+            {projectSettings.name}
           </Link>
         }
         className='Navbar'

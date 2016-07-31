@@ -1,3 +1,7 @@
+export const project = {
+  name: 'react-firebase-test'
+}
+
 export const firebase = {
   userProfile: 'users',
   apiKey: '<%= firebaseKey %>',

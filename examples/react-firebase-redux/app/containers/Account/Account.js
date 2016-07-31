@@ -1,20 +1,26 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, pathToJS } = helpers
 
 import './Account.scss'
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions'
-
-class Acccount extends Component {
+//Pass Firebase Profile to account prop
+@firebase()
+@connect(
+  ({firebase}) => ({
+    account: pathToJS(firebase, 'profile')
+  })
+)
+export default class Acccount extends Component {
   static propTypes = {
     account: PropTypes.object,
     logout: PropTypes.func
   }
 
   render () {
-    const emailTo = `mailto:${this.props.account.email || ''}`
     const { account, logout } = this.props
+    const emailTo = `mailto:${this.props.account.email || ''}`
     return (
       <div className='Acccount'>
         <div className='Acccount-Data'>
@@ -38,15 +44,3 @@ class Acccount extends Component {
     )
   }
 }
-// Place state of redux store into props of component
-const mapStateToProps = (state) => {
-  return {
-    account: state.account ? state.entities.accounts[state.account.id] : null,
-    router: state.router
-  }
-}
-
-// Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Acccount)

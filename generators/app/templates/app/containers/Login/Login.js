@@ -11,7 +11,7 @@ import Snackbar from 'material-ui/Snackbar'
 import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon'
 import LoginForm from '../../components/LoginForm/LoginForm'
-
+import { project as projectSettings } from '../../config'
 import './Login.scss'
 
 <% if (answers.includeRedux) { %>// Props decorators
@@ -19,10 +19,20 @@ import './Login.scss'
 @connect(
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
-    profile: pathToJS(firebase, 'profile')
+    account: pathToJS(firebase, 'profile')
   })
 )<% } %>
 export default class Login extends Component {
+  <% if (answers.includeRedux) { %>static propTypes = {
+    account: PropTypes.object,
+    firebase: PropTypes.object,
+    authError: PropTypes.object
+  }<% } %>
+
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   state = {
     snackCanOpen: false,
     errorMessage: null
@@ -44,7 +54,8 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-    <% if (answers.includeRedux) { %>this.props.firebase.login(loginData).then(() => this.context.router.push('/sheets'))<% } %><% if (!answers.includeRedux) { %>const { email, password } = loginData
+    <% if (answers.includeRedux) { %>this.props.firebase.login(loginData)
+        .then(() => this.context.router.push(`/${projectSettings.postLoginRoute}`))<% } %><% if (!answers.includeRedux) { %>const { email, password } = loginData
     if (email && password) {
       firebase.auth()
         .signInWithEmailAndPassword(email, password)

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 <% if (answers.includeRedux) { %>import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
-const { dataToJS, pathToJS } = helpers<% } %>
+const { pathToJS } = helpers<% } %>
 // Components
 import Navbar from '../Navbar/Navbar'
 
@@ -18,11 +18,10 @@ injectTapEventPlugin()
 @firebase()
 @connect(
   ({firebase}) => ({
-    account: pathToJS(firebase, 'profile'),
+    account: pathToJS(firebase, 'profile')
   })
-)
-<% if (answers.includeRedux) { %>class Main extends Component {<% } %>
-<% if (!answers.includeRedux) { %>export default class Main extends Component {<% } %>
+)<% } %>
+export default class Main extends Component {
   static childContextTypes = {
     muiTheme: PropTypes.object
   }
@@ -34,7 +33,9 @@ injectTapEventPlugin()
   static propTypes = {
     account: PropTypes.object,
     children: PropTypes.object,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    <% if (answers.includeRedux) { %>firebase: PropTypes.object,
+    authError: PropTypes.object<% } %>
   }
 
   getChildContext = () => (
@@ -48,7 +49,7 @@ injectTapEventPlugin()
   }
 
   handleLogout = () => {
-    this.props.logout()
+    this.props.firebase.logout()
     this.context.router.push(`/`)
   }
 

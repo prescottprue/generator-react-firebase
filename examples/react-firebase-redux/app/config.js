@@ -1,3 +1,8 @@
+export const project = {
+  name: 'react-firebase-test',
+  postLoginRoute: 'cars'
+}
+
 export const firebase = {
   userProfile: 'users',
   apiKey: 'AIzaSyD6Q8_kdM30MSaWnrQmJOaGXgh0w9_JjbQ',
