@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import AccountDropdown from '../AccountDropdown/AccountDropdown'
+
 import './AccountManager.scss'
 
 export default class AccountManager extends Component {

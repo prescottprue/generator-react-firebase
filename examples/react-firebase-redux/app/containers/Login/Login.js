@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, pathToJS } = helpers
 
 // components
+import GoogleButton from 'react-google-button'
 import LoginForm from '../../components/LoginForm/LoginForm'
 
 // material-ui components
@@ -13,9 +17,6 @@ import FontIcon from 'material-ui/lib/font-icon'
 
 // styles
 import './Login.scss'
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
-const { isLoaded, isEmpty, pathToJS } = helpers
 
 // Props decorators
 @firebase()
@@ -28,9 +29,9 @@ const { isLoaded, isEmpty, pathToJS } = helpers
 export default class Login extends Component {
   state = {
     snackCanOpen: false,
-    errors: { username: null, password: null },
     errorMessage: null
   }
+
   componentWillReceiveProps (nextProps) {
     const { account, authError } = nextProps
     if (authError) {
@@ -42,21 +43,18 @@ export default class Login extends Component {
 
   handleRequestClose = () => this.setState({ snackCanOpen: false })
 
+  handleLogin = loginData => {
+    this.setState({
+      snackCanOpen: true,
+      isLoading: true
+    })
+    this.props.firebase.login(loginData).then(() => this.context.router.push('/sheets'))
+    
+  }
+
   render () {
     const { isLoading, snackCanOpen, errorMessage } = this.state
     const { authError } = this.props
-    const handleLogin = loginData => {
-      this.setState({
-        snackCanOpen: true,
-        isLoading: true
-      })
-  this.props.firebase.login(loginData)
-      .then(() => this.context.router.push('/sheets'))
-  
-  
-    }
-    const closeToast = () => this.setState({ snackCanOpen: false })
-
 
     if (isLoading) {
       return (
@@ -71,16 +69,12 @@ export default class Login extends Component {
     return (
       <div className='Login'>
         <Paper className='Login-Panel'>
-          <LoginForm onLogin={ handleLogin } />
+          <LoginForm onLogin={ this.handleLogin } />
         </Paper>
         <div className='Login-Or'>
           or
         </div>
-        <RaisedButton
-          label='Sign in With Google'
-          secondary={ true }
-          onTouchTap={ handleLogin.bind(this, { provider: 'google', type: 'popup' }) }
-        />
+        <GoogleButton onClick={ handleLogin.bind(this, { provider: 'google', type: 'popup' }) } />
         <div className='Login-Signup'>
           <span className='Login-Signup-Label'>
             Need an account?

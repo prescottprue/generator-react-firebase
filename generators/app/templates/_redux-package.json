@@ -45,6 +45,7 @@
     "react-tap-event-plugin": "0.2.1",
     "redux": "3.2.1",
     "redux-firebasev3": "0.0.2",
+    "redux-form": "^5.3.1",
     "redux-thunk": "2.1.0",
     "serve-static": "1.10.2",
     "webpack": "1.13.0"
