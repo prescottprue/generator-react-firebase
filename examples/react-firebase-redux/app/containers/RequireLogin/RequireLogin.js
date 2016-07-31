@@ -1,6 +1,10 @@
-import { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 export default class RequireLogin extends Component {
+  static propTypes = {
+    children: PropTypes.array
+  }
+
   static onEnter (store) {
     return (nextState, transition) => {
       const { auth: { user } } = store.getState()

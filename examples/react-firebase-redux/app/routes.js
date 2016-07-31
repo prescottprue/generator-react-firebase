@@ -11,15 +11,15 @@ import {
     Cars
   } from './containers'
 export default () => (
-  <Router history={ browserHistory }>
-    <Route path='/' component={ App }>
-      <IndexRoute component={ Home } />
-      <Route path='login' component={ Login }/>
-      <Route path='signup' component={ Signup }/>
-      <Route path='about' component={ About } />
-      <Route path='account' component={ Account } />
-      <Route path='cars' component={ Cars } />
-      <Route path='*' component={ NotFound } />
+  <Router history={browserHistory}>
+    <Route path='/' component={App}>
+      <IndexRoute component={Home} />
+      <Route path='login' component={Login} />
+      <Route path='signup' component={Signup} />
+      <Route path='about' component={About} />
+      <Route path='account' component={Account} />
+      <Route path='cars' component={Cars} />
+      <Route path='*' component={NotFound} />
     </Route>
   </Router>
 )

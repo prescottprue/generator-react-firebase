@@ -13,7 +13,6 @@ import FontIcon from 'material-ui/lib/font-icon'
 
 // styles
 import './Login.scss'
-
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { isLoaded, isEmpty, pathToJS } = helpers
@@ -53,8 +52,8 @@ export default class Login extends Component {
       })
   this.props.firebase.login(loginData)
       .then(() => this.context.router.push('/sheets'))
-
-
+  
+  
     }
     const closeToast = () => this.setState({ snackCanOpen: false })
 

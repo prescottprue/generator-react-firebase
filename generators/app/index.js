@@ -28,7 +28,7 @@ module.exports = yeoman.Base.extend({
         name: 'firebaseName',
         message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
-        default: 'testing',
+        default: 'react-firebase-example-bb4f0',
         validate: function (input) {
           if (!input) return false
           if (input.match('http') || input.match('firebaseio.com')) {
@@ -56,7 +56,7 @@ module.exports = yeoman.Base.extend({
         type: 'confirm',
         name: 'includeRedux',
         message: 'Would to include redux for local state-management?',
-        default: false
+        default: true
       },
       {
         type: 'list',
@@ -109,7 +109,8 @@ module.exports = yeoman.Base.extend({
       { src: 'webpack-dev.config.js' },
       { src: 'webpack-production.config.js' },
       { src: 'webpack-server-production.config.js' },
-      { src: 'gitignore', dest: '.gitignore' }
+      { src: 'gitignore', dest: '.gitignore' },
+      { src: 'eslintrc', dest: '.eslintrc' }
     ]
     if (this.answers.includeTravis) {
       filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })

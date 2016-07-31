@@ -4,21 +4,18 @@ import AccountDropdown from '../AccountDropdown/AccountDropdown'
 import './AccountManager.scss'
 
 export default class AccountManager extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   static propTypes = {
     account: PropTypes.object,
     onLogoutClick: PropTypes.func
-  };
+  }
 
   render () {
-    if (this.props.account && this.props.account.username) {
+    const { account, onLogoutClick } = this.props
+    if (account && account.username) {
       return (
         <AccountDropdown
-          account={this.props.account}
-          onLogoutClick={this.props.onLogoutClick}
+          account={account}
+          onLogoutClick={onLogoutClick}
         />
       )
     }

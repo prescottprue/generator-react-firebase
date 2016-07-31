@@ -114,7 +114,6 @@ function createWebpackConfig (options) {
 
   const loaders = [
     {
-      // exclude: [/node_modules/],
       include: [path.join(__dirname, '..', 'app'), path.join(__dirname, '..', 'lib')],
       test: /\.js$/,
       loaders: options.dev
@@ -128,7 +127,7 @@ function createWebpackConfig (options) {
       : ExtractTextPlugin.extract(cssLoaders)
     },
     {
-      exclude: /node_modules/,
+      include: [path.join(__dirname, '..', 'app'), path.join(__dirname, '..', 'lib')],
       test: /\.(jpg|png|svg)$/,
       loader: 'url?limit=8192'
     },

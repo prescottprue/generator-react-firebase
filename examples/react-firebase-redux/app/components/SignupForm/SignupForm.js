@@ -1,15 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import TextField from 'material-ui/lib/text-field'
 import RaisedButton from 'material-ui/lib/raised-button'
-import CircularProgress from 'material-ui/lib/circular-progress'
-import Paper from 'material-ui/lib/paper'
 import './SignupForm.scss'
+import { capitalize } from 'lodash'
+
 const fieldStyle = { width: '80%' }
 const buttonStyle = { width: '96%', marginBottom: '.5rem' }
 
 export default class SignupForm extends Component {
-  constructor (props) {
-    super(props)
+  static propTypes = {
+    account: PropTypes.object,
+    signup: PropTypes.func,
+    onSignup: PropTypes.func
   }
 
   state = { errors: {} }
@@ -35,11 +37,7 @@ export default class SignupForm extends Component {
       this.props.onSignup(newAccountData)
     }
   }
-  /**
-   * @function requireInputs
-   * @description Confirm that all required inputs have values
-   * @return {Boolean}
-   */
+
   requireInputs = () => {
     const requiredInputs = [
       {name: 'username', val: this.state.username},
