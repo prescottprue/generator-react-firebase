@@ -24,10 +24,16 @@ class SignupForm extends Component {
     onSignup: PropTypes.func.isRequired
   }
 
+  handleSignup = (e) => {
+    e.preventDefault() // prevent default form submission
+    console.log('calling signup with:', this.props.values)
+    this.props.onSignup(this.props.values)
+  }
+
   render () {
     const {fields: { username, email, password } } = this.props
     return (
-      <form className='SignupForm' onSubmit={this.props.onSignup}>
+      <form className='SignupForm' onSubmit={this.handleSignup}>
         <TextField
           hintText='username'
           floatingLabelText='Username'

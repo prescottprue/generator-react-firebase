@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-<% if (answers.includeRedux) { %>import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions'<% } %>
-
+<% if (answers.includeRedux) { %>import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { dataToJS, pathToJS } = helpers<% } %>
 // Components
-import Navbar from '../../components/Navbar/Navbar'
+import Navbar from '../Navbar/Navbar'
 
 // Styling
 import Theme from '../../theme'
@@ -15,6 +14,13 @@ import './App.scss'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
+<% if (answers.includeRedux) { %>//Pass Firebase Profile to account prop
+@firebase()
+@connect(
+  ({firebase}) => ({
+    account: pathToJS(firebase, 'profile'),
+  })
+)
 <% if (answers.includeRedux) { %>class Main extends Component {<% } %>
 <% if (!answers.includeRedux) { %>export default class Main extends Component {<% } %>
   static childContextTypes = {
@@ -59,17 +65,3 @@ injectTapEventPlugin()
     )
   }
 }
-<% if (answers.includeRedux) { %>
-// Place state of redux store into props of component
-const mapStateToProps = (state) => {
-  return {
-    account: state.account,
-    router: state.router
-  }
-}
-
-// Place action methods into props
-const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
-<% } %>

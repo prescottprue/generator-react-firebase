@@ -41,7 +41,7 @@ export default class Signup extends Component {
     const { username, email, provider } = signupData
     this.setState({ snackCanOpen: true, isLoading: true })
     <% if (answers.includeRedux) { %>if (provider) {
-      return this.props.firebase.login(signupData)
+      return this.props.firebase.createUser(signupData)
         .then(response => {
           console.log('response:', response)
           this.props.firebase.createUser(response, response)

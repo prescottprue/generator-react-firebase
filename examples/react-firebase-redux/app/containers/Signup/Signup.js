@@ -40,6 +40,7 @@ export default class Signup extends Component {
   handleSignup = signupData => {
     const { username, email, provider } = signupData
     this.setState({ snackCanOpen: true, isLoading: true })
+    console.log('signupData:', signupData, this.props.firebase)
     if (provider) {
       return this.props.firebase.login(signupData)
         .then(response => {
@@ -51,11 +52,12 @@ export default class Signup extends Component {
         })
     }
     this.props.firebase.createUser(signupData, { username, email })
-    
+
   }
 
   googleSignup = () => {
     //TODO: Handle Google Signup
+    this.handleSignup({ provider: 'google' })
   }
 
   render () {

@@ -14,19 +14,22 @@ const avatarSize = 50
 const buttonStyle = { color: 'white' }
 
 export default class Navbar extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   static propTypes = {
     account: PropTypes.object,
     onMenuClick: PropTypes.func,
     onLogoutClick: PropTypes.func
   }
 
-  selectItem = (item) => {
-    if (item === 'logout' && this.props.onLogoutClick) {
+  selectItem = (e, val) => {
+    if (val === 'logout' && this.props.onLogoutClick) {
+      this.context.router.push(`/`)
       return this.props.onLogoutClick()
     }
-    if (this.props.onMenuClick) {
-      this.props.onMenuClick(item)
-    }
+    this.props.onMenuClick(val)
   }
 
   render() {
@@ -41,8 +44,8 @@ export default class Navbar extends Component {
     )
     const mainMenu = (
       <div className='Navbar-Main-Menu'>
-        <FlatButton label='Sign Up' style={ buttonStyle } onClick={ () => this.selectItem('signup') } />
-        <FlatButton label='Login' style={ buttonStyle } onClick={ () => this.selectItem('login') } />
+        <Link to='/signup'><FlatButton label='Sign Up' style={ buttonStyle } /></Link>
+        <Link to='/login'><FlatButton label='Login' style={ buttonStyle } /></Link>
       </div>
     )
     const rightMenu = username ? (

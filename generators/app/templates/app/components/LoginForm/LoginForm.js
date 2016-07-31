@@ -9,11 +9,11 @@ import './LoginForm.scss'
 const fieldStyle = {width: '80%'}
 const buttonStyle = {width: '100%'}
 
-export const fields = [ 'username', 'password' ]
+export const fields = [ 'email', 'password' ]
 
 const validate = values => {
   const errors = {}
-  if (!values.username) errors.username = 'Required'
+  if (!values.email) errors.email = 'Required'
   if (!values.password) errors.password = 'Required'
   return errors
 }
@@ -24,15 +24,20 @@ class LoginForm extends Component {
     onLogin: PropTypes.func.isRequired
   }
 
+  handleLogin = (e) => {
+    e.preventDefault() // prevent default form submission
+    this.props.onLogin(this.props.values)
+  }
+
   render () {
-    const {fields: {username, password}, isLoading} = this.props
+    const {fields: {email, password}, isLoading} = this.props
     return (
-      <form className='LoginForm' onSubmit={this.props.onLogin}>
+      <form className='LoginForm' onSubmit={this.handleLogin}>
         <TextField
           hintText='some@email.com'
-          floatingLabelText='Username/Email'
-          {...username}
-          errorText={username.touched && username.error ? username.error : null}
+          floatingLabelText='Email'
+          {...email}
+          errorText={email.touched && email.error ? email.error : null}
           style={fieldStyle}
         />
         <TextField

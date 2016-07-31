@@ -44,8 +44,8 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-    this.props.firebase.login(loginData).then(() => this.context.router.push('/sheets'))
-
+    console.log('handle login called with:', loginData)
+    this.props.firebase.login(loginData)
   }
 
   googleLogin = () => {

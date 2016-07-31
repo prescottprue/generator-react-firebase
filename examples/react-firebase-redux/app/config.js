@@ -1,4 +1,5 @@
 export const firebase = {
+  userProfile: 'users',
   apiKey: 'AIzaSyD6Q8_kdM30MSaWnrQmJOaGXgh0w9_JjbQ',
   authDomain: 'react-firebase-example-bb4f0.firebaseapp.com',
   databaseURL: 'https://react-firebase-example-bb4f0.firebaseio.com',
