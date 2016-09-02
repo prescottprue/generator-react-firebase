@@ -98,7 +98,6 @@ module.exports = yeoman.Base.extend({
       { src: 'app/index.js', dest: 'app/index.js' },
       { src: 'app/theme.js', dest: 'app/theme.js' },
       { src: 'app/routes.js', dest: 'app/routes.js' },
-      { src: 'app/utils/**', dest: 'app/utils' },
       { src: 'app/variables.scss', dest: 'app/variables.scss' },
       { src: 'app/components/**', dest: 'app/components' },
       { src: 'app/containers/**', dest: 'app/containers' },
@@ -118,6 +117,9 @@ module.exports = yeoman.Base.extend({
     if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
     // TODO: Make server side rendering work
     // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' })
+
+    // TODO: Include shell scripts for deploying to Firebase from travis
+
     if (this.includeRedux) {
       filesArray.push(
         { src: 'app/actions/**', dest: 'app/actions' },
@@ -130,6 +132,7 @@ module.exports = yeoman.Base.extend({
       // Handle files that do not do internal string templateing well
       filesArray.push(
         { src: '_package.json', dest: 'package.json' },
+        { src: 'app/utils/**', dest: 'app/utils' },
         { src: 'babelrc', dest: '.babelrc' }
       )
     }

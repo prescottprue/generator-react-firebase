@@ -31,7 +31,6 @@
   "dependencies": {
     "express": "4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
-    "firebase": "^3.2.1",
     "history": "1.13.0",
     "immutable": "^3.8.1",
     "lodash": "^4.14.1",
@@ -45,7 +44,7 @@
     "react-router-redux": "4.0.0-rc.1",
     "react-tap-event-plugin": "0.2.1",
     "redux": "3.2.1",
-    "redux-firebasev3": "^0.1.0",
+    "redux-firebasev3": "^0.1.4",
     "redux-form": "^5.3.1",
     "redux-thunk": "^2.1.0",
     "serve-static": "1.10.2",
