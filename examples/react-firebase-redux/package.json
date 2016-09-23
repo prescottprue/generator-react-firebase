@@ -13,14 +13,14 @@
     "start": "node bin/dev-server",
     "production": "node bin/server"
   },
-  "author": "prescottprue",
+  "author": "testuser",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prescottprue/react-firebase-redux"
+    "url": "https://github.com/testuser/react-firebase-redux"
   },
   "bugs": {
-    "url": "https://github.com/prescottprue/react-firebase-redux/issues"
+    "url": "https://github.com/testuser/react-firebase-redux/issues"
   },
   "keywords": [
     "webpack",

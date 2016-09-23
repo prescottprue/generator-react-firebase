@@ -161,17 +161,13 @@ import './Login.scss'
 ])
 @connect(
   ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
+    cars: pathToJS(firebase, 'cars'),
     profile: pathToJS(firebase, 'profile')
   })
 )
 export default class Cars extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   static propTypes = {
-
+    cars: PropTypes.object
   }
 
   render () {
