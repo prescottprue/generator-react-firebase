@@ -9,7 +9,7 @@ import LoginForm from '../components/LoginForm'
 // styles
 import classes from './LoginContainer.scss'
 
-// redux-firebasev3v3
+// redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { isLoaded, isEmpty, pathToJS } = helpers
@@ -17,21 +17,22 @@ const { isLoaded, isEmpty, pathToJS } = helpers
 // Props decorators
 @firebase()
 @connect(
+  // Map state to props
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
     account: pathToJS(firebase, 'profile')
   })
 )
 export default class Login extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object,
     authError: PropTypes.object,
     location: PropTypes.object.isRequired
-  }
-
-  static contextTypes = {
-    router: PropTypes.object
   }
 
   state = {
@@ -44,12 +45,11 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
+    
     this.props.firebase
       .login(loginData)
-      .then((account) => {
-        console.log('account:', account)
-        this.context.router.push(`/${account.username}`)
-      })
+      .then((account) => this.context.router.push(`/${account.username}`))
+    
   }
 
   googleLogin = () =>

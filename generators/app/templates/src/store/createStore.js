@@ -3,7 +3,7 @@ import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import makeRootReducer from './reducers'
 import { reduxReactFirebase } from 'redux-firebasev3'
-import config from '../config'
+import { firebase as fbConfig } from '../config'
 
 export default (initialState = {}, history) => {
   window.version = config.version
@@ -32,7 +32,7 @@ export default (initialState = {}, history) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reduxReactFirebase(config),
+      reduxReactFirebase(fbConfig),
       ...enhancers
     )
   )

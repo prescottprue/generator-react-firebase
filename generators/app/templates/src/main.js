@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { useRouterHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
-import createStore from './store/createStore'
+<% if (answers.includeRedux) { %>import { syncHistoryWithStore } from 'react-router-redux'
+import createStore from './store/createStore'<% } %>
 import AppContainer from './containers/App/App'
 
 // ========================================================
@@ -11,8 +11,7 @@ import AppContainer from './containers/App/App'
 // ========================================================
 const browserHistory = useRouterHistory(createBrowserHistory)({
   basename: __BASENAME__
-})
-
+})<% if (answers.includeRedux) { %>
 // ========================================================
 // Store and History Instantiation
 // ========================================================
@@ -34,6 +33,7 @@ if (__DEBUG__) {
     // window.devToolsExtension.open()
   }
 }
+<% } %>
 
 // ========================================================
 // Render Setup
@@ -41,7 +41,7 @@ if (__DEBUG__) {
 const MOUNT_NODE = document.getElementById('root')
 
 let render = () => {
-  const routes = require('./routes/index').default(store)
+  <% if (answers.includeRedux) { %>const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
     <AppContainer
@@ -50,7 +50,15 @@ let render = () => {
       routes={routes}
     />,
     MOUNT_NODE
-  )
+  )<% } %><% if (!answers.includeRedux) { %>const routes = require('./routes/index').default()
+
+  ReactDOM.render(
+    <AppContainer
+      history={browserHistory}
+      routes={routes}
+    />,
+    MOUNT_NODE
+  )<% } %>
 }
 
 // This code is excluded from production bundle

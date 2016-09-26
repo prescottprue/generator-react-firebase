@@ -1,20 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 
 // Components
-// import AccountDialog from '../components/AccountDialog/AccountDialog'
 import AccountForm from '../components/AccountForm/AccountForm'
 import CircularProgress from 'material-ui/CircularProgress'
 import Paper from 'material-ui/Paper'
 
+// styles
 import classes from './AccountContainer.scss'
 
 const defaultUserImageUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 
-// redux-firebasev3v3
+// redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { pathToJS, isLoaded } = helpers
 
+// Props decorators
 @firebase()
 @connect(
   // Map state to props
@@ -40,10 +41,14 @@ export default class Account extends Component {
 
   state = { modalOpen: false }
 
-  handleLogout = () =>
+  handleLogout = () => {
+    
     this.props.firebase
       .logout()
       .then(() => this.context.router.push('/'))
+    
+  }
+
 
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time
@@ -51,7 +56,8 @@ export default class Account extends Component {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
-    this.props.firebase.updateAccount(account)
+    this.props.firebase
+      .updateAccount(account)
   }
 
   toggleModal = () => {

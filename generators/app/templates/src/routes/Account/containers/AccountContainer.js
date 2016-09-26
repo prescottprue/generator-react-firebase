@@ -1,20 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 
 // Components
-// import AccountDialog from '../components/AccountDialog/AccountDialog'
 import AccountForm from '../components/AccountForm/AccountForm'
 import CircularProgress from 'material-ui/CircularProgress'
 import Paper from 'material-ui/Paper'
 
+// styles
 import classes from './AccountContainer.scss'
 
 const defaultUserImageUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 
-// redux-firebasev3v3
+<% if (answers.includeRedux) { %>// redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { pathToJS, isLoaded } = helpers
 
+// Props decorators
 @firebase()
 @connect(
   // Map state to props
@@ -22,28 +23,31 @@ const { pathToJS, isLoaded } = helpers
     authError: pathToJS(firebase, 'authError'),
     account: pathToJS(firebase, 'profile')
   })
-)
+)<% } %>
 export default class Account extends Component {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
-  static propTypes = {
+  <% if (answers.includeRedux) { %>static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.shape({
       logout: PropTypes.func.isRequired,
       uploadAvatar: PropTypes.func,
       updateAccount: PropTypes.func
     })
-  }
+  }<% } %>
 
   state = { modalOpen: false }
 
-  handleLogout = () =>
-    this.props.firebase
+  handleLogout = () => {
+    <% if (answers.includeRedux) { %>this.props.firebase
       .logout()
-      .then(() => this.context.router.push('/'))
+      .then(() => this.context.router.push('/'))<% } %>
+    <% if (!answers.includeRedux) { %>// TODO: Handle logout without redux-firebasev3 <% } %>
+  }
+
 
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time
@@ -51,7 +55,8 @@ export default class Account extends Component {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
-    this.props.firebase.updateAccount(account)
+    <% if (answers.includeRedux) { %>this.props.firebase
+      .updateAccount(account)<% } %>
   }
 
   toggleModal = () => {

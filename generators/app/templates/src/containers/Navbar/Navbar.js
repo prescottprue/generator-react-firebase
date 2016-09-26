@@ -21,8 +21,8 @@ const avatarStyles = {
   wrapper: { marginTop: 45 - avatarSize }
 }
 
-<% if (!answers.includeRedux) { %>// redux/firebase
-import firebase from '../../utils/firebase'<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
+<% if (!answers.includeRedux) { %>// firebase
+// TODO: Import actions for firebase<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
@@ -39,15 +39,21 @@ export class Navbar extends Component {
     router: PropTypes.object.isRequired
   }
 
-  static propTypes = {
+  <% if (answers.includeRedux) { %>static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object.isRequired
+  }<% } %><% if (!answers.includeRedux) { %>static propTypes = {
+    account: PropTypes.object
+  }<% } %>
+
+  handleLogout = () => {
+    <% if (!answers.includeRedux) { %>this.props.logout()<% } %>
+    <% if (answers.includeRedux) { %>this.props.firebase
+        .logout()
+        .then(() => this.context.router.push('/'))
+    <% } %>
   }
 
-  handleLogout = () =>
-    this.props.firebase
-      .logout()
-      .then(() => this.context.router.push('/'))
 
   render () {
     const { account } = this.props

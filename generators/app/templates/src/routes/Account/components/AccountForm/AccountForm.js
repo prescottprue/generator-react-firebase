@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react'
-import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../../components/TextField'
+
 import classes from './AccountForm.scss'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 
+<% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+import TextField from '../../../../components/TextField'
 import { connect } from 'react-redux'
 import { helpers } from 'redux-firebasev3'
 const { pathToJS } = helpers
@@ -54,4 +55,33 @@ export default connect(({firebase}) => (
     initialValues: pathToJS(firebase, 'profile'),
     account: pathToJS(firebase, 'profile')
   }
-))(AccountReduxForm)
+))(AccountReduxForm)<% } %>
+
+<% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
+  <div className={classes['Account']}>
+    <h4>Account</h4>
+    <div>
+      <input placeholder='username' />
+    </div>
+    <div>
+      <input placeholder='email' />
+    </div>
+    <div>
+      <h4>Linked Accounts</h4>
+      {
+        account.providerData &&
+          <ProviderDataForm
+            providerData={account.providerData}
+          />
+      }
+    </div>
+  </div>
+)
+
+AccountForm.propTypes = {
+  account: PropTypes.shape({
+    providerData: PropTypes.array
+  }),
+  handleSubmit: PropTypes.func
+}
+export default AccountForm<% } %>

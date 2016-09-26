@@ -1,4 +1,3 @@
-
 export default (store) => ({
   path: ':username',
   /*  Async getComponent is only invoked when route matches   */

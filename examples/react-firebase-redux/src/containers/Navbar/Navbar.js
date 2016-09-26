@@ -43,10 +43,14 @@ export class Navbar extends Component {
     firebase: PropTypes.object.isRequired
   }
 
-  handleLogout = () =>
+  handleLogout = () => {
+    
     this.props.firebase
-      .logout()
-      .then(() => this.context.router.push('/'))
+        .logout()
+        .then(() => this.context.router.push('/'))
+    
+  }
+
 
   render () {
     const { account } = this.props

@@ -46,11 +46,11 @@ const config = {
   compiler_vendor : [
     'babel-polyfill',
     'history',
-    'react',
-    'react-redux',
-    'react-router',
+    'react',<% if (answers.includeRedux) { %>
+    'react-redux',<% } %>
+    'react-router',<% if (answers.includeRedux) { %>
     'react-router-redux',
-    'redux'
+    'redux'<% } %>
   ],
 
   // ----------------------------------

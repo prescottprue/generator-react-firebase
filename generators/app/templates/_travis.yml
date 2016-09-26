@@ -5,31 +5,39 @@ node_js:
 
 sudo: false
 
+notifications:
+  email:
+    on_failure: change
+    on_success: change
+
 branches:
   only:
     - master
+install:
+  - npm set progress=false
+  - npm install
+  <% if (answers.deployTo === 'firebase') { %>- npm install -g firebase-tools<% } %>
 
-script: npm run build
-<% if (answers.codeClimate) { %>
-addons:
+script:
+  - npm run lint:fix
+  - npm run test
+  - npm run build:prod
+  <% if (answers.deployTo === 'firebase') { %>- npm run fb<% } %>
+
+<% if (answers.codeClimate) { %>addons:
   code_climate:
-    repo_token: $CODE_CLIMATE
-<% } %>
-<% if (answers.deployTo === 'heroku') { %>
-deploy:
+    repo_token: $CODE_CLIMATE<% } %>
+<% if (answers.deployTo === 'heroku') { %>deploy:
   skip_cleanup: true
   provider: heroku
   api_key:
     secure: $HEROKU_KEY
-  app: $HEROKU_APP
-<% } %>
-<% if (answers.deployTo === 's3') { %>
-deploy:
+  app: $HEROKU_APP<% } %>
+<% if (answers.deployTo === 's3') { %>deploy:
   skip_cleanup: true
   provider: s3
   access_key_id: $AWS_KEY
   secret_access_key: $AWS_SECRET
   bucket: $AWS_BUCKET
   acl: public_read
-  local_dir: build
-<% } %>
+  local_dir: dist<% } %>

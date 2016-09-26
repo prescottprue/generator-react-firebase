@@ -101,7 +101,16 @@ module.exports = yeoman.Base.extend({
       { src: 'build/**', dest: 'build' },
       { src: 'config/**', dest: 'config' },
       { src: 'server/**', dest: 'server' },
-      { src: 'src/**', dest: 'src' }
+      { src: 'src/config.js', dest: 'src/config.js' },
+      { src: 'src/index.html', dest: 'src/index.html' },
+      { src: 'src/main.js', dest: 'src/main.js' },
+      { src: 'src/theme.js', dest: 'src/theme.js' },
+      { src: 'src/components/**', dest: 'src/components' },
+      { src: 'src/containers/**', dest: 'src/containers' },
+      { src: 'src/layouts/**', dest: 'src/layouts' },
+      { src: 'src/routes/**', dest: 'src/routes' },
+      { src: 'src/static/**', dest: 'src/static' },
+      { src: 'src/styles/**', dest: 'src/styles' }
     ]
 
     if (this.answers.includeTravis) {
@@ -119,11 +128,10 @@ module.exports = yeoman.Base.extend({
 
     if (this.includeRedux) {
       filesArray.push(
-        // { src: 'app/actions/**', dest: 'app/actions' },
-        // { src: 'app/store/**', dest: 'app/store' },
-        // { src: 'app/reducers/**', dest: 'app/reducers' },
-        // TODO: Add question about including redux-cli blueprints
-        // TODO: Handle copying blueprints (they contain template strings)
+        // { src: 'src/actions/**', dest: 'src/actions' },
+        // { src: 'src/reducers/**', dest: 'src/reducers' },
+        { src: 'src/store/**', dest: 'src/store' },
+        // TODO: Add question about including redux-cli blueprints (they contain template strings)
         // { src: 'blueprints/**', dest: 'blueprints' },
         { src: 'redux/_package.json', dest: 'package.json' },
         { src: 'redux/babelrc', dest: '.babelrc' }
@@ -132,7 +140,7 @@ module.exports = yeoman.Base.extend({
       // Handle files that do not do internal string templateing well
       filesArray.push(
         { src: '_package.json', dest: 'package.json' },
-        // { src: 'app/utils/**', dest: 'app/utils' },
+        { src: 'src/utils/**', dest: 'src/utils' },
         { src: 'babelrc', dest: '.babelrc' }
       )
     }

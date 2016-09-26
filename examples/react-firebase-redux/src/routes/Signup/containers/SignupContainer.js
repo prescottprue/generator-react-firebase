@@ -3,14 +3,15 @@ import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
 
 // Components
-import SignupForm from '../components/SignupForm'
 import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 
+import SignupForm from '../components/SignupForm'
+
 import classes from './SignupContainer.scss'
 
-// redux-firebasev3v3
+// redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { isLoaded, isEmpty, pathToJS } = helpers
@@ -27,6 +28,7 @@ export default class Signup extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }
+
   static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object,
@@ -48,6 +50,7 @@ export default class Signup extends Component {
       snackCanOpen: true,
       isLoading: true
     })
+    
     this.props.firebase
       .signup(creds)
       .then(account =>
@@ -60,11 +63,13 @@ export default class Signup extends Component {
       snackCanOpen: true,
       isLoading: true
     })
+    
     this.props.firebase
       .login({ provider: 'google', type: 'popup' })
       .then(account =>
         this.context.router.push(`${account.username}`)
       )
+    
   }
 
   render () {
@@ -74,7 +79,7 @@ export default class Signup extends Component {
     if (isLoading && !authError) {
       return (
         <div className={classes['container']}>
-          <div className='Signup-Progress'>
+          <div className={classes['progress']}>
             <CircularProgress mode='indeterminate' />
           </div>
         </div>

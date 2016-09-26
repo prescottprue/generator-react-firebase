@@ -4,12 +4,13 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
-import LoginForm from '../components/LoginForm'
-
+import LoginForm from '../components/LoginForm/LoginForm'
+<% if (!answers.includeRedux) { %>import firebaseUtil from '../../../utils/firebase'
+<% } %>
 // styles
 import classes from './LoginContainer.scss'
-
-// redux-firebasev3v3
+<% if (answers.includeRedux) { %>
+// redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'redux-firebasev3'
 const { isLoaded, isEmpty, pathToJS } = helpers
@@ -17,23 +18,25 @@ const { isLoaded, isEmpty, pathToJS } = helpers
 // Props decorators
 @firebase()
 @connect(
+  // Map state to props
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
     account: pathToJS(firebase, 'profile')
   })
 )
+<% } %>
 export default class Login extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+<% if (answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object,
     authError: PropTypes.object,
     location: PropTypes.object.isRequired
   }
-
-  static contextTypes = {
-    router: PropTypes.object
-  }
-
+  <% } %>
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -44,22 +47,38 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-    this.props.firebase
+  <% if (!answers.includeRedux) { %>
+    const { email, password } = loginData
+    if (email && password) {
+      firebaseUtil.auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch((error) => {
+          if (error) {
+            console.error('Error logging in:', error)
+            newState.errorMessage = error.message || 'Error with login'
+          } else {
+            console.log('time to redirect or login?', error)
+          }
+          this.setState({ isLoading: false })
+        })
+    }<% } %>
+    <% if (answers.includeRedux) { %>this.props.firebase
       .login(loginData)
-      .then((account) => {
-        console.log('account:', account)
-        this.context.router.push(`/${account.username}`)
-      })
+      .then((account) => this.context.router.push(`/${account.username}`))
+    <% } %>
   }
 
   googleLogin = () =>
     this.handleLogin({ provider: 'google', type: 'popup' })
 
   render () {
-    const { isLoading, snackCanOpen } = this.state
-    const { authError } = this.props
+    <% if (answers.includeRedux) { %>const { account, authError } = this.props
+    const { snackCanOpen } = this.state
 
-    if (isLoading && !authError) {
+    if (isLoaded(account) && !authError) {<% } %>
+    <% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
+
+    if (isLoading) {<% } %>
       return (
         <div className={classes['container']}>
           <div className={classes['progress']}>
@@ -88,16 +107,25 @@ export default class Login extends Component {
             Sign Up
           </Link>
         </div>
-        {
-          isLoaded(authError) && !isEmpty(authError) && snackCanOpen
-            ? <Snackbar
+        <% if (!answers.includeRedux) { %>{
+          snackCanOpen && typeof errorMessage !== null &&
+            <Snackbar
+              open={snackCanOpen && typeof errorMessage !== 'null'}
+              message={errorMessage}
+              action='close'
+              autoHideDuration={3000}
+              onRequestClose={this.handleRequestClose}
+            />
+        }<% } %>
+        <% if (answers.includeRedux) { %>{
+          isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
+            <Snackbar
               open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
-              />
-            : null
-        }
+            />
+        }<% } %>
       </div>
     )
   }

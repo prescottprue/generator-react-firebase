@@ -142,37 +142,63 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 /app/containers/Cars.js:
 ```javascript
 import React, { Component, PropTypes } from 'react'
-import { firebase, helpers } from 'redux-react-firebase'
-
-import './Cars.scss'
-
-const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
-
-import './Login.scss'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, dataToJS } = helpers
 
 // Props decorators
 @firebase([
-  'cars'
+  // Syncs todos root
+  '/todos'
 ])
 @connect(
   ({firebase}) => ({
-    cars: pathToJS(firebase, 'cars'),
-    profile: pathToJS(firebase, 'profile')
+    // Place list of todos into this.props.todos
+    todos: dataToJS(firebase, '/todos'),
   })
 )
-export default class Cars extends Component {
+class Todos extends Component {
   static propTypes = {
-    cars: PropTypes.object
+    todos: PropTypes.object,
+    firebase: PropTypes.object
   }
 
-  render () {
-    return (
-      <div className="Cars">
+  render() {
+    const { firebase, todos } = this.props;
 
+    // Add a new todo to firebase
+    const handleAdd = () => {
+      const {newTodo} = this.refs
+      firebase.push('/todos', { text:newTodo.value, done:false })
+      newTodo.value = ''
+    }
+
+    // Build Todos list if todos exist and are loaded
+    const todosList = !isLoaded(todos)
+                        ? 'Loading'
+                        : isEmpty(todos)
+                          ? 'Todo list is empty'
+                          : Object.keys(todos).map(
+                              (key, id) => (
+                                <TodoItem key={key} id={id} todo={todos[key]}/>
+                              )
+                            )
+
+    return (
+      <div>
+        <h1>Todos</h1>
+        <ul>
+          {todosList}
+        </ul>
+        <input type="text" ref="newTodo" />
+        <button onClick={handleAdd}>
+          Add
+        </button>
       </div>
     )
   }
 }
+export default Todos
 ```
 
 ## Examples
@@ -187,9 +213,10 @@ In order to enable server-side rendering with React, you must host a NodeJS serv
 
 
 ## In the future
-* Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
-* Option to use simple file structure instead of fractal pattern
 * Non-decorators implementation for props binding (pure redux and firebase implementations)
+* Option to use simple file structure instead of fractal pattern
+* Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
+* Store previous answers and use them as defaults
 * Open to ideas
 
 ## License
