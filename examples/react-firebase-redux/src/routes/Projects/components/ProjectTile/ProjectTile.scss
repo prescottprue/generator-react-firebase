@@ -1,0 +1,92 @@
+@import "../../../../styles/base";
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 200px;
+  flex-basis: 300;
+  margin: .5rem;
+  padding: 1.3rem;
+  overflow: hidden;
+  min-width: 300px;
+  @media screen and (max-width: 600px){
+    flex-basis: 80%;
+  }
+  @media screen and (min-width:600px) and (max-width: 800px){
+    flex-basis: 40%;
+  }
+}
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+.name {
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-decoration: none;
+  color: $darkGray;
+  cursor: pointer;
+  transition: all 800ms cubic-bezier(0.25,0.1,0.25,1) 0ms;
+  &:hover {
+    color: $accentColor;
+  }
+  &:visited {
+    text-decoration: none;
+    color: $darkGray;
+  }
+}
+.settings {
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-end;
+  cursor: pointer;
+  transition: all 800ms cubic-bezier(0.25,0.1,0.25,1) 0ms;
+  &:hover {
+    color: $accentColor;
+  }
+}
+.owner {
+  font-size: 1.2rem;
+  color: $darkGray;
+  cursor: pointer;
+  transition: all 800ms cubic-bezier(0.25,0.1,0.25,1) 0ms;
+  &:hover {
+    color: $accentColor;
+  }
+}
+.collaborators {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 2rem;
+}
+.collaborator {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+  display: flex;
+  margin-left: .4rem;
+  margin-right: .4rem;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+  &:hover {
+    -webkit-filter: none;
+    filter: none;
+    img {
+      background-color: $accentColor;
+    }
+  }
+}
+.add {
+  &:hover {
+    color: $accentColor;
+  }
+}

@@ -93,16 +93,15 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     let filesArray = [
-      { src: 'bin/**', dest: 'bin' },
-      { src: 'blueprints/**', dest: 'blueprints' },
-      { src: 'build/**', dest: 'build' },
-      { src: 'config/**', dest: 'config' },
-      { src: 'server/**', dest: 'server' },
-      { src: 'src/**', dest: 'src' },
       { src: '_index.html', dest: 'index.html' },
       { src: '_README.md', dest: 'README.md' },
       { src: 'gitignore', dest: '.gitignore' },
-      { src: 'eslintrc', dest: '.eslintrc' }
+      { src: 'eslintrc', dest: '.eslintrc' },
+      { src: 'bin/**', dest: 'bin' },
+      { src: 'build/**', dest: 'build' },
+      { src: 'config/**', dest: 'config' },
+      { src: 'server/**', dest: 'server' },
+      { src: 'src/**', dest: 'src' }
     ]
 
     if (this.answers.includeTravis) {
@@ -116,13 +115,16 @@ module.exports = yeoman.Base.extend({
       )
     }
 
-    // TODO: Include shell scripts for deploying to Firebase from travis
+    // TODO: Include scripts for deploying to Firebase from travis
 
     if (this.includeRedux) {
       filesArray.push(
         // { src: 'app/actions/**', dest: 'app/actions' },
         // { src: 'app/store/**', dest: 'app/store' },
         // { src: 'app/reducers/**', dest: 'app/reducers' },
+        // TODO: Add question about including redux-cli blueprints
+        // TODO: Handle copying blueprints (they contain template strings)
+        // { src: 'blueprints/**', dest: 'blueprints' },
         { src: 'redux/_package.json', dest: 'package.json' },
         { src: 'redux/babelrc', dest: '.babelrc' }
       )
@@ -143,8 +145,13 @@ module.exports = yeoman.Base.extend({
 
   copyFiles: function (filesArray) {
     if (!filesArray) return // Skip initializing call
-    filesArray.forEach(file =>
-      this.template(file.src || file, file.dest || file.src || file, this.templateContext)
-    )
+    filesArray.forEach(file => {
+      try {
+        this.template(file.src || file, file.dest || file.src || file, this.templateContext)
+      } catch (err) {
+        console.log('\ntemplate error with file:', file)
+        console.log('\nerror', err)
+      }
+    })
   }
 })

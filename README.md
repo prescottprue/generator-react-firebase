@@ -81,7 +81,6 @@ To deploy:
   * `HEROKU_KEY` - Your Heroku API key
   * `HEROKU_APP` - Your Heroku App name
 
-
 ## Sub generators
 
 Sub generators are included to help speed up the application building process. You can run a sub-generator by calling `yo react-firebase:<name of sub-generator> <param1>`.
@@ -108,16 +107,12 @@ A component is best for things that will be reused in multiple places. Our examp
 
 ```javascript
 import React, { Component, PropTypes } from 'react'
-import './Car.scss'
+import classes from './Car.scss'
 
 export default class Car extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     return (
-      <div className="Car">
+      <div className={classes['container']}>
 
       </div>
     )
@@ -193,6 +188,7 @@ In order to enable server-side rendering with React, you must host a NodeJS serv
 
 ## In the future
 * Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
+* Option to use simple file structure instead of fractal pattern
 * Non-decorators implementation for props binding (pure redux and firebase implementations)
 * Open to ideas
 

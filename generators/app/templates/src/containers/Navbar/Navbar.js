@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import classes from './Navbar.scss'
 import { Link } from 'react-router'
+
 // Components
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
@@ -19,19 +20,20 @@ const avatarStyles = {
   button: { marginRight: '1.5rem', width: avatarSize, height: avatarSize },
   wrapper: { marginTop: 45 - avatarSize }
 }
-// redux/devshare
-import { connect } from 'react-redux'
-import { devshare, helpers } from 'redux-devshare'
-const { pathToJS } = helpers
 
-// Decorators
-@devshare()
+<% if (!answers.includeRedux) { %>// redux/firebase
+import firebase from '../../utils/firebase'<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, pathToJS } = helpers
+
+// Props decorators
+@firebase()
 @connect(
-  ({devshare}) => ({
-    authError: pathToJS(devshare, 'authError'),
-    account: pathToJS(devshare, 'profile')
+  ({firebase}) => ({
+    authError: pathToJS(firebase, 'authError'),
+    account: pathToJS(firebase, 'profile')
   })
-)
+)<% } %>
 export class Navbar extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
@@ -39,11 +41,11 @@ export class Navbar extends Component {
 
   static propTypes = {
     account: PropTypes.object,
-    devshare: PropTypes.object.isRequired
+    firebase: PropTypes.object.isRequired
   }
 
   handleLogout = () =>
-    this.props.devshare
+    this.props.firebase
       .logout()
       .then(() => this.context.router.push('/'))
 
@@ -98,14 +100,14 @@ export class Navbar extends Component {
     // Only apply styling if avatar is showing
     const menuStyle = account && account.username && avatarStyles.wrapper
 
-    // Redirect to users home page if logged int
-    const brandPath = account && account.username ? `/${account.username}` : '/'
+    // Redirect to projects page if logged in
+    const brandPath = account && account.username ? `/projects` : '/'
 
     return (
       <AppBar
         title={
           <Link to={brandPath} className={classes['brand']}>
-            devshare
+            <%= appName %>
           </Link>
         }
         showMenuIconButton={false}

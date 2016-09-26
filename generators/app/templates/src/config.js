@@ -1,4 +1,6 @@
 export default {
-  "version": "0.2.0",
-  "env": "dev"
+  apiKey: '<%= firebaseKey %>',
+  authDomain: '<%= firebaseName %>.firebaseapp.com',
+  databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
+  storageBucket: '<%= firebaseName %>.appspot.com'
 }
