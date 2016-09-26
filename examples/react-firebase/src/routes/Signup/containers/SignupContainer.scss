@@ -1,0 +1,63 @@
+@import "../../../styles/colors";
+
+.container {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 2rem;
+  width: 100%;
+  min-height: 530px;
+  background-color: inherit;
+}
+.panel {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  padding: 1rem;
+  width: 30%;
+  @media screen and (max-width: 1020px){
+    width: 55%;
+  }
+  @media screen and (max-width: 958px){
+    width: 75%;
+  }
+  min-width: 250px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.or {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+  font-size: 1.3rem;
+}
+.login {
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  &-label {
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-top: 2rem;
+    color: $mediumGray;
+  }
+}
+
+.providers {
+  margin-top: 1rem;
+}
+.progress {
+  margin-top: 5rem;
+}

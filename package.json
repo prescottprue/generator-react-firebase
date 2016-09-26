@@ -1,12 +1,13 @@
 {
   "name": "generator-react-firebase",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Starter that uses React and Firebase (with option for Redux)",
   "homepage": "github.com/prescottprue/generator-react-firebase",
+  "license": "MIT",
   "author": {
     "name": "Scott Prue",
     "email": "sprue.dev@gmail.com",
-    "url": "github.com/prescottprue"
+    "url": "https://github.com/prescottprue"
   },
   "files": [
     "generators"
@@ -18,41 +19,42 @@
     "firebase",
     "webpack",
     "es6",
+    "generator-react",
+    "generator-redux",
     "yeoman-generator"
   ],
+  "scripts": {
+    "prepublish": "npm run lint",
+    "lint": "eslint generators",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "mocha -R spec --compilers js:babel-core/register ./test/setup.js ./test/**/*.spec.js",
+    "test:cov": "babel-node $(npm bin)/isparta cover --report lcov ./node_modules/mocha/bin/_mocha -- ./test/** --recursive",
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "prepush": "npm run lint:fix"
+  },
   "dependencies": {
     "yeoman-generator": "^0.24.1",
     "chalk": "^1.1.3",
     "yosay": "^1.1.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.9.0",
-    "babel-core": "^6.9.1",
-    "babel-eslint": "^6.0.0-beta.6",
-    "babel-preset-es2015": "^6.9.0",
-    "eslint": "^3.1.1",
-    "eslint-config-standard": "^5.1.0",
-    "eslint-config-standard-react": "^3.0.0",
-    "eslint-plugin-babel": "^3.2.0",
-    "eslint-plugin-promise": "^2.0.0",
-    "eslint-plugin-react": "^5.0.0",
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-eslint": "^6.1.2",
+    "babel-preset-es2015": "^6.14.0",
+    "codecov": "^1.0.1",
+    "eslint": "^3.5.0",
+    "eslint-config-standard": "^6.0.1",
+    "eslint-config-standard-react": "^4.0.2",
+    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-react": "^6.3.0",
     "eslint-plugin-standard": "^2.0.0",
     "fs-extra": "^0.30.0",
-    "husky": "^0.11.6",
+    "husky": "^0.11.8",
     "isparta": "^4.0.0",
-    "mocha": "^2.5.3",
-    "standard": "^7.1.2",
+    "mocha": "^3.0.2",
     "yeoman-assert": "^2.2.1",
-    "yeoman-test": "^1.4.0"
-  },
-  "repository": "github.com/prescottprue/generator-react-firebase",
-  "scripts": {
-    "prepublish": "npm run lint && npm run test",
-    "lint": "eslint generators",
-    "lint:fix": "npm run lint -- --fix",
-    "test": "mocha -R spec --compilers js:babel-core/register ./test/setup.js ./test/**/*.spec.js",
-    "test:cov": "babel-node $(npm bin)/isparta cover --report lcov ./node_modules/mocha/bin/_mocha -- ./test/** --recursive",
-    "prepush": "npm run lint:fix"
-  },
-  "license": "MIT"
+    "yeoman-test": "^1.5.1"
+  }
 }

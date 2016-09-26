@@ -32,7 +32,7 @@ npm install -g generator-react-firebase
 ## Project
 
 ### Development
-Run `npm start` to start live reloading development server
+Run `npm run dev` to start live reloading development server
 
 ### Production
 
@@ -81,7 +81,6 @@ To deploy:
   * `HEROKU_KEY` - Your Heroku API key
   * `HEROKU_APP` - Your Heroku App name
 
-
 ## Sub generators
 
 Sub generators are included to help speed up the application building process. You can run a sub-generator by calling `yo react-firebase:<name of sub-generator> <param1>`.
@@ -108,16 +107,12 @@ A component is best for things that will be reused in multiple places. Our examp
 
 ```javascript
 import React, { Component, PropTypes } from 'react'
-import './Car.scss'
+import classes from './Car.scss'
 
 export default class Car extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     return (
-      <div className="Car">
+      <div className={classes['container']}>
 
       </div>
     )
@@ -147,41 +142,63 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 /app/containers/Cars.js:
 ```javascript
 import React, { Component, PropTypes } from 'react'
-import { firebase, helpers } from 'redux-react-firebase'
-
-import './Cars.scss'
-
-const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
-
-import './Login.scss'
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-firebasev3'
+const { isLoaded, isEmpty, dataToJS } = helpers
 
 // Props decorators
 @firebase([
-  'cars'
+  // Syncs todos root
+  '/todos'
 ])
 @connect(
   ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-    profile: pathToJS(firebase, 'profile')
+    // Place list of todos into this.props.todos
+    todos: dataToJS(firebase, '/todos'),
   })
 )
-export default class Cars extends Component {
-  constructor (props) {
-    super(props)
-  }
-
+class Todos extends Component {
   static propTypes = {
-
+    todos: PropTypes.object,
+    firebase: PropTypes.object
   }
 
-  render () {
-    return (
-      <div className="Cars">
+  render() {
+    const { firebase, todos } = this.props;
 
+    // Add a new todo to firebase
+    const handleAdd = () => {
+      const {newTodo} = this.refs
+      firebase.push('/todos', { text:newTodo.value, done:false })
+      newTodo.value = ''
+    }
+
+    // Build Todos list if todos exist and are loaded
+    const todosList = !isLoaded(todos)
+                        ? 'Loading'
+                        : isEmpty(todos)
+                          ? 'Todo list is empty'
+                          : Object.keys(todos).map(
+                              (key, id) => (
+                                <TodoItem key={key} id={id} todo={todos[key]}/>
+                              )
+                            )
+
+    return (
+      <div>
+        <h1>Todos</h1>
+        <ul>
+          {todosList}
+        </ul>
+        <input type="text" ref="newTodo" />
+        <button onClick={handleAdd}>
+          Add
+        </button>
       </div>
     )
   }
 }
+export default Todos
 ```
 
 ## Examples
@@ -196,8 +213,10 @@ In order to enable server-side rendering with React, you must host a NodeJS serv
 
 
 ## In the future
-* Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
 * Non-decorators implementation for props binding (pure redux and firebase implementations)
+* Option to use simple file structure instead of fractal pattern
+* Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
+* Store previous answers and use them as defaults
 * Open to ideas
 
 ## License

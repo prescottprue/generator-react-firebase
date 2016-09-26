@@ -1,0 +1,22 @@
+@import "../../styles/colors";
+.brand {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  font-weight: 200;
+  max-width: 140px;
+  color: white !important;
+  &:hover {
+    color: $primary !important;
+    text-decoration: none;
+  }
+}
+.avatar {
+  margin-right: 1rem;
+}
+.menu {
+  margin-top: 6px;
+}
+.link {
+  text-decoration: none;
+}

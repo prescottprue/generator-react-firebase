@@ -1,0 +1,14 @@
+{
+  "name":"<%= appName %>",
+  "description": "<%= appName %> built with generator-react-firebase",
+  "repository": "https://github.com/KyperTech/devshare-site",
+  "logo": "https://s3.amazonaws.com/kyper-cdn/img/kypermonkey.png",
+  "keywords": [
+    "devshare",
+    "kyper",
+    "codesharing",
+    "react",
+    "es6",
+    "redux"
+  ]
+}

@@ -4,33 +4,32 @@ import path from 'path'
 import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
 
-const appFiles = [
-  'app/config.js',
-  'app/theme.js',
-  'app/variables.scss',
-  'app/components/LoginForm/LoginForm.js',
-  'app/components/LoginForm/LoginForm.scss',
-  'app/containers/Navbar/Navbar.js',
-  'app/containers/Navbar/Navbar.scss',
-  'app/components/SignupForm/SignupForm.js',
-  'app/components/SignupForm/SignupForm.scss'
+const srcFiles = [
+  'src/config.js',
+  'src/index.html',
+  'src/main.js',
+  'src/theme.js',
+  'src/styles/_base.scss',
+  'src/styles/_colors.scss',
+  'src/styles/_device-sizes.scss',
+  'src/styles/core.scss',
+  'src/components/TextField/TextField.js',
+  'src/containers/App/App.js',
+  'src/containers/Navbar/Navbar.js',
+  'src/containers/Navbar/Navbar.scss',
+  'src/layouts/CoreLayout/CoreLayout.js',
+  'src/layouts/CoreLayout/CoreLayout.scss',
+  'src/layouts/CoreLayout/index.js',
 ]
 
 const reduxFiles = [
-  'app/client.js',
-  'app/router.js',
-  'app/index.js',
-  'app/actions/index.js',
-  'app/reducers/index.js',
-  'app/reducers/cars.js',
-  'app/store/configureStore.js',
-  'app/store/configureStore.dev.js',
-  'app/store/configureStore.prod.js'
+  'src/store/createStore.js',
+  'src/store/reducers.js'
 ]
 const projectFiles = [
-  // 'package.json',
+  'package.json',
   '.gitignore',
-  // '.babelrc'
+  '.babelrc'
 ]
 
 describe('generator-react-firebase:app', () => {
@@ -43,6 +42,6 @@ describe('generator-react-firebase:app', () => {
     checkForEachFile(projectFiles)
   })
   describe('application', () => {
-    checkForEachFile(appFiles, 'app/')
+    checkForEachFile(srcFiles, 'src/')
   })
 })

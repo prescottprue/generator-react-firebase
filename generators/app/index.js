@@ -94,42 +94,53 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     let filesArray = [
       { src: '_index.html', dest: 'index.html' },
-      { src: 'app/config.js', dest: 'app/config.js' },
-      { src: 'app/index.js', dest: 'app/index.js' },
-      { src: 'app/theme.js', dest: 'app/theme.js' },
-      { src: 'app/routes.js', dest: 'app/routes.js' },
-      { src: 'app/utils/**', dest: 'app/utils' },
-      { src: 'app/variables.scss', dest: 'app/variables.scss' },
-      { src: 'app/components/**', dest: 'app/components' },
-      { src: 'app/containers/**', dest: 'app/containers' },
-      { src: 'assets/**', dest: 'assets' },
-      { src: 'bin/**', dest: 'bin' },
-      { src: 'lib/**', dest: 'lib' },
       { src: '_README.md', dest: 'README.md' },
-      { src: 'webpack-dev.config.js' },
-      { src: 'webpack-production.config.js' },
-      { src: 'webpack-server-production.config.js' },
       { src: 'gitignore', dest: '.gitignore' },
-      { src: 'eslintrc', dest: '.eslintrc' }
+      { src: 'eslintrc', dest: '.eslintrc' },
+      { src: 'bin/**', dest: 'bin' },
+      { src: 'build/**', dest: 'build' },
+      { src: 'config/**', dest: 'config' },
+      { src: 'server/**', dest: 'server' },
+      { src: 'src/config.js', dest: 'src/config.js' },
+      { src: 'src/index.html', dest: 'src/index.html' },
+      { src: 'src/main.js', dest: 'src/main.js' },
+      { src: 'src/theme.js', dest: 'src/theme.js' },
+      { src: 'src/components/**', dest: 'src/components' },
+      { src: 'src/containers/**', dest: 'src/containers' },
+      { src: 'src/layouts/**', dest: 'src/layouts' },
+      { src: 'src/routes/**', dest: 'src/routes' },
+      { src: 'src/static/**', dest: 'src/static' },
+      { src: 'src/styles/**', dest: 'src/styles' }
     ]
+
     if (this.answers.includeTravis) {
       filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
     }
-    if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
-    // TODO: Make server side rendering work
-    // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' })
+
+    if (this.deployTo === 'heroku') {
+      filesArray.push(
+        { src: 'Procfile', dest: 'Procfile' },
+        { src: 'app.json', dest: 'app.json' }
+      )
+    }
+
+    // TODO: Include scripts for deploying to Firebase from travis
+
     if (this.includeRedux) {
       filesArray.push(
-        { src: 'app/actions/**', dest: 'app/actions' },
-        { src: 'app/store/**', dest: 'app/store' },
-        { src: 'app/reducers/**', dest: 'app/reducers' },
-        { src: '_redux-package.json', dest: 'package.json' },
-        { src: 'redux-babelrc', dest: '.babelrc' }
+        // { src: 'src/actions/**', dest: 'src/actions' },
+        // { src: 'src/reducers/**', dest: 'src/reducers' },
+        { src: 'src/store/**', dest: 'src/store' },
+        // TODO: Add question about including redux-cli blueprints (they contain template strings)
+        // { src: 'blueprints/**', dest: 'blueprints' },
+        { src: 'redux/_package.json', dest: 'package.json' },
+        { src: 'redux/babelrc', dest: '.babelrc' }
       )
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push(
         { src: '_package.json', dest: 'package.json' },
+        { src: 'src/utils/**', dest: 'src/utils' },
         { src: 'babelrc', dest: '.babelrc' }
       )
     }
@@ -142,8 +153,13 @@ module.exports = yeoman.Base.extend({
 
   copyFiles: function (filesArray) {
     if (!filesArray) return // Skip initializing call
-    filesArray.forEach(file =>
-      this.template(file.src || file, file.dest || file.src || file, this.templateContext)
-    )
+    filesArray.forEach(file => {
+      try {
+        this.template(file.src || file, file.dest || file.src || file, this.templateContext)
+      } catch (err) {
+        console.log('\ntemplate error with file:', file)
+        console.log('\nerror', err)
+      }
+    })
   }
 })
