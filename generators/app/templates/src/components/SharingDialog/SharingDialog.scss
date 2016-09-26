@@ -1,0 +1,22 @@
+.container {
+
+}
+.AutoComplete {
+  &-Container {
+    margin: 0 auto;
+    width: 80%;
+  }
+}
+.body {
+  display: flex;
+  flex-direction: column;
+}
+.no-collabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.error {
+  background-color: red;
+}

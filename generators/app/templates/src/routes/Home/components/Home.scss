@@ -1,0 +1,123 @@
+@import '../../../styles/base';
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 4rem;
+}
+.home {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 3rem;
+  overflow-y: scroll;
+}
+.hero {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  position: relative;
+
+  a {
+    -webkit-appearance: none !important;
+  }
+}
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 30px;
+    img {
+      height: auto;
+      width: 100px;
+      margin-right: 20px;
+    }
+}
+.brand {
+  font-size: 4rem;
+}
+.preview {
+  margin-left: auto;
+  margin-right: auto;
+  @include desktop {
+    max-width: 60%;
+  }
+  @include tablet {
+    max-width: 60%;
+  }
+  @include mobile {
+    width: 95%;
+  }
+  &-img {
+    width: 100%;
+    margin-bottom: -6px;
+  }
+}
+
+.name {
+  font-size: 5rem;
+  line-height: 5rem;
+  font-weight: 800;
+  text-decoration: bold;
+  text-transform: uppercase;
+  z-index: 1;
+}
+.description {
+  font-size: 1.9rem;
+  font-weight: 400;
+  text-align: center;
+  z-index: 1;
+  @include mobile {
+    max-width: 80%;
+  }
+}
+.muted {
+  margin-bottom: 3rem;
+  opacity: .3;
+}
+.features {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  margin-top: 30px;
+
+  &-item{
+    flex-basis: 300px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &-title {
+    font-size: 1.2rem;
+    font-weight: 900;
+    margin-bottom: 5px;
+  }
+}
+.footer {
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  opacity: .2;
+
+  a {
+    text-decoration: underline;
+  }
+}

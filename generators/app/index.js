@@ -93,46 +93,44 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     let filesArray = [
-      { src: '_index.html', dest: 'index.html' },
-      { src: 'app/config.js', dest: 'app/config.js' },
-      { src: 'app/index.js', dest: 'app/index.js' },
-      { src: 'app/theme.js', dest: 'app/theme.js' },
-      { src: 'app/routes.js', dest: 'app/routes.js' },
-      { src: 'app/variables.scss', dest: 'app/variables.scss' },
-      { src: 'app/components/**', dest: 'app/components' },
-      { src: 'app/containers/**', dest: 'app/containers' },
-      { src: 'assets/**', dest: 'assets' },
       { src: 'bin/**', dest: 'bin' },
-      { src: 'lib/**', dest: 'lib' },
+      { src: 'blueprints/**', dest: 'blueprints' },
+      { src: 'build/**', dest: 'build' },
+      { src: 'config/**', dest: 'config' },
+      { src: 'server/**', dest: 'server' },
+      { src: 'src/**', dest: 'src' },
+      { src: '_index.html', dest: 'index.html' },
       { src: '_README.md', dest: 'README.md' },
-      { src: 'webpack-dev.config.js' },
-      { src: 'webpack-production.config.js' },
-      { src: 'webpack-server-production.config.js' },
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'eslintrc', dest: '.eslintrc' }
     ]
+
     if (this.answers.includeTravis) {
       filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
     }
-    if (this.deployTo === 'heroku') filesArray.push({ src: 'Procfile', dest: 'Procfile' })
-    // TODO: Make server side rendering work
-    // if (this.answers.serverSideRendering) filesArray.push({ src: 'app/client.js', dest: 'app/client.js' })
+
+    if (this.deployTo === 'heroku') {
+      filesArray.push(
+        { src: 'Procfile', dest: 'Procfile' },
+        { src: 'app.json', dest: 'app.json' }
+      )
+    }
 
     // TODO: Include shell scripts for deploying to Firebase from travis
 
     if (this.includeRedux) {
       filesArray.push(
-        { src: 'app/actions/**', dest: 'app/actions' },
-        { src: 'app/store/**', dest: 'app/store' },
-        { src: 'app/reducers/**', dest: 'app/reducers' },
-        { src: '_redux-package.json', dest: 'package.json' },
-        { src: 'redux-babelrc', dest: '.babelrc' }
+        // { src: 'app/actions/**', dest: 'app/actions' },
+        // { src: 'app/store/**', dest: 'app/store' },
+        // { src: 'app/reducers/**', dest: 'app/reducers' },
+        { src: 'redux/_package.json', dest: 'package.json' },
+        { src: 'redux/babelrc', dest: '.babelrc' }
       )
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push(
         { src: '_package.json', dest: 'package.json' },
-        { src: 'app/utils/**', dest: 'app/utils' },
+        // { src: 'app/utils/**', dest: 'app/utils' },
         { src: 'babelrc', dest: '.babelrc' }
       )
     }
