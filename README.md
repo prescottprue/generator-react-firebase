@@ -32,7 +32,7 @@ npm install -g generator-react-firebase
 ## Project
 
 ### Development
-Run `npm start` to start live reloading development server
+Run `npm run dev` to start live reloading development server
 
 ### Production
 
@@ -215,7 +215,7 @@ In order to enable server-side rendering with React, you must host a NodeJS serv
 ## In the future
 * Non-decorators implementation for props binding (pure redux and firebase implementations)
 * Option to use simple file structure instead of fractal pattern
-* Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
+* Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
 * Store previous answers and use them as defaults
 * Open to ideas
 
