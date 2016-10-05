@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 
-import SignupForm from '../components/SignupForm'
+import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
 
@@ -28,13 +28,12 @@ export default class Signup extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }
-
   static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object,
     authError: PropTypes.object
   }
-
+  
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -46,11 +45,11 @@ export default class Signup extends Component {
     })
 
   handleSignup = (creds) => {
+    const { username, email, provider, password } = signupData
     this.setState({
       snackCanOpen: true,
       isLoading: true
     })
-    
     this.props.firebase
       .signup(creds)
       .then(account =>
@@ -73,10 +72,11 @@ export default class Signup extends Component {
   }
 
   render () {
-    const { authError } = this.props
-    const { snackCanOpen, isLoading } = this.state
+    const { account, authError } = this.props
+    const { snackCanOpen } = this.state
 
-    if (isLoading && !authError) {
+    if (isLoaded(account) && !authError) {
+    
       return (
         <div className={classes['container']}>
           <div className={classes['progress']}>
@@ -105,15 +105,15 @@ export default class Signup extends Component {
             Login
           </Link>
         </div>
+        
         {
-          authError && authError.message && snackCanOpen
-            ? <Snackbar
+          isLoaded(authError) && !isEmpty(authError) && snackCanOpen
+            && <Snackbar
               open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
               />
-            : null
         }
       </div>
     )

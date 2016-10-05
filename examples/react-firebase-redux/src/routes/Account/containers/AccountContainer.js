@@ -42,7 +42,6 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
-    
     this.props.firebase
       .logout()
       .then(() => this.context.router.push('/'))

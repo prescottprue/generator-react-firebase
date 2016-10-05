@@ -4,7 +4,7 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/LoginForm/LoginForm'
 
 // styles
 import classes from './LoginContainer.scss'
@@ -23,6 +23,7 @@ const { isLoaded, isEmpty, pathToJS } = helpers
     account: pathToJS(firebase, 'profile')
   })
 )
+
 export default class Login extends Component {
   static contextTypes = {
     router: PropTypes.object
@@ -34,7 +35,7 @@ export default class Login extends Component {
     authError: PropTypes.object,
     location: PropTypes.object.isRequired
   }
-
+  
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -45,7 +46,7 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-    
+  
     this.props.firebase
       .login(loginData)
       .then((account) => this.context.router.push(`/${account.username}`))
@@ -56,10 +57,11 @@ export default class Login extends Component {
     this.handleLogin({ provider: 'google', type: 'popup' })
 
   render () {
-    const { isLoading, snackCanOpen } = this.state
-    const { authError } = this.props
+    const { account, authError } = this.props
+    const { snackCanOpen } = this.state
 
-    if (isLoading && !authError) {
+    if (isLoaded(account) && !authError) {
+    
       return (
         <div className={classes['container']}>
           <div className={classes['progress']}>
@@ -88,15 +90,15 @@ export default class Login extends Component {
             Sign Up
           </Link>
         </div>
+        
         {
-          isLoaded(authError) && !isEmpty(authError) && snackCanOpen
-            ? <Snackbar
+          isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
+            <Snackbar
               open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
-              />
-            : null
+            />
         }
       </div>
     )

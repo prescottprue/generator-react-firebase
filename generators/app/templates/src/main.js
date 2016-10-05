@@ -12,6 +12,7 @@ import AppContainer from './containers/App/App'
 const browserHistory = useRouterHistory(createBrowserHistory)({
   basename: __BASENAME__
 })<% if (answers.includeRedux) { %>
+
 // ========================================================
 // Store and History Instantiation
 // ========================================================
@@ -32,8 +33,7 @@ if (__DEBUG__) {
   if (window.devToolsExtension) {
     // window.devToolsExtension.open()
   }
-}
-<% } %>
+}<% } %>
 
 // ========================================================
 // Render Setup

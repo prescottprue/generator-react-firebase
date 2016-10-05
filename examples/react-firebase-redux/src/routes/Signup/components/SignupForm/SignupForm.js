@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import classes from './SignupForm.scss'
 const buttonStyle = { width: '100%' }
 
-<% if (answers.includeRedux) { %> // redux-form
+ // redux-form
 import { Field, reduxForm } from 'redux-form'
 import TextField from '../../../../components/TextField'
 
@@ -47,32 +47,4 @@ SignupForm.propTypes = {
 export default reduxForm({
   form: 'Signup',
   validate
-})(SignupForm)<% } %><% if (!answers.includeRedux) { %>export const SignupForm = ({ handleSubmit, submitting }) => {
-  return (
-    <form className={classes['container']} onSubmit={handleSubmit}>
-      <div>
-        <input name='username' placeholder='Username' />
-      </div>
-      <div>
-        <input name='email' placeholder='Email' />
-      </div>
-      <div>
-        <input name='password' placeholder='Password' type='password' />
-      </div>
-      <div className={classes['submit']}>
-        <RaisedButton
-          label='Signup'
-          primary
-          type='submit'
-          disabled={submitting}
-          style={buttonStyle}
-        />
-      </div>
-    </form>
-  )
-}
-SignupForm.propTypes = {
-  handleSubmit: PropTypes.func
-}
-
-export default SignupForm<% } %>
+})(SignupForm)
