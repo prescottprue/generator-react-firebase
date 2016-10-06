@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Starter that uses React and Firebase (with option for Redux)",
   "homepage": "github.com/prescottprue/generator-react-firebase",
   "license": "MIT",

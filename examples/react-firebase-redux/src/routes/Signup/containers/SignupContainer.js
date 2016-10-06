@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 
-import SignupForm from '../components/SignupForm'
+import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
 
@@ -50,7 +50,6 @@ export default class Signup extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-    
     this.props.firebase
       .signup(creds)
       .then(account =>
@@ -58,25 +57,24 @@ export default class Signup extends Component {
       )
   }
 
-  googleLogin = () => {
+  providerLogin = (provider) => {
     this.setState({
       snackCanOpen: true,
       isLoading: true
     })
-    
+
     this.props.firebase
-      .login({ provider: 'google', type: 'popup' })
+      .login({ provider, type: 'popup' })
       .then(account =>
         this.context.router.push(`${account.username}`)
       )
-    
   }
 
   render () {
-    const { authError } = this.props
-    const { snackCanOpen, isLoading } = this.state
+    const { account, authError } = this.props
+    const { snackCanOpen } = this.state
 
-    if (isLoading && !authError) {
+    if (!isLoaded(account) && !authError) {
       return (
         <div className={classes['container']}>
           <div className={classes['progress']}>
@@ -95,7 +93,7 @@ export default class Signup extends Component {
           or
         </div>
         <div className={classes['providers']}>
-          <GoogleButton onClick={this.googleLogin} />
+          <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes['login']}>
           <span className={classes['login-label']}>
@@ -106,14 +104,13 @@ export default class Signup extends Component {
           </Link>
         </div>
         {
-          authError && authError.message && snackCanOpen
-            ? <Snackbar
+          isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
+            <Snackbar
               open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
-              />
-            : null
+            />
         }
       </div>
     )

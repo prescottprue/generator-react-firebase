@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
 <% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../components/TextField'<% } %>
+import TextField from '../../../../components/TextField'<% } %>
 
 import classes from './LoginForm.scss'
 

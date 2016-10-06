@@ -195,17 +195,14 @@ Build code before deployment by running `npm run build`. There are multiple opti
 
 
 
-
-
-
 [npm-image]: https://img.shields.io/npm/v/react-firebase-redux.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-firebase-redux
-[travis-image]: https://img.shields.io/travis/testuser/react-firebase-redux/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/testuser/react-firebase-redux
-[daviddm-image]: https://img.shields.io/david/testuser/react-firebase-redux.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/testuser/react-firebase-redux
+[travis-image]: https://img.shields.io/travis/asdf/react-firebase-redux/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/asdf/react-firebase-redux
+[daviddm-image]: https://img.shields.io/david/asdf/react-firebase-redux.svg?style=flat-square
+[daviddm-url]: https://david-dm.org/asdf/react-firebase-redux
 
 [license-image]: https://img.shields.io/npm/l/react-firebase-redux.svg?style=flat-square
-[license-url]: https://github.com/testuser/react-firebase-redux/blob/master/LICENSE
+[license-url]: https://github.com/asdf/react-firebase-redux/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/

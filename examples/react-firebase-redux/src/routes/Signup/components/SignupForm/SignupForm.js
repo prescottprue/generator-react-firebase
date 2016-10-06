@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react'
-import TextField from '../../../components/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Field, reduxForm } from 'redux-form'
 
 import classes from './SignupForm.scss'
 const buttonStyle = { width: '100%' }
+
+ // redux-form
+import { Field, reduxForm } from 'redux-form'
+import TextField from '../../../../components/TextField'
 
 const validate = values => {
   const errors = {}

@@ -6,7 +6,7 @@ const buttonStyle = { width: '100%' }
 
 <% if (answers.includeRedux) { %> // redux-form
 import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../components/TextField'
+import TextField from '../../../../components/TextField'
 
 const validate = values => {
   const errors = {}

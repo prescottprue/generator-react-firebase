@@ -36,7 +36,7 @@ export default class Login extends Component {
     authError: PropTypes.object,
     location: PropTypes.object.isRequired
   }
-  <% } %>
+<% } %>
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -47,7 +47,7 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-  <% if (!answers.includeRedux) { %>
+<% if (!answers.includeRedux) { %>
     const { email, password } = loginData
     if (email && password) {
       firebaseUtil.auth()
@@ -68,16 +68,15 @@ export default class Login extends Component {
     <% } %>
   }
 
-  googleLogin = () =>
-    this.handleLogin({ provider: 'google', type: 'popup' })
+  googleLogin = (provider) =>
+    this.handleLogin({ provider, type: 'popup' })
 
   render () {
     <% if (answers.includeRedux) { %>const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (isLoaded(account) && !authError) {<% } %>
+    if (!isLoaded(account) && !authError) {<% } %>
     <% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
-
     if (isLoading) {<% } %>
       return (
         <div className={classes['container']}>
@@ -97,7 +96,7 @@ export default class Login extends Component {
           or
         </div>
         <div className={classes['providers']}>
-          <GoogleButton onClick={this.googleLogin} />
+          <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes['signup']}>
           <span className={classes['signup-label']}>
@@ -106,8 +105,8 @@ export default class Login extends Component {
           <Link className={classes['signup-link']} to='/signup'>
             Sign Up
           </Link>
-        </div>
-        <% if (!answers.includeRedux) { %>{
+        </div><% if (!answers.includeRedux) { %>
+        {
           snackCanOpen && typeof errorMessage !== null &&
             <Snackbar
               open={snackCanOpen && typeof errorMessage !== 'null'}
@@ -116,8 +115,9 @@ export default class Login extends Component {
               autoHideDuration={3000}
               onRequestClose={this.handleRequestClose}
             />
-        }<% } %>
-        <% if (answers.includeRedux) { %>{
+        }
+<% } %><% if (answers.includeRedux) { %>
+        {
           isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
             <Snackbar
               open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}

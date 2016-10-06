@@ -4,9 +4,10 @@ import thunk from 'redux-thunk'
 import makeRootReducer from './reducers'
 import { reduxReactFirebase } from 'redux-firebasev3'
 import { firebase as fbConfig } from '../config'
+import { version } from '../../package.json'
 
 export default (initialState = {}, history) => {
-  window.version = config.version
+  window.version = version
 
   // ======================================================
   // Middleware Configuration
