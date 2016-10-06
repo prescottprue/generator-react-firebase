@@ -27,13 +27,14 @@ const { isLoaded, isEmpty, pathToJS } = helpers
 export default class Signup extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
-  }<% if (answers.includeRedux) { %>
+  }
+<% if (answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object,
     authError: PropTypes.object
-  }
-  <% } %>
+  }<% } %>
+
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -45,12 +46,12 @@ export default class Signup extends Component {
     })
 
   handleSignup = (creds) => {
-    const { username, email, provider, password } = signupData
     this.setState({
       snackCanOpen: true,
       isLoading: true
     })
-    <% if (!answers.includeRedux) { %>let newState
+    <% if (!answers.includeRedux) { %>const { username, email, provider, password } = creds
+    let newState
     if (email && password) {
       firebaseUtil.auth()
         .createUserWithEmailAndPassword(email, password)
@@ -72,27 +73,25 @@ export default class Signup extends Component {
       )<% } %>
   }
 
-  googleLogin = () => {
+  providerLogin = (provider) => {
     this.setState({
       snackCanOpen: true,
       isLoading: true
     })
-    <% if (!answers.includeRedux) { %>// TODO: Handle Google Login without redux-firebasev3
-    <% } %>
-    <% if (answers.includeRedux) { %>this.props.firebase
-      .login({ provider: 'google', type: 'popup' })
+<% if (!answers.includeRedux) { %>
+  // TODO: Handle Google Login without redux-firebasev3<% } %><% if (answers.includeRedux) { %>
+    this.props.firebase
+      .login({ provider, type: 'popup' })
       .then(account =>
         this.context.router.push(`${account.username}`)
-      )
-    <% } %>
+      )<% } %>
   }
 
   render () {
     <% if (answers.includeRedux) { %>const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (isLoaded(account) && !authError) {<% } %>
-    <% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
+    if (!isLoaded(account) && !authError) {<% } %><% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
 
     if (isLoading) {<% } %>
       return (
@@ -113,7 +112,7 @@ export default class Signup extends Component {
           or
         </div>
         <div className={classes['providers']}>
-          <GoogleButton onClick={this.googleLogin} />
+          <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes['login']}>
           <span className={classes['login-label']}>
@@ -122,8 +121,8 @@ export default class Signup extends Component {
           <Link className={classes['login-link']} to='/login'>
             Login
           </Link>
-        </div>
-        <% if (!answers.includeRedux) { %>{
+        </div><% if (!answers.includeRedux) { %>
+        {
           snackCanOpen && typeof errorMessage !== null &&
             <Snackbar
               open={snackCanOpen && typeof errorMessage !== 'null'}
@@ -132,15 +131,15 @@ export default class Signup extends Component {
               autoHideDuration={3000}
               onRequestClose={this.handleRequestClose}
             />
-        }<% } %>
-        <% if (answers.includeRedux) { %>{
-          isLoaded(authError) && !isEmpty(authError) && snackCanOpen
-            && <Snackbar
+        }<% } %><% if (answers.includeRedux) { %>
+        {
+          isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
+            <Snackbar
               open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
-              />
+            />
         }<% } %>
       </div>
     )

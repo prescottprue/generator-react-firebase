@@ -35,7 +35,7 @@ export default class Login extends Component {
     authError: PropTypes.object,
     location: PropTypes.object.isRequired
   }
-  
+
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -46,21 +46,21 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-  
+
     this.props.firebase
       .login(loginData)
       .then((account) => this.context.router.push(`/${account.username}`))
     
   }
 
-  googleLogin = () =>
-    this.handleLogin({ provider: 'google', type: 'popup' })
+  googleLogin = (provider) =>
+    this.handleLogin({ provider, type: 'popup' })
 
   render () {
     const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (isLoaded(account) && !authError) {
+    if (!isLoaded(account) && !authError) {
     
       return (
         <div className={classes['container']}>
@@ -80,7 +80,7 @@ export default class Login extends Component {
           or
         </div>
         <div className={classes['providers']}>
-          <GoogleButton onClick={this.googleLogin} />
+          <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes['signup']}>
           <span className={classes['signup-label']}>
@@ -90,7 +90,6 @@ export default class Login extends Component {
             Sign Up
           </Link>
         </div>
-        
         {
           isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
             <Snackbar

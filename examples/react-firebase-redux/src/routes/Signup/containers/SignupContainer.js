@@ -28,12 +28,13 @@ export default class Signup extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }
+
   static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object,
     authError: PropTypes.object
   }
-  
+
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -45,7 +46,6 @@ export default class Signup extends Component {
     })
 
   handleSignup = (creds) => {
-    const { username, email, provider, password } = signupData
     this.setState({
       snackCanOpen: true,
       isLoading: true
@@ -57,26 +57,24 @@ export default class Signup extends Component {
       )
   }
 
-  googleLogin = () => {
+  providerLogin = (provider) => {
     this.setState({
       snackCanOpen: true,
       isLoading: true
     })
-    
+
     this.props.firebase
-      .login({ provider: 'google', type: 'popup' })
+      .login({ provider, type: 'popup' })
       .then(account =>
         this.context.router.push(`${account.username}`)
       )
-    
   }
 
   render () {
     const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (isLoaded(account) && !authError) {
-    
+    if (!isLoaded(account) && !authError) {
       return (
         <div className={classes['container']}>
           <div className={classes['progress']}>
@@ -95,7 +93,7 @@ export default class Signup extends Component {
           or
         </div>
         <div className={classes['providers']}>
-          <GoogleButton onClick={this.googleLogin} />
+          <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes['login']}>
           <span className={classes['login-label']}>
@@ -105,15 +103,14 @@ export default class Signup extends Component {
             Login
           </Link>
         </div>
-        
         {
-          isLoaded(authError) && !isEmpty(authError) && snackCanOpen
-            && <Snackbar
+          isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
+            <Snackbar
               open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
-              />
+            />
         }
       </div>
     )
