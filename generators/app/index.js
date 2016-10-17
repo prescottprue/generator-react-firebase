@@ -93,7 +93,6 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     let filesArray = [
-      { src: '_index.html', dest: 'index.html' },
       { src: '_README.md', dest: 'README.md' },
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'eslintrc', dest: '.eslintrc' },
@@ -133,15 +132,13 @@ module.exports = yeoman.Base.extend({
         { src: 'src/store/**', dest: 'src/store' },
         // TODO: Add question about including redux-cli blueprints (they contain template strings)
         // { src: 'blueprints/**', dest: 'blueprints' },
-        { src: 'redux/_package.json', dest: 'package.json' },
-        { src: 'redux/babelrc', dest: '.babelrc' }
+        { src: 'redux/_package.json', dest: 'package.json' }
       )
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push(
         { src: '_package.json', dest: 'package.json' },
-        { src: 'src/utils/**', dest: 'src/utils' },
-        { src: 'babelrc', dest: '.babelrc' }
+        { src: 'src/utils/**', dest: 'src/utils' }
       )
     }
     this.copyFiles(filesArray)

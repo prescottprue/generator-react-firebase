@@ -28,8 +28,7 @@ const reduxFiles = [
 ]
 const projectFiles = [
   'package.json',
-  '.gitignore',
-  '.babelrc'
+  '.gitignore'
 ]
 
 describe('generator-react-firebase:app', () => {

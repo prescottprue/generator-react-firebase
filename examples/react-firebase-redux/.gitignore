@@ -5,3 +5,4 @@ stats.json
 **/.DS_Store
 build
 coverage
+src/config.js
