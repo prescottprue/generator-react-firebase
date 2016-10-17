@@ -50,7 +50,8 @@ const config = {
     'react-router',
     'redux'
   ],
-  compiler_css_modules: true, // enable/diable css modules
+
+  compiler_css_modules: true, // enable/disable css modules
 
   // ----------------------------------
   // Test Configuration

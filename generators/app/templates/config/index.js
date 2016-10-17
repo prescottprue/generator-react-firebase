@@ -51,6 +51,8 @@ const config = {
     'redux'
   ],
 
+  compiler_css_modules: true, // enable/disable css modules
+
   // ----------------------------------
   // Test Configuration
   // ----------------------------------

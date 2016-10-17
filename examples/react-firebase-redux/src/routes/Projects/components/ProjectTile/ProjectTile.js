@@ -36,7 +36,11 @@ export default class ProjectTile extends Component {
           <span className={classes['name']} onClick={this.handleSelect}>
             {name}
           </span>
-          <SettingsIcon className={classes['settings']} onClick={this.toggleDropdown} hoverColor={hoverColor} />
+          <SettingsIcon
+            hoverColor={hoverColor}
+            className={classes['settings']}
+            onClick={this.toggleDropdown}
+          />
         </div>
         <span className={classes['owner']}>
           {owner || 'No Owner'}

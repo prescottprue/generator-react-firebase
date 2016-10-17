@@ -1,7 +1,7 @@
+@import 'base';
+
 .progress {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  @extend .flex-row-center;
   align-items: center;
   padding-top: 8rem;
 }

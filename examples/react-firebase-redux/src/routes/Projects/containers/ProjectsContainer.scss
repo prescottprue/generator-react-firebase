@@ -1,8 +1,8 @@
+@import 'base';
+
 .container {
-  display: flex;
-  flex-direction: column;
+  @extend .flex-column-center;
   justify-content: flex-start;
-  align-items: center;
   padding-top: 30px;
   flex-grow:2;
   box-sizing: border-box;
@@ -10,24 +10,19 @@
   padding-left: 5%;
   padding-right: 5%;
 }
+
 .tiles {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  @extend .flex-column-center;
   -webkit-flex-flow: row wrap;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .progress {
-  display: flex;
-  flex-direction: column;
+  @extend .flex-column-center;
   justify-content: flex-start;
-  align-items: center;
   padding-top: 30px;
-  flex-grow:2;
+  flex-grow: 2;
   box-sizing: border-box;
   overflow-y: scroll;
   padding-left: 5%;

@@ -1,21 +1,18 @@
-@import "../../../../styles/base";
+@import 'base';
 
 .container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  @extend .flex-row-center;
   align-items: center;
   cursor: pointer;
   height: 200px;
-  flex-basis: 300;
   margin: .5rem;
   padding: 1.3rem;
   overflow: hidden;
   min-width: 300px;
-  @media screen and (max-width: 600px){
-    flex-basis: 80%;
-  }
-  @media screen and (min-width:600px) and (max-width: 800px){
+  @include tablet {
     flex-basis: 40%;
+  }
+  @include mobile {
+    flex-basis: 80%;
   }
 }

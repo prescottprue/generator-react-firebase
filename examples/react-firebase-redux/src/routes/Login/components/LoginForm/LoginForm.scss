@@ -1,12 +1,7 @@
-@import '../../../../styles/core';
+@import 'base';
+
 .container {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @extend .flex-column-center;
   justify-content: flex-start;
   flex-grow: 1;
   height: 100%;
@@ -15,35 +10,29 @@
 }
 
 .submit {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  @extend .flex-column-center;
   width: 30%;
   min-width: 192px;
   margin-top: 1.5rem;
   text-align: center;
-  align-items: center;
-  flex-direction: column;
 }
 
 .options {
-  margin-top: 2rem;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: row;
+  @extend .flex-row;
   align-items: center;
   justify-content: space-between;
+  margin-top: 2rem;
   width: 80%;
+  @include mobile {
+    flex-direction: column;
+  }
 }
 .remember {
-  display: flex;
-  flex-direction: row;
+  @extend .flex-row;
   flex-basis: 50%;
+  @include mobile {
+    display: none;
+  }
 }
 .recover {
   display: inline;
@@ -51,26 +40,10 @@
   .hover {
     text-decoration: underline;
   }
+  @include mobile {
+    font-size: 1rem;
+  }
 }
 .progress {
   margin-top: 5rem;
-}
-@media screen and (max-width: 958px){
-  .recover {
-    font-size: 1rem;
-  }
-  .options {
-    flex-direction: column;
-  }
-  .remember {
-    display: none;
-  }
-}
-@media screen and (max-width: 1000px){
-  .options {
-    flex-direction: column;
-  }
-  .remember {
-    display: none;
-  }
 }

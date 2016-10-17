@@ -1,33 +1,27 @@
+@import 'base';
+
 .container {
-  display: flex;
-  flex-direction: row;
+  @extend .flex-row-center;
   align-items: center;
-  justify-content: center;
   padding-top: 4rem;
 }
 .pane {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @extend .flex-column-center;
   justify-content: space-around;
   flex-basis: 60%;
 }
 .settings {
+  @extend .flex-row-center;
   width: 100%;
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
 }
 .avatar {
   &-new {
     &-droptext {
+      @extend .flex-column-center;
       height: 100%;
       font-size: 1.3rem;
-      display: flex;
-      flex-direction: column;
       justify-content: center;
-      align-items: center;
     }
   }
   &-current {
@@ -38,21 +32,17 @@
   }
 }
 
-
 .ImageManager {
-  display: flex;
-  flex-direction: row;
+  @extend .flex-row;
   .Preview {
     width: 10rem;
     height: auto;
   }
 }
 .meta {
-  display:flex;
-  flex-basis: 60%;
-  flex-direction: column;
+  @extend .flex-column-center;
   justify-content: center;
-  align-items: center;
+  flex-basis: 60%;
   margin-bottom: 3rem;
   margin-top: 2rem;
 }
