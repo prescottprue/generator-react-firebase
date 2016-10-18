@@ -3,8 +3,6 @@ import React, { PropTypes } from 'react'
 import classes from './AccountForm.scss'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 
-
-
 export const AccountForm = ({ account, handleSubmit }) => (
   <div className={classes['Account']}>
     <h4>Account</h4>

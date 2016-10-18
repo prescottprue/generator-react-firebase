@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import TextField from 'material-ui/TextField'
-import './ProjectSettingsDialog.scss'
 import RaisedButton from 'material-ui/RaisedButton'
 
-export default class ProjectSettingsDialog extends Component {
+import classes from './ProjectSettingsDialog.scss'
 
+export default class ProjectSettingsDialog extends Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     project: PropTypes.object,
@@ -15,22 +15,7 @@ export default class ProjectSettingsDialog extends Component {
     onRequestClose: PropTypes.func.isRequired
   }
 
-  state = { vimEnabled: this.props.vimEnabled || false }
-
-  handleAutoCompleteSubmit = () => {
-    // TODO: Add collaborator
-  }
-
-  handleAutoCompleteChange = () => {
-    // TODO: handle change
-  }
-
-  handleVimToggle = () => {
-    if (this.props.onVimToggle) this.props.onVimToggle(this.state.vimEnabled)
-    this.setState({
-      vimEnabled: !this.state.vimEnabled
-    })
-  }
+  state = { showDelete: false }
 
   showDelete = () => {
     this.setState({ showDelete: true })
@@ -38,6 +23,7 @@ export default class ProjectSettingsDialog extends Component {
 
   render () {
     const { project, onRequestClose } = this.props
+
     const actions = [
       <FlatButton
         label='Close'
@@ -46,16 +32,20 @@ export default class ProjectSettingsDialog extends Component {
         onTouchTap={onRequestClose}
       />
     ]
-    const owner = (project && project.owner && project.owner.username) ? project.owner.username : project.owner
+
+    const owner = (project && project.owner && project.owner.displayName)
+      ? project.owner.displayName
+      : project.owner
+
     return (
       <Dialog
         {...this.props}
         title='Settings'
         actions={actions}
         modal={false}
-        bodyClassName='ProjectSettingsDialog-Settings'
-        titleClassName='ProjectSettingsDialog-Settings-Title'
-        contentClassName='ProjectSettingsDialog'>
+        bodyClassName={classes['settings']}
+        titleClassName={classes['title']}
+        contentClassName={classes['container']}>
         <TextField
           hintText='Project name'
           floatingLabelText='Project name'
@@ -65,11 +55,6 @@ export default class ProjectSettingsDialog extends Component {
           hintText='Owner'
           floatingLabelText='Owner'
           defaultValue={owner}
-          disabled
-        />
-        <TextField
-          hintText='Site url'
-          floatingLabelText='Site url'
           disabled
         />
         <div>

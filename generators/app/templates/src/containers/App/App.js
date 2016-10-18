@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Router } from 'react-router'
+import { browserHistory, Router } from 'react-router'
 <% if (answers.includeRedux) { %>import { Provider } from 'react-redux'
 <% } %>
 // Themeing/Styling
@@ -22,22 +22,21 @@ export default class AppContainer extends Component {
   )
 
   static propTypes = {
-    history: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired<% if (answers.includeRedux) { %>,
     store: PropTypes.object.isRequired<% } %>
   }
 
   render () {
-    <% if (!answers.includeRedux) { %>const { history, routes } = this.props
+    <% if (!answers.includeRedux) { %>const { routes } = this.props
     return (
       <div style={{ height: '100%' }}>
-        <Router history={history} children={routes} />
+        <Router history={browserHistory} children={routes} />
       </div>
-    )<% } %><% if (answers.includeRedux) { %>const { history, routes, store } = this.props
-      return (
+    )<% } %><% if (answers.includeRedux) { %>const { routes, store } = this.props
+    return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
-          <Router history={history} children={routes} />
+          <Router history={browserHistory} children={routes} />
         </div>
       </Provider>
     )<% } %>

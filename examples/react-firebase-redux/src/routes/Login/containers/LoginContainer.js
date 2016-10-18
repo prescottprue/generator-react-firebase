@@ -11,7 +11,7 @@ import classes from './LoginContainer.scss'
 
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
 // Props decorators
@@ -50,10 +50,9 @@ export default class Login extends Component {
     this.props.firebase
       .login(loginData)
       .then((account) => this.context.router.push(`/${account.username}`))
-    
   }
 
-  googleLogin = (provider) =>
+  providerLogin = (provider) =>
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
@@ -61,7 +60,6 @@ export default class Login extends Component {
     const { snackCanOpen } = this.state
 
     if (!isLoaded(account) && !authError) {
-    
       return (
         <div className={classes['container']}>
           <div className={classes['progress']}>

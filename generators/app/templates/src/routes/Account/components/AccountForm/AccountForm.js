@@ -6,7 +6,7 @@ import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 <% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import TextField from '../../../../components/TextField'
 import { connect } from 'react-redux'
-import { helpers } from 'redux-firebasev3'
+import { helpers } from 'react-redux-firebase'
 const { pathToJS } = helpers
 
 export const AccountForm = ({ account, handleSubmit, submitting }) => (
@@ -55,9 +55,7 @@ export default connect(({firebase}) => (
     initialValues: pathToJS(firebase, 'profile'),
     account: pathToJS(firebase, 'profile')
   }
-))(AccountReduxForm)<% } %>
-
-<% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
+))(AccountReduxForm)<% } %><% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
   <div className={classes['Account']}>
     <h4>Account</h4>
     <div>

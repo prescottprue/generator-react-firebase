@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { routerReducer as router } from 'react-router-redux'
-import { firebaseStateReducer as firebase } from 'redux-firebasev3'
+import { firebaseStateReducer as firebase } from 'react-redux-firebase'
+import locationReducer from './location'
 import { reducer as form } from 'redux-form'
 
 export const makeRootReducer = (asyncReducers) => {
@@ -8,7 +8,7 @@ export const makeRootReducer = (asyncReducers) => {
     // Add sync reducers here
     firebase,
     form,
-    router,
+    location: locationReducer,
     ...asyncReducers
   })
 }

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Router } from 'react-router'
+import { browserHistory, Router } from 'react-router'
 
 // Themeing/Styling
 import Theme from '../../theme'
@@ -21,15 +21,14 @@ export default class AppContainer extends Component {
   )
 
   static propTypes = {
-    history: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired
   }
 
   render () {
-    const { history, routes } = this.props
+    const { routes } = this.props
     return (
       <div style={{ height: '100%' }}>
-        <Router history={history} children={routes} />
+        <Router history={browserHistory} children={routes} />
       </div>
     )
   }

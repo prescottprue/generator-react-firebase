@@ -1,7 +1,8 @@
-node_modules
-npm-debug.log
-stats.json
+*.log
+**/*.log
 .DS_Store
 **/.DS_Store
-build
+
+node_modules
 coverage
+src/config.js

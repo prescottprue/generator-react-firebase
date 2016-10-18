@@ -12,7 +12,7 @@ const defaultUserImageUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { pathToJS, isLoaded } = helpers
 
 // Props decorators
@@ -45,9 +45,7 @@ export default class Account extends Component {
     this.props.firebase
       .logout()
       .then(() => this.context.router.push('/'))
-    
   }
-
 
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time

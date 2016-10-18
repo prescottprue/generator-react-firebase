@@ -11,29 +11,31 @@ import classes from './ProjectsContainer.scss'
 
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
-const { pathToJS, dataToJS, isLoaded, isEmpty } = helpers
+import { firebase, helpers } from 'react-redux-firebase'
+const { dataToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
 @firebase(
   ({ params }) =>
     ([
-      `projects/${params.username}`,
+      `projects/${params.username}`
       // TODO: Use population instead of loading whole usernames list
       // `projects/${params.username}#populate=collaborators:users`,
     ])
 )
 @connect(
   ({ firebase }, { params }) => ({
-    projects: toArray(dataToJS(firebase, `projects/${params.username}`)),
-    account: pathToJS(firebase, 'profile'),
-    auth: pathToJS(firebase, 'auth')
+    projects: toArray(dataToJS(firebase, `projects/${params.username}`))
   })
 )
-export class Projects extends Component {
-
+export default class Projects extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
+  }
+
+  state = {
+    newProjectModal: false,
+    addProjectModal: false
   }
 
   static propTypes = {
@@ -42,17 +44,7 @@ export class Projects extends Component {
     firebase: PropTypes.object,
     auth: PropTypes.object,
     children: PropTypes.object,
-    params: PropTypes.object,
-    history: PropTypes.object
-  }
-
-  toggleModal = (name, project) => {
-    let newState = {}
-    newState[`${name}Modal`] = !this.state[`${name}Modal`]
-    if (project) {
-      newState.currentProject = project
-    }
-    this.setState(newState)
+    params: PropTypes.object
   }
 
   newSubmit = name =>
@@ -65,20 +57,23 @@ export class Projects extends Component {
       })
 
   deleteProject = ({ name }) =>
-    this.props.firebase
-      .remove(`projects/${name}`)
+    this.props.firebase.remove(`projects/${name}`)
 
-  // TODO: Open based on project info instead of route param
   openProject = project =>
     this.context.router.push(`/projects/${project.name}`)
 
+  toggleModal = (name, project) => {
+    let newState = {}
+    newState[`${name}Modal`] = !this.state[`${name}Modal`]
+    this.setState(newState)
+  }
+
   render () {
-    // console.log('projects container render:', this.props)
-    // TODO: Look into moving this into its own layer
+    // Project Route is being loaded
     if (this.props.children) return this.props.children
 
-    const { projects, account, params: { username }, firebase } = this.props
-    const { newProjectModal, addCollabModal, currentProject } = this.state
+    const { projects } = this.props
+    const { newProjectModal } = this.state
 
     if (!isLoaded(projects)) {
       return (
@@ -89,7 +84,7 @@ export class Projects extends Component {
     }
 
     // User has no projects and doesn't match logged in user
-    if (isEmpty(projects) && account && username !== account.username) {
+    if (isEmpty(projects)) {
       return (
         <div className={classes['container']}>
           <div>This user has no projects</div>
@@ -97,40 +92,31 @@ export class Projects extends Component {
       )
     }
 
-    const projectsList = projects.map((project, i) =>
-      (
+    const projectsList = projects.map((project, i) => (
       <ProjectTile
         key={`${project.name}-Collab-${i}`}
         project={project}
         onCollabClick={this.collabClick}
-        onAddCollabClick={() => this.toggleModal('addCollab', project)}
         onSelect={this.openProject}
         onDelete={this.deleteProject}
       />
-      )
-    )
+    ))
 
-    // If username doesn't match route then hide add project tile
-    if (account && account.username === username) {
-      projectsList.unshift((
-        <NewProjectTile
-          key='Project-New'
-          onClick={() => this.toggleModal('newProject')}
-        />
-      ))
-    }
+    projectsList.unshift(
+      <NewProjectTile
+        onClick={this.toggleModal('newProject')}
+      />
+    )
 
     return (
       <div className={classes['container']}>
         {
-          newProjectModal
-          ? (
+          newProjectModal &&
             <NewProjectDialog
               open={newProjectModal}
               onCreateClick={this.newSubmit}
               onRequestClose={() => this.toggleModal('newProject')}
             />
-          ) : null
         }
         <div className={classes['tiles']}>
           {projectsList}
@@ -139,4 +125,3 @@ export class Projects extends Component {
     )
   }
 }
-export default Projects

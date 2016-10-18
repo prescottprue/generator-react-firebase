@@ -1,18 +1,31 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 import Dialog from 'material-ui/Dialog'
-import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
-import './NewProjectDialog.scss'
+import { Field, reduxForm } from 'redux-form'
+import TextField from 'components/TextField'
 
-class NewProjectDialog extends Component {
+import classes from './NewProjectDialog.scss'
 
+const validate = values => {
+  const errors = {}
+  if (!values.name) errors.name = 'Required'
+  return errors
+}
+@reduxForm({
+  form: 'newProject',
+  validate
+})
+export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
     onCreateClick: PropTypes.func.isRequired,
-    onRequestClose: PropTypes.func.isRequired
+    onRequestClose: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired
   }
 
-  state = { open: this.props.open || false }
+  state = {
+    open: this.props.open || false
+  }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.open) {
@@ -27,37 +40,10 @@ class NewProjectDialog extends Component {
     }
   }
 
-  handleInputChange = (name, e) => {
-    e.preventDefault()
-    this.setState({
-      [name]: e.target.value,
-      error: null
-    })
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    if (!this.state.name) {
-      return this.setState({
-        error: 'Name is required'
-      })
-    }
-    if (this.props && this.props.onCreateClick) {
-      this.props.onCreateClick(this.state.name)
-      this.close()
-    }
-  }
-
-  close = () => {
-    this.setState({
-      open: false
-    })
-    if (this.props.onRequestClose) {
-      this.props.onRequestClose()
-    }
-  }
-
   render () {
+    const { open, error } = this.state
+    const { handleSubmit } = this.props
+
     const actions = [
       <FlatButton
         label='Cancel'
@@ -67,29 +53,29 @@ class NewProjectDialog extends Component {
       <FlatButton
         label='Create'
         primary
-        onClick={this.handleSubmit}
+        type='submit'
       />
     ]
+
     return (
       <Dialog
         title='New Project'
         modal={false}
         actions={actions}
-        open={this.state.open}
+        open={open}
         onRequestClose={this.close}
-        contentClassName='NewProjectDialog'>
-        <div className='NewProjectDialog-Inputs'>
-          <TextField
-            hintText='exampleProject'
-            floatingLabelText='Project Name'
-            ref='projectNameField'
-            onChange={this.handleInputChange.bind(this, 'name')}
-            errorText={this.state.error || null}
-          />
+        contentClassName={classes['container']}>
+        <div className={classes['inputs']}>
+          <form onSubmit={handleSubmit}>
+            <Field
+              name='name'
+              component={TextField}
+              error={error || null}
+              label='Project Name'
+            />
+          </form>
         </div>
       </Dialog>
     )
   }
 }
-
-export default NewProjectDialog

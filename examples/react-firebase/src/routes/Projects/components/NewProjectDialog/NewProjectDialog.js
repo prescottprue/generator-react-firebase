@@ -1,18 +1,20 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 import Dialog from 'material-ui/Dialog'
-import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
-import './NewProjectDialog.scss'
+import TextField from 'material-ui/TextField'
 
-class NewProjectDialog extends Component {
+import classes from './NewProjectDialog.scss'
 
+export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
     onCreateClick: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired
   }
 
-  state = { open: this.props.open || false }
+  state = {
+    open: this.props.open || false
+  }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.open) {
@@ -27,10 +29,10 @@ class NewProjectDialog extends Component {
     }
   }
 
-  handleInputChange = (name, e) => {
+  handleInputChange = (e) => {
     e.preventDefault()
     this.setState({
-      [name]: e.target.value,
+      name: e.target.value,
       error: null
     })
   }
@@ -58,6 +60,8 @@ class NewProjectDialog extends Component {
   }
 
   render () {
+    const { open, error } = this.state
+
     const actions = [
       <FlatButton
         label='Cancel'
@@ -70,26 +74,25 @@ class NewProjectDialog extends Component {
         onClick={this.handleSubmit}
       />
     ]
+
     return (
       <Dialog
         title='New Project'
         modal={false}
         actions={actions}
-        open={this.state.open}
+        open={open}
         onRequestClose={this.close}
-        contentClassName='NewProjectDialog'>
-        <div className='NewProjectDialog-Inputs'>
+        contentClassName={classes['container']}>
+        <div className={classes['inputs']}>
           <TextField
             hintText='exampleProject'
             floatingLabelText='Project Name'
             ref='projectNameField'
-            onChange={this.handleInputChange.bind(this, 'name')}
-            errorText={this.state.error || null}
+            onChange={this.handleInputChange}
+            errorText={error || null}
           />
         </div>
       </Dialog>
     )
   }
 }
-
-export default NewProjectDialog

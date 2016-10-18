@@ -1,25 +1,23 @@
-@import "../../../../styles/base";
+@import 'base';
+
 .container {
-  display: flex;
-  flex-direction: column;
+  @extend .flex-column;
   justify-content: flex-start;
   align-items: flex-start;
   height: 200px;
-  flex-basis: 300;
   margin: .5rem;
   padding: 1.3rem;
   overflow: hidden;
   min-width: 300px;
-  @media screen and (max-width: 600px){
-    flex-basis: 80%;
-  }
-  @media screen and (min-width:600px) and (max-width: 800px){
+  @include tablet {
     flex-basis: 40%;
+  }
+  @include mobile {
+    flex-basis: 80%;
   }
 }
 .top {
-  display: flex;
-  flex-direction: row;
+  @extend .flex-row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
@@ -40,7 +38,7 @@
   }
 }
 .settings {
-  display: flex;
+  @extend .flex-row;
   align-items: flex-start;
   align-self: flex-end;
   cursor: pointer;
@@ -59,18 +57,14 @@
   }
 }
 .collaborators {
-  display: flex;
-  flex-direction: row;
+  @extend .flex-row;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
   margin-top: 2rem;
 }
 .collaborator {
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-  box-sizing: border-box;         /* Opera/IE 8+ */
-  display: flex;
+  @extend .flex-row;
   margin-left: .4rem;
   margin-right: .4rem;
   overflow: hidden;

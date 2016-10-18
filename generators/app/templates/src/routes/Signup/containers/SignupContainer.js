@@ -13,7 +13,7 @@ import classes from './SignupContainer.scss'
 
 <% if (!answers.includeRedux) { %>import firebaseUtil from '../../../utils/firebase'<% } %><% if (answers.includeRedux) { %>// redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
 @firebase()
@@ -79,7 +79,7 @@ export default class Signup extends Component {
       isLoading: true
     })
 <% if (!answers.includeRedux) { %>
-  // TODO: Handle Google Login without redux-firebasev3<% } %><% if (answers.includeRedux) { %>
+  // TODO: Handle Google Login without react-redux-firebase<% } %><% if (answers.includeRedux) { %>
     this.props.firebase
       .login({ provider, type: 'popup' })
       .then(account =>

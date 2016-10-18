@@ -22,10 +22,8 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
-    
-    // TODO: Handle logout without redux-firebasev3 
+    // TODO: Handle logout without react-redux-firebase 
   }
-
 
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time

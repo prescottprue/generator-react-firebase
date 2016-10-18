@@ -11,7 +11,7 @@ import classes from './Projects.scss'
 
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { pathToJS, dataToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
@@ -117,13 +117,13 @@ export class Projects extends Component {
 
     const projectsList = projects.map((project, i) =>
       (
-      <ProjectTile
-        key={`${project.name}-Collab-${i}`}
-        project={project}
-        onCollabClick={this.collabClick}
-        onAddCollabClick={() => this.toggleModal('addCollab', project)}
-        onSelect={this.openProject}
-        onDelete={this.deleteProject}
+        <ProjectTile
+          key={`${project.name}-Collab-${i}`}
+          project={project}
+          onCollabClick={this.collabClick}
+          onAddCollabClick={() => this.toggleModal('addCollab', project)}
+          onSelect={this.openProject}
+          onDelete={this.deleteProject}
       />
       )
     )

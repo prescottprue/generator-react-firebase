@@ -12,7 +12,7 @@ import classes from './LoginContainer.scss'
 <% if (answers.includeRedux) { %>
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
 // Props decorators
@@ -64,19 +64,17 @@ export default class Login extends Component {
     }<% } %>
     <% if (answers.includeRedux) { %>this.props.firebase
       .login(loginData)
-      .then((account) => this.context.router.push(`/${account.username}`))
-    <% } %>
+      .then((account) => this.context.router.push(`/${account.username}`))<% } %>
   }
 
-  googleLogin = (provider) =>
+  providerLogin = (provider) =>
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
     <% if (answers.includeRedux) { %>const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (!isLoaded(account) && !authError) {<% } %>
-    <% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
+    if (!isLoaded(account) && !authError) {<% } %><% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
     if (isLoading) {<% } %>
       return (
         <div className={classes['container']}>

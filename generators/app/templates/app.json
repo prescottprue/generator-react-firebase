@@ -1,14 +1,13 @@
 {
   "name":"<%= appName %>",
   "description": "<%= appName %> built with generator-react-firebase",
-  "repository": "https://github.com/KyperTech/devshare-site",
-  "logo": "https://s3.amazonaws.com/kyper-cdn/img/kypermonkey.png",
+  "repository": "https://github.com/<%= githubUser %>/<%= appName %>",
   "keywords": [
-    "devshare",
-    "kyper",
-    "codesharing",
+    "generator-react-firebase",
     "react",
-    "es6",
-    "redux"
+    "redux",
+    "firebase",
+    "redux-firebase",
+    "react-redux-firebase",
   ]
 }

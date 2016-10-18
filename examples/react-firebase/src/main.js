@@ -1,16 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
-import { useRouterHistory } from 'react-router'
-
 import AppContainer from './containers/App/App'
-
-// ========================================================
-// Browser History Setup
-// ========================================================
-const browserHistory = useRouterHistory(createBrowserHistory)({
-  basename: __BASENAME__
-})
 
 // ========================================================
 // Render Setup
@@ -22,11 +12,19 @@ let render = () => {
 
   ReactDOM.render(
     <AppContainer
-      history={browserHistory}
       routes={routes}
     />,
     MOUNT_NODE
   )
+}
+
+// ========================================================
+// Developer Tools Setup
+// ========================================================
+if (__DEV__) {
+  if (window.devToolsExtension) {
+    // window.devToolsExtension.open()
+  }
 }
 
 // This code is excluded from production bundle
