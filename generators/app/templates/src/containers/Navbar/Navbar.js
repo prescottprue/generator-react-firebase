@@ -24,7 +24,7 @@ const avatarStyles = {
 <% if (!answers.includeRedux) { %>// firebase
 // TODO: Import actions for firebase<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
-const { isLoaded, isEmpty, pathToJS } = helpers
+const { pathToJS } = helpers
 
 // Props decorators
 @firebase()

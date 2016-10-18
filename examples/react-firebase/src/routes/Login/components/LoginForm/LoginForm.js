@@ -2,19 +2,26 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
+import TextField from 'material-ui/TextField'
 
 
 import classes from './LoginForm.scss'
 
-
-
 export const LoginForm = ({ handleSubmit }) => (
   <form className={classes['container']} onSubmit={handleSubmit}>
     <div>
-      <input placeholder='email' />
+      <TextField
+        hintText='someone@email.com'
+        floatingLabelText='Email'
+        errorText={error || null}
+      />
     </div>
     <div>
-      <input placeholder='password' type='password' />
+      <TextField
+        type='password'
+        floatingLabelText='Password'
+        errorText={error || null}
+      />
     </div>
     <div className={classes['submit']}>
       <RaisedButton

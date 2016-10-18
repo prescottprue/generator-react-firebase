@@ -44,10 +44,8 @@ export default class Account extends Component {
   handleLogout = () => {
     <% if (answers.includeRedux) { %>this.props.firebase
       .logout()
-      .then(() => this.context.router.push('/'))<% } %>
-    <% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
+      .then(() => this.context.router.push('/'))<% } %><% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
   }
-
 
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time

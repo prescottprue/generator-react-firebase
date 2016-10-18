@@ -14,12 +14,12 @@ export default class Project extends Component {
 
   selectProject = proj => {
     if (proj.owner) {
-      this.context.router.push(`/projects/${proj.name}`)
+      this.context.router.push(`/projects/${proj.owner}/${proj.name}`)
     }
   }
 
   render () {
-    const { projects, params, firebase } = this.props
+    const { project } = this.props
 
     if (!isLoaded(project)) {
       return (
@@ -32,6 +32,7 @@ export default class Project extends Component {
     return (
       <div className={classes['container']}>
         <h2>Project Container</h2>
+        <pre>{JSON.stringify(project)}</pre>
       </div>
     )
   }

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
+<% if (!answers.includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
 <% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'<% } %>
 
@@ -63,15 +64,21 @@ LoginForm.propTypes = {
 export default reduxForm({
   form: 'Login',
   validate
-})(LoginForm)<% } %>
-
-<% if (!answers.includeRedux) { %>export const LoginForm = ({ handleSubmit }) => (
+})(LoginForm)<% } %><% if (!answers.includeRedux) { %>export const LoginForm = ({ handleSubmit }) => (
   <form className={classes['container']} onSubmit={handleSubmit}>
     <div>
-      <input placeholder='email' />
+      <TextField
+        hintText='someone@email.com'
+        floatingLabelText='Email'
+        errorText={error || null}
+      />
     </div>
     <div>
-      <input placeholder='password' type='password' />
+      <TextField
+        type='password'
+        floatingLabelText='Password'
+        errorText={error || null}
+      />
     </div>
     <div className={classes['submit']}>
       <RaisedButton

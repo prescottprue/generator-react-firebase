@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
+
 import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'
 
@@ -64,5 +65,3 @@ export default reduxForm({
   form: 'Login',
   validate
 })(LoginForm)
-
-

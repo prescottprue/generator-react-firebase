@@ -56,5 +56,3 @@ export default connect(({firebase}) => (
     account: pathToJS(firebase, 'profile')
   }
 ))(AccountReduxForm)
-
-

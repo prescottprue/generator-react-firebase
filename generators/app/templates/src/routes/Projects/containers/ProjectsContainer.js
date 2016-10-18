@@ -12,22 +12,20 @@ import classes from './ProjectsContainer.scss'
 // redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
-const { pathToJS, dataToJS, isLoaded, isEmpty } = helpers
+const { dataToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
 @firebase(
   ({ params }) =>
     ([
-      `projects/${params.username}`,
+      `projects/${params.username}`
       // TODO: Use population instead of loading whole usernames list
       // `projects/${params.username}#populate=collaborators:users`,
     ])
 )
 @connect(
   ({ firebase }, { params }) => ({
-    projects: toArray(dataToJS(firebase, `projects/${params.username}`)),
-    account: pathToJS(firebase, 'profile'),
-    auth: pathToJS(firebase, 'auth')
+    projects: toArray(dataToJS(firebase, `projects/${params.username}`))
   })
 )<% } %>
 export default class Projects extends Component {
@@ -37,10 +35,8 @@ export default class Projects extends Component {
 
   state = {
     newProjectModal: false,
-    addProjectModal: false,
-    currentProject: null
+    addProjectModal: false
   }
-
 <% if (!answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
@@ -55,9 +51,7 @@ export default class Projects extends Component {
 
   newSubmit = name => {
     // TODO: create new project
-  }<% } %>
-
-<% if (answers.includeRedux) { %>
+  }<% } %><% if (answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
     projects: PropTypes.array,
@@ -77,8 +71,7 @@ export default class Projects extends Component {
       })
 
   deleteProject = ({ name }) =>
-    this.props.firebase
-      .remove(`projects/${name}`)<% } %>
+    this.props.firebase.remove(`projects/${name}`)<% } %>
 
   openProject = project =>
     this.context.router.push(`/projects/${project.name}`)
@@ -86,9 +79,6 @@ export default class Projects extends Component {
   toggleModal = (name, project) => {
     let newState = {}
     newState[`${name}Modal`] = !this.state[`${name}Modal`]
-    if (project) {
-      newState.currentProject = project
-    }
     this.setState(newState)
   }
 
@@ -96,8 +86,8 @@ export default class Projects extends Component {
     // Project Route is being loaded
     if (this.props.children) return this.props.children<% if (answers.includeRedux) { %>
 
-    const { projects, account, params: { username }, firebase } = this.props
-    const { newProjectModal, addCollabModal, currentProject } = this.state
+    const { projects } = this.props
+    const { newProjectModal } = this.state
 
     if (!isLoaded(projects)) {
       return (
@@ -115,8 +105,7 @@ export default class Projects extends Component {
         </div>
       )
     }
-<% } %>
-<% if (!answers.includeRedux) { %>
+<% } %><% if (!answers.includeRedux) { %>
     const { projects } = this.props
     const { newProjectModal } = this.state
 
@@ -133,11 +122,16 @@ export default class Projects extends Component {
         key={`${project.name}-Collab-${i}`}
         project={project}
         onCollabClick={this.collabClick}
-        onAddCollabClick={() => this.toggleModal('addCollab', project)}
         onSelect={this.openProject}
         onDelete={this.deleteProject}
       />
     ))
+
+    projectsList.unshift(
+      <NewProjectTile
+        onClick={this.toggleModal('newProject')}
+      />
+    )
 
     return (
       <div className={classes['container']}>

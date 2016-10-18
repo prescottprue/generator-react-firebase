@@ -55,9 +55,7 @@ export default connect(({firebase}) => (
     initialValues: pathToJS(firebase, 'profile'),
     account: pathToJS(firebase, 'profile')
   }
-))(AccountReduxForm)<% } %>
-
-<% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
+))(AccountReduxForm)<% } %><% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
   <div className={classes['Account']}>
     <h4>Account</h4>
     <div>

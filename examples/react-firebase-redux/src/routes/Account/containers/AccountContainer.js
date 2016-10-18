@@ -45,9 +45,7 @@ export default class Account extends Component {
     this.props.firebase
       .logout()
       .then(() => this.context.router.push('/'))
-    
   }
-
 
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time

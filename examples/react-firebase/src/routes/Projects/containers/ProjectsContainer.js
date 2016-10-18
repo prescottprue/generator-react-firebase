@@ -15,10 +15,8 @@ export default class Projects extends Component {
 
   state = {
     newProjectModal: false,
-    addProjectModal: false,
-    currentProject: null
+    addProjectModal: false
   }
-
 
   static propTypes = {
     account: PropTypes.object,
@@ -35,24 +33,18 @@ export default class Projects extends Component {
     // TODO: create new project
   }
 
-
-
   openProject = project =>
     this.context.router.push(`/projects/${project.name}`)
 
   toggleModal = (name, project) => {
     let newState = {}
     newState[`${name}Modal`] = !this.state[`${name}Modal`]
-    if (project) {
-      newState.currentProject = project
-    }
     this.setState(newState)
   }
 
   render () {
     // Project Route is being loaded
     if (this.props.children) return this.props.children
-
     const { projects } = this.props
     const { newProjectModal } = this.state
 
@@ -69,11 +61,16 @@ export default class Projects extends Component {
         key={`${project.name}-Collab-${i}`}
         project={project}
         onCollabClick={this.collabClick}
-        onAddCollabClick={() => this.toggleModal('addCollab', project)}
         onSelect={this.openProject}
         onDelete={this.deleteProject}
       />
     ))
+
+    projectsList.unshift(
+      <NewProjectTile
+        onClick={this.toggleModal('newProject')}
+      />
+    )
 
     return (
       <div className={classes['container']}>

@@ -11,15 +11,14 @@ const { isLoaded, dataToJS } = helpers
 
 @firebase(
   // Get paths from firebase
-  ({ params }) =>
-    ([
-      `projects/${params.username}`,
-    ])
+  ({ params }) => ([
+    `projects/${params.username}/${params.projectname}`
+  ])
 )
 @connect(
   // Map state to props
   ({ firebase }, { params }) => ({
-    projects: toArray(dataToJS(firebase, `projects/${params.username}`)),
+    project: toArray(dataToJS(firebase, `projects/${params.username}/${params.projectname}`))
   })
 )<% } %>
 export default class Project extends Component {
@@ -28,9 +27,7 @@ export default class Project extends Component {
   }
 
   <% if (answers.includeRedux) { %>static propTypes = {
-    account: PropTypes.object,
-    projects: PropTypes.array,
-    auth: PropTypes.object,
+    project: PropTypes.object,
     params: PropTypes.object.isRequired,
     children: PropTypes.object,
     firebase: PropTypes.shape({
@@ -40,12 +37,12 @@ export default class Project extends Component {
 
   selectProject = proj => {
     if (proj.owner) {
-      this.context.router.push(`/projects/${proj.name}`)
+      this.context.router.push(`/projects/${proj.owner}/${proj.name}`)
     }
   }
 
   render () {
-    const { projects, params, firebase } = this.props
+    const { project } = this.props
 
     if (!isLoaded(project)) {
       return (
@@ -58,6 +55,7 @@ export default class Project extends Component {
     return (
       <div className={classes['container']}>
         <h2>Project Container</h2>
+        <pre>{JSON.stringify(project)}</pre>
       </div>
     )
   }

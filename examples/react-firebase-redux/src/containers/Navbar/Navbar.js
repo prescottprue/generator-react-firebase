@@ -23,7 +23,7 @@ const avatarStyles = {
 
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
-const { isLoaded, isEmpty, pathToJS } = helpers
+const { pathToJS } = helpers
 
 // Props decorators
 @firebase()
