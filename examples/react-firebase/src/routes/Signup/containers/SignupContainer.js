@@ -16,6 +16,8 @@ export default class Signup extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }
+
+
   state = {
     snackCanOpen: false,
     isLoading: false
@@ -27,11 +29,11 @@ export default class Signup extends Component {
     })
 
   handleSignup = (creds) => {
-    const { username, email, provider, password } = signupData
     this.setState({
       snackCanOpen: true,
       isLoading: true
     })
+    const { username, email, provider, password } = creds
     let newState
     if (email && password) {
       firebaseUtil.auth()
@@ -50,18 +52,16 @@ export default class Signup extends Component {
     }
   }
 
-  googleLogin = () => {
+  providerLogin = (provider) => {
     this.setState({
       snackCanOpen: true,
       isLoading: true
     })
-    // TODO: Handle Google Login without redux-firebasev3
-    
-    
+
+  // TODO: Handle Google Login without react-redux-firebase
   }
 
   render () {
-    
     const { snackCanOpen, isLoading, errorMessage } = this.state
 
     if (isLoading) {
@@ -83,7 +83,7 @@ export default class Signup extends Component {
           or
         </div>
         <div className={classes['providers']}>
-          <GoogleButton onClick={this.googleLogin} />
+          <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes['login']}>
           <span className={classes['login-label']}>
@@ -103,7 +103,6 @@ export default class Signup extends Component {
               onRequestClose={this.handleRequestClose}
             />
         }
-        
       </div>
     )
   }

@@ -13,7 +13,7 @@ import classes from './SignupContainer.scss'
 
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
 @firebase()

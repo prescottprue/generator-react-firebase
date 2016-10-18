@@ -1,11 +1,7 @@
+@import 'base';
+
 .container {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @extend .flex-column-center;
   justify-content: flex-start;
   height: 100%;
   width: 100%;
@@ -13,15 +9,9 @@
 }
 
 .submit {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  @extend .flex-column-center;
   width: 30%;
   min-width: 192px;
   margin-top: 1.5rem;
   text-align: center;
-  align-items: center;
-  flex-direction: column;
 }

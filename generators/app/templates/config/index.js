@@ -46,9 +46,9 @@ const config = {
   },
   compiler_vendors : [
     'react',
+    'react-router'<% if (answers.includeRedux) { %>,
     'react-redux',
-    'react-router',
-    'redux'
+    'redux'<% } %>
   ],
 
   compiler_css_modules: true, // enable/disable css modules

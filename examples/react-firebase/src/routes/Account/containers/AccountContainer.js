@@ -23,7 +23,7 @@ export default class Account extends Component {
 
   handleLogout = () => {
     
-    // TODO: Handle logout without redux-firebasev3 
+    // TODO: Handle logout without react-redux-firebase 
   }
 
 

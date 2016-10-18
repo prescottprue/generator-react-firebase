@@ -1,8 +1,7 @@
-@import "../../styles/colors";
+@import "base";
+
 .brand {
-  flex-direction: row;
-  align-items: center;
-  display: flex;
+  @extend .flex-row;
   font-weight: 200;
   max-width: 140px;
   color: white !important;

@@ -6,7 +6,7 @@ import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 import { Field, reduxForm } from 'redux-form'
 import TextField from '../../../../components/TextField'
 import { connect } from 'react-redux'
-import { helpers } from 'redux-firebasev3'
+import { helpers } from 'react-redux-firebase'
 const { pathToJS } = helpers
 
 export const AccountForm = ({ account, handleSubmit, submitting }) => (

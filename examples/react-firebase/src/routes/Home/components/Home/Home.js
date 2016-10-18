@@ -1,7 +1,7 @@
 import React, { Component } from 'react' // eslint-disable-line
 
 // Components
-import Theme from '../../../../theme'
+import Theme from 'theme'
 
 import classes from './Home.scss'
 

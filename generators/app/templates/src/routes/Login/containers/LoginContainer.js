@@ -12,7 +12,7 @@ import classes from './LoginContainer.scss'
 <% if (answers.includeRedux) { %>
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
 // Props decorators

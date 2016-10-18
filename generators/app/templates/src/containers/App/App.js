@@ -27,12 +27,12 @@ export default class AppContainer extends Component {
   }
 
   render () {
-    <% if (!answers.includeRedux) { %>const { history, routes } = this.props
+    <% if (!answers.includeRedux) { %>const { routes } = this.props
     return (
       <div style={{ height: '100%' }}>
-        <Router history={history} children={routes} />
+        <Router history={browserHistory} children={routes} />
       </div>
-    )<% } %><% if (answers.includeRedux) { %>const { history, routes, store } = this.props
+    )<% } %><% if (answers.includeRedux) { %>const { routes, store } = this.props
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>

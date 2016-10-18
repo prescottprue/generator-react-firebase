@@ -27,7 +27,7 @@ export default class AppContainer extends Component {
   }
 
   render () {
-    const { history, routes, store } = this.props
+    const { routes, store } = this.props
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>

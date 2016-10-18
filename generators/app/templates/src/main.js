@@ -11,8 +11,8 @@ import AppContainer from './containers/App/App'
 // so we need to provide a custom `selectLocationState` to inform
 // react-router-redux of its location.
 const initialState = window.___INITIAL_STATE__
-const store = createStore(initialState)<% } %>
-
+const store = createStore(initialState)
+<% } %>
 // ========================================================
 // Render Setup
 // ========================================================

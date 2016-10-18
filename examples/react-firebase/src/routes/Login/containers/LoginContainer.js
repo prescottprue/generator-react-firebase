@@ -25,7 +25,7 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-  
+
     const { email, password } = loginData
     if (email && password) {
       firebaseUtil.auth()
@@ -43,13 +43,11 @@ export default class Login extends Component {
     
   }
 
-  googleLogin = () =>
-    this.handleLogin({ provider: 'google', type: 'popup' })
+  providerLogin = (provider) =>
+    this.handleLogin({ provider, type: 'popup' })
 
   render () {
-    
     const { snackCanOpen, isLoading, errorMessage } = this.state
-
     if (isLoading) {
       return (
         <div className={classes['container']}>
@@ -69,7 +67,7 @@ export default class Login extends Component {
           or
         </div>
         <div className={classes['providers']}>
-          <GoogleButton onClick={this.googleLogin} />
+          <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes['signup']}>
           <span className={classes['signup-label']}>
@@ -89,7 +87,7 @@ export default class Login extends Component {
               onRequestClose={this.handleRequestClose}
             />
         }
-        
+
       </div>
     )
   }

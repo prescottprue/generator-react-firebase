@@ -6,7 +6,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 <% if (answers.includeRedux) { %>// redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, dataToJS } = helpers
 
 @firebase(

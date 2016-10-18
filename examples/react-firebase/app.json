@@ -1,0 +1,13 @@
+{
+  "name":"react-firebase",
+  "description": "react-firebase built with generator-react-firebase",
+  "repository": "https://github.com/testuser/react-firebase",
+  "keywords": [
+    "generator-react-firebase",
+    "react",
+    "redux",
+    "firebase",
+    "redux-firebase",
+    "react-redux-firebase",
+  ]
+}

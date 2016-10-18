@@ -9,8 +9,8 @@ import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar'
+import StockPhoto from 'static/User.png'
 
-const stockPhotoUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 const originSettings = { horizontal: 'right', vertical: 'top' }
 const buttonStyle = { color: 'white', textDecoration: 'none' }
 const avatarSize = 50
@@ -23,7 +23,7 @@ const avatarStyles = {
 
 <% if (!answers.includeRedux) { %>// firebase
 // TODO: Import actions for firebase<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
+import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
 // Props decorators
@@ -34,7 +34,7 @@ const { isLoaded, isEmpty, pathToJS } = helpers
     account: pathToJS(firebase, 'profile')
   })
 )<% } %>
-export class Navbar extends Component {
+export default class Navbar extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }
@@ -43,17 +43,15 @@ export class Navbar extends Component {
     account: PropTypes.object,
     firebase: PropTypes.object.isRequired
   }<% } %><% if (!answers.includeRedux) { %>static propTypes = {
-    account: PropTypes.object
+    account: PropTypes.object,
+    logout: PropTypes.func
   }<% } %>
 
   handleLogout = () => {
-    <% if (!answers.includeRedux) { %>this.props.logout()<% } %>
-    <% if (answers.includeRedux) { %>this.props.firebase
+    <% if (!answers.includeRedux) { %>this.props.logout()<% } %><% if (answers.includeRedux) { %>this.props.firebase
         .logout()
-        .then(() => this.context.router.push('/'))
-    <% } %>
+        .then(() => this.context.router.push('/'))<% } %>
   }
-
 
   render () {
     const { account } = this.props
@@ -61,7 +59,7 @@ export class Navbar extends Component {
     const iconButton = (
       <IconButton iconStyle={avatarStyles.icon} style={avatarStyles.button}>
         <Avatar
-          src={account && account.avatarUrl ? account.avatarUrl : stockPhotoUrl}
+          src={account && account.avatarUrl ? account.avatarUrl : StockPhoto}
         />
       </IconButton>
     )
@@ -104,10 +102,10 @@ export class Navbar extends Component {
     ) : mainMenu
 
     // Only apply styling if avatar is showing
-    const menuStyle = account && account.username && avatarStyles.wrapper
+    const menuStyle = account && account.email && avatarStyles.wrapper
 
     // Redirect to projects page if logged in
-    const brandPath = account && account.username ? `/projects` : '/'
+    const brandPath = account && account.email ? `/projects` : '/'
 
     return (
       <AppBar
@@ -123,5 +121,3 @@ export class Navbar extends Component {
     )
   }
 }
-
-export default Navbar
