@@ -4,7 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 
-
 import classes from './LoginForm.scss'
 
 export const LoginForm = ({ handleSubmit }) => (
