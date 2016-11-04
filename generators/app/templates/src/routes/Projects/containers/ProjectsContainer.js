@@ -16,16 +16,13 @@ const { dataToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
 @firebase(
-  ({ params }) =>
-    ([
-      `projects/${params.username}`
-      // TODO: Use population instead of loading whole usernames list
-      // `projects/${params.username}#populate=collaborators:users`,
-    ])
+  ({ params }) => ([
+    'todos'
+  ])
 )
 @connect(
   ({ firebase }, { params }) => ({
-    projects: toArray(dataToJS(firebase, `projects/${params.username}`))
+    todos: toArray(dataToJS(firebase, `todos/${params.username}`))
   })
 )<% } %>
 export default class Projects extends Component {
@@ -40,7 +37,7 @@ export default class Projects extends Component {
 <% if (!answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
-    projects: PropTypes.array,
+    todos: PropTypes.array,
     children: PropTypes.object,
     params: PropTypes.object
   }
@@ -54,7 +51,7 @@ export default class Projects extends Component {
   }<% } %><% if (answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
-    projects: PropTypes.array,
+    todos: PropTypes.array,
     firebase: PropTypes.object,
     auth: PropTypes.object,
     children: PropTypes.object,
@@ -63,7 +60,7 @@ export default class Projects extends Component {
 
   newSubmit = name =>
     this.props.firebase
-      .child('projects')
+      .child('todos')
       .push({ name, owner: this.props.account.username })
       .catch(err => {
         // TODO: Show Snackbar
@@ -71,10 +68,10 @@ export default class Projects extends Component {
       })
 
   deleteProject = ({ name }) =>
-    this.props.firebase.remove(`projects/${name}`)<% } %>
+    this.props.firebase.remove(`todos/${name}`)<% } %>
 
   openProject = project =>
-    this.context.router.push(`/projects/${project.name}`)
+    this.context.router.push(`/todos/${project.name}`)
 
   toggleModal = (name, project) => {
     let newState = {}
@@ -86,10 +83,10 @@ export default class Projects extends Component {
     // Project Route is being loaded
     if (this.props.children) return this.props.children<% if (answers.includeRedux) { %>
 
-    const { projects } = this.props
+    const { todos } = this.props
     const { newProjectModal } = this.state
 
-    if (!isLoaded(projects)) {
+    if (!isLoaded(todos)) {
       return (
         <div className={classes['progress']}>
           <CircularProgress />
@@ -97,19 +94,19 @@ export default class Projects extends Component {
       )
     }
 
-    // User has no projects and doesn't match logged in user
-    if (isEmpty(projects)) {
+    // User has no todos and doesn't match logged in user
+    if (isEmpty(todos)) {
       return (
         <div className={classes['container']}>
-          <div>This user has no projects</div>
+          <div>This user has no todos</div>
         </div>
       )
     }
 <% } %><% if (!answers.includeRedux) { %>
-    const { projects } = this.props
+    const { todos } = this.props
     const { newProjectModal } = this.state
 
-    if (!projects) {
+    if (!todos) {
       return (
         <div className={classes['container']}>
           <p>No Projects found</p>
@@ -117,7 +114,7 @@ export default class Projects extends Component {
       )
     }
 <% } %>
-    const projectsList = projects.map((project, i) => (
+    const todosList = todos.map((project, i) => (
       <ProjectTile
         key={`${project.name}-Collab-${i}`}
         project={project}
@@ -127,7 +124,7 @@ export default class Projects extends Component {
       />
     ))
 
-    projectsList.unshift(
+    todosList.unshift(
       <NewProjectTile
         onClick={this.toggleModal('newProject')}
       />
@@ -144,7 +141,7 @@ export default class Projects extends Component {
             />
         }
         <div className={classes['tiles']}>
-          {projectsList}
+          {todosList}
         </div>
       </div>
     )

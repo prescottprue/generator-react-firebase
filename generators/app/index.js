@@ -104,6 +104,7 @@ module.exports = yeoman.Base.extend({
       { src: 'src/index.html', dest: 'src/index.html' },
       { src: 'src/main.js', dest: 'src/main.js' },
       { src: 'src/theme.js', dest: 'src/theme.js' },
+      { src: 'src/constants/**', dest: 'src/constants' },
       { src: 'src/components/**', dest: 'src/components' },
       { src: 'src/containers/**', dest: 'src/containers' },
       { src: 'src/layouts/**', dest: 'src/layouts' },

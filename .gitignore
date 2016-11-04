@@ -4,4 +4,3 @@ coverage
 npm-debug.log
 .DS_Store
 **/.DS_Store
-**/build/**
