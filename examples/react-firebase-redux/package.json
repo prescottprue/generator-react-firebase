@@ -80,9 +80,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/testuser/react-firebase-redux.git"
+    "url": "git+https://github.com/prescottprue/react-firebase-redux.git"
   },
-  "author": "testuser (https://github.com/testuser)",
+  "author": "prescottprue (https://github.com/prescottprue)",
   "license": "MIT",
   "dependencies": {
     "material-ui": "0.16.0",

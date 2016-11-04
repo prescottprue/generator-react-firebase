@@ -94,6 +94,7 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     let filesArray = [
       { src: '_README.md', dest: 'README.md' },
+      { src: 'LICENSE', dest: 'LICENSE' },
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'eslintrc', dest: '.eslintrc' },
       { src: 'bin/**', dest: 'bin' },
@@ -126,7 +127,13 @@ module.exports = yeoman.Base.extend({
       )
     }
 
-    // TODO: Include scripts for deploying to Firebase from travis
+    if (this.deployTo === 'firebase') {
+      filesArray.push(
+        { src: 'firebase.json', dest: 'firebase.json' },
+        { src: '_firebaserc', dest: '.firebaserc' },
+        { src: 'database.rules.json', dest: 'database.rules.json' }
+      )
+    }
 
     if (this.includeRedux) {
       filesArray.push(

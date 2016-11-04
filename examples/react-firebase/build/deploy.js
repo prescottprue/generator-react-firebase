@@ -1,11 +1,11 @@
-const _debug = require('debug'); // eslint-disable-line no-underscore-dangle
-const exec = require('child_process').exec;
+const _debug = require('debug') // eslint-disable-line no-underscore-dangle
+const exec = require('child_process').exec
 const {
   TRAVIS_BRANCH,
   TRAVIS_PULL_REQUEST,
   FIREBASE_TOKEN
 } = process.env
-const debug = _debug('app:build:deploy');
+const debug = _debug('app:build:deploy')
 
 const deployToFirebase = (cb) => {
   debug('Travis Variables:', { TRAVIS_PULL_REQUEST, TRAVIS_BRANCH });
@@ -27,7 +27,7 @@ const deployToFirebase = (cb) => {
 
   debug('Deploying to Firebase...');
 
-  exec(`firebase deploy --token ${FIREBASE_TOKEN}`, (error, stdout) => {
+  exec(`firebase deploy --token ${FIREBASE_TOKEN} --project prod`, (error, stdout) => {
     if (error !== null) {
       if (cb) {
         cb(error, null);
