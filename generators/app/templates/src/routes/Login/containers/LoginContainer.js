@@ -74,7 +74,7 @@ export default class Login extends Component {
     <% if (answers.includeRedux) { %>const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (!isLoaded(account) && !authError) {<% } %><% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
+    if (!isLoaded(account) && !isEmpty(account)) {<% } %><% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
     if (isLoading) {<% } %>
       return (
         <div className={classes['container']}>

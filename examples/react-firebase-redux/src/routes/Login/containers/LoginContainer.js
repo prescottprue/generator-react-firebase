@@ -59,7 +59,7 @@ export default class Login extends Component {
     const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (!isLoaded(account) && !authError) {
+    if (!isLoaded(account) && !isEmpty(account)) {
       return (
         <div className={classes['container']}>
           <div className={classes['progress']}>

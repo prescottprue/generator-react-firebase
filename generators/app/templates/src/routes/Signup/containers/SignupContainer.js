@@ -6,7 +6,7 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
-
+import { LIST_PATH } from 'constants/paths'
 import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
@@ -66,11 +66,15 @@ export default class Signup extends Component {
         })
     } else {
       console.warn('other signups not currently supported', provider)
-    }<% } %><% if (answers.includeRedux) { %>this.props.firebase
-      .signup(creds)
-      .then(account =>
-        this.context.router.push(`${account.username}`)
-      )<% } %>
+    }<% } %><% if (answers.includeRedux) { %>const { createUser, login } = this.props.firebase
+      this.props.firebase
+        .createUser(creds, { email: creds.email, username: creds.username })
+        .then(() => {
+          login(creds)
+        })
+        .then(() =>
+          this.context.router.push(LIST_PATH)
+        )<% } %>
   }
 
   providerLogin = (provider) => {
@@ -83,7 +87,7 @@ export default class Signup extends Component {
     this.props.firebase
       .login({ provider, type: 'popup' })
       .then(account =>
-        this.context.router.push(`${account.username}`)
+        this.context.router.push(LIST_PATH)
       )<% } %>
   }
 

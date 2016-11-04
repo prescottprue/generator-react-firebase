@@ -109,7 +109,9 @@ module.exports = yeoman.Base.extend({
       { src: 'src/containers/**', dest: 'src/containers' },
       { src: 'src/layouts/**', dest: 'src/layouts' },
       { src: 'src/routes/**', dest: 'src/routes' },
-      { src: 'src/static/**', dest: 'src/static' },
+      { src: 'src/static/humans.txt', dest: 'src/static/humans.txt' },
+      { src: 'src/static/robots.txt', dest: 'src/static/robots.txt' },
+      { src: 'src/static/User.png', dest: 'src/static/User.png' },
       { src: 'src/styles/**', dest: 'src/styles' }
     ]
 
@@ -152,6 +154,10 @@ module.exports = yeoman.Base.extend({
   copyFiles: function (filesArray) {
     if (!filesArray) return // Skip initializing call
     filesArray.forEach(file => {
+      if (file.src.indexOf('.png') !== -1) {
+        console.log('png copy!', `generators/app/templates/${file.src}`)
+        return this.bulkCopy(file.src, file.dest || file.src || file)
+      }
       try {
         this.template(file.src || file, file.dest || file.src || file, this.templateContext)
       } catch (err) {
