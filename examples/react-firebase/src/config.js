@@ -1,8 +1,16 @@
 export const firebase = {
-  apiKey: 'AIzaSyD6Q8_kdM30MSaWnrQmJOaGXgh0w9_JjbQ',
-  authDomain: 'react-firebase-example-bb4f0.firebaseapp.com',
-  databaseURL: 'https://react-firebase-example-bb4f0.firebaseio.com',
-  storageBucket: 'react-firebase-example-bb4f0.appspot.com'
+  apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
+  authDomain: 'redux-firebasev3.firebaseapp.com',
+  databaseURL: 'https://redux-firebasev3.firebaseio.com',
+  storageBucket: 'redux-firebasev3.appspot.com'
+}
+// Config for react-redux-firebase
+// For more details, visit https://prescottprue.gitbooks.io/react-redux-firebase/content/config.html
+export const reduxFirebase = {
+  userProfile: 'users', // root that user profiles are written to
+  enableLogging: false, // enable/disable Firebase Database Logging
+  updateProfileOnLogin: false // enable/disable updating of profile on login
+  // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
 }
 
-export default { firebase }
+export default { firebase, reduxFirebase }

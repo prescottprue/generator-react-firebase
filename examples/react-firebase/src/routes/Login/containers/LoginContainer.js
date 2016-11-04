@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 import LoginForm from '../components/LoginForm/LoginForm'
+import { LIST_PATH } from 'constants/paths'
 import firebaseUtil from '../../../utils/firebase'
 
 // styles
@@ -40,7 +41,6 @@ export default class Login extends Component {
           this.setState({ isLoading: false })
         })
     }
-    
   }
 
   providerLogin = (provider) =>

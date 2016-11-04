@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Starter that uses React and Firebase (with option for Redux)",
   "main": "generators/index.js",
   "scripts": {
@@ -29,8 +29,8 @@
     "eslint-config-standard": "^6.2.0",
     "eslint-config-standard-react": "^4.2.0",
     "eslint-plugin-babel": "^3.3.0",
-    "eslint-plugin-promise": "^3.0.0",
-    "eslint-plugin-react": "^6.4.1",
+    "eslint-plugin-promise": "^3.3.1",
+    "eslint-plugin-react": "^6.5.0",
     "eslint-plugin-standard": "^2.0.1",
     "fs-extra": "^0.30.0",
     "husky": "^0.11.9",

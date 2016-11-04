@@ -40,6 +40,15 @@ export default class NewProjectDialog extends Component {
     }
   }
 
+  close = () => {
+    this.setState({
+      open: false
+    })
+    if (this.props.onRequestClose) {
+      this.props.onRequestClose()
+    }
+  }
+
   render () {
     const { open, error } = this.state
     const { handleSubmit } = this.props

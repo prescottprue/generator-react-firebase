@@ -21,7 +21,8 @@
     "build": "better-npm-run build",
     "build:dev": "better-npm-run build:dev",
     "build:prod": "better-npm-run build:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "fb": "node ./build/deploy"
   },
   "betterScripts": {
     "compile": {
@@ -135,7 +136,7 @@
     "eslint-config-standard": "^6.0.0",
     "eslint-config-standard-react": "^4.0.0",
     "eslint-plugin-babel": "^3.2.0",
-    "eslint-plugin-promise": "^2.0.0",
+    "eslint-plugin-promise": "^3.3.1",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "express": "^4.14.0",

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { toArray } from 'lodash'
 
 import classes from './ProjectContainer.scss'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -12,13 +11,13 @@ const { isLoaded, dataToJS } = helpers
 @firebase(
   // Get paths from firebase
   ({ params }) => ([
-    `projects/${params.username}/${params.projectname}`
+    `projects/${params.projectname}`
   ])
 )
 @connect(
   // Map state to props
   ({ firebase }, { params }) => ({
-    project: toArray(dataToJS(firebase, `projects/${params.username}/${params.projectname}`))
+    project: dataToJS(firebase, `projects/${params.projectname}`)
   })
 )<% } %>
 export default class Project extends Component {
@@ -29,17 +28,8 @@ export default class Project extends Component {
   <% if (answers.includeRedux) { %>static propTypes = {
     project: PropTypes.object,
     params: PropTypes.object.isRequired,
-    children: PropTypes.object,
-    firebase: PropTypes.shape({
-      project: PropTypes.func.isRequired
-    })
+    children: PropTypes.object
   }<% } %>
-
-  selectProject = proj => {
-    if (proj.owner) {
-      this.context.router.push(`/projects/${proj.owner}/${proj.name}`)
-    }
-  }
 
   render () {
     const { project } = this.props

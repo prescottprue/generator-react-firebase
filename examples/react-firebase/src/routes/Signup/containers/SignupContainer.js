@@ -6,7 +6,7 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
-
+import { LIST_PATH } from 'constants/paths'
 import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
@@ -16,7 +16,6 @@ export default class Signup extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   }
-
 
   state = {
     snackCanOpen: false,

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'<% if (answers.includeRedux) { %>
-import { toArray } from 'lodash'<% } %>
+import { map } from 'lodash'<% } %>
+import { LIST_PATH } from 'constants/paths'
 
 // Components
 import ProjectTile from '../components/ProjectTile/ProjectTile'
@@ -12,20 +13,18 @@ import classes from './ProjectsContainer.scss'
 // redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
-const { dataToJS, isLoaded, isEmpty } = helpers
+const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
 @firebase(
-  ({ params }) =>
-    ([
-      `projects/${params.username}`
-      // TODO: Use population instead of loading whole usernames list
-      // `projects/${params.username}#populate=collaborators:users`,
-    ])
+  ({ params }) => ([
+    'projects'
+  ])
 )
 @connect(
   ({ firebase }, { params }) => ({
-    projects: toArray(dataToJS(firebase, `projects/${params.username}`))
+    projects: dataToJS(firebase, 'projects'),
+    account: pathToJS(firebase, 'profile')
   })
 )<% } %>
 export default class Projects extends Component {
@@ -54,7 +53,7 @@ export default class Projects extends Component {
   }<% } %><% if (answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
-    projects: PropTypes.array,
+    projects: PropTypes.object,
     firebase: PropTypes.object,
     auth: PropTypes.object,
     children: PropTypes.object,
@@ -63,8 +62,8 @@ export default class Projects extends Component {
 
   newSubmit = name =>
     this.props.firebase
-      .child('projects')
-      .push({ name, owner: this.props.account.username })
+      .push('projects', { name, owner: this.props.account.username })
+      .then(() => this.setState({ newProjectModal: false }))
       .catch(err => {
         // TODO: Show Snackbar
         console.error('error creating new project', err)
@@ -72,9 +71,6 @@ export default class Projects extends Component {
 
   deleteProject = ({ name }) =>
     this.props.firebase.remove(`projects/${name}`)<% } %>
-
-  openProject = project =>
-    this.context.router.push(`/projects/${project.name}`)
 
   toggleModal = (name, project) => {
     let newState = {}
@@ -97,11 +93,11 @@ export default class Projects extends Component {
       )
     }
 
-    // User has no projects and doesn't match logged in user
+    // No projects
     if (isEmpty(projects)) {
       return (
         <div className={classes['container']}>
-          <div>This user has no projects</div>
+          <div>There are no project projects</div>
         </div>
       )
     }
@@ -117,21 +113,15 @@ export default class Projects extends Component {
       )
     }
 <% } %>
-    const projectsList = projects.map((project, i) => (
+    const projectsList = map(projects, (project, key) => (
       <ProjectTile
-        key={`${project.name}-Collab-${i}`}
+        key={`${project.name}-Collab-${key}`}
         project={project}
         onCollabClick={this.collabClick}
-        onSelect={this.openProject}
+        onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}
         onDelete={this.deleteProject}
       />
     ))
-
-    projectsList.unshift(
-      <NewProjectTile
-        onClick={this.toggleModal('newProject')}
-      />
-    )
 
     return (
       <div className={classes['container']}>
@@ -144,6 +134,9 @@ export default class Projects extends Component {
             />
         }
         <div className={classes['tiles']}>
+          <NewProjectTile
+            onClick={() => this.toggleModal('newProject')}
+          />
           {projectsList}
         </div>
       </div>

@@ -1,5 +1,7 @@
+import { LIST_PATH as path } from 'constants/paths'
+
 export default (store) => ({
-  path: ':username',
+  path,
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -22,7 +24,9 @@ export default (store) => ({
       const Project = require('./routes/Project').default
 
       /*  Return getComponent   */
-      cb(null, [ Project(store) ])
+      cb(null, [
+        Project(store)
+      ])
     })
   }
 })

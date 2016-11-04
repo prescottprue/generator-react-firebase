@@ -94,6 +94,7 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     let filesArray = [
       { src: '_README.md', dest: 'README.md' },
+      { src: 'LICENSE', dest: 'LICENSE' },
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'eslintrc', dest: '.eslintrc' },
       { src: 'bin/**', dest: 'bin' },
@@ -104,11 +105,14 @@ module.exports = yeoman.Base.extend({
       { src: 'src/index.html', dest: 'src/index.html' },
       { src: 'src/main.js', dest: 'src/main.js' },
       { src: 'src/theme.js', dest: 'src/theme.js' },
+      { src: 'src/constants/**', dest: 'src/constants' },
       { src: 'src/components/**', dest: 'src/components' },
       { src: 'src/containers/**', dest: 'src/containers' },
       { src: 'src/layouts/**', dest: 'src/layouts' },
       { src: 'src/routes/**', dest: 'src/routes' },
-      { src: 'src/static/**', dest: 'src/static' },
+      { src: 'src/static/humans.txt', dest: 'src/static/humans.txt' },
+      { src: 'src/static/robots.txt', dest: 'src/static/robots.txt' },
+      { src: 'src/static/User.png', dest: 'src/static/User.png' },
       { src: 'src/styles/**', dest: 'src/styles' }
     ]
 
@@ -123,7 +127,13 @@ module.exports = yeoman.Base.extend({
       )
     }
 
-    // TODO: Include scripts for deploying to Firebase from travis
+    if (this.deployTo === 'firebase') {
+      filesArray.push(
+        { src: 'firebase.json', dest: 'firebase.json' },
+        { src: '_firebaserc', dest: '.firebaserc' },
+        { src: 'database.rules.json', dest: 'database.rules.json' }
+      )
+    }
 
     if (this.includeRedux) {
       filesArray.push(
@@ -151,6 +161,9 @@ module.exports = yeoman.Base.extend({
   copyFiles: function (filesArray) {
     if (!filesArray) return // Skip initializing call
     filesArray.forEach(file => {
+      if (file.src.indexOf('.png') !== -1) {
+        return this.bulkCopy(file.src, file.dest || file.src || file)
+      }
       try {
         this.template(file.src || file, file.dest || file.src || file, this.templateContext)
       } catch (err) {

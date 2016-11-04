@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import classes from './Navbar.scss'
 import { Link } from 'react-router'
-
+import { LIST_PATH, ACCOUNT_PATH } from 'constants/paths'
 // Components
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
@@ -75,7 +75,7 @@ export default class Navbar extends Component {
         <MenuItem
           primaryText='Account'
           value='account'
-          onTouchTap={() => this.context.router.push('/account')}
+          onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
         />
         <MenuItem
           primaryText='Sign out'
@@ -89,7 +89,7 @@ export default class Navbar extends Component {
     const menuStyle = account && account.email && avatarStyles.wrapper
 
     // Redirect to projects page if logged in
-    const brandPath = account && account.email ? `/projects` : '/'
+    const brandPath = account && account.email ? `/${LIST_PATH}` : '/'
 
     return (
       <AppBar

@@ -1,7 +1,6 @@
 node_modules
-example/node_modules
+**/node_modules/**
 coverage
 npm-debug.log
 .DS_Store
 **/.DS_Store
-**/build/**
