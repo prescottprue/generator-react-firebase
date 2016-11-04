@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import Paper from 'material-ui/Paper'
+import { isObject } from 'lodash'
 
 import classes from './ProjectTile.scss'
 
@@ -11,7 +12,11 @@ export const ProjectTile = ({ project, onSelect }) => (
       </span>
     </div>
     <span className={classes['owner']}>
-      {project.owner || 'No Owner'}
+      {
+        isObject(project.owner)
+          ? project.owner.displayName
+          : project.owner || 'No Owner'
+      }
     </span>
   </Paper>
 )

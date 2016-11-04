@@ -44,9 +44,8 @@ export default class Navbar extends Component {
   }
 
   handleLogout = () => {
-    this.props.firebase
-      .logout()
-      .then(() => this.context.router.push('/'))
+    this.props.firebase.logout()
+    this.context.router.push('/')
   }
 
   render () {

@@ -155,7 +155,6 @@ module.exports = yeoman.Base.extend({
     if (!filesArray) return // Skip initializing call
     filesArray.forEach(file => {
       if (file.src.indexOf('.png') !== -1) {
-        console.log('png copy!', `generators/app/templates/${file.src}`)
         return this.bulkCopy(file.src, file.dest || file.src || file)
       }
       try {

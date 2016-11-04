@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { LIST_PATH } from 'constants/paths'
 
 // Components
 import ProjectTile from '../components/ProjectTile/ProjectTile'
@@ -33,9 +34,6 @@ export default class Projects extends Component {
     // TODO: create new project
   }
 
-  openProject = project =>
-    this.context.router.push(`/projects/${project.name}`)
-
   toggleModal = (name, project) => {
     let newState = {}
     newState[`${name}Modal`] = !this.state[`${name}Modal`]
@@ -56,21 +54,15 @@ export default class Projects extends Component {
       )
     }
 
-    const projectsList = projects.map((project, i) => (
+    const projectsList = map(projects, (project, key) => (
       <ProjectTile
-        key={`${project.name}-Collab-${i}`}
+        key={`${project.name}-Collab-${key}`}
         project={project}
         onCollabClick={this.collabClick}
-        onSelect={this.openProject}
+        onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}
         onDelete={this.deleteProject}
       />
     ))
-
-    projectsList.unshift(
-      <NewProjectTile
-        onClick={this.toggleModal('newProject')}
-      />
-    )
 
     return (
       <div className={classes['container']}>
@@ -83,6 +75,9 @@ export default class Projects extends Component {
             />
         }
         <div className={classes['tiles']}>
+          <NewProjectTile
+            onClick={() => this.toggleModal('newProject')}
+          />
           {projectsList}
         </div>
       </div>

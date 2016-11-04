@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'<% if (answers.includeRedux) { %>
-import { toArray } from 'lodash'<% } %>
+import { map } from 'lodash'<% } %>
+import { LIST_PATH } from 'constants/paths'
 
 // Components
 import ProjectTile from '../components/ProjectTile/ProjectTile'
@@ -12,17 +13,18 @@ import classes from './ProjectsContainer.scss'
 // redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
-const { dataToJS, isLoaded, isEmpty } = helpers
+const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
 @firebase(
   ({ params }) => ([
-    'todos'
+    'projects'
   ])
 )
 @connect(
   ({ firebase }, { params }) => ({
-    todos: toArray(dataToJS(firebase, `todos/${params.username}`))
+    projects: dataToJS(firebase, 'projects'),
+    account: pathToJS(firebase, 'profile')
   })
 )<% } %>
 export default class Projects extends Component {
@@ -37,7 +39,7 @@ export default class Projects extends Component {
 <% if (!answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
-    todos: PropTypes.array,
+    projects: PropTypes.array,
     children: PropTypes.object,
     params: PropTypes.object
   }
@@ -51,7 +53,7 @@ export default class Projects extends Component {
   }<% } %><% if (answers.includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
-    todos: PropTypes.array,
+    projects: PropTypes.object,
     firebase: PropTypes.object,
     auth: PropTypes.object,
     children: PropTypes.object,
@@ -60,18 +62,15 @@ export default class Projects extends Component {
 
   newSubmit = name =>
     this.props.firebase
-      .child('todos')
-      .push({ name, owner: this.props.account.username })
+      .push('projects', { name, owner: this.props.account.username })
+      .then(() => this.setState({ newProjectModal: false }))
       .catch(err => {
         // TODO: Show Snackbar
         console.error('error creating new project', err)
       })
 
   deleteProject = ({ name }) =>
-    this.props.firebase.remove(`todos/${name}`)<% } %>
-
-  openProject = project =>
-    this.context.router.push(`/todos/${project.name}`)
+    this.props.firebase.remove(`projects/${name}`)<% } %>
 
   toggleModal = (name, project) => {
     let newState = {}
@@ -83,10 +82,10 @@ export default class Projects extends Component {
     // Project Route is being loaded
     if (this.props.children) return this.props.children<% if (answers.includeRedux) { %>
 
-    const { todos } = this.props
+    const { projects } = this.props
     const { newProjectModal } = this.state
 
-    if (!isLoaded(todos)) {
+    if (!isLoaded(projects)) {
       return (
         <div className={classes['progress']}>
           <CircularProgress />
@@ -94,19 +93,19 @@ export default class Projects extends Component {
       )
     }
 
-    // User has no todos and doesn't match logged in user
-    if (isEmpty(todos)) {
+    // No projects
+    if (isEmpty(projects)) {
       return (
         <div className={classes['container']}>
-          <div>This user has no todos</div>
+          <div>There are no project projects</div>
         </div>
       )
     }
 <% } %><% if (!answers.includeRedux) { %>
-    const { todos } = this.props
+    const { projects } = this.props
     const { newProjectModal } = this.state
 
-    if (!todos) {
+    if (!projects) {
       return (
         <div className={classes['container']}>
           <p>No Projects found</p>
@@ -114,21 +113,15 @@ export default class Projects extends Component {
       )
     }
 <% } %>
-    const todosList = todos.map((project, i) => (
+    const projectsList = map(projects, (project, key) => (
       <ProjectTile
-        key={`${project.name}-Collab-${i}`}
+        key={`${project.name}-Collab-${key}`}
         project={project}
         onCollabClick={this.collabClick}
-        onSelect={this.openProject}
+        onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}
         onDelete={this.deleteProject}
       />
     ))
-
-    todosList.unshift(
-      <NewProjectTile
-        onClick={this.toggleModal('newProject')}
-      />
-    )
 
     return (
       <div className={classes['container']}>
@@ -141,7 +134,10 @@ export default class Projects extends Component {
             />
         }
         <div className={classes['tiles']}>
-          {todosList}
+          <NewProjectTile
+            onClick={() => this.toggleModal('newProject')}
+          />
+          {projectsList}
         </div>
       </div>
     )

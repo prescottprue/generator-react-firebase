@@ -60,7 +60,7 @@ export default class NewProjectDialog extends Component {
       this.close()
     }
   }
-
+<% } %>
   close = () => {
     this.setState({
       open: false
@@ -69,7 +69,7 @@ export default class NewProjectDialog extends Component {
       this.props.onRequestClose()
     }
   }
-<% } %>
+
   render () {
     const { open, error } = this.state<% if (answers.includeRedux) { %>
     const { handleSubmit } = this.props<% } %>

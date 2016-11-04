@@ -1,31 +1,52 @@
-const debug = require('debug')('app:build:deploy')
-const exec = require('child_process').exec
+const _debug = require('debug'); // eslint-disable-line no-underscore-dangle
+const exec = require('child_process').exec;
+const {
+  TRAVIS_BRANCH,
+  TRAVIS_PULL_REQUEST,
+  FIREBASE_TOKEN
+} = process.env
+const debug = _debug('app:build:deploy');
 
 const deployToFirebase = (cb) => {
-  if (process.env.TRAVIS_BRANCH && process.env.TRAVIS_BRANCH !== 'master') {
-    debug('Skipping Firebase Deploy - Branch is not master.')
-    if (cb) return cb(null)
+  debug('Travis Variables:', { TRAVIS_PULL_REQUEST, TRAVIS_BRANCH });
+  if (!!TRAVIS_PULL_REQUEST && TRAVIS_PULL_REQUEST !== 'false') {
+    debug('Skipping Firebase Deploy - Build is a Pull Request');
+    return;
   }
-  if (!!process.env.TRAVIS_PULL_REQUEST && process.env.TRAVIS_PULL_REQUEST === true) {
-    debug('Skipping Firebase Deploy - Build is a Pull Request')
-    if (cb) return cb(null)
+
+  if (TRAVIS_BRANCH !== 'prod' && TRAVIS_BRANCH !== 'stage' && TRAVIS_BRANCH !== 'master') {
+    debug('Skipping Firebase Deploy - Build is a not a Build Branch', TRAVIS_BRANCH);
+    return;
   }
-  if (!process.env.FIREBASE_TOKEN) {
-    debug('Error: FIREBASE_TOKEN env variable not found')
-    return cb('Error: FIREBASE_TOKEN env variable not found', null)
+
+  if (!FIREBASE_TOKEN) {
+    debug('Error: FIREBASE_TOKEN env variable not found');
+    cb('Error: FIREBASE_TOKEN env variable not found', null);
+    return;
   }
-  debug('Deploying to Firebase...')
-  exec(`firebase deploy --token ${process.env.FIREBASE_TOKEN}`, (error) => {
+
+  debug('Deploying to Firebase...');
+
+  exec(`firebase deploy --token ${FIREBASE_TOKEN}`, (error, stdout) => {
     if (error !== null) {
-      debug('error uploading to Firebase url: ', error)
-      if (cb) return cb(error)
+      if (cb) {
+        cb(error, null);
+        return;
+      }
     }
-    if (cb) cb(null)
-  })
-}
+    if (cb) {
+      cb(null, stdout);
+    }
+  });
+};
 
 (function () {
-  deployToFirebase(() => {
-    debug('Successfully deployed to Firebase')
-  })
-})()
+  deployToFirebase((err, stdout) => {
+    if (err || !stdout) {
+      debug('error deploying to Firebase: ', err);
+      return;
+    }
+    debug(stdout); // log output of firebase cli
+    debug('\nSuccessfully deployed to Firebase');
+  });
+})();
