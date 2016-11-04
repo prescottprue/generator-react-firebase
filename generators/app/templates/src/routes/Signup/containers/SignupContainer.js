@@ -67,14 +67,13 @@ export default class Signup extends Component {
     } else {
       console.warn('other signups not currently supported', provider)
     }<% } %><% if (answers.includeRedux) { %>const { createUser, login } = this.props.firebase
-      this.props.firebase
-        .createUser(creds, { email: creds.email, username: creds.username })
-        .then(() => {
-          login(creds)
-        })
-        .then(() =>
-          this.context.router.push(LIST_PATH)
-        )<% } %>
+    createUser(creds, { email: creds.email, username: creds.username })
+    .then(() => {
+      login(creds)
+    })
+    .then(() =>
+      this.context.router.push(LIST_PATH)
+    )<% } %>
   }
 
   providerLogin = (provider) => {

@@ -48,9 +48,8 @@ export default class Navbar extends Component {
   }<% } %>
 
   handleLogout = () => {
-    <% if (!answers.includeRedux) { %>this.props.logout()<% } %><% if (answers.includeRedux) { %>this.props.firebase
-      .logout()
-      .then(() => this.context.router.push('/'))<% } %>
+    <% if (!answers.includeRedux) { %>this.props.logout()<% } %><% if (answers.includeRedux) { %>this.props.firebase.logout()
+    this.context.router.push('/')
   }
 
   render () {

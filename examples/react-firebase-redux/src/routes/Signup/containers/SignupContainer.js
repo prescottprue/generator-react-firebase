@@ -51,14 +51,13 @@ export default class Signup extends Component {
       isLoading: true
     })
     const { createUser, login } = this.props.firebase
-      this.props.firebase
-        .createUser(creds, { email: creds.email, username: creds.username })
-        .then(() => {
-          login(creds)
-        })
-        .then(() =>
-          this.context.router.push(LIST_PATH)
-        )
+    createUser(creds, { email: creds.email, username: creds.username })
+    .then(() => {
+      login(creds)
+    })
+    .then(() =>
+      this.context.router.push(LIST_PATH)
+    )
   }
 
   providerLogin = (provider) => {

@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 import LoginForm from '../components/LoginForm/LoginForm'
+import { LIST_PATH } from 'constants/paths'
 
 // styles
 import classes from './LoginContainer.scss'
@@ -49,7 +50,9 @@ export default class Login extends Component {
 
     this.props.firebase
       .login(loginData)
-      .then((account) => this.context.router.push(`/${account.username}`))
+      .then((account) =>
+        this.context.router.push(LIST_PATH)
+      )
   }
 
   providerLogin = (provider) =>

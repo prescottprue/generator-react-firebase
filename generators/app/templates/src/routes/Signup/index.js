@@ -1,5 +1,7 @@
+import { SIGNUP_PATH as path } from 'constants/paths'
+
 export default (store) => ({
-  path: 'signup',
+  path,
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
