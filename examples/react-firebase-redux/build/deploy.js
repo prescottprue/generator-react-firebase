@@ -31,7 +31,6 @@ const deployToFirebase = (cb) => {
     if (error !== null) {
       if (cb) {
         cb(error, null)
-        console.log('error deploying', error)
         return
       }
     }
