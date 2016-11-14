@@ -113,7 +113,8 @@ module.exports = yeoman.Base.extend({
       { src: 'src/static/humans.txt', dest: 'src/static/humans.txt' },
       { src: 'src/static/robots.txt', dest: 'src/static/robots.txt' },
       { src: 'src/static/User.png', dest: 'src/static/User.png' },
-      { src: 'src/styles/**', dest: 'src/styles' }
+      { src: 'src/styles/**', dest: 'src/styles' },
+      { src: 'tests/**', dest: 'tests' }
     ]
 
     if (this.answers.includeTravis) {
