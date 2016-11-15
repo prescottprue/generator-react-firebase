@@ -10,16 +10,19 @@ import classes from './AccountContainer.scss'
 
 const defaultUserImageUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 
+
 export default class Account extends Component {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
+  
+
   state = { modalOpen: false }
 
   handleLogout = () => {
-    // TODO: Handle logout without react-redux-firebase
+    // TODO: Handle logout without react-redux-firebase 
   }
 
   handleSave = () => {
@@ -28,6 +31,7 @@ export default class Account extends Component {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
+    
   }
 
   toggleModal = () => {

@@ -7,9 +7,18 @@ branches:
   only:
     - master
 
-script:
-  - npm run test
+cache:
+  bundler: true
+  directories:
+    - node_modules # NPM packages
 
+notifications:
+  email:
+    on_failure: change
+    on_success: change
+
+script:
+  - npm run test:cov
 
 addons:
   code_climate:
@@ -17,5 +26,5 @@ addons:
 
 after_success:
   - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < coverage/*/lcov.info
+  - codeclimate-test-reporter < coverage/lcov.info
   - npm run codecov

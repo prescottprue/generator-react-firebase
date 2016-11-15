@@ -4,6 +4,7 @@ export const firebase = {
   databaseURL: 'https://redux-firebasev3.firebaseio.com',
   storageBucket: 'redux-firebasev3.appspot.com'
 }
+
 // Config for react-redux-firebase
 // For more details, visit https://prescottprue.gitbooks.io/react-redux-firebase/content/config.html
 export const reduxFirebase = {

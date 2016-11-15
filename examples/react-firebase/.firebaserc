@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "stage": "redux-firebasev3",
+    "prod": "redux-firebasev3"
+  }
+}

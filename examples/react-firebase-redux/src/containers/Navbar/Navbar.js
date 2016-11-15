@@ -1,7 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import classes from './Navbar.scss'
 import { Link } from 'react-router'
-import { LIST_PATH, ACCOUNT_PATH } from 'constants/paths'
+import {
+  LIST_PATH,
+  ACCOUNT_PATH,
+  LOGIN_PATH,
+  SIGNUP_PATH
+} from 'constants/paths'
+
 // Components
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
@@ -30,6 +36,7 @@ const { pathToJS } = helpers
 @connect(
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
+    auth: pathToJS(firebase, 'auth'),
     account: pathToJS(firebase, 'profile')
   })
 )
@@ -39,7 +46,7 @@ export default class Navbar extends Component {
   }
 
   static propTypes = {
-    account: PropTypes.object,
+    auth: PropTypes.object,
     firebase: PropTypes.object.isRequired
   }
 
@@ -49,25 +56,25 @@ export default class Navbar extends Component {
   }
 
   render () {
-    const { account } = this.props
+    const { auth } = this.props
 
     const iconButton = (
       <IconButton iconStyle={avatarStyles.icon} style={avatarStyles.button}>
         <Avatar
-          src={account && account.avatarUrl ? account.avatarUrl : StockPhoto}
+          src={auth && auth.photoURL ? auth.photoURL : StockPhoto}
         />
       </IconButton>
     )
 
     const mainMenu = (
       <div className={classes['menu']}>
-        <Link to='/signup'>
+        <Link to={SIGNUP_PATH}>
           <FlatButton
             label='Sign Up'
             style={buttonStyle}
           />
         </Link>
-        <Link to='/login'>
+        <Link to={LOGIN_PATH}>
           <FlatButton
             label='Login'
             style={buttonStyle}
@@ -76,7 +83,7 @@ export default class Navbar extends Component {
       </div>
     )
 
-    const rightMenu = account && account.email ? (
+    const rightMenu = auth ? (
       <IconMenu
         iconButtonElement={iconButton}
         targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -91,16 +98,16 @@ export default class Navbar extends Component {
         <MenuItem
           primaryText='Sign out'
           value='logout'
-          onClick={this.handleLogout}
+          onTouchTap={this.handleLogout}
         />
       </IconMenu>
     ) : mainMenu
 
     // Only apply styling if avatar is showing
-    const menuStyle = account && account.email && avatarStyles.wrapper
+    const menuStyle = auth ? avatarStyles.wrapper : {}
 
     // Redirect to projects page if logged in
-    const brandPath = account && account.email ? `/${LIST_PATH}` : '/'
+    const brandPath = auth ? `/${LIST_PATH}` : '/'
 
     return (
       <AppBar
