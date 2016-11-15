@@ -1,4 +1,4 @@
-import Home from './components/Home/Home'
+import Home from './components/Home'
 
 // Sync route definition
 export default {

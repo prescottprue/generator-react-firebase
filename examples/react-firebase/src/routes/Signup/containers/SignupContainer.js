@@ -17,6 +17,7 @@ export default class Signup extends Component {
     router: PropTypes.object.isRequired
   }
 
+
   state = {
     snackCanOpen: false,
     isLoading: false

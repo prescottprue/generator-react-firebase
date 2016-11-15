@@ -26,8 +26,8 @@ export default class Projects extends Component {
     params: PropTypes.object
   }
 
-  componentWillMount () {
-    // TODO: Call util to load list
+  componentWillMount() {
+    //TODO: Call util to load list
   }
 
   newSubmit = name => {
