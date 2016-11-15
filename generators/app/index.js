@@ -7,7 +7,7 @@ var path = require('path')
 module.exports = yeoman.Base.extend({
   initializing: function () {
     this.argument('name', { type: String, required: false })
-    this.appName = this.name || path.basename(process.cwd()) || 'kyper-react-starter'
+    this.appName = this.name || path.basename(process.cwd()) || 'react-firebase'
     this.appPath = this.env.options.appPath
     this.version = '0.0.1'
   },
@@ -28,7 +28,7 @@ module.exports = yeoman.Base.extend({
         name: 'firebaseName',
         message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
-        // default: 'react-firebase-example-bb4f0',
+        default: 'react-firebasev3',
         validate: function (input) {
           if (!input) return false
           if (input.match('http') || input.match('firebaseio.com')) {

@@ -5,7 +5,7 @@ import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
 
 const name = 'Test'
-const folderPath = `app/containers/${name}`
+const folderPath = `src/containers/${name}`
 
 describe('generator-react-firebase:container', () => {
   before(() =>

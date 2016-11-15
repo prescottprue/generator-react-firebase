@@ -14,6 +14,7 @@ const srcFiles = [
   'src/styles/_device-sizes.scss',
   'src/styles/core.scss',
   'src/components/TextField/TextField.js',
+  'src/components/TextField/index.js',
   'src/containers/App/App.js',
   'src/containers/Navbar/Navbar.js',
   'src/containers/Navbar/Navbar.scss',
@@ -28,13 +29,20 @@ const reduxFiles = [
 ]
 const projectFiles = [
   'package.json',
-  '.gitignore'
+  '.eslintrc',
+  '.travis.yml',
+  'LICENSE',
+  '.gitignore',
+  'README.md',
+  'firebase.json',
+  '.firebaserc',
+  'database.rules.json'
 ]
 
 describe('generator-react-firebase:app', () => {
   before(() =>
     helpers.run(path.join(__dirname, '../../generators/app'))
-      .withPrompts({githubUser: 'testuser', firebaseInstance: 'testing', includeTravis: 'Y', includeRedux: 'N'})
+      .withPrompts({githubUser: 'testuser', firebaseInstance: 'testing', includeTravis: 'Y', includeRedux: 'Y', deployTo: 'firebase'})
       .toPromise()
   )
   describe('project', () => {

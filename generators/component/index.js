@@ -31,7 +31,7 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    const destPath = 'app/components/' + this.name + '/' + this.name
+    const destPath = 'src/components/' + this.name + '/' + this.name
     this.template('_main.js', destPath + '.js', this.templateContext)
     if (this.answers.addStyle) this.template('_main.scss', destPath + '.scss', this.templateContext)
   }

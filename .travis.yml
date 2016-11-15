@@ -8,8 +8,7 @@ branches:
     - master
 
 script:
-  - npm run test
-
+  - npm run test:cov
 
 addons:
   code_climate:
