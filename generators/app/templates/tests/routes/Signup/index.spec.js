@@ -1,20 +1,20 @@
-import SignupRoute from 'routes/Signup';
+import SignupRoute from 'routes/Signup'
 
 describe('(Route) Signup', () => {
-  let _route;
+  let _route
 
   beforeEach(() => {
-    _route = SignupRoute();
-  });
+    _route = SignupRoute()
+  })
 
   it('Should return a route configuration function', () => {
-    expect(SignupRoute).to.be.a.function;
-  });
+    expect(SignupRoute).to.be.a.function
+  })
 
   it('Sets Path to /signup', () => {
-    expect(_route.path).to.equal('signup');
-  });
+    expect(_route.path).to.equal('signup')
+  })
   it('Defines a getComponent function', () => {
-    expect(_route.getComponent).to.be.a.function;
-  });
-});
+    expect(_route.getComponent).to.be.a.function
+  })
+})

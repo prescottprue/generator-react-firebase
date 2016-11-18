@@ -28,7 +28,7 @@ module.exports = yeoman.Base.extend({
         name: 'firebaseName',
         message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
-        default: 'react-firebasev3',
+        default: 'redux-firebasev3',
         validate: function (input) {
           if (!input) return false
           if (input.match('http') || input.match('firebaseio.com')) {
@@ -97,6 +97,7 @@ module.exports = yeoman.Base.extend({
       { src: 'LICENSE', dest: 'LICENSE' },
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'eslintrc', dest: '.eslintrc' },
+      { src: 'babelrc', dest: '.babelrc' },
       { src: 'bin/**', dest: 'bin' },
       { src: 'build/**', dest: 'build' },
       { src: 'config/**', dest: 'config' },
