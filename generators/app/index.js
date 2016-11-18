@@ -97,6 +97,7 @@ module.exports = yeoman.Base.extend({
       { src: 'LICENSE', dest: 'LICENSE' },
       { src: 'gitignore', dest: '.gitignore' },
       { src: 'eslintrc', dest: '.eslintrc' },
+      { src: 'babelrc', dest: '.babelrc' },
       { src: 'bin/**', dest: 'bin' },
       { src: 'build/**', dest: 'build' },
       { src: 'config/**', dest: 'config' },
