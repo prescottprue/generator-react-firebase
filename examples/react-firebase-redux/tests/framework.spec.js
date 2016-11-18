@@ -32,7 +32,7 @@ describe('(Framework) Karma Plugins', function () {
     ])
   })
 
-  it('should have chai-enzyme working', function() {
+  it('should have chai-enzyme working', function () {
     let wrapper = shallow(<Fixture />)
     expect(wrapper.find('#checked')).to.be.checked()
 

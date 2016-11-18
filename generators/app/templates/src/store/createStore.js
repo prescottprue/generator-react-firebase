@@ -1,9 +1,11 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import makeRootReducer from './reducers'
+import { browserHistory } from 'react-router';
 import { reduxFirebase, getFirebase } from 'react-redux-firebase'
 import { firebase as fbConfig, reduxFirebase as reduxConfig } from '../config'
 import { version } from '../../package.json'
+import { updateLocation } from './location';
 
 export default (initialState = {}, history) => {
   // ======================================================
@@ -14,7 +16,10 @@ export default (initialState = {}, history) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk.withExtraArgument(getFirebase)]
+  const middleware = [
+    thunk.withExtraArgument(getFirebase),
+    // This is where you add other middleware like redux-observable
+  ]
 
   // ======================================================
   // Store Enhancers
@@ -40,6 +45,9 @@ export default (initialState = {}, history) => {
     )
   )
   store.asyncReducers = {}
+
+  // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
+  store.unsubscribeHistory = browserHistory.listen(updateLocation(store));
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

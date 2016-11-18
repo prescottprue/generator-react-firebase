@@ -18,5 +18,4 @@ describe('(Component) Home', () => {
     const welcome = _component.find('h2')
     expect(welcome).to.exist
   })
-
 })
