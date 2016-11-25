@@ -17,14 +17,20 @@ const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
 @firebase(
-  ({ params }) => ([
-    'projects'
+  ({ params, auth }) => ([
+    {
+      path: 'projects',
+      populates: [
+        { child: 'owner', root: 'users' }
+      ]
+    }
+    // 'projects#populate=owner:users' // string equivalent
   ])
 )
 @connect(
   ({ firebase }, { params }) => ({
     projects: dataToJS(firebase, 'projects'),
-    account: pathToJS(firebase, 'profile')
+    auth: pathToJS(firebase, 'auth')
   })
 )<% } %>
 export default class Projects extends Component {
@@ -60,14 +66,18 @@ export default class Projects extends Component {
     params: PropTypes.object
   }
 
-  newSubmit = name =>
-    this.props.firebase
-      .push('projects', { name, owner: this.props.account.username })
+  newSubmit = (newProject) => {
+    const { auth, firebase: { push } } = this.props
+    if (auth.uid) {
+      newProject.owner = auth.uid
+    }
+    push('projects', newProject)
       .then(() => this.setState({ newProjectModal: false }))
       .catch(err => {
         // TODO: Show Snackbar
         console.error('error creating new project', err)
       })
+  }
 
   deleteProject = ({ name }) =>
     this.props.firebase.remove(`projects/${name}`)<% } %>
@@ -91,37 +101,7 @@ export default class Projects extends Component {
           <CircularProgress />
         </div>
       )
-    }
-
-    // No projects
-    if (isEmpty(projects)) {
-      return (
-        <div className={classes['container']}>
-          <div>There are no project projects</div>
-        </div>
-      )
-    }
-<% } %><% if (!answers.includeRedux) { %>
-    const { projects } = this.props
-    const { newProjectModal } = this.state
-
-    if (!projects) {
-      return (
-        <div className={classes['container']}>
-          <p>No Projects found</p>
-        </div>
-      )
-    }
-<% } %>
-    const projectsList = map(projects, (project, key) => (
-      <ProjectTile
-        key={`${project.name}-Collab-${key}`}
-        project={project}
-        onCollabClick={this.collabClick}
-        onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}
-        onDelete={this.deleteProject}
-      />
-    ))
+    }<% } %>
 
     return (
       <div className={classes['container']}>
@@ -129,7 +109,7 @@ export default class Projects extends Component {
           newProjectModal &&
             <NewProjectDialog
               open={newProjectModal}
-              onCreateClick={this.newSubmit}
+              <% if (answers.includeRedux) { %>onSubmit={this.newSubmit}<% } %><% if (!answers.includeRedux) { %>onCreateClick={this.newSubmit}<% } %>
               onRequestClose={() => this.toggleModal('newProject')}
             />
         }
@@ -137,7 +117,19 @@ export default class Projects extends Component {
           <NewProjectTile
             onClick={() => this.toggleModal('newProject')}
           />
-          {projectsList}
+          {
+            !isEmpty(projects) &&
+               map(projects, (project, key) => (
+                   <ProjectTile
+                     key={`${project.name}-Collab-${key}`}
+                     project={project}
+                     onCollabClick={this.collabClick}
+                     onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}
+                     onDelete={this.deleteProject}
+                   />
+                 )
+               )
+          }
         </div>
       </div>
     )

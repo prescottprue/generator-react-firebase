@@ -1,26 +1,28 @@
 import React, { Component, PropTypes } from 'react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-<% if (!answers.includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+<% if (!answers.includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (answers.includeRedux) { %>import { Field, reduxForm, submit } from 'redux-form'
 import TextField from 'components/TextField'<% } %>
 
 import classes from './NewProjectDialog.scss'
 <% if (answers.includeRedux) { %>
+const formName = 'newProject'
 const validate = values => {
   const errors = {}
   if (!values.name) errors.name = 'Required'
   return errors
 }
 @reduxForm({
-  form: 'newProject',
+  form: formName,
   validate
 })<% } %>
 export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
-    onCreateClick: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired<% if (answers.includeRedux) { %>,
-    handleSubmit: PropTypes.func.isRequired<% } %>
+    handleSubmit: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired<% } %><% if (!answers.includeRedux) { %>,
+    onCreateClick: PropTypes.func.isRequired,<% } %>
   }
 
   state = {
@@ -70,6 +72,11 @@ export default class NewProjectDialog extends Component {
     }
   }
 
+  handleSubmitClick = (e) => {
+    e.preventDefault()
+    this.props.dispatch(submit(formName))
+  }
+
   render () {
     const { open, error } = this.state<% if (answers.includeRedux) { %>
     const { handleSubmit } = this.props<% } %>
@@ -83,7 +90,7 @@ export default class NewProjectDialog extends Component {
       <FlatButton
         label='Create'
         primary
-        <% if (!answers.includeRedux) { %>onClick={this.handleSubmit}<% } %><% if (answers.includeRedux) { %>type='submit'<% } %>
+        <% if (!answers.includeRedux) { %>onClick={this.handleSubmit}<% } %><% if (answers.includeRedux) { %>onClick={this.handleSubmitClick}<% } %>
       />
     ]
 
