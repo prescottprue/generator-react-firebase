@@ -45,7 +45,7 @@ export default class Project extends Component {
     return (
       <div className={classes['container']}>
         <h2>Project Container</h2>
-        <pre>{JSON.stringify(project)}</pre>
+        <pre>{JSON.stringify(project, null, 2)}</pre>
       </div>
     )
   }

@@ -1,26 +1,27 @@
 import React, { Component, PropTypes } from 'react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, submit } from 'redux-form'
 import TextField from 'components/TextField'
 
 import classes from './NewProjectDialog.scss'
 
+const formName = 'newProject'
 const validate = values => {
   const errors = {}
   if (!values.name) errors.name = 'Required'
   return errors
 }
 @reduxForm({
-  form: 'newProject',
+  form: formName,
   validate
 })
 export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
-    onCreateClick: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   }
 
   state = {
@@ -49,6 +50,11 @@ export default class NewProjectDialog extends Component {
     }
   }
 
+  handleSubmitClick = (e) => {
+    e.preventDefault()
+    this.props.dispatch(submit(formName))
+  }
+
   render () {
     const { open, error } = this.state
     const { handleSubmit } = this.props
@@ -62,7 +68,7 @@ export default class NewProjectDialog extends Component {
       <FlatButton
         label='Create'
         primary
-        type='submit'
+        onClick={this.handleSubmitClick}
       />
     ]
 
