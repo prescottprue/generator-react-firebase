@@ -8,7 +8,7 @@
     "lint": "eslint generators",
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha -R spec --compilers js:babel-core/register ./test/setup.js ./test/**/*.spec.js",
-    "test:cov": "babel-node $(npm bin)/isparta cover --report lcov ./node_modules/mocha/bin/_mocha -- ./test/** --recursive",
+    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- ./test/** --recursive --report lcov --compilers js:babel-register --require babel-polyfill",
     "codecov": "cat coverage/*/lcov.info | codecov",
     "prepush": "npm run lint:fix"
   },
@@ -33,6 +33,7 @@
     "fs-extra": "^0.30.0",
     "husky": "^0.11.9",
     "isparta": "^4.0.0",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.1.2",
     "yeoman-assert": "^2.2.1",
     "yeoman-test": "^1.5.1"

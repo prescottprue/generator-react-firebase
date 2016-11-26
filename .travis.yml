@@ -25,6 +25,6 @@ addons:
     repo_token: $CODE_CLIMATE
 
 after_success:
+  - npm run codecov
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
-  - npm run codecov
