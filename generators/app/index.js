@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator')
 var chalk = require('chalk')
 var yosay = require('yosay')
 var path = require('path')
+var utils = require('./utils')
 
 module.exports = yeoman.Base.extend({
   initializing: function () {
@@ -28,18 +29,9 @@ module.exports = yeoman.Base.extend({
         name: 'firebaseName',
         message: 'Firebase instance (https://' + chalk.red('<your instance>') + '.firebaseio.com)',
         required: true,
-        default: 'redux-firebasev3',
-        validate: function (input) {
-          if (!input) return false
-          if (input.match('http') || input.match('firebaseio.com')) {
-            return chalk.red('Just include the Firebase name, not the entire URL')
-          }
-          if (!input.match(/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/)) {
-            return chalk.red('Your Firebase name may only contain [a-z], [0-9], and hyphen (-). ' +
-              'It may not start or end with a hyphen.')
-          }
-          return true
-        }
+        default: 'react-redux-firebase',
+        /* istanbul ignore next: Tested in utils */
+        validate: utils.firebaseUrlValidate
       },
       {
         name: 'firebaseKey',
@@ -170,8 +162,8 @@ module.exports = yeoman.Base.extend({
       try {
         this.template(file.src || file, file.dest || file.src || file, this.templateContext)
       } catch (err) {
-        console.log('\ntemplate error with file:', file)
-        console.log('\nerror', err)
+        /* istanbul ignore next: only run if file location is invalid */
+        console.log('\ntemplate error with file:', file, '\n', err)
       }
     })
   }
