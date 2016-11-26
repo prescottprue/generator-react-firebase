@@ -20,11 +20,12 @@ const createConfigFile = (cb) => {
     }
   }
 
-  const fileString = `export const firebase = ${JSON.stringify(configObj.firebase, null, 2)};\n` +
+  const fileString = `export const firebase = ${JSON.stringify(configObj.firebase, null, 2)}\n` +
+    '\n// Config for react-redux-firebase' +
     '\n// For more details, visit https://prescottprue.gitbooks.io/react-redux-firebase/content/config.html' +
-    `\nexport const reduxFirebase = ${JSON.stringify(configObj.reduxFirebase, null, 2)};\n` +
-    `\nexport const env = ${JSON.stringify(configObj.env)};\n` +
-    `\nexport default { firebase, reduxFirebase, env };\n`
+    `\nexport const reduxFirebase = ${JSON.stringify(configObj.reduxFirebase, null, 2)}\n` +
+    `\nexport const env = ${JSON.stringify(configObj.env)}\n` +
+    `\nexport default { firebase, reduxFirebase, env }\n`
 
   fs.writeFile(outputPath, fileString, 'utf8', (err) => {
     if (err) {
