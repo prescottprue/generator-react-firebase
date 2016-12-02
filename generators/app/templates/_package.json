@@ -94,7 +94,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.0",
     "react-google-button": "^0.1.0",
-    "react-tap-event-plugin": "1.0.0",
+    "react-tap-event-plugin": "1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
