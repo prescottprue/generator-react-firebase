@@ -83,14 +83,14 @@ export default class Projects extends Component {
 
     if (!isLoaded(projects)) {
       return (
-        <div className={classes['progress']}>
+        <div className={classes.progress}>
           <CircularProgress />
         </div>
       )
     }
 
     return (
-      <div className={classes['container']}>
+      <div className={classes.container}>
         {
           newProjectModal &&
             <NewProjectDialog
@@ -99,7 +99,7 @@ export default class Projects extends Component {
               onRequestClose={() => this.toggleModal('newProject')}
             />
         }
-        <div className={classes['tiles']}>
+        <div className={classes.tiles}>
           <NewProjectTile
             onClick={() => this.toggleModal('newProject')}
           />

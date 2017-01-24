@@ -4,24 +4,34 @@ import RaisedButton from 'material-ui/RaisedButton'
 import classes from './SignupForm.scss'
 const buttonStyle = { width: '100%' }
 
-export const SignupForm = ({ handleSubmit, submitting }) => {
+export const SignupForm = ({ handleSubmit, error }) => {
   return (
-    <form className={classes['container']} onSubmit={handleSubmit}>
+    <form className={classes.container} onSubmit={handleSubmit}>
       <div>
-        <input name='username' placeholder='Username' />
+        <TextField
+          floatingLabelText='Username'
+          errorText={error || null}
+        />
       </div>
       <div>
-        <input name='email' placeholder='Email' />
+        <TextField
+          hintText='someone@email.com'
+          floatingLabelText='Email'
+          errorText={error || null}
+        />
       </div>
       <div>
-        <input name='password' placeholder='Password' type='password' />
+        <TextField
+          floatingLabelText='Password'
+          errorText={error || null}
+          type="password"
+        />
       </div>
-      <div className={classes['submit']}>
+      <div className={classes.submit}>
         <RaisedButton
           label='Signup'
           primary
           type='submit'
-          disabled={submitting}
           style={buttonStyle}
         />
       </div>

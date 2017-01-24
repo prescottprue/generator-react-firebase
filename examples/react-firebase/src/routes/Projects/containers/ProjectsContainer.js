@@ -43,29 +43,9 @@ export default class Projects extends Component {
   render () {
     // Project Route is being loaded
     if (this.props.children) return this.props.children
-    const { projects } = this.props
-    const { newProjectModal } = this.state
-
-    if (!projects) {
-      return (
-        <div className={classes['container']}>
-          <p>No Projects found</p>
-        </div>
-      )
-    }
-
-    const projectsList = map(projects, (project, key) => (
-      <ProjectTile
-        key={`${project.name}-Collab-${key}`}
-        project={project}
-        onCollabClick={this.collabClick}
-        onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}
-        onDelete={this.deleteProject}
-      />
-    ))
 
     return (
-      <div className={classes['container']}>
+      <div className={classes.container}>
         {
           newProjectModal &&
             <NewProjectDialog
@@ -74,11 +54,11 @@ export default class Projects extends Component {
               onRequestClose={() => this.toggleModal('newProject')}
             />
         }
-        <div className={classes['tiles']}>
+        <div className={classes.tiles}>
           <NewProjectTile
             onClick={() => this.toggleModal('newProject')}
           />
-          {projectsList}
+          
         </div>
       </div>
     )

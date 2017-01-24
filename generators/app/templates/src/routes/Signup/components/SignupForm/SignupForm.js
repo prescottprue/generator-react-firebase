@@ -17,7 +17,7 @@ const validate = values => {
 
 const SignupForm = ({ handleSubmit, submitting }) => {
   return (
-    <form className={classes['container']} onSubmit={handleSubmit}>
+    <form className={classes.container} onSubmit={handleSubmit}>
       <div>
         <Field name='username' component={TextField} label='Username' />
       </div>
@@ -25,9 +25,14 @@ const SignupForm = ({ handleSubmit, submitting }) => {
         <Field name='email' component={TextField} label='Email' />
       </div>
       <div>
-        <Field name='password' component={TextField} label='Password' type='password' />
+        <Field
+          name='password'
+          component={TextField}
+          label='Password'
+          type='password'
+        />
       </div>
-      <div className={classes['submit']}>
+      <div className={classes.submit}>
         <RaisedButton
           label='Signup'
           primary
@@ -47,24 +52,31 @@ SignupForm.propTypes = {
 export default reduxForm({
   form: 'Signup',
   validate
-})(SignupForm)<% } %><% if (!includeRedux) { %>export const SignupForm = ({ handleSubmit, submitting }) => {
+})(SignupForm)<% } %><% if (!includeRedux) { %>export const SignupForm = ({ handleSubmit }) => {
   return (
-    <form className={classes['container']} onSubmit={handleSubmit}>
+    <form className={classes.container} onSubmit={handleSubmit}>
       <div>
-        <input name='username' placeholder='Username' />
+        <TextField
+          floatingLabelText='Username'
+        />
       </div>
       <div>
-        <input name='email' placeholder='Email' />
+        <TextField
+          hintText='someone@email.com'
+          floatingLabelText='Email'
+        />
       </div>
       <div>
-        <input name='password' placeholder='Password' type='password' />
+        <TextField
+          floatingLabelText='Password'
+          type="password"
+        />
       </div>
-      <div className={classes['submit']}>
+      <div className={classes.submit}>
         <RaisedButton
           label='Signup'
           primary
           type='submit'
-          disabled={submitting}
           style={buttonStyle}
         />
       </div>

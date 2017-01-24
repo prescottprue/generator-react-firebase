@@ -97,14 +97,14 @@ export default class Projects extends Component {
 
     if (!isLoaded(projects)) {
       return (
-        <div className={classes['progress']}>
+        <div className={classes.progress}>
           <CircularProgress />
         </div>
       )
     }<% } %>
 
     return (
-      <div className={classes['container']}>
+      <div className={classes.container}>
         {
           newProjectModal &&
             <NewProjectDialog
@@ -113,11 +113,11 @@ export default class Projects extends Component {
               onRequestClose={() => this.toggleModal('newProject')}
             />
         }
-        <div className={classes['tiles']}>
+        <div className={classes.tiles}>
           <NewProjectTile
             onClick={() => this.toggleModal('newProject')}
           />
-          {
+          <% if (includeRedux) { %>{
             !isEmpty(projects) &&
                map(projects, (project, key) => (
                  <ProjectTile
@@ -128,7 +128,7 @@ export default class Projects extends Component {
                    onDelete={this.deleteProject}
                  />
               ))
-          }
+          }<% } %>
         </div>
       </div>
     )

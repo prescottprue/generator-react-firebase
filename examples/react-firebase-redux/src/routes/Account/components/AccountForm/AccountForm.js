@@ -1,16 +1,16 @@
 import React, { PropTypes } from 'react'
-
-import classes from './AccountForm.scss'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 
+import classes from './AccountForm.scss'
+
 import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../../components/TextField'
+import TextField from 'components/TextField'
 import { connect } from 'react-redux'
 import { helpers } from 'react-redux-firebase'
 const { pathToJS } = helpers
 
 export const AccountForm = ({ account, handleSubmit, submitting }) => (
-  <div className={classes['Account']}>
+  <div className={classes.container}>
     <h4>Account</h4>
     <div>
       <Field
@@ -29,7 +29,7 @@ export const AccountForm = ({ account, handleSubmit, submitting }) => (
     <div>
       <h4>Linked Accounts</h4>
       {
-        account.providerData &&
+        account && account.providerData &&
           <ProviderDataForm
             providerData={account.providerData}
           />
@@ -39,9 +39,7 @@ export const AccountForm = ({ account, handleSubmit, submitting }) => (
 )
 
 AccountForm.propTypes = {
-  account: PropTypes.shape({
-    providerData: PropTypes.array
-  }),
+  account: PropTypes.object,
   handleSubmit: PropTypes.func,
   submitting: PropTypes.bool
 }

@@ -16,7 +16,7 @@ import classes from './LoginForm.scss'
 }
 
 export const LoginForm = ({ handleSubmit, submitting }) => (
-  <form className={classes['container']} onSubmit={handleSubmit}>
+  <form className={classes.container} onSubmit={handleSubmit}>
     <div>
       <Field
         name='email'
@@ -32,7 +32,7 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
         type='password'
       />
     </div>
-    <div className={classes['submit']}>
+    <div className={classes.submit}>
       <RaisedButton
         label='Login'
         primary
@@ -40,8 +40,8 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
         disabled={submitting}
       />
     </div>
-    <div className={classes['options']}>
-      <div className={classes['remember']}>
+    <div className={classes.options}>
+      <div className={classes.remember}>
         <Checkbox
           name='remember'
           value='remember'
@@ -49,7 +49,7 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
           labelStyle={{ fontSize: '.8rem' }}
         />
       </div>
-      <Link className={classes['recover']} to='/recover'>
+      <Link className={classes.recover} to='/recover'>
         Forgot Password?
       </Link>
     </div>
@@ -64,8 +64,8 @@ LoginForm.propTypes = {
 export default reduxForm({
   form: 'Login',
   validate
-})(LoginForm)<% } %><% if (!includeRedux) { %>export const LoginForm = ({ handleSubmit }) => (
-  <form className={classes['container']} onSubmit={handleSubmit}>
+})(LoginForm)<% } %><% if (!includeRedux) { %>export const LoginForm = ({ handleSubmit, error }) => (
+  <form className={classes.container} onSubmit={handleSubmit}>
     <div>
       <TextField
         hintText='someone@email.com'
@@ -80,15 +80,15 @@ export default reduxForm({
         errorText={error || null}
       />
     </div>
-    <div className={classes['submit']}>
+    <div className={classes.submit}>
       <RaisedButton
         label='Login'
         primary
         type='submit'
       />
     </div>
-    <div className={classes['options']}>
-      <div className={classes['remember']}>
+    <div className={classes.options}>
+      <div className={classes.remember}>
         <Checkbox
           name='remember'
           value='remember'
@@ -96,7 +96,7 @@ export default reduxForm({
           labelStyle={{ fontSize: '.8rem' }}
         />
       </div>
-      <Link className={classes['recover']} to='/recover'>
+      <Link className={classes.recover} to='/recover'>
         Forgot Password?
       </Link>
     </div>

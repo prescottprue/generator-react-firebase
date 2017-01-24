@@ -16,7 +16,7 @@ const validate = values => {
 }
 
 export const LoginForm = ({ handleSubmit, submitting }) => (
-  <form className={classes['container']} onSubmit={handleSubmit}>
+  <form className={classes.container} onSubmit={handleSubmit}>
     <div>
       <Field
         name='email'
@@ -32,7 +32,7 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
         type='password'
       />
     </div>
-    <div className={classes['submit']}>
+    <div className={classes.submit}>
       <RaisedButton
         label='Login'
         primary
@@ -40,8 +40,8 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
         disabled={submitting}
       />
     </div>
-    <div className={classes['options']}>
-      <div className={classes['remember']}>
+    <div className={classes.options}>
+      <div className={classes.remember}>
         <Checkbox
           name='remember'
           value='remember'
@@ -49,7 +49,7 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
           labelStyle={{ fontSize: '.8rem' }}
         />
       </div>
-      <Link className={classes['recover']} to='/recover'>
+      <Link className={classes.recover} to='/recover'>
         Forgot Password?
       </Link>
     </div>
