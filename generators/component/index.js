@@ -12,8 +12,10 @@ const prompts = [
 ]
 
 module.exports = class extends Generator {
-  initializing () {
-    // Get first cli argument, and set it as name
+  constructor (args, opts) {
+    super(args, opts)
+
+    // Get first cli argument, and set it as this.options.name
     this.argument('name', {
       required: true,
       type: String,
@@ -23,7 +25,7 @@ module.exports = class extends Generator {
 
   prompting () {
     this.log(
-      chalk.blue('Generating') + ' -> React Component: ' + chalk.green(this.name)
+      `${chalk.blue('Generating')} -> React Component: ${chalk.green(this.options.name)}`
     )
 
     return this.prompt(prompts).then((props) => {
@@ -32,17 +34,17 @@ module.exports = class extends Generator {
   }
 
   writing () {
-    const destPath = `src/components/${this.name}/${this.name}`
+    const destPath = `src/components/${this.options.name}/${this.options.name}`
     this.fs.copyTpl(
       this.templatePath('_main.js'),
       this.destinationPath(`${destPath}.js`),
-      this.answers
+      Object.assign({}, this.answers, { name: this.options.name })
     )
     if (this.answers.addStyle) {
       this.fs.copyTpl(
-        '_main.scss',
-        `${destPath}.scss`,
-        this.answers
+        this.templatePath('_main.scss'),
+        this.destinationPath(`${destPath}.scss`),
+        Object.assign({}, this.answers, { name: this.options.name })
       )
     }
   }

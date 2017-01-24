@@ -87,15 +87,18 @@ const filesArray = [
 ]
 
 module.exports = class extends Generator {
-  initializing () {
+  constructor (args, opts) {
+    super(args, opts)
+
     this.argument('name', { type: String, required: false })
     this.intialData = {
       version: '0.0.1',
       codeClimate: true,
       appPath: this.env.options.appPath,
-      appName: this.name || path.basename(process.cwd()) || 'react-firebase'
+      appName: this.options.name || path.basename(process.cwd()) || 'react-firebase'
     }
   }
+
   prompting () {
     this.log(yosay(
       `Welcome to the ${chalk.blue('React')} ${chalk.red('Firebase')} generator!`
