@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import AppContainer from './containers/App/App'
-<% if (answers.includeRedux) { %>import createStore from './store/createStore'
+<% if (includeRedux) { %>import createStore from './store/createStore'
 
 // ========================================================
 // Store and History Instantiation
@@ -19,7 +19,7 @@ const store = createStore(initialState)
 const MOUNT_NODE = document.getElementById('root')
 
 let render = () => {
-  <% if (answers.includeRedux) { %>const routes = require('./routes/index').default(store)
+  <% if (includeRedux) { %>const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
     <AppContainer
@@ -27,7 +27,7 @@ let render = () => {
       routes={routes}
     />,
     MOUNT_NODE
-  )<% } %><% if (!answers.includeRedux) { %>const routes = require('./routes/index').default()
+  )<% } %><% if (!includeRedux) { %>const routes = require('./routes/index').default()
 
   ReactDOM.render(
     <AppContainer

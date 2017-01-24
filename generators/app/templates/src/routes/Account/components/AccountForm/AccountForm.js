@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 import classes from './AccountForm.scss'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 
-<% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+<% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import TextField from '../../../../components/TextField'
 import { connect } from 'react-redux'
 import { helpers } from 'react-redux-firebase'
@@ -55,7 +55,7 @@ export default connect(({firebase}) => (
     initialValues: pathToJS(firebase, 'profile'),
     account: pathToJS(firebase, 'profile')
   }
-))(AccountReduxForm)<% } %><% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
+))(AccountReduxForm)<% } %><% if (!includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
   <div className={classes['Account']}>
     <h4>Account</h4>
     <div>

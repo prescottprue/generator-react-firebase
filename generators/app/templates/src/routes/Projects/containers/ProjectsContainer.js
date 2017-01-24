@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'<% if (answers.includeRedux) { %>
+import React, { Component, PropTypes } from 'react'<% if (includeRedux) { %>
 import { map } from 'lodash'<% } %>
 import { LIST_PATH } from 'constants/paths'
 
@@ -9,7 +9,7 @@ import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import classes from './ProjectsContainer.scss'
-<% if (answers.includeRedux) { %>
+<% if (includeRedux) { %>
 // redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
@@ -42,7 +42,7 @@ export default class Projects extends Component {
     newProjectModal: false,
     addProjectModal: false
   }
-<% if (!answers.includeRedux) { %>
+<% if (!includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
     projects: PropTypes.array,
@@ -56,7 +56,7 @@ export default class Projects extends Component {
 
   newSubmit = name => {
     // TODO: create new project
-  }<% } %><% if (answers.includeRedux) { %>
+  }<% } %><% if (includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
     projects: PropTypes.object,
@@ -90,7 +90,7 @@ export default class Projects extends Component {
 
   render () {
     // Project Route is being loaded
-    if (this.props.children) return this.props.children<% if (answers.includeRedux) { %>
+    if (this.props.children) return this.props.children<% if (includeRedux) { %>
 
     const { projects } = this.props
     const { newProjectModal } = this.state
@@ -109,7 +109,7 @@ export default class Projects extends Component {
           newProjectModal &&
             <NewProjectDialog
               open={newProjectModal}
-              <% if (answers.includeRedux) { %>onSubmit={this.newSubmit}<% } %><% if (!answers.includeRedux) { %>onCreateClick={this.newSubmit}<% } %>
+              <% if (includeRedux) { %>onSubmit={this.newSubmit}<% } %><% if (!includeRedux) { %>onCreateClick={this.newSubmit}<% } %>
               onRequestClose={() => this.toggleModal('newProject')}
             />
         }

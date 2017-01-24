@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-<% if (!answers.includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (answers.includeRedux) { %>import { Field, reduxForm, submit } from 'redux-form'
+<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field, reduxForm, submit } from 'redux-form'
 import TextField from 'components/TextField'<% } %>
 
 import classes from './NewProjectDialog.scss'
-<% if (answers.includeRedux) { %>
+<% if (includeRedux) { %>
 const formName = 'newProject'
 const validate = values => {
   const errors = {}
@@ -19,9 +19,9 @@ const validate = values => {
 export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
-    onRequestClose: PropTypes.func.isRequired<% if (answers.includeRedux) { %>,
+    onRequestClose: PropTypes.func.isRequired<% if (includeRedux) { %>,
     handleSubmit: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired<% } %><% if (!answers.includeRedux) { %>,
+    dispatch: PropTypes.func.isRequired<% } %><% if (!includeRedux) { %>,
     onCreateClick: PropTypes.func.isRequired,<% } %>
   }
 
@@ -41,7 +41,7 @@ export default class NewProjectDialog extends Component {
       }, 500)
     }
   }
-<% if (!answers.includeRedux) { %>
+<% if (!includeRedux) { %>
   handleInputChange = (e) => {
     e.preventDefault()
     this.setState({
@@ -78,7 +78,7 @@ export default class NewProjectDialog extends Component {
   }
 
   render () {
-    const { open, error } = this.state<% if (answers.includeRedux) { %>
+    const { open, error } = this.state<% if (includeRedux) { %>
     const { handleSubmit } = this.props<% } %>
 
     const actions = [
@@ -90,7 +90,7 @@ export default class NewProjectDialog extends Component {
       <FlatButton
         label='Create'
         primary
-        <% if (!answers.includeRedux) { %>onClick={this.handleSubmit}<% } %><% if (answers.includeRedux) { %>onClick={this.handleSubmitClick}<% } %>
+        <% if (!includeRedux) { %>onClick={this.handleSubmit}<% } %><% if (includeRedux) { %>onClick={this.handleSubmitClick}<% } %>
       />
     ]
 
@@ -103,14 +103,14 @@ export default class NewProjectDialog extends Component {
         onRequestClose={this.close}
         contentClassName={classes['container']}>
         <div className={classes['inputs']}>
-          <% if (answers.includeRedux) { %><form onSubmit={handleSubmit}>
+          <% if (includeRedux) { %><form onSubmit={handleSubmit}>
             <Field
               name='name'
               component={TextField}
               error={error || null}
               label='Project Name'
             />
-          </form><% } %><% if (!answers.includeRedux) { %><TextField
+          </form><% } %><% if (!includeRedux) { %><TextField
             hintText='exampleProject'
             floatingLabelText='Project Name'
             ref='projectNameField'

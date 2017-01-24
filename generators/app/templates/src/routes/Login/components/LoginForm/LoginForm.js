@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
-<% if (!answers.includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
-<% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
+<% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'<% } %>
 
 import classes from './LoginForm.scss'
 
-<% if (answers.includeRedux) { %>const validate = values => {
+<% if (includeRedux) { %>const validate = values => {
   const errors = {}
   if (!values.email) errors.email = 'Required'
   if (!values.password) errors.password = 'Required'
@@ -64,7 +64,7 @@ LoginForm.propTypes = {
 export default reduxForm({
   form: 'Login',
   validate
-})(LoginForm)<% } %><% if (!answers.includeRedux) { %>export const LoginForm = ({ handleSubmit }) => (
+})(LoginForm)<% } %><% if (!includeRedux) { %>export const LoginForm = ({ handleSubmit }) => (
   <form className={classes['container']} onSubmit={handleSubmit}>
     <div>
       <TextField

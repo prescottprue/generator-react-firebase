@@ -6,11 +6,11 @@ import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 import LoginForm from '../components/LoginForm/LoginForm'
 import { LIST_PATH } from 'constants/paths'
-<% if (!answers.includeRedux) { %>import firebaseUtil from '../../../utils/firebase'
+<% if (!includeRedux) { %>import firebaseUtil from '../../../utils/firebase'
 <% } %>
 // styles
 import classes from './LoginContainer.scss'
-<% if (answers.includeRedux) { %>
+<% if (includeRedux) { %>
 // redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
@@ -30,7 +30,7 @@ export default class Login extends Component {
   static contextTypes = {
     router: PropTypes.object
   }
-<% if (answers.includeRedux) { %>
+<% if (includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.object,
@@ -48,7 +48,7 @@ export default class Login extends Component {
       snackCanOpen: true,
       isLoading: true
     })
-<% if (!answers.includeRedux) { %>
+<% if (!includeRedux) { %>
     const { email, password } = loginData
     if (email && password) {
       firebaseUtil.auth()
@@ -63,7 +63,7 @@ export default class Login extends Component {
           this.setState({ isLoading: false })
         })
     }<% } %>
-    <% if (answers.includeRedux) { %>this.props.firebase
+    <% if (includeRedux) { %>this.props.firebase
       .login(loginData)
       .then((account) =>
         this.context.router.push(LIST_PATH)
@@ -74,10 +74,10 @@ export default class Login extends Component {
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
-    <% if (answers.includeRedux) { %>const { account, authError } = this.props
+    <% if (includeRedux) { %>const { account, authError } = this.props
     const { snackCanOpen } = this.state
 
-    if (!isLoaded(account) && !isEmpty(account)) {<% } %><% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
+    if (!isLoaded(account) && !isEmpty(account)) {<% } %><% if (!includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
     if (isLoading) {<% } %>
       return (
         <div className={classes['container']}>
@@ -106,7 +106,7 @@ export default class Login extends Component {
           <Link className={classes['signup-link']} to='/signup'>
             Sign Up
           </Link>
-        </div><% if (!answers.includeRedux) { %>
+        </div><% if (!includeRedux) { %>
         {
           snackCanOpen && typeof errorMessage !== null &&
             <Snackbar
@@ -117,7 +117,7 @@ export default class Login extends Component {
               onRequestClose={this.handleRequestClose}
             />
         }
-<% } %><% if (answers.includeRedux) { %>
+<% } %><% if (includeRedux) { %>
         {
           isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
             <Snackbar
