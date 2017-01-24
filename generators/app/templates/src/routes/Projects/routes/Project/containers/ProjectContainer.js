@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import classes from './ProjectContainer.scss'
 import CircularProgress from 'material-ui/CircularProgress'
 
-<% if (answers.includeRedux) { %>// redux/firebase
+<% if (includeRedux) { %>// redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
 const { isLoaded, dataToJS } = helpers
@@ -25,7 +25,7 @@ export default class Project extends Component {
     router: React.PropTypes.object.isRequired
   }
 
-  <% if (answers.includeRedux) { %>static propTypes = {
+  <% if (includeRedux) { %>static propTypes = {
     project: PropTypes.object,
     params: PropTypes.object.isRequired,
     children: PropTypes.object

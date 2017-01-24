@@ -1,28 +1,18 @@
-import React, { Component, PropTypes } from 'react'
-<% if(answers.usingRedux) { %>
-import { firebase, helpers } from 'redux-react-firebase'
-<% } %>
-<% if(answers.addStyle) { %>
-import './<%= name %>.scss'
-<% } %>
+import React, { Component } from 'react'
+<% if(usingRedux) { %>import { connect } from 'react-redux'
+import { firebaseConnect, helpers } from 'redux-react-firebase'<% } %>
+<% if(addStyle) { %>import './<%= name %>.scss'<% } %>
 
-<% if(answers.usingRedux) { %>
-const { isLoaded, isEmpty,  dataToJS, pathToJS } = helpers
+<% if(usingRedux) { %>const { pathToJS } = helpers
 
-// Props decorators
-@firebase()
+@firebaseConnect()
 @connect(
   ({firebase}) => ({
     authError: pathToJS(firebase, 'authError'),
     profile: pathToJS(firebase, 'profile')
   })
-)
-<% } %>
+)<% } %>
 export default class <%= name %> extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   static propTypes = {
 
   };

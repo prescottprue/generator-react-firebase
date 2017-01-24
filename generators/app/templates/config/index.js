@@ -46,7 +46,7 @@ const config = {
   },
   compiler_vendors : [
     'react',
-    'react-router'<% if (answers.includeRedux) { %>,
+    'react-router'<% if (includeRedux) { %>,
     'react-redux',
     'redux'<% } %>
   ],

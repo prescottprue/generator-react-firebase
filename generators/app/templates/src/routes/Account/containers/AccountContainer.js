@@ -10,7 +10,7 @@ import classes from './AccountContainer.scss'
 
 const defaultUserImageUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
 
-<% if (answers.includeRedux) { %>// redux/firebase
+<% if (includeRedux) { %>// redux/firebase
 import { connect } from 'react-redux'
 import { firebase, helpers } from 'react-redux-firebase'
 const { pathToJS, isLoaded } = helpers
@@ -30,7 +30,7 @@ export default class Account extends Component {
     router: React.PropTypes.object.isRequired
   }
 
-  <% if (answers.includeRedux) { %>static propTypes = {
+  <% if (includeRedux) { %>static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.shape({
       logout: PropTypes.func.isRequired,
@@ -42,9 +42,9 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
-    <% if (answers.includeRedux) { %>this.props.firebase
+    <% if (includeRedux) { %>this.props.firebase
       .logout()
-      .then(() => this.context.router.push('/'))<% } %><% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
+      .then(() => this.context.router.push('/'))<% } %><% if (!includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
   }
 
   handleSave = () => {
@@ -53,7 +53,7 @@ export default class Account extends Component {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
-    <% if (answers.includeRedux) { %>this.props.firebase
+    <% if (includeRedux) { %>this.props.firebase
       .updateAccount(account)<% } %>
   }
 

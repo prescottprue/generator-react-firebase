@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-- 6.2.0
+- 6.9.1
 
 sudo: false
 
@@ -22,8 +22,10 @@ script:
   - npm run lint:fix
   - npm run test
   - npm run build:prod
-  - npm run fb
+  - npm run fb // deploys to firebase
 
-
+addons:
+  code_climate:
+    repo_token: $CODE_CLIMATE
 
 

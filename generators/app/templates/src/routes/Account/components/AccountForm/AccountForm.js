@@ -1,16 +1,16 @@
 import React, { PropTypes } from 'react'
-
-import classes from './AccountForm.scss'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
+<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
+import classes from './AccountForm.scss'
 
-<% if (answers.includeRedux) { %>import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../../components/TextField'
+<% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+import TextField from 'components/TextField'
 import { connect } from 'react-redux'
 import { helpers } from 'react-redux-firebase'
 const { pathToJS } = helpers
 
 export const AccountForm = ({ account, handleSubmit, submitting }) => (
-  <div className={classes['Account']}>
+  <div className={classes.container}>
     <h4>Account</h4>
     <div>
       <Field
@@ -29,7 +29,7 @@ export const AccountForm = ({ account, handleSubmit, submitting }) => (
     <div>
       <h4>Linked Accounts</h4>
       {
-        account.providerData &&
+        account && account.providerData &&
           <ProviderDataForm
             providerData={account.providerData}
           />
@@ -39,9 +39,7 @@ export const AccountForm = ({ account, handleSubmit, submitting }) => (
 )
 
 AccountForm.propTypes = {
-  account: PropTypes.shape({
-    providerData: PropTypes.array
-  }),
+  account: PropTypes.object,
   handleSubmit: PropTypes.func,
   submitting: PropTypes.bool
 }
@@ -55,19 +53,22 @@ export default connect(({firebase}) => (
     initialValues: pathToJS(firebase, 'profile'),
     account: pathToJS(firebase, 'profile')
   }
-))(AccountReduxForm)<% } %><% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
-  <div className={classes['Account']}>
+))(AccountReduxForm)<% } %><% if (!includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
+  <div className={classes.container}>
     <h4>Account</h4>
     <div>
-      <input placeholder='username' />
+      <TextField floatingLabelText='Username' />
     </div>
     <div>
-      <input placeholder='email' />
+      <TextField
+        hintText='someone@email.com'
+        floatingLabelText='Email'
+      />
     </div>
     <div>
       <h4>Linked Accounts</h4>
       {
-        account.providerData &&
+        account && account.providerData &&
           <ProviderDataForm
             providerData={account.providerData}
           />
@@ -77,9 +78,7 @@ export default connect(({firebase}) => (
 )
 
 AccountForm.propTypes = {
-  account: PropTypes.shape({
-    providerData: PropTypes.array
-  }),
+  account: PropTypes.object,
   handleSubmit: PropTypes.func
 }
 export default AccountForm<% } %>

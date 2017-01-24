@@ -1,9 +1,9 @@
 # <%= appName %>
 
 [![NPM version][npm-image]][npm-url]
-<% if (answers.includeTravis) { %>[![Build Status][travis-image]][travis-url]
+<% if (includeTravis) { %>[![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]<% } %>
-<% if (answers.codeClimate) { %>[![Code Coverage][coverage-image]][coverage-url]
+<% if (codeClimate) { %>[![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]<% } %>
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
@@ -181,7 +181,7 @@ Babel is configured to use [babel-plugin-transform-runtime](https://www.npmjs.co
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
 ### Deployment
-<% if (answers.deployTo === 'firebase') { %>
+<% if (deployTo === 'firebase') { %>
 1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
 2. Install cli: `npm i -g firebase-tools`
 3. Login: `firebase login`
@@ -193,7 +193,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
 5. Build Project: `npm run build`
 6. Confirm Firebase config by running locally: `firebase serve`
 7. Deploy to firebase: `firebase deploy`<% } %>
-<% if (answers.deployTo === 's3') { %>
+<% if (deployTo === 's3') { %>
 Selecting AWS S3 from the deploy options when running the generator adds deploy configs in `.travis.yml`.
 
 1. Get your AWS Key and Secret from the AWS Console Credentials page
@@ -201,7 +201,7 @@ Selecting AWS S3 from the deploy options when running the generator adds deploy 
   * AWS_KEY - Your AWS key
   * AWS_SECRET - Your AWS secret
   * BUCKET - Your S3 Bucket<% } %>
-<% if (answers.deployTo === 'heroku') { %>
+<% if (deployTo === 'heroku') { %>
 Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment.
 
 To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.org):
@@ -214,11 +214,11 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
 
 [npm-image]: https://img.shields.io/npm/v/<%= appName %>.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/<%= appName %>
-<% if (answers.includeTravis) { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
+<% if (includeTravis) { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
 [daviddm-image]: https://img.shields.io/david/<%= githubUser %>/<%= appName %>.svg?style=flat-square
 [daviddm-url]: https://david-dm.org/<%= githubUser %>/<%= appName %><% } %>
-<% if (answers.codeClimate) { %>[climate-image]: https://img.shields.io/codeclimate/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
+<% if (codeClimate) { %>[climate-image]: https://img.shields.io/codeclimate/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %>
 [coverage-image]: https://img.shields.io/codeclimate/coverage/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
 [coverage-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %> <% } %>
