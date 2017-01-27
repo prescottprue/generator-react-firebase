@@ -51,7 +51,7 @@ A Travis-CI file has been included to enable CI builds. The correct configuratio
 3. Login: `firebase login`
 4. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
-  * What do you want to use as your public directory? -> `build`
+  * What do you want to use as your public directory? -> `dist`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
 5. Build Project: `npm run build`
