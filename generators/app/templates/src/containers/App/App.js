@@ -30,13 +30,17 @@ export default class AppContainer extends Component {
     <% if (!answers.includeRedux) { %>const { routes } = this.props
     return (
       <div style={{ height: '100%' }}>
-        <Router history={browserHistory} children={routes} />
+        <Router history={browserHistory}>
+          {routes}
+        </Router>
       </div>
     )<% } %><% if (answers.includeRedux) { %>const { routes, store } = this.props
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
-          <Router history={browserHistory} children={routes} />
+          <Router history={browserHistory}>
+            {routes}
+          </Router>
         </div>
       </Provider>
     )<% } %>

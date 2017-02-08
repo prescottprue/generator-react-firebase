@@ -1,3 +1,5 @@
 import paths from './paths'
+import formNames from './formNames'
 
-export default { ...paths }
+export { paths, formNames }
+export default { ...paths, ...formNames }

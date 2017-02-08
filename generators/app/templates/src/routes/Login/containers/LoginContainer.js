@@ -8,39 +8,37 @@ import LoginForm from '../components/LoginForm/LoginForm'
 import { LIST_PATH } from 'constants/paths'
 <% if (!answers.includeRedux) { %>import firebaseUtil from '../../../utils/firebase'
 <% } %>
-// styles
 import classes from './LoginContainer.scss'
 <% if (answers.includeRedux) { %>
-// redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
+import { UserIsNotAuthenticated } from 'utils/router';
+import { firebaseConnect, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
-// Props decorators
-@firebase()
+@UserIsNotAuthenticated // redirect to list page if logged in
+@firebaseConnect()
 @connect(
   // Map state to props
-  ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-    account: pathToJS(firebase, 'profile')
+  ({ firebase }) => ({
+    authError: pathToJS(firebase, 'authError')
   })
-)
-<% } %>
+)<% } %>
 export default class Login extends Component {
-  static contextTypes = {
+  <% if (!answers.includeRedux) { %>static contextTypes = {
     router: PropTypes.object
-  }
+  }<% } %>
 <% if (answers.includeRedux) { %>
   static propTypes = {
-    account: PropTypes.object,
-    firebase: PropTypes.object,
-    authError: PropTypes.object,
-    location: PropTypes.object.isRequired
+    firebase: PropTypes.shape({
+      login: PropTypes.func.isRequired,
+    }),
+    authError: PropTypes.shape({
+      message: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+    }),
   }
 <% } %>
   state = {
-    snackCanOpen: false,
-    isLoading: false
+    snackCanOpen: false
   }
 
   handleLogin = loginData => {
@@ -63,18 +61,14 @@ export default class Login extends Component {
           this.setState({ isLoading: false })
         })
     }<% } %>
-    <% if (answers.includeRedux) { %>this.props.firebase
-      .login(loginData)
-      .then((account) =>
-        this.context.router.push(LIST_PATH)
-      )<% } %>
+    <% if (answers.includeRedux) { %>this.props.firebase.login(loginData)<% } %>
   }
 
   providerLogin = (provider) =>
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
-    <% if (answers.includeRedux) { %>const { account, authError } = this.props
+    <% if (answers.includeRedux) { %>const { authError } = this.props
     const { snackCanOpen } = this.state
 
     if (!isLoaded(account) && !isEmpty(account)) {<% } %><% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state

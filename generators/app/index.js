@@ -135,6 +135,7 @@ module.exports = yeoman.Base.extend({
         // { src: 'src/actions/**', dest: 'src/actions' },
         // { src: 'src/reducers/**', dest: 'src/reducers' },
         { src: 'src/store/**', dest: 'src/store' },
+        { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
         // TODO: Add question about including redux-cli blueprints (they contain template strings)
         // { src: 'blueprints/**', dest: 'blueprints' },
         { src: 'redux/_package.json', dest: 'package.json' }

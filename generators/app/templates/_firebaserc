@@ -1,5 +1,6 @@
 {
   "projects": {
+    "dev": "<%= firebaseName %>",
     "stage": "<%= firebaseName %>",
     "prod": "<%= firebaseName %>"
   }

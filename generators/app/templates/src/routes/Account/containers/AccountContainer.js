@@ -1,29 +1,32 @@
 import React, { Component, PropTypes } from 'react'
-
-// Components
+import Paper from 'material-ui/Paper'<% if (answers.includeRedux) { %>
+import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
+import { firebaseConnect, helpers } from 'react-redux-firebase'
+import { ACCOUNT_FORM_NAME } from 'constants/formNames'
+import { UserIsAuthenticated } from 'utils/router'<% } %>
+import defaultUserImageUrl from 'static/User.png'
+import LoadingSpinner from 'components/LoadingSpinner'
 import AccountForm from '../components/AccountForm/AccountForm'
-import CircularProgress from 'material-ui/CircularProgress'
-import Paper from 'material-ui/Paper'
-
-// styles
 import classes from './AccountContainer.scss'
 
-const defaultUserImageUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
+<% if (answers.includeRedux) { %>const { pathToJS, isLoaded } = helpers
 
-<% if (answers.includeRedux) { %>// redux/firebase
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
-const { pathToJS, isLoaded } = helpers
-
-// Props decorators
-@firebase()
+@UserIsAuthenticated // redirect to /login if user is not authenticated
+@firebaseConnect()
 @connect(
   // Map state to props
-  ({firebase}) => ({
+  ({ firebase }) => ({
     authError: pathToJS(firebase, 'authError'),
-    account: pathToJS(firebase, 'profile')
+    account: pathToJS(firebase, 'profile'),
+    initialValues: pathToJS(firebase, 'profile'),
   })
-)<% } %>
+)
+@reduxForm({
+  form: ACCOUNT_FORM_NAME,
+  enableReinitialization: true,
+  persistentSubmitErrors: true,
+})<% } %>
 export default class Account extends Component {
 
   static contextTypes = {
@@ -42,21 +45,17 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
-    <% if (answers.includeRedux) { %>this.props.firebase
-      .logout()
-      .then(() => this.context.router.push('/'))<% } %><% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
+    <% if (answers.includeRedux) { %>this.props.firebase.logout()<% } %><% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
   }
-
+<% if (!answers.includeRedux) { %>
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time
     const account = {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
-    <% if (answers.includeRedux) { %>this.props.firebase
-      .updateAccount(account)<% } %>
   }
-
+<% } %>
   toggleModal = () => {
     this.setState({
       modalOpen: !this.state.modalOpen
@@ -67,25 +66,21 @@ export default class Account extends Component {
     const { account, firebase: { saveAccount } } = this.props
 
     if (!isLoaded(account)) {
-      return (
-        <div className={classes['container']}>
-          <CircularProgress size={1.5} />
-        </div>
-      )
+      return <LoadingSpinner />
     }
 
     return (
-      <div className={classes['container']}>
-        <Paper className={classes['pane']}>
-          <div className={classes['settings']}>
-            <div className={classes['avatar']}>
+      <div className={classes.container}>
+        <Paper className={classes.pane}>
+          <div className={classes.settings}>
+            <div className={classes.avatar}>
               <img
                 className={classes['avatar-current']}
                 src={account && account.avatarUrl || defaultUserImageUrl}
                 onClick={this.toggleModal}
               />
             </div>
-            <div className={classes['meta']}>
+            <div className={classes.meta}>
               <AccountForm
                 onSubmit={saveAccount}
                 account={account}

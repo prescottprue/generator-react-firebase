@@ -6,17 +6,17 @@ import { LIST_PATH } from 'constants/paths'
 import ProjectTile from '../components/ProjectTile/ProjectTile'
 import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
 import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
-import CircularProgress from 'material-ui/CircularProgress'
+import LoadingSpinner from 'components/LoadingSpinner';
 
 import classes from './ProjectsContainer.scss'
 <% if (answers.includeRedux) { %>
 // redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
+import { firebaseConnect, helpers } from 'react-redux-firebase'
 const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
 
 // Decorators
-@firebase(
+@firebaseConnect(
   ({ params, auth }) => ([
     {
       path: 'projects',
@@ -58,7 +58,6 @@ export default class Projects extends Component {
     // TODO: create new project
   }<% } %><% if (answers.includeRedux) { %>
   static propTypes = {
-    account: PropTypes.object,
     projects: PropTypes.object,
     firebase: PropTypes.object,
     auth: PropTypes.object,
@@ -96,15 +95,11 @@ export default class Projects extends Component {
     const { newProjectModal } = this.state
 
     if (!isLoaded(projects)) {
-      return (
-        <div className={classes['progress']}>
-          <CircularProgress />
-        </div>
-      )
+      return <LoadingSpinner />
     }<% } %>
 
     return (
-      <div className={classes['container']}>
+      <div className={classes.container}>
         {
           newProjectModal &&
             <NewProjectDialog

@@ -14,28 +14,31 @@ import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
+import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import Avatar from 'material-ui/Avatar'
-import StockPhoto from 'static/User.png'
+import defaultUserImage from 'static/User.png'
 
-const originSettings = { horizontal: 'right', vertical: 'top' }
-const buttonStyle = { color: 'white', textDecoration: 'none' }
 const avatarSize = 50
+const buttonStyle = {
+  color: 'white',
+  textDecoration: 'none',
+  alignSelf: 'center',
+}
 
 const avatarStyles = {
-  icon: { width: avatarSize, height: avatarSize },
-  button: { marginRight: '1.5rem', width: avatarSize, height: avatarSize },
-  wrapper: { marginTop: 45 - avatarSize }
+  wrapper: { marginTop: 0 },
+  button: { marginRight: '.5rem', width: '200px', height: '64px' },
+  buttonSm: { marginRight: '.5rem', width: '30px', height: '64px', padding: '0' },
 }
 
 <% if (!answers.includeRedux) { %>// firebase
 // TODO: Import actions for firebase<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
-const { pathToJS } = helpers
+import { firebaseConnect, helpers } from 'react-redux-firebase'
+const { pathToJS, isLoaded, isEmpty } = helpers
 
-// Props decorators
-@firebase()
+@firebaseConnect()
 @connect(
-  ({firebase}) => ({
+  ({ firebase }) => ({
     authError: pathToJS(firebase, 'authError'),
     auth: pathToJS(firebase, 'auth'),
     account: pathToJS(firebase, 'profile')
@@ -60,18 +63,29 @@ export default class Navbar extends Component {
   }
 
   render () {
-    const { auth } = this.props
+    const { account } = this.props
+    <% if (answers.includeRedux) { %>const accountExists = isLoaded(account) && !isEmpty(account);<% } %>
 
     const iconButton = (
-      <IconButton iconStyle={avatarStyles.icon} style={avatarStyles.button}>
-        <Avatar
-          src={auth && auth.photoURL ? auth.photoURL : StockPhoto}
-        />
+      <IconButton style={avatarStyles.button} disableTouchRipple>
+        <div className={classes.avatar}>
+          <div className="hidden-mobile">
+            <Avatar
+              <% if (answers.includeRedux) { %>src={accountExists && account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %><% if (!answers.includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %>
+            />
+          </div>
+          <div className={classes['avatar-text']}>
+            <span className={`${classes['avatar-text-name']} hidden-mobile`}>
+              { accountExists && account.displayName ? account.displayName : 'User' }
+            </span>
+            <DownArrow color="white" />
+          </div>
+        </div>
       </IconButton>
     )
 
     const mainMenu = (
-      <div className={classes['menu']}>
+      <div className={classes.menu}>
         <Link to={SIGNUP_PATH}>
           <FlatButton
             label='Sign Up'
@@ -87,42 +101,35 @@ export default class Navbar extends Component {
       </div>
     )
 
-    const rightMenu = auth ? (
+    const rightMenu = accountExists ? (
       <IconMenu
         iconButtonElement={iconButton}
         targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        anchorOrigin={originSettings}
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         animated={false}
       >
         <MenuItem
           primaryText='Account'
-          value='account'
           onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
         />
         <MenuItem
           primaryText='Sign out'
-          value='logout'
           onTouchTap={this.handleLogout}
         />
       </IconMenu>
     ) : mainMenu
 
-    // Only apply styling if avatar is showing
-    const menuStyle = auth ? avatarStyles.wrapper : {}
-
-    // Redirect to projects page if logged in
-    const brandPath = auth ? `/${LIST_PATH}` : '/'
-
     return (
       <AppBar
         title={
-          <Link to={brandPath} className={classes['brand']}>
+          <Link to={accountExists ? `${LIST_PATH}` : '/'} className={classes.brand}>
             <%= appName %>
           </Link>
         }
         showMenuIconButton={false}
         iconElementRight={rightMenu}
-        iconStyleRight={menuStyle}
+        iconStyleRight={accountExists ? avatarStyles.wrapper : {}}
+        className={classes.appBar}
       />
     )
   }

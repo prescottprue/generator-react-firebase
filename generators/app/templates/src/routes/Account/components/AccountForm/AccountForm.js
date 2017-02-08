@@ -10,7 +10,7 @@ import { helpers } from 'react-redux-firebase'
 const { pathToJS } = helpers
 
 export const AccountForm = ({ account, handleSubmit, submitting }) => (
-  <div className={classes['Account']}>
+  <div className={classes.container}>
     <h4>Account</h4>
     <div>
       <Field
@@ -30,9 +30,7 @@ export const AccountForm = ({ account, handleSubmit, submitting }) => (
       <h4>Linked Accounts</h4>
       {
         account.providerData &&
-          <ProviderDataForm
-            providerData={account.providerData}
-          />
+          <ProviderDataForm providerData={account.providerData} />
       }
     </div>
   </div>
@@ -44,19 +42,8 @@ AccountForm.propTypes = {
   }),
   handleSubmit: PropTypes.func,
   submitting: PropTypes.bool
-}
-
-const AccountReduxForm = reduxForm({
-  form: 'Account'
-})(AccountForm)
-
-export default connect(({firebase}) => (
-  {
-    initialValues: pathToJS(firebase, 'profile'),
-    account: pathToJS(firebase, 'profile')
-  }
-))(AccountReduxForm)<% } %><% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
-  <div className={classes['Account']}>
+}<% } %><% if (!answers.includeRedux) { %>export const AccountForm = ({ account, handleSubmit }) => (
+  <div className={classes.container}>
     <h4>Account</h4>
     <div>
       <input placeholder='username' />
@@ -82,4 +69,5 @@ AccountForm.propTypes = {
   }),
   handleSubmit: PropTypes.func
 }
-export default AccountForm<% } %>
+<% } %>
+export default AccountForm

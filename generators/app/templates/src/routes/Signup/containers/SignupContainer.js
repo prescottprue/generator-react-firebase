@@ -11,44 +11,38 @@ import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
 
-<% if (!answers.includeRedux) { %>import firebaseUtil from '../../../utils/firebase'<% } %><% if (answers.includeRedux) { %>// redux/firebase
+<% if (!answers.includeRedux) { %>import firebaseUtil from 'utils/firebase'<% } %><% if (answers.includeRedux) { %>// redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
+import { UserIsNotAuthenticated } from 'utils/router';
+
+import { firebaseConnect, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
-@firebase()
+@UserIsNotAuthenticated // redirect to list page if logged in
+@firebaseConnect()
 @connect(
   // Map state to props
   ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-    account: pathToJS(firebase, 'profile')
+    authError: pathToJS(firebase, 'authError')
   })
 )<% } %>
 export default class Signup extends Component {
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
+  <% if (!answers.includeRedux) { %>static contextTypes = {
+    router: PropTypes.object
+  }<% } %>
 <% if (answers.includeRedux) { %>
   static propTypes = {
-    account: PropTypes.object,
     firebase: PropTypes.object,
     authError: PropTypes.object
   }<% } %>
 
   state = {
-    snackCanOpen: false,
-    isLoading: false
+    snackCanOpen: false
   }
-
-  handleRequestClose = () =>
-    this.setState({
-      snackCanOpen: false
-    })
 
   handleSignup = (creds) => {
     this.setState({
-      snackCanOpen: true,
-      isLoading: true
+      snackCanOpen: true
     })
     <% if (!answers.includeRedux) { %>const { username, email, provider, password } = creds
     let newState
@@ -68,18 +62,15 @@ export default class Signup extends Component {
       console.warn('other signups not currently supported', provider)
     }<% } %><% if (answers.includeRedux) { %>const { createUser, login } = this.props.firebase
     createUser(creds, { email: creds.email, username: creds.username })
-    .then(() => {
-      login(creds)
-    })
-    .then(() =>
-      this.context.router.push(LIST_PATH)
-    )<% } %>
+      .then(() => {
+        login(creds)
+      })
+    <% } %>
   }
 
   providerLogin = (provider) => {
     this.setState({
-      snackCanOpen: true,
-      isLoading: true
+      snackCanOpen: true
     })
 <% if (!answers.includeRedux) { %>
   // TODO: Handle Google Login without react-redux-firebase<% } %><% if (answers.includeRedux) { %>
@@ -132,7 +123,7 @@ export default class Signup extends Component {
               message={errorMessage}
               action='close'
               autoHideDuration={3000}
-              onRequestClose={this.handleRequestClose}
+              onRequestClose={() => this.setState({ snackCanOpen: false })}
             />
         }<% } %><% if (answers.includeRedux) { %>
         {
@@ -142,6 +133,7 @@ export default class Signup extends Component {
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
+              onRequestClose={() => this.setState({ snackCanOpen: false })}
             />
         }<% } %>
       </div>
