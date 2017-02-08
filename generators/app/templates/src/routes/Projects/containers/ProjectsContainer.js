@@ -1,21 +1,16 @@
 import React, { Component, PropTypes } from 'react'<% if (answers.includeRedux) { %>
-import { map } from 'lodash'<% } %>
+import { map } from 'lodash'
+import { connect } from 'react-redux'
+import { firebaseConnect, helpers } from 'react-redux-firebase'<% } %>
 import { LIST_PATH } from 'constants/paths'
-
-// Components
 import ProjectTile from '../components/ProjectTile/ProjectTile'
 import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
 import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
-import LoadingSpinner from 'components/LoadingSpinner';
-
+import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectsContainer.scss'
-<% if (answers.includeRedux) { %>
-// redux/firebase
-import { connect } from 'react-redux'
-import { firebaseConnect, helpers } from 'react-redux-firebase'
-const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
 
-// Decorators
+<% if (answers.includeRedux) { %>const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
+
 @firebaseConnect(
   ({ params, auth }) => ([
     {
@@ -74,7 +69,7 @@ export default class Projects extends Component {
       .then(() => this.setState({ newProjectModal: false }))
       .catch(err => {
         // TODO: Show Snackbar
-        console.error('error creating new project', err)
+        console.error('error creating new project', err) // eslint-disable-line
       })
   }
 

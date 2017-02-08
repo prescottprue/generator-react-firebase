@@ -4,16 +4,16 @@ import GoogleButton from 'react-google-button'
 
 // Components
 import Paper from 'material-ui/Paper'
-import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 import { LIST_PATH } from 'constants/paths'
 import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
 
-<% if (!answers.includeRedux) { %>import firebaseUtil from 'utils/firebase'<% } %><% if (answers.includeRedux) { %>// redux/firebase
+<% if (!answers.includeRedux) { %>import firebaseUtil from 'utils/firebase'
+import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if (answers.includeRedux) { %>// redux/firebase
 import { connect } from 'react-redux'
-import { UserIsNotAuthenticated } from 'utils/router';
+import { UserIsNotAuthenticated } from 'utils/router'
 
 import { firebaseConnect, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
@@ -29,9 +29,7 @@ const { isLoaded, isEmpty, pathToJS } = helpers
 export default class Signup extends Component {
   <% if (!answers.includeRedux) { %>static contextTypes = {
     router: PropTypes.object
-  }<% } %>
-<% if (answers.includeRedux) { %>
-  static propTypes = {
+  }<% } %><% if (answers.includeRedux) { %>static propTypes = {
     firebase: PropTypes.object,
     authError: PropTypes.object
   }<% } %>
@@ -64,8 +62,7 @@ export default class Signup extends Component {
     createUser(creds, { email: creds.email, username: creds.username })
       .then(() => {
         login(creds)
-      })
-    <% } %>
+      })<% } %>
   }
 
   providerLogin = (provider) => {
@@ -82,33 +79,27 @@ export default class Signup extends Component {
   }
 
   render () {
-    <% if (answers.includeRedux) { %>const { account, authError } = this.props
+    <% if (answers.includeRedux) { %>const { authError } = this.props<% } %>
     const { snackCanOpen } = this.state
+<% if (!answers.includeRedux) { %>
+    const { snackCanOpen, isLoading, errorMessage } = this.state
 
-    if (!isLoaded(account) && !authError) {<% } %><% if (!answers.includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
-
-    if (isLoading) {<% } %>
-      return (
-        <div className={classes['container']}>
-          <div className={classes['progress']}>
-            <CircularProgress mode='indeterminate' />
-          </div>
-        </div>
-      )
-    }
+    if (isLoading) {
+      return <LoadingSpinner />
+    }<% } %>
 
     return (
-      <div className={classes['container']}>
-        <Paper className={classes['panel']}>
+      <div className={classes.container}>
+        <Paper className={classes.panel}>
           <SignupForm onSubmit={this.handleSignup} />
         </Paper>
-        <div className={classes['or']}>
+        <div className={classes.or}>
           or
         </div>
-        <div className={classes['providers']}>
+        <div className={classes.providers}>
           <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
-        <div className={classes['login']}>
+        <div className={classes.login}>
           <span className={classes['login-label']}>
             Already have an account?
           </span>
