@@ -46,7 +46,11 @@ const config = {
   },
   compiler_vendors : [
     'react',
-    'react-router'
+    'react-router',
+    'redux',
+    'react-redux-firebase',
+    'material-ui',
+    'lodash'
   ],
 
   compiler_css_modules: true, // enable/disable css modules
