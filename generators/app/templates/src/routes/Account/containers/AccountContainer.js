@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Paper from 'material-ui/Paper'<% if (answers.includeRedux) { %>
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
-import { firebaseConnect, helpers } from 'react-redux-firebase'
+import { firebaseConnect, pathToJS, isLoaded  } from 'react-redux-firebase'
 import { ACCOUNT_FORM_NAME } from 'constants/formNames'
 import { UserIsAuthenticated } from 'utils/router'<% } %>
 import defaultUserImageUrl from 'static/User.png'
@@ -10,20 +10,8 @@ import LoadingSpinner from 'components/LoadingSpinner'
 import AccountForm from '../components/AccountForm/AccountForm'
 import classes from './AccountContainer.scss'
 
-<% if (answers.includeRedux) { %>const { pathToJS, isLoaded } = helpers
-
-<<<<<<< HEAD
-@UserIsAuthenticated // redirect to /login if user is not authenticated
+<% if (answers.includeRedux) { %>@UserIsAuthenticated // redirect to /login if user is not authenticated
 @firebaseConnect()
-=======
-<% if (includeRedux) { %>// redux/firebase
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
-const { pathToJS, isLoaded } = helpers
-
-// Props decorators
-@firebase()
->>>>>>> master
 @connect(
   // Map state to props
   ({ firebase }) => ({
@@ -38,7 +26,6 @@ const { pathToJS, isLoaded } = helpers
   persistentSubmitErrors: true
 })<% } %>
 export default class Account extends Component {
-
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -55,13 +42,7 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
-<<<<<<< HEAD
     <% if (answers.includeRedux) { %>this.props.firebase.logout()<% } %><% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
-=======
-    <% if (includeRedux) { %>this.props.firebase
-      .logout()
-      .then(() => this.context.router.push('/'))<% } %><% if (!includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
->>>>>>> master
   }
 <% if (!answers.includeRedux) { %>
   handleSave = () => {
@@ -70,11 +51,6 @@ export default class Account extends Component {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
-<<<<<<< HEAD
-=======
-    <% if (includeRedux) { %>this.props.firebase
-      .updateAccount(account)<% } %>
->>>>>>> master
   }
 <% } %>
   toggleModal = () => {

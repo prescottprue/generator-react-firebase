@@ -10,12 +10,9 @@ import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
 
-<<<<<<< HEAD
 <% if (!answers.includeRedux) { %>import firebaseUtil from 'utils/firebase'
 import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if (answers.includeRedux) { %>// redux/firebase
-=======
-<% if (!includeRedux) { %>import firebaseUtil from '../../../utils/firebase'<% } %><% if (includeRedux) { %>// redux/firebase
->>>>>>> master
+
 import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
 
@@ -31,18 +28,9 @@ const { isLoaded, isEmpty, pathToJS } = helpers
   })
 )<% } %>
 export default class Signup extends Component {
-<<<<<<< HEAD
   <% if (!answers.includeRedux) { %>static contextTypes = {
     router: PropTypes.object
   }<% } %><% if (answers.includeRedux) { %>static propTypes = {
-=======
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
-<% if (includeRedux) { %>
-  static propTypes = {
-    account: PropTypes.object,
->>>>>>> master
     firebase: PropTypes.object,
     authError: PropTypes.object
   }<% } %>
@@ -92,32 +80,14 @@ export default class Signup extends Component {
   }
 
   render () {
-<<<<<<< HEAD
     <% if (answers.includeRedux) { %>const { authError } = this.props<% } %>
-=======
-    <% if (includeRedux) { %>const { account, authError } = this.props
->>>>>>> master
     const { snackCanOpen } = this.state
 <% if (!answers.includeRedux) { %>
     const { snackCanOpen, isLoading, errorMessage } = this.state
 
-<<<<<<< HEAD
     if (isLoading) {
       return <LoadingSpinner />
     }<% } %>
-=======
-    if (!isLoaded(account) && !authError) {<% } %><% if (!includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
-
-    if (isLoading) {<% } %>
-      return (
-        <div className={classes['container']}>
-          <div className={classes['progress']}>
-            <CircularProgress mode='indeterminate' />
-          </div>
-        </div>
-      )
-    }
->>>>>>> master
 
     return (
       <div className={classes.container}>

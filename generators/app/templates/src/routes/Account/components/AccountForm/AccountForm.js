@@ -6,8 +6,7 @@ import classes from './AccountForm.scss'
 <% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'
 import { connect } from 'react-redux'
-import { helpers } from 'react-redux-firebase'
-const { pathToJS } = helpers
+import { pathToJS } from 'react-redux-firebase'
 
 export const AccountForm = ({ account, handleSubmit, submitting }) => (
   <div className={classes.container}>

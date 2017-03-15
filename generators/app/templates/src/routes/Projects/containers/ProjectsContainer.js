@@ -1,30 +1,16 @@
-<<<<<<< HEAD
 import React, { Component, PropTypes } from 'react'<% if (answers.includeRedux) { %>
 import { map } from 'lodash'
 import { connect } from 'react-redux'
-import { firebaseConnect, helpers } from 'react-redux-firebase'<% } %>
-=======
-import React, { Component, PropTypes } from 'react'<% if (includeRedux) { %>
-import { map } from 'lodash'<% } %>
->>>>>>> master
+import { firebaseConnect, dataToJS, pathToJS, isLoaded, isEmpty  } from 'react-redux-firebase'<% } %>
+
 import { LIST_PATH } from 'constants/paths'
 import ProjectTile from '../components/ProjectTile/ProjectTile'
 import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
 import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectsContainer.scss'
-<<<<<<< HEAD
-=======
-<% if (includeRedux) { %>
-// redux/firebase
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
-const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
->>>>>>> master
 
-<% if (answers.includeRedux) { %>const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
-
-@firebaseConnect(
+<% if (answers.includeRedux) { %>@firebaseConnect(
   ({ params, auth }) => ([
     {
       path: 'projects',
@@ -103,15 +89,7 @@ export default class Projects extends Component {
     const { newProjectModal } = this.state
 
     if (!isLoaded(projects)) {
-<<<<<<< HEAD
       return <LoadingSpinner />
-=======
-      return (
-        <div className={classes.progress}>
-          <CircularProgress />
-        </div>
-      )
->>>>>>> master
     }<% } %>
 
     return (
