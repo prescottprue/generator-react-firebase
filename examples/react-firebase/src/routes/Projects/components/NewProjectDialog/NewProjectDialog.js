@@ -8,8 +8,8 @@ import classes from './NewProjectDialog.scss'
 export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
+    onRequestClose: PropTypes.func.isRequired,
     onCreateClick: PropTypes.func.isRequired,
-    onRequestClose: PropTypes.func.isRequired
   }
 
   state = {
@@ -57,6 +57,11 @@ export default class NewProjectDialog extends Component {
     if (this.props.onRequestClose) {
       this.props.onRequestClose()
     }
+  }
+
+  handleSubmitClick = (e) => {
+    e.preventDefault()
+    this.props.dispatch(submit(formName))
   }
 
   render () {

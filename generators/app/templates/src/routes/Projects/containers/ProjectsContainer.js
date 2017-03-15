@@ -1,13 +1,26 @@
+<<<<<<< HEAD
 import React, { Component, PropTypes } from 'react'<% if (answers.includeRedux) { %>
 import { map } from 'lodash'
 import { connect } from 'react-redux'
 import { firebaseConnect, helpers } from 'react-redux-firebase'<% } %>
+=======
+import React, { Component, PropTypes } from 'react'<% if (includeRedux) { %>
+import { map } from 'lodash'<% } %>
+>>>>>>> master
 import { LIST_PATH } from 'constants/paths'
 import ProjectTile from '../components/ProjectTile/ProjectTile'
 import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
 import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectsContainer.scss'
+<<<<<<< HEAD
+=======
+<% if (includeRedux) { %>
+// redux/firebase
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'react-redux-firebase'
+const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
+>>>>>>> master
 
 <% if (answers.includeRedux) { %>const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
 
@@ -37,7 +50,7 @@ export default class Projects extends Component {
     newProjectModal: false,
     addProjectModal: false
   }
-<% if (!answers.includeRedux) { %>
+<% if (!includeRedux) { %>
   static propTypes = {
     account: PropTypes.object,
     projects: PropTypes.array,
@@ -51,7 +64,7 @@ export default class Projects extends Component {
 
   newSubmit = name => {
     // TODO: create new project
-  }<% } %><% if (answers.includeRedux) { %>
+  }<% } %><% if (includeRedux) { %>
   static propTypes = {
     projects: PropTypes.object,
     firebase: PropTypes.object,
@@ -84,13 +97,21 @@ export default class Projects extends Component {
 
   render () {
     // Project Route is being loaded
-    if (this.props.children) return this.props.children<% if (answers.includeRedux) { %>
+    if (this.props.children) return this.props.children<% if (includeRedux) { %>
 
     const { projects } = this.props
     const { newProjectModal } = this.state
 
     if (!isLoaded(projects)) {
+<<<<<<< HEAD
       return <LoadingSpinner />
+=======
+      return (
+        <div className={classes.progress}>
+          <CircularProgress />
+        </div>
+      )
+>>>>>>> master
     }<% } %>
 
     return (
@@ -99,15 +120,15 @@ export default class Projects extends Component {
           newProjectModal &&
             <NewProjectDialog
               open={newProjectModal}
-              <% if (answers.includeRedux) { %>onSubmit={this.newSubmit}<% } %><% if (!answers.includeRedux) { %>onCreateClick={this.newSubmit}<% } %>
+              <% if (includeRedux) { %>onSubmit={this.newSubmit}<% } %><% if (!includeRedux) { %>onCreateClick={this.newSubmit}<% } %>
               onRequestClose={() => this.toggleModal('newProject')}
             />
         }
-        <div className={classes['tiles']}>
+        <div className={classes.tiles}>
           <NewProjectTile
             onClick={() => this.toggleModal('newProject')}
           />
-          {
+          <% if (includeRedux) { %>{
             !isEmpty(projects) &&
                map(projects, (project, key) => (
                  <ProjectTile
@@ -118,7 +139,7 @@ export default class Projects extends Component {
                    onDelete={this.deleteProject}
                  />
               ))
-          }
+          }<% } %>
         </div>
       </div>
     )

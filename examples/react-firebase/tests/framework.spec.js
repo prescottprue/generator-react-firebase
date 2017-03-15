@@ -23,8 +23,8 @@ describe('(Framework) Karma Plugins', function () {
   })
 
   it('Should have chai-as-promised helpers.', function () {
-    const pass = new Promise(res => res('test'))
-    const fail = new Promise((res, rej) => rej())
+    const pass = Promise.resolve()
+    const fail = Promise.reject()
 
     return Promise.all([
       expect(pass).to.be.fulfilled,
@@ -32,7 +32,7 @@ describe('(Framework) Karma Plugins', function () {
     ])
   })
 
-  it('should have chai-enzyme working', function() {
+  it('should have chai-enzyme working', function () {
     let wrapper = shallow(<Fixture />)
     expect(wrapper.find('#checked')).to.be.checked()
 

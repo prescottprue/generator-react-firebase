@@ -48,17 +48,17 @@ export default class Navbar extends Component {
     router: PropTypes.object.isRequired
   }
 
-  <% if (answers.includeRedux) { %>static propTypes = {
+  <% if (includeRedux) { %>static propTypes = {
     auth: PropTypes.object,
     account: PropTypes.object,
     firebase: PropTypes.object.isRequired
-  }<% } %><% if (!answers.includeRedux) { %>static propTypes = {
+  }<% } %><% if (!includeRedux) { %>static propTypes = {
     auth: PropTypes.object,
     logout: PropTypes.func
   }<% } %>
 
   handleLogout = () => {
-    <% if (!answers.includeRedux) { %>this.props.logout()<% } %><% if (answers.includeRedux) { %>this.props.firebase.logout()
+    <% if (!includeRedux) { %>this.props.logout()<% } %><% if (includeRedux) { %>this.props.firebase.logout()
     this.context.router.push('/')<% } %>
   }
 

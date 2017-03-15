@@ -47,7 +47,7 @@ const config = {
   compiler_vendors : [
     'material-ui',
     'react',
-    'react-router'<% if (answers.includeRedux) { %>,
+    'react-router'<% if (includeRedux) { %>,
     'react-redux',
     'redux',
     'react-redux-firebase'<% } %>

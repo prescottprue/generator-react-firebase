@@ -7,8 +7,8 @@ import TextField from 'material-ui/TextField'
 
 import classes from './LoginForm.scss'
 
-export const LoginForm = ({ handleSubmit }) => (
-  <form className={classes['container']} onSubmit={handleSubmit}>
+export const LoginForm = ({ handleSubmit, error }) => (
+  <form className={classes.container} onSubmit={handleSubmit}>
     <div>
       <TextField
         hintText='someone@email.com'
@@ -23,15 +23,15 @@ export const LoginForm = ({ handleSubmit }) => (
         errorText={error || null}
       />
     </div>
-    <div className={classes['submit']}>
+    <div className={classes.submit}>
       <RaisedButton
         label='Login'
         primary
         type='submit'
       />
     </div>
-    <div className={classes['options']}>
-      <div className={classes['remember']}>
+    <div className={classes.options}>
+      <div className={classes.remember}>
         <Checkbox
           name='remember'
           value='remember'
@@ -39,7 +39,7 @@ export const LoginForm = ({ handleSubmit }) => (
           labelStyle={{ fontSize: '.8rem' }}
         />
       </div>
-      <Link className={classes['recover']} to='/recover'>
+      <Link className={classes.recover} to='/recover'>
         Forgot Password?
       </Link>
     </div>

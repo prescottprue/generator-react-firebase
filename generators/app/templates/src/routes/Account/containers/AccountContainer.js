@@ -12,8 +12,18 @@ import classes from './AccountContainer.scss'
 
 <% if (answers.includeRedux) { %>const { pathToJS, isLoaded } = helpers
 
+<<<<<<< HEAD
 @UserIsAuthenticated // redirect to /login if user is not authenticated
 @firebaseConnect()
+=======
+<% if (includeRedux) { %>// redux/firebase
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'react-redux-firebase'
+const { pathToJS, isLoaded } = helpers
+
+// Props decorators
+@firebase()
+>>>>>>> master
 @connect(
   // Map state to props
   ({ firebase }) => ({
@@ -33,7 +43,7 @@ export default class Account extends Component {
     router: React.PropTypes.object.isRequired
   }
 
-  <% if (answers.includeRedux) { %>static propTypes = {
+  <% if (includeRedux) { %>static propTypes = {
     account: PropTypes.object,
     firebase: PropTypes.shape({
       logout: PropTypes.func.isRequired,
@@ -45,7 +55,13 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
+<<<<<<< HEAD
     <% if (answers.includeRedux) { %>this.props.firebase.logout()<% } %><% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
+=======
+    <% if (includeRedux) { %>this.props.firebase
+      .logout()
+      .then(() => this.context.router.push('/'))<% } %><% if (!includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
+>>>>>>> master
   }
 <% if (!answers.includeRedux) { %>
   handleSave = () => {
@@ -54,6 +70,11 @@ export default class Account extends Component {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
+<<<<<<< HEAD
+=======
+    <% if (includeRedux) { %>this.props.firebase
+      .updateAccount(account)<% } %>
+>>>>>>> master
   }
 <% } %>
   toggleModal = () => {

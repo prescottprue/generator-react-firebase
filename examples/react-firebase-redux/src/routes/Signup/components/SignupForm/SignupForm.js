@@ -17,7 +17,7 @@ const validate = values => {
 
 const SignupForm = ({ handleSubmit, submitting }) => {
   return (
-    <form className={classes['container']} onSubmit={handleSubmit}>
+    <form className={classes.container} onSubmit={handleSubmit}>
       <div>
         <Field name='username' component={TextField} label='Username' />
       </div>
@@ -25,9 +25,14 @@ const SignupForm = ({ handleSubmit, submitting }) => {
         <Field name='email' component={TextField} label='Email' />
       </div>
       <div>
-        <Field name='password' component={TextField} label='Password' type='password' />
+        <Field
+          name='password'
+          component={TextField}
+          label='Password'
+          type='password'
+        />
       </div>
-      <div className={classes['submit']}>
+      <div className={classes.submit}>
         <RaisedButton
           label='Signup'
           primary

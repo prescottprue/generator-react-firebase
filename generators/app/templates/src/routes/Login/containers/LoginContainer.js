@@ -4,10 +4,20 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import LoginForm from '../components/LoginForm/LoginForm'
+<<<<<<< HEAD
 <% if (!answers.includeRedux) { %>import firebaseUtil from 'utils/firebase'
+=======
+import { LIST_PATH } from 'constants/paths'
+<% if (!includeRedux) { %>import firebaseUtil from '../../../utils/firebase'
+>>>>>>> master
 <% } %>
 import classes from './LoginContainer.scss'
+<<<<<<< HEAD
 <% if (answers.includeRedux) { %>
+=======
+<% if (includeRedux) { %>
+// redux/firebase
+>>>>>>> master
 import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
 import { firebaseConnect, helpers } from 'react-redux-firebase'
@@ -24,6 +34,7 @@ const { isLoaded, isEmpty, pathToJS } = helpers
 export default class Login extends Component {
   <% if (!answers.includeRedux) { %>static contextTypes = {
     router: PropTypes.object
+<<<<<<< HEAD
   }<% } %><% if (answers.includeRedux) { %>static propTypes = {
     firebase: PropTypes.shape({
       login: PropTypes.func.isRequired
@@ -31,6 +42,15 @@ export default class Login extends Component {
     authError: PropTypes.shape({
       message: PropTypes.string // eslint-disable-line react/no-unused-prop-types
     })
+=======
+  }
+<% if (includeRedux) { %>
+  static propTypes = {
+    account: PropTypes.object,
+    firebase: PropTypes.object,
+    authError: PropTypes.object,
+    location: PropTypes.object.isRequired
+>>>>>>> master
   }
 <% } %>
   state = {
@@ -41,7 +61,7 @@ export default class Login extends Component {
     this.setState({
       snackCanOpen: true
     })
-<% if (!answers.includeRedux) { %>
+<% if (!includeRedux) { %>
     const { email, password } = loginData
     if (email && password) {
       firebaseUtil.auth()
@@ -56,16 +76,41 @@ export default class Login extends Component {
           this.setState({ isLoading: false })
         })
     }<% } %>
+<<<<<<< HEAD
     <% if (answers.includeRedux) { %>this.props.firebase.login(loginData)<% } %>
+=======
+    <% if (includeRedux) { %>this.props.firebase
+      .login(loginData)
+      .then((account) =>
+        this.context.router.push(LIST_PATH)
+      )<% } %>
+>>>>>>> master
   }
 
   providerLogin = (provider) =>
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
+<<<<<<< HEAD
     <% if (answers.includeRedux) { %>const { authError } = this.props<% } %>
     const { snackCanOpen } = this.state
 
+=======
+    <% if (includeRedux) { %>const { account, authError } = this.props
+    const { snackCanOpen } = this.state
+
+    if (!isLoaded(account) && !isEmpty(account)) {<% } %><% if (!includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
+    if (isLoading) {<% } %>
+      return (
+        <div className={classes['container']}>
+          <div className={classes['progress']}>
+            <CircularProgress mode='indeterminate' />
+          </div>
+        </div>
+      )
+    }
+
+>>>>>>> master
     return (
       <div className={classes.container}>
         <Paper className={classes.panel}>
@@ -84,7 +129,7 @@ export default class Login extends Component {
           <Link className={classes['signup-link']} to='/signup'>
             Sign Up
           </Link>
-        </div><% if (!answers.includeRedux) { %>
+        </div><% if (!includeRedux) { %>
         {
           snackCanOpen && typeof errorMessage !== null &&
             <Snackbar
@@ -95,7 +140,7 @@ export default class Login extends Component {
               onRequestClose={() => this.setState({ snackCanOpen: false })}
             />
         }
-<% } %><% if (answers.includeRedux) { %>
+<% } %><% if (includeRedux) { %>
         {
           isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
             <Snackbar
