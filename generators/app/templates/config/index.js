@@ -45,10 +45,12 @@ const config = {
     colors : true
   },
   compiler_vendors : [
+    'material-ui',
     'react',
     'react-router'<% if (answers.includeRedux) { %>,
     'react-redux',
-    'redux'<% } %>
+    'redux',
+    'react-redux-firebase'<% } %>
   ],
 
   compiler_css_modules: true, // enable/disable css modules
