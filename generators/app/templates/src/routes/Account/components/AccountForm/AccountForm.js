@@ -80,5 +80,5 @@ AccountForm.propTypes = {
   account: PropTypes.object,
   handleSubmit: PropTypes.func
 }
-<% } %>
 export default AccountForm
+<% } %>

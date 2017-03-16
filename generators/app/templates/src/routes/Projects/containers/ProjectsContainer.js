@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'<% if (answers.includeRedux) { %>
+import React, { Component, PropTypes } from 'react'<% if (includeRedux) { %>
 import { map } from 'lodash'
 import { connect } from 'react-redux'
 import { firebaseConnect, dataToJS, pathToJS, isLoaded, isEmpty  } from 'react-redux-firebase'<% } %>
@@ -10,7 +10,7 @@ import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectsContainer.scss'
 
-<% if (answers.includeRedux) { %>@firebaseConnect(
+<% if (includeRedux) { %>@firebaseConnect(
   ({ params, auth }) => ([
     {
       path: 'projects',

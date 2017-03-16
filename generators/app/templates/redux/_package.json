@@ -21,7 +21,7 @@
     "build": "better-npm-run build",
     "build:dev": "better-npm-run build:dev",
     "build:prod": "better-npm-run build:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"<% if (answers.deployTo === 'firebase') { %>,
+    "codecov": "cat coverage/*/lcov.info | codecov"<% if (deployTo === 'firebase') { %>,
     "deploy": "better-npm-run deploy"<% } %>
   },
   "betterScripts": {
@@ -86,7 +86,7 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.2",
-    "material-ui": "0.16.0",
+    "material-ui": "0.17.0",
     "normalize.css": "^4.1.1",
     "react": "15.3.2",
     "react-dom": "15.3.2",

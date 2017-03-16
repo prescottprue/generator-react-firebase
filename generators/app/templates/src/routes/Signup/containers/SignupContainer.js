@@ -10,8 +10,8 @@ import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
 
-<% if (!answers.includeRedux) { %>import firebaseUtil from 'utils/firebase'
-import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if (answers.includeRedux) { %>// redux/firebase
+<% if (!includeRedux) { %>import firebaseUtil from 'utils/firebase'
+import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if (includeRedux) { %>// redux/firebase
 
 import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
@@ -28,9 +28,9 @@ const { isLoaded, isEmpty, pathToJS } = helpers
   })
 )<% } %>
 export default class Signup extends Component {
-  <% if (!answers.includeRedux) { %>static contextTypes = {
+  <% if (!includeRedux) { %>static contextTypes = {
     router: PropTypes.object
-  }<% } %><% if (answers.includeRedux) { %>static propTypes = {
+  }<% } %><% if (includeRedux) { %>static propTypes = {
     firebase: PropTypes.object,
     authError: PropTypes.object
   }<% } %>
@@ -80,9 +80,9 @@ export default class Signup extends Component {
   }
 
   render () {
-    <% if (answers.includeRedux) { %>const { authError } = this.props<% } %>
+    <% if (includeRedux) { %>const { authError } = this.props<% } %>
     const { snackCanOpen } = this.state
-<% if (!answers.includeRedux) { %>
+<% if (!includeRedux) { %>
     const { snackCanOpen, isLoading, errorMessage } = this.state
 
     if (isLoading) {

@@ -87,11 +87,15 @@ if (__DEV__) {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        unused: true,
-        dead_code: true,
-        warnings: false
-      }
+      compress : {
+        unused    : true,
+        dead_code : true,
+        warnings  : false
+      },
+      mangle: {
+        // keep process.env.NODE_ENV from being mangled
+        except: ['process'],
+      },
     })
   )
 }

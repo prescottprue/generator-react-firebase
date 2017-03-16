@@ -9,7 +9,7 @@ import { LIST_PATH } from 'constants/paths'
 <% } %>
 import classes from './LoginContainer.scss'
 
-<% if (answers.includeRedux) { %>
+<% if (includeRedux) { %>
 import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
 import { firebaseConnect, helpers } from 'react-redux-firebase'
@@ -24,10 +24,10 @@ const { isLoaded, isEmpty, pathToJS } = helpers
   })
 )<% } %>
 export default class Login extends Component {
-  <% if (!answers.includeRedux) { %>static contextTypes = {
+  <% if (!includeRedux) { %>static contextTypes = {
     router: PropTypes.object
   }<% } %>
-  <% if (answers.includeRedux) { %>static propTypes = {
+  <% if (includeRedux) { %>static propTypes = {
     firebase: PropTypes.shape({
       login: PropTypes.func.isRequired
     }),
@@ -59,14 +59,14 @@ export default class Login extends Component {
           this.setState({ isLoading: false })
         })
     }<% } %>
-    <% if (answers.includeRedux) { %>this.props.firebase.login(loginData)<% } %>
+    <% if (includeRedux) { %>this.props.firebase.login(loginData)<% } %>
   }
 
   providerLogin = (provider) =>
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
-    <% if (answers.includeRedux) { %>const { authError } = this.props<% } %>
+    <% if (includeRedux) { %>const { authError } = this.props<% } %>
     const { snackCanOpen } = this.state
 
     return (

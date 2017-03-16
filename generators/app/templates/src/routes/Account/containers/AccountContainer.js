@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import Paper from 'material-ui/Paper'<% if (answers.includeRedux) { %>
+import Paper from 'material-ui/Paper'<% if (includeRedux) { %>
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { firebaseConnect, pathToJS, isLoaded  } from 'react-redux-firebase'
@@ -10,7 +10,7 @@ import LoadingSpinner from 'components/LoadingSpinner'
 import AccountForm from '../components/AccountForm/AccountForm'
 import classes from './AccountContainer.scss'
 
-<% if (answers.includeRedux) { %>@UserIsAuthenticated // redirect to /login if user is not authenticated
+<% if (includeRedux) { %>@UserIsAuthenticated // redirect to /login if user is not authenticated
 @firebaseConnect()
 @connect(
   // Map state to props
@@ -42,9 +42,9 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
-    <% if (answers.includeRedux) { %>this.props.firebase.logout()<% } %><% if (!answers.includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
+    <% if (includeRedux) { %>this.props.firebase.logout()<% } %><% if (!includeRedux) { %>// TODO: Handle logout without react-redux-firebase <% } %>
   }
-<% if (!answers.includeRedux) { %>
+<% if (!includeRedux) { %>
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time
     const account = {

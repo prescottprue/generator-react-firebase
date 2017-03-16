@@ -1,31 +1,31 @@
 import React, { Component, PropTypes } from 'react'
-
-// Components
-import AccountForm from '../components/AccountForm/AccountForm'
-import CircularProgress from 'material-ui/CircularProgress'
 import Paper from 'material-ui/Paper'
-
-// styles
+import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
+import { firebaseConnect, pathToJS, isLoaded  } from 'react-redux-firebase'
+import { ACCOUNT_FORM_NAME } from 'constants/formNames'
+import { UserIsAuthenticated } from 'utils/router'
+import defaultUserImageUrl from 'static/User.png'
+import LoadingSpinner from 'components/LoadingSpinner'
+import AccountForm from '../components/AccountForm/AccountForm'
 import classes from './AccountContainer.scss'
 
-const defaultUserImageUrl = 'https://s3.amazonaws.com/kyper-cdn/img/User.png'
-
-// redux/firebase
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
-const { pathToJS, isLoaded } = helpers
-
-// Props decorators
-@firebase()
+@UserIsAuthenticated // redirect to /login if user is not authenticated
+@firebaseConnect()
 @connect(
   // Map state to props
-  ({firebase}) => ({
+  ({ firebase }) => ({
     authError: pathToJS(firebase, 'authError'),
-    account: pathToJS(firebase, 'profile')
+    account: pathToJS(firebase, 'profile'),
+    initialValues: pathToJS(firebase, 'profile')
   })
 )
+@reduxForm({
+  form: ACCOUNT_FORM_NAME,
+  enableReinitialization: true,
+  persistentSubmitErrors: true
+})
 export default class Account extends Component {
-
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -42,19 +42,7 @@ export default class Account extends Component {
   state = { modalOpen: false }
 
   handleLogout = () => {
-    this.props.firebase
-      .logout()
-      .then(() => this.context.router.push('/'))
-  }
-
-  handleSave = () => {
-    // TODO: Handle saving image and account data at the same time
-    const account = {
-      name: this.refs.name.getValue(),
-      email: this.refs.email.getValue()
-    }
-    this.props.firebase
-      .updateAccount(account)
+    this.props.firebase.logout()
   }
 
   toggleModal = () => {
@@ -67,25 +55,21 @@ export default class Account extends Component {
     const { account, firebase: { saveAccount } } = this.props
 
     if (!isLoaded(account)) {
-      return (
-        <div className={classes['container']}>
-          <CircularProgress size={1.5} />
-        </div>
-      )
+      return <LoadingSpinner />
     }
 
     return (
-      <div className={classes['container']}>
-        <Paper className={classes['pane']}>
-          <div className={classes['settings']}>
-            <div className={classes['avatar']}>
+      <div className={classes.container}>
+        <Paper className={classes.pane}>
+          <div className={classes.settings}>
+            <div className={classes.avatar}>
               <img
                 className={classes['avatar-current']}
                 src={account && account.avatarUrl || defaultUserImageUrl}
                 onClick={this.toggleModal}
               />
             </div>
-            <div className={classes['meta']}>
+            <div className={classes.meta}>
               <AccountForm
                 onSubmit={saveAccount}
                 account={account}

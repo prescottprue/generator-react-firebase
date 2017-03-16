@@ -24,17 +24,19 @@ script:
   - npm run lint:fix
   - npm run test
   - npm run build:prod
-
-<% if (answers.deployTo === 'firebase') { %>after_success:
-  - npm install -g firebase-tools
-  - npm run deploy<% } %><% if (answers.codeClimate) { %>addons:
+<% if (codeClimate) { %>
+addons:
   code_climate:
-    repo_token: $CODE_CLIMATE<% } %><% if (answers.deployTo === 'heroku') { %>deploy:
+    repo_token: $CODE_CLIMATE<% } %>
+
+<% if (deployTo === 'firebase') { %>after_success:
+  - npm install -g firebase-tools
+  - npm run deploy<% } %><% if (deployTo === 'heroku') { %>deploy:
   skip_cleanup: true
   provider: heroku
   api_key:
     secure: $HEROKU_KEY
-  app: $HEROKU_APP<% } %><% if (answers.deployTo === 's3') { %>deploy:
+  app: $HEROKU_APP<% } %><% if (deployTo === 's3') { %>deploy:
   skip_cleanup: true
   provider: s3
   access_key_id: $AWS_KEY
