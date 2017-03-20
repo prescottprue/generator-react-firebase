@@ -30,11 +30,9 @@ addons:
   code_climate:
     repo_token: $CODE_CLIMATE<% } %>
 
-<% if (answers.deployTo === 'firebase') { %>after_success:
+<% if (deployTo === 'firebase') { %>after_success:
   - npm i -g firebase-ci # install firebase-ci
-  - firebase-ci deploy<% } %><% if (answers.codeClimate) { %>addons:
-  code_climate:
-    repo_token: $CODE_CLIMATE<% } %><% if (answers.deployTo === 'heroku') { %>deploy:
+  - firebase-ci deploy<% } %><% if (deployTo === 'heroku') { %>deploy:
   skip_cleanup: true
   provider: heroku
   api_key:
