@@ -3,7 +3,8 @@
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
-
+[![Code Coverage][coverage-image]][coverage-url]
+[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -201,7 +202,10 @@ Build code before deployment by running `npm run build`. There are multiple opti
 [travis-url]: https://travis-ci.org/testuser/react-firebase-redux
 [daviddm-image]: https://img.shields.io/david/testuser/react-firebase-redux.svg?style=flat-square
 [daviddm-url]: https://david-dm.org/testuser/react-firebase-redux
-
+[climate-image]: https://img.shields.io/codeclimate/github/testuser/react-firebase-redux.svg?style=flat-square
+[climate-url]: https://codeclimate.com/github/testuser/react-firebase-redux
+[coverage-image]: https://img.shields.io/codeclimate/coverage/github/testuser/react-firebase-redux.svg?style=flat-square
+[coverage-url]: https://codeclimate.com/github/testuser/react-firebase-redux 
 [license-image]: https://img.shields.io/npm/l/react-firebase-redux.svg?style=flat-square
 [license-url]: https://github.com/testuser/react-firebase-redux/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square

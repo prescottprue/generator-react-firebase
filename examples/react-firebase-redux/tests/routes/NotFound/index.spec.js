@@ -1,18 +1,18 @@
-import AccountRoute from 'routes/Account'
+import NotFoundRoute from 'routes/NotFound'
 
-describe('(Route) Account', () => {
+describe('(Route) NotFound', () => {
   let _route
 
   beforeEach(() => {
-    _route = AccountRoute()
+    _route = NotFoundRoute()
   })
 
   it('Should return a route configuration object', () => {
-    expect(AccountRoute).to.be.a.function
+    expect(NotFoundRoute).to.be.a.function
   })
 
-  it('Sets Path to /account', () => {
-    expect(_route.path).to.equal('account')
+  it('Sets Path to *', () => {
+    expect(_route.path).to.equal('*')
   })
   it('Defines a getComponent function', () => {
     expect(_route.getComponent).to.be.a.function

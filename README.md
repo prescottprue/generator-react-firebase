@@ -1,5 +1,7 @@
 # generator-react-firebase
 
+> Starter that uses React and Firebase (Redux optional)
+
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][npm-downloads-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
@@ -9,8 +11,6 @@
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
-> Starter that uses React and Firebase (Redux optional)
-
 ## Installation
 
 Install [Yeoman](http://yeoman.io) and generator-react-firebase using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)):
@@ -19,7 +19,6 @@ Install [Yeoman](http://yeoman.io) and generator-react-firebase using [npm](http
 npm install -g yo
 npm install -g generator-react-firebase
 ```
-
 
 ## Getting Started
 
@@ -51,7 +50,7 @@ A Travis-CI file has been included to enable CI builds. The correct configuratio
 3. Login: `firebase login`
 4. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
-  * What do you want to use as your public directory? -> `build`
+  * What do you want to use as your public directory? -> `dist`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
 5. Build Project: `npm run build`
@@ -112,7 +111,7 @@ import classes from './Car.scss'
 export default class Car extends Component {
   render () {
     return (
-      <div className={classes['container']}>
+      <div className={classes.container}>
 
       </div>
     )
@@ -143,11 +142,9 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 ```javascript
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'redux-firebasev3'
-const { isLoaded, isEmpty, dataToJS } = helpers
+import { firebase, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
 
-// Props decorators
-@firebase([
+@firebaseConnect([
   // Syncs todos root
   '/todos'
 ])
@@ -168,7 +165,7 @@ class Todos extends Component {
 
     // Add a new todo to firebase
     const handleAdd = () => {
-      const {newTodo} = this.refs
+      const { newTodo } = this.refs
       firebase.push('/todos', { text:newTodo.value, done:false })
       newTodo.value = ''
     }
@@ -210,7 +207,6 @@ Complete example of generator out available in [Examples](https://github.com/pre
 You have the option to enable Server-side Rendering through React and NodeJS. Server-side rendering allows pre-population of data into your application, which can improve SEO (Google is improving static crawling).
 
 In order to enable server-side rendering with React, you must host a NodeJS server. This server is included and can be run using `npm run production` (runs if deployed to Heroku).
-
 
 ## In the future
 * Non-decorators implementation for props binding (pure redux and firebase implementations)

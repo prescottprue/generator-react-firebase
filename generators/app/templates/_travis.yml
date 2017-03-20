@@ -25,6 +25,10 @@ script:
   - npm run lint:fix
   - npm run test
   - npm run build:prod
+<% if (codeClimate) { %>
+addons:
+  code_climate:
+    repo_token: $CODE_CLIMATE<% } %>
 
 <% if (answers.deployTo === 'firebase') { %>after_success:
   - npm i -g firebase-ci # install firebase-ci
@@ -35,7 +39,7 @@ script:
   provider: heroku
   api_key:
     secure: $HEROKU_KEY
-  app: $HEROKU_APP<% } %><% if (answers.deployTo === 's3') { %>deploy:
+  app: $HEROKU_APP<% } %><% if (deployTo === 's3') { %>deploy:
   skip_cleanup: true
   provider: s3
   access_key_id: $AWS_KEY

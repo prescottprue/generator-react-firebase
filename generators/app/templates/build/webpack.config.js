@@ -111,7 +111,7 @@ if (!__TEST__) {
 // JavaScript / JSON
 webpackConfig.module.loaders = [{
   test: /\.(js|jsx)$/,
-  exclude: [ /node_modules/ /* exclude any npm-linked modules here */ ],
+  exclude: [/node_modules/, /react-redux-firebase/],
   loader: 'babel',
   query: config.compiler_babel
 }, {

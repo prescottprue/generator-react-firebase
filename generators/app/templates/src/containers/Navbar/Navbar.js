@@ -8,7 +8,6 @@ import {
   SIGNUP_PATH
 } from 'constants/paths'
 
-// Components
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
@@ -30,10 +29,9 @@ const avatarStyles = {
   buttonSm: { marginRight: '.5rem', width: '30px', height: '64px', padding: '0' }
 }
 
-<% if (!answers.includeRedux) { %>// firebase
-// TODO: Import actions for firebase<% } %><% if (answers.includeRedux) { %>import { connect } from 'react-redux'
-import { firebaseConnect, helpers } from 'react-redux-firebase'
-const { pathToJS, isLoaded, isEmpty } = helpers
+<% if (!includeRedux) { %>// firebase
+// TODO: Import actions for firebase<% } %><% if (includeRedux) { %>import { connect } from 'react-redux'
+import { firebaseConnect, pathToJS, isLoaded, isEmpty } from 'react-redux-firebase'
 
 @firebaseConnect()
 @connect(
@@ -48,30 +46,30 @@ export default class Navbar extends Component {
     router: PropTypes.object.isRequired
   }
 
-  <% if (answers.includeRedux) { %>static propTypes = {
+  <% if (includeRedux) { %>static propTypes = {
     auth: PropTypes.object,
     account: PropTypes.object,
     firebase: PropTypes.object.isRequired
-  }<% } %><% if (!answers.includeRedux) { %>static propTypes = {
+  }<% } %><% if (!includeRedux) { %>static propTypes = {
     auth: PropTypes.object,
     logout: PropTypes.func
   }<% } %>
 
   handleLogout = () => {
-    <% if (!answers.includeRedux) { %>this.props.logout()<% } %><% if (answers.includeRedux) { %>this.props.firebase.logout()
+    <% if (!includeRedux) { %>this.props.logout()<% } %><% if (includeRedux) { %>this.props.firebase.logout()
     this.context.router.push('/')<% } %>
   }
 
   render () {
     const { account } = this.props
-    <% if (answers.includeRedux) { %>const accountExists = isLoaded(account) && !isEmpty(account)<% } %>
+    <% if (includeRedux) { %>const accountExists = isLoaded(account) && !isEmpty(account)<% } %>
 
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
         <div className={classes.avatar}>
           <div className='hidden-mobile'>
             <Avatar
-              <% if (answers.includeRedux) { %>src={accountExists && account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %><% if (!answers.includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %>
+              <% if (includeRedux) { %>src={accountExists && account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %><% if (!includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %>
             />
           </div>
           <div className={classes['avatar-text']}>
