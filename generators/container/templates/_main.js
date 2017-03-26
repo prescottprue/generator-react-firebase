@@ -1,14 +1,11 @@
-import React, { Component } from 'react'
-<% if(usingRedux) { %>import { connect } from 'react-redux'
-import { firebaseConnect, helpers } from 'redux-react-firebase'<% } %>
-<% if(addStyle) { %>import './<%= name %>.scss'<% } %>
-
-<% if(usingRedux) { %>const { pathToJS } = helpers
-
+import React, { Component } from 'react'<% if(usingRedux) { %>
+import { connect } from 'react-redux'
+import { firebaseConnect, pathToJS } from 'redux-react-firebase'<% } %><% if(addStyle) { %>
+import classes from './<%= name %>.scss'<% } %>
+<% if(usingRedux) { %>
 @firebaseConnect()
 @connect(
-  ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
+  ({ firebase }) => ({
     profile: pathToJS(firebase, 'profile')
   })
 )<% } %>
@@ -19,8 +16,8 @@ export default class <%= name %> extends Component {
 
   render () {
     return (
-      <div className='<%= name %>'>
-
+      <% if (addStyle) { %><div className={classes.container}><%} else { %><div className='<%= name %>'><%}%>
+        <p><%= name %></p>
       </div>
     )
   }

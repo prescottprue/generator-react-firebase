@@ -12,15 +12,13 @@
 ## Project
 
 ### Development
-Run `npm run dev` to start live reloading development server
+Run `npm run start` to start live reloading development server
 
 ### Production
 
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
-A Travis-CI file has been included to enable CI builds. The correct configuration for the type of deployment you selected (S3 or Heroku) has been added to `.travis.yml` automatically based on [Travis settings](https://docs.travis-ci.com/user/deployment/).
-
-**Note:** Deployment to Firebase through Travis-CI is not yet functional, but is on the roadmap
+A Travis-CI file has been included to enable CI builds. The correct configuration for the type of deployment you selected (Firebase, S3 or Heroku) has been added to `.travis.yml` automatically based on [Travis settings](https://docs.travis-ci.com/user/deployment/).
 
 ## License
 
