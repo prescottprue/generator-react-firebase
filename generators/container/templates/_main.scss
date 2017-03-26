@@ -1,3 +1,5 @@
-.<%= name %> {
+@import 'base';
 
+.container {
+  @extend .flex-row-center;
 }

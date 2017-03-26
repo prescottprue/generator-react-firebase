@@ -1,5 +1,7 @@
 {
   "projects": {
+    "master": "redux-firebasev3",
+    "dev": "redux-firebasev3",
     "stage": "redux-firebasev3",
     "prod": "redux-firebasev3"
   }

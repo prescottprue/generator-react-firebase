@@ -1,22 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import { map } from 'lodash'
-import { LIST_PATH } from 'constants/paths'
+import { connect } from 'react-redux'
+import { firebaseConnect, dataToJS, pathToJS, isLoaded, isEmpty  } from 'react-redux-firebase'
 
-// Components
+import { LIST_PATH } from 'constants/paths'
 import ProjectTile from '../components/ProjectTile/ProjectTile'
 import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
 import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
-import CircularProgress from 'material-ui/CircularProgress'
-
+import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectsContainer.scss'
 
-// redux/firebase
-import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
-const { dataToJS, pathToJS, isLoaded, isEmpty } = helpers
-
-// Decorators
-@firebase(
+@firebaseConnect(
   ({ params, auth }) => ([
     {
       path: 'projects',
@@ -44,7 +38,6 @@ export default class Projects extends Component {
   }
 
   static propTypes = {
-    account: PropTypes.object,
     projects: PropTypes.object,
     firebase: PropTypes.object,
     auth: PropTypes.object,
@@ -61,7 +54,7 @@ export default class Projects extends Component {
       .then(() => this.setState({ newProjectModal: false }))
       .catch(err => {
         // TODO: Show Snackbar
-        console.error('error creating new project', err)
+        console.error('error creating new project', err) // eslint-disable-line
       })
   }
 
@@ -82,11 +75,7 @@ export default class Projects extends Component {
     const { newProjectModal } = this.state
 
     if (!isLoaded(projects)) {
-      return (
-        <div className={classes.progress}>
-          <CircularProgress />
-        </div>
-      )
+      return <LoadingSpinner />
     }
 
     return (

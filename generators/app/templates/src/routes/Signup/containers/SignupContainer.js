@@ -4,51 +4,44 @@ import GoogleButton from 'react-google-button'
 
 // Components
 import Paper from 'material-ui/Paper'
-import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
 import { LIST_PATH } from 'constants/paths'
 import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'
 
-<% if (!includeRedux) { %>import firebaseUtil from '../../../utils/firebase'<% } %><% if (includeRedux) { %>// redux/firebase
+<% if (!includeRedux) { %>import firebaseUtil from 'utils/firebase'
+import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if (includeRedux) { %>// redux/firebase
+
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
+import { UserIsNotAuthenticated } from 'utils/router'
+
+import { firebaseConnect, helpers } from 'react-redux-firebase'
 const { isLoaded, isEmpty, pathToJS } = helpers
 
-@firebase()
+@UserIsNotAuthenticated // redirect to list page if logged in
+@firebaseConnect()
 @connect(
   // Map state to props
   ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError'),
-    account: pathToJS(firebase, 'profile')
+    authError: pathToJS(firebase, 'authError')
   })
 )<% } %>
 export default class Signup extends Component {
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
-<% if (includeRedux) { %>
-  static propTypes = {
-    account: PropTypes.object,
+  <% if (!includeRedux) { %>static contextTypes = {
+    router: PropTypes.object
+  }<% } %><% if (includeRedux) { %>static propTypes = {
     firebase: PropTypes.object,
     authError: PropTypes.object
   }<% } %>
 
   state = {
-    snackCanOpen: false,
-    isLoading: false
+    snackCanOpen: false
   }
-
-  handleRequestClose = () =>
-    this.setState({
-      snackCanOpen: false
-    })
 
   handleSignup = (creds) => {
     this.setState({
-      snackCanOpen: true,
-      isLoading: true
+      snackCanOpen: true
     })
     <% if (!includeRedux) { %>const { username, email, provider, password } = creds
     let newState
@@ -68,18 +61,14 @@ export default class Signup extends Component {
       console.warn('other signups not currently supported', provider)
     }<% } %><% if (includeRedux) { %>const { createUser, login } = this.props.firebase
     createUser(creds, { email: creds.email, username: creds.username })
-    .then(() => {
-      login(creds)
-    })
-    .then(() =>
-      this.context.router.push(LIST_PATH)
-    )<% } %>
+      .then(() => {
+        login(creds)
+      })<% } %>
   }
 
   providerLogin = (provider) => {
     this.setState({
-      snackCanOpen: true,
-      isLoading: true
+      snackCanOpen: true
     })
 <% if (!includeRedux) { %>
   // TODO: Handle Google Login without react-redux-firebase<% } %><% if (includeRedux) { %>
@@ -91,33 +80,27 @@ export default class Signup extends Component {
   }
 
   render () {
-    <% if (includeRedux) { %>const { account, authError } = this.props
+    <% if (includeRedux) { %>const { authError } = this.props<% } %>
     const { snackCanOpen } = this.state
+<% if (!includeRedux) { %>
+    const { snackCanOpen, isLoading, errorMessage } = this.state
 
-    if (!isLoaded(account) && !authError) {<% } %><% if (!includeRedux) { %>const { snackCanOpen, isLoading, errorMessage } = this.state
-
-    if (isLoading) {<% } %>
-      return (
-        <div className={classes['container']}>
-          <div className={classes['progress']}>
-            <CircularProgress mode='indeterminate' />
-          </div>
-        </div>
-      )
-    }
+    if (isLoading) {
+      return <LoadingSpinner />
+    }<% } %>
 
     return (
-      <div className={classes['container']}>
-        <Paper className={classes['panel']}>
+      <div className={classes.container}>
+        <Paper className={classes.panel}>
           <SignupForm onSubmit={this.handleSignup} />
         </Paper>
-        <div className={classes['or']}>
+        <div className={classes.or}>
           or
         </div>
-        <div className={classes['providers']}>
+        <div className={classes.providers}>
           <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
-        <div className={classes['login']}>
+        <div className={classes.login}>
           <span className={classes['login-label']}>
             Already have an account?
           </span>
@@ -132,7 +115,7 @@ export default class Signup extends Component {
               message={errorMessage}
               action='close'
               autoHideDuration={3000}
-              onRequestClose={this.handleRequestClose}
+              onRequestClose={() => this.setState({ snackCanOpen: false })}
             />
         }<% } %><% if (includeRedux) { %>
         {
@@ -142,6 +125,7 @@ export default class Signup extends Component {
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
+              onRequestClose={() => this.setState({ snackCanOpen: false })}
             />
         }<% } %>
       </div>

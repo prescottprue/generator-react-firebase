@@ -1,13 +1,13 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import makeRootReducer from './reducers'
 import { browserHistory } from 'react-router'
-import { reduxFirebase, getFirebase } from 'react-redux-firebase'
+import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
+import makeRootReducer from './reducers'
 import { firebase as fbConfig, reduxFirebase as reduxConfig } from '../config'
 import { version } from '../../package.json'
 import { updateLocation } from './location'
 
-export default (initialState = {}, history) => {
+export default (initialState = {}) => {
   // ======================================================
   // Window Vars Config
   // ======================================================
@@ -40,7 +40,7 @@ export default (initialState = {}, history) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reduxFirebase(fbConfig, reduxConfig),
+      reactReduxFirebase(fbConfig, reduxConfig),
       ...enhancers
     )
   )

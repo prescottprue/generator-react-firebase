@@ -200,7 +200,7 @@ webpackConfig.sassLoader = {
 
 webpackConfig.postcss = [
   cssnano({
-    autoprefixer : {
+    autoprefixer: {
       add: true,
       remove: true,
       browsers: ['last 2 versions']
