@@ -26,6 +26,22 @@ npm install -g generator-react-firebase
 
 2. Generate project: `yo react-firebase`
 
+3. Create `src/config.js` that looks like so:
+
+  ```js
+  export const firebase = {
+    apiKey: '', // fill in your firebase apiKey
+    authDomain: '', // fill in your firebase authDomain
+    databaseURL: '', // fill in your firebase databaseURL
+    storageBucket: '', // fill in your firebase storageBucket
+  };
+
+  export default { firebase };
+  ```
+  **NOTE:** `src/config.js` is ignored from git tracking. That means it will need to be created on your continuous integration platform using `npm run config` (included in `.travis.yml` if you choose to include travis config).
+
+4. Start application by running `npm run start`
+
 **NOTE**: Project will default to being named with the name of the folder that it is generated within (in this case myProject)
 
 ## Project
@@ -37,7 +53,7 @@ Run `npm run dev` to start live reloading development server
 
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
-A Travis-CI file has been included to enable CI builds. The correct configuration for the type of deployment you selected (S3 or Heroku) has been added to `.travis.yml` automatically basied on [Travis settings](https://docs.travis-ci.com/user/deployment/).
+A Travis-CI file has been included to enable CI builds. The correct configuration for the type of deployment you selected (S3 or Heroku) has been added to `.travis.yml` automatically based on [Travis settings](https://docs.travis-ci.com/user/deployment/).
 
 **Note:** Deployment to Firebase through Travis-CI is not yet functional, but is on the roadmap
 
