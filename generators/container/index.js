@@ -29,7 +29,7 @@ module.exports = class extends Generator {
       {
         type: 'confirm',
         name: 'usingRedux',
-        message: 'Are you using redux in this project (include redux-react-firebase)?',
+        message: 'Are you using redux in this project (include react-redux-firebase)?',
         default: true
       }
     ]
