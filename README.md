@@ -126,7 +126,7 @@ export default class Car extends Component {
 
 **NOTE:** Containers are synonymous with *Smart Components* and *Linked-State Components*
 
-Redux is seen as one of the best state managers so it is implemented as the default state manager. [redux-react-firebase](https://www.npmjs.com/package/redux-react-firebase)
+Redux is seen as one of the best state managers so it is implemented as by default.
 
 To create a container named *Cars* run: `yo react-firebase:container Cars`
 
@@ -147,7 +147,7 @@ import { connect } from 'react-redux'
 import { firebase, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
 
 @firebaseConnect([
-  // Syncs todos root
+  // Syncs todos root to redux
   '/todos'
 ])
 @connect(
@@ -156,7 +156,7 @@ import { firebase, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
     todos: dataToJS(firebase, '/todos'),
   })
 )
-class Todos extends Component {
+export default class Todos extends Component {
   static propTypes = {
     todos: PropTypes.object,
     firebase: PropTypes.object
@@ -197,7 +197,6 @@ class Todos extends Component {
     )
   }
 }
-export default Todos
 ```
 
 ## Examples

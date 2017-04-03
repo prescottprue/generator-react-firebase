@@ -1,6 +1,6 @@
 import React, { Component } from 'react'<% if(usingRedux) { %>
 import { connect } from 'react-redux'
-import { firebaseConnect, pathToJS } from 'redux-react-firebase'<% } %><% if(addStyle) { %>
+import { firebaseConnect, pathToJS } from 'react-redux-firebase'<% } %><% if(addStyle) { %>
 import classes from './<%= name %>.scss'<% } %>
 <% if(usingRedux) { %>
 @firebaseConnect()
