@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
-import { LIST_PATH, LOGIN_PATH } from 'constants/paths'
+import { LIST_PATH, LOGIN_PATH } from 'constants'
 import SignupForm from '../components/SignupForm/SignupForm'
 
 import classes from './SignupContainer.scss'

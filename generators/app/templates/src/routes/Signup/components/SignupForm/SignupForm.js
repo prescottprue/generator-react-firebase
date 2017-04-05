@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'
 import { required, validateEmail } from 'utils/form'
-import { SIGNUP_FORM_NAME } from 'constants/formNames'<% } %>
+import { SIGNUP_FORM_NAME } from 'constants'<% } %>
 import classes from './SignupForm.scss'
 const buttonStyle = { width: '100%' }
 
@@ -21,7 +21,7 @@ const buttonStyle = { width: '100%' }
         name='email'
         component={TextField}
         label='Email'
-        validate={[required, email]}
+        validate={[required, validateEmail]}
       />
       <Field
         name='password'

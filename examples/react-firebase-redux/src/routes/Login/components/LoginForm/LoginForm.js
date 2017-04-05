@@ -5,33 +5,26 @@ import Checkbox from 'material-ui/Checkbox'
 
 import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'
-
+import { RECOVER_PATH, LOGIN_FORM_NAME } from 'constants'
 import classes from './LoginForm.scss'
 
-const validate = values => {
-  const errors = {}
-  if (!values.email) errors.email = 'Required'
-  if (!values.password) errors.password = 'Required'
-  return errors
-}
+import { required, validateEmail } from 'utils/form'
 
 export const LoginForm = ({ handleSubmit, submitting }) => (
   <form className={classes.container} onSubmit={handleSubmit}>
-    <div>
-      <Field
-        name='email'
-        component={TextField}
-        label='Email'
-      />
-    </div>
-    <div>
-      <Field
-        name='password'
-        component={TextField}
-        label='Password'
-        type='password'
-      />
-    </div>
+    <Field
+      name='email'
+      component={TextField}
+      label='Email'
+      validate={[required, validateEmail]}
+    />
+    <Field
+      name='password'
+      component={TextField}
+      label='Password'
+      type='password'
+      validate={[required]}
+    />
     <div className={classes.submit}>
       <RaisedButton
         label='Login'
@@ -49,7 +42,7 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
           labelStyle={{ fontSize: '.8rem' }}
         />
       </div>
-      <Link className={classes.recover} to='/recover'>
+      <Link className={classes.recover} to={RECOVER_PATH}>
         Forgot Password?
       </Link>
     </div>
@@ -62,6 +55,5 @@ LoginForm.propTypes = {
 }
 
 export default reduxForm({
-  form: 'Login',
-  validate
+  form: LOGIN_FORM_NAME
 })(LoginForm)

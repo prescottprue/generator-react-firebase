@@ -6,7 +6,7 @@ import {
   ACCOUNT_PATH,
   LOGIN_PATH,
   SIGNUP_PATH
-} from 'constants/paths'
+} from 'constants'
 
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'

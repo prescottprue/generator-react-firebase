@@ -4,15 +4,19 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import LoginForm from '../components/LoginForm/LoginForm'
-import { LIST_PATH } from 'constants/paths'
+import { LIST_PATH, SIGNUP_PATH } from 'constants'
 
 import classes from './LoginContainer.scss'
 
 
 import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
-import { firebaseConnect, helpers } from 'react-redux-firebase'
-const { isLoaded, isEmpty, pathToJS } = helpers
+import {
+  firebaseConnect,
+  isLoaded,
+  isEmpty,
+  pathToJS
+} from 'react-redux-firebase'
 
 @UserIsNotAuthenticated // redirect to list page if logged in
 @firebaseConnect()
@@ -67,7 +71,7 @@ export default class Login extends Component {
           <span className={classes['signup-label']}>
             Need an account?
           </span>
-          <Link className={classes['signup-link']} to='/signup'>
+          <Link className={classes['signup-link']} to={SIGNUP_PATH}>
             Sign Up
           </Link>
         </div>

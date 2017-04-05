@@ -5,8 +5,7 @@ import Checkbox from 'material-ui/Checkbox'
 <% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
 <% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'
-<% } %>import { RECOVER_PATH } from 'constants/paths'
-import { LOGIN_FORM_NAME } from 'constants/formNames'
+<% } %>import { RECOVER_PATH, LOGIN_FORM_NAME } from 'constants'
 import classes from './LoginForm.scss'
 
 <% if (includeRedux) { %>import { required, validateEmail } from 'utils/form'
