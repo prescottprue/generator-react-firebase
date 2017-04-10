@@ -167,7 +167,8 @@ module.exports = class extends Generator {
   }
 
   install () {
-    this.npmInstall()
+    // this.npmInstall()
+    this.yarnInstall() // does not support environments that do not have yarn installed
   }
 
 }

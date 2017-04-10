@@ -16,6 +16,7 @@ module.exports = {
       databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
       storageBucket: '<%= firebaseName %>.appspot.com'
     },
+    compiler_devtool: 'eval',
     reduxFirebase: {
       userProfile: 'users', // root that user profiles are written to
       enableLogging: false, // enable/disable Firebase Database Logging
