@@ -1,29 +1,29 @@
 import React, { Component, PropTypes } from 'react'<% if (includeRedux) { %>
 import { map } from 'lodash'
 import { connect } from 'react-redux'
-import { firebaseConnect, dataToJS, pathToJS, isLoaded, isEmpty  } from 'react-redux-firebase'<% } %>
-
-import { LIST_PATH } from 'constants/paths'
+import { firebaseConnect, populatedDataToJS, pathToJS, isLoaded, isEmpty  } from 'react-redux-firebase'<% } %>
+import { LIST_PATH } from 'constants'
+import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../components/ProjectTile/ProjectTile'
 import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
 import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
-import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectsContainer.scss'
 
-<% if (includeRedux) { %>@firebaseConnect(
+<% if (includeRedux) { %>const populates = [
+  { child: 'owner', root: 'users' }
+]
+
+@firebaseConnect(
   ({ params, auth }) => ([
     {
       path: 'projects',
-      populates: [
-        { child: 'owner', root: 'users' }
-      ]
+      populates
     }
-    // 'projects#populate=owner:users' // string equivalent
   ])
 )
 @connect(
   ({ firebase }, { params }) => ({
-    projects: dataToJS(firebase, 'projects'),
+    projects: populatedDataToJS(firebase, 'projects'),
     auth: pathToJS(firebase, 'auth')
   })
 )<% } %>

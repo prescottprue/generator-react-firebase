@@ -1,32 +1,28 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
-
-// Components
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
-import { LIST_PATH } from 'constants/paths'
-import SignupForm from '../components/SignupForm/SignupForm'
-
-import classes from './SignupContainer.scss'
-
-<% if (!includeRedux) { %>import firebaseUtil from 'utils/firebase'
-import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if (includeRedux) { %>// redux/firebase
-
-import { connect } from 'react-redux'
+<% if (includeRedux) { %>import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
 
-import { firebaseConnect, helpers } from 'react-redux-firebase'
-const { isLoaded, isEmpty, pathToJS } = helpers
+import {
+  firebaseConnect,
+  isLoaded,
+  isEmpty,
+  pathToJS
+} from 'react-redux-firebase'<% } %>
+import { LIST_PATH, LOGIN_PATH } from 'constants'
+import SignupForm from '../components/SignupForm'
+<% if (!includeRedux) { %>import firebaseUtil from 'utils/firebase'
+import LoadingSpinner from 'components/LoadingSpinner'<% } %>
+import classes from './SignupContainer.scss'
 
-@UserIsNotAuthenticated // redirect to list page if logged in
+<% if (includeRedux) { %>@UserIsNotAuthenticated // redirect to list page if logged in
 @firebaseConnect()
-@connect(
-  // Map state to props
-  ({firebase}) => ({
-    authError: pathToJS(firebase, 'authError')
-  })
-)<% } %>
+@connect(({firebase}) => ({
+  authError: pathToJS(firebase, 'authError')
+}))<% } %>
 export default class Signup extends Component {
   <% if (!includeRedux) { %>static contextTypes = {
     router: PropTypes.object
@@ -104,7 +100,7 @@ export default class Signup extends Component {
           <span className={classes['login-label']}>
             Already have an account?
           </span>
-          <Link className={classes['login-link']} to='/login'>
+          <Link className={classes['login-link']} to={LOGIN_PATH}>
             Login
           </Link>
         </div><% if (!includeRedux) { %>

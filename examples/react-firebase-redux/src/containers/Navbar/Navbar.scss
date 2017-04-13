@@ -28,9 +28,7 @@
 }
 .avatar {
   margin-right: 1rem;
-  @extend .flex-row;
-  display: flex !important;
-  flex-direction: row !important;
+  @extend .flex-row-center;
   align-items: center;
   flex-grow: 1;
   &-text {
@@ -49,9 +47,7 @@
     }
   }
 }
-.menu {
-  // margin-top: 6px;
-}
+
 .link {
   text-decoration: none;
 }
@@ -62,5 +58,5 @@
   flex-shrink: 1;
   @include mobile {
     display: none;
-  };
+  }
 }

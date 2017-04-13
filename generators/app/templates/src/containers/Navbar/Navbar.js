@@ -1,13 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import classes from './Navbar.scss'
 import { Link } from 'react-router'
-import {
-  LIST_PATH,
-  ACCOUNT_PATH,
-  LOGIN_PATH,
-  SIGNUP_PATH
-} from 'constants/paths'
-
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
@@ -15,7 +7,22 @@ import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import Avatar from 'material-ui/Avatar'
+<% if (!includeRedux) { %>// firebase
+// TODO: Import actions for firebase<% } %><% if (includeRedux) { %>import { connect } from 'react-redux'
+import {
+  firebaseConnect,
+  pathToJS,
+  isLoaded,
+  isEmpty
+} from 'react-redux-firebase'<% } %>
+import {
+  LIST_PATH,
+  ACCOUNT_PATH,
+  LOGIN_PATH,
+  SIGNUP_PATH
+} from 'constants'
 import defaultUserImage from 'static/User.png'
+import classes from './Navbar.scss'
 
 const buttonStyle = {
   color: 'white',
@@ -29,11 +36,7 @@ const avatarStyles = {
   buttonSm: { marginRight: '.5rem', width: '30px', height: '64px', padding: '0' }
 }
 
-<% if (!includeRedux) { %>// firebase
-// TODO: Import actions for firebase<% } %><% if (includeRedux) { %>import { connect } from 'react-redux'
-import { firebaseConnect, pathToJS, isLoaded, isEmpty } from 'react-redux-firebase'
-
-@firebaseConnect()
+<% if (includeRedux) { %>@firebaseConnect()
 @connect(
   ({ firebase }) => ({
     authError: pathToJS(firebase, 'authError'),
@@ -47,7 +50,6 @@ export default class Navbar extends Component {
   }
 
   <% if (includeRedux) { %>static propTypes = {
-    auth: PropTypes.object,
     account: PropTypes.object,
     firebase: PropTypes.object.isRequired
   }<% } %><% if (!includeRedux) { %>static propTypes = {

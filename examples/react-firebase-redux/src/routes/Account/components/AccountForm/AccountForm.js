@@ -1,40 +1,40 @@
 import React, { PropTypes } from 'react'
+import { Field, reduxForm } from 'redux-form'
+import RaisedButton from 'material-ui/RaisedButton'
+import TextField from 'components/TextField'
+import { ACCOUNT_FORM_NAME } from 'constants'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
-
 import classes from './AccountForm.scss'
 
-import { Field, reduxForm } from 'redux-form'
-import TextField from 'components/TextField'
-import { connect } from 'react-redux'
-import { pathToJS } from 'react-redux-firebase'
-
 export const AccountForm = ({ account, handleSubmit, submitting }) => (
-  <div className={classes.container}>
+  <form className={classes.container} onSubmit={handleSubmit}>
     <h4>Account</h4>
-    <div>
-      <Field
-        name='username'
-        component={TextField}
-        label='Username'
-      />
-    </div>
-    <div>
-      <Field
-        name='email'
-        component={TextField}
-        label='Email'
-      />
-    </div>
-    <div>
-      <h4>Linked Accounts</h4>
-      {
-        account && account.providerData &&
+    <Field
+      name='displayName'
+      component={TextField}
+      label='Display Name'
+    />
+    <Field
+      name='email'
+      component={TextField}
+      label='Email'
+    />
+    {
+      !!account && !!account.providerData &&
+        <div>
+          <h4>Linked Accounts</h4>
           <ProviderDataForm
             providerData={account.providerData}
           />
-      }
-    </div>
-  </div>
+        </div>
+    }
+    <RaisedButton
+      primary
+      label='Save'
+      type='submit'
+      className={classes.submit}
+    />
+  </form>
 )
 
 AccountForm.propTypes = {
@@ -43,13 +43,6 @@ AccountForm.propTypes = {
   submitting: PropTypes.bool
 }
 
-const AccountReduxForm = reduxForm({
-  form: 'Account'
+export default reduxForm({
+  form: ACCOUNT_FORM_NAME
 })(AccountForm)
-
-export default connect(({firebase}) => (
-  {
-    initialValues: pathToJS(firebase, 'profile'),
-    account: pathToJS(firebase, 'profile')
-  }
-))(AccountReduxForm)
