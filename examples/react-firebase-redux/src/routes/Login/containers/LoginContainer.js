@@ -3,11 +3,6 @@ import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
-import LoginForm from '../components/LoginForm/LoginForm'
-import { LIST_PATH, SIGNUP_PATH } from 'constants'
-
-import classes from './LoginContainer.scss'
-
 
 import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
@@ -18,14 +13,17 @@ import {
   pathToJS
 } from 'react-redux-firebase'
 
+import { LIST_PATH, SIGNUP_PATH } from 'constants'
+import LoginForm from '../components/LoginForm'
+
+import classes from './LoginContainer.scss'
+
+
 @UserIsNotAuthenticated // redirect to list page if logged in
 @firebaseConnect()
-@connect(
-  // Map state to props
-  ({ firebase }) => ({
-    authError: pathToJS(firebase, 'authError')
-  })
-)
+@connect(({ firebase }) => ({
+  authError: pathToJS(firebase, 'authError')
+}))
 export default class Login extends Component {
   
   static propTypes = {
