@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Paper from 'material-ui/Paper'<% if (includeRedux) { %>
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
 import { firebaseConnect, pathToJS, isLoaded } from 'react-redux-firebase'
-import { ACCOUNT_FORM_NAME } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'<% } %>
 import defaultUserImageUrl from 'static/User.png'
 import LoadingSpinner from 'components/LoadingSpinner'
@@ -29,7 +27,6 @@ export default class Account extends Component {
     // corresponds to /users/${uid}
     return update(`${fbReduxSettings.userProfile}/${auth.uid}`, newAccount)
   }<% } %>
-
 <% if (!includeRedux) { %>
   handleSave = () => {
     // TODO: Handle saving image and account data at the same time
