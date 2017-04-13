@@ -1,50 +1,37 @@
 import React, { Component, PropTypes } from 'react'
 
-import classes from './ProjectContainer.scss'
-import CircularProgress from 'material-ui/CircularProgress'
-
-// redux/firebase
 import { connect } from 'react-redux'
-import { firebase, helpers } from 'react-redux-firebase'
-const { isLoaded, dataToJS } = helpers
+import { firebaseConnect, isLoaded, dataToJS } from 'react-redux-firebase'
+import LoadingSpinner from 'components/LoadingSpinner'
+import classes from './ProjectContainer.scss'
 
-@firebase(
+@firebaseConnect(
   // Get paths from firebase
   ({ params }) => ([
     `projects/${params.projectname}`
   ])
 )
-@connect(
-  // Map state to props
-  ({ firebase }, { params }) => ({
-    project: dataToJS(firebase, `projects/${params.projectname}`)
-  })
-)
+// Map state to props
+@connect(({ firebase }, { params }) => ({
+  project: dataToJS(firebase, `projects/${params.projectname}`)
+}))
 export default class Project extends Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
-
   static propTypes = {
     project: PropTypes.object,
-    params: PropTypes.object.isRequired,
-    children: PropTypes.object
+    params: PropTypes.object.isRequired
   }
 
   render () {
-    const { project } = this.props
+    const { project, params } = this.props
 
     if (!isLoaded(project)) {
-      return (
-        <div className={classes['progress']}>
-          <CircularProgress />
-        </div>
-      )
+      return <LoadingSpinner />
     }
-
+    
     return (
-      <div className={classes['container']}>
+      <div className={classes.container}>
         <h2>Project Container</h2>
+        <pre>Project Key: {params.projectname}</pre>
         <pre>{JSON.stringify(project, null, 2)}</pre>
       </div>
     )

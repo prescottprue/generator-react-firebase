@@ -13,7 +13,7 @@ import {
   pathToJS
 } from 'react-redux-firebase'
 <% } %>
-import { LIST_PATH, SIGNUP_PATH } from 'constants'
+import { SIGNUP_PATH } from 'constants'
 import LoginForm from '../components/LoginForm'
 <% if (!includeRedux) { %>import firebaseUtil from 'utils/firebase'
 <% } %>

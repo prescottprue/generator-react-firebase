@@ -13,20 +13,16 @@ const populates = [
   { child: 'owner', root: 'users' }
 ]
 
-@firebaseConnect(
-  ({ params, auth }) => ([
-    {
-      path: 'projects',
-      populates
-    }
-  ])
-)
-@connect(
-  ({ firebase }, { params }) => ({
-    projects: populatedDataToJS(firebase, 'projects'),
-    auth: pathToJS(firebase, 'auth')
-  })
-)
+@firebaseConnect(({ params, auth }) => ([
+  {
+    path: 'projects',
+    populates
+  }
+]))
+@connect(({ firebase }, { params }) => ({
+  projects: populatedDataToJS(firebase, 'projects'),
+  auth: pathToJS(firebase, 'auth')
+}))
 export default class Projects extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -41,8 +37,7 @@ export default class Projects extends Component {
     projects: PropTypes.object,
     firebase: PropTypes.object,
     auth: PropTypes.object,
-    children: PropTypes.object,
-    params: PropTypes.object
+    children: PropTypes.object
   }
 
   newSubmit = (newProject) => {

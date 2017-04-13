@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Paper from 'material-ui/Paper'<% if (includeRedux) { %>
 import { connect } from 'react-redux'
 import { firebaseConnect, pathToJS, isLoaded } from 'react-redux-firebase'
+import { reduxFirebase as fbReduxSettings } from 'config'
 import { UserIsAuthenticated } from 'utils/router'<% } %>
 import defaultUserImageUrl from 'static/User.png'
 import LoadingSpinner from 'components/LoadingSpinner'
@@ -17,6 +18,7 @@ import classes from './AccountContainer.scss'
 export default class Account extends Component {
   <% if (includeRedux) { %>static propTypes = {
     account: PropTypes.object,
+    auth: PropTypes.object,
     firebase: PropTypes.shape({
       logout: PropTypes.func.isRequired
     })
