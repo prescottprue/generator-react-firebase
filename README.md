@@ -1,6 +1,6 @@
 # generator-react-firebase
 
-> Starter that uses React and Firebase (Redux optional)
+> Yeoman generator for starting projects using React and Firebase (Redux optional)
 
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][npm-downloads-image]][npm-url]
@@ -210,7 +210,7 @@ You have the option to enable Server-side Rendering through React and NodeJS. Se
 In order to enable server-side rendering with React, you must host a NodeJS server. This server is included and can be run using `npm run production` (runs if deployed to Heroku).
 
 ## In the future
-* Non-decorators implementation for props binding (pure redux and firebase implementations)
+* Non-decorators implementation for props binding
 * Option to use simple file structure instead of fractal pattern
 * Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
 * Store previous answers and use them as defaults

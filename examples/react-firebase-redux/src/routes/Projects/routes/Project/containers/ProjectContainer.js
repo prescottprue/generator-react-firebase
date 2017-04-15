@@ -5,12 +5,10 @@ import { firebaseConnect, isLoaded, dataToJS } from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectContainer.scss'
 
-@firebaseConnect(
-  // Get paths from firebase
-  ({ params }) => ([
-    `projects/${params.projectname}`
-  ])
-)
+// Get project path from firebase based on params prop (route params)
+@firebaseConnect(({ params }) => ([
+  `projects/${params.projectname}`
+]))
 // Map state to props
 @connect(({ firebase }, { params }) => ({
   project: dataToJS(firebase, `projects/${params.projectname}`)

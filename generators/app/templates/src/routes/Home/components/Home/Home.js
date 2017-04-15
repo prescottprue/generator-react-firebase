@@ -15,12 +15,12 @@ export const Home = () => (
       <span>Redirecting and route protection done using:
         <div>
           <span>
-            <a href={reactRouterUrl} target="_blank">
+            <a href={reactRouterUrl} target='_blank'>
               react-router
             </a>
           </span>
           <span>and</span>
-          <a href={authWrapperUrl} target="_blank">
+          <a href={authWrapperUrl} target='_blank'>
             redux-auth-wrapper
           </a>
         </div>
@@ -52,13 +52,13 @@ export const Home = () => (
           Forms
         </h3>
         <span>Redirecting and route protection done using:</span>
-          <div>
-            <span>
-              <a href={reactRouterUrl} target="_blank">
+        <div>
+          <span>
+            <a href={reactRouterUrl} target='_blank'>
                 redux-form
               </a>
-            </span>
-          </div>
+          </span>
+        </div>
       </div>
       <span>The following routes use redux-form:</span>
       <p>Account Page</p>

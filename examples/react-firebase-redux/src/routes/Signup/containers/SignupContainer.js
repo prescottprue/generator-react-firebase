@@ -56,9 +56,8 @@ export default class Signup extends Component {
   }
 
   render () {
-    const { authError } = this.props
     const { snackCanOpen } = this.state
-
+    const { authError } = this.props
 
     return (
       <div className={classes.container}>

@@ -76,9 +76,8 @@ export default class Signup extends Component {
   }
 
   render () {
-    <% if (includeRedux) { %>const { authError } = this.props<% } %>
-    const { snackCanOpen } = this.state
-<% if (!includeRedux) { %>
+    const { snackCanOpen } = this.state<% if (includeRedux) { %>
+    const { authError } = this.props<% } %><% if (!includeRedux) { %>
     const { snackCanOpen, isLoading, errorMessage } = this.state
 
     if (isLoading) {

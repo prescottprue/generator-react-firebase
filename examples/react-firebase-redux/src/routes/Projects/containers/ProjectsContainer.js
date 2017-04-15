@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { map } from 'lodash'
 import { connect } from 'react-redux'
-import { firebaseConnect, populatedDataToJS, pathToJS, isLoaded, isEmpty  } from 'react-redux-firebase'
+import { firebaseConnect, populatedDataToJS, pathToJS, isLoaded, isEmpty } from 'react-redux-firebase'
 import { LIST_PATH } from 'constants'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../components/ProjectTile/ProjectTile'
