@@ -9,6 +9,7 @@ import defaultUserImageUrl from 'static/User.png'
 import LoadingSpinner from 'components/LoadingSpinner'
 import AccountForm from '../components/AccountForm/AccountForm'
 import classes from './AccountContainer.scss'
+import { reduxFirebase as fbReduxSettings } from '../../../config'
 
 <% if (includeRedux) { %>@UserIsAuthenticated // redirect to /login if user is not authenticated
 @firebaseConnect()
@@ -27,7 +28,7 @@ export default class Account extends Component {
   updateAccount = (newAccount) => {
     const { firebase: { update }, auth } = this.props
     // corresponds to /users/${uid}
-    return update(`${fbReduxSettings.userProfile}/${auth.uid}`, newAccount)
+    return update(`/${fbReduxSettings.userProfile}/${auth.uid}`, newAccount)
   }<% } %>
 
 <% if (!includeRedux) { %>
