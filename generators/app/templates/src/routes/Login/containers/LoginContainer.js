@@ -13,12 +13,11 @@ import {
   pathToJS
 } from 'react-redux-firebase'
 <% } %>
-import { LIST_PATH, SIGNUP_PATH } from 'constants'
+import { SIGNUP_PATH } from 'constants'
 import LoginForm from '../components/LoginForm'
 <% if (!includeRedux) { %>import firebaseUtil from 'utils/firebase'
 <% } %>
 import classes from './LoginContainer.scss'
-
 
 <% if (includeRedux) { %>@UserIsNotAuthenticated // redirect to list page if logged in
 @firebaseConnect()
@@ -61,7 +60,7 @@ export default class Login extends Component {
           this.setState({ isLoading: false })
         })
     }<% } %>
-    <% if (includeRedux) { %>this.props.firebase.login(loginData)<% } %>
+    <% if (includeRedux) { %>return this.props.firebase.login(loginData)<% } %>
   }
 
   providerLogin = (provider) =>
@@ -83,10 +82,10 @@ export default class Login extends Component {
           <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes.signup}>
-          <span className={classes['signup-label']}>
+          <span className={classes.signupLabel}>
             Need an account?
           </span>
-          <Link className={classes['signup-link']} to={SIGNUP_PATH}>
+          <Link className={classes.signupLink} to={SIGNUP_PATH}>
             Sign Up
           </Link>
         </div><% if (!includeRedux) { %>

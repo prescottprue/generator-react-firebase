@@ -13,9 +13,9 @@ export const ProjectTile = ({ project, onSelect }) => (
     </div>
     <span className={classes.owner}>
       {
-        isObject(project.owner)
-          ? project.owner.displayName
-          : project.owner || 'No Owner'
+        isObject(project.createdBy)
+          ? project.createdBy.displayName
+          : project.createdBy || 'No Owner'
       }
     </span>
   </Paper>
