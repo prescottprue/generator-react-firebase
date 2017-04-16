@@ -21,8 +21,7 @@
     "build": "better-npm-run build",
     "build:dev": "better-npm-run build:dev",
     "build:prod": "better-npm-run build:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov",
-    "deploy": "better-npm-run deploy"
+    "codecov": "cat coverage/*/lcov.info | codecov"
   },
   "betterScripts": {
     "compile": {

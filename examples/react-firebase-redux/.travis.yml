@@ -21,7 +21,7 @@ install:
   - npm install
 
 script:
-  - npm run config
+  - npm run create-config # create environment specific config.js file
   - npm run lint:fix
   - npm run test
   - npm run build:prod
