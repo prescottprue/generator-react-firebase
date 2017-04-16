@@ -212,7 +212,7 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
 <% if (codeClimate) { %>[climate-image]: https://img.shields.io/codeclimate/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %>
 [coverage-image]: https://img.shields.io/codeclimate/coverage/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %> <% } %>
+[coverage-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %><% } %>
 [license-image]: https://img.shields.io/npm/l/<%= appName %>.svg?style=flat-square
 [license-url]: https://github.com/<%= githubUser %>/<%= appName %>/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square

@@ -4,14 +4,13 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { connect } from 'react-redux'
-import { UserIsNotAuthenticated } from 'utils/router'
-
 import {
   firebaseConnect,
   isLoaded,
   isEmpty,
   pathToJS
 } from 'react-redux-firebase'
+import { UserIsNotAuthenticated } from 'utils/router'
 import { LIST_PATH, LOGIN_PATH } from 'constants'
 import SignupForm from '../components/SignupForm'
 
@@ -19,7 +18,7 @@ import classes from './SignupContainer.scss'
 
 @UserIsNotAuthenticated // redirect to list page if logged in
 @firebaseConnect()
-@connect(({firebase}) => ({
+@connect(({ firebase }) => ({
   authError: pathToJS(firebase, 'authError')
 }))
 export default class Signup extends Component {
@@ -71,10 +70,10 @@ export default class Signup extends Component {
           <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes.login}>
-          <span className={classes['login-label']}>
+          <span className={classes.loginLabel}>
             Already have an account?
           </span>
-          <Link className={classes['login-link']} to={LOGIN_PATH}>
+          <Link className={classes.loginLink} to={LOGIN_PATH}>
             Login
           </Link>
         </div>

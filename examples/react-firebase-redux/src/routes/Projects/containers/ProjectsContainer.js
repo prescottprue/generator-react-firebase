@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import { firebaseConnect, populatedDataToJS, pathToJS, isLoaded, isEmpty } from 'react-redux-firebase'
 import { LIST_PATH } from 'constants'
 import LoadingSpinner from 'components/LoadingSpinner'
-import ProjectTile from '../components/ProjectTile/ProjectTile'
-import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
-import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
+import ProjectTile from '../components/ProjectTile'
+import NewProjectTile from '../components/NewProjectTile'
+import NewProjectDialog from '../components/NewProjectDialog'
 import classes from './ProjectsContainer.scss'
 
 const populates = [
-  { child: 'owner', root: 'users' }
+  { child: 'createdBy', root: 'users' }
 ]
 
 @firebaseConnect(({ params, auth }) => ([
@@ -20,7 +20,7 @@ const populates = [
   }
 ]))
 @connect(({ firebase }, { params }) => ({
-  projects: populatedDataToJS(firebase, 'projects'),
+  projects: populatedDataToJS(firebase, 'projects', populates),
   auth: pathToJS(firebase, 'auth')
 }))
 export default class Projects extends Component {
@@ -28,24 +28,19 @@ export default class Projects extends Component {
     router: React.PropTypes.object.isRequired
   }
 
-  state = {
-    newProjectModal: false,
-    addProjectModal: false
-  }
-
   static propTypes = {
+    children: PropTypes.object,
     projects: PropTypes.object,
-    firebase: PropTypes.object,
-    auth: PropTypes.object,
-    children: PropTypes.object
+    firebase: PropTypes.object
+  }
+  state = {
+    newProjectModal: false
   }
 
   newSubmit = (newProject) => {
-    const { auth, firebase: { push } } = this.props
-    if (auth.uid) {
-      newProject.owner = auth.uid
-    }
-    push('projects', newProject)
+    const { firebase: { pushWithMeta } } = this.props
+    // push new project with createdBy and createdAt
+    return pushWithMeta('projects', newProject)
       .then(() => this.setState({ newProjectModal: false }))
       .catch(err => {
         // TODO: Show Snackbar
