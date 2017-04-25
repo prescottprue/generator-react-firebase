@@ -1,29 +1,59 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field, reduxForm, submit } from 'redux-form'
+<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import TextField from 'components/TextField'
 import { required } from 'utils/form'
 import { NEW_PROJECT_FORM_NAME } from 'constants'<% } %>
 
 import classes from './NewProjectDialog.scss'
 
-<% if (includeRedux) { %>@reduxForm({
+<% if (includeRedux) { %>export const NewProjectDialog = ({ open, onRequestClose, submit, handleSubmit }) => (
+  <Dialog
+    title='New Project'
+    open={open}
+    onRequestClose={onRequestClose}
+    contentClassName={classes.container}
+    actions={[
+      <FlatButton
+        label='Cancel'
+        secondary
+        onTouchTap={onRequestClose}
+      />,
+      <FlatButton
+        label='Create'
+        primary
+        onTouchTap={submit}
+      />
+    ]}
+  >
+    <form onSubmit={handleSubmit} className={classes.inputs}>
+      <Field
+        name='name'
+        component={TextField}
+        label='Project Name'
+        validate={[required]}
+      />
+    </form>
+  </Dialog>
+)
+
+NewProjectDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onRequestClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  handleSubmit: PropTypes.func.isRequired, // added by redux-form
+  submit: PropTypes.func.isRequired // added by redux-form
+}
+
+export default reduxForm({
   form: NEW_PROJECT_FORM_NAME
-})<% } %>
-export default class NewProjectDialog extends Component {
+})(NewProjectDialog)<% } %><% if (!includeRedux) { %>export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
-    onRequestClose: PropTypes.func.isRequired<% if (includeRedux) { %>,
-    handleSubmit: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired<% } %><% if (!includeRedux) { %>,
-    onCreateClick: PropTypes.func.isRequired,<% } %>
+    onCreateClick: PropTypes.func.isRequired
   }
-<% if (includeRedux) { %>
-  handleSubmitClick = (e) => {
-    this.props.dispatch(submit(NEW_PROJECT_FORM_NAME))
-  }
-<% } %><% if (!includeRedux) { %>
+
   handleInputChange = (e) => {
     e.preventDefault()
     this.setState({
@@ -44,40 +74,31 @@ export default class NewProjectDialog extends Component {
       this.props.onRequestClose()
     }
   }
-<% } %>
-  render () {
-    const { open, onRequestClose<% if (includeRedux) { %>, handleSubmit<% } %> } = this.props<% if (!includeRedux) { %>
-    const { error } = this.state<% } %>
 
-    const actions = [
-      <FlatButton
-        label='Cancel'
-        secondary
-        onTouchTap={onRequestClose}
-      />,
-      <FlatButton
-        label='Create'
-        primary
-        <% if (!includeRedux) { %>onTouchTap={this.handleSubmit}<% } %><% if (includeRedux) { %>onTouchTap={this.handleSubmitClick}<% } %>
-      />
-    ]
+  render () {
+    const { open, onRequestClose } = this.props
+    const { error } = this.state
 
     return (
       <Dialog
         title='New Project'
-        modal={false}
-        actions={actions}
         open={open}
         onRequestClose={onRequestClose}
-        contentClassName={classes.container}>
-        <% if (includeRedux) { %><form onSubmit={handleSubmit} className={classes.inputs}>
-          <Field
-            name='name'
-            component={TextField}
-            label='Project Name'
-            validate={[required]}
+        contentClassName={classes.container}
+        actions={[
+          <FlatButton
+            label='Cancel'
+            secondary
+            onTouchTap={onRequestClose}
+          />,
+          <FlatButton
+            label='Create'
+            primary
+            onTouchTap={this.handleSubmit}
           />
-        </form><% } %><% if (!includeRedux) { %><div className={classes.inputs}>
+        ]}
+      >
+        <div className={classes.inputs}>
           <TextField
             hintText='exampleProject'
             floatingLabelText='Project Name'
@@ -85,8 +106,8 @@ export default class NewProjectDialog extends Component {
             onChange={this.handleInputChange}
             errorText={error || null}
           />
-        </div><% } %>
+        </div>
       </Dialog>
     )
   }
-}
+}<% } %>
