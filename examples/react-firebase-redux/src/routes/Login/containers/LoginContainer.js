@@ -24,7 +24,6 @@ import classes from './LoginContainer.scss'
   authError: pathToJS(firebase, 'authError')
 }))
 export default class Login extends Component {
-  
   static propTypes = {
     firebase: PropTypes.shape({
       login: PropTypes.func.isRequired
