@@ -27,8 +27,7 @@ import classes from './LoginContainer.scss'
 export default class Login extends Component {
   <% if (!includeRedux) { %>static contextTypes = {
     router: PropTypes.object
-  }<% } %>
-  <% if (includeRedux) { %>static propTypes = {
+  }<% } %><% if (includeRedux) { %>static propTypes = {
     firebase: PropTypes.shape({
       login: PropTypes.func.isRequired
     }),

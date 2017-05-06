@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react'
+<% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'<% } %>
 import RaisedButton from 'material-ui/RaisedButton'
-<% if (includeRedux) { %> // redux-form
-import { Field, reduxForm } from 'redux-form'
-import TextField from 'components/TextField'
+<% if (includeRedux) { %>import TextField from 'components/TextField'
 import { required, validateEmail } from 'utils/form'
 import { SIGNUP_FORM_NAME } from 'constants'<% } %>
 import classes from './SignupForm.scss'

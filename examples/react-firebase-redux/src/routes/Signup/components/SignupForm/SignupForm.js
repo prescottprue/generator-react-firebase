@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
 import { Field, reduxForm } from 'redux-form'
+import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'components/TextField'
 import { required, validateEmail } from 'utils/form'
 import { SIGNUP_FORM_NAME } from 'constants'
