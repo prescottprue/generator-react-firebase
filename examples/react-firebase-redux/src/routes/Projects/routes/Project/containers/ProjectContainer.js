@@ -25,7 +25,7 @@ export default class Project extends Component {
     if (!isLoaded(project)) {
       return <LoadingSpinner />
     }
-    
+
     return (
       <div className={classes.container}>
         <h2>Project Container</h2>

@@ -16,7 +16,8 @@ ecmaFeatures:
   modules: true
 
 globals:
-  sinon: true
+  __DEV__: false
+  __COVERAGE__: false
 
 rules:
   semi: [2, 'never']

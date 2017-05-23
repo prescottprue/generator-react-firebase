@@ -62,6 +62,7 @@ const prompts = [
 const filesArray = [
   { src: '_README.md', dest: 'README.md' },
   { src: 'LICENSE', dest: 'LICENSE' },
+  { src: '_package.json', dest: 'package.json' },
   { src: 'CONTRIBUTING.md', dest: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'eslintrc', dest: '.eslintrc' },
@@ -139,15 +140,13 @@ module.exports = class extends Generator {
         { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
         { src: 'src/store/location.js', dest: 'src/store/location.js' },
         { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
-        { src: 'src/utils/form.js' },
+        { src: 'src/utils/form.js' }
         // TODO: Add question about including redux-cli blueprints (they contain template strings)
         // { src: 'blueprints/**', dest: 'blueprints' },
-        { src: 'redux/_package.json', dest: 'package.json' }
       )
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push(
-        { src: '_package.json', dest: 'package.json' },
         { src: 'src/utils/**', dest: 'src/utils' }
       )
     }
