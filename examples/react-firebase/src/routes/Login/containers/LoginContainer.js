@@ -2,29 +2,26 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
-import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
-import LoginForm from '../components/LoginForm/LoginForm'
-import { LIST_PATH } from 'constants/paths'
-import firebaseUtil from '../../../utils/firebase'
 
-// styles
+import { SIGNUP_PATH } from 'constants'
+import LoginForm from '../components/LoginForm'
+import firebaseUtil from 'utils/firebase'
+
 import classes from './LoginContainer.scss'
+
 
 export default class Login extends Component {
   static contextTypes = {
     router: PropTypes.object
   }
-
   state = {
-    snackCanOpen: false,
-    isLoading: false
+    snackCanOpen: false
   }
 
   handleLogin = loginData => {
     this.setState({
-      snackCanOpen: true,
-      isLoading: true
+      snackCanOpen: true
     })
 
     const { email, password } = loginData
@@ -48,33 +45,25 @@ export default class Login extends Component {
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
-    const { snackCanOpen, isLoading, errorMessage } = this.state
-    if (isLoading) {
-      return (
-        <div className={classes['container']}>
-          <div className={classes['progress']}>
-            <CircularProgress mode='indeterminate' />
-          </div>
-        </div>
-      )
-    }
+    
+    const { snackCanOpen } = this.state
 
     return (
-      <div className={classes['container']}>
-        <Paper className={classes['panel']}>
+      <div className={classes.container}>
+        <Paper className={classes.panel}>
           <LoginForm onSubmit={this.handleLogin} />
         </Paper>
-        <div className={classes['or']}>
+        <div className={classes.or}>
           or
         </div>
-        <div className={classes['providers']}>
+        <div className={classes.providers}>
           <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
-        <div className={classes['signup']}>
-          <span className={classes['signup-label']}>
+        <div className={classes.signup}>
+          <span className={classes.signupLabel}>
             Need an account?
           </span>
-          <Link className={classes['signup-link']} to='/signup'>
+          <Link className={classes.signupLink} to={SIGNUP_PATH}>
             Sign Up
           </Link>
         </div>
@@ -85,7 +74,7 @@ export default class Login extends Component {
               message={errorMessage}
               action='close'
               autoHideDuration={3000}
-              onRequestClose={this.handleRequestClose}
+              onRequestClose={() => this.setState({ snackCanOpen: false })}
             />
         }
 

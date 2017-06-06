@@ -1,29 +1,25 @@
 import React, { Component, PropTypes } from 'react'
-import { LIST_PATH } from 'constants/paths'
-
-// Components
-import ProjectTile from '../components/ProjectTile/ProjectTile'
-import NewProjectTile from '../components/NewProjectTile/NewProjectTile'
-import NewProjectDialog from '../components/NewProjectDialog/NewProjectDialog'
-import CircularProgress from 'material-ui/CircularProgress'
-
+import { LIST_PATH } from 'constants'
+import LoadingSpinner from 'components/LoadingSpinner'
+import ProjectTile from '../components/ProjectTile'
+import NewProjectTile from '../components/NewProjectTile'
+import NewProjectDialog from '../components/NewProjectDialog'
 import classes from './ProjectsContainer.scss'
+
 
 export default class Projects extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
-  state = {
-    newProjectModal: false,
-    addProjectModal: false
-  }
-
   static propTypes = {
-    account: PropTypes.object,
-    projects: PropTypes.array,
     children: PropTypes.object,
+    projects: PropTypes.array,
+    account: PropTypes.object,
     params: PropTypes.object
+  }
+  state = {
+    newProjectModal: false
   }
 
   componentWillMount() {

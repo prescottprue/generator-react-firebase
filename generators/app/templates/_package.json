@@ -86,7 +86,7 @@
   "dependencies": {<% if (!includeRedux) { %>
     "firebase": "^4.0.0",<% } %>
     "lodash": "^4.17.4",
-    "material-ui": "0.17.2",
+    "material-ui": "0.18.1",
     "normalize.css": "^4.1.1",
     "react": "15.4.2",
     "react-dom": "15.4.2",
