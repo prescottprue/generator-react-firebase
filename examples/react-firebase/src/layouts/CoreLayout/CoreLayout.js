@@ -1,12 +1,12 @@
 import React from 'react'
-import Navbar from '../../containers/Navbar/Navbar'
+import Navbar from 'containers/Navbar'
 import classes from './CoreLayout.scss'
-import '../../styles/core.scss'
+import 'styles/core.scss'
 
 export const CoreLayout = ({ children }) => (
-  <div>
+  <div className={classes.container}>
     <Navbar />
-    <div className={classes.mainContainer}>
+    <div className={classes.children}>
       {children}
     </div>
   </div>

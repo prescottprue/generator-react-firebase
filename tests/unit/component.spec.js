@@ -1,6 +1,4 @@
-/* global describe before */
 import path from 'path'
-// import assert from 'yeoman-assert'
 import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
 

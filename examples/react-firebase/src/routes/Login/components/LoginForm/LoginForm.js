@@ -3,8 +3,7 @@ import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
-
-
+import { RECOVER_PATH, LOGIN_FORM_NAME } from 'constants'
 import classes from './LoginForm.scss'
 
 export const LoginForm = ({ handleSubmit, error }) => (
@@ -39,7 +38,7 @@ export const LoginForm = ({ handleSubmit, error }) => (
           labelStyle={{ fontSize: '.8rem' }}
         />
       </div>
-      <Link className={classes.recover} to='/recover'>
+      <Link className={classes.recover} to={RECOVER_PATH}>
         Forgot Password?
       </Link>
     </div>

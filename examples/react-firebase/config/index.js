@@ -34,7 +34,7 @@ const config = {
     plugins        : ['transform-runtime', 'lodash', 'transform-decorators-legacy'],
     presets        : ['es2015', 'react', 'stage-0']
   },
-  compiler_devtool         : 'source-map',
+  compiler_devtool         : 'eval',
   compiler_hash_type       : 'hash',
   compiler_fail_on_warning : false,
   compiler_quiet           : false,
@@ -45,12 +45,9 @@ const config = {
     colors : true
   },
   compiler_vendors : [
-    'react',
-    'react-router',
-    'redux',
-    'react-redux-firebase',
     'material-ui',
-    'lodash'
+    'react',
+    'react-router'
   ],
 
   compiler_css_modules: true, // enable/disable css modules

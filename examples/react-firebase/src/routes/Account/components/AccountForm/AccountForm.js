@@ -1,21 +1,26 @@
 import React, { PropTypes } from 'react'
-
-import classes from './AccountForm.scss'
+import TextField from 'material-ui/TextField'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
+import classes from './AccountForm.scss'
 
 export const AccountForm = ({ account, handleSubmit }) => (
-  <div className={classes['Account']}>
+  <div className={classes.container}>
     <h4>Account</h4>
     <div>
-      <input placeholder='username' />
+      <TextField
+        floatingLabelText='Username'
+      />
     </div>
     <div>
-      <input placeholder='email' />
+      <TextField
+        hintText='someone@email.com'
+        floatingLabelText='Email'
+      />
     </div>
     <div>
       <h4>Linked Accounts</h4>
       {
-        account.providerData &&
+        account && account.providerData &&
           <ProviderDataForm
             providerData={account.providerData}
           />
@@ -25,9 +30,8 @@ export const AccountForm = ({ account, handleSubmit }) => (
 )
 
 AccountForm.propTypes = {
-  account: PropTypes.shape({
-    providerData: PropTypes.array
-  }),
+  account: PropTypes.object,
   handleSubmit: PropTypes.func
 }
 export default AccountForm
+
