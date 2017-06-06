@@ -61,8 +61,8 @@ export const Home = () => (
           <div>
             <span>
               <a href={reactRouterUrl} target='_blank'>
-                  redux-form
-                </a>
+                redux-form
+              </a>
             </span>
           </div>
         </div>
