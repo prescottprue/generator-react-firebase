@@ -89,8 +89,8 @@
     "material-ui": "0.18.1",
     "normalize.css": "^4.1.1",
     "react": "15.4.2",
-    "react-dom": "15.4.2",
-    <% if (includeRedux) { %>"react-redux": "^4.4.5",
+    "react-dom": "15.4.2",<% if (includeRedux) { %>
+    "react-redux": "^4.4.5",
     "react-redux-firebase": "^1.4.0",<% } %>
     "react-router": "^2.8.0",
     "react-google-button": "^0.1.0",
