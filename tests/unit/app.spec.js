@@ -55,7 +55,7 @@ const testFiles = [
   'tests/routes/Account/components/AccountForm.spec.js',
 ]
 
-const extraTimeout = 8000
+const extraTimeout = 15000
 
 describe('generator-react-firebase:app', () => {
   describe('firebaseName', () => {
@@ -65,7 +65,8 @@ describe('generator-react-firebase:app', () => {
         helpers.run(path.join(__dirname, '../../generators/app'))
           .withPrompts({
             githubUser: 'testuser',
-            firebaseName: 'asdf.firebaseio.com'
+            firebaseName: 'asdf.firebaseio.com',
+            useYarn: true,
           })
           .toPromise()
       )
@@ -92,7 +93,8 @@ describe('generator-react-firebase:app', () => {
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: 'Y',
-            deployTo: 'firebase'
+            deployTo: 'firebase',
+            useYarn: true,
           })
           .toPromise()
       , extraTimeout)
@@ -117,7 +119,8 @@ describe('generator-react-firebase:app', () => {
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: false,
-            deployTo: 'firebase'
+            deployTo: 'firebase',
+            useYarn: true,
           })
           .toPromise()
       , extraTimeout)
@@ -137,18 +140,20 @@ describe('generator-react-firebase:app', () => {
 
   describe('deploy options', () => {
 
-    describe('Firebase', () => {
-      before(() =>
-        helpers.run(path.join(__dirname, '../../generators/app'))
+    describe('Firebase', function() {
+      this.timeout(extraTimeout);
+      before(function() {
+        return helpers.run(path.join(__dirname, '../../generators/app'))
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: 'Y',
-            deployTo: 'firebase'
+            deployTo: 'firebase',
+            useYarn: true,
           })
           .toPromise()
-       , extraTimeout)
+       })
 
       describe('creates files', () => {
         describe('project', () => {
