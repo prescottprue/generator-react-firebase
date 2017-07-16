@@ -10,12 +10,7 @@ import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import Avatar from 'material-ui/Avatar'
 <% if (!includeRedux) { %>// firebase
 // TODO: Import actions for firebase<% } %><% if (includeRedux) { %>import { connect } from 'react-redux'
-import {
-  firebaseConnect,
-  pathToJS,
-  isLoaded,
-  isEmpty
-} from 'react-redux-firebase'<% } %>
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'<% } %>
 import { LIST_PATH, ACCOUNT_PATH, LOGIN_PATH, SIGNUP_PATH } from 'constants'
 import defaultUserImage from 'static/User.png'
 import classes from './Navbar.scss'
@@ -34,9 +29,9 @@ const avatarStyles = {
 
 <% if (includeRedux) { %>@firebaseConnect()
 @connect(
-  ({ firebase }) => ({
-    auth: pathToJS(firebase, 'auth'),
-    account: pathToJS(firebase, 'profile')
+  ({ firebase: { auth, profile } }) => ({
+    auth,
+    profile
   })
 )<% } %>
 export default class Navbar extends Component {
@@ -45,7 +40,7 @@ export default class Navbar extends Component {
   }
 
   <% if (includeRedux) { %>static propTypes = {
-    account: PropTypes.object,
+    profile: PropTypes.object,
     auth: PropTypes.object,
     firebase: PropTypes.object.isRequired
   }<% } %><% if (!includeRedux) { %>static propTypes = {
@@ -59,7 +54,7 @@ export default class Navbar extends Component {
   }
 
   render () {
-    const { account, auth } = this.props
+    const { profile, auth } = this.props
     <% if (includeRedux) { %>const authExists = isLoaded(auth) && !isEmpty(auth)<% } %>
 
     const iconButton = (
@@ -67,13 +62,13 @@ export default class Navbar extends Component {
         <div className={classes.avatar}>
           <div className='hidden-mobile'>
             <Avatar
-              <% if (includeRedux) { %>src={account && account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %><% if (!includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %>
+              <% if (includeRedux) { %>src={profile && profile.avatarUrl ? profile.avatarUrl : defaultUserImage}<% } %><% if (!includeRedux) { %>src={profile.avatarUrl ? profile.avatarUrl : defaultUserImage}<% } %>
             />
           </div>
           <div className={classes['avatar-text']}>
             <span className={`${classes['avatar-text-name']} hidden-mobile`}>
               {
-                account && account.displayName ? account.displayName : 'User'
+                profile && profile.displayName ? profile.displayName : 'User'
               }
             </span>
             <DownArrow color='white' />
@@ -125,7 +120,7 @@ export default class Navbar extends Component {
           </Link>
         }
         showMenuIconButton={false}
-        iconElementRight={isLoaded(auth, account) ? rightMenu : null}
+        iconElementRight={isLoaded(auth, profile) ? rightMenu : null}
         iconStyleRight={authExists ? avatarStyles.wrapper : {}}
         className={classes.appBar}
       />

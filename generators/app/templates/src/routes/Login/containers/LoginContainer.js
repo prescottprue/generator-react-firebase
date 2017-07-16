@@ -7,12 +7,7 @@ import Snackbar from 'material-ui/Snackbar'
 <% if (includeRedux) { %>
 import { connect } from 'react-redux'
 import { UserIsNotAuthenticated } from 'utils/router'
-import {
-  firebaseConnect,
-  isLoaded,
-  isEmpty,
-  pathToJS
-} from 'react-redux-firebase'
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 <% } %>
 import { SIGNUP_PATH } from 'constants'
 import LoginForm from '../components/LoginForm'
@@ -22,8 +17,8 @@ import classes from './LoginContainer.scss'
 
 <% if (includeRedux) { %>@UserIsNotAuthenticated // redirect to list page if logged in
 @firebaseConnect()
-@connect(({ firebase }) => ({
-  authError: pathToJS(firebase, 'authError')
+@connect(({ firebase, authError }) => ({
+  authError
 }))<% } %>
 export default class Login extends Component {
   <% if (!includeRedux) { %>static contextTypes = {

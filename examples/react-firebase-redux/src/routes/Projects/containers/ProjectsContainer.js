@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { map } from 'lodash'
 import { connect } from 'react-redux'
-import { firebaseConnect, populatedDataToJS, pathToJS, isLoaded, isEmpty } from 'react-redux-firebase'
+import { firebaseConnect, populate, isLoaded, isEmpty } from 'react-redux-firebase'
 import { LIST_PATH } from 'constants'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../components/ProjectTile'
@@ -20,9 +20,9 @@ const populates = [
     populates
   }
 ]))
-@connect(({ firebase }, { params }) => ({
-  projects: populatedDataToJS(firebase, 'projects', populates),
-  auth: pathToJS(firebase, 'auth')
+@connect(({ firebase, auth }, { params }) => ({
+  auth,
+  projects: populate(firebase, 'projects', populates)
 }))
 export default class Projects extends Component {
   static contextTypes = {

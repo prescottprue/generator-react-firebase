@@ -5,12 +5,7 @@ import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 <% if (includeRedux) { %>import { connect } from 'react-redux'
-import {
-  firebaseConnect,
-  isLoaded,
-  isEmpty,
-  pathToJS
-} from 'react-redux-firebase'
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import { UserIsNotAuthenticated } from 'utils/router'<% } %>
 import { LIST_PATH, LOGIN_PATH } from 'constants'
 import SignupForm from '../components/SignupForm'
@@ -20,8 +15,8 @@ import classes from './SignupContainer.scss'
 
 <% if (includeRedux) { %>@UserIsNotAuthenticated // redirect to list page if logged in
 @firebaseConnect()
-@connect(({ firebase }) => ({
-  authError: pathToJS(firebase, 'authError')
+@connect(({ firebase, authError }) => ({
+  authError
 }))<% } %>
 export default class Signup extends Component {
   <% if (!includeRedux) { %>static contextTypes = {

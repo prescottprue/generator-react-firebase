@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'<% if (includeRedux) { %>
 import { connect } from 'react-redux'
-import { firebaseConnect, pathToJS, isLoaded } from 'react-redux-firebase'
+import { firebaseConnect, isLoaded } from 'react-redux-firebase'
 import { reduxFirebase as fbReduxSettings } from 'config'
 import { UserIsAuthenticated } from 'utils/router'<% } %>
 import defaultUserImageUrl from 'static/User.png'
@@ -12,13 +12,13 @@ import classes from './AccountContainer.scss'
 
 <% if (includeRedux) { %>@UserIsAuthenticated // redirect to /login if user is not authenticated
 @firebaseConnect()
-@connect(({ firebase }) => ({
-  auth: pathToJS(firebase, 'auth'),
-  account: pathToJS(firebase, 'profile')
+@connect(({ firebase, { auth, profile } }) => ({
+  auth,
+  profile
 }))<% } %>
 export default class Account extends Component {
   <% if (includeRedux) { %>static propTypes = {
-    account: PropTypes.object,
+    profile: PropTypes.object,
     auth: PropTypes.object,
     firebase: PropTypes.shape({
       logout: PropTypes.func.isRequired
@@ -32,17 +32,17 @@ export default class Account extends Component {
   }<% } %>
 <% if (!includeRedux) { %>
   handleSave = () => {
-    // TODO: Handle saving image and account data at the same time
-    const account = {
+    // TODO: Handle saving image and profile data at the same time
+    const profile = {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue()
     }
   }
 <% } %>
   render () {
-    const { account } = this.props
+    const { profile } = this.props
 
-    if (!isLoaded(account)) {
+    if (!isLoaded(profile)) {
       return <LoadingSpinner />
     }
 
@@ -53,14 +53,15 @@ export default class Account extends Component {
             <div className={classes.avatar}>
               <img
                 className={classes.avatarCurrent}
-                src={account && account.avatarUrl ? account.avatarUrl : defaultUserImageUrl}
+                src={profile && profile.avatarUrl ? profile.avatarUrl : defaultUserImageUrl}
                 onClick={this.toggleModal}
               />
             </div>
             <div className={classes.meta}>
               <AccountForm
                 onSubmit={this.updateAccount}
-                initialValues={account}
+                initialValues={profile}
+                account={profile}
               />
             </div>
           </div>
