@@ -1,45 +1,51 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-
+import TextField from 'components/TextField'
+import { required, validateEmail } from 'utils/form'
+import { SIGNUP_FORM_NAME } from 'constants'
 import classes from './SignupForm.scss'
 const buttonStyle = { width: '100%' }
 
-export const SignupForm = ({ handleSubmit, error }) => {
-  return (
-    <form className={classes.container} onSubmit={handleSubmit}>
-      <div>
-        <TextField
-          floatingLabelText='Username'
-          errorText={error || null}
-        />
-      </div>
-      <div>
-        <TextField
-          hintText='someone@email.com'
-          floatingLabelText='Email'
-          errorText={error || null}
-        />
-      </div>
-      <div>
-        <TextField
-          floatingLabelText='Password'
-          errorText={error || null}
-          type="password"
-        />
-      </div>
-      <div className={classes.submit}>
-        <RaisedButton
-          label='Signup'
-          primary
-          type='submit'
-          style={buttonStyle}
-        />
-      </div>
-    </form>
-  )
-}
+const SignupForm = ({ handleSubmit, submitting }) => (
+  <form className={classes.container} onSubmit={handleSubmit}>
+    <Field
+      name='username'
+      component={TextField}
+      label='Username'
+      validate={[required]}
+    />
+    <Field
+      name='email'
+      component={TextField}
+      label='Email'
+      validate={[required, validateEmail]}
+    />
+    <Field
+      name='password'
+      component={TextField}
+      label='Password'
+      type='password'
+      validate={[required]}
+    />
+    <div className={classes.submit}>
+      <RaisedButton
+        label='Signup'
+        primary
+        type='submit'
+        disabled={submitting}
+        style={buttonStyle}
+      />
+    </div>
+  </form>
+)
+
 SignupForm.propTypes = {
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
+  submitting: PropTypes.bool
 }
 
-export default SignupForm
+export default reduxForm({
+  form: SIGNUP_FORM_NAME
+})(SignupForm)

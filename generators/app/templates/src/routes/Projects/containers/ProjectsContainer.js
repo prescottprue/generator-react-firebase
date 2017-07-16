@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'<% if (includeRedux) { %>
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'<% if (includeRedux) { %>
 import { map } from 'lodash'
 import { connect } from 'react-redux'
 import { firebaseConnect, populatedDataToJS, pathToJS, isLoaded, isEmpty } from 'react-redux-firebase'<% } %>
@@ -25,7 +26,7 @@ import classes from './ProjectsContainer.scss'
 }))<% } %>
 export default class Projects extends Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   }
 
   static propTypes = {
@@ -36,6 +37,7 @@ export default class Projects extends Component {
     account: PropTypes.object,
     params: PropTypes.object<% } %>
   }
+
   state = {
     newProjectModal: false
   }

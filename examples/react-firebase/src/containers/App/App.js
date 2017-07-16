@@ -1,5 +1,7 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { browserHistory, Router } from 'react-router'
+import { Provider } from 'react-redux'
 
 // Themeing/Styling
 import Theme from 'theme'
@@ -15,7 +17,8 @@ export default class AppContainer extends Component {
   }
 
   static propTypes = {
-    routes: PropTypes.object.isRequired
+    routes: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
   }
 
   getChildContext = () => ({
@@ -23,11 +26,13 @@ export default class AppContainer extends Component {
   })
 
   render () {
-    const { routes } = this.props
+    const { routes, store } = this.props
     return (
-      <Router history={browserHistory}>
-        {routes}
-      </Router>
+      <Provider store={store}>
+        <Router history={browserHistory}>
+          {routes}
+        </Router>
+      </Provider>
     )
   }
 }
