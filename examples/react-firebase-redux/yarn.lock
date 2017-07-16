@@ -4219,6 +4219,10 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
+normalize.css@^4.1.1:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-4.2.0.tgz#21d66cc557154d4379fd1e079ec7de58a379b099"
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
@@ -4868,7 +4872,7 @@ prop-types@15.5.8:
   dependencies:
     fbjs "^0.8.9"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -5008,11 +5012,9 @@ react-event-listener@^0.4.5:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-react-google-button@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-google-button/-/react-google-button-0.3.0.tgz#84fc471d01be9b4a06bda3429c18cca4934079e1"
-  dependencies:
-    prop-types "^15.5.8"
+react-google-button@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-google-button/-/react-google-button-0.1.0.tgz#dc586526f2bfd5c502088d91f338b9b437b85cd5"
 
 react-redux-firebase@^1.4.4:
   version "1.4.4"

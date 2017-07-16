@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { firebaseConnect, isLoaded, dataToJS, isEmpty } from 'react-redux-firebase'
+import { firebaseConnect, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectContainer.scss'
 
