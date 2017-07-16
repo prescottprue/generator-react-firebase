@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint generators tests",
     "lint:fix": "npm run lint -- --fix",
-    "test": "mocha -R spec --timeout 5000 --compilers js:babel-core/register ./tests/setup.js ./tests/**/*.spec.js",
+    "test": "mocha -R spec --compilers js:babel-core/register ./tests/setup.js ./tests/**/*.spec.js",
     "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- ./tests/** --recursive --report lcov --compilers js:babel-register --require babel-polyfill",
     "codecov": "cat coverage/*/lcov.info | codecov",
     "prepublish": "npm run lint",

@@ -55,6 +55,8 @@ const testFiles = [
   'tests/routes/Account/components/AccountForm.spec.js',
 ]
 
+const extraTimeout = 8000
+
 describe('generator-react-firebase:app', () => {
   describe('firebaseName', () => {
 
@@ -93,7 +95,7 @@ describe('generator-react-firebase:app', () => {
             deployTo: 'firebase'
           })
           .toPromise()
-      )
+      , extraTimeout)
       describe('creates files', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
@@ -118,7 +120,7 @@ describe('generator-react-firebase:app', () => {
             deployTo: 'firebase'
           })
           .toPromise()
-      )
+      , extraTimeout)
       describe('creates files', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
@@ -146,7 +148,7 @@ describe('generator-react-firebase:app', () => {
             deployTo: 'firebase'
           })
           .toPromise()
-      )
+       , extraTimeout)
 
       describe('creates files', () => {
         describe('project', () => {
