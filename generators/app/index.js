@@ -187,5 +187,4 @@ module.exports = class extends Generator {
       this.npmInstall()
     })
   }
-
 }
