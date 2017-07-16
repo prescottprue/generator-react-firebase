@@ -55,11 +55,9 @@ const testFiles = [
   'tests/routes/Account/components/AccountForm.spec.js',
 ]
 
-const extraTimeout = 15000
 
 describe('generator-react-firebase:app', () => {
   describe('firebaseName', () => {
-
     describe('validate', () => {
       before(() =>
         helpers.run(path.join(__dirname, '../../generators/app'))
@@ -94,10 +92,10 @@ describe('generator-react-firebase:app', () => {
             includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
-            useYarn: true,
+            useYarn: true
           })
           .toPromise()
-      , extraTimeout)
+      )
       describe('creates files', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
@@ -120,10 +118,10 @@ describe('generator-react-firebase:app', () => {
             includeTravis: 'Y',
             includeRedux: false,
             deployTo: 'firebase',
-            useYarn: true,
+            useYarn: true
           })
           .toPromise()
-      , extraTimeout)
+      )
       describe('creates files', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
@@ -140,20 +138,19 @@ describe('generator-react-firebase:app', () => {
 
   describe('deploy options', () => {
 
-    describe('Firebase', function() {
-      this.timeout(extraTimeout);
-      before(function() {
-        return helpers.run(path.join(__dirname, '../../generators/app'))
+    describe('Firebase', () => {
+      before(() =>
+        helpers.run(path.join(__dirname, '../../generators/app'))
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
-            useYarn: true,
+            useYarn: true
           })
           .toPromise()
-       })
+       )
 
       describe('creates files', () => {
         describe('project', () => {
@@ -180,7 +177,8 @@ describe('generator-react-firebase:app', () => {
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: 'N',
-            deployTo: 'heroku'
+            deployTo: 'heroku',
+            useYarn: true
           })
           .toPromise()
       )
