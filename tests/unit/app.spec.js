@@ -48,7 +48,6 @@ const herokuFiles = [
 
 const testFiles = [
   'tests/.eslintrc',
-  'tests/framework.spec.js',
   'tests/test-bundler.js',
   'tests/components/TextField/TextField.spec.js',
   'tests/layouts/CoreLayout.spec.js',

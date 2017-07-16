@@ -34,6 +34,7 @@ const avatarStyles = {
 <% if (includeRedux) { %>@firebaseConnect()
 @connect(
   ({ firebase }) => ({
+    auth: pathToJS(firebase, 'auth'),
     account: pathToJS(firebase, 'profile')
   })
 )<% } %>
@@ -44,6 +45,7 @@ export default class Navbar extends Component {
 
   <% if (includeRedux) { %>static propTypes = {
     account: PropTypes.object,
+    auth: PropTypes.object,
     firebase: PropTypes.object.isRequired
   }<% } %><% if (!includeRedux) { %>static propTypes = {
     auth: PropTypes.object,
@@ -56,8 +58,9 @@ export default class Navbar extends Component {
   }
 
   render () {
-    const { account } = this.props
-    <% if (includeRedux) { %>const accountExists = isLoaded(account) && !isEmpty(account)<% } %>
+    const { account, auth } = this.props
+    <% if (includeRedux) { %>const authExists = isLoaded(auth) && !isEmpty(auth)
+    const accountExists = isLoaded(account) && !isEmpty(account)<% } %>
 
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
@@ -94,7 +97,7 @@ export default class Navbar extends Component {
       </div>
     )
 
-    const rightMenu = accountExists ? (
+    const rightMenu = authExists ? (
       <IconMenu
         iconButtonElement={iconButton}
         targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -115,13 +118,13 @@ export default class Navbar extends Component {
     return (
       <AppBar
         title={
-          <Link to={accountExists ? LIST_PATH : '/'} className={classes.brand}>
+          <Link to={authExists ? LIST_PATH : '/'} className={classes.brand}>
             <%= appName %>
           </Link>
         }
         showMenuIconButton={false}
         iconElementRight={rightMenu}
-        iconStyleRight={accountExists ? avatarStyles.wrapper : {}}
+        iconStyleRight={authExists ? avatarStyles.wrapper : {}}
         className={classes.appBar}
       />
     )

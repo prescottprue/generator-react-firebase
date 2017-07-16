@@ -33,6 +33,7 @@ const avatarStyles = {
 @firebaseConnect()
 @connect(
   ({ firebase }) => ({
+    auth: pathToJS(firebase, 'auth'),
     account: pathToJS(firebase, 'profile')
   })
 )
@@ -43,6 +44,7 @@ export default class Navbar extends Component {
 
   static propTypes = {
     account: PropTypes.object,
+    auth: PropTypes.object,
     firebase: PropTypes.object.isRequired
   }
 
@@ -52,7 +54,8 @@ export default class Navbar extends Component {
   }
 
   render () {
-    const { account } = this.props
+    const { account, auth } = this.props
+    const authExists = isLoaded(auth) && !isEmpty(auth)
     const accountExists = isLoaded(account) && !isEmpty(account)
 
     const iconButton = (
@@ -90,7 +93,7 @@ export default class Navbar extends Component {
       </div>
     )
 
-    const rightMenu = accountExists ? (
+    const rightMenu = authExists ? (
       <IconMenu
         iconButtonElement={iconButton}
         targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -111,13 +114,13 @@ export default class Navbar extends Component {
     return (
       <AppBar
         title={
-          <Link to={accountExists ? LIST_PATH : '/'} className={classes.brand}>
+          <Link to={authExists ? LIST_PATH : '/'} className={classes.brand}>
             react-firebase-redux
           </Link>
         }
         showMenuIconButton={false}
         iconElementRight={rightMenu}
-        iconStyleRight={accountExists ? avatarStyles.wrapper : {}}
+        iconStyleRight={authExists ? avatarStyles.wrapper : {}}
         className={classes.appBar}
       />
     )
