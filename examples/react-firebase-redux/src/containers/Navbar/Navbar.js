@@ -14,12 +14,7 @@ import {
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import {
-  LIST_PATH,
-  ACCOUNT_PATH,
-  LOGIN_PATH,
-  SIGNUP_PATH
-} from 'constants'
+import { LIST_PATH, ACCOUNT_PATH, LOGIN_PATH, SIGNUP_PATH } from 'constants'
 import defaultUserImage from 'static/User.png'
 import classes from './Navbar.scss'
 
@@ -38,8 +33,6 @@ const avatarStyles = {
 @firebaseConnect()
 @connect(
   ({ firebase }) => ({
-    authError: pathToJS(firebase, 'authError'),
-    auth: pathToJS(firebase, 'auth'),
     account: pathToJS(firebase, 'profile')
   })
 )
@@ -118,7 +111,7 @@ export default class Navbar extends Component {
     return (
       <AppBar
         title={
-          <Link to={accountExists ? `${LIST_PATH}` : '/'} className={classes.brand}>
+          <Link to={accountExists ? LIST_PATH : '/'} className={classes.brand}>
             react-firebase-redux
           </Link>
         }

@@ -44,7 +44,11 @@ const config = {
       __TEST__,
       __PROD__
     }, project.globals))
-  ]
+  ],
+  node: {
+    // disable node constants so constants.js file is used instead (see https://webpack.js.org/configuration/node/)
+    constants: false
+  }
 }
 
 // JavaScript

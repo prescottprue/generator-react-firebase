@@ -73,7 +73,7 @@ const filesArray = [
   { src: 'CONTRIBUTING.md', dest: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'eslintrc', dest: '.eslintrc' },
-  { src: 'babelrc', dest: '.babelrc' },
+  // { src: 'babelrc', dest: '.babelrc' },
   { src: 'bin/**', dest: 'bin' },
   { src: 'build/**', dest: 'build' },
   { src: 'config/**', dest: 'config' },
