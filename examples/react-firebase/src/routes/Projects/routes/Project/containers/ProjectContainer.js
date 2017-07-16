@@ -1,30 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 
+import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectContainer.scss'
-import CircularProgress from 'material-ui/CircularProgress'
 
 
 export default class Project extends Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
-
   
 
   render () {
-    const { project } = this.props
+    const { project, params } = this.props
 
-    if (!isLoaded(project)) {
-      return (
-        <div className={classes['progress']}>
-          <CircularProgress />
-        </div>
-      )
-    }
+    
 
     return (
-      <div className={classes['container']}>
+      <div className={classes.container}>
         <h2>Project Container</h2>
+        <pre>Project Key: {params.projectname}</pre>
         <pre>{JSON.stringify(project, null, 2)}</pre>
       </div>
     )

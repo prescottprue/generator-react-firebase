@@ -14,7 +14,7 @@ const createConfigFile = (cb) => {
   }
 
   // TODO: load config from environments
-  if (process.env.TRAVIS_PULL_REQUEST === false) {
+  if (process.env.TRAVIS_PULL_REQUEST === 'false') {
     if (process.env.TRAVIS_BRANCH === 'prod') {
       configObj.env = 'production'
     }
