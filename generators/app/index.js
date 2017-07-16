@@ -74,10 +74,9 @@ const filesArray = [
   { src: 'CONTRIBUTING.md', dest: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'eslintrc', dest: '.eslintrc' },
-  // { src: 'babelrc', dest: '.babelrc' },
-  { src: 'bin/**', dest: 'bin' },
+  { src: 'eslintignore', dest: '.eslintignore' },
+  // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
   { src: 'build/**', dest: 'build' },
-  { src: 'config/**', dest: 'config' },
   { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
   { src: 'src/index.html' },
@@ -188,5 +187,4 @@ module.exports = class extends Generator {
       this.npmInstall()
     })
   }
-
 }

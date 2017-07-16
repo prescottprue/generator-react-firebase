@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'<% if (includeRedux) { %>
 import { connect } from 'react-redux'
 import { firebaseConnect, pathToJS, isLoaded } from 'react-redux-firebase'
@@ -52,7 +53,7 @@ export default class Account extends Component {
             <div className={classes.avatar}>
               <img
                 className={classes.avatarCurrent}
-                src={account && account.avatarUrl || defaultUserImageUrl}
+                src={account && account.avatarUrl ? account.avatarUrl : defaultUserImageUrl}
                 onClick={this.toggleModal}
               />
             </div>

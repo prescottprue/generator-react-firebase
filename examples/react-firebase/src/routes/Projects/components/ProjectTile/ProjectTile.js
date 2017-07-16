@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
 import { isObject } from 'lodash'
-
 import classes from './ProjectTile.scss'
 
 export const ProjectTile = ({ project, onSelect }) => (

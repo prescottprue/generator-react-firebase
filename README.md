@@ -4,14 +4,13 @@
 
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][npm-downloads-image]][npm-url]
+[![Quality][quality-image]][quality-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
-
-[<img src="http://npm.packagequality.com/badge/generator-react-firebase.png" align="right"/>](http://packagequality.com/#?package=generator-react-firebase)
 
 ## Installation
 
@@ -223,6 +222,8 @@ MIT © [Scott Prue](http://prue.io)
 [npm-image]: https://img.shields.io/npm/v/generator-react-firebase.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/generator-react-firebase
 [npm-downloads-image]: https://img.shields.io/npm/dm/generator-react-firebase.svg?style=flat-square
+[quality-image]: http://npm.packagequality.com/shield/generator-react-firebase.svg?style=flat-square
+[quality-url]: https://packagequality.com/#?package=generator-react-firebase
 [travis-image]: https://img.shields.io/travis/prescottprue/generator-react-firebase/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/prescottprue/generator-react-firebase
 [daviddm-image]: https://img.shields.io/david/prescottprue/generator-react-firebase.svg?style=flat-square

@@ -18,6 +18,7 @@ ecmaFeatures:
 globals:
   __DEV__: false
   __COVERAGE__: false
+  __TEST__: false
 
 rules:
   semi: [2, 'never']

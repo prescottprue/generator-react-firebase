@@ -1,4 +1,8 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { map } from 'lodash'
+import { connect } from 'react-redux'
+import { firebaseConnect, populatedDataToJS, pathToJS, isLoaded, isEmpty } from 'react-redux-firebase'
 import { LIST_PATH } from 'constants'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../components/ProjectTile'
@@ -6,29 +10,48 @@ import NewProjectTile from '../components/NewProjectTile'
 import NewProjectDialog from '../components/NewProjectDialog'
 import classes from './ProjectsContainer.scss'
 
+const populates = [
+  { child: 'createdBy', root: 'users' }
+]
 
+@firebaseConnect(({ params, auth }) => ([
+  {
+    path: 'projects',
+    populates
+  }
+]))
+@connect(({ firebase }, { params }) => ({
+  projects: populatedDataToJS(firebase, 'projects', populates),
+  auth: pathToJS(firebase, 'auth')
+}))
 export default class Projects extends Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   }
 
   static propTypes = {
     children: PropTypes.object,
-    projects: PropTypes.array,
-    account: PropTypes.object,
-    params: PropTypes.object
+    projects: PropTypes.object,
+    firebase: PropTypes.object
   }
+
   state = {
     newProjectModal: false
   }
 
-  componentWillMount() {
-    //TODO: Call util to load list
+  newSubmit = (newProject) => {
+    const { firebase: { pushWithMeta } } = this.props
+    // push new project with createdBy and createdAt
+    return pushWithMeta('projects', newProject)
+      .then(() => this.setState({ newProjectModal: false }))
+      .catch(err => {
+        // TODO: Show Snackbar
+        console.error('error creating new project', err) // eslint-disable-line
+      })
   }
 
-  newSubmit = name => {
-    // TODO: create new project
-  }
+  deleteProject = ({ name }) =>
+    this.props.firebase.remove(`projects/${name}`)
 
   toggleModal = (name, project) => {
     let newState = {}
@@ -40,13 +63,20 @@ export default class Projects extends Component {
     // Project Route is being loaded
     if (this.props.children) return this.props.children
 
+    const { projects } = this.props
+    const { newProjectModal } = this.state
+
+    if (!isLoaded(projects)) {
+      return <LoadingSpinner />
+    }
+
     return (
       <div className={classes.container}>
         {
           newProjectModal &&
             <NewProjectDialog
               open={newProjectModal}
-              onCreateClick={this.newSubmit}
+              onSubmit={this.newSubmit}
               onRequestClose={() => this.toggleModal('newProject')}
             />
         }
@@ -54,7 +84,18 @@ export default class Projects extends Component {
           <NewProjectTile
             onClick={() => this.toggleModal('newProject')}
           />
-          
+          {
+            !isEmpty(projects) &&
+               map(projects, (project, key) => (
+                 <ProjectTile
+                   key={`${project.name}-Collab-${key}`}
+                   project={project}
+                   onCollabClick={this.collabClick}
+                   onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}
+                   onDelete={this.deleteProject}
+                 />
+              ))
+          }
         </div>
       </div>
     )

@@ -36,7 +36,7 @@ if (__DEV__) {
       try {
         renderApp()
       } catch (e) {
-        console.error(e)
+        console.error(e) // eslint-disable-line no-console
         renderError(e)
       }
     }

@@ -12,7 +12,7 @@ describe('(Route) Account', () => {
   })
 
   it('Sets Path to /account', () => {
-    expect(_route.path).to.equal('account')
+    expect(_route.path).to.equal('/account')
   })
   it('Defines a getComponent function', () => {
     expect(_route.getComponent).to.be.a.function

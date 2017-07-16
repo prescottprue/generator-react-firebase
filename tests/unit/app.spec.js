@@ -28,6 +28,7 @@ const reduxFiles = [
 
 const projectFiles = [
   'package.json',
+  'project.config.js',
   '.eslintrc',
   '.travis.yml',
   'LICENSE',
@@ -48,7 +49,6 @@ const herokuFiles = [
 
 const testFiles = [
   'tests/.eslintrc',
-  'tests/framework.spec.js',
   'tests/test-bundler.js',
   'tests/components/TextField/TextField.spec.js',
   'tests/layouts/CoreLayout.spec.js',
@@ -56,15 +56,17 @@ const testFiles = [
   'tests/routes/Account/components/AccountForm.spec.js',
 ]
 
-describe('generator-react-firebase:app', () => {
-  describe('firebaseName', () => {
 
+describe('generator-react-firebase:app', function () {
+  this.timeout(15000)
+  describe('firebaseName', () => {
     describe('validate', () => {
       before(() =>
         helpers.run(path.join(__dirname, '../../generators/app'))
           .withPrompts({
             githubUser: 'testuser',
-            firebaseName: 'asdf.firebaseio.com'
+            firebaseName: 'asdf.firebaseio.com',
+            useYarn: true,
           })
           .toPromise()
       )
@@ -91,7 +93,8 @@ describe('generator-react-firebase:app', () => {
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: 'Y',
-            deployTo: 'firebase'
+            deployTo: 'firebase',
+            useYarn: true
           })
           .toPromise()
       )
@@ -116,7 +119,8 @@ describe('generator-react-firebase:app', () => {
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: false,
-            deployTo: 'firebase'
+            deployTo: 'firebase',
+            useYarn: true
           })
           .toPromise()
       )
@@ -144,10 +148,11 @@ describe('generator-react-firebase:app', () => {
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: 'Y',
-            deployTo: 'firebase'
+            deployTo: 'firebase',
+            useYarn: true
           })
           .toPromise()
-      )
+       )
 
       describe('creates files', () => {
         describe('project', () => {
@@ -174,7 +179,8 @@ describe('generator-react-firebase:app', () => {
             firebaseInstance: 'testing',
             includeTravis: 'Y',
             includeRedux: 'N',
-            deployTo: 'heroku'
+            deployTo: 'heroku',
+            useYarn: true
           })
           .toPromise()
       )
