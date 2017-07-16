@@ -59,20 +59,21 @@ export default class Navbar extends Component {
 
   render () {
     const { account, auth } = this.props
-    <% if (includeRedux) { %>const authExists = isLoaded(auth) && !isEmpty(auth)
-    const accountExists = isLoaded(account) && !isEmpty(account)<% } %>
+    <% if (includeRedux) { %>const authExists = isLoaded(auth) && !isEmpty(auth)<% } %>
 
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
         <div className={classes.avatar}>
           <div className='hidden-mobile'>
             <Avatar
-              <% if (includeRedux) { %>src={accountExists && account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %><% if (!includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %>
+              <% if (includeRedux) { %>src={account && account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %><% if (!includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %>
             />
           </div>
           <div className={classes['avatar-text']}>
             <span className={`${classes['avatar-text-name']} hidden-mobile`}>
-              { accountExists && account.displayName ? account.displayName : 'User' }
+              {
+                account && account.displayName ? account.displayName : 'User'
+              }
             </span>
             <DownArrow color='white' />
           </div>
@@ -123,7 +124,7 @@ export default class Navbar extends Component {
           </Link>
         }
         showMenuIconButton={false}
-        iconElementRight={rightMenu}
+        iconElementRight={isLoaded(auth, account) ? rightMenu : null}
         iconStyleRight={authExists ? avatarStyles.wrapper : {}}
         className={classes.appBar}
       />

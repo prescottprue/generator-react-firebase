@@ -28,6 +28,7 @@ const reduxFiles = [
 
 const projectFiles = [
   'package.json',
+  'project.config.js',
   '.eslintrc',
   '.travis.yml',
   'LICENSE',

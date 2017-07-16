@@ -19,6 +19,11 @@ export const AccountForm = ({ account, handleSubmit, submitting }) => (
       component={TextField}
       label='Email'
     />
+    <Field
+      name='avatarUrl'
+      component={TextField}
+      label='Avatar Url'
+    />
     {
       !!account && !!account.providerData &&
         <div>
