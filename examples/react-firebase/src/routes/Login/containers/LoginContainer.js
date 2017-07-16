@@ -1,20 +1,39 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 
+import { connect } from 'react-redux'
+import { UserIsNotAuthenticated } from 'utils/router'
+import {
+  firebaseConnect,
+  isLoaded,
+  isEmpty,
+  pathToJS
+} from 'react-redux-firebase'
+
 import { SIGNUP_PATH } from 'constants'
 import LoginForm from '../components/LoginForm'
-import firebaseUtil from 'utils/firebase'
 
 import classes from './LoginContainer.scss'
 
-
+@UserIsNotAuthenticated // redirect to list page if logged in
+@firebaseConnect()
+@connect(({ firebase }) => ({
+  authError: pathToJS(firebase, 'authError')
+}))
 export default class Login extends Component {
-  static contextTypes = {
-    router: PropTypes.object
+  static propTypes = {
+    firebase: PropTypes.shape({
+      login: PropTypes.func.isRequired
+    }),
+    authError: PropTypes.shape({
+      message: PropTypes.string // eslint-disable-line react/no-unused-prop-types
+    })
   }
+
   state = {
     snackCanOpen: false
   }
@@ -24,28 +43,14 @@ export default class Login extends Component {
       snackCanOpen: true
     })
 
-    const { email, password } = loginData
-    if (email && password) {
-      firebaseUtil.auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch((error) => {
-          if (error) {
-            console.error('Error logging in:', error)
-            newState.errorMessage = error.message || 'Error with login'
-          } else {
-            console.log('time to redirect or login?', error)
-          }
-          this.setState({ isLoading: false })
-        })
-    }
-    
+    return this.props.firebase.login(loginData)
   }
 
   providerLogin = (provider) =>
     this.handleLogin({ provider, type: 'popup' })
 
   render () {
-    
+    const { authError } = this.props
     const { snackCanOpen } = this.state
 
     return (
@@ -68,16 +73,14 @@ export default class Login extends Component {
           </Link>
         </div>
         {
-          snackCanOpen && typeof errorMessage !== null &&
+          isLoaded(authError) && !isEmpty(authError) && snackCanOpen &&
             <Snackbar
-              open={snackCanOpen && typeof errorMessage !== 'null'}
-              message={errorMessage}
+              open={isLoaded(authError) && !isEmpty(authError) && snackCanOpen}
+              message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
-              onRequestClose={() => this.setState({ snackCanOpen: false })}
             />
         }
-
       </div>
     )
   }
