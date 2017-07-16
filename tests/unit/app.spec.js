@@ -56,7 +56,8 @@ const testFiles = [
 ]
 
 
-describe('generator-react-firebase:app', () => {
+describe('generator-react-firebase:app', function () {
+  this.timeout(15000)
   describe('firebaseName', () => {
     describe('validate', () => {
       before(() =>
