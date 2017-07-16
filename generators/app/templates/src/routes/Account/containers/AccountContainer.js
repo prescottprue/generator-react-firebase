@@ -52,7 +52,7 @@ export default class Account extends Component {
             <div className={classes.avatar}>
               <img
                 className={classes.avatarCurrent}
-                src={account && account.avatarUrl || defaultUserImageUrl}
+                src={account && account.avatarUrl ? account.avatarUrl : defaultUserImageUrl}
                 onClick={this.toggleModal}
               />
             </div>

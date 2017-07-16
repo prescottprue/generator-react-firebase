@@ -14,12 +14,7 @@ import {
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import {
-  LIST_PATH,
-  ACCOUNT_PATH,
-  LOGIN_PATH,
-  SIGNUP_PATH
-} from 'constants'
+import { LIST_PATH, ACCOUNT_PATH, LOGIN_PATH, SIGNUP_PATH } from 'constants'
 import defaultUserImage from 'static/User.png'
 import classes from './Navbar.scss'
 
@@ -38,7 +33,6 @@ const avatarStyles = {
 @firebaseConnect()
 @connect(
   ({ firebase }) => ({
-    authError: pathToJS(firebase, 'authError'),
     auth: pathToJS(firebase, 'auth'),
     account: pathToJS(firebase, 'profile')
   })
@@ -50,6 +44,7 @@ export default class Navbar extends Component {
 
   static propTypes = {
     account: PropTypes.object,
+    auth: PropTypes.object,
     firebase: PropTypes.object.isRequired
   }
 
@@ -59,20 +54,22 @@ export default class Navbar extends Component {
   }
 
   render () {
-    const { account } = this.props
-    const accountExists = isLoaded(account) && !isEmpty(account)
+    const { account, auth } = this.props
+    const authExists = isLoaded(auth) && !isEmpty(auth)
 
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
         <div className={classes.avatar}>
           <div className='hidden-mobile'>
             <Avatar
-              src={accountExists && account.avatarUrl ? account.avatarUrl : defaultUserImage}
+              src={account && account.avatarUrl ? account.avatarUrl : defaultUserImage}
             />
           </div>
           <div className={classes['avatar-text']}>
             <span className={`${classes['avatar-text-name']} hidden-mobile`}>
-              { accountExists && account.displayName ? account.displayName : 'User' }
+              {
+                account && account.displayName ? account.displayName : 'User'
+              }
             </span>
             <DownArrow color='white' />
           </div>
@@ -97,7 +94,7 @@ export default class Navbar extends Component {
       </div>
     )
 
-    const rightMenu = accountExists ? (
+    const rightMenu = authExists ? (
       <IconMenu
         iconButtonElement={iconButton}
         targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -118,13 +115,13 @@ export default class Navbar extends Component {
     return (
       <AppBar
         title={
-          <Link to={accountExists ? `${LIST_PATH}` : '/'} className={classes.brand}>
+          <Link to={authExists ? LIST_PATH : '/'} className={classes.brand}>
             react-firebase-redux
           </Link>
         }
         showMenuIconButton={false}
-        iconElementRight={rightMenu}
-        iconStyleRight={accountExists ? avatarStyles.wrapper : {}}
+        iconElementRight={isLoaded(auth, account) ? rightMenu : null}
+        iconStyleRight={authExists ? avatarStyles.wrapper : {}}
         className={classes.appBar}
       />
     )

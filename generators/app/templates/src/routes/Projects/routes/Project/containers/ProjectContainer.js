@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-<% if (includeRedux) { %>
-import { connect } from 'react-redux'
-import { firebaseConnect, isLoaded, dataToJS } from 'react-redux-firebase'<% } %>
+<% if (includeRedux) { %>import { connect } from 'react-redux'
+import { firebaseConnect, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'<% } %>
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectContainer.scss'
 
@@ -22,7 +21,15 @@ export default class Project extends Component {
   render () {
     const { project, params } = this.props
 
-    <% if (includeRedux) { %>if (!isLoaded(project)) {
+    <% if (includeRedux) { %>if (isEmpty(project)) {
+      return (
+        <div>
+          Project not found
+        </div>
+      )
+    }
+
+    if (!isLoaded(project)) {
       return <LoadingSpinner />
     }<% } %>
 

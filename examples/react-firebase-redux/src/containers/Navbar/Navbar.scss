@@ -1,8 +1,5 @@
 @import 'base';
 .brand {
-  @extend .flex-row;
-  justify-content: flex-start;
-  align-items: center;
   font-weight: 200;
   .icon {
     height: 50px;
@@ -13,11 +10,6 @@
       margin-top: 1.1rem;
     }
   }
-}
-.appBar > div {
-  @extend .flex-row;
-  align-items: center;
-  margin-top: 0px !important;
 }
 .wrapper {
   @extend .flex-row;
@@ -31,6 +23,10 @@
   @extend .flex-row-center;
   align-items: center;
   flex-grow: 1;
+  @include mobile {
+    margin-right: 0;
+    justify-content: flex-end;
+  }
   &-text {
     @extend .flex-row-center;
     font-weight: 200;
@@ -44,6 +40,9 @@
     &-name {
       min-width: 5rem;
       margin-right: 1rem;
+    }
+    @include mobile {
+      display: none;
     }
   }
 }
