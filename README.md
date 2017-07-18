@@ -200,13 +200,7 @@ export default class Todos extends Component {
 
 ## Examples
 
-Complete example of generator out available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
-
-## Server-side Rendering
-
-You have the option to enable Server-side Rendering through React and NodeJS. Server-side rendering allows pre-population of data into your application, which can improve SEO (Google is improving static crawling).
-
-In order to enable server-side rendering with React, you must host a NodeJS server. This server is included and can be run using `npm run production` (runs if deployed to Heroku).
+Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
 
 ## In the future
 * Non-decorators implementation for props binding
