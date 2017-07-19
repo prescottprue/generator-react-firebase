@@ -23,10 +23,11 @@ cache:
 
 install:
   - npm set progress=false
-  - npm install
+  <% if (deployTo === 'firebase') { %>- npm i -g firebase-ci@next<% } %>
+  - npm i
+  - firebase-ci createConfig
 
 script:
-  - npm run create-config # create environment specific config.js file
   - npm run lint:fix
   - npm run test
   - npm run build:prod
@@ -36,7 +37,6 @@ addons:
     repo_token: $CODE_CLIMATE<% } %>
 
 <% if (deployTo === 'firebase') { %>after_success:
-  - npm i -g firebase-ci@latest # install firebase-ci
   - firebase-ci deploy<% } %><% if (deployTo === 'heroku') { %>deploy:
   skip_cleanup: true
   provider: heroku

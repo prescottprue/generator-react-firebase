@@ -36,5 +36,5 @@ addons:
     repo_token: $CODE_CLIMATE
 
 after_success:
-  - npm i -g firebase-ci # install firebase-ci
+  - npm i -g firebase-ci@latest # install firebase-ci
   - firebase-ci deploy

@@ -11,8 +11,6 @@ const srcFiles = [
   'src/styles/_colors.scss',
   'src/styles/_device-sizes.scss',
   'src/styles/core.scss',
-  'src/components/TextField/TextField.js',
-  'src/components/TextField/index.js',
   'src/containers/App/App.js',
   'src/containers/Navbar/Navbar.js',
   'src/containers/Navbar/Navbar.scss',
