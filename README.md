@@ -29,34 +29,58 @@ npm install -g generator-react-firebase
 
 **NOTE**: Project will default to being named with the name of the folder that it is generated within (in this case myProject)
 
-## Project
+## Features
+  * Application Navbar
+  * Full Authentication (through Email, Google or Github)
+  * Login/Signup Pages with input validation
+  * Route protection (only view certain pages when logged in)
+  * Account Page
 
-### Development
-Run `npm start` to start live reloading development server
+## Uses
+* [react](https://react-redux-firebase.com)
+* [react-router](https://react-redux-firebase.com)
+* [redux](http://redux.js.org/) *optional*
+* [react-redux-firebase](https://react-redux-firebase.com)
+* [redux-form](redux-form.com)
+* [material-ui](https://material-ui.com)
+
+## Generated Project
+
+Project outputted from generator has a README explaining the full structure and details sepcific to settings you choose. The following scripts are included:
+
+|`npm run <script>`    |Description|
+|-------------------|-----------|
+|`start`            |Serves your app at `localhost:3000`|
+|`build`            |Builds the application to ./dist|
+|`test`             |Runs unit tests with Karma. See [testing](#testing)|
+|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
+|`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
+|`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
+
+
+View [the example application README](/examples/react-firebase-redux/README.md) for more details.
 
 ### Production
 
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
-A Travis-CI file has been included to enable CI builds. The correct configuration for the type of deployment you selected (S3 or Heroku) has been added to `.travis.yml` automatically based on [Travis settings](https://docs.travis-ci.com/user/deployment/).
-
-**Note:** Deployment to Firebase through Travis-CI is not yet functional, but is on the roadmap
-
 ### Deployment
+
+A Travis-CI file has been included to enable CI builds. The correct configuration for the type of deployment you selected (S3 or Heroku) has been added to `.travis.yml` automatically based on [Travis settings](https://docs.travis-ci.com/user/deployment/).
 
 #### Firebase
 
 1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
-2. Install cli: `npm i -g firebase-tools`
-3. Login: `firebase login`
-4. Initialize project with `firebase init` then answer:
+1. Install cli: `npm i -g firebase-tools`
+1. Login: `firebase login`
+1. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
   * What do you want to use as your public directory? -> `dist`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
-5. Build Project: `npm run build`
-6. Confirm Firebase config by running locally: `firebase serve`
-7. Deploy to firebase: `firebase deploy`
+1. Set the following environment vars within the Travis-CI repo settings page:
+  * `FIREBASE_TOKEN` - Your AWS key
+1. The rest is handled automatically by [`firebase-ci`](https://github.com/prescottprue/firebase-ci)
 
 #### AWS S3
 
