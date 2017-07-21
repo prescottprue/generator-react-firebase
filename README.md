@@ -46,7 +46,7 @@ npm install -g generator-react-firebase
 
 ## Generated Project
 
-Project outputted from generator has a README explaining the full structure and details sepcific to settings you choose. The following scripts are included:
+Project outputted from generator has a README explaining the full structure and details specific to settings you choose. The following scripts are included:
 
 |`npm run <script>`    |Description|
 |-------------------|-----------|
