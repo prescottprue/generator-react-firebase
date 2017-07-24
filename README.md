@@ -72,15 +72,31 @@ A Travis-CI file has been included to enable CI builds. The correct configuratio
 
 1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
 1. Install cli: `npm i -g firebase-tools`
-1. Login: `firebase login`
+
+##### CI
+**Note**: Config for this is located within `travis.yml`
+`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+
+1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
+1. Run a build on Travis-CI
+
+If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
+
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
+
+##### Manual
+
+1. Run `firebase:login`
 1. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
-  * What do you want to use as your public directory? -> `dist`
+  * What do you want to use as your public directory? -> `build`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
-1. Set the following environment vars within the Travis-CI repo settings page:
-  * `FIREBASE_TOKEN` - Your AWS key
-1. The rest is handled automatically by [`firebase-ci`](https://github.com/prescottprue/firebase-ci)
+1. Build Project: `npm run build`
+1. Confirm Firebase config by running locally: `firebase serve`
+1. Deploy to firebase: `firebase deploy`
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
 #### AWS S3
 
