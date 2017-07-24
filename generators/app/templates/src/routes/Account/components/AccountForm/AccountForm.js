@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 <% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'components/TextField'
+import { TextField } from 'redux-form-material-ui'
 import { ACCOUNT_FORM_NAME } from 'constants'<% } %><% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 import classes from './AccountForm.scss'

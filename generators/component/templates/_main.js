@@ -1,16 +1,13 @@
-import React, { Component } from 'react'<% if (addStyle) { %>
+import React from 'react'
+import PropTypes from 'prop-types'<% if (addStyle) { %>
 import classes from './<%= name %>.scss'<%}%>
 
-export default class <%= name %> extends Component {
-  static propTypes = {
+export const <%= name %> = ({ <%= name %> }) => (
+  <% if (addStyle) { %><div className={classes.container}><%} else { %><div className='<%= name %>'><%}%>
+    <span><%= name %> Component</span>
+  </div>
+)
 
-  }
-
-  render () {
-    return (
-      <% if (addStyle) { %><div className={classes.container}><%} else { %><div className='<%= name %>'><%}%>
-        <span><%= name %> Component</span>
-      </div>
-    )
-  }
+<%= name %>.propTypes = {
+  <%= name %>: PropTypes.object
 }

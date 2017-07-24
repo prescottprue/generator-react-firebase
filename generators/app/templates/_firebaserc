@@ -1,7 +1,42 @@
 {
   "projects": {
     "master": "<%= firebaseName %>",
-    "stage": "<%= firebaseName %>",
     "prod": "<%= firebaseName %>"
+  },
+  "ci": {
+    "createConfig": {
+      "master": {
+        "version": "${npm_package_version}",
+        "env": "development",
+        "firebase": {
+          "apiKey": "<%= firebaseKey %>",
+          "authDomain": "<%= firebaseName %>.firebaseapp.com",
+          "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
+          "projectId": "<%= firebaseName %>",
+          "storageBucket": "<%= firebaseName %>.appspot.com"
+        },
+        "reduxFirebase": {
+          "userProfile": "users",
+          "enableLogging": false,
+          "updateProfileOnLogin": false
+        }
+      },
+      "prod": {
+        "version": "${npm_package_version}",
+        "env": "production",
+        "firebase": {
+          "apiKey": "<%= firebaseKey %>",
+          "authDomain": "<%= firebaseName %>.firebaseapp.com",
+          "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
+          "projectId": "<%= firebaseName %>",
+          "storageBucket": "<%= firebaseName %>.appspot.com"
+        },
+        "reduxFirebase": {
+          "userProfile": "users",
+          "enableLogging": false,
+          "updateProfileOnLogin": false
+        }
+      }
+    }
   }
 }

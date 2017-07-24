@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 <% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
-import TextField from 'components/TextField'
+import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'
 import { NEW_PROJECT_FORM_NAME } from 'constants'<% } %>
 

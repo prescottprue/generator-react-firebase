@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Checkbox from 'material-ui/Checkbox'
 <% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
 <% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
-import TextField from 'components/TextField'
+import { TextField } from 'redux-form-material-ui'
 <% } %>import { RECOVER_PATH, LOGIN_FORM_NAME } from 'constants'
 import classes from './LoginForm.scss'
 

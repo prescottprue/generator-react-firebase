@@ -3,23 +3,34 @@ const webpackConfig = require('./webpack.config')
 
 const TEST_BUNDLER = './tests/test-bundler.js'
 
+webpackConfig.module.rules.push({
+  enforce: 'post',
+  test: /\.js$/,
+  loader: 'istanbul-instrumenter-loader',
+  query: {
+    esModules: true
+  },
+  exclude: /(tests|node_modules|\.spec\.js$)/
+})
+
 const karmaConfig = {
   basePath: '../',
   browsers: ['PhantomJS'],
   singleRun: !argv.watch,
-  coverageReporter: {
-    reporters: [
-      { type: 'text-summary' }
-    ]
+  coverageIstanbulReporter: {
+    reports: argv.watch ? ['text-summary'] : ['html', 'lcovonly', 'text-summary'],
+    dir: 'coverage',
+    fixWebpackSourcePaths: true,
+    skipFilesWithNoCoverage: false
   },
   files: [{
-    pattern  : TEST_BUNDLER,
-    watched  : false,
-    served   : true,
-    included : true
+    pattern: TEST_BUNDLER,
+    watched: false,
+    served: true,
+    included: true
   }],
   frameworks: ['mocha'],
-  reporters: ['mocha'],
+  reporters: ['mocha', 'coverage-istanbul'],
   preprocessors: {
     [TEST_BUNDLER]: ['webpack']
   },

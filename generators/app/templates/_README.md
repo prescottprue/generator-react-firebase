@@ -21,7 +21,7 @@
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^5.0.0`
+* node `^5.0.0` (`6.11.0` suggested)
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
@@ -40,6 +40,9 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
+
+[Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
+
 
 ## Application Structure
 
@@ -79,8 +82,6 @@ The application structure presented in this boilerplate is **fractal**, where fu
 └── tests                    # Unit tests
 ```
 
-## Development
-
 ### Routing
 We use `react-router` [route definitions](https://github.com/ReactTraining/react-router/blob/v3/docs/API.md#plainroute) (`<route>/index.js`) to define units of logic within our application. See the [application structure](#application-structure) section for more information.
 
@@ -95,16 +96,36 @@ Build code before deployment by running `npm run build`. There are multiple opti
 <% if (deployTo === 'firebase') { %>
 1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
 2. Install cli: `npm i -g firebase-tools`
-3. Login: `firebase login`
-4. Initialize project with `firebase init` then answer:
+
+#### CI Deploy (recommended)
+<% if (includeTravis) { %>**Note**: Config for this is located within `travis.yml`
+`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+
+1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
+1. Run a build on Travis-CI
+
+If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
+
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %><% if (!includeTravis) { %>1. Login: `firebase login:ci` to generate an authentication token (will be used to give your CI environment rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within your CI environment
+1. Create a build script that does the following:
+  1. Create a config file by calling `npm run create-config`
+  1. Install firebase tools by calling `npm i -g firebase-tools`
+  1. Call firebase deploy: `firebase deploy --project ${projectName}` (if you are using functions, make sure to first install dependencies using  `npm i --prefix functions`)<% } %>
+
+#### Manual deploy
+
+1. Run `firebase:login`
+1. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
   * What do you want to use as your public directory? -> `build`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
-5. Build Project: `npm run build`
-6. Confirm Firebase config by running locally: `firebase serve`
-7. Deploy to firebase: `firebase deploy`
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` or `npm run build:prod` first.<% } %><% if (deployTo === 's3') { %>
+1. Build Project: `npm run build`
+1. Confirm Firebase config by running locally: `firebase serve`
+1. Deploy to firebase: `firebase deploy`
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.<% } %><% if (deployTo === 's3') { %>
 Selecting AWS S3 from the deploy options when running the generator adds deploy configs in `.travis.yml`.
 
 1. Get your AWS Key and Secret from the AWS Console Credentials page

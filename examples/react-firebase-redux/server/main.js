@@ -60,7 +60,7 @@ if (project.env === 'development') {
     'server such as nginx to serve your static files. See the "deployment" ' +
     'section in the README for more information on deployment strategies.'
   )
-
+  // NOTE: If you are using this, you should make express and compress dependencies instead of dev dependencies
   // Serving ~/dist by default. Ideally these files should be served by
   // the web server and not the app server, but this helps to demo the
   // server in production.
