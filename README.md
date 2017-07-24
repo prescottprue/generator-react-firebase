@@ -30,19 +30,22 @@ npm install -g generator-react-firebase
 **NOTE**: Project will default to being named with the name of the folder that it is generated within (in this case myProject)
 
 ## Features
-  * Application Navbar
-  * Full Authentication (through Email, Google or Github)
-  * Login/Signup Pages with input validation
-  * Route protection (only view certain pages when logged in)
-  * Account Page
+* Application Navbar (with Avatar)
+* Full Authentication (through Email, Google or Github)
+* Login/Signup Pages with input validation
+* Route protection (only view certain pages when logged in)
+* Account Page
 
 ## Uses
-* [react](https://react-redux-firebase.com)
-* [react-router](https://react-redux-firebase.com)
-* [redux](http://redux.js.org/) *optional*
-* [react-redux-firebase](https://react-redux-firebase.com)
-* [redux-form](redux-form.com)
-* [material-ui](https://material-ui.com)
+* [react](https://facebook.github.io/react/) - Rendering + Components
+* [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
+* [material-ui](https://material-ui.com) - Google Material Styling React Components
+* [redux](http://redux.js.org/) - Client Side state *optional*
+
+*When opting into redux*
+
+* [redux-form](redux-form.com) - Form input validation + state
+* [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
 
 ## Generated Project
 
