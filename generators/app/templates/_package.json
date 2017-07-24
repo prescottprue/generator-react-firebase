@@ -7,12 +7,14 @@
     "clean": "rimraf dist",
     "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
+    "build:prod": "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
     "start": "cross-env NODE_ENV=development node build/scripts/start",
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "prepush": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -76,6 +78,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.0.1",
     "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "figures": "^2.0.0",

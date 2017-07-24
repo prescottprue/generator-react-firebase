@@ -19,6 +19,7 @@ export const createRoutes = (store) => ({
     LoginRoute(store),
     SignupRoute(store),
     ProjectsRoute(store),
+    /* Place all Routes above here so NotFoundRoute can act as a 404 page */
     NotFoundRoute(store)
   ]
 })

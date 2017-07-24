@@ -1,9 +1,11 @@
+dist: trusty
+
+sudo: false
+
 language: node_js
 
 node_js:
- - 8
-
-sudo: false
+ - 6.11.0
 
 notifications:
   email:
@@ -23,14 +25,15 @@ cache:
 
 install:
   - npm set progress=false
-  <% if (deployTo === 'firebase') { %>- npm i -g firebase-ci@next<% } %>
   - npm i
-  - firebase-ci createConfig
+  -
+  <% if (deployTo === 'firebase') { %>- npm i -g firebase-ci
+  - firebase-ci createConfig<% } %>
 
 script:
   - npm run lint:fix
   - npm run test
-  - npm run build:prod
+  - npm run build
 <% if (codeClimate) { %>
 addons:
   code_climate:
