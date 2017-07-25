@@ -27,7 +27,7 @@ npm install -g generator-react-firebase
 1. Generate project: `yo react-firebase` (project will be named after current folder)
 1. Start application by running `npm run start`
 
-**NOTE**: Project will default to being named with the name of the folder that it is generated within (in this case myProject)
+Project will default to being named with the name of the folder that it is generated within (in this case myProject)
 
 ## Features
 * Application Navbar (with Avatar)
@@ -44,8 +44,10 @@ npm install -g generator-react-firebase
 
 *When opting into redux*
 
-* [redux-form](redux-form.com) - Form input validation + state
 * [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
+* [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
+* [redux-form](redux-form.com) - Form input validation + state
+* [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui)
 
 ## Generated Project
 
@@ -69,22 +71,21 @@ Build code before deployment by running `npm run build`. There are multiple opti
 
 ### Deployment
 
-A Travis-CI file has been included to enable CI builds. The correct configuration for the type of deployment you selected (S3 or Heroku) has been added to `.travis.yml` automatically based on [Travis settings](https://docs.travis-ci.com/user/deployment/).
+A Travis-CI file has been included to do deployment as part of CI builds. The correct configuration for the type of deployment you selected ([S3](#s3) or [Heroku](#heroku)) is placed into `.travis.yml` automatically.
 
 #### Firebase
 
 1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
 1. Install cli: `npm i -g firebase-tools`
+1. Choose to go to a either the [CI section](https://github.com/prescottprue/generator-react-firebase#ci)(suggested) or the [Manual section](https://github.com/prescottprue/generator-react-firebase#manual)
 
 ##### CI
-**Note**: Config for this is located within `travis.yml`
-`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+If opting into [Travis-CI](travis-ci.org), config is included within `travis.yml` that uses `firebase-ci` to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
 1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
 1. Run a build on Travis-CI
-
-If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
+1. To deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`
 
 For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
 
@@ -92,14 +93,15 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 1. Run `firebase:login`
 1. Initialize project with `firebase init` then answer:
+
   * What file should be used for Database Rules?  -> `database.rules.json`
   * What do you want to use as your public directory? -> `build`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
+
 1. Build Project: `npm run build`
-1. Confirm Firebase config by running locally: `firebase serve`
+1. Confirm Firebase config by running locally: `firebase serve` (make sure you run `npm run build` first)
 1. Deploy to firebase: `firebase deploy`
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
 #### AWS S3
 
@@ -113,9 +115,7 @@ Selecting AWS S3 from the deploy options when running the generator adds deploy 
 
 #### Heroku
 
-Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment.
-
-To deploy:
+Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment:
 
 1. Enable Repo on Travis-CI Account
 2. Get API Key from Heroku Dashboard
@@ -149,7 +149,8 @@ A component is best for things that will be reused in multiple places. Our examp
 */app/components/Car.js:*
 
 ```javascript
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
 export default class Car extends Component {
@@ -184,9 +185,10 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 
 /app/containers/Cars.js:
 ```javascript
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { firebase, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
+import { firebaseConnect, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
 
 @firebaseConnect([
   // Syncs todos root to redux
@@ -245,6 +247,13 @@ export default class Todos extends Component {
 
 Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
 
+## Projects Started Using This
+
+* [devshare.io](https://devshare.io)
+* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/master/examples/complete/material)
+
+*open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included*
+
 ## In the future
 * Non-decorators implementation for props binding
 * Option to use simple file structure instead of fractal pattern
@@ -273,6 +282,5 @@ MIT © [Scott Prue](http://prue.io)
 [license-url]: https://github.com/prescottprue/generator-react-firebase/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/
-
 [gitter-image]: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
 [gitter-url]: https://gitter.im/prescottprue/generator-react-firebase
