@@ -5,7 +5,7 @@ sudo: false
 language: node_js
 
 node_js:
- - 6.11.0
+ - 6.11.1 # runtime used within Firebase functions
 
 notifications:
   email:
@@ -26,7 +26,6 @@ cache:
 install:
   - npm set progress=false
   - npm i
-  -
   - npm i -g firebase-ci
   - firebase-ci createConfig
 
@@ -40,4 +39,4 @@ addons:
     repo_token: $CODE_CLIMATE
 
 after_success:
-  - firebase-ci deploy
+  - firebase-ci deploy -s # deploy without CI actions since createConfig is called earlier 
