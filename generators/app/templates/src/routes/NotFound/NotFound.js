@@ -6,3 +6,5 @@ export const NotFound = () => (
     <p>This page was not found.</p>
   </div>
 )
+
+export default NotFound
