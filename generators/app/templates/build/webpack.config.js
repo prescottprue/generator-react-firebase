@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const project = require('../project.config')
 
 const inProject = path.resolve.bind(path, project.basePath)

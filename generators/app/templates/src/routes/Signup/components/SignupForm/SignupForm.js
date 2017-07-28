@@ -6,44 +6,43 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { required, validateEmail } from 'utils/form'
 import { SIGNUP_FORM_NAME } from 'constants'<% } %>
 import classes from './SignupForm.scss'
-const buttonStyle = { width: '100%' }
 
-<% if (includeRedux) { %>const SignupForm = ({ handleSubmit, submitting }) => (
+<% if (includeRedux) { %>const SignupForm = ({ pristine, submitting, handleSubmit }) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <Field
       name='username'
       component={TextField}
-      label='Username'
-      validate={[required]}
+      floatingLabelText='Username'
+      validate={required}
     />
     <Field
       name='email'
       component={TextField}
-      label='Email'
+      floatingLabelText='Email'
       validate={[required, validateEmail]}
     />
     <Field
       name='password'
       component={TextField}
-      label='Password'
+      floatingLabelText='Password'
       type='password'
-      validate={[required]}
+      validate={required}
     />
     <div className={classes.submit}>
       <RaisedButton
         label='Signup'
         primary
         type='submit'
-        disabled={submitting}
-        style={buttonStyle}
+        disabled={pristine || submitting}
       />
     </div>
   </form>
 )
 
 SignupForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  submitting: PropTypes.bool
+  pristine: PropTypes.bool.isRequired, // added by redux-form
+  submitting: PropTypes.bool.isRequired, // added by redux-form
+  handleSubmit: PropTypes.func.isRequired // added by redux-form
 }
 
 export default reduxForm({

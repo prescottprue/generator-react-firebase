@@ -13,17 +13,17 @@ import classes from './AccountForm.scss'
     <Field
       name='displayName'
       component={TextField}
-      label='Display Name'
+      floatingLabelText='Display Name'
     />
     <Field
       name='email'
       component={TextField}
-      label='Email'
+      floatingLabelText='Email'
     />
     <Field
       name='avatarUrl'
       component={TextField}
-      label='Avatar Url'
+      floatingLabelText='Avatar Url'
     />
     {
       !!account && !!account.providerData &&

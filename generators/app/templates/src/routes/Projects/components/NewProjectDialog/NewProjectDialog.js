@@ -32,7 +32,7 @@ import classes from './NewProjectDialog.scss'
       <Field
         name='name'
         component={TextField}
-        label='Project Name'
+        floatingLabelText='Project Name'
         validate={[required]}
       />
     </form>
