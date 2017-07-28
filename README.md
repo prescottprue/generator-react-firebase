@@ -41,6 +41,8 @@ Project will default to being named with the name of the folder that it is gener
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
 * [material-ui](https://material-ui.com) - Google Material Styling React Components
 * [redux](http://redux.js.org/) - Client Side state *optional*
+* [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
+* [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) - Improve CLI experience for Webpack
 
 *When opting into redux*
 

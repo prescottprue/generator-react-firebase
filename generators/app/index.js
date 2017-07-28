@@ -76,6 +76,7 @@ const filesArray = [
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
+  { src: 'public/**', dest: 'public' },
   { src: 'build/lib/**', dest: 'build/lib' },
   { src: 'build/scripts/**', dest: 'build/scripts' },
   { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
@@ -91,9 +92,7 @@ const filesArray = [
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/humans.txt' },
-  { src: 'src/static/robots.txt' },
-  { src: 'src/static/User.png' },
+  { src: 'src/static/**', dest: 'src/static' },
   { src: 'src/styles/**', dest: 'src/styles' },
   { src: 'tests/**', dest: 'tests' },
   { src: 'testseslintrc', dest: 'tests/.eslintrc' }
