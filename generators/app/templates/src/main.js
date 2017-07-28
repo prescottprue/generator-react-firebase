@@ -1,11 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
+import { version } from '../package.json'
+import { env } from './config'
 import './styles/core.scss'
+
+// Window Variables
+// ------------------------------------
+window.version = version
+window.env = env
 
 // Store Initialization
 // ------------------------------------
-const store = createStore(window.__INITIAL_STATE__)
+const initialState = window.___INITIAL_STATE__ || { firebase: { authError: null } }
+const store = createStore(initialState)
 
 // Render Setup
 // ------------------------------------

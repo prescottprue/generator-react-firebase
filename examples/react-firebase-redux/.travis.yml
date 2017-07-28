@@ -27,10 +27,10 @@ install:
   - npm set progress=false
   - npm i
   - npm i -g firebase-ci
-  - firebase-ci createConfig
 
 script:
-  - npm run lint:fix
+  - firebase-ci createConfig
+  - npm run lint
   - npm run test
   - npm run build
 

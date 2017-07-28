@@ -56,7 +56,7 @@ const prompts = [
       }
     ],
     message: 'What service are you deploying to?',
-    default: [1]
+    default: 0
   },
   {
     type: 'confirm',
@@ -76,7 +76,10 @@ const filesArray = [
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
-  { src: 'build/**', dest: 'build' },
+  { src: 'build/lib/**', dest: 'build/lib' },
+  { src: 'build/scripts/**', dest: 'build/scripts' },
+  { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
+  { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
   { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
   { src: 'src/index.html' },
@@ -137,6 +140,10 @@ module.exports = class extends Generator {
         { src: 'firebase.json', dest: 'firebase.json' },
         { src: '_firebaserc', dest: '.firebaserc' },
         { src: 'database.rules.json', dest: 'database.rules.json' }
+      )
+    } else {
+      filesArray.push(
+        { src: 'build/create-config.js', dest: 'build/create-config.js' }
       )
     }
 
