@@ -29,7 +29,7 @@ install:
   - npm i -g firebase-ci<% } %>
 
 script:
-  <% if (deployTo === 'firebase') { %>- firebase-ci createConfig<% } else { %>npm run create-config<% } %>
+  <% if (deployTo === 'firebase') { %>- firebase-ci createConfig<% } else { %>- npm run create-config<% } %>
   - npm run lint
   - npm run test
   - npm run build
