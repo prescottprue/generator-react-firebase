@@ -26,11 +26,11 @@ cache:
 install:
   - npm set progress=false
   - npm i
-  - npm i -g firebase-ci
-  - firebase-ci createConfig<% } %>
+  - npm i -g firebase-ci<% } %>
 
 script:
-  - npm run lint:fix
+  <% if (deployTo === 'firebase') { %>- firebase-ci createConfig<% } else { %>- npm run create-config<% } %>
+  - npm run lint
   - npm run test
   - npm run build
 <% if (codeClimate) { %>

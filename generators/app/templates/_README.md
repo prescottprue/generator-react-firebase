@@ -34,7 +34,8 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 
 |`npm run <script>`    |Description|
 |-------------------|-----------|
-|`start`            |Serves your app at `localhost:3000`|
+|`start`            |Serves your app at `localhost:3000` and displays [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
+|`start:simple`     |Serves your app at `localhost:3000` without [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
 |`build`            |Builds the application to ./dist|
 |`test`             |Runs unit tests with Karma. See [testing](#testing)|
 |`test:watch`       |Runs `test` in watch mode to re-run tests when changed|

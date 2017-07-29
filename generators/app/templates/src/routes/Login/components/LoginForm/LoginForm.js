@@ -6,32 +6,31 @@ import Checkbox from 'material-ui/Checkbox'
 <% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
 <% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
+import { required, validateEmail } from 'utils/form'
 <% } %>import { RECOVER_PATH, LOGIN_FORM_NAME } from 'constants'
 import classes from './LoginForm.scss'
 
-<% if (includeRedux) { %>import { required, validateEmail } from 'utils/form'
-
-export const LoginForm = ({ handleSubmit, submitting }) => (
+<% if (includeRedux) { %>export const LoginForm = ({ pristine, submitting, handleSubmit }) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <Field
       name='email'
       component={TextField}
-      label='Email'
+      floatingLabelText='Email'
       validate={[required, validateEmail]}
     />
     <Field
       name='password'
       component={TextField}
-      label='Password'
+      floatingLabelText='Password'
       type='password'
-      validate={[required]}
+      validate={required}
     />
     <div className={classes.submit}>
       <RaisedButton
-        label='Login'
+        label={submitting ? 'Loading' : 'Login'}
         primary
         type='submit'
-        disabled={submitting}
+        disabled={pristine || submitting}
       />
     </div>
     <div className={classes.options}>
@@ -51,8 +50,9 @@ export const LoginForm = ({ handleSubmit, submitting }) => (
 )
 
 LoginForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  submitting: PropTypes.bool
+  pristine: PropTypes.bool.isRequired, // added by redux-form
+  submitting: PropTypes.bool.isRequired, // added by redux-form
+  handleSubmit: PropTypes.func.isRequired // added by redux-form
 }
 
 export default reduxForm({
