@@ -1,3 +1,4 @@
+/* eslint-disable global-require, import/no-extraneous-dependencies */
 const express = require('express')
 const path = require('path')
 const webpack = require('webpack')
@@ -43,7 +44,7 @@ if (project.env === 'development') {
   // rendering, you'll want to remove this middleware.
   app.use('*', function (req, res, next) {
     const filename = path.join(compiler.outputPath, 'index.html')
-    compiler.outputFileSystem.readFile(filename, (err, result) => {
+    compiler.outputFileSystem.readFile(filename, (err, result) => { // eslint-disable-line consistent-return
       if (err) {
         return next(err)
       }

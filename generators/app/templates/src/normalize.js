@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /* ========================================================
    ** Browser Normalizer **
    This file is responsible for normalizing the browser environment before

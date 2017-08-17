@@ -1,0 +1,44 @@
+root: true
+
+parser: babel-eslint
+
+extends: airbnb
+plugins: [react, prettier]
+
+env:
+  browser: true
+  es6: true
+  jasmine: true
+  node: true
+
+ecmaFeatures:
+  jsx: true
+  modules: true
+
+globals:
+  __COVERAGE__: true
+  __DEV__: true
+  __TEST__: true
+
+rules:
+  import/no-unresolved: 2
+  consistent-return: 2
+  max-len: 0
+  no-else-return: 2
+  arrow-body-style: 0
+  curly: ['error', 'all']
+  no-use-before-define: 2
+  no-extra-boolean-cast: 0
+  import/no-named-as-default: 0
+  react/forbid-prop-types: 0
+  react/sort-comp: 0
+  react/jsx-filename-extension: 0
+  # react/prefer-stateless-function: 0
+
+settings:
+  import/resolver:
+    node:
+      moduleDirectory:
+        - node_modules
+        # this sets the path the root since we have a `test` folder that will need to be included going forward.
+        - '/'
