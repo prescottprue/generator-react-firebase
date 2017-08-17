@@ -19,12 +19,12 @@ export const Home = () => (
         <span>Redirecting and route protection done using:
           <div>
             <span>
-              <a href={reactRouterUrl} target='_blank'>
+              <a href={reactRouterUrl} target='_blank' rel="noopener noreferrer">
                 react-router
               </a>
             </span>
             <span> and </span>
-            <a href={authWrapperUrl} target='_blank'>
+            <a href={authWrapperUrl} target='_blank' rel="noopener noreferrer">
               redux-auth-wrapper
             </a>
           </div>
@@ -34,7 +34,7 @@ export const Home = () => (
         <h4>
           Logged Out
         </h4>
-        <span>User is redirected to <pre>'/login'</pre> if not authenticated and trying to vist:</span>
+        <span>User is redirected to <pre>/login</pre> if not authenticated and trying to vist:</span>
         <ul>
           <li><Link to={paths.list}>Projects</Link></li>
           <li><Link to={paths.account}>Account</Link></li>
@@ -45,7 +45,7 @@ export const Home = () => (
           Logged In
         </h4>
         <span>
-          User is redirected to <pre>'/projects'</pre> if authenticated and trying to vist:
+          User is redirected to <pre>/projects</pre> if authenticated and trying to vist:
         </span>
         <ul>
           <li><Link to={paths.login}>Login</Link></li>
@@ -60,7 +60,7 @@ export const Home = () => (
           <span>Redirecting and route protection done using:</span>
           <div>
             <span>
-              <a href={reactRouterUrl} target='_blank'>
+              <a href={reactRouterUrl} target='_blank' rel="noopener noreferrer">
                 redux-form
               </a>
             </span>
