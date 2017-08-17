@@ -40,16 +40,16 @@ Project will default to being named with the name of the folder that it is gener
 * [react](https://facebook.github.io/react/) - Rendering + Components
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
 * [material-ui](https://material-ui.com) - Google Material Styling React Components
-* [redux](http://redux.js.org/) - Client Side state *optional*
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
 * [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) - Improve CLI experience for Webpack
 
 *When opting into redux*
 
+* [redux](http://redux.js.org/) - Client Side state *optional*
 * [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
 * [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
 * [redux-form](redux-form.com) - Form input validation + state
-* [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui)
+* [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui) - Material UI components that work nicely with redux-form
 
 ## Generated Project
 
@@ -69,11 +69,9 @@ View [the example application README](/examples/react-firebase-redux/README.md) 
 
 ### Production
 
-Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
+Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the [Firebase section](#firebase).
 
 ### Deployment
-
-A Travis-CI file has been included to do deployment as part of CI builds. The correct configuration for the type of deployment you selected ([S3](#s3) or [Heroku](#heroku)) is placed into `.travis.yml` automatically.
 
 #### Firebase
 
@@ -82,8 +80,11 @@ A Travis-CI file has been included to do deployment as part of CI builds. The co
 1. Choose to go to a either the [CI section](https://github.com/prescottprue/generator-react-firebase#ci)(suggested) or the [Manual section](https://github.com/prescottprue/generator-react-firebase#manual)
 
 ##### CI
+
 If opting into [Travis-CI](travis-ci.org), config is included within `travis.yml` that uses `firebase-ci` to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
+1. Select yes to question `Would to include config for Travis CI?` when generating
+1. Select `Firebase` under deploy options
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
 1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
 1. Run a build on Travis-CI
@@ -109,16 +110,20 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 Selecting AWS S3 from the deploy options when running the generator adds deploy configs in `.travis.yml`.
 
+1. Select yes to question `Would to include config for Travis CI?` when generating
+1. Select `AWS` under deploy options
 1. Get your AWS Key and Secret from the AWS Console Credentials page
-2. Set the following environment vars within the Travis-CI repo settings page:
+1. Set the following environment vars within the Travis-CI repo settings page:
   * `AWS_KEY` - Your AWS key
   * `AWS_SECRET` - Your AWS secret
   * `S3_BUCKET` - Your S3 Bucket
 
 #### Heroku
 
-Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment:
+Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile`. If you choose yes when offered travis, as deploy configs will be included in `.travis.yml` for out of the box deployment.
 
+1. Select yes to question `Would to include config for Travis CI?` when generating
+1. Select `Heroku` under deploy options
 1. Enable Repo on Travis-CI Account
 2. Get API Key from Heroku Dashboard
 3. Create a new App (this name will be used in travis env var)
@@ -258,7 +263,9 @@ Complete examples of generator output available in [Examples](https://github.com
 
 ## In the future
 * Non-decorators implementation for props binding
+* Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
+* Option to not include tests
 * Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
 * Store previous answers and use them as defaults
 * Open to ideas
