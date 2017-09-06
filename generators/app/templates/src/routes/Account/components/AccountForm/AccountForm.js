@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 import { TextField } from 'redux-form-material-ui'
 import { ACCOUNT_FORM_NAME } from 'constants'<% } %><% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
-import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
+import ProviderDataForm from '../ProviderDataForm'
 import classes from './AccountForm.scss'
 
 <% if (includeRedux) { %>export const AccountForm = ({ account, handleSubmit, submitting }) => (

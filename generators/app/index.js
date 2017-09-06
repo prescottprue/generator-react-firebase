@@ -138,7 +138,8 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'firebase.json', dest: 'firebase.json' },
         { src: '_firebaserc', dest: '.firebaserc' },
-        { src: 'database.rules.json', dest: 'database.rules.json' }
+        { src: 'database.rules.json', dest: 'database.rules.json' },
+        { src: 'storage.rules', dest: 'storage.rules' }
       )
     } else {
       filesArray.push(
