@@ -19,7 +19,7 @@ module.exports = class extends Generator {
     this.argument('name', {
       required: true,
       type: String,
-      desc: 'The subgenerator name'
+      desc: 'The component name'
     })
   }
 
@@ -34,18 +34,28 @@ module.exports = class extends Generator {
   }
 
   writing () {
-    const destPath = `src/components/${this.options.name}/${this.options.name}`
-    this.fs.copyTpl(
-      this.templatePath('_main.js'),
-      this.destinationPath(`${destPath}.js`),
-      Object.assign({}, this.answers, { name: this.options.name })
-    )
+    const basePath = `src/components/${this.options.name}`
+    const filesArray = [
+      { src: '_index.js', dest: `${basePath}/index.js` },
+      { src: '_main.js', dest: `${basePath}/${this.options.name}.js` }
+    ]
+
     if (this.answers.addStyle) {
-      this.fs.copyTpl(
-        this.templatePath('_main.scss'),
-        this.destinationPath(`${destPath}.scss`),
-        Object.assign({}, this.answers, { name: this.options.name })
-      )
+      filesArray.push({
+        src: '_main.scss',
+        dest: `${basePath}/${this.options.name}.scss`
+      })
     }
+
+    filesArray.forEach(file => {
+      this.fs.copyTpl(
+        this.templatePath(file.src),
+        this.destinationPath(file.dest),
+        Object.assign({}, this.answers, {
+          name: this.options.name,
+          lowerName: this.options.name.toLowerCase()
+        })
+      )
+    })
   }
 }
