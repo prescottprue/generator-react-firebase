@@ -6,8 +6,9 @@
   "scripts": {
     "lint": "eslint generators tests",
     "lint:fix": "npm run lint -- --fix",
-    "test": "mocha -R spec --compilers js:babel-core/register ./tests/setup.js ./tests/**/*.spec.js",
-    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- ./tests/** --recursive --report lcov --compilers js:babel-register",
+    "test": "mocha -R spec --compilers js:babel-core/register ./tests/setup.js ./tests/**/*.spec.js && npm run test:clean",
+    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- ./tests/setup.js ./tests/**/*.spec.js --recursive --report lcov --compilers js:babel-register && npm run test:clean",
+    "test:clean": "rimraf tests/tmp",
     "codecov": "cat coverage/*/lcov.info | codecov",
     "prepublish": "npm run lint",
     "prepush": "npm run lint"
@@ -35,9 +36,11 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "7.1.0",
     "eslint-plugin-standard": "^3.0.1",
+    "fs-extra": "^4.0.1",
     "husky": "^0.14.3",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.4.2",
+    "rimraf": "^2.6.1",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.7.0"
   },

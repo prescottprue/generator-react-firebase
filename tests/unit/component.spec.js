@@ -1,11 +1,11 @@
 import path from 'path'
+import fs from 'fs-extra'
+import rimraf from 'rimraf'
 import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
 
 const name = 'Test'
 const folderPath = `src/components/${name}`
-var testPath = path.join(__dirname, 'temp2');
-const createFilePath = (name) => path.join(__dirname, 'temp2', folderPath, name)
 
 describe('generator-react-firebase:component', () => {
   beforeEach(function (done) {
@@ -19,26 +19,28 @@ describe('generator-react-firebase:component', () => {
 
   describe('index file', () => {
     it('is copied', () => {
-      checkForEachFile([ createFilePath('index.js') ], testPath)
+      checkForEachFile([ createFilePath(`${folderPath}/index.js`) ], testPath)
     })
-    // TODO: Check that content of file is correct
-    // it('has correct content', () => {
-    //   assert.fileContent('app/components/${name}/${name}.js', //)
-    // })
+    it('has correct content', () => {
+      const fileStr = `import ${name} from './${name}'\n\nexport default ${name}`
+      assert.fileContent(`${folderPath}/index.js`, fileStr)
+    })
   })
 
   describe('js file', () => {
+    const filePath = `${folderPath}/${name}.js`
     it('is copied', () => {
-      return checkForEachFile([ createFilePath(`${name}.js`)  ], testPath)
+      return checkForEachFile([ createFilePath(filePath)  ], testPath)
     })
     // TODO: Check that content of file is correct
     // it('has correct content', () => {
-    //   assert.fileContent('app/components/${name}/${name}.js', //)
+    //   assert.fileContent(filePath,)
     // })
   })
+
   describe('scss file', () => {
     it('is copied', () => {
-      return checkForEachFile([ createFilePath(`${name}.scss`) ], testPath)
+      return checkForEachFile([ createFilePath(`${folderPath}/${name}.scss`) ], testPath)
     })
     // TODO: Check that content of file is correct
     // it('has correct content', () => {
