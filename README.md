@@ -149,6 +149,7 @@ A component is best for things that will be reused in multiple places. Our examp
 /app
 --/components
 ----/Car
+------index.js
 ------Car.js
 ------Car.scss
 ```
@@ -156,20 +157,16 @@ A component is best for things that will be reused in multiple places. Our examp
 */app/components/Car.js:*
 
 ```javascript
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
-export default class Car extends Component {
-  render () {
-    return (
-      <div className={classes.container}>
-
-      </div>
-    )
-  }
-}
-
+export const Car = ({ car }) => (
+  <div className={classes.container}>
+    <span>Car Component</span>
+    <pre>{JSON.stringify(car, null, 2)}</pre>
+  </div>
+)
 ```
 
 #### Container
@@ -186,6 +183,7 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 /app
 --/conatiners
 ----/Cars
+------index.js
 ------Cars.js
 ------Cars.scss
 ```
@@ -195,55 +193,47 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { firebaseConnect, isLoaded, isEmpty, dataToJS } from 'react-redux-firebase'
+import {
+  firebaseConnect,
+  dataToJS,
+  isLoaded,
+  isEmpty
+} from 'react-redux-firebase'
+import LoadingSpinner from 'components/LoadingSpinner'
+import classes from './Cars.scss'
 
 @firebaseConnect([
-  // Syncs todos root to redux
-  '/todos'
+  'cars'
 ])
 @connect(
-  ({firebase}) => ({
-    // Place list of todos into this.props.todos
-    todos: dataToJS(firebase, '/todos'),
+  ({ firebase }) => ({
+    cars: dataToJS(firebase, 'cars')
   })
 )
-export default class Todos extends Component {
+export default class Cars extends Component {
   static propTypes = {
-    todos: PropTypes.object,
-    firebase: PropTypes.object
+    cars: PropTypes.object
   }
 
-  render() {
-    const { firebase, todos } = this.props;
+  render () {
+    const { cars } = this.props
 
-    // Add a new todo to firebase
-    const handleAdd = () => {
-      const { newTodo } = this.refs
-      firebase.push('/todos', { text:newTodo.value, done:false })
-      newTodo.value = ''
+    if (!isLoaded(cars)) {
+      return <LoadingSpinner />
     }
 
-    // Build Todos list if todos exist and are loaded
-    const todosList = !isLoaded(todos)
-                        ? 'Loading'
-                        : isEmpty(todos)
-                          ? 'Todo list is empty'
-                          : Object.keys(todos).map(
-                              (key, id) => (
-                                <TodoItem key={key} id={id} todo={todos[key]}/>
-                              )
-                            )
+    if (isEmpty(cars)) {
+      return (
+        <div>
+          No Cars found
+        </div>
+      )
+    }
 
     return (
-      <div>
-        <h1>Todos</h1>
-        <ul>
-          {todosList}
-        </ul>
-        <input type="text" ref="newTodo" />
-        <button onClick={handleAdd}>
-          Add
-        </button>
+      <div className={classes.container}>
+        <p>Cars</p>
+        <pre>{JSON.stringify(cars, null, 2)}</pre>
       </div>
     )
   }
@@ -262,10 +252,11 @@ Complete examples of generator output available in [Examples](https://github.com
 *open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included*
 
 ## In the future
+* Option to not include tests
+* Option to include tests when using sub-generators
 * Non-decorators implementation for props binding
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
-* Option to not include tests
 * Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
 * Store previous answers and use them as defaults
 * Open to ideas

@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'<% if(usingRedux) { %>
 import { connect } from 'react-redux'
-import { firebaseConnect, dataToJS } from 'react-redux-firebase'
+import {
+  firebaseConnect,
+  dataToJS,
+  isLoaded,
+  isEmpty
+} from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if(addStyle) { %>
 import classes from './<%= name %>.scss'<% } %>
 <% if(usingRedux) { %>
