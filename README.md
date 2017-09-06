@@ -156,7 +156,7 @@ A component is best for things that will be reused in multiple places. Our examp
 
 */app/components/Car.js:*
 
-```javascript
+```jsx
 import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
@@ -189,7 +189,7 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 ```
 
 /app/containers/Cars.js:
-```javascript
+```jsx
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
