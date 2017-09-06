@@ -6,25 +6,26 @@ import LoadingSpinner from 'components/LoadingSpinner'<% } %><% if(addStyle) { %
 import classes from './<%= name %>.scss'<% } %>
 <% if(usingRedux) { %>
 @firebaseConnect([
-  <%= name %>
+  '<%= lowerName %>'
 ])
 @connect(
   ({ firebase }) => ({
-    <%= name %>: dataToJS(firebase, <%= name %>)
+    <%= lowerName %>: dataToJS(firebase, '<%= lowerName %>')
   })
 )<% } %>
 export default class <%= name %> extends Component {
   static propTypes = {
-    <%= name %>: PropTypes.object
+    <%= lowerName %>: PropTypes.object
   }
 
   render () {
-    const { <%= name %> } = this.props
-    <% if(usingRedux) { %>if (!isLoaded(<%= name %>)) {
+    const { <%= lowerName %> } = this.props
+    <% if(usingRedux) { %>
+    if (!isLoaded(<%= lowerName %>)) {
       return <LoadingSpinner />
     }
 
-    if (isEmpty(<%= name %>)) {
+    if (isEmpty(<%= lowerName %>)) {
       return (
         <div>
           No <%= name %>s found
@@ -35,7 +36,7 @@ export default class <%= name %> extends Component {
     return (
       <% if (addStyle) { %><div className={classes.container}><%} else { %><div className='<%= name %>'><%}%>
         <p><%= name %></p>
-        <pre>{JSON.stringify(<%= name %>, null, 2)}</pre>
+        <pre>{JSON.stringify(<%= lowerName %>, null, 2)}</pre>
       </div>
     )
   }
