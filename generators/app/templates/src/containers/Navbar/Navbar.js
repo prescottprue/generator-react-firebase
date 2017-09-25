@@ -29,16 +29,19 @@ const buttonStyle = {
 const avatarStyles = {
   wrapper: { marginTop: 0 },
   button: { marginRight: '.5rem', width: '200px', height: '64px' },
-  buttonSm: { marginRight: '.5rem', width: '30px', height: '64px', padding: '0' }
+  buttonSm: {
+    marginRight: '.5rem',
+    width: '30px',
+    height: '64px',
+    padding: '0'
+  }
 }
 
 <% if (includeRedux) { %>@firebaseConnect()
-@connect(
-  ({ firebase }) => ({
-    auth: pathToJS(firebase, 'auth'),
-    account: pathToJS(firebase, 'profile')
-  })
-)<% } %>
+@connect(({ firebase }) => ({
+  auth: pathToJS(firebase, 'auth'),
+  account: pathToJS(firebase, 'profile')
+}))<% } %>
 export default class Navbar extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
@@ -58,16 +61,21 @@ export default class Navbar extends Component {
     this.context.router.push('/')<% } %>
   }
 
-  render () {
+  render() {
     const { account, auth } = this.props
     <% if (includeRedux) { %>const authExists = isLoaded(auth) && !isEmpty(auth)<% } %>
 
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
         <div className={classes.avatar}>
-          <div className='hidden-mobile'>
+          <div className="hidden-mobile">
             <Avatar
-              <% if (includeRedux) { %>src={account && account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %><% if (!includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage}<% } %>
+              <% if (!includeRedux) { %>src={account.avatarUrl ? account.avatarUrl : defaultUserImage
+              }<% } %><% if (includeRedux) { %>src={
+                account && account.avatarUrl
+                  ? account.avatarUrl
+                  : defaultUserImage
+              }<% } %>
             />
           </div>
           <div className={classes['avatar-text']}>
@@ -76,7 +84,7 @@ export default class Navbar extends Component {
                 account && account.displayName ? account.displayName : 'User'
               }
             </span>
-            <DownArrow color='white' />
+            <DownArrow color="white" />
           </div>
         </div>
       </IconButton>
@@ -86,13 +94,13 @@ export default class Navbar extends Component {
       <div className={classes.menu}>
         <Link to={SIGNUP_PATH}>
           <FlatButton
-            label='Sign Up'
+            label="Sign Up"
             style={buttonStyle}
           />
         </Link>
         <Link to={LOGIN_PATH}>
           <FlatButton
-            label='Login'
+            label="Login"
             style={buttonStyle}
           />
         </Link>
@@ -107,11 +115,11 @@ export default class Navbar extends Component {
         animated={false}
       >
         <MenuItem
-          primaryText='Account'
+          primaryText="Account"
           onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
         />
         <MenuItem
-          primaryText='Sign out'
+          primaryText="Sign out"
           onTouchTap={this.handleLogout}
         />
       </IconMenu>

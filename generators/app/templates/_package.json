@@ -13,7 +13,8 @@
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix",<% if (deployTo !== 'firebase') { %>
+    "lint:fix": "npm run format && npm run lint -- --fix",
+    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",<% if (deployTo !== 'firebase') { %>
     "create-config": "node build/create-config",<% } %>
     "codecov": "cat coverage/*/lcov.info | codecov",
     "prepush": "npm run lint"
@@ -27,7 +28,7 @@
   "dependencies": {<% if (!includeRedux) { %>
     "firebase": "^4.0.0",<% } %>
     "lodash": "^4.17.4",
-    "material-ui": "^0.18.6",
+    "material-ui": "^0.19.2",
     "normalize.css": "^7.0.0",
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",
@@ -36,7 +37,7 @@
     "react-dom": "^15.5.4",
     "react-google-button": "^0.3.0",
     <% if (includeRedux) { %>"react-redux": "^5.0.4",
-    "react-redux-firebase": "^1.5.0-rc.2",<% } %>
+    "react-redux-firebase": "^1.5.0",<% } %>
     "react-router": "^3.0.0",
     "react-tap-event-plugin": "^2.0.1",<% if (includeRedux) { %>
     "redux": "^3.6.0",
@@ -83,7 +84,7 @@
     "eslint-plugin-react": "^7.0.1",
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.14.0",
-    "extract-text-webpack-plugin": "^2.1.0",
+    "extract-text-webpack-plugin": "^3.0.0",
     "favicons-webpack-plugin": "0.0.7",
     "figures": "^2.0.0",
     "file-loader": "^0.11.1",
@@ -110,7 +111,7 @@
     "sinon-chai": "^2.10.0",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
-    "webpack": "^2.5.1",
+    "webpack": "^3.6.0",
     "webpack-dashboard": "^0.4.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-hot-middleware": "^2.13.2",

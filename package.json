@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Starter that uses React and Firebase (with option for Redux)",
   "main": "generators/index.js",
   "scripts": {
