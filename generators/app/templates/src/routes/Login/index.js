@@ -9,7 +9,7 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Login = require('./containers/LoginContainer').default
+      const Login = require('./components/LoginPage').default
 
       /*  Return getComponent   */
       cb(null, Login)

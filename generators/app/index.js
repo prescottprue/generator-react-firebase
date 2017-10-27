@@ -148,6 +148,7 @@ module.exports = class extends Generator {
         { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
         { src: 'src/store/location.js', dest: 'src/store/location.js' },
         { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
+        { src: 'src/utils/components.js', dest: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
         // TODO: Add question about including redux-cli blueprints (they contain template strings)
         // { src: 'blueprints/**', dest: 'blueprints' },

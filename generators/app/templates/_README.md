@@ -26,9 +26,8 @@
 
 ## Getting Started
 
-1. Install dependencies: `yarn` or `npm install`
-
-2. Start Development server: `yarn start` or `npm start`
+1. Install dependencies: `npm install`
+2. Start Development server: `npm start`
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
@@ -93,10 +92,29 @@ Build code before deployment by running `npm run build`. There are multiple opti
 
 ### Deployment
 <% if (deployTo === 'firebase') { %>
-1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
-2. Install cli: `npm i -g firebase-tools`
-3. Login: `firebase login`
-4. Initialize project with `firebase init` then answer:
+1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
+
+#### CI Deploy (recommended)
+<% if (includeTravis) { %>**Note**: Config for this is located within `travis.yml`
+`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+
+1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
+1. Run a build on Travis-CI
+
+If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
+
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %><% if (!includeTravis) { %>1. Login: `firebase login:ci` to generate an authentication token (will be used to give your CI environment rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within your CI environment
+1. Create a build script that does the following:
+  1. Create a config file by calling `npm run create-config`
+  1. Install firebase tools by calling `npm i -g firebase-tools`
+  1. Call firebase deploy: `firebase deploy --project ${projectName}` (if you are using functions, make sure to first install dependencies using  `npm i --prefix functions`)<% } %>
+
+#### Manual deploy
+
+1. Run `firebase:login`
+1. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
   * What do you want to use as your public directory? -> `build`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
