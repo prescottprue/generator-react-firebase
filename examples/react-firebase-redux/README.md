@@ -26,9 +26,8 @@
 
 ## Getting Started
 
-1. Install dependencies: `yarn` or `npm install`
-
-2. Start Development server: `yarn start` or `npm start`
+1. Install dependencies: `npm install`
+2. Start Development server: `npm start`
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
@@ -95,8 +94,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
 
 ### Deployment
 
-1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
-2. Install cli: `npm i -g firebase-tools`
+1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
 
 #### CI Deploy (recommended)
 **Note**: Config for this is located within `travis.yml`

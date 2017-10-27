@@ -36,7 +36,7 @@
     "react-dom": "^15.5.4",
     "react-google-button": "^0.3.0",
     <% if (includeRedux) { %>"react-redux": "^5.0.4",
-    "react-redux-firebase": "^2.0.0",<% } %>
+    "react-redux-firebase": "next",<% } %>
     "react-router": "^3.0.0",
     "react-tap-event-plugin": "^2.0.1",
     "recompose": "^0.26.0",<% if (includeRedux) { %>

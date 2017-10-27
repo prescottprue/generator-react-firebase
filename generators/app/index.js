@@ -4,7 +4,6 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const path = require('path')
 const utils = require('./utils')
-const commandExists = require('command-exists')
 
 const prompts = [
   {
@@ -60,8 +59,8 @@ const prompts = [
   },
   {
     type: 'confirm',
-    name: 'useYarn',
-    message: 'Use Yarn?',
+    name: 'includeTests',
+    message: 'Include Tests?',
     default: true
   }
 ]
@@ -182,17 +181,6 @@ module.exports = class extends Generator {
   }
 
   install () {
-    return commandExists('yarn')
-    .then(() => {
-      if (!this.answers.useYarn) {
-        console.log(chalk.yellow('Opted out of yarn even though it is available')) // eslint-disable-line no-console
-        return this.npmInstall()
-      }
-      console.log(chalk.blue('Using Yarn!')) // eslint-disable-line no-console
-      return this.yarnInstall()
-    })
-    .catch(() => {
-      this.npmInstall()
-    })
+    this.npmInstall()
   }
 }
