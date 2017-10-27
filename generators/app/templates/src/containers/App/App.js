@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { browserHistory, Router } from 'react-router'
-<% if (includeRedux) { %>import { Provider } from 'react-redux'
-<% } %>
-// Themeing/Styling
+import { browserHistory, Router } from 'react-router'<% if (includeRedux) { %>
+import { Provider } from 'react-redux'<% } %>
 import Theme from 'theme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-
-// Tap Plugin
-import injectTapEventPlugin from 'react-tap-event-plugin'
-injectTapEventPlugin()
 
 export default class AppContainer extends Component {
   static childContextTypes = {
