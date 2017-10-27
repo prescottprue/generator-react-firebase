@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
-import RaisedButton from 'material-ui/RaisedButton'
-import Checkbox from 'material-ui/Checkbox'
-
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import { required, validateEmail } from 'utils/form'
+import RaisedButton from 'material-ui/RaisedButton'
+import Checkbox from 'material-ui/Checkbox'
 import { RECOVER_PATH, LOGIN_FORM_NAME } from 'constants'
+import { required, validateEmail } from 'utils/form'
 import classes from './LoginForm.scss'
 
 export const LoginForm = ({ pristine, submitting, handleSubmit }) => (

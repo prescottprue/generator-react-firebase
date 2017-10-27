@@ -36,14 +36,14 @@ export default class Signup extends Component {
     this.setState({
       snackCanOpen: true
     })
-    const { createUser, login } = this.props.firebase
-    createUser(creds, { email: creds.email, username: creds.username })
-      .then(() => {
-        login(creds)
-      })
+    this.props.firebase.createUser(creds, {
+      email: creds.email,
+      username: creds.username
+    })
+
   }
 
-  providerLogin = (provider) => {
+  providerLogin = provider => {
     this.setState({
       snackCanOpen: true
     })
@@ -55,7 +55,7 @@ export default class Signup extends Component {
       )
   }
 
-  render () {
+  render() {
     const { snackCanOpen } = this.state
     const { authError } = this.props
 
@@ -71,9 +71,7 @@ export default class Signup extends Component {
           <GoogleButton onClick={() => this.providerLogin('google')} />
         </div>
         <div className={classes.login}>
-          <span className={classes.loginLabel}>
-            Already have an account?
-          </span>
+          <span className={classes.loginLabel}>Already have an account?</span>
           <Link className={classes.loginLink} to={LOGIN_PATH}>
             Login
           </Link>
