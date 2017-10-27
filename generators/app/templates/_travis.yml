@@ -1,9 +1,11 @@
+dist: trusty
+
+sudo: false
+
 language: node_js
 
 node_js:
- - 8
-
-sudo: false
+ - 6.11.1 <% if (deployTo === 'firebase') { %># runtime used within Firebase functions<% } %>
 
 notifications:
   email:
@@ -20,24 +22,24 @@ cache:
   bundler: true
   directories:
     - node_modules # NPM packages
-
+<% if (deployTo === 'firebase') { %>
 install:
   - npm set progress=false
-  - npm install
+  - npm i
+  - npm i -g firebase-ci<% } %>
 
 script:
-  - npm run create-config # create environment specific config.js file
-  - npm run lint:fix
+  <% if (deployTo === 'firebase') { %>- firebase-ci createConfig<% } else { %>- npm run create-config<% } %>
+  - npm run lint
   - npm run test
-  - npm run build:prod
+  - npm run build
 <% if (codeClimate) { %>
 addons:
   code_climate:
     repo_token: $CODE_CLIMATE<% } %>
 
 <% if (deployTo === 'firebase') { %>after_success:
-  - npm i -g firebase-ci # install firebase-ci
-  - firebase-ci deploy<% } %><% if (deployTo === 'heroku') { %>deploy:
+  - firebase-ci deploy -s # deploy without CI actions since createConfig is called earlier <% } %><% if (deployTo === 'heroku') { %>deploy:
   skip_cleanup: true
   provider: heroku
   api_key:

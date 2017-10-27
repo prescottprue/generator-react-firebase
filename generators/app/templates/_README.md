@@ -21,7 +21,7 @@
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^5.0.0`
+* node `^5.0.0` (`6.11.0` suggested)
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
@@ -33,12 +33,16 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 
 |`npm run <script>`    |Description|
 |-------------------|-----------|
-|`start`            |Serves your app at `localhost:3000`|
+|`start`            |Serves your app at `localhost:3000` and displays [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
+|`start:simple`     |Serves your app at `localhost:3000` without [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
 |`build`            |Builds the application to ./dist|
 |`test`             |Runs unit tests with Karma. See [testing](#testing)|
 |`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
+
+[Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
+
 
 ## Application Structure
 
@@ -77,8 +81,6 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── project.config.js        # Project configuration settings (includes ci settings)
 └── tests                    # Unit tests
 ```
-
-## Development
 
 ### Routing
 We use `react-router` [route definitions](https://github.com/ReactTraining/react-router/blob/v3/docs/API.md#plainroute) (`<route>/index.js`) to define units of logic within our application. See the [application structure](#application-structure) section for more information.
@@ -119,10 +121,10 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
   * What do you want to use as your public directory? -> `build`
   * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
-5. Build Project: `npm run build`
-6. Confirm Firebase config by running locally: `firebase serve`
-7. Deploy to firebase: `firebase deploy`
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` or `npm run build:prod` first.<% } %><% if (deployTo === 's3') { %>
+1. Build Project: `npm run build`
+1. Confirm Firebase config by running locally: `firebase serve`
+1. Deploy to firebase: `firebase deploy`
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.<% } %><% if (deployTo === 's3') { %>
 Selecting AWS S3 from the deploy options when running the generator adds deploy configs in `.travis.yml`.
 
 1. Get your AWS Key and Secret from the AWS Console Credentials page

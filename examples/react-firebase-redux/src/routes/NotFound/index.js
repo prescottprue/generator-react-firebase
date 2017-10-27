@@ -14,5 +14,5 @@ export default () => ({
 
     /* Webpack named bundle   */
     }, 'NotFound')
-  },
+  }
 })

@@ -1,4 +1,3 @@
-/* global describe it */
 import assert from 'yeoman-assert'
 export function checkForEachFile (files, nameRemove) {
   return describe('creates file', () =>

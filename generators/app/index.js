@@ -56,7 +56,7 @@ const prompts = [
       }
     ],
     message: 'What service are you deploying to?',
-    default: [1]
+    default: 0
   },
   {
     type: 'confirm',
@@ -76,7 +76,11 @@ const filesArray = [
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
-  { src: 'build/**', dest: 'build' },
+  { src: 'public/**', dest: 'public' },
+  { src: 'build/lib/**', dest: 'build/lib' },
+  { src: 'build/scripts/**', dest: 'build/scripts' },
+  { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
+  { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
   { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
   { src: 'src/index.html' },
@@ -88,9 +92,7 @@ const filesArray = [
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/humans.txt' },
-  { src: 'src/static/robots.txt' },
-  { src: 'src/static/User.png' },
+  { src: 'src/static/**', dest: 'src/static' },
   { src: 'src/styles/**', dest: 'src/styles' },
   { src: 'tests/**', dest: 'tests' },
   { src: 'testseslintrc', dest: 'tests/.eslintrc' }
@@ -136,7 +138,12 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'firebase.json', dest: 'firebase.json' },
         { src: '_firebaserc', dest: '.firebaserc' },
-        { src: 'database.rules.json', dest: 'database.rules.json' }
+        { src: 'database.rules.json', dest: 'database.rules.json' },
+        { src: 'storage.rules', dest: 'storage.rules' }
+      )
+    } else {
+      filesArray.push(
+        { src: 'build/create-config.js', dest: 'build/create-config.js' }
       )
     }
 

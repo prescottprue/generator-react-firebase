@@ -1,5 +1,4 @@
-// We only need to import the modules necessary for initial render
-import CoreLayout from '../layouts/CoreLayout/CoreLayout'
+import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import LoginRoute from './Login'
 import SignupRoute from './Signup'
@@ -19,6 +18,7 @@ export const createRoutes = (store) => ({
     LoginRoute(store),
     SignupRoute(store),
     ProjectsRoute(store),
+    /* Place all Routes above here so NotFoundRoute can act as a 404 page */
     NotFoundRoute(store)
   ]
 })

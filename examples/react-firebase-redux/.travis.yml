@@ -1,9 +1,11 @@
+dist: trusty
+
+sudo: false
+
 language: node_js
 
 node_js:
- - 8
-
-sudo: false
+ - 6.11.1 # runtime used within Firebase functions
 
 notifications:
   email:
@@ -23,18 +25,18 @@ cache:
 
 install:
   - npm set progress=false
-  - npm install
+  - npm i
+  - npm i -g firebase-ci
 
 script:
-  - npm run create-config # create environment specific config.js file
-  - npm run lint:fix
+  - firebase-ci createConfig
+  - npm run lint
   - npm run test
-  - npm run build:prod
+  - npm run build
 
 addons:
   code_climate:
     repo_token: $CODE_CLIMATE
 
 after_success:
-  - npm i -g firebase-ci # install firebase-ci
-  - firebase-ci deploy
+  - firebase-ci deploy -s # deploy without CI actions since createConfig is called earlier 

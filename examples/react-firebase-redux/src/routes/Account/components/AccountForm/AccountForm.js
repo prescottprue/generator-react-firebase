@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'components/TextField'
+import { TextField } from 'redux-form-material-ui'
 import { ACCOUNT_FORM_NAME } from 'constants'
 import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
 import classes from './AccountForm.scss'
@@ -13,17 +13,17 @@ export const AccountForm = ({ account, handleSubmit, submitting }) => (
     <Field
       name='displayName'
       component={TextField}
-      label='Display Name'
+      floatingLabelText='Display Name'
     />
     <Field
       name='email'
       component={TextField}
-      label='Email'
+      floatingLabelText='Email'
     />
     <Field
       name='avatarUrl'
       component={TextField}
-      label='Avatar Url'
+      floatingLabelText='Avatar Url'
     />
     {
       !!account && !!account.providerData &&

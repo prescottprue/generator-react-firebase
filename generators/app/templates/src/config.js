@@ -6,6 +6,9 @@
  * based on config in .firebaserc (see .travis.yml). This is done so that
  * environment specific settings can be applied.
  */
+
+export const env = 'development'
+
 // Config for firebase
 export const firebase = {
   apiKey: '<%= firebaseKey %>',
@@ -23,6 +26,4 @@ export const reduxFirebase = {
   // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
 }
 
-export const env = 'development'
-
-export default { firebase, reduxFirebase, env }
+export default { env, firebase, reduxFirebase }

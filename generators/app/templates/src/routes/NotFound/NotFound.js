@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 export const NotFound = () => (
   <div className='container'>
@@ -6,3 +6,5 @@ export const NotFound = () => (
     <p>This page was not found.</p>
   </div>
 )
+
+export default NotFound
