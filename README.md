@@ -181,7 +181,7 @@ Creates a folder within `/containers` that matches the name provided. Below is t
 
 ```
 /app
---/conatiners
+--/containers
 ----/Cars
 ------index.js
 ------Cars.js
