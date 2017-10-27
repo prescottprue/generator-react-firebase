@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import { TextField } from 'redux-form-material-ui'
 import { ACCOUNT_FORM_NAME } from 'constants'
-import ProviderDataForm from '../ProviderDataForm/ProviderDataForm'
+import ProviderDataForm from '../ProviderDataForm'
 import classes from './AccountForm.scss'
 
 export const AccountForm = ({ account, handleSubmit, submitting }) => (

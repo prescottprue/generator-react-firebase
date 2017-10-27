@@ -1,8 +1,13 @@
-/*
- NOTE: This file is ignored from git tracking. In a CI environment, it is
- generated using build/create-config.js by calling npm run create-config. This
- is done so that environment specific settings can be applied.
+/**
+ * NOTE: This file is ignored from git tracking. In a CI environment, it is
+ * generated using build/create-config.js by calling npm run create-config (or
+ * using firebase-ci if deploying to Firebase hosting). This is done so that
+ * environment specific settings can be applied.
  */
+
+export const env = 'development'
+
+// Config for firebase
 export const firebase = {
   apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
   authDomain: 'redux-firebasev3.firebaseapp.com',
@@ -19,6 +24,4 @@ export const reduxFirebase = {
   // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
 }
 
-export const env = 'development'
-
-export default { firebase, reduxFirebase, env }
+export default { env, firebase, reduxFirebase }

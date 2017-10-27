@@ -22,15 +22,11 @@ export default class AppContainer extends Component {
   render () {
     <% if (!includeRedux) { %>const { routes } = this.props
     return (
-      <Router history={browserHistory}>
-        {routes}
-      </Router>
+      <Router history={browserHistory}>{routes}</Router>
     )<% } %><% if (includeRedux) { %>const { routes, store } = this.props
     return (
       <Provider store={store}>
-        <Router history={browserHistory}>
-          {routes}
-        </Router>
+        <Router history={browserHistory}>{routes}</Router>
       </Provider>
     )<% } %>
   }

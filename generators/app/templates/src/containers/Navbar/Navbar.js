@@ -80,9 +80,7 @@ export default class Navbar extends Component {
           </div>
           <div className={classes['avatar-text']}>
             <span className={`${classes['avatar-text-name']} hidden-mobile`}>
-              {
-                account && account.displayName ? account.displayName : 'User'
-              }
+              {account && account.displayName ? account.displayName : 'User'}
             </span>
             <DownArrow color="white" />
           </div>
@@ -93,16 +91,10 @@ export default class Navbar extends Component {
     const mainMenu = (
       <div className={classes.menu}>
         <Link to={SIGNUP_PATH}>
-          <FlatButton
-            label="Sign Up"
-            style={buttonStyle}
-          />
+          <FlatButton label="Sign Up" style={buttonStyle} />
         </Link>
         <Link to={LOGIN_PATH}>
-          <FlatButton
-            label="Login"
-            style={buttonStyle}
-          />
+          <FlatButton label="Login" style={buttonStyle} />
         </Link>
       </div>
     )
@@ -112,18 +104,16 @@ export default class Navbar extends Component {
         iconButtonElement={iconButton}
         targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        animated={false}
-      >
+        animated={false}>
         <MenuItem
           primaryText="Account"
           onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
         />
-        <MenuItem
-          primaryText="Sign out"
-          onTouchTap={this.handleLogout}
-        />
+        <MenuItem primaryText="Sign out" onTouchTap={this.handleLogout} />
       </IconMenu>
-    ) : mainMenu
+    ) : (
+      mainMenu
+    )
 
     return (
       <AppBar

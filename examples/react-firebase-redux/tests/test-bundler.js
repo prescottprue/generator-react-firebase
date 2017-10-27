@@ -39,5 +39,4 @@ const changedTests = allTests.filter(path => {
 
 const componentsContext = require.context('./../src', true, /\.(js)$/)
 componentsContext.keys().forEach(componentsContext)
-
 ;(changedTests.length ? changedTests : allTests).forEach(testsContext)

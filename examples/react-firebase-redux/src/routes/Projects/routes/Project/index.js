@@ -1,5 +1,3 @@
-// import { injectReducer } from '../../../../store/reducers'
-
 export default (store) => ({
   path: ':projectname',
   /*  Async getComponent is only invoked when route matches   */
@@ -10,9 +8,6 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Project = require('./containers/ProjectContainer').default
-      // const reducer = require('./modules/reducer').default
-
-      // injectReducer(store, { key: 'tabs', reducer })
 
       /*  Return getComponent   */
       cb(null, Project)
