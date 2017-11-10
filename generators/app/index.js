@@ -25,16 +25,24 @@ const prompts = [
     message: 'Firebase apiKey',
     required: true
   },
-  {
-    type: 'confirm',
-    name: 'includeTravis',
-    message: 'Would to include config for Travis CI?',
-    default: true
-  },
+
   {
     type: 'confirm',
     name: 'includeRedux',
     message: 'Would to include redux for local state-management?',
+    default: true
+  },
+  {
+    type: 'confirm',
+    name: 'includeFirestore',
+    message: 'Include Firestore?',
+    when: ({ includeRedux }) => includeRedux,
+    default: true
+  },
+  {
+    type: 'confirm',
+    name: 'includeTravis',
+    message: 'Would to include config for Travis CI?',
     default: true
   },
   {
@@ -62,7 +70,8 @@ const prompts = [
     name: 'includeTests',
     message: 'Include Tests?',
     default: true
-  }
+  },
+
 ]
 
 const filesArray = [
@@ -90,6 +99,7 @@ const filesArray = [
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
+  { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static' },
   { src: 'src/styles/**', dest: 'src/styles' },

@@ -12,6 +12,7 @@ export const firebase = {
   apiKey: '<%= firebaseKey %>',
   authDomain: '<%= firebaseName %>.firebaseapp.com',
   databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
+  projectId: "<%= firebaseName %>",
   storageBucket: '<%= firebaseName %>.appspot.com'
 }
 
@@ -20,7 +21,8 @@ export const firebase = {
 export const reduxFirebase = {
   userProfile: 'users', // root that user profiles are written to
   enableLogging: false, // enable/disable Firebase Database Logging
-  updateProfileOnLogin: false // enable/disable updating of profile on login
+  <%= if (includeFirestore) { %>useFirestoreForProfile: true,<%= } %>
+  // updateProfileOnLogin: false // enable/disable updating of profile on login
   // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
 }
 

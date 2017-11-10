@@ -12,7 +12,7 @@ import classes from './AccountContainer.scss'
 
 <% if (includeRedux) { %>@UserIsAuthenticated // redirect to /login if user is not authenticated
 @firebaseConnect()
-@connect(({ firebase, { auth, profile } }) => ({
+@connect(({ firebase: { auth, profile } }) => ({
   auth,
   profile
 }))<% } %>
