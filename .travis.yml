@@ -1,8 +1,13 @@
+dist: trusty
+
+sudo: false
+
 language: node_js
 
 node_js:
   - 6
   - 8
+  - 9
 
 branches:
   only:
