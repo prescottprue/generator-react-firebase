@@ -70,8 +70,7 @@ const prompts = [
     name: 'includeTests',
     message: 'Include Tests?',
     default: true
-  },
-
+  }
 ]
 
 const filesArray = [

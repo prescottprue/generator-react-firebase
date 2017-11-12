@@ -20,8 +20,8 @@ import classes from './ProjectsContainer.scss'
     populates
   }
 ]))
-@connect(({ firebase, auth }, { params }) => ({
-  auth,
+@connect(({ firebase: { auth }, firebase }, { params }) => ({
+  auth: firebase.auth,
   projects: populate(firebase, 'projects', populates)
 }))<% } %>
 export default class Projects extends Component {

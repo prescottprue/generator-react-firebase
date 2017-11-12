@@ -63,7 +63,7 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseName: 'asdf.firebaseio.com',
-            useYarn: true,
+            useYarn: true
           })
           .toPromise()
       )
@@ -91,6 +91,7 @@ describe('generator-react-firebase:app', function () {
             includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
+            includeFirestore: false,
             useYarn: true
           })
           .toPromise()
@@ -115,6 +116,7 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             includeTravis: 'Y',
+            includeFirestore: false,
             includeRedux: false,
             deployTo: 'firebase',
             useYarn: true

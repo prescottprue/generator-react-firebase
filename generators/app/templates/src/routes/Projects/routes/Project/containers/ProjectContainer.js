@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-<% if (includeRedux) { %>import { connect } from 'react-redux'
-import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'<% } %>
+import PropTypes from 'prop-types'<% if (includeRedux) { %>
+import { connect } from 'react-redux'
+import {
+  firebaseConnect,
+  isLoaded,
+  isEmpty,
+  getVal
+} from 'react-redux-firebase'<% } %>
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProjectContainer.scss'
 
@@ -9,8 +14,8 @@ import classes from './ProjectContainer.scss'
 @firebaseConnect(({ params }) => ([
   `projects/${params.projectname}`
 ]))
-@connect(({ firebase, data: { projects } }, { params }) => ({
-  project: projects[params.projectname]
+@connect(({ firebase: { data } }, { params }) => ({
+  project: getVal(data, `projects/${params.projectname}`)
 }))<% } %>
 export default class Project extends Component {
   <% if (includeRedux) { %>static propTypes = {

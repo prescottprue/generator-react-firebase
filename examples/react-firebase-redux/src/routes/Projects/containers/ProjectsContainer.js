@@ -20,8 +20,8 @@ const populates = [
     populates
   }
 ]))
-@connect(({ firebase, auth }, { params }) => ({
-  auth,
+@connect(({ firebase }, { params }) => ({
+  auth: firebase.auth,
   projects: populate(firebase, 'projects', populates)
 }))
 export default class Projects extends Component {
