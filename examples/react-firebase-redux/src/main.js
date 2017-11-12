@@ -32,7 +32,6 @@ let render = () => {
   } catch (err) {
     // Silence warning about placing before render seen on hot reload
   }
-
   ReactDOM.render(<App store={store} routes={routes} />, MOUNT_NODE)
 }
 

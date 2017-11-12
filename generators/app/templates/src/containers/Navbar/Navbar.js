@@ -24,7 +24,12 @@ const buttonStyle = {
 const avatarStyles = {
   wrapper: { marginTop: 0 },
   button: { marginRight: '.5rem', width: '200px', height: '64px' },
-  buttonSm: { marginRight: '.5rem', width: '30px', height: '64px', padding: '0' }
+  buttonSm: {
+    marginRight: '.5rem',
+    width: '30px',
+    height: '64px',
+    padding: '0'
+  }
 }
 
 <% if (includeRedux) { %>@firebaseConnect()
@@ -60,18 +65,16 @@ export default class Navbar extends Component {
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
         <div className={classes.avatar}>
-          <div className='hidden-mobile'>
+          <div className="hidden-mobile">
             <Avatar
               <% if (includeRedux) { %>src={profile && profile.avatarUrl ? profile.avatarUrl : defaultUserImage}<% } %><% if (!includeRedux) { %>src={profile.avatarUrl ? profile.avatarUrl : defaultUserImage}<% } %>
             />
           </div>
           <div className={classes['avatar-text']}>
             <span className={`${classes['avatar-text-name']} hidden-mobile`}>
-              {
-                profile && profile.displayName ? profile.displayName : 'User'
-              }
+              {profile && profile.displayName ? profile.displayName : 'User'}
             </span>
-            <DownArrow color='white' />
+            <DownArrow color="white" />
           </div>
         </div>
       </IconButton>
@@ -80,16 +83,10 @@ export default class Navbar extends Component {
     const mainMenu = (
       <div className={classes.menu}>
         <Link to={SIGNUP_PATH}>
-          <FlatButton
-            label='Sign Up'
-            style={buttonStyle}
-          />
+          <FlatButton label="Sign Up" style={buttonStyle} />
         </Link>
         <Link to={LOGIN_PATH}>
-          <FlatButton
-            label='Login'
-            style={buttonStyle}
-          />
+          <FlatButton label="Login" style={buttonStyle} />
         </Link>
       </div>
     )
@@ -99,18 +96,16 @@ export default class Navbar extends Component {
         iconButtonElement={iconButton}
         targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        animated={false}
-      >
+        animated={false}>
         <MenuItem
-          primaryText='Account'
+          primaryText="Account"
           onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
         />
-        <MenuItem
-          primaryText='Sign out'
-          onTouchTap={this.handleLogout}
-        />
+        <MenuItem primaryText="Sign out" onTouchTap={this.handleLogout} />
       </IconMenu>
-    ) : mainMenu
+    ) : (
+      mainMenu
+    )
 
     return (
       <AppBar

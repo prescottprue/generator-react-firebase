@@ -64,9 +64,7 @@ export default class Projects extends Component {
     this.props.firebase.remove(`projects/${name}`)<% } %>
 
   toggleModal = (name, project) => {
-    let newState = {}
-    newState[`${name}Modal`] = !this.state[`${name}Modal`]
-    this.setState(newState)
+    this.setState({ [`${name}Modal`]: !this.state[`${name}Modal`] })
   }
 
   render () {
@@ -98,7 +96,7 @@ export default class Projects extends Component {
             !isEmpty(projects) &&
                map(projects, (project, key) => (
                  <ProjectTile
-                   key={`${project.name}-Collab-${key}`}
+                   key={`Project-${key}`}
                    project={project}
                    onCollabClick={this.collabClick}
                    onSelect={() => this.context.router.push(`${LIST_PATH}/${key}`)}

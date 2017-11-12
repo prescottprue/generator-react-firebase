@@ -30,7 +30,9 @@ export const ProjectTile = ({ project, onSelect, onDelete, showDelete }) => (
 
 ProjectTile.propTypes = {
   project: PropTypes.object.isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
+  showDelete: PropTypes.bool
 }
 
 export default ProjectTile

@@ -18,17 +18,21 @@ const karmaConfig = {
   browsers: ['PhantomJS'],
   singleRun: !argv.watch,
   coverageIstanbulReporter: {
-    reports: argv.watch ? ['text-summary'] : ['html', 'lcovonly', 'text-summary'],
+    reports: argv.watch
+      ? ['text-summary']
+      : ['html', 'lcovonly', 'text-summary'],
     dir: 'coverage',
     fixWebpackSourcePaths: true,
     skipFilesWithNoCoverage: false
   },
-  files: [{
-    pattern: TEST_BUNDLER,
-    watched: false,
-    served: true,
-    included: true
-  }],
+  files: [
+    {
+      pattern: TEST_BUNDLER,
+      watched: false,
+      served: true,
+      included: true
+    }
+  ],
   frameworks: ['mocha'],
   reporters: ['mocha', 'coverage-istanbul'],
   preprocessors: {
@@ -59,4 +63,4 @@ const karmaConfig = {
   }
 }
 
-module.exports = (cfg) => cfg.set(karmaConfig)
+module.exports = cfg => cfg.set(karmaConfig)
