@@ -48,9 +48,9 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      ...enhancers,
-      reactReduxFirebase(firebase, reduxConfig)<% if (includeRedux && includeFirestore) { %>,
-      reduxFirestore(firebase)<% } %>
+      reactReduxFirebase(firebase, reduxConfig),<% if (includeRedux && includeFirestore) { %>
+      reduxFirestore(firebase),<% } %>
+      ...enhancers
     )
   )
   store.asyncReducers = {}
