@@ -63,6 +63,12 @@ const prompts = [
     name: 'useYarn',
     message: 'Use Yarn?',
     default: true
+  },
+  {
+    type: 'confirm',
+    name: 'includeTests',
+    message: 'Include Tests?',
+    default: true
   }
 ]
 
@@ -80,7 +86,6 @@ const filesArray = [
   { src: 'build/lib/**', dest: 'build/lib' },
   { src: 'build/scripts/**', dest: 'build/scripts' },
   { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
-  { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
   { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
   { src: 'src/index.html' },
@@ -93,9 +98,7 @@ const filesArray = [
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static' },
-  { src: 'src/styles/**', dest: 'src/styles' },
-  { src: 'tests/**', dest: 'tests' },
-  { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+  { src: 'src/styles/**', dest: 'src/styles' }
 ]
 
 module.exports = class extends Generator {
@@ -165,6 +168,15 @@ module.exports = class extends Generator {
         { src: 'src/utils/**', dest: 'src/utils' }
       )
     }
+
+    if (this.answers.includeTests) {
+      filesArray.push(
+        { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
+        { src: 'tests/**', dest: 'tests' },
+        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+      )
+    }
+
     filesArray.forEach(file => {
       if (file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
