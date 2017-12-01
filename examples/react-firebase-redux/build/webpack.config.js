@@ -6,7 +6,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const project = require('../project.config')
 
 const inProject = path.resolve.bind(path, project.basePath)
-const inProjectSrc = (file) => inProject(project.srcDir, file)
+const inProjectSrc = file => inProject(project.srcDir, file)
 
 const __DEV__ = project.env === 'development'
 const __TEST__ = project.env === 'test'
@@ -14,12 +14,8 @@ const __PROD__ = project.env === 'production'
 
 const config = {
   entry: {
-    normalize: [
-      inProjectSrc('normalize')
-    ],
-    main: [
-      inProjectSrc(project.main)
-    ]
+    normalize: [inProjectSrc('normalize')],
+    main: [inProjectSrc(project.main)]
   },
   devtool: project.sourcemaps ? 'source-map' : false,
   output: {
@@ -28,10 +24,7 @@ const config = {
     publicPath: project.publicPath
   },
   resolve: {
-    modules: [
-      inProject(project.srcDir),
-      'node_modules'
-    ],
+    modules: [inProject(project.srcDir), 'node_modules'],
     extensions: ['*', '.js', '.jsx', '.json']
   },
   externals: project.externals,
@@ -39,12 +32,17 @@ const config = {
     rules: []
   },
   plugins: [
-    new webpack.DefinePlugin(Object.assign({
-      'process.env': { NODE_ENV: JSON.stringify(project.env) },
-      __DEV__,
-      __TEST__,
-      __PROD__
-    }, project.globals))
+    new webpack.DefinePlugin(
+      Object.assign(
+        {
+          'process.env': { NODE_ENV: JSON.stringify(project.env) },
+          __DEV__,
+          __TEST__,
+          __PROD__
+        },
+        project.globals
+      )
+    )
   ],
   node: {
     // disable node constants so constants.js file is used instead (see https://webpack.js.org/configuration/node/)
@@ -56,44 +54,54 @@ const config = {
 // ------------------------------------
 config.module.rules.push({
   test: /\.(js|jsx)$/,
-  exclude: /node_modules/,
-  use: [{
-    loader: 'babel-loader',
-    query: {
-      cacheDirectory: true,
-      plugins: [
-        'lodash',
-        'transform-decorators-legacy',
-        'babel-plugin-transform-class-properties',
-        'babel-plugin-syntax-dynamic-import',
-        'babel-plugin-transform-export-extensions',
-        [
-          'babel-plugin-transform-runtime',
-          {
-            helpers: true,
-            polyfill: false, // we polyfill needed features in src/normalize.js
-            regenerator: true
-          }
+  exclude: [
+    /node_modules/,
+    /redux-firestore\//,
+    /react-redux-firebase\//
+    // Add other packages that you are npm linking here
+  ],
+  use: [
+    {
+      loader: 'babel-loader',
+      query: {
+        cacheDirectory: true,
+        plugins: [
+          'lodash',
+          'transform-decorators-legacy',
+          'babel-plugin-transform-class-properties',
+          'babel-plugin-syntax-dynamic-import',
+          'babel-plugin-transform-export-extensions',
+          [
+            'babel-plugin-transform-runtime',
+            {
+              helpers: true,
+              polyfill: false, // we polyfill needed features in src/normalize.js
+              regenerator: true
+            }
+          ],
+          [
+            'babel-plugin-transform-object-rest-spread',
+            {
+              useBuiltIns: true // we polyfill Object.assign in src/normalize.js
+            }
+          ]
         ],
-        [
-          'babel-plugin-transform-object-rest-spread',
-          {
-            useBuiltIns: true // we polyfill Object.assign in src/normalize.js
-          }
+        presets: [
+          'babel-preset-react',
+          [
+            'babel-preset-env',
+            {
+              targets: {
+                ie9: true,
+                uglify: true,
+                modules: false
+              }
+            }
+          ]
         ]
-      ],
-      presets: [
-        'babel-preset-react',
-        ['babel-preset-env', {
-          targets: {
-            ie9: true,
-            uglify: true,
-            modules: false
-          }
-        }]
-      ]
+      }
     }
-  }]
+  ]
 })
 
 // Styles
@@ -137,9 +145,7 @@ config.module.rules.push({
         loader: 'sass-loader',
         options: {
           sourceMap: project.sourcemaps,
-          includePaths: [
-            inProjectSrc('styles')
-          ]
+          includePaths: [inProjectSrc('styles')]
         }
       }
     ]
@@ -149,13 +155,22 @@ config.plugins.push(extractStyles)
 
 // Images
 // ------------------------------------
-config.module.rules.push({
-  test: /\.(png|jpg|gif)$/,
-  loader: 'url-loader',
-  options: {
-    limit: 8192
+config.module.rules.push(
+  {
+    test: /\.(png|jpg|gif)$/,
+    loader: 'url-loader',
+    options: {
+      limit: 8192
+    }
+  },
+  {
+    test: /octicons\.css$/,
+    loader: 'url-loader',
+    options: {
+      limit: 8192
+    }
   }
-})
+)
 
 // Fonts
 // ------------------------------------
@@ -166,7 +181,7 @@ config.module.rules.push({
   ['ttf', 'application/octet-stream'],
   ['eot', 'application/vnd.ms-fontobject'],
   ['svg', 'image/svg+xml']
-].forEach((font) => {
+].forEach(font => {
   const extension = font[0]
   const mimetype = font[1]
 
@@ -183,19 +198,23 @@ config.module.rules.push({
 
 // HTML Template
 // ------------------------------------
-config.plugins.push(new HtmlWebpackPlugin({
-  template: inProjectSrc('index.html'),
-  inject: true,
-  minify: {
-    collapseWhitespace: true
-  }
-}))
+config.plugins.push(
+  new HtmlWebpackPlugin({
+    template: inProjectSrc('index.html'),
+    inject: true,
+    minify: {
+      collapseWhitespace: true
+    }
+  })
+)
 
 // Development Tools
 // ------------------------------------
 if (__DEV__) {
   config.entry.main.push(
-    `webpack-hot-middleware/client.js?path=${config.output.publicPath}__webpack_hmr`
+    `webpack-hot-middleware/client.js?path=${
+      config.output.publicPath
+    }__webpack_hmr`
   )
   config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
@@ -212,7 +231,9 @@ if (!__TEST__) {
     bundles.unshift('vendor')
     config.entry.vendor = project.vendors
   }
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({ names: bundles }))
+  config.plugins.push(
+    new webpack.optimize.CommonsChunkPlugin({ names: bundles })
+  )
 }
 
 // Production Optimizations
@@ -242,15 +263,15 @@ if (__PROD__) {
     new FaviconsWebpackPlugin({
       logo: 'static/logo.svg',
       inject: true,
-      title: 'react-firebase-redux',
+      title: 'portfolio',
       persistentCache: true,
       icons: {
         favicons: true,
         appleIcon: true,
         appleStartup: true,
         firefox: true,
-        android: true,
-      },
+        android: true
+      }
     })
   )
 }

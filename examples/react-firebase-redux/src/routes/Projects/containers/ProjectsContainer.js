@@ -20,7 +20,7 @@ const populates = [
     populates
   }
 ]))
-@connect(({ firebase }, { params }) => ({
+@connect(({ firebase: { auth }, firebase }, { params }) => ({
   auth: firebase.auth,
   projects: populate(firebase, 'projects', populates)
 }))

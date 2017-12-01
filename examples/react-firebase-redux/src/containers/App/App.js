@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { browserHistory, Router } from 'react-router'
 import { withContext } from 'recompose'
 import { Provider } from 'react-redux'
+
+// Themeing/Styling
 import Theme from 'theme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
