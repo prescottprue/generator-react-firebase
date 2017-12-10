@@ -18,6 +18,8 @@ export const createRoutes = (store) => ({
     LoginRoute(store),
     SignupRoute(store),
     ProjectsRoute(store),
+    // AsyncRoute(store) // async routes setup by passing store
+    // SyncRoute, // sync routes just need route object by itself
     /* Place all Routes above here so NotFoundRoute can act as a 404 page */
     NotFoundRoute(store)
   ]

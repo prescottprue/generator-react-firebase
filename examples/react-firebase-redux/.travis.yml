@@ -19,7 +19,8 @@ branches:
     - prod
 
 cache:
-  bundler: true
+   # TODO: Use npm once functions runtime is updated to a node verion with lock files
+  yarn: true
   directories:
     - node_modules # NPM packages
 
@@ -29,7 +30,9 @@ install:
   - npm i -g firebase-ci
 
 script:
-  - firebase-ci createConfig
+   # TODO: Use npm i -g once functions runtime is updated to a node verion with lock files
+  - yarn global add firebase-ci # install firebase-ci for use in creating config and deploying
+  - firebase-ci createConfig # create env specific src/config.js
   - npm run lint
   - npm run test
   - npm run build
@@ -39,4 +42,4 @@ addons:
     repo_token: $CODE_CLIMATE
 
 after_success:
-  - firebase-ci deploy -s # deploy without CI actions since createConfig is called earlier 
+  - firebase-ci deploy -s # deploy without CI actions since createConfig is called earlier

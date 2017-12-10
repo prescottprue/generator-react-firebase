@@ -2,12 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
-import { firebaseConnect } from 'react-redux-firebase'
-import { withHandlers, pure, compose } from 'recompose'
 import Paper from 'material-ui/Paper'
-import { withNotifications } from 'modules/notification'
-import { UserIsNotAuthenticated } from 'utils/router'
-import { SIGNUP_PATH, LIST_PATH } from 'constants'
+import { SIGNUP_PATH } from 'constants'
 import LoginForm from '../LoginForm'
 
 import classes from './LoginPage.scss'
@@ -31,28 +27,9 @@ export const LoginPage = ({ emailLogin, googleLogin, onSubmitFail }) => (
 )
 
 LoginPage.propTypes = {
-  firebase: PropTypes.shape({ // eslint-disable-line
-    login: PropTypes.func.isRequired
-  }),
   emailLogin: PropTypes.func,
   onSubmitFail: PropTypes.func,
   googleLogin: PropTypes.func
 }
 
-export default compose(
-  UserIsNotAuthenticated,
-  withNotifications, // add props.showError
-  firebaseConnect(), // add props.firebase
-  withHandlers({
-    onSubmitFail: props => (formErrs, dispatch, err) =>
-      props.showError(formErrs ? 'Form Invalid' : err.message || 'Error'),
-    googleLogin: ({ firebase, showError, router }) => event =>
-      firebase
-        .login({ provider: 'google', type: 'popup' })
-        .then(() => router.push(LIST_PATH))
-        .catch(err => showError(err.message)),
-    emailLogin: ({ firebase, router }) => creds =>
-      firebase.login(creds).then(() => router.push(LIST_PATH))
-  }),
-  pure,
-)(LoginPage)
+export default LoginPage

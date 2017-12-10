@@ -142,6 +142,11 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
   * HEROKU_KEY - Your Heroku API key
   * APP - Your Heroku App name<% } %>
 
+  ## FAQ
+
+1. Why node `6.11.5` instead of a newer version? [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated
+1. Why Yarn over node's `package-lock.json`? - Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files yet.
+
 [npm-image]: https://img.shields.io/npm/v/<%= appName %>.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/<%= appName %>
 <% if (includeTravis) { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
