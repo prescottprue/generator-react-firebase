@@ -151,16 +151,20 @@ Generates a React component along with a matching scss file and places it within
 
 A component is best for things that will be reused in multiple places. Our example
 
+**command**
+
+`yo react-firebase:component Car`
+
 **result**
 
 ```
 /app
 --/components
-----/Project
+----/Car
 ------index.js
-------Project.enhancer.js // optional
-------Project.js
-------Project.scss
+------Car.enhancer.js // optional
+------Car.js
+------Car.scss
 ```
 
 */app/components/Car.js:*
@@ -178,6 +182,70 @@ export const Project = ({ car }) => (
 )
 ```
 
+#### Enhancer
+
+Generates an enhancer for a react component. Also includes an index file that wraps the component in the enhancer.
+
+**command**
+
+`yo react-firebase:enhancer Project`
+
+**result**
+
+```
+/app
+--/components
+----/Project
+------index.js
+------Project.enhancer.js
+```
+
+#### Route
+
+Generates a React component along with a matching component (which has an scss file, an enhancer, and its own index file).
+
+**command**
+
+`yo react-firebase:route Project`
+
+
+**result**
+
+```
+/app
+--/routes
+----/Project
+------index.js
+------components
+--------ProjectPage
+----------index.js
+----------Project.enhancer.js // optional
+----------Project.js
+----------Project.scss
+```
+
+#### Module
+
+Generates a React component along with a matching component (which has an scss file, an enhancer, and its own index file).
+
+**command**
+
+`yo react-firebase:module notification`
+
+
+**result**
+
+```
+/app
+--/modules
+----/notification
+------components
+------actions.js
+------actionTypes.js
+------index.js
+------reducer.js
+```
+
 ## Examples
 
 Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
@@ -185,6 +253,8 @@ Complete examples of generator output available in [Examples](https://github.com
 * [react-firebase-redux example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firebase Real Time Database
 * [redux-firestore](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firestore
 * [react-firebase example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - Firebase Real Time Database
+
+For full projects built out using this as a starting place, check the next section.
 
 ## Projects Started Using This
 
