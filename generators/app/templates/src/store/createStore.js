@@ -3,6 +3,9 @@ import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import makeRootReducer from './reducers'
+import firebase from 'firebase'
+<% if (includeRedux && includeFirestore) { %>import 'firebase/firestore'
+import { reduxFirestore } from 'redux-firestore'<% } %>
 import { firebase as fbConfig, reduxFirebase as reduxConfig } from '../config'
 import { version } from '../../package.json'
 import { updateLocation } from './location'
@@ -32,6 +35,11 @@ export default (initialState = {}) => {
     }
   }
 
+  // Initialize Firebase
+  firebase.initializeApp(fbConfig)<% if (includeRedux && includeFirestore) { %>
+  // Initialize Firestore
+  firebase.firestore()<% } %>
+
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
@@ -40,7 +48,8 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reactReduxFirebase(fbConfig, reduxConfig),
+      reactReduxFirebase(firebase, reduxConfig),<% if (includeRedux && includeFirestore) { %>
+      reduxFirestore(firebase),<% } %>
       ...enhancers
     )
   )

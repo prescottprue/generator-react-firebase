@@ -3,20 +3,39 @@ import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
 
 const srcFiles = [
-  'src/config.js',
-  'src/index.html',
-  'src/main.js',
-  'src/theme.js',
-  'src/styles/_base.scss',
-  'src/styles/_colors.scss',
-  'src/styles/_device-sizes.scss',
-  'src/styles/core.scss',
+  'src/components/LoadingSpinner/index.js',
+  'src/components/LoadingSpinner/LoadingSpinner.js',
+  'src/components/LoadingSpinner/LoadingSpinner.scss',
   'src/containers/App/App.js',
+  'src/containers/App/index.js',
+  'src/containers/Navbar/AccountMenu.js',
+  'src/containers/Navbar/index.js',
+  'src/containers/Navbar/LoginMenu.js',
+  'src/containers/Navbar/Navbar.enhancer.js',
   'src/containers/Navbar/Navbar.js',
   'src/containers/Navbar/Navbar.scss',
   'src/layouts/CoreLayout/CoreLayout.js',
   'src/layouts/CoreLayout/CoreLayout.scss',
   'src/layouts/CoreLayout/index.js',
+  'src/modules/notification/components/Notifications.js',
+  'src/modules/notification/components/withNotifications.js',
+  'src/modules/notification/actions.js',
+  'src/modules/notification/actionTypes.js',
+  'src/modules/notification/index.js',
+  'src/modules/notification/reducer.js',
+  'src/styles/_base.scss',
+  'src/styles/_colors.scss',
+  'src/styles/_device-sizes.scss',
+  'src/styles/core.scss',
+  'src/utils/components.js',
+  'src/utils/form.js',
+  'src/utils/router.js',
+  'src/config.js',
+  'src/constants.js',
+  'src/index.html',
+  'src/main.js',
+  'src/normalize.js',
+  'src/theme.js',
 ]
 
 const reduxFiles = [
@@ -40,6 +59,11 @@ const firebaseFiles = [
   'database.rules.json'
 ]
 
+const firestoreFiles = [
+  'firestore.indexes.json',
+  'firestore.rules'
+]
+
 const herokuFiles = [
   'Procfile',
   'app.json'
@@ -53,7 +77,6 @@ const testFiles = [
   'tests/routes/Account/components/AccountForm.spec.js',
 ]
 
-
 describe('generator-react-firebase:app', function () {
   this.timeout(15000)
   describe('firebaseName', () => {
@@ -63,11 +86,11 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseName: 'asdf.firebaseio.com',
-            useYarn: true,
+            useYarn: true
           })
           .toPromise()
       )
-      describe('creates files', () => {
+      describe('creates files for', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
         })
@@ -80,6 +103,7 @@ describe('generator-react-firebase:app', function () {
       })
     })
   })
+
   describe('redux option', () => {
 
     describe('include', () => {
@@ -91,11 +115,12 @@ describe('generator-react-firebase:app', function () {
             includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
+            includeFirestore: false,
             useYarn: true
           })
           .toPromise()
       )
-      describe('creates files', () => {
+      describe('creates files for', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
         })
@@ -115,13 +140,74 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             includeTravis: 'Y',
+            includeFirestore: false,
             includeRedux: false,
             deployTo: 'firebase',
             useYarn: true
           })
           .toPromise()
       )
-      describe('creates files', () => {
+      describe('creates files for', () => {
+        describe('project', () => {
+          checkForEachFile(projectFiles)
+        })
+        describe('application', () => {
+          checkForEachFile(srcFiles, 'src/')
+        })
+        describe('tests', () => {
+          checkForEachFile(testFiles)
+        })
+      })
+    })
+  })
+
+  describe('firestore option', () => {
+
+    describe('include', () => {
+      before(() =>
+        helpers.run(path.join(__dirname, '../../generators/app'))
+          .withPrompts({
+            githubUser: 'testuser',
+            firebaseInstance: 'testing',
+            includeTravis: 'Y',
+            includeRedux: 'Y',
+            deployTo: 'firebase',
+            includeFirestore: true,
+            useYarn: true
+          })
+          .toPromise()
+      )
+      describe('creates files for', () => {
+        describe('project', () => {
+          checkForEachFile(projectFiles)
+        })
+        describe('application', () => {
+          checkForEachFile(srcFiles, 'src/')
+        })
+        describe('Firestore', () => {
+          checkForEachFile(firestoreFiles)
+        })
+        describe('tests', () => {
+          checkForEachFile(testFiles)
+        })
+      })
+    })
+
+    describe('not include', () => {
+      before(() =>
+        helpers.run(path.join(__dirname, '../../generators/app'))
+          .withPrompts({
+            githubUser: 'testuser',
+            firebaseInstance: 'testing',
+            includeTravis: 'Y',
+            includeFirestore: false,
+            includeRedux: false,
+            deployTo: 'firebase',
+            useYarn: true
+          })
+          .toPromise()
+      )
+      describe('creates files for', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
         })
@@ -143,6 +229,7 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
+            includeFirestore: false,
             includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
@@ -151,7 +238,7 @@ describe('generator-react-firebase:app', function () {
           .toPromise()
        )
 
-      describe('creates files', () => {
+      describe('creates files for', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
         })
@@ -174,6 +261,7 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
+            includeFirestore: false,
             includeTravis: 'Y',
             includeRedux: 'N',
             deployTo: 'heroku',
@@ -181,7 +269,7 @@ describe('generator-react-firebase:app', function () {
           })
           .toPromise()
       )
-      describe('creates files', () => {
+      describe('creates files for', () => {
         describe('project', () => {
           checkForEachFile(projectFiles)
         })

@@ -27,7 +27,13 @@ npm install -g generator-react-firebase
 1. Generate project: `yo react-firebase` (project will be named after current folder)
 1. Start application by running `npm run start`
 
-Project will default to being named with the name of the folder that it is generated within (in this case myProject)
+Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
+
+#### Whats Next
+
+1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
+1. Tryout the [Sub Generators](#sub-generators)
+1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore)
 
 ## Features
 * Application Navbar (with Avatar)
@@ -90,6 +96,8 @@ If opting into [Travis-CI](travis-ci.org), config is included within `travis.yml
 1. Run a build on Travis-CI
 1. To deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`
 
+Settings for each environment can be provided through the `.firebaserc` file.
+
 For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
 
 ##### Manual
@@ -143,6 +151,10 @@ Generates a React component along with a matching scss file and places it within
 
 A component is best for things that will be reused in multiple places. Our example
 
+**command**
+
+`yo react-firebase:component Car`
+
 **result**
 
 ```
@@ -150,6 +162,7 @@ A component is best for things that will be reused in multiple places. Our examp
 --/components
 ----/Car
 ------index.js
+------Car.enhancer.js // optional
 ------Car.js
 ------Car.scss
 ```
@@ -161,100 +174,116 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
-export const Car = ({ car }) => (
+export const Project = ({ car }) => (
   <div className={classes.container}>
-    <span>Car Component</span>
+    <span>Project Component</span>
     <pre>{JSON.stringify(car, null, 2)}</pre>
   </div>
 )
 ```
 
-#### Container
+#### Enhancer
 
-**NOTE:** Containers are synonymous with *Smart Components* and *Linked-State Components*
+Generates an enhancer for a react component. Also includes an index file that wraps the component in the enhancer.
 
-Redux is seen as one of the best state managers so it is implemented as by default.
+**command**
 
-To create a container named *Cars* run: `yo react-firebase:container Cars`
+`yo react-firebase:enhancer Project`
 
-Creates a folder within `/containers` that matches the name provided. Below is the result of the command above being run:
+**result**
 
 ```
 /app
---/containers
-----/Cars
+--/components
+----/Project
 ------index.js
-------Cars.js
-------Cars.scss
+------Project.enhancer.js
 ```
 
-/app/containers/Cars.js:
-```jsx
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import {
-  firebaseConnect,
-  dataToJS,
-  isLoaded,
-  isEmpty
-} from 'react-redux-firebase'
-import LoadingSpinner from 'components/LoadingSpinner'
-import classes from './Cars.scss'
+#### Route
 
-@firebaseConnect([
-  'cars'
-])
-@connect(
-  ({ firebase }) => ({
-    cars: dataToJS(firebase, 'cars')
-  })
-)
-export default class Cars extends Component {
-  static propTypes = {
-    cars: PropTypes.object
-  }
+Generates a React component along with a matching component (which has an scss file, an enhancer, and its own index file).
 
-  render () {
-    const { cars } = this.props
+**command**
 
-    if (!isLoaded(cars)) {
-      return <LoadingSpinner />
-    }
+`yo react-firebase:route Project`
 
-    if (isEmpty(cars)) {
-      return (
-        <div>
-          No Cars found
-        </div>
-      )
-    }
 
-    return (
-      <div className={classes.container}>
-        <p>Cars</p>
-        <pre>{JSON.stringify(cars, null, 2)}</pre>
-      </div>
-    )
-  }
-}
+**result**
+
+```
+/app
+--/routes
+----/Project
+------index.js
+------components
+--------ProjectPage
+----------index.js
+----------Project.enhancer.js // optional
+----------Project.js
+----------Project.scss
+```
+
+#### Module
+
+Generates a React component along with a matching component (which has an scss file, an enhancer, and its own index file).
+
+**command**
+
+`yo react-firebase:module notification`
+
+
+**result**
+
+```
+/app
+--/modules
+----/notification
+------components
+------actions.js
+------actionTypes.js
+------index.js
+------reducer.js
 ```
 
 ## Examples
 
 Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
 
+* [react-firebase-redux example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firebase Real Time Database
+* [redux-firestore](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firestore
+* [react-firebase example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - Firebase Real Time Database
+
+For full projects built out using this as a starting place, check the next section.
+
 ## Projects Started Using This
 
-* [devshare.io](https://devshare.io)
-* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/master/examples/complete/material)
+* [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations
+* [devshare.io](https://devshare.io) - Codesharing site based on Firebase Realtime Database
+* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/material)
+* [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore)
 
 *open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included*
 
+## FAQ
+
+1. Why node `6.11.5` instead of a newer version?
+
+  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
+
+1. Why Yarn over node's `package-lock.json`?
+
+  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+
+1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
+    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
+    * components remain "dumb" by only receiving props which makes them more portable
+    * smaller files which are easier to parse
+    * functional components can be helpful (along with other tools) when attempting to optimize things
+
 ## In the future
-* Option to not include tests
+* React v16
 * Option to include tests when using sub-generators
-* Non-decorators implementation for props binding
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
 * Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)

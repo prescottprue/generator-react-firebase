@@ -2,37 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import { required } from 'utils/form'
-import { NEW_PROJECT_FORM_NAME } from 'constants'<% } %>
+import { required } from 'utils/form'<% } %>
 
 import classes from './NewProjectDialog.scss'
 
-<% if (includeRedux) { %>export const NewProjectDialog = ({ open, onRequestClose, submit, handleSubmit }) => (
+<% if (includeRedux) { %>export const NewProjectDialog = ({
+  open,
+  onRequestClose,
+  submit,
+  handleSubmit
+}) => (
   <Dialog
-    title='New Project'
+    title="New Project"
     open={open}
     onRequestClose={onRequestClose}
     contentClassName={classes.container}
     actions={[
-      <FlatButton
-        label='Cancel'
-        secondary
-        onTouchTap={onRequestClose}
-      />,
-      <FlatButton
-        label='Create'
-        primary
-        onTouchTap={submit}
-      />
-    ]}
-  >
+      <FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
+      <FlatButton label="Create" primary onTouchTap={submit} />
+    ]}>
     <form onSubmit={handleSubmit} className={classes.inputs}>
       <Field
-        name='name'
+        name="name"
         component={TextField}
-        floatingLabelText='Project Name'
+        floatingLabelText="Project Name"
         validate={[required]}
       />
     </form>
@@ -47,9 +42,7 @@ NewProjectDialog.propTypes = {
   submit: PropTypes.func.isRequired // added by redux-form
 }
 
-export default reduxForm({
-  form: NEW_PROJECT_FORM_NAME
-})(NewProjectDialog)<% } %><% if (!includeRedux) { %>export default class NewProjectDialog extends Component {
+export default NewProjectDialog<% } %><% if (!includeRedux) { %>export default class NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
     onCreateClick: PropTypes.func.isRequired

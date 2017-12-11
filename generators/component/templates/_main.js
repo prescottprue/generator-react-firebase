@@ -10,7 +10,7 @@ export const <%= name %> = ({ <%= lowerName %> }) => (
 )
 
 <%= name %>.propTypes = {
-  <%= lowerName %>: PropTypes.object
+  <%= lowerName %>: PropTypes.object // from enhancer (firestoreConnect + connect)
 }
 
 export default <%= name %>

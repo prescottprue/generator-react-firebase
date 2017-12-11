@@ -3,20 +3,22 @@ const fs = require('fs')
 const path = require('path')
 const pkg = require('../package.json')
 const outputPath = path.join(__dirname, '..', 'src/config.js')
-const config = require('../config')
+const config = require('../.firebaserc')
 
 const createConfigFile = (cb) => {
   const configObj = {
     version: pkg.version,
     env: 'development',
-    firebase: config.firebase,
-    reduxFirebase: config.reduxFirebase
+    firebase: config.ci.development.firebase,
+    reduxFirebase: config.ci.development.reduxFirebase
   }
 
   // TODO: load config from environments
   if (process.env.TRAVIS_PULL_REQUEST === 'false') {
     if (process.env.TRAVIS_BRANCH === 'prod') {
       configObj.env = 'production'
+      configObj.firebase = config.ci.production.firebase
+      configObj.reduxFirebase = config.ci.production.reduxFirebase
     }
   }
 

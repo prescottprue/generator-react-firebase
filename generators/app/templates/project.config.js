@@ -41,10 +41,10 @@ module.exports = {
   ci: {
     development: {
       firebase: {
-        apiKey: '<%= firebaseKey %>',
-        authDomain: '<%= firebaseName %>.firebaseapp.com',
-        databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
-        storageBucket: '<%= firebaseName %>.appspot.com'
+        apiKey: '',
+        authDomain: 'react-redux-firebase.firebaseapp.com',
+        databaseURL: 'https://react-redux-firebase.firebaseio.com',
+        storageBucket: 'react-redux-firebase.appspot.com'
       },
       reduxFirebase: {
         userProfile: 'users', // root that user profiles are written to
@@ -54,10 +54,10 @@ module.exports = {
     },
     production: {
       firebase: {
-        apiKey: '<%= firebaseKey %>',
-        authDomain: '<%= firebaseName %>.firebaseapp.com',
-        databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
-        storageBucket: '<%= firebaseName %>.appspot.com'
+        apiKey: '',
+        authDomain: 'react-redux-firebase.firebaseapp.com',
+        databaseURL: 'https://react-redux-firebase.firebaseio.com',
+        storageBucket: 'react-redux-firebase.appspot.com'
       },
       reduxFirebase: {
         userProfile: 'users',

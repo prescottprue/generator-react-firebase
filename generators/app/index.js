@@ -3,8 +3,8 @@ const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
 const path = require('path')
-const utils = require('./utils')
 const commandExists = require('command-exists')
+const utils = require('./utils')
 
 const prompts = [
   {
@@ -26,16 +26,24 @@ const prompts = [
     message: 'Firebase apiKey',
     required: true
   },
-  {
-    type: 'confirm',
-    name: 'includeTravis',
-    message: 'Would to include config for Travis CI?',
-    default: true
-  },
+
   {
     type: 'confirm',
     name: 'includeRedux',
     message: 'Would to include redux for local state-management?',
+    default: true
+  },
+  {
+    type: 'confirm',
+    name: 'includeFirestore',
+    message: 'Include Firestore?',
+    when: ({ includeRedux }) => includeRedux,
+    default: false
+  },
+  {
+    type: 'confirm',
+    name: 'includeTravis',
+    message: 'Would to include config for Travis CI?',
     default: true
   },
   {
@@ -57,6 +65,12 @@ const prompts = [
     ],
     message: 'What service are you deploying to?',
     default: 0
+  },
+  {
+    type: 'confirm',
+    name: 'includeTests',
+    message: 'Include Tests?',
+    default: true
   },
   {
     type: 'confirm',
@@ -91,6 +105,7 @@ const filesArray = [
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
+  { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static' },
   { src: 'src/styles/**', dest: 'src/styles' },
@@ -155,14 +170,21 @@ module.exports = class extends Generator {
         { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
         { src: 'src/store/location.js', dest: 'src/store/location.js' },
         { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
+        { src: 'src/utils/components.js', dest: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
         // TODO: Add question about including redux-cli blueprints (they contain template strings)
         // { src: 'blueprints/**', dest: 'blueprints' },
       )
+      if (this.answers.includeFirestore) {
+        filesArray.push(
+          { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
+          { src: 'firestore.rules', dest: 'firestore.rules' }
+        )
+      }
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push(
-        { src: 'src/utils/**', dest: 'src/utils' }
+        { src: 'src/utils/firebase.js' }
       )
     }
     filesArray.forEach(file => {
@@ -182,16 +204,16 @@ module.exports = class extends Generator {
 
   install () {
     return commandExists('yarn')
-    .then(() => {
-      if (!this.answers.useYarn) {
-        console.log(chalk.yellow('Opted out of yarn even though it is available')) // eslint-disable-line no-console
-        return this.npmInstall()
-      }
-      console.log(chalk.blue('Using Yarn!')) // eslint-disable-line no-console
-      return this.yarnInstall()
-    })
-    .catch(() => {
-      this.npmInstall()
-    })
+      .then(() => {
+        if (!this.answers.useYarn) {
+          console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
+          return this.npmInstall()
+        }
+        console.log(chalk.blue('Using Yarn!')) // eslint-disable-line no-console
+        return this.yarnInstall()
+      })
+      .catch(() => {
+        this.npmInstall()
+      })
   }
 }

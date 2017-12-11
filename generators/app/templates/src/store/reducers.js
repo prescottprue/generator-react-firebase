@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux'
-import { firebaseStateReducer as firebase } from 'react-redux-firebase'
+import { firebaseReducer as firebase } from 'react-redux-firebase'<% if (includeRedux && includeFirestore) { %>
+import { reducer as firestore } from 'redux-firestore'<% } %>
 import { reducer as form } from 'redux-form'
 import locationReducer from './location'
 
 export const makeRootReducer = asyncReducers => {
   return combineReducers({
     // Add sync reducers here
-    firebase,
+    firebase,<% if (includeRedux && includeFirestore) { %>
+    firestore,<% } %>
     form,
     location: locationReducer,
     ...asyncReducers

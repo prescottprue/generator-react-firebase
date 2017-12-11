@@ -5,7 +5,7 @@ sudo: false
 language: node_js
 
 node_js:
- - 6.11.1 <% if (deployTo === 'firebase') { %># runtime used within Firebase functions<% } %>
+ - 6.11.5 <% if (deployTo === 'firebase') { %># runtime used within Firebase functions<% } %>
 
 notifications:
   email:
@@ -19,22 +19,23 @@ branches:
     - prod
 
 cache:
-  bundler: true
+   # TODO: Use npm once functions runtime is updated to a node verion with lock files
+  yarn: true
   directories:
     - node_modules # NPM packages
-<% if (deployTo === 'firebase') { %>
+
 install:
-  - npm set progress=false
-  - npm i
-  - npm i -g firebase-ci<% } %>
+  - yarn install
+   # TODO: Use npm i -g once functions runtime is updated to a node verion with lock files
+  - yarn global add firebase-ci # install firebase-ci for use in creating config and deploying
 
 script:
-  <% if (deployTo === 'firebase') { %>- firebase-ci createConfig<% } else { %>- npm run create-config<% } %>
+  <% if (deployTo === 'firebase') { %>- firebase-ci createConfig # create env specific src/config.js<% } %>
   - npm run lint
   - npm run test
   - npm run build
-<% if (codeClimate) { %>
-addons:
+
+<% if (codeClimate) { %>addons:
   code_climate:
     repo_token: $CODE_CLIMATE<% } %>
 

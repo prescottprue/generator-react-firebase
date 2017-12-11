@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { firebaseStateReducer as firebase } from 'react-redux-firebase'
+import { firebaseReducer as firebase } from 'react-redux-firebase'
 import { reducer as form } from 'redux-form'
 import locationReducer from './location'
 
