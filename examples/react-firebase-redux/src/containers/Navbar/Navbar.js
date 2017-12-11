@@ -27,6 +27,7 @@ export const Navbar = ({
           avatarUrl={avatarUrl}
           displayName={displayName}
           onLogoutClick={handleLogout}
+          goToAccount={goToAccount}
         />
       ) : (
         <LoginMenu />

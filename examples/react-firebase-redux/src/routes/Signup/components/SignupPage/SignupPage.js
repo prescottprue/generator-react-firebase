@@ -27,9 +27,9 @@ export const SignupPage = ({ emailSignup, googleLogin, onSubmitFail }) => (
 )
 
 SignupPage.propTypes = {
-  emailSignup: PropTypes.func,
-  onSubmitFail: PropTypes.func,
-  googleLogin: PropTypes.func
+  emailSignup: PropTypes.func, // from enhancer (withHandlers - firebase)
+  googleLogin: PropTypes.func, // from enhancer (withHandlers - firebase)
+  onSubmitFail: PropTypes.func // from enhancer (reduxForm)
 }
 
 export default SignupPage
