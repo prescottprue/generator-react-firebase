@@ -4,9 +4,9 @@ import { firebaseConnect, getVal } from 'react-redux-firebase'
 import { spinnerWhileLoading } from 'utils/components'
 
 export default compose(
-  firebaseConnect(({ params }) => ([
-    { path: `projects/${params.projectname}` }
-  ])),
+  // Create listener for project
+  firebaseConnect(({ params }) => [{ path: `projects/${params.projectname}` } ]),
+  // Map project from redux state to props
   connect(({ firebase: { data } }, { params }) => ({
     project: getVal(data, `projects/${params.projectname}`)
   })),

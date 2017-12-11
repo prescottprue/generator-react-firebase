@@ -23,8 +23,8 @@ export const ProjectsPage = ({
   ) : (
     <div className={classes.container}>
       <NewProjectDialog
-        open={newDialogOpen}
         onSubmit={addProject}
+        open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
       <div className={classes.tiles}>
@@ -32,21 +32,21 @@ export const ProjectsPage = ({
         {!isEmpty(projects) &&
           projects.map((project, ind) => (
             <ProjectTile
-              key={`Project-${project.id}-${ind}`}
-              project={project}
+              key={`Project-${project.key}-${ind}`}
+              name={project.value.name}
               onCollabClick={goToCollaborator}
-              onSelect={() => goToProject(project.id)}
-              onDelete={() => deleteProject(project.id)}
+              onSelect={() => goToProject(project.key)}
+              onDelete={() => deleteProject(project.key)}
             />
           ))}
         {!isEmpty(collabProjects) &&
           collabProjects.map((project, ind) => (
             <ProjectTile
-              key={`Collab-Project-${project.id}-${ind}`}
-              project={project}
+              key={`Collab-Project-${project.key}-${ind}`}
+              name={project.value.name}
               onCollabClick={goToCollaborator}
-              onSelect={() => goToProject(project.id)}
-              onDelete={() => deleteProject(project.id)}
+              onSelect={() => goToProject(project.key)}
+              onDelete={() => deleteProject(project.key)}
             />
           ))}
       </div>

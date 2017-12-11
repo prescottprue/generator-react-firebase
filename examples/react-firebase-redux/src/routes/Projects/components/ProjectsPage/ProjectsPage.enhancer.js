@@ -2,14 +2,10 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { LIST_PATH } from 'constants'
 import { withHandlers, withStateHandlers, pure } from 'recompose'
-import { firebaseConnect, populate } from 'react-redux-firebase'
+import { firebaseConnect } from 'react-redux-firebase'
 import { withNotifications } from 'modules/notification'
 import { withRouter, spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
-
-const populates = [
-  { child: 'createdBy', root: 'users' }
-]
 
 export default compose(
   // redirect to /login if user is not logged in
@@ -19,15 +15,15 @@ export default compose(
   // Wait for uid to exist before going further
   spinnerWhileLoading(['uid']),
   // Create listeners based on current users UID
-  firebaseConnect(({ params, uid }) => ([
+  firebaseConnect(({ params, uid }) => [
     {
       path: 'projects',
-      queryParams: ['orderByChild=createdBy', `equalTo=${uid}`],
-      populates
+      queryParams: ['orderByChild=createdBy', `equalTo=${uid}`]
     }
-  ])),
-  connect(({ firebase }, { params }) => ({
-    projects: populate(firebase, 'projects', populates)
+  ]),
+  // Map projects from state to props
+  connect(({ firebase: { ordered } }) => ({
+    projects: ordered.projects
   })),
   // Show loading spinner while projects and collabProjects are loading
   spinnerWhileLoading(['projects']),
@@ -51,7 +47,7 @@ export default compose(
   // Add handlers as props
   withHandlers({
     addProject: props => newInstance => {
-      const { firebase, uid, showError, showSuccess } = props
+      const { firebase, uid, showError, showSuccess, toggleDialog } = props
       if (!uid) {
         return showError('You must be logged in to create a project')
       }
@@ -61,7 +57,10 @@ export default compose(
           createdBy: uid,
           createdAt: firebase.database.ServerValue.TIMESTAMP
         })
-        .then(() => showSuccess('Project added successfully'))
+        .then(() => {
+          toggleDialog()
+          showSuccess('Project added successfully')
+        })
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console
           showError(err.message || 'Could not add project')
@@ -70,7 +69,8 @@ export default compose(
     },
     deleteProject: props => projectId => {
       const { firebase, showError, showSuccess } = props
-      return firebase.remove(`projects/${projectId}`)
+      return firebase
+        .remove(`projects/${projectId}`)
         .then(() => showSuccess('Project deleted successfully'))
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console

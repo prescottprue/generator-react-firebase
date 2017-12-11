@@ -20,17 +20,21 @@ export default compose(
       path: 'projects',
       queryParams: ['orderByChild=createdBy', `equalTo=${uid}`]
     }
-  ]),<% } %><% if (includeRedux && includeFirestore) { %>firestoreConnect(({ params, uid }) => [
+  ]),
+  // Map projects from state to props
+  connect(({ firebase: { ordered } }) => ({
+    projects: ordered.projects
+  })),<% } %><% if (includeRedux && includeFirestore) { %>firestoreConnect(({ params, uid }) => [
     // Listener for projects the current user created
     {
       collection: 'projects',
       where: ['createdBy', '==', uid]
     }
-  ]),<% } %>
-  // Map projects from state to props (populating them in the process)
+  ]),
+  // Map projects from state to props
   connect(({ firestore: { ordered } }) => ({
     projects: ordered.projects
-  })),
+  })),<% } %>
   // Show loading spinner while projects and collabProjects are loading
   spinnerWhileLoading(['projects']),
   // Add props.router
@@ -53,23 +57,28 @@ export default compose(
   // Add handlers as props
   withHandlers({
     addProject: props => newInstance => {
-      const { <% if (includeRedux && includeFirestore) { %>firestore<% } %><% if (includeRedux && !includeFirestore) { %>firebase<% } %>, uid, showError, showSuccess } = props
+      const { <% if (includeRedux && includeFirestore) { %>firestore<% } %><% if (includeRedux && !includeFirestore) { %>firebase<% } %>, uid, showError, showSuccess, toggleDialog } = props
       if (!uid) {
         return showError('You must be logged in to create a project')
       }
-      return <% if (includeRedux && includeFirestore) { %>firestore.add(
-        { collection: 'projects' },
-        {
-          ...newInstance,
-          createdBy: uid,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        })<% } %><% if (includeRedux && !includeFirestore) { %>firebase
+      return <% if (includeRedux && includeFirestore) { %>firestore
+        .add(
+          { collection: 'projects' },
+          {
+            ...newInstance,
+            createdBy: uid,
+            createdAt: firestore.FieldValue.serverTimestamp()
+          }
+        )<% } %><% if (includeRedux && !includeFirestore) { %>firebase
         .push('projects', {
           ...newInstance,
           createdBy: uid,
           createdAt: firebase.database.ServerValue.TIMESTAMP
         })<% } %>
-        .then(() => showSuccess('Project added successfully'))
+        .then(() => {
+          toggleDialog()
+          showSuccess('Project added successfully')
+        })
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console
           showError(err.message || 'Could not add project')
@@ -78,7 +87,9 @@ export default compose(
     },
     deleteProject: props => projectId => {
       const { <% if (includeRedux && includeFirestore) { %>firestore<% } %><% if (includeRedux && !includeFirestore) { %>firebase<% } %>, showError, showSuccess } = props
-      return <% if (includeRedux && includeFirestore) { %>firestore.delete({ collection: 'projects', doc: projectId })<% } %><% if (includeRedux && !includeFirestore) { %>firebase.remove(`projects/${projectId}`)<% } %>
+      return <% if (includeRedux && includeFirestore) { %>firestore
+        .delete({ collection: 'projects', doc: projectId })<% } %><% if (includeRedux && !includeFirestore) { %>firebase
+        .remove(`projects/${projectId}`)<% } %>
         .then(() => showSuccess('Project deleted successfully'))
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console

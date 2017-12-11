@@ -1,3 +1,4 @@
-import NewProjectDialog from './NewProjectDialog'
+import NewProjectDialog from './NewProjectDialog'<% if (includeRedux) { %>
+import enhance from './NewProjectDialog.enhancer'<% } %>
 
-export default NewProjectDialog
+export default <% if (includeRedux) { %>enhance(NewProjectDialog)<% } %><% if (!includeRedux) { %>NewProjectDialog<% } %>

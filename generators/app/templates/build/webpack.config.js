@@ -65,6 +65,8 @@ config.module.rules.push({
       loader: 'babel-loader',
       query: {
         cacheDirectory: true,
+        // ignore root .babelrc (Check issue #59 for more details)
+        babelrc: false,
         plugins: [
           'lodash',
           'transform-decorators-legacy',

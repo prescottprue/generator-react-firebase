@@ -23,8 +23,8 @@ export const ProjectsPage = ({
   ) : (
     <div className={classes.container}>
       <NewProjectDialog
-        open={newDialogOpen}
         onSubmit={addProject}
+        open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
       <div className={classes.tiles}>
@@ -32,21 +32,21 @@ export const ProjectsPage = ({
         {!isEmpty(projects) &&
           projects.map((project, ind) => (
             <ProjectTile
-              key={`Project-${project.id}-${ind}`}
-              project={project}
+              key={`Project-${<% if (includeRedux && includeFirestore) { %>project.id<% } %><% if (includeRedux && !includeFirestore) { %>project.key<% } %>}-${ind}`}
+              name={<% if (includeRedux && includeFirestore) { %>project.name<% } %><% if (includeRedux && !includeFirestore) { %>project.value.name<% } %>}
               onCollabClick={goToCollaborator}
-              onSelect={() => goToProject(project.id)}
-              onDelete={() => deleteProject(project.id)}
+              onSelect={() => goToProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
+              onDelete={() => deleteProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
             />
           ))}
         {!isEmpty(collabProjects) &&
           collabProjects.map((project, ind) => (
             <ProjectTile
-              key={`Collab-Project-${project.id}-${ind}`}
-              project={project}
+              key={`Collab-Project-${<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>}-${ind}`}
+              name={<% if (includeRedux && includeFirestore) { %>project.name<% } %><% if (includeRedux && !includeFirestore) { %>project.value.name<% } %>}
               onCollabClick={goToCollaborator}
-              onSelect={() => goToProject(project.id)}
-              onDelete={() => deleteProject(project.id)}
+              onSelect={() => goToProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
+              onDelete={() => deleteProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
             />
           ))}
       </div>

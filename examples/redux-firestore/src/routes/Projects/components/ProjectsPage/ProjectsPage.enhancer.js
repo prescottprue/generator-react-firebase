@@ -22,7 +22,7 @@ export default compose(
       where: ['createdBy', '==', uid]
     }
   ]),
-  // Map projects from state to props (populating them in the process)
+  // Map projects from state to props
   connect(({ firestore: { ordered } }) => ({
     projects: ordered.projects
   })),
@@ -48,18 +48,23 @@ export default compose(
   // Add handlers as props
   withHandlers({
     addProject: props => newInstance => {
-      const { firestore, uid, showError, showSuccess } = props
+      const { firestore, uid, showError, showSuccess, toggleDialog } = props
       if (!uid) {
         return showError('You must be logged in to create a project')
       }
-      return firestore.add(
-        { collection: 'projects' },
-        {
-          ...newInstance,
-          createdBy: uid,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      return firestore
+        .add(
+          { collection: 'projects' },
+          {
+            ...newInstance,
+            createdBy: uid,
+            createdAt: firestore.FieldValue.serverTimestamp()
+          }
+        )
+        .then(() => {
+          toggleDialog()
+          showSuccess('Project added successfully')
         })
-        .then(() => showSuccess('Project added successfully'))
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console
           showError(err.message || 'Could not add project')
@@ -68,7 +73,8 @@ export default compose(
     },
     deleteProject: props => projectId => {
       const { firestore, showError, showSuccess } = props
-      return firestore.delete({ collection: 'projects', doc: projectId })
+      return firestore
+        .delete({ collection: 'projects', doc: projectId })
         .then(() => showSuccess('Project deleted successfully'))
         .catch(err => {
           console.error('Error:', err) // eslint-disable-line no-console

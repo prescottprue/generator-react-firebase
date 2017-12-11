@@ -38,7 +38,7 @@ const prompts = [
     name: 'includeFirestore',
     message: 'Include Firestore?',
     when: ({ includeRedux }) => includeRedux,
-    default: true
+    default: false
   },
   {
     type: 'confirm',
