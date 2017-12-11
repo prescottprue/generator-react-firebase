@@ -19,10 +19,9 @@
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
-1. [FAQ](#faq)
 
 ## Requirements
-* node `^5.0.0` (`6.11.5` suggested)
+* node `^5.0.0` (`6.11.0` suggested)
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
@@ -45,6 +44,16 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
 
+## Config Files
+
+There are multiple configuration files:
+
+* Project Path Configuration - `project.config.js`
+* Firebase Project Configuration (including how `src/config.js` is built on CI) - `.firebaserc`
+* Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+
+More details in the [Application Structure Section](#application-structure)
+
 ## Application Structure
 
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications. If you wish to read more about this pattern, please check out this [awesome writeup](https://github.com/davezuko/react-redux-starter-kit/wiki/Fractal-Project-Structure) by [Justin Greenberg](https://github.com/justingreenberg).
@@ -52,8 +61,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ```
 .
 ├── build                    # All build-related configuration
-│   └── create-config        # Script for building config.js in ci environments
-│   └── karma.config.js      # Test configuration for Karma
+│   ├── scripts              # Scripts used within the building process
+│   ├── karma.config.js      # Test configuration for Karma
 │   └── webpack.config.js    # Environment-specific configuration files for webpack
 ├── server                   # Express application that provides webpack middleware
 │   └── main.js              # Server application entry point
@@ -78,7 +87,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │   ├── createStore.js   # Create and instrument redux store
 │   │   └── reducers.js      # Reducer registry and injection
 │   ├── styles               # Application-wide styles (generally settings)
-│   ├──utils                 # General Utilities (used throughout application)
+│   └── utils                 # General Utilities (used throughout application)
 │   │   ├── components.js   # Utilities for building/implementing react components (often used in enhancers)
 │   │   ├── form.js         # For forms (often used in enhancers that use redux-form)
 │   │   └── router.js       # Utilities for routing such as those that redirect back to home if not logged in
@@ -114,6 +123,7 @@ If you would like to deploy to different Firebase instances for different branch
 For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
 
 #### Manual deploy
+
 1. Run `firebase:login`
 1. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
@@ -125,6 +135,22 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Deploy to firebase: `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
+
+## FAQ
+
+1. Why node `6.11.5` instead of a newer version?
+
+  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
+
+1. Why Yarn over node's `package-lock.json`?
+
+  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+
+1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
+    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
+    * components remain "dumb" by only receiving props which makes them more portable
+    * smaller files which are easier to parse
+    * functional components can be helpful (along with other tools) when attempting to optimize things
 
 [npm-image]: https://img.shields.io/npm/v/react-firebase-redux.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-firebase-redux
