@@ -1,4 +1,4 @@
 import LoginPage from './LoginPage'
-import enhancer from './LoginPage.enhancer'
+import enhance from './LoginPage.enhancer'
 
-export default enhancer(LoginPage)
+export default enhance(LoginPage)

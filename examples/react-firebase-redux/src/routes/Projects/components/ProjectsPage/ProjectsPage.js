@@ -39,31 +39,19 @@ export const ProjectsPage = ({
               onDelete={() => deleteProject(project.key)}
             />
           ))}
-        {!isEmpty(collabProjects) &&
-          collabProjects.map((project, ind) => (
-            <ProjectTile
-              key={`Collab-Project-${project.key}-${ind}`}
-              name={project.value.name}
-              onCollabClick={goToCollaborator}
-              onSelect={() => goToProject(project.key)}
-              onDelete={() => deleteProject(project.key)}
-            />
-          ))}
       </div>
     </div>
   )
 
 ProjectsPage.propTypes = {
-  children: PropTypes.object,
-  auth: PropTypes.object,
-  projects: PropTypes.array,
-  collabProjects: PropTypes.array,
-  newDialogOpen: PropTypes.bool,
-  toggleDialog: PropTypes.func,
-  deleteProject: PropTypes.func,
-  addProject: PropTypes.func,
-  goToProject: PropTypes.func,
-  goToCollaborator: PropTypes.func
+  children: PropTypes.object, // from react-router
+  auth: PropTypes.object, // from enhancer (connect + firebaseConnect - firebase)
+  projects: PropTypes.array, // from enhancer (connect + firebaseConnect - firebase)
+  newDialogOpen: PropTypes.bool, // from enhancer (withStateHandlers)
+  toggleDialog: PropTypes.func, // from enhancer (withStateHandlers)
+  deleteProject: PropTypes.func, // from enhancer (withHandlers - firebase)
+  addProject: PropTypes.func, // from enhancer (withHandlers - firebase)
+  goToProject: PropTypes.func // from enhancer (withHandlers - router)
 }
 
 export default ProjectsPage

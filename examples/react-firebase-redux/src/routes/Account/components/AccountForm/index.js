@@ -1,4 +1,4 @@
 import AccountForm from './AccountForm'
-import enhancer from './AccountForm.enhancer'
+import enhance from './AccountForm.enhancer'
 
-export default enhancer(AccountForm)
+export default enhance(AccountForm)

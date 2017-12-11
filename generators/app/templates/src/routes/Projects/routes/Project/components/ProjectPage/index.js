@@ -1,4 +1,4 @@
 import ProjectPage from './ProjectPage'
-import enhancer from './ProjectPage.enhancer'
+import enhance from './ProjectPage.enhancer'
 
-export default enhancer(ProjectPage)
+export default enhance(ProjectPage)
