@@ -56,8 +56,8 @@ config.module.rules.push({
   test: /\.(js|jsx)$/,
   exclude: [
     /node_modules/,
-    /redux-firestore\//,
-    /react-redux-firebase\//
+    /redux-firestore\/es/,
+    /react-redux-firebase\/es/
     // Add other packages that you are npm linking here
   ],
   use: [

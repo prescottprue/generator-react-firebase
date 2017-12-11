@@ -63,11 +63,7 @@ export default class Navbar extends Component {
         <div className={classes.avatar}>
           <div className="hidden-mobile">
             <Avatar
-              src={
-                profile && profile.avatarUrl
-                  ? profile.avatarUrl
-                  : defaultUserImage
-              }
+              src={profile && profile.avatarUrl ? profile.avatarUrl : defaultUserImage}
             />
           </div>
           <div className={classes['avatar-text']}>

@@ -27,9 +27,9 @@ export const LoginPage = ({ emailLogin, googleLogin, onSubmitFail }) => (
 )
 
 LoginPage.propTypes = {
-  emailLogin: PropTypes.func,
-  onSubmitFail: PropTypes.func,
-  googleLogin: PropTypes.func
+  emailLogin: PropTypes.func, // from enhancer (withHandlers)
+  onSubmitFail: PropTypes.func, // from enhancer (withHandlers)
+  googleLogin: PropTypes.func // from enhancer (withHandlers)
 }
 
 export default LoginPage
