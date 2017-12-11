@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "2.0.0-alpha",
+  "version": "2.0.0-beta",
   "description": "Starter that uses React and Firebase (with option for Redux)",
   "main": "generators/index.js",
   "scripts": {
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "chalk": "^2.0.1",
+    "command-exists": "^1.2.2",
     "yeoman-generator": "^1.1.1",
     "yosay": "^2.0.0"
   },

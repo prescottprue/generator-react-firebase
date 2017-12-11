@@ -3,6 +3,7 @@ const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
 const path = require('path')
+const commandExists = require('command-exists')
 const utils = require('./utils')
 
 const prompts = [
@@ -69,6 +70,12 @@ const prompts = [
     type: 'confirm',
     name: 'includeTests',
     message: 'Include Tests?',
+    default: true
+  },
+  {
+    type: 'confirm',
+    name: 'useYarn',
+    message: 'Use Yarn?',
     default: true
   }
 ]
@@ -168,6 +175,12 @@ module.exports = class extends Generator {
         // TODO: Add question about including redux-cli blueprints (they contain template strings)
         // { src: 'blueprints/**', dest: 'blueprints' },
       )
+      if (this.answers.includeFirestore) {
+        filesArray.push(
+          { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
+          { src: 'firestore.rules', dest: 'firestore.rules' }
+        )
+      }
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push(
@@ -190,6 +203,17 @@ module.exports = class extends Generator {
   }
 
   install () {
-    this.npmInstall()
+    return commandExists('yarn')
+      .then(() => {
+        if (!this.answers.useYarn) {
+          console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
+          return this.npmInstall()
+        }
+        console.log(chalk.blue('Using Yarn!')) // eslint-disable-line no-console
+        return this.yarnInstall()
+      })
+      .catch(() => {
+        this.npmInstall()
+      })
   }
 }

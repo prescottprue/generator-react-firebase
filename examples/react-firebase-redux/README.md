@@ -121,6 +121,11 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Deploy to firebase: `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
+  ## FAQ
+
+1. Why node `6.11.5` instead of a newer version? [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated
+1. Why Yarn over node's `package-lock.json`? - Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files yet.
+
 [npm-image]: https://img.shields.io/npm/v/react-firebase-redux.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-firebase-redux
 [travis-image]: https://img.shields.io/travis/testuser/react-firebase-redux/master.svg?style=flat-square
