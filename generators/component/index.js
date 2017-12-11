@@ -8,6 +8,19 @@ const prompts = [
     name: 'addStyle',
     message: 'Do you want to include an SCSS file for styles?',
     default: true
+  },
+  {
+    type: 'confirm',
+    name: 'includeEnhancer',
+    message: 'Do you want to include an enhancer (if you are not sure answer false)?',
+    default: false
+  },
+  {
+    type: 'confirm',
+    name: 'usingFirestore',
+    when: ({ includeEnhancer }) => includeEnhancer,
+    message: 'Are you using Firestore (if you are not sure answer false)?',
+    default: false
   }
 ]
 
@@ -44,6 +57,13 @@ module.exports = class extends Generator {
       filesArray.push({
         src: '_main.scss',
         dest: `${basePath}/${this.options.name}.scss`
+      })
+    }
+
+    if (this.answers.includeEnhancer) {
+      filesArray.push({
+        src: '_main.enhancer.js',
+        dest: `${basePath}/${this.options.name}.enhancer.js`
       })
     }
 

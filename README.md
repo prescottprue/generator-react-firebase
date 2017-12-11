@@ -148,10 +148,10 @@ A component is best for things that will be reused in multiple places. Our examp
 ```
 /app
 --/components
-----/Car
+----/Project
 ------index.js
-------Car.js
-------Car.scss
+------Project.js
+------Project.scss
 ```
 
 */app/components/Car.js:*
@@ -161,83 +161,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
-export const Car = ({ car }) => (
+export const Project = ({ car }) => (
   <div className={classes.container}>
-    <span>Car Component</span>
+    <span>Project Component</span>
     <pre>{JSON.stringify(car, null, 2)}</pre>
   </div>
 )
-```
-
-#### Container
-
-**NOTE:** Containers are synonymous with *Smart Components* and *Linked-State Components*
-
-Redux is seen as one of the best state managers so it is implemented as by default.
-
-To create a container named *Cars* run: `yo react-firebase:container Cars`
-
-Creates a folder within `/containers` that matches the name provided. Below is the result of the command above being run:
-
-```
-/app
---/containers
-----/Cars
-------index.js
-------Cars.js
-------Cars.scss
-```
-
-/app/containers/Cars.js:
-```jsx
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import {
-  firebaseConnect,
-  dataToJS,
-  isLoaded,
-  isEmpty
-} from 'react-redux-firebase'
-import LoadingSpinner from 'components/LoadingSpinner'
-import classes from './Cars.scss'
-
-@firebaseConnect([
-  'cars'
-])
-@connect(
-  ({ firebase }) => ({
-    cars: dataToJS(firebase, 'cars')
-  })
-)
-export default class Cars extends Component {
-  static propTypes = {
-    cars: PropTypes.object
-  }
-
-  render () {
-    const { cars } = this.props
-
-    if (!isLoaded(cars)) {
-      return <LoadingSpinner />
-    }
-
-    if (isEmpty(cars)) {
-      return (
-        <div>
-          No Cars found
-        </div>
-      )
-    }
-
-    return (
-      <div className={classes.container}>
-        <p>Cars</p>
-        <pre>{JSON.stringify(cars, null, 2)}</pre>
-      </div>
-    )
-  }
-}
 ```
 
 ## Examples
@@ -246,15 +175,16 @@ Complete examples of generator output available in [Examples](https://github.com
 
 ## Projects Started Using This
 
-* [devshare.io](https://devshare.io)
-* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/master/examples/complete/material)
+* [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations
+* [devshare.io](https://devshare.io) - Codesharing site based on Firebase Realtime Database
+* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/material)
+* [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore)
 
 *open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included*
 
 ## In the future
-* Option to not include tests
+* React v16
 * Option to include tests when using sub-generators
-* Non-decorators implementation for props binding
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
 * Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)

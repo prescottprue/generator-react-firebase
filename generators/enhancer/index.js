@@ -5,15 +5,9 @@ const chalk = require('chalk')
 const prompts = [
   {
     type: 'confirm',
-    name: 'addStyle',
-    message: 'Do you want to include an SCSS file for styles?',
-    default: true
-  },
-  {
-    type: 'confirm',
-    name: 'usingRedux',
-    message: 'Are you using redux in this project (include react-redux-firebase)?',
-    default: true
+    name: 'usingFirestore',
+    message: 'Are you using Firestore?',
+    default: false
   }
 ]
 
@@ -25,13 +19,13 @@ module.exports = class extends Generator {
     this.argument('name', {
       required: true,
       type: String,
-      desc: 'The container name'
+      desc: 'The component name'
     })
   }
 
   prompting () {
     this.log(
-      `${chalk.blue('Generating')} -> React Container: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> React Enhancer: ${chalk.green(this.options.name)}`
     )
 
     return this.prompt(prompts).then((props) => {
@@ -40,18 +34,11 @@ module.exports = class extends Generator {
   }
 
   writing () {
-    const basePath = `src/containers/${this.options.name}`
+    const basePath = `src/components/${this.options.name}`
     const filesArray = [
       { src: '_index.js', dest: `${basePath}/index.js` },
-      { src: '_main.js', dest: `${basePath}/${this.options.name}.js` }
+      { src: '_main.enhancer.js', dest: `${basePath}/${this.options.name}.enhancer.js` }
     ]
-
-    if (this.answers.addStyle) {
-      filesArray.push({
-        src: '_main.scss',
-        dest: `${basePath}/${this.options.name}.scss`
-      })
-    }
 
     filesArray.forEach(file => {
       this.fs.copyTpl(

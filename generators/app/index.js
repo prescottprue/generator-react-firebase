@@ -184,7 +184,7 @@ module.exports = class extends Generator {
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push(
-        { src: 'src/utils/**', dest: 'src/utils' }
+        { src: 'src/utils/firebase.js' }
       )
     }
     filesArray.forEach(file => {
