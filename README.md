@@ -27,7 +27,13 @@ npm install -g generator-react-firebase
 1. Generate project: `yo react-firebase` (project will be named after current folder)
 1. Start application by running `npm run start`
 
-Project will default to being named with the name of the folder that it is generated within (in this case myProject)
+Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
+
+#### Whats Next
+
+1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
+1. Tryout the [Sub Generators](#sub-generators)
+1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore)
 
 ## Features
 * Application Navbar (with Avatar)
@@ -90,6 +96,8 @@ If opting into [Travis-CI](travis-ci.org), config is included within `travis.yml
 1. Run a build on Travis-CI
 1. To deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`
 
+Settings for each environment can be provided through the `.firebaserc` file.
+
 For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
 
 ##### Manual
@@ -150,6 +158,7 @@ A component is best for things that will be reused in multiple places. Our examp
 --/components
 ----/Project
 ------index.js
+------Project.enhancer.js // optional
 ------Project.js
 ------Project.scss
 ```
@@ -173,6 +182,10 @@ export const Project = ({ car }) => (
 
 Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
 
+* [react-firebase-redux example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firebase Real Time Database
+* [redux-firestore](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firestore
+* [react-firebase example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - Firebase Real Time Database
+
 ## Projects Started Using This
 
 * [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations
@@ -181,6 +194,22 @@ Complete examples of generator output available in [Examples](https://github.com
 * [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore)
 
 *open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included*
+
+## FAQ
+
+1. Why node `6.11.5` instead of a newer version?
+
+  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
+
+1. Why Yarn over node's `package-lock.json`?
+
+  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+
+1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
+    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
+    * components remain "dumb" by only receiving props which makes them more portable
+    * smaller files which are easier to parse
+    * functional components can be helpful (along with other tools) when attempting to optimize things
 
 ## In the future
 * React v16

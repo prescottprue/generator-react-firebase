@@ -19,9 +19,10 @@
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
+1. [FAQ](#faq)
 
 ## Requirements
-* node `^5.0.0` (`6.11.0` suggested)
+* node `^5.0.0` (`6.11.5` suggested)
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
@@ -61,7 +62,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── main.js              # Application bootstrap and rendering
 │   ├── normalize.js         # Browser normalization and polyfills
 │   ├── components           # Global Reusable Presentational Components
-│   ├── containers           # Global Reusable Container Components
+│   ├── containers           # Global Reusable Container Components (connected to redux state)
 │   ├── layouts              # Components that dictate major page structure
 │   │   └── CoreLayout       # Global application layout in which to render routes
 │   ├── routes               # Main route definitions and async split points
@@ -69,16 +70,20 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │   └── Home             # Fractal route
 │   │       ├── index.js     # Route definitions and async split points
 │   │       ├── assets       # Assets required to render components
-│   │       ├── components   # Presentational React Components
-│   │       ├── container    # Connect components to actions and store
+│   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
 │   │       ├── modules      # Collections of reducers/constants/actions
 │   │       └── routes **    # Fractal sub-routes (** optional)
 │   ├── static               # Static assets
 │   ├── store                # Redux-specific pieces
 │   │   ├── createStore.js   # Create and instrument redux store
 │   │   └── reducers.js      # Reducer registry and injection
-│   └── styles               # Application-wide styles (generally settings)
-├── project.config.js        # Project configuration settings (includes ci settings)
+│   ├── styles               # Application-wide styles (generally settings)
+│   ├──utils                 # General Utilities (used throughout application)
+│   │   ├── components.js   # Utilities for building/implementing react components (often used in enhancers)
+│   │   ├── form.js         # For forms (often used in enhancers that use redux-form)
+│   │   └── router.js       # Utilities for routing such as those that redirect back to home if not logged in
+├── project.config.js        # Project configuration settings
+├── .firebaserc              # Firebase Project configuration settings (including ci settings)
 └── tests                    # Unit tests
 ```
 
@@ -109,7 +114,6 @@ If you would like to deploy to different Firebase instances for different branch
 For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
 
 #### Manual deploy
-
 1. Run `firebase:login`
 1. Initialize project with `firebase init` then answer:
   * What file should be used for Database Rules?  -> `database.rules.json`
@@ -121,10 +125,6 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Deploy to firebase: `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
-  ## FAQ
-
-1. Why node `6.11.5` instead of a newer version? [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated
-1. Why Yarn over node's `package-lock.json`? - Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files yet.
 
 [npm-image]: https://img.shields.io/npm/v/react-firebase-redux.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-firebase-redux
