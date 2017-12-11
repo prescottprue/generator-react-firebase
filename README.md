@@ -258,10 +258,10 @@ For full projects built out using this as a starting place, check the next secti
 
 ## Projects Started Using This
 
-* [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations
-* [devshare.io](https://devshare.io) - Codesharing site based on Firebase Realtime Database
-* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/material)
-* [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore)
+* [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations.
+* [devshare.io](https://devshare.io) - Codesharing site based on Firebase's Firepad and Realtime Database
+* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/material) - Shows usage of react-redux-firebase with material-ui
+* [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore) - Shows usage of react-redux-firebase with firestore
 
 *open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included*
 
@@ -284,8 +284,6 @@ For full projects built out using this as a starting place, check the next secti
 * Option to include tests when using sub-generators
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
-* Smart Container Generator - Prompt for props/state vars (which Firebase location to bind to props)
-* Store previous answers and use them as defaults
 * Open to ideas
 
 ## License
