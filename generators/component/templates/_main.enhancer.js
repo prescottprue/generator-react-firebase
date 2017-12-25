@@ -1,6 +1,6 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { <% if (usingFirestore) { %>firestoreConnect<% } %><% if (!usingFirestore) { %>firestoreConnect<% } %> } from 'react-redux-firebase'
+import { <% if (usingFirestore) { %>firestoreConnect<% } %><% if (!usingFirestore) { %>firebaseConnect<% } %> } from 'react-redux-firebase'
 
 export default compose(
   // create listener for <%= lowerName %>, results go into redux
