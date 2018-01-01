@@ -1,14 +1,14 @@
 {
   "name": "generator-react-firebase",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-rc.1",
   "description": "Starter that uses React and Firebase (with option for Redux)",
   "main": "generators/index.js",
   "scripts": {
-    "lint": "eslint generators tests",
+    "lint": "eslint generators test",
     "lint:fix": "npm run lint -- --fix",
-    "test": "mocha -R spec --compilers js:babel-core/register ./tests/setup.js ./tests/**/*.spec.js && npm run test:clean",
-    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- ./tests/setup.js ./tests/**/*.spec.js --recursive --report lcov --compilers js:babel-register && npm run test:clean",
-    "test:clean": "rimraf tests/tmp",
+    "test": "mocha -R spec ./test/unit/** && npm run test:clean",
+    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/unit/** && npm run test:clean",
+    "test:clean": "rimraf test/tmp",
     "codecov": "cat coverage/*/lcov.info | codecov",
     "prepare": "npm run lint",
     "prepush": "npm run lint"
