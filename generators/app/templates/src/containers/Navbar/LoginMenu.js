@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui/Button'
 import { LOGIN_PATH, SIGNUP_PATH } from 'constants'
 import classes from './Navbar.scss'
 
@@ -12,12 +12,12 @@ const buttonStyle = {
 
 export const LoginMenu = () => (
   <div className={classes.menu}>
-    <Link to={SIGNUP_PATH}>
-      <FlatButton label="Sign Up" style={buttonStyle} />
-    </Link>
-    <Link to={LOGIN_PATH}>
-      <FlatButton label="Login" style={buttonStyle} />
-    </Link>
+    <Button style={buttonStyle} component={Link} to={SIGNUP_PATH}>
+      Sign Up
+    </Button>
+    <Button style={buttonStyle} component={Link} to={LOGIN_PATH}>
+      Login
+    </Button>
   </div>
 )
 

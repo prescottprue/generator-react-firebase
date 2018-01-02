@@ -35,6 +35,12 @@ const prompts = [
   },
   {
     type: 'confirm',
+    name: 'materialv1',
+    message: 'Use material-ui version 1 (still in pre-release)?',
+    default: true
+  },
+  {
+    type: 'confirm',
     name: 'includeFirestore',
     message: 'Include Firestore?',
     when: ({ includeRedux }) => includeRedux,
@@ -100,7 +106,6 @@ const filesArray = [
   { src: 'src/index.html' },
   { src: 'src/main.js' },
   { src: 'src/normalize.js' },
-  { src: 'src/theme.js' },
   { src: 'src/constants.js' },
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
@@ -146,6 +151,12 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'Procfile', dest: 'Procfile' },
         { src: 'app.json', dest: 'app.json' }
+      )
+    }
+
+    if (!this.answers.materialv1) {
+      filesArray.push(
+        { src: 'src/theme.js' }
       )
     }
 

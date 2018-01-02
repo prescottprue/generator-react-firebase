@@ -1,33 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, ListItem } from 'material-ui/List'
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
+import ListSubheader from 'material-ui/List/ListSubheader'
+import AccountCircle from 'material-ui-icons/AccountCircle'
 import classes from './ProviderDataForm.scss'
-import AccountCircle from 'material-ui/svg-icons/action/account-circle'
 
 export const ProviderData = ({ providerData }) => (
   <div className={classes.container}>
-    <List>
-      {
-        providerData.map((providerAccount, i) => (
-          <ListItem
-            key={i}
-            primaryText={providerAccount.providerId}
-            leftIcon={<AccountCircle />}
-            nestedItems={[
-              <ListItem
-                key='displayName'
-                primaryText={providerAccount.displayName}
-              />,
-              <ListItem
-                key='email'
-                label='email'
-                primaryText={providerAccount.email}
-                disabled
-              />
-            ]}
-          />
-        ))
-      }
+    <List subheader={<ListSubheader>Accounts</ListSubheader>}>
+      {providerData.map((providerAccount, i) => (
+        <ListItem key={i}>
+          <ListItemIcon>
+            <AccountCircle />
+          </ListItemIcon>
+          <ListItemText primary={providerAccount.providerId} />
+        </ListItem>
+      ))}
     </List>
   </div>
 )

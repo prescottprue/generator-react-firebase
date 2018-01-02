@@ -1,3 +1,4 @@
+import { takeRight } from 'lodash'
 import path from 'path'
 import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
@@ -86,6 +87,7 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseName: 'asdf.firebaseio.com',
+            materialv1: false,
             useYarn: true
           })
           .toPromise()
@@ -115,6 +117,7 @@ describe('generator-react-firebase:app', function () {
             includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
+            materialv1: false,
             includeFirestore: false,
             useYarn: true
           })
@@ -142,6 +145,7 @@ describe('generator-react-firebase:app', function () {
             includeTravis: 'Y',
             includeFirestore: false,
             includeRedux: false,
+            materialv1: false,
             deployTo: 'firebase',
             useYarn: true
           })
@@ -172,6 +176,7 @@ describe('generator-react-firebase:app', function () {
             includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
+            materialv1: false,
             includeFirestore: true,
             useYarn: true
           })
@@ -202,6 +207,7 @@ describe('generator-react-firebase:app', function () {
             includeTravis: 'Y',
             includeFirestore: false,
             includeRedux: false,
+            materialv1: false,
             deployTo: 'firebase',
             useYarn: true
           })
@@ -221,6 +227,40 @@ describe('generator-react-firebase:app', function () {
     })
   })
 
+  describe('material-ui v1 option', () => {
+
+    describe('include', () => {
+      before(() =>
+        helpers.run(path.join(__dirname, '../../generators/app'))
+          .withPrompts({
+            githubUser: 'testuser',
+            firebaseInstance: 'testing',
+            includeTravis: 'Y',
+            includeRedux: 'Y',
+            deployTo: 'firebase',
+            materialv1: true,
+            includeFirestore: true,
+            useYarn: true
+          })
+          .toPromise()
+      )
+      describe('creates files for', () => {
+        describe('project', () => {
+          checkForEachFile(projectFiles)
+        })
+        describe('application', () => {
+          checkForEachFile(takeRight(srcFiles), 'src/')
+        })
+        describe('Firestore', () => {
+          checkForEachFile(firestoreFiles)
+        })
+        describe('tests', () => {
+          checkForEachFile(testFiles)
+        })
+      })
+    })
+  })
+
   describe('deploy options', () => {
 
     describe('Firebase', () => {
@@ -232,6 +272,7 @@ describe('generator-react-firebase:app', function () {
             includeFirestore: false,
             includeTravis: 'Y',
             includeRedux: 'Y',
+            materialv1: false,
             deployTo: 'firebase',
             useYarn: true
           })
@@ -263,6 +304,7 @@ describe('generator-react-firebase:app', function () {
             firebaseInstance: 'testing',
             includeFirestore: false,
             includeTravis: 'Y',
+            materialv1: false,
             includeRedux: 'N',
             deployTo: 'heroku',
             useYarn: true
