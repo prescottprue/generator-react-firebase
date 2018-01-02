@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { browserHistory, Router } from 'react-router'
 <% if (!materialv1) { %>import { withContext } from 'recompose'<% } %><% if (includeRedux) { %>
 import { Provider } from 'react-redux'<% } %>
-
-<% if (!materialv1) { %>// Themeing/Styling
+<% if (!materialv1) { %>
+// Themeing/Styling
 import Theme from 'theme'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'<% } %>
-
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+<% } %>
 <% if (!includeRedux) { %>const App = ({ routes }) => (
   <Router history={browserHistory}>{routes}</Router>
 )<% } %><% if (includeRedux) { %>const App = ({ routes, store }) => (

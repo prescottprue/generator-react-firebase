@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-<% if (!materialv1) { %>import CircularProgress from 'material-ui/CircularProgress'<% } %><% if (materialv1) { %>import { CircularProgress } from 'material-ui/Progress'<% } %> 
+<% if (!materialv1) { %>import CircularProgress from 'material-ui/CircularProgress'<% } %><% if (materialv1) { %>import { CircularProgress } from 'material-ui/Progress'<% } %>
 import classes from './LoadingSpinner.scss'
 
 export const LoadingSpinner = ({ size }) => (

@@ -11,19 +11,19 @@ import classes from './SignupForm.scss'
     <Field
       name="username"
       component={TextField}
-      floatingLabelText="Username"
+      <% if (!materialv1) { %>floatingLabelText="Username"<% } %><% if (materialv1) { %>label="Username"<% } %>
       validate={required}
     />
     <Field
       name="email"
       component={TextField}
-      floatingLabelText="Email"
+      <% if (!materialv1) { %>floatingLabelText="Email"<% } %><% if (materialv1) { %>label="Email"<% } %>
       validate={[required, validateEmail]}
     />
     <Field
       name="password"
       component={TextField}
-      floatingLabelText="Password"
+      <% if (!materialv1) { %>floatingLabelText="Password"<% } %><% if (materialv1) { %>label="Password"<% } %>
       type="password"
       validate={required}
     />
@@ -33,7 +33,11 @@ import classes from './SignupForm.scss'
         primary
         type="submit"
         disabled={pristine || submitting}
-      /><% } %><% if (materialv1) { %><Button color="primary" type="submit" disabled={pristine || submitting}>
+      /><% } %><% if (materialv1) { %><Button
+        color="primary"
+        type="submit"
+        raised
+        disabled={pristine || submitting}>
         {submitting ? 'Loading' : 'Sign Up'}
       </Button><% } %>
     </div>

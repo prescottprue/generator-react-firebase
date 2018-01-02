@@ -4,40 +4,40 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'<% } %><% if (materialv1) { %>
 import Menu, { MenuItem } from 'material-ui/Menu'<% } %>
 import IconButton from 'material-ui/IconButton'<% if (materialv1) { %>
-import AccountCircle from 'material-ui-icons/AccountCircle'<% } %><% if (!materialv1) { %>import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down'<% } %>
+import AccountCircle from 'material-ui-icons/AccountCircle'<% } %><% if (!materialv1) { %>import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import Avatar from 'material-ui/Avatar'
 import defaultUserImage from 'static/User.png'
 import classes from './Navbar.scss'
 
-const buttonStyle = { marginRight: '.5rem', width: '200px', height: '64px' }
+const buttonStyle = { marginRight: '.5rem', width: '200px', height: '64px' }<% } %>
 
 export const AccountMenu = ({
   avatarUrl,
   displayName,
   goToAccount,
   onLogoutClick<% if (materialv1) { %>,
-  toggleAccountMenu,
-  toggleMenu,<% } %>
+  closeAccountMenu,
+  anchorEl,
+  handleMenu<% } %>
 }) => (
   <% if (materialv1) { %><div>
     <IconButton
-      aria-owns={open ? 'menu-appbar' : null}
+      aria-owns={anchorEl ? 'menu-appbar' : null}
       aria-haspopup="true"
-      onClick={toggleAccountMenu}
+      onClick={handleMenu}
       color="contrast">
-       <AccountCircle />
-     </IconButton>
-     <Menu
-       id="menu-appbar"
-       anchorEl={anchorEl}
-       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-       open={open}
-       onClose={toggleAccountMenu}
-     >
-       <MenuItem onClick={goToAccount}>Account</MenuItem>
-       <MenuItem onClick={onLogoutClick}>Sign Out</MenuItem>
-     </Menu>
+      <AccountCircle />
+    </IconButton>
+    <Menu
+      id="menu-appbar"
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={Boolean(anchorEl)}
+      onClose={closeAccountMenu}>
+      <MenuItem onClick={goToAccount}>Account</MenuItem>
+      <MenuItem onClick={onLogoutClick}>Sign Out</MenuItem>
+    </Menu>
   </div><% } %><% if (!materialv1) { %><IconMenu
     iconButtonElement={
       <IconButton style={buttonStyle} disableTouchRipple>
@@ -61,14 +61,17 @@ export const AccountMenu = ({
     <MenuItem primaryText="Sign out" onTouchTap={onLogoutClick} />
   </IconMenu><% } %>
 )
-
-AccountMenu.muiName = 'IconMenu'
+<% if (!materialv1) { %>
+AccountMenu.muiName = 'IconMenu'<% } %>
 
 AccountMenu.propTypes = {
   displayName: PropTypes.string,
   avatarUrl: PropTypes.string,
-  goToAccount: PropTypes.func,
-  onLogoutClick: PropTypes.func
+  goToAccount: PropTypes.func.isRequired,
+  onLogoutClick: PropTypes.func.isRequired<% if (materialv1) { %>,
+  anchorEl: PropTypes.object,
+  closeAccountMenu: PropTypes.func.isRequired,
+  handleMenu: PropTypes.func<% } %>
 }
 
 export default AccountMenu

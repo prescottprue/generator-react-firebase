@@ -13,25 +13,30 @@ export default compose(
   withRouter,
   // Wait for auth to be loaded before going further
   spinnerWhileLoading(['profile']),<% if (materialv1) { %>
-  withStateHandlers(({ accountMenuOpenInitially = false }) => ({
-    accountMenuOpen: accountMenuOpenInitially,
-    anchorEl: null
-  }), {
-    toggleAccountMenu: ({ accountMenuOpen }) => () => ({
-      accountMenuOpen: !accountMenuOpen
+  withStateHandlers(
+    ({ accountMenuOpenInitially = false }) => ({
+      accountMenuOpen: accountMenuOpenInitially,
+      anchorEl: null
     }),
-    handleMenu: () => (anchorEl) => ({ anchorEl })
-  }),<% } %>
+    {
+      closeAccountMenu: ({ accountMenuOpen }) => () => ({
+        anchorEl: null
+      }),
+      handleMenu: () => event => ({
+        anchorEl: event.target
+      })
+    }
+  ),<% } %>
   // Handlers
   withHandlers({
     handleLogout: props => () => {
       props.firebase.logout()
       props.router.push('/')<% if (materialv1) { %>
-      props.toggleAccountMenu()<% } %>
+      props.closeAccountMenu()<% } %>
     },
     goToAccount: props => () => {
       props.router.push(ACCOUNT_PATH)<% if (materialv1) { %>
-      props.toggleAccountMenu()<% } %>
+      props.closeAccountMenu()<% } %>
     }
   }),
   withProps(({ auth, profile }) => ({

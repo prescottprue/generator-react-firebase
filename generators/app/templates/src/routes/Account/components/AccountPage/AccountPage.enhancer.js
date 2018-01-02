@@ -3,18 +3,26 @@ import { connect } from 'react-redux'
 <% } %>import { withHandlers } from 'recompose'<% if (includeRedux) { %>
 import { withFirebase } from 'react-redux-firebase'
 import { spinnerWhileLoading } from 'utils/components'
+import { withNotifications } from 'modules/notification'
 import { UserIsAuthenticated } from 'utils/router'<% } %>
 
 export default compose(
   <% if (includeRedux) { %>UserIsAuthenticated, // redirect to /login if user is not authenticated
   withFirebase,
+  withNotifications,
   connect(({ firebase: { profile } }) => ({
     profile,
     avatarUrl: profile.avatarUrl
   })),
   spinnerWhileLoading(['profile']),<% } %>
   withHandlers({
-    updateAccount: ({ firebase }) => newAccount =>
+    updateAccount: ({ firebase, showSuccess, showError }) => newAccount =>
       firebase.updateProfile(newAccount)
+        .then(() => showSuccess('Profile updated successfully'))
+        .catch(error => {
+          showError('Error updating profile: ', error.message || error)
+          console.error('Error updating profile', error.message || error)
+          return Promise.reject(error)
+        })
   })
 )
