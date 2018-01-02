@@ -34,7 +34,6 @@ export const AccountMenu = ({
   </div>
 )
 
-
 AccountMenu.propTypes = {
   displayName: PropTypes.string,
   avatarUrl: PropTypes.string,

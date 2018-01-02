@@ -60,9 +60,9 @@ export const AccountMenu = ({
     <MenuItem primaryText="Account" onTouchTap={goToAccount} />
     <MenuItem primaryText="Sign out" onTouchTap={onLogoutClick} />
   </IconMenu><% } %>
-)
-<% if (!materialv1) { %>
-AccountMenu.muiName = 'IconMenu'<% } %>
+)<% if (!materialv1) { %>
+
+  AccountMenu.muiName = 'IconMenu'<% } %>
 
 AccountMenu.propTypes = {
   displayName: PropTypes.string,

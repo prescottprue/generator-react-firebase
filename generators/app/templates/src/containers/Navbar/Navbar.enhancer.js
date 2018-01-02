@@ -1,5 +1,11 @@
 import { connect } from 'react-redux'
-import { withHandlers, compose, withProps, flattenProp<% if (materialv1) { %>, withStateHandlers<% } %> } from 'recompose'
+<% if (!materialv1) { %>import { withHandlers, compose, withProps, flattenProp } from 'recompose'<% } %><% if (materialv1) { %>import {
+  withHandlers,
+  compose,
+  withProps,
+  flattenProp,
+  withStateHandlers
+} from 'recompose'<% } %>
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { ACCOUNT_PATH } from 'constants'
 import { withRouter, spinnerWhileLoading } from 'utils/components'

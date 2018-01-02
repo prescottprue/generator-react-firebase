@@ -21,25 +21,27 @@ export const Navbar = ({
 }) => (
   <AppBar position="static">
     <Toolbar>
-      <Link to={authExists ? LIST_PATH : '/'} className={classes.brand}>
-        <Typography type="title" color="inherit" className={classes.flex}>
-          react-firebase-redux
-        </Typography>
-      </Link>
+      <Typography
+        type="title"
+        color="inherit"
+        className={classes.flex}
+        component={Link}
+        to={authExists ? LIST_PATH : '/'}>
+        react-firebase-redux
+      </Typography>
       {authExists ? (
-          <AccountMenu
-            avatarUrl={avatarUrl}
-            displayName={displayName}
-            onLogoutClick={handleLogout}
-            goToAccount={goToAccount}
-            closeAccountMenu={closeAccountMenu}
-            handleMenu={handleMenu}
-            anchorEl={anchorEl}
-          />
-      )
-    : (
-      <LoginMenu />
-    )}
+        <AccountMenu
+          avatarUrl={avatarUrl}
+          displayName={displayName}
+          onLogoutClick={handleLogout}
+          goToAccount={goToAccount}
+          closeAccountMenu={closeAccountMenu}
+          handleMenu={handleMenu}
+          anchorEl={anchorEl}
+        />
+      ) : (
+        <LoginMenu />
+      )}
     </Toolbar>
   </AppBar>
 )
@@ -50,9 +52,9 @@ Navbar.propTypes = {
   authExists: PropTypes.bool, // from enhancer (withProps - auth)
   goToAccount: PropTypes.func.isRequired, // from enhancer (withHandlers - router)
   handleLogout: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  anchorEl: PropTypes.object,
   closeAccountMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  handleMenu: PropTypes.func.isRequired // from enhancer (withHandlers - firebase)
+  handleMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
+  anchorEl: PropTypes.object // from enhancer (withStateHandlers - handleMenu)
 }
 
 export default Navbar

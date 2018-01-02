@@ -1,7 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'<% if (!materialv1) { %>
 import Dialog from 'material-ui/Dialog'
-<% if (!materialv1) { %>import FlatButton from 'material-ui/FlatButton'<% } %><% if (materialv1) { %>import Button from 'material-ui/Button'<% } %>
+import FlatButton from 'material-ui/FlatButton'<% } %><% if (materialv1) { %>
+import Button from 'material-ui/Button'
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from 'material-ui/Dialog'<% } %>
 <% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'<% } %>
@@ -14,27 +20,33 @@ import classes from './NewProjectDialog.scss'
   submit,
   handleSubmit
 }) => (
-  <Dialog
-    title="New Project"
+  <Dialog <% if (materialv1) { %>open={open} onClose={onRequestClose}><% } %><% if (!materialv1) { %>
     open={open}
-    <% if (!materialv1) { %>onRequestClose={onRequestClose}<% } %>
+    title="New Project"
+    onRequestClose={onRequestClose}
     contentClassName={classes.container}
     actions={[
-      <% if (!materialv1) { %><FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
-      <FlatButton label="Create" primary onTouchTap={submit} /><% } %><% if (materialv1) { %><Button color="accent" onTouchTap={onRequestClose}>
-        Cancel
-      </Button>,
-      <Button color="primary" onTouchTap={submit}>
-        Create
-      </Button><% } %>
-    ]}>
+      <FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
+      <FlatButton label="Create" primary onTouchTap={submit} />
+    ]}><% } %>
+    <% if (materialv1) { %><DialogTitle id="simple-dialog-title">New Project</DialogTitle>
     <form onSubmit={handleSubmit} className={classes.inputs}>
-      <Field
-        name="name"
-        component={TextField}
-        floatingLabelText="Project Name"
-        validate={[required]}
-      />
+      <DialogContent><% } %><% if (!materialv1) { %><form onSubmit={handleSubmit} className={classes.inputs}><% } %>
+        <Field
+          name="name"
+          component={TextField}
+          <% if (!materialv1) { %>floatingLabelText="Project Name"<% } %><% if (materialv1) { %>label="Project Name"<% } %>
+          validate={[required]}
+        /><% if (materialv1) { %>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onRequestClose} color="accent">
+          Cancel
+        </Button>
+        <Button type="submit" color="primary">
+          Create
+        </Button>
+      </DialogActions><% } %>
     </form>
   </Dialog>
 )
