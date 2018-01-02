@@ -48,7 +48,7 @@
     "redux-auth-wrapper": "^1.0.0",<% if (includeRedux && includeFirestore) { %>
     "redux-firestore": "latest",<% } %>
     "redux-form": "^7.2.0",
-    "redux-form-material-ui": "next",
+    <% if (materialv1) { %>"redux-form-material-ui": "next",<% } %><% if (!materialv1) { %>"redux-form-material-ui": "^4.2.0",<% } %>
     "redux-thunk": "^2.2.0",<% } %>
     "whatwg-fetch": "^2.0.3"
   },
