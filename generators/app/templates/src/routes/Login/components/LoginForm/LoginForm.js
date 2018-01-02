@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'<% if (includeRedux) { %>
 import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'<% } %>
-import RaisedButton from 'material-ui/RaisedButton'
+<% if (!materialv1) { %>import RaisedButton from 'material-ui/RaisedButton'<% } %><% if (materialv1) { %>import Button from 'material-ui/Button'<% } %>
 import Checkbox from 'material-ui/Checkbox'
 <% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } if (includeRedux) { %>import { RECOVER_PATH } from 'constants'
 import { required, validateEmail } from 'utils/form'<% } %>
@@ -25,12 +25,14 @@ import classes from './LoginForm.scss'
       validate={required}
     />
     <div className={classes.submit}>
-      <RaisedButton
+      <% if (!materialv1) { %><RaisedButton
         label={submitting ? 'Loading' : 'Login'}
         primary
         type="submit"
         disabled={pristine || submitting}
-      />
+      /><% } %><% if (materialv1) { %><Button color="primary" type="submit" disabled={pristine || submitting}>
+        {submitting ? 'Loading' : 'Login'}
+      </Button><% } %>
     </div>
     <div className={classes.options}>
       <div className={classes.remember}>

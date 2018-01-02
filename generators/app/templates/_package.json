@@ -27,8 +27,10 @@
   "license": "MIT",
   "dependencies": {
     "firebase": "^4.6.0",
-    "lodash": "^4.17.4",
-    "material-ui": "^0.19.4",
+    "lodash": "^4.17.4",<% if (materialv1) { %>
+    "material-ui": "next",
+    "material-ui-icons": "latest",<% } %><% if (!materialv1) { %>
+    "material-ui": "^0.20.0",<% } %>
     "normalize.css": "^7.0.0",
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",
@@ -44,8 +46,8 @@
     "redux": "^3.6.0",
     "redux-auth-wrapper": "^1.0.0",<% if (includeRedux && includeFirestore) { %>
     "redux-firestore": "latest",<% } %>
-    "redux-form": "^6.6.1",
-    "redux-form-material-ui": "^4.2.0",
+    "redux-form": "^7.2.0",
+    "redux-form-material-ui": "next",
     "redux-thunk": "^2.2.0",<% } %>
     "redbox-react": "^1.3.6",
     "whatwg-fetch": "^2.0.3"

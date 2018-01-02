@@ -4,7 +4,7 @@ import { size } from 'lodash'
 import { connect } from 'react-redux'
 import { pure, compose, renderNothing, branch } from 'recompose'
 import Snackbar from 'material-ui/Snackbar'
-import CloseIcon from 'material-ui/svg-icons/navigation/close'
+import CloseIcon from <% if (materialv1) { %>'material-ui-icons/Close'<% } %><% if (!materialv1) { %>'material-ui/svg-icons/navigation/close'<% } %>
 import * as actions from '../actions'
 const closeIconStyle = { paddingTop: '5px', height: '30px' }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+<% if (!materialv1) { %>import FlatButton from 'material-ui/FlatButton'<% } %><% if (materialv1) { %>import Button from 'material-ui/Button'<% } %>
 <% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'<% } %>
@@ -17,11 +17,16 @@ import classes from './NewProjectDialog.scss'
   <Dialog
     title="New Project"
     open={open}
-    onRequestClose={onRequestClose}
+    <% if (!materialv1) { %>onRequestClose={onRequestClose}<% } %>
     contentClassName={classes.container}
     actions={[
-      <FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
-      <FlatButton label="Create" primary onTouchTap={submit} />
+      <% if (!materialv1) { %><FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
+      <FlatButton label="Create" primary onTouchTap={submit} /><% } %><% if (materialv1) { %><Button color="accent" onTouchTap={onRequestClose}>
+        Cancel
+      </Button>,
+      <Button color="primary" onTouchTap={submit}>
+        Create
+      </Button><% } %>
     ]}>
     <form onSubmit={handleSubmit} className={classes.inputs}>
       <Field
