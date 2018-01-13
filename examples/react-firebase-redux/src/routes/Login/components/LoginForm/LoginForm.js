@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import Button from 'material-ui/Button'
+import RaisedButton from 'material-ui/RaisedButton'
 import { required, validateEmail } from 'utils/form'
 import classes from './LoginForm.scss'
 
@@ -11,24 +11,23 @@ export const LoginForm = ({ pristine, submitting, handleSubmit }) => (
     <Field
       name="email"
       component={TextField}
-      label="Email"
+      floatingLabelText="Email"
       validate={[required, validateEmail]}
     />
     <Field
       name="password"
       component={TextField}
-      label="Password"
+      floatingLabelText="Password"
       type="password"
       validate={required}
     />
     <div className={classes.submit}>
-      <Button
-        color="primary"
+      <RaisedButton
+        label={submitting ? 'Loading' : 'Login'}
+        primary
         type="submit"
-        raised
-        disabled={pristine || submitting}>
-        {submitting ? 'Loading' : 'Login'}
-      </Button>
+        disabled={pristine || submitting}
+      />
     </div>
   </form>
 )

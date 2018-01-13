@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import AppBar from 'material-ui/AppBar'
-import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'
 import AccountMenu from './AccountMenu'
 import LoginMenu from './LoginMenu'
 import { LIST_PATH } from 'constants'
@@ -14,36 +12,30 @@ export const Navbar = ({
   displayName,
   authExists,
   goToAccount,
-  handleLogout,
-  closeAccountMenu,
-  anchorEl,
-  handleMenu
+  handleLogout
 }) => (
-  <AppBar position="static">
-    <Toolbar>
-      <Typography
-        type="title"
-        color="inherit"
-        className={classes.flex}
-        component={Link}
-        to={authExists ? LIST_PATH : '/'}>
+  <AppBar
+    title={
+      <Link to={authExists ? LIST_PATH : '/'} className={classes.brand}>
         react-firebase-redux
-      </Typography>
-      {authExists ? (
+      </Link>
+    }
+    showMenuIconButton={false}
+    iconElementRight={
+      authExists ? (
         <AccountMenu
           avatarUrl={avatarUrl}
           displayName={displayName}
           onLogoutClick={handleLogout}
           goToAccount={goToAccount}
-          closeAccountMenu={closeAccountMenu}
-          handleMenu={handleMenu}
-          anchorEl={anchorEl}
         />
       ) : (
         <LoginMenu />
-      )}
-    </Toolbar>
-  </AppBar>
+      )
+    }
+    iconStyleRight={authExists ? { marginTop: 0 } : {}}
+    className={classes.appBar}
+  />
 )
 
 Navbar.propTypes = {
@@ -51,10 +43,7 @@ Navbar.propTypes = {
   avatarUrl: PropTypes.string, // from enhancer (flattenProps - profile)
   authExists: PropTypes.bool, // from enhancer (withProps - auth)
   goToAccount: PropTypes.func.isRequired, // from enhancer (withHandlers - router)
-  handleLogout: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  closeAccountMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  handleMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  anchorEl: PropTypes.object // from enhancer (withStateHandlers - handleMenu)
+  handleLogout: PropTypes.func.isRequired // from enhancer (withHandlers - firebase)
 }
 
 export default Navbar

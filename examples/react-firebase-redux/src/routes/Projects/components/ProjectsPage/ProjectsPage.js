@@ -48,10 +48,12 @@ ProjectsPage.propTypes = {
   auth: PropTypes.object, // from enhancer (connect + firebaseConnect - firebase)
   projects: PropTypes.array, // from enhancer (connect + firebaseConnect - firebase)
   newDialogOpen: PropTypes.bool, // from enhancer (withStateHandlers)
-  toggleDialog: PropTypes.func, // from enhancer (withStateHandlers)
-  deleteProject: PropTypes.func, // from enhancer (withHandlers - firebase)
-  addProject: PropTypes.func, // from enhancer (withHandlers - firebase)
-  goToProject: PropTypes.func // from enhancer (withHandlers - router)
+  toggleDialog: PropTypes.func.isRequired, // from enhancer (withStateHandlers)
+  deleteProject: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
+  collabProjects: PropTypes.object, // from enhancer (withHandlers - firebase)
+  goToCollaborator: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
+  addProject: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
+  goToProject: PropTypes.func.isRequired // from enhancer (withHandlers - router)
 }
 
 export default ProjectsPage

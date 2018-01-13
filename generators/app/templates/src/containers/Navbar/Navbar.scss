@@ -67,8 +67,8 @@
   @include mobile {
     display: none;
   }
-}
+}<% if (materialv1) { %>
 
 .flex {
   flex: 1 !important;
-}
+}<% } %>

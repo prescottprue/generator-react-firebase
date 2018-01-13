@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from 'material-ui/Button'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from 'material-ui/Dialog'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'
@@ -18,25 +14,22 @@ export const NewProjectDialog = ({
   submit,
   handleSubmit
 }) => (
-  <Dialog open={open} onClose={onRequestClose}>
-    <DialogTitle id="simple-dialog-title">New Project</DialogTitle>
+  <Dialog
+    open={open}
+    title="New Project"
+    onRequestClose={onRequestClose}
+    contentClassName={classes.container}
+    actions={[
+      <FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
+      <FlatButton label="Create" primary onTouchTap={submit} />
+    ]}>
     <form onSubmit={handleSubmit} className={classes.inputs}>
-      <DialogContent>
-        <Field
-          name="name"
-          component={TextField}
-          label="Project Name"
-          validate={[required]}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onRequestClose} color="accent">
-          Cancel
-        </Button>
-        <Button type="submit" color="primary">
-          Create
-        </Button>
-      </DialogActions>
+      <Field
+        name="name"
+        component={TextField}
+        floatingLabelText="Project Name"
+        validate={[required]}
+      />
     </form>
   </Dialog>
 )

@@ -1,12 +1,12 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-<% if (includeFirestore) { %>import { firestoreConnect, getVal } from 'react-redux-firebase'<% } %><% if (!includeFirestore) { %>import { firebaseConnect, getVal } from 'react-redux-firebase'<% } %>
+<% if (includeRedux && includeFirestore) { %>import { firestoreConnect, getVal } from 'react-redux-firebase'<% } %><% if (!includeFirestore) { %>import { firebaseConnect, getVal } from 'react-redux-firebase'<% } %>
 import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
 
 export default compose(
-  <% if (includeFirestore) { %>// redirect to /login if user is not logged in
-  UserIsAuthenticated,
+  // redirect to /login if user is not logged in
+  UserIsAuthenticated,<% if (includeFirestore) { %>
   // Map auth uid from state to props
   connect(({ firebase: { auth: { uid } } }) => ({ uid })),
   // Wait for uid to exist before going further
