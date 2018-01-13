@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-<% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+<% if (includeRedux) { %>import { Field } from 'redux-form'
 <% if (!materialv1) { %>import RaisedButton from 'material-ui/RaisedButton'<% } %><% if (materialv1) { %>import Button from 'material-ui/Button'<% } %>
 import { TextField } from 'redux-form-material-ui'<% } %><% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
 import ProviderDataForm from '../ProviderDataForm'
@@ -19,25 +19,19 @@ import classes from './AccountForm.scss'
       component={TextField}
       <% if (!materialv1) { %>floatingLabelText="Display Name"<% } %><% if (materialv1) { %>label="Display Name"<% } %>
     />
-    <Field
-      name="email"
-      component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Email"<% } %><% if (materialv1) { %>label="Email"<% } %>
-    />
+    <Field name="email" component={TextField} <% if (!materialv1) { %>floatingLabelText="Email"<% } %><% if (materialv1) { %>label="Email"<% } %> />
     <Field
       name="avatarUrl"
       component={TextField}
       <% if (!materialv1) { %>floatingLabelText="Avatar Url"<% } %><% if (materialv1) { %>label="Avatar Url"<% } %>
     />
-    {
-      !!account && !!account.providerData &&
+    {!!account &&
+      !!account.providerData && (
         <div>
           <h4>Linked Accounts</h4>
-          <ProviderDataForm
-            providerData={account.providerData}
-          />
+          <ProviderDataForm providerData={account.providerData} />
         </div>
-    }
+      )}
     <% if (!materialv1) { %><RaisedButton
       primary
       label={submitting ? 'Saving' : 'Save'}

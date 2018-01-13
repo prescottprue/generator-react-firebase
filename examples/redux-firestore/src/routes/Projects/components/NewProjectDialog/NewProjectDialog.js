@@ -24,12 +24,12 @@ export const NewProjectDialog = ({
       <FlatButton label="Create" primary onTouchTap={submit} />
     ]}>
     <form onSubmit={handleSubmit} className={classes.inputs}>
-        <Field
-          name="name"
-          component={TextField}
-          floatingLabelText="Project Name"
-          validate={[required]}
-        />
+      <Field
+        name="name"
+        component={TextField}
+        floatingLabelText="Project Name"
+        validate={[required]}
+      />
     </form>
   </Dialog>
 )
