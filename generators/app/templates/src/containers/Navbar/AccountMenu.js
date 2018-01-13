@@ -4,7 +4,8 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'<% } %><% if (materialv1) { %>
 import Menu, { MenuItem } from 'material-ui/Menu'<% } %>
 import IconButton from 'material-ui/IconButton'<% if (materialv1) { %>
-import AccountCircle from 'material-ui-icons/AccountCircle'<% } %><% if (!materialv1) { %>import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import AccountCircle from 'material-ui-icons/AccountCircle'<% } %><% if (!materialv1) { %>
+import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import Avatar from 'material-ui/Avatar'
 import defaultUserImage from 'static/User.png'
 import classes from './Navbar.scss'
@@ -62,7 +63,7 @@ export const AccountMenu = ({
   </IconMenu><% } %>
 )<% if (!materialv1) { %>
 
-  AccountMenu.muiName = 'IconMenu'<% } %>
+AccountMenu.muiName = 'IconMenu'<% } %>
 
 AccountMenu.propTypes = {
   displayName: PropTypes.string,

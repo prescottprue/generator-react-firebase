@@ -11,10 +11,10 @@ const hoverColor = '#616161'
 
 export const NewProjectTile = ({ onClick }) => (
   <Paper className={classes.container} onClick={onClick}>
-    <ContentAddCircle
+    <ContentAddCircle 
+      style={iconStyle}
       color={color}
       hoverColor={hoverColor}
-      style={iconStyle}
     />
   </Paper>
 )

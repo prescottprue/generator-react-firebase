@@ -20,7 +20,7 @@ import classes from './NewProjectDialog.scss'
   submit,
   handleSubmit
 }) => (
-  <Dialog <% if (materialv1) { %>open={open} onClose={onRequestClose}><% } %><% if (!materialv1) { %>
+  <Dialog<% if (materialv1) { %> open={open} onClose={onRequestClose}><% } %><% if (!materialv1) { %>
     open={open}
     title="New Project"
     onRequestClose={onRequestClose}

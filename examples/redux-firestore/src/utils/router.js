@@ -12,13 +12,14 @@ const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
  * @param {Component} componentToWrap - Component to wrap
  * @return {Component} wrappedComponent
  */
-export const UserIsAuthenticated = UserAuthWrapper({ // eslint-disable-line new-cap
+export const UserIsAuthenticated = UserAuthWrapper({
   wrapperDisplayName: 'UserIsAuthenticated',
   LoadingComponent: LoadingSpinner,
   authSelector: ({ firebase: { auth } }) => auth,
-  authenticatingSelector: ({ firebase: { auth, isInitializing } }) => !auth.isLoaded || isInitializing,
+  authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
+    !auth.isLoaded || isInitializing,
   predicate: auth => !auth.isEmpty,
-  redirectAction: newLoc => (dispatch) => {
+  redirectAction: newLoc => dispatch => {
     browserHistory.replace(newLoc)
     dispatch({
       type: UNAUTHED_REDIRECT,
@@ -35,7 +36,7 @@ export const UserIsAuthenticated = UserAuthWrapper({ // eslint-disable-line new-
  * @param {Component} componentToWrap - Component to wrap
  * @return {Component} wrappedComponent
  */
-export const UserIsNotAuthenticated = UserAuthWrapper({ // eslint-disable-line new-cap
+export const UserIsNotAuthenticated = UserAuthWrapper({
   wrapperDisplayName: 'UserIsNotAuthenticated',
   allowRedirectBack: false,
   LoadingComponent: LoadingSpinner,
@@ -43,10 +44,10 @@ export const UserIsNotAuthenticated = UserAuthWrapper({ // eslint-disable-line n
     // redirect to page user was on or to list path
     props.location.query.redirect || LIST_PATH,
   authSelector: ({ firebase: { auth } }) => auth,
-  authenticatingSelector: ({ firebase: { auth, isInitializing } }) => !auth.isLoaded || isInitializing,
-  predicate: auth => auth === null,
+  authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
+    !auth.isLoaded || isInitializing,
   predicate: auth => auth.isEmpty,
-  redirectAction: newLoc => (dispatch) => {
+  redirectAction: newLoc => dispatch => {
     browserHistory.replace(newLoc)
     dispatch({ type: AUTHED_REDIRECT })
   }

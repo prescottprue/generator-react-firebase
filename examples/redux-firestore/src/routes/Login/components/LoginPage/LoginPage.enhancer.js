@@ -16,7 +16,7 @@ export default compose(
         .login({ provider: 'google', type: 'popup' })
         .catch(err => showError(err.message)),
     emailLogin: ({ firebase, router, showError }) => creds =>
-      firebase.login(creds).catch(err => showError(err.message)),
+      firebase.login(creds).catch(err => showError(err.message))
   }),
   pure // shallow equals comparison on props (prevent unessesary re-renders)
 )

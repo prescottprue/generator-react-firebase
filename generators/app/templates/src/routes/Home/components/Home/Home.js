@@ -7,7 +7,7 @@ const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
 export const Home = () => (
-  <div <% if (materialv1) { %>className={classes.container}><% } %>
+  <div<% if (materialv1) { %> className={classes.container}><% } %>
     <% if (!materialv1) { %>className={classes.container}
     style={{ color: Theme.palette.primary2Color }}><% } %>
     <div className="flex-row-center">
