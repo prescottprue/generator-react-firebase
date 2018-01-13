@@ -4,7 +4,9 @@ import { size } from 'lodash'
 import { connect } from 'react-redux'
 import { pure, compose, renderNothing, branch } from 'recompose'
 import Snackbar from 'material-ui/Snackbar'
-import CloseIcon from 'material-ui/svg-icons/navigation/close'
+import IconButton from 'material-ui/IconButton'
+import Fade from 'material-ui/transitions/Fade'
+import CloseIcon from 'material-ui-icons/Close'
 import * as actions from '../actions'
 const closeIconStyle = { paddingTop: '5px', height: '30px' }
 
@@ -14,10 +16,12 @@ export const Notifications = ({ allIds, byId, dismissNotification }) => (
       <Snackbar
         key={id}
         open
-        contentStyle={{ color: 'white' }}
-        bodyStyle={{ paddingRight: 0 }}
-        action={<CloseIcon color="white" style={closeIconStyle} />}
-        onActionTouchTap={() => dismissNotification(id)}
+        transition={Fade}
+        action={
+          <IconButton onClick={() => dismissNotification(id)}>
+            <CloseIcon  color="contrast" style={closeIconStyle} />
+          </IconButton>
+        }
         message={byId[id].message}
       />
     ))}

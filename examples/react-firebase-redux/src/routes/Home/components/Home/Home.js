@@ -1,5 +1,4 @@
 import React from 'react'
-import Theme from 'theme'
 import { Link } from 'react-router'
 import { paths } from 'constants'
 import classes from './Home.scss'
@@ -7,9 +6,8 @@ const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
 export const Home = () => (
-  <div
-    className={classes.container}
-    style={{ color: Theme.palette.primary2Color }}>
+  <div className={classes.container}>
+    
     <div className="flex-row-center">
       <h2>Home Route</h2>
     </div>

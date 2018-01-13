@@ -27,7 +27,7 @@
   "dependencies": {
     "firebase": "^4.6.0",
     "lodash": "^4.17.4",
-    "material-ui": "^0.20.0",
+    "material-ui": "^0.19.4",
     "normalize.css": "^7.0.0",
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",
