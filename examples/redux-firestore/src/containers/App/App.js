@@ -8,7 +8,6 @@ import { Provider } from 'react-redux'
 import Theme from 'theme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-
 const App = ({ routes, store }) => (
   <Provider store={store}>
     <Router history={browserHistory}>{routes}</Router>

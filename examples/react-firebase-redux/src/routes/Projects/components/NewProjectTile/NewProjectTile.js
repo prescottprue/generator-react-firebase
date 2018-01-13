@@ -6,14 +6,10 @@ import classes from './NewProjectTile.scss'
 
 const iconSize = '6rem'
 const iconStyle = { width: iconSize, height: iconSize }
-const color = '#979797'
-const hoverColor = '#616161'
 
 export const NewProjectTile = ({ onClick }) => (
   <Paper className={classes.container} onClick={onClick}>
-    <ContentAddCircle style={iconStyle}
-      
-    />
+    <ContentAddCircle style={iconStyle} />
   </Paper>
 )
 

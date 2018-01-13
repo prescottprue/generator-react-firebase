@@ -12,7 +12,7 @@ export const ProjectTile = ({ name, onSelect, onDelete, showDelete }) => (
         {name || 'No Name'}
       </span>
       {showDelete && onDelete ? (
-        <IconButton tooltip="delete" onClick={onDelete}>
+        <IconButton onClick={onDelete}>
           <DeleteIcon />
         </IconButton>
       ) : null}

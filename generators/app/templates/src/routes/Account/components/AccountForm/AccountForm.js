@@ -1,39 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-<% if (includeRedux) { %>import { Field, reduxForm } from 'redux-form'
+<% if (includeRedux) { %>import { Field } from 'redux-form'
 <% if (!materialv1) { %>import RaisedButton from 'material-ui/RaisedButton'<% } %><% if (materialv1) { %>import Button from 'material-ui/Button'<% } %>
-import { TextField } from 'redux-form-material-ui'
-import { ACCOUNT_FORM_NAME } from 'constants'<% } %><% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
+import { TextField } from 'redux-form-material-ui'<% } %><% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
 import ProviderDataForm from '../ProviderDataForm'
 import classes from './AccountForm.scss'
 
-<% if (includeRedux) { %>export const AccountForm = ({ account, handleSubmit, submitting, pristine }) => (
+<% if (includeRedux) { %>export const AccountForm = ({
+  account,
+  handleSubmit,
+  submitting,
+  pristine
+}) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <h4>Account</h4>
-    <Field
-      name="displayName"
-      component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Display Name"<% } %><% if (materialv1) { %>label="Display Name"<% } %>
-    />
-    <Field
-      name="email"
-      component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Email"<% } %><% if (materialv1) { %>label="Email"<% } %>
-    />
-    <Field
-      name="avatarUrl"
-      component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Avatar Url"<% } %><% if (materialv1) { %>label="Avatar Url"<% } %>
-    />
-    {
-      !!account && !!account.providerData &&
+    <% if (!materialv1) { %><div className={classes.fields}>
+      <Field
+        name="displayName"
+        component={TextField}
+        floatingLabelText="Display Name"
+      />
+      <Field name="email" component={TextField} floatingLabelText="Email" />
+      <Field
+        name="avatarUrl"
+        component={TextField}
+        floatingLabelText="Avatar Url"
+      />
+    </div><% } %><% if (materialv1) { %><div className={classes.fields}>
+      <Field
+        fullWidth
+        name="displayName"
+        component={TextField}
+        label="Display Name"
+      />
+      <Field name="email" label="Email" component={TextField} fullWidth />
+      <Field
+        name="avatarUrl"
+        label="Avatar Url"
+        component={TextField}
+        fullWidth
+      />
+    </div><% } %>
+    {!!account &&
+      !!account.providerData && (
         <div>
           <h4>Linked Accounts</h4>
-          <ProviderDataForm
-            providerData={account.providerData}
-          />
+          <ProviderDataForm providerData={account.providerData} />
         </div>
-    }
+      )}
     <% if (!materialv1) { %><RaisedButton
       primary
       label={submitting ? 'Saving' : 'Save'}

@@ -19,7 +19,9 @@ export default compose(
       props.firebase.logout()
       props.router.push('/')
     },
-    goToAccount: props => () => props.router.push(ACCOUNT_PATH)
+    goToAccount: props => () => {
+      props.router.push(ACCOUNT_PATH)
+    }
   }),
   withProps(({ auth, profile }) => ({
     authExists: isLoaded(auth) && !isEmpty(auth)

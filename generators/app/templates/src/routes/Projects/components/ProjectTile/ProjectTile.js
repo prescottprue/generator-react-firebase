@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'material-ui/IconButton'<% if (!materialv1) { %>
+import DeleteIcon from 'material-ui/svg-icons/action/delete'<% } %><% if (materialv1) { %>
 import Tooltip from 'material-ui/Tooltip'
-import DeleteIcon from 'material-ui-icons/Delete'
+import DeleteIcon from 'material-ui-icons/Delete'<% } %>
 import classes from './ProjectTile.scss'
 
 export const ProjectTile = ({ name, onSelect, onDelete, showDelete }) => (
@@ -13,11 +14,13 @@ export const ProjectTile = ({ name, onSelect, onDelete, showDelete }) => (
         {name || 'No Name'}
       </span>
       {showDelete && onDelete ? (
-        <Tooltip title="delete">
+        <% if (materialv1) { %><Tooltip title="delete">
           <IconButton onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
-        </Tooltip>
+        </Tooltip><% } %><% if (!materialv1) { %><IconButton onClick={onDelete}>
+          <DeleteIcon />
+        </IconButton><% } %>
       ) : null}
     </div>
   </Paper>

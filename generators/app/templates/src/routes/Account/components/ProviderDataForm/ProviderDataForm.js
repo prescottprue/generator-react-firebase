@@ -9,19 +9,18 @@ export const ProviderData = ({ providerData }) => (
   <div className={classes.container}>
     <% if (!materialv1) { %><List>
       {providerData.map((providerAccount, i) => (
-        <% if (!materialv1) { %>
-        <ListItem
+        <% if (!materialv1) { %><ListItem
           key={i}
           primaryText={providerAccount.providerId}
           leftIcon={<AccountCircle />}
           nestedItems={[
             <ListItem
-              key='displayName'
+              key="displayName"
               primaryText={providerAccount.displayName}
             />,
             <ListItem
-              key='email'
-              label='email'
+              key="email"
+              label="email"
               primaryText={providerAccount.email}
               disabled
             /><% } %><% if (materialv1) { %><ListItem button>

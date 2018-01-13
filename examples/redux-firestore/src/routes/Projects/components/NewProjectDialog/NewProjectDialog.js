@@ -15,8 +15,8 @@ export const NewProjectDialog = ({
   handleSubmit
 }) => (
   <Dialog
-    title="New Project"
     open={open}
+    title="New Project"
     onRequestClose={onRequestClose}
     contentClassName={classes.container}
     actions={[

@@ -19,7 +19,7 @@ export const Notifications = ({ allIds, byId, dismissNotification }) => (
         transition={Fade}
         action={
           <IconButton onClick={() => dismissNotification(id)}>
-            <CloseIcon  color="contrast" style={closeIconStyle} />
+            <CloseIcon color="contrast" style={closeIconStyle} />
           </IconButton>
         }
         message={byId[id].message}

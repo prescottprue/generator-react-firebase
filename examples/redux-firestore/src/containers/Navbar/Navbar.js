@@ -42,8 +42,8 @@ Navbar.propTypes = {
   displayName: PropTypes.string, // from enhancer (flattenProps - profile)
   avatarUrl: PropTypes.string, // from enhancer (flattenProps - profile)
   authExists: PropTypes.bool, // from enhancer (withProps - auth)
-  goToAccount: PropTypes.func, // from enhancer (withHandlers - router)
-  handleLogout: PropTypes.func // from enhancer (withHandlers - firebase)
+  goToAccount: PropTypes.func.isRequired, // from enhancer (withHandlers - router)
+  handleLogout: PropTypes.func.isRequired // from enhancer (withHandlers - firebase)
 }
 
 export default Navbar

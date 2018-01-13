@@ -20,7 +20,7 @@ import classes from './NewProjectDialog.scss'
   submit,
   handleSubmit
 }) => (
-  <Dialog <% if (materialv1) { %>open={open} onClose={onRequestClose}><% } %><% if (!materialv1) { %>
+  <Dialog<% if (materialv1) { %> open={open} onClose={onRequestClose}><% } %><% if (!materialv1) { %>
     open={open}
     title="New Project"
     onRequestClose={onRequestClose}
@@ -31,13 +31,13 @@ import classes from './NewProjectDialog.scss'
     ]}><% } %>
     <% if (materialv1) { %><DialogTitle id="simple-dialog-title">New Project</DialogTitle>
     <form onSubmit={handleSubmit} className={classes.inputs}>
-      <DialogContent><% } %><% if (!materialv1) { %><form onSubmit={handleSubmit} className={classes.inputs}><% } %>
+      <DialogContent>
         <Field
           name="name"
           component={TextField}
-          <% if (!materialv1) { %>floatingLabelText="Project Name"<% } %><% if (materialv1) { %>label="Project Name"<% } %>
+          label="Project Name"
           validate={[required]}
-        /><% if (materialv1) { %>
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={onRequestClose} color="accent">
@@ -46,9 +46,17 @@ import classes from './NewProjectDialog.scss'
         <Button type="submit" color="primary">
           Create
         </Button>
-      </DialogActions><% } %>
+      </DialogActions>
     </form>
-  </Dialog>
+  </Dialog><% } %><% if (!materialv1) { %><form onSubmit={handleSubmit} className={classes.inputs}>
+      <Field
+        name="name"
+        component={TextField}
+        floatingLabelText="Project Name"
+        validate={[required]}
+      />
+    </form>
+  </Dialog><% } %>
 )
 
 NewProjectDialog.propTypes = {

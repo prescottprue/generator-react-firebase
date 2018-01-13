@@ -1,39 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import Button from 'material-ui/Button'
 import { TextField } from 'redux-form-material-ui'
-import { ACCOUNT_FORM_NAME } from 'constants'
 import ProviderDataForm from '../ProviderDataForm'
 import classes from './AccountForm.scss'
 
-export const AccountForm = ({ account, handleSubmit, submitting, pristine }) => (
+export const AccountForm = ({
+  account,
+  handleSubmit,
+  submitting,
+  pristine
+}) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <h4>Account</h4>
-    <Field
-      name="displayName"
-      component={TextField}
-      label="Display Name"
-    />
-    <Field
-      name="email"
-      component={TextField}
-      label="Email"
-    />
-    <Field
-      name="avatarUrl"
-      component={TextField}
-      label="Avatar Url"
-    />
-    {
-      !!account && !!account.providerData &&
+    <div className={classes.fields}>
+      <Field
+        fullWidth
+        name="displayName"
+        component={TextField}
+        label="Display Name"
+      />
+      <Field name="email" label="Email" component={TextField} fullWidth />
+      <Field
+        name="avatarUrl"
+        label="Avatar Url"
+        component={TextField}
+        fullWidth
+      />
+    </div>
+    {!!account &&
+      !!account.providerData && (
         <div>
           <h4>Linked Accounts</h4>
-          <ProviderDataForm
-            providerData={account.providerData}
-          />
+          <ProviderDataForm providerData={account.providerData} />
         </div>
-    }
+      )}
     <Button color="primary" type="submit" disabled={pristine || submitting}>
       {submitting ? 'Saving' : 'Save'}
     </Button>
