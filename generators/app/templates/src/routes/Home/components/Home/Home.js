@@ -9,8 +9,8 @@ const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 export const Home = () => (
   <div<% if (materialv1) { %> className={classes.container}><% } %>
     <% if (!materialv1) { %>className={classes.container}
-    style={{ color: Theme.palette.primary2Color }}><% } %>
-    <div className="flex-row-center">
+    style={{ color: Theme.palette.primary2Color }}>
+    <% } %><div className="flex-row-center">
       <h2>Home Route</h2>
     </div>
     <div className="flex-row-center">

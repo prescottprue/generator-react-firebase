@@ -15,8 +15,7 @@ export const ProjectsPage = ({
   toggleDialog,
   deleteProject,
   addProject,
-  goToProject,
-  goToCollaborator
+  goToProject
 }) =>
   children ? (
     cloneElement(children, { auth })
@@ -34,7 +33,6 @@ export const ProjectsPage = ({
             <ProjectTile
               key={`Project-${<% if (includeRedux && includeFirestore) { %>project.id<% } %><% if (includeRedux && !includeFirestore) { %>project.key<% } %>}-${ind}`}
               name={<% if (includeRedux && includeFirestore) { %>project.name<% } %><% if (includeRedux && !includeFirestore) { %>project.value.name<% } %>}
-              onCollabClick={goToCollaborator}
               onSelect={() => goToProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
               onDelete={() => deleteProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
             />
@@ -51,7 +49,6 @@ ProjectsPage.propTypes = {
   toggleDialog: PropTypes.func.isRequired, // from enhancer (withStateHandlers)
   deleteProject: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   collabProjects: PropTypes.object, // from enhancer (withHandlers - firebase)
-  goToCollaborator: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   addProject: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   goToProject: PropTypes.func.isRequired // from enhancer (withHandlers - router)
 }

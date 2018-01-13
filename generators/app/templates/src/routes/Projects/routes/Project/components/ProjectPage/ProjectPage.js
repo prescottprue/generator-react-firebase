@@ -4,7 +4,7 @@ import Card, { CardContent } from 'material-ui/Card'
 import Typography from 'material-ui/Typography'<% } %>
 import classes from './ProjectPage.scss'
 
-const Project = ({ params, project }) => (
+const ProjectPage = ({ params, project }) => (
   <div className={classes.container}>
     <% if (!materialv1) { %><h2>Project Container</h2>
     <pre>Project Key: {params.projectname}</pre>
@@ -16,17 +16,17 @@ const Project = ({ params, project }) => (
         <Typography className={classes.subtitle}>
           {params.projectname}
         </Typography>
-        <Typography component="p">
+        <div>
           <pre>{JSON.stringify(project, null, 2)}</pre>
-        </Typography>
+        </div>
       </CardContent>
     </Card><% } %>
   </div>
 )
 
-Project.propTypes = {
+ProjectPage.propTypes = {
   project: PropTypes.object,
   params: PropTypes.object.isRequired
 }
 
-export default Project
+export default ProjectPage

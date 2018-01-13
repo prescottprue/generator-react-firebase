@@ -14,17 +14,21 @@ export const AccountForm = ({
 }) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <h4>Account</h4>
-    <Field
-      name="displayName"
-      component={TextField}
-      label="Display Name"
-    />
-    <Field name="email" component={TextField} label="Email" />
-    <Field
-      name="avatarUrl"
-      component={TextField}
-      label="Avatar Url"
-    />
+    <div className={classes.fields}>
+      <Field
+        fullWidth
+        name="displayName"
+        component={TextField}
+        label="Display Name"
+      />
+      <Field name="email" label="Email" component={TextField} fullWidth />
+      <Field
+        name="avatarUrl"
+        label="Avatar Url"
+        component={TextField}
+        fullWidth
+      />
+    </div>
     {!!account &&
       !!account.providerData && (
         <div>

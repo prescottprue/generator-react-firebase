@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './ProjectPage.scss'
 
-const Project = ({ params, project }) => (
+const ProjectPage = ({ params, project }) => (
   <div className={classes.container}>
     <h2>Project Container</h2>
     <pre>Project Key: {params.projectname}</pre>
@@ -10,9 +10,9 @@ const Project = ({ params, project }) => (
   </div>
 )
 
-Project.propTypes = {
+ProjectPage.propTypes = {
   project: PropTypes.object,
   params: PropTypes.object.isRequired
 }
 
-export default Project
+export default ProjectPage

@@ -32,31 +32,31 @@ import classes from './NewProjectDialog.scss'
     <% if (materialv1) { %><DialogTitle id="simple-dialog-title">New Project</DialogTitle>
     <form onSubmit={handleSubmit} className={classes.inputs}>
       <DialogContent>
-          <Field
-            name="name"
-            component={TextField}
-            label="Project Name"
-            validate={[required]}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onRequestClose} color="accent">
-            Cancel
-          </Button>
-          <Button type="submit" color="primary">
-            Create
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog><% } %><% if (!materialv1) { %><form onSubmit={handleSubmit} className={classes.inputs}>
+        <Field
+          name="name"
+          component={TextField}
+          label="Project Name"
+          validate={[required]}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onRequestClose} color="accent">
+          Cancel
+        </Button>
+        <Button type="submit" color="primary">
+          Create
+        </Button>
+      </DialogActions>
+    </form>
+  </Dialog><% } %><% if (!materialv1) { %><form onSubmit={handleSubmit} className={classes.inputs}>
       <Field
         name="name"
         component={TextField}
         floatingLabelText="Project Name"
         validate={[required]}
-      /><% } %>
+      />
     </form>
-  </Dialog>
+  </Dialog><% } %>
 )
 
 NewProjectDialog.propTypes = {

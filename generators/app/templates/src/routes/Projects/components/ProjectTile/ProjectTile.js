@@ -14,11 +14,13 @@ export const ProjectTile = ({ name, onSelect, onDelete, showDelete }) => (
         {name || 'No Name'}
       </span>
       {showDelete && onDelete ? (
-        <Tooltip title="delete">
+        <% if (materialv1) { %><Tooltip title="delete">
           <IconButton onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
-        </Tooltip>
+        </Tooltip><% } %><% if (!materialv1) { %><IconButton onClick={onDelete}>
+          <DeleteIcon />
+        </IconButton><% } %>
       ) : null}
     </div>
   </Paper>

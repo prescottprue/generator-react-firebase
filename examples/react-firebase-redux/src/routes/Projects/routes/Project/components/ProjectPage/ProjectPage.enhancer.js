@@ -6,7 +6,8 @@ import { UserIsAuthenticated } from 'utils/router'
 
 export default compose(
   // redirect to /login if user is not logged in
-  UserIsAuthenticated,firebaseConnect(({ params }) => [{ path: `projects/${params.projectname}` }]),
+  UserIsAuthenticated,
+  firebaseConnect(({ params }) => [{ path: `projects/${params.projectname}` }]),
   connect(({ firebase: { data } }, { params }) => ({
     project: getVal(data, `projects/${params.projectname}`)
   })),

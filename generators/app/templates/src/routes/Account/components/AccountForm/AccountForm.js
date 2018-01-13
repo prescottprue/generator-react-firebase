@@ -14,17 +14,33 @@ import classes from './AccountForm.scss'
 }) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <h4>Account</h4>
-    <Field
-      name="displayName"
-      component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Display Name"<% } %><% if (materialv1) { %>label="Display Name"<% } %>
-    />
-    <Field name="email" component={TextField} <% if (!materialv1) { %>floatingLabelText="Email"<% } %><% if (materialv1) { %>label="Email"<% } %> />
-    <Field
-      name="avatarUrl"
-      component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Avatar Url"<% } %><% if (materialv1) { %>label="Avatar Url"<% } %>
-    />
+    <% if (!materialv1) { %><div className={classes.fields}>
+      <Field
+        name="displayName"
+        component={TextField}
+        floatingLabelText="Display Name"
+      />
+      <Field name="email" component={TextField} floatingLabelText="Email" />
+      <Field
+        name="avatarUrl"
+        component={TextField}
+        floatingLabelText="Avatar Url"
+      />
+    </div><% } %><% if (materialv1) { %><div className={classes.fields}>
+      <Field
+        fullWidth
+        name="displayName"
+        component={TextField}
+        label="Display Name"
+      />
+      <Field name="email" label="Email" component={TextField} fullWidth />
+      <Field
+        name="avatarUrl"
+        label="Avatar Url"
+        component={TextField}
+        fullWidth
+      />
+    </div><% } %>
     {!!account &&
       !!account.providerData && (
         <div>

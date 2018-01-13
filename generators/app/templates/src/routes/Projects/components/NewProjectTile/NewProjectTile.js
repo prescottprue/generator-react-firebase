@@ -5,9 +5,9 @@ import ContentAddCircle from <% if (!materialv1) { %>'material-ui/svg-icons/cont
 import classes from './NewProjectTile.scss'
 
 const iconSize = '6rem'
-const iconStyle = { width: iconSize, height: iconSize }
+const iconStyle = { width: iconSize, height: iconSize }<% if (!materialv1) { %>
 const color = '#979797'
-const hoverColor = '#616161'
+const hoverColor = '#616161'<% } %>
 
 export const NewProjectTile = ({ onClick }) => (
   <Paper className={classes.container} onClick={onClick}>

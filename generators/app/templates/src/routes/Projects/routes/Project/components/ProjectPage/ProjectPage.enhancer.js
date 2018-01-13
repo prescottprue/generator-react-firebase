@@ -21,7 +21,8 @@ export default compose(
   ]),
   spinnerWhileLoading(['firestore']),
   // // Map projects from state to props
-  connect(({ firestore: { data } }, { params }) => ({<% } %><% if (!includeFirestore) { %>firebaseConnect(({ params }) => [{ path: `projects/${params.projectname}` }]),
+  connect(({ firestore: { data } }, { params }) => ({<% } %><% if (!includeFirestore) { %>
+  firebaseConnect(({ params }) => [{ path: `projects/${params.projectname}` }]),
   connect(({ firebase: { data } }, { params }) => ({<% } %>
     project: getVal(data, `projects/${params.projectname}`)
   })),

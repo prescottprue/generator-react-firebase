@@ -22,23 +22,21 @@ export const NewProjectDialog = ({
     <DialogTitle id="simple-dialog-title">New Project</DialogTitle>
     <form onSubmit={handleSubmit} className={classes.inputs}>
       <DialogContent>
-          <Field
-            name="name"
-            component={TextField}
-            label="Project Name"
-            validate={[required]}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onRequestClose} color="accent">
-            Cancel
-          </Button>
-          <Button type="submit" color="primary">
-            Create
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+        <Field
+          name="name"
+          component={TextField}
+          label="Project Name"
+          validate={[required]}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onRequestClose} color="accent">
+          Cancel
+        </Button>
+        <Button type="submit" color="primary">
+          Create
+        </Button>
+      </DialogActions>
     </form>
   </Dialog>
 )
