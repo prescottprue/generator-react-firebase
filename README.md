@@ -301,8 +301,8 @@ MIT © [Scott Prue](http://prue.io)
 [daviddm-url]: https://david-dm.org/prescottprue/generator-react-firebase
 [climate-image]: https://img.shields.io/codeclimate/github/prescottprue/generator-react-firebase.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/prescottprue/generator-react-firebase
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/prescottprue/generator-react-firebase.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/prescottprue/generator-react-firebase
+[coverage-image]: https://img.shields.io/codecov/c/github/prescottprue/generator-react-firebase.svg?style=flat-square
+[coverage-url]: https://codecov.io/gh/prescottprue/generator-react-firebase
 [license-image]: https://img.shields.io/npm/l/generator-react-firebase.svg?style=flat-square
 [license-url]: https://github.com/prescottprue/generator-react-firebase/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
