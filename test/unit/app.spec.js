@@ -107,7 +107,6 @@ describe('generator-react-firebase:app', function () {
   })
 
   describe('redux option', () => {
-
     describe('include', () => {
       before(() =>
         helpers.run(path.join(__dirname, '../../generators/app'))
