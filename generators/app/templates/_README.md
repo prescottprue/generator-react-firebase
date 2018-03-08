@@ -1,6 +1,5 @@
 # <%= appName %>
 
-[![NPM version][npm-image]][npm-url]
 <% if (includeTravis) { %>[![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]<% } %>
 <% if (codeClimate) { %>[![Code Coverage][coverage-image]][coverage-url]
@@ -21,13 +20,21 @@
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^5.0.0` (`6.11.0` suggested)
+* node `^6.11.5`
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
 
-1. Install dependencies: `npm install`
-2. Start Development server: `npm start`
+1. Install dependencies: `yarn install` (or `npm install`)
+1. Create `src/config.js` file that looks like so:
+    ```js
+    const firebase = {
+      // Config from Firebase console
+    }
+
+    export default { firebase }
+    ```
+1. Start Development server: `yarn start` (or `npm start`)
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
@@ -176,8 +183,6 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
     * smaller files which are easier to parse
     * functional components can be helpful (along with other tools) when attempting to optimize things
 
-[npm-image]: https://img.shields.io/npm/v/<%= appName %>.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/<%= appName %>
 <% if (includeTravis) { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
 [daviddm-image]: https://img.shields.io/david/<%= githubUser %>/<%= appName %>.svg?style=flat-square

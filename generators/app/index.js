@@ -80,6 +80,12 @@ const prompts = [
   },
   {
     type: 'confirm',
+    name: 'includeFunctions',
+    message: 'Include Functions?',
+    default: true
+  },
+  {
+    type: 'confirm',
     name: 'useYarn',
     message: 'Use Yarn?',
     default: true
@@ -198,6 +204,13 @@ module.exports = class extends Generator {
         { src: 'src/utils/firebase.js' }
       )
     }
+
+    if (this.answers.includeFunctions) {
+      filesArray.push(
+        { src: 'functions/**', dest: 'functions' }
+      )
+    }
+
     filesArray.forEach(file => {
       if (file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
