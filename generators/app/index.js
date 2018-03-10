@@ -6,6 +6,34 @@ const path = require('path')
 const commandExists = require('command-exists')
 const utils = require('./utils')
 
+const featureChoices = [
+  {
+    name: 'Version 1 of Material-UI (0.20.0 used otherwise)',
+    answerName: 'materialv1',
+    checked: true
+  },
+  {
+    name: 'Firebase Functions (with Babel setup)',
+    answerName: 'includeFunctions',
+    checked: true
+  },
+  {
+    name: 'Config for Travis CI',
+    answerName: 'includeTravis',
+    checked: true
+  },
+  {
+    name: 'Tests',
+    answerName: 'includeTests',
+    checked: true
+  },
+  {
+    answerName: 'includeBlueprints',
+    name: 'Blueprints (used with redux-cli)',
+    checked: true
+  }
+]
+
 const prompts = [
   {
     type: 'input',
@@ -26,31 +54,24 @@ const prompts = [
     message: 'Firebase apiKey',
     required: true
   },
-
   {
     type: 'confirm',
     name: 'includeRedux',
-    message: 'Would to include redux for local state-management?',
-    default: true
-  },
-  {
-    type: 'confirm',
-    name: 'materialv1',
-    message: 'Use material-ui version 1 (still in pre-release)?',
+    message: 'Include redux for local state-management?',
     default: true
   },
   {
     type: 'confirm',
     name: 'includeFirestore',
-    message: 'Include Firestore?',
+    message: 'Use Firestore (RTDB still available)?',
     when: ({ includeRedux }) => includeRedux,
     default: false
   },
   {
-    type: 'confirm',
-    name: 'includeTravis',
-    message: 'Would to include config for Travis CI?',
-    default: true
+    type: 'checkbox',
+    message: 'Other Features To Include?',
+    name: 'otherFeatures',
+    choices: featureChoices
   },
   {
     type: 'list',
@@ -71,18 +92,6 @@ const prompts = [
     ],
     message: 'What service are you deploying to?',
     default: 0
-  },
-  {
-    type: 'confirm',
-    name: 'includeTests',
-    message: 'Include Tests?',
-    default: true
-  },
-  {
-    type: 'confirm',
-    name: 'includeFunctions',
-    message: 'Include Functions?',
-    default: true
   },
   {
     type: 'confirm',
@@ -118,7 +127,7 @@ const filesArray = [
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/**', dest: 'src/static' },
+  { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/styles/**', dest: 'src/styles' },
   { src: 'tests/**', dest: 'tests' },
   { src: 'testseslintrc', dest: 'tests/.eslintrc' }
@@ -144,6 +153,11 @@ module.exports = class extends Generator {
 
     return this.prompt(prompts).then((props) => {
       this.answers = props
+      // Map features array to answerNames
+      featureChoices.forEach((choice) => {
+        const matching = this.answers.otherFeatures.find(feature => choice.name === feature)
+        this.answers[choice.answerName] = matching
+      })
       this.data = Object.assign({}, this.intialData, props)
     })
   }
@@ -211,8 +225,14 @@ module.exports = class extends Generator {
       )
     }
 
+    if (this.answers.includeBlueprints) {
+      filesArray.push(
+        { src: 'blueprints/**', dest: 'blueprints', noTemplating: true }
+      )
+    }
+
     filesArray.forEach(file => {
-      if (file.src.indexOf('.png') !== -1) {
+      if (file.noTemplating || file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
           this.templatePath(file.src),
           this.destinationPath(file.dest || file.src || file)
@@ -231,13 +251,25 @@ module.exports = class extends Generator {
       .then(() => {
         if (!this.answers.useYarn) {
           console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
+          console.log(chalk.blue('Installing dependencies using npm...')) // eslint-disable-line no-console
+          // Main npm install then functions npm install
           return this.npmInstall()
+            .then(() => {
+              console.log(chalk.blue('Installing functions dependencies using npm...')) // eslint-disable-line no-console
+              return this.npmInstall(undefined, { prefix: 'functions' })
+            })
         }
-        console.log(chalk.blue('Using Yarn!')) // eslint-disable-line no-console
+        console.log(chalk.blue('Installing dependencies using yarn...')) // eslint-disable-line no-console
+        // Main yarn install then functions yarn install
         return this.yarnInstall()
+          .then(() => {
+            console.log(chalk.blue('Installing functions dependencies using Yarn...')) // eslint-disable-line no-console
+            return this.yarnInstall(undefined, { cwd: 'functions' })
+          })
       })
-      .catch(() => {
-        this.npmInstall()
+      .catch((err) => {
+        console.log(chalk.red('Error installing dependencies:'), err.message || err) // eslint-disable-line no-console
+        return Promise.reject(err)
       })
   }
 }

@@ -24,7 +24,7 @@
     "url": "git+https://github.com/<%= githubUser %>/<%= appName %>.git"
   },
   "engines": {
-    "node": "^6.11.5"
+    "node": ">=6.11.5"
   },
   "author": "<%= githubUser %> (https://github.com/<%= githubUser %>)",
   "license": "MIT",

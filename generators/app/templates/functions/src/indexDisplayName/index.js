@@ -52,7 +52,7 @@ export default functions.database
       throw nameUpdateErr
     }
     return data
-}<% } %><% if (includeRedux && includeFirestore) { %><% if (includeRedux && includeFirestore) { %>
+}<% } %><% if (includeRedux && includeFirestore) { %>
 /**
  * Function to index displayName. Triggered by user profile updates. Writes
  * data to users_public collection.
