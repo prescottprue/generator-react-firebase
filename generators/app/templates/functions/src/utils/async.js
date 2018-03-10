@@ -1,21 +1,6 @@
 import { size, pick } from 'lodash'
 
 /**
- * Whether or not object contains all parameters in a list
- * @param  {Object}  srcObj      [description]
- * @param  {Array}  keysList - List of keys to check for
- * @return {Boolean} Whether or not object has all keys
- * @example
- * const thing = { param1: 'some', param2: 'value' }
- * const keysToCheck = ['param1', 'param2']
- * hasAll(thing, keysToCheck) // true
- * hasAll(thing, ['random', 'param1']) // false
- */
-export function hasAll(srcObj, keysList) {
-  return keysList.every(k => k in srcObj)
-}
-
-/**
  * Async await wrapper for easy error handling
  * @param  {Promise} promise - Promise to wrap responses of
  * @return {Promise} Resolves and rejects with an array
