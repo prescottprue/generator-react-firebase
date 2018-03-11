@@ -16,6 +16,7 @@
   "dependencies": {
     "chalk": "^2.0.1",
     "command-exists": "^1.2.2",
+    "lodash": "^4.17.5",
     "yeoman-generator": "^1.1.1",
     "yosay": "^2.0.0"
   },

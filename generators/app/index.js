@@ -221,6 +221,10 @@ module.exports = class extends Generator {
 
     if (this.answers.includeFunctions) {
       filesArray.push(
+        { src: 'functions/runtimeconfig.json', dest: 'functions/runtimeconfig.json' },
+        { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
+        { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
+        { src: 'functions/package.json', dest: 'functions/package.json' },
         { src: 'functions/**', dest: 'functions' }
       )
     }
