@@ -154,10 +154,12 @@ module.exports = class extends Generator {
     return this.prompt(prompts).then((props) => {
       this.answers = props
       // Map features array to answerNames
-      featureChoices.forEach((choice) => {
-        const matching = this.answers.otherFeatures.find(feature => choice.name === feature)
-        this.answers[choice.answerName] = matching
-      })
+      if (props.otherFeatures) {
+        featureChoices.forEach((choice) => {
+          const matching = props.otherFeatures.find(feature => choice.name === feature)
+          this.answers[choice.answerName] = matching
+        })
+      }
       this.data = Object.assign({}, this.intialData, props)
     })
   }
@@ -221,11 +223,15 @@ module.exports = class extends Generator {
 
     if (this.answers.includeFunctions) {
       filesArray.push(
-        { src: 'functions/runtimeconfig.json', dest: 'functions/runtimeconfig.json' },
+        { src: 'functions/.runtimeconfig.json', dest: 'functions/.runtimeconfig.json' },
         { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
         { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
         { src: 'functions/package.json', dest: 'functions/package.json' },
-        { src: 'functions/**', dest: 'functions' }
+        { src: 'functions/src/indexDisplayName/index.js', dest: 'functions/src/indexDisplayName/index.js' },
+        { src: 'functions/src/utils/async.js', dest: 'functions/src/utils/async.js' },
+        { src: 'functions/test/.eslintrc', dest: 'functions/test/.eslintrc' },
+        { src: 'functions/test/mocha.opts', dest: 'functions/test/mocha.opts' },
+        { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' }
       )
     }
 
@@ -251,6 +257,7 @@ module.exports = class extends Generator {
   }
 
   install () {
+    let usedYarn = this.answers.useYarn
     return commandExists('yarn')
       .then(() => {
         if (!this.answers.useYarn) {
@@ -258,18 +265,17 @@ module.exports = class extends Generator {
           console.log(chalk.blue('Installing dependencies using npm...')) // eslint-disable-line no-console
           // Main npm install then functions npm install
           return this.npmInstall()
-            .then(() => {
-              console.log(chalk.blue('Installing functions dependencies using npm...')) // eslint-disable-line no-console
-              return this.npmInstall(undefined, { prefix: 'functions' })
-            })
         }
+        usedYarn = true
         console.log(chalk.blue('Installing dependencies using yarn...')) // eslint-disable-line no-console
         // Main yarn install then functions yarn install
         return this.yarnInstall()
-          .then(() => {
-            console.log(chalk.blue('Installing functions dependencies using Yarn...')) // eslint-disable-line no-console
-            return this.yarnInstall(undefined, { cwd: 'functions' })
-          })
+      })
+      .then(() => {
+        console.log(chalk.blue(`Installing functions dependencies using ${usedYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
+        return usedYarn
+          ? this.yarnInstall(undefined, { cwd: 'functions' })
+          : this.npmInstall(undefined, { prefix: 'functions' })
       })
       .catch((err) => {
         console.log(chalk.red('Error installing dependencies:'), err.message || err) // eslint-disable-line no-console
