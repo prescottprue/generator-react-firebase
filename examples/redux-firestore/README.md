@@ -26,13 +26,18 @@
 ## Getting Started
 
 1. Install dependencies: `yarn install` (or `npm install`)
-1. Create `src/config.js` file that looks like so:
+1. If pulling to a new environment (not where project was created) - create `src/config.js` file that looks like so:
     ```js
     const firebase = {
       // Config from Firebase console
     }
 
-    export default { firebase }
+    // Config for react-redux-firebase
+    export const reduxFirebase = {
+      userProfile: 'users', // root to which user profiles are written
+    }
+
+    export default { firebase, reduxFirebase }
     ```
 1. Start Development server: `yarn start` (or `npm start`)
 
@@ -74,6 +79,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── server                   # Express application that provides webpack middleware
 │   └── main.js              # Server application entry point
 ├── src                      # Application source code
+│   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
+│   ├── constants.js         # Project constants such as firebase paths and form names
 │   ├── index.html           # Main HTML page container for app
 │   ├── main.js              # Application bootstrap and rendering
 │   ├── normalize.js         # Browser normalization and polyfills
@@ -141,7 +148,6 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to firebase: `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
-
 
 ## FAQ
 

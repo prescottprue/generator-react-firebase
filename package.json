@@ -1,7 +1,7 @@
 {
   "name": "generator-react-firebase",
   "version": "2.0.0-rc.4",
-  "description": "Starter that uses React and Firebase (with option for Redux)",
+  "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
     "lint": "eslint generators test",
@@ -53,7 +53,6 @@
   },
   "author": {
     "name": "Scott Prue",
-    "email": "sprue.dev@gmail.com",
     "url": "https://github.com/prescottprue"
   },
   "keywords": [

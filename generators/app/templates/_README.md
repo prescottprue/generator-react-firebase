@@ -26,13 +26,18 @@
 ## Getting Started
 
 1. Install dependencies: `yarn install` (or `npm install`)
-1. Create `src/config.js` file that looks like so:
+1. If pulling to a new environment (not where project was created) - create `src/config.js` file that looks like so:
     ```js
     const firebase = {
       // Config from Firebase console
     }
 
-    export default { firebase }
+    // Config for react-redux-firebase
+    export const reduxFirebase = {
+      userProfile: 'users', // root to which user profiles are written
+    }
+
+    export default { firebase, reduxFirebase }
     ```
 1. Start Development server: `yarn start` (or `npm start`)
 
@@ -77,6 +82,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── server                   # Express application that provides webpack middleware
 │   └── main.js              # Server application entry point
 ├── src                      # Application source code
+│   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
+│   ├── constants.js         # Project constants such as firebase paths and form names
 │   ├── index.html           # Main HTML page container for app
 │   ├── main.js              # Application bootstrap and rendering
 │   ├── normalize.js         # Browser normalization and polyfills
@@ -165,7 +172,6 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
 4. Set the following environment vars within the Travis-CI repo settings page:
   * HEROKU_KEY - Your Heroku API key
   * APP - Your Heroku App name<% } %>
-
 
 ## FAQ
 
