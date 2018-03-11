@@ -272,10 +272,13 @@ module.exports = class extends Generator {
         return this.yarnInstall()
       })
       .then(() => {
-        console.log(chalk.blue(`Installing functions dependencies using ${usedYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
-        return usedYarn
-          ? this.yarnInstall(undefined, { cwd: 'functions' })
-          : this.npmInstall(undefined, { prefix: 'functions' })
+        if (this.answers.includeFunctions) {
+          console.log(chalk.blue(`Installing functions dependencies using ${usedYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
+          return usedYarn
+            ? this.yarnInstall(undefined, { cwd: 'functions' })
+            : this.npmInstall(undefined, { prefix: 'functions' })
+        }
+        return null
       })
       .catch((err) => {
         console.log(chalk.red('Error installing dependencies:'), err.message || err) // eslint-disable-line no-console
