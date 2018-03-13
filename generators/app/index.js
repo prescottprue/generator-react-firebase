@@ -13,7 +13,7 @@ const featureChoices = [
     checked: true
   },
   {
-    name: 'Firebase Functions (with Babel setup)',
+    name: 'Firebase Functions (with ESNext support)',
     answerName: 'includeFunctions',
     checked: true
   },
@@ -29,7 +29,7 @@ const featureChoices = [
   },
   {
     answerName: 'includeBlueprints',
-    name: 'Blueprints (used with redux-cli)',
+    name: 'Blueprints (for redux-cli)',
     checked: true
   }
 ]
@@ -63,7 +63,7 @@ const prompts = [
   {
     type: 'confirm',
     name: 'includeFirestore',
-    message: 'Use Firestore (RTDB still available)?',
+    message: 'Use Firestore (RTDB still included)?',
     when: ({ includeRedux }) => includeRedux,
     default: false
   },
@@ -197,16 +197,12 @@ module.exports = class extends Generator {
 
     if (this.answers.includeRedux) {
       filesArray.push(
-        // { src: 'src/actions/**', dest: 'src/actions' },
-        // { src: 'src/reducers/**', dest: 'src/reducers' },
         { src: 'src/store/createStore.js', dest: 'src/store/createStore.js' },
         { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
         { src: 'src/store/location.js', dest: 'src/store/location.js' },
         { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
         { src: 'src/utils/components.js', dest: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
-        // TODO: Add question about including redux-cli blueprints (they contain template strings)
-        // { src: 'blueprints/**', dest: 'blueprints' },
       )
       if (this.answers.includeFirestore) {
         filesArray.push(
@@ -227,11 +223,14 @@ module.exports = class extends Generator {
         { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
         { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
         { src: 'functions/package.json', dest: 'functions/package.json' },
-        { src: 'functions/src/indexDisplayName/index.js', dest: 'functions/src/indexDisplayName/index.js' },
+        { src: 'functions/src/indexUser/index.js', dest: 'functions/src/indexUser/index.js' },
         { src: 'functions/src/utils/async.js', dest: 'functions/src/utils/async.js' },
         { src: 'functions/test/.eslintrc', dest: 'functions/test/.eslintrc' },
         { src: 'functions/test/mocha.opts', dest: 'functions/test/mocha.opts' },
-        { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' }
+        { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' },
+        { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
+        { src: 'functions/index.js', dest: 'functions/index.js' },
+        { src: 'functions/index.js', dest: 'functions/index.js' }
       )
     }
 
@@ -262,12 +261,12 @@ module.exports = class extends Generator {
       .then(() => {
         if (!this.answers.useYarn) {
           console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
-          console.log(chalk.blue('Installing dependencies using npm...')) // eslint-disable-line no-console
+          console.log(chalk.blue('Installing dependencies using NPM...')) // eslint-disable-line no-console
           // Main npm install then functions npm install
           return this.npmInstall()
         }
         usedYarn = true
-        console.log(chalk.blue('Installing dependencies using yarn...')) // eslint-disable-line no-console
+        console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
         // Main yarn install then functions yarn install
         return this.yarnInstall()
       })

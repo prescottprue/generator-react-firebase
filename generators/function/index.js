@@ -2,6 +2,8 @@
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const camelCase = require('lodash/camelCase')
+const get = require('lodash/get')
+const capitalize = require('lodash/capitalize')
 
 const prompts = [
   {
@@ -29,21 +31,45 @@ module.exports = class extends Generator {
       type: String,
       desc: 'The function name'
     })
+
+    this.argument('triggerType', {
+      required: false,
+      type: String,
+      desc: 'The trigger type'
+    })
   }
 
   prompting () {
-    this.log(
-      `${chalk.blue('Generating')} -> Cloud Function: ${chalk.green(this.options.name)}`
-    )
-
-    return this.prompt(prompts).then((props) => {
-      this.answers = props
-    })
+    // Only prompt if type was not passed
+    if (!this.options.triggerType) {
+      return this.prompt(prompts).then((props) => {
+        this.answers = props
+      })
+    }
   }
 
   writing () {
     const basePath = `functions/src/${camelCase(this.options.name)}`
-    const triggerTypeName = this.answers.triggerType.toLowerCase()
+    // Get name from answers falling back to options (in case of argument being
+    // passed for trigger type)
+    let triggerTypeName = get(
+      this,
+      'answers.triggerType',
+      get(this, 'options.triggerType', '')
+    ).toLowerCase()
+
+    // Format name for showing
+    if (triggerTypeName === 'http' || triggerTypeName === 'rtdb') {
+      triggerTypeName = `${triggerTypeName.toUpperCase()}${triggerTypeName === 'http' ? 'S' : ''}`
+    } else {
+      triggerTypeName = capitalize(triggerTypeName)
+    }
+
+    this.log(
+      `${chalk.blue('Generating')} -> Cloud Function:
+      Function Name: ${chalk.green(this.options.name)}
+      Trigger Type: ${this.options.triggerType ? chalk.cyan(triggerTypeName) : ''}`
+    )
 
     const filesArray = [
       { src: `_${triggerTypeName}Function.js`, dest: `${basePath}/index.js` }

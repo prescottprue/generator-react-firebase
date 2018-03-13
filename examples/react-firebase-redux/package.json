@@ -22,6 +22,9 @@
     "type": "git",
     "url": "git+https://github.com/testuser/react-firebase-redux.git"
   },
+  "engines": {
+    "node": ">=6.11.5"
+  },
   "author": "testuser (https://github.com/testuser)",
   "license": "MIT",
   "dependencies": {

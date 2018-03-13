@@ -6,8 +6,8 @@
     "node": ">=6.11.5"
   },
   "scripts": {
-    "test": "npm run build && mocha -R spec ./test/unit/**",
-    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/unit/**",
+    "test": "npm run build && mocha -R spec ./test/setup.js ./test/unit/**",
+    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/setup.js ./test/unit/**",
     "lint": "eslint -c .eslintrc ./src",
     "build": "npm run clean && babel src -d --out-dir dist",
     "clean": "rimraf dist etc",
@@ -32,6 +32,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "chai": "^4.1.2",
+    "firebase-mock": "^2.1.0",
     "mocha": "^4.0.2",
     "rimraf": "^2.6.2",
     "sinon": "^4.1.2"
