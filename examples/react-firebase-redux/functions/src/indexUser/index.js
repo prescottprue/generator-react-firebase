@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin'
-import * as functions from 'functions'
+import * as functions from 'firebase-functions'
 import { to } from '../utils/async'
 
 /**
