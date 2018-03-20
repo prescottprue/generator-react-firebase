@@ -1,12 +1,12 @@
 {
   "projects": {
+    "default": "redux-firebasev3",
     "master": "redux-firebasev3",
     "prod": "redux-firebasev3"
   },
   "ci": {
     "createConfig": {
       "master": {
-        "version": "${npm_package_version}",
         "env": "development",
         "firebase": {
           "apiKey": "",
@@ -22,7 +22,6 @@
         }
       },
       "prod": {
-        "version": "${npm_package_version}",
         "env": "production",
         "firebase": {
           "apiKey": "",

@@ -6,7 +6,7 @@ import { analyticsTrackingId, env } from 'config' // eslint-disable-line import/
  * Initialize Google Analytics if analytics id exists and environment is
  * production
  */
-export const initGA = () => {
+export function initGA() {
   if (analyticsTrackingId && env === 'production') {
     ReactGA.initialize(analyticsTrackingId)
     ReactGA.set({
@@ -29,8 +29,9 @@ export function triggerAnalyticsEvent(eventData) {
 }
 
 /**
- * Set user auth data within google analytics
+ * Set user auth data within Google Analytics
  * @param {Object} auth - Authentication data
+ * @param {String} auth.uid - User's id
  */
 export function setGAUser(auth) {
   if (auth && auth.uid) {
@@ -48,4 +49,4 @@ export function trackRouteUpdate() {
   }
 }
 
-export default { initGA, trackRouteUpdate }
+export default { initGA, triggerAnalyticsEvent, trackRouteUpdate }
