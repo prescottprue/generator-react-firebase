@@ -18,6 +18,16 @@ const featureChoices = [
     checked: true
   },
   {
+    answerName: 'includeAnalytics',
+    name: 'Google Analytics Utils (using react-ga)',
+    checked: true
+  },
+  {
+    answerName: 'includeErrorHandling',
+    name: 'Stackdriver Error Reporting (Client Side)',
+    checked: true
+  },
+  {
     name: 'Config for Travis CI',
     answerName: 'includeTravis',
     checked: true
@@ -237,6 +247,20 @@ module.exports = class extends Generator {
     if (this.answers.includeBlueprints) {
       filesArray.push(
         { src: 'blueprints/**', dest: 'blueprints', noTemplating: true }
+      )
+    }
+
+    if (this.answers.includeErrorHandling) {
+      filesArray.push(
+        { src: 'src/utils/errorHandler.js', dest: 'src/utils/errorHandler.js' },
+        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+      )
+    }
+
+    if (this.answers.includeAnalytics) {
+      filesArray.push(
+        { src: 'src/utils/analytics.js', dest: 'src/utils/analytics.js' },
+        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
       )
     }
 
