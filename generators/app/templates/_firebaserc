@@ -7,7 +7,7 @@
   "ci": {
     "createConfig": {
       "master": {
-        "env": "development",
+        "env": "production",
         "firebase": {
           "apiKey": "<%= firebaseKey %>",
           "authDomain": "<%= firebaseName %>.firebaseapp.com",

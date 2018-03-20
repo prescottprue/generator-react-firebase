@@ -7,7 +7,7 @@
   "ci": {
     "createConfig": {
       "master": {
-        "env": "development",
+        "env": "production",
         "firebase": {
           "apiKey": "",
           "authDomain": "redux-firebasev3.firebaseapp.com",
