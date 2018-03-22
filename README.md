@@ -17,8 +17,7 @@
 Install [Yeoman](http://yeoman.io) and generator-react-firebase using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)):
 
 ```bash
-npm install -g yo
-npm install -g generator-react-firebase
+npm install -g yo generator-react-firebase
 ```
 
 ## Getting Started
@@ -69,7 +68,6 @@ Project outputted from generator has a README explaining the full structure and 
 |`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
-
 
 View [the example application README](/examples/react-firebase-redux/README.md) for more details.
 
@@ -144,6 +142,53 @@ Selecting [Heroku](http://heroku.com) from the deploy options when running the g
 Sub generators are included to help speed up the application building process. You can run a sub-generator by calling `yo react-firebase:<name of sub-generator> <param1>`.
 
 Example: To call the `component` sub-generator with "SomeThing" as the first parameter write: `yo react-firebase:component SomeThing`
+
+#### Function
+
+Generates a Cloud Function allowing the user to specify trigger type (from HTTPS, Firestore, RTDB, Auth, or Storage)
+
+A component is best for things that will be reused in multiple places. Our example
+
+**command**
+
+`yo react-firebase:function uppercaser`
+
+**result**
+
+```
+/functions
+--/uppercaser
+----index.js
+```
+
+*/functions/uppercaser/index.js:*
+
+```js
+import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
+
+/**
+ * @name uppercaser
+ * Cloud Function triggered by Real Time Database Event
+ * @type {functions.CloudFunction}
+ */
+export default functions.database
+  .ref('/users/{userId}')
+  .onUpdate(uppercaserEvent)
+
+/**
+ * @param  {functions.Event} event - Function event
+ * @return {Promise}
+ */
+async function uppercaserEvent(event) {
+  const eventData = event.data.val()
+  const params = event.params
+  const ref = admin.database().ref('responses')
+  await ref.push(eventData)
+  return data
+}
+
+```
 
 #### Component
 

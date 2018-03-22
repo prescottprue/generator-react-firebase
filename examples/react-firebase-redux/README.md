@@ -1,6 +1,5 @@
 # react-firebase-redux
 
-[![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Code Coverage][coverage-image]][coverage-url]
@@ -21,13 +20,28 @@
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^5.0.0` (`6.11.0` suggested)
+* node `^6.11.5`
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
 
-1. Install dependencies: `npm install`
-2. Start Development server: `npm start`
+1. Install dependencies: `yarn install` (or `npm install`)
+1. If pulling to a new environment (not where project was created) - create `src/config.js` file that looks like so:
+    ```js
+    export const env = 'development' // process.env.NODE_ENV can also be used
+
+    export const firebase = {
+      // Config from Firebase console
+    }
+
+    // Config for react-redux-firebase
+    export const reduxFirebase = {
+      userProfile: 'users', // root to which user profiles are written
+    }
+
+    export default { env, firebase, reduxFirebase }
+    ```
+1. Start Development server: `yarn start` (or `npm start`)
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
@@ -67,6 +81,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── server                   # Express application that provides webpack middleware
 │   └── main.js              # Server application entry point
 ├── src                      # Application source code
+│   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
+│   ├── constants.js         # Project constants such as firebase paths and form names
 │   ├── index.html           # Main HTML page container for app
 │   ├── main.js              # Application bootstrap and rendering
 │   ├── normalize.js         # Browser normalization and polyfills
@@ -135,7 +151,6 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Deploy to firebase: `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
-
 ## FAQ
 
 1. Why node `6.11.5` instead of a newer version?
@@ -152,8 +167,6 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
     * smaller files which are easier to parse
     * functional components can be helpful (along with other tools) when attempting to optimize things
 
-[npm-image]: https://img.shields.io/npm/v/react-firebase-redux.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/react-firebase-redux
 [travis-image]: https://img.shields.io/travis/testuser/react-firebase-redux/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/testuser/react-firebase-redux
 [daviddm-image]: https://img.shields.io/david/testuser/react-firebase-redux.svg?style=flat-square

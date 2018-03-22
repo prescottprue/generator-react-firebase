@@ -23,6 +23,9 @@
     "type": "git",
     "url": "git+https://github.com/<%= githubUser %>/<%= appName %>.git"
   },
+  "engines": {
+    "node": ">=6.11.5"
+  },
   "author": "<%= githubUser %> (https://github.com/<%= githubUser %>)",
   "license": "MIT",
   "dependencies": {
@@ -36,7 +39,8 @@
     "promise": "^7.1.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react-dom": "^15.5.4",<% if (includeAnalytics) { %>
+    "react-ga": "^2.3.5",<% } %>
     "react-google-button": "^0.3.0",
     <% if (includeRedux) { %>"react-redux": "^5.0.4",
     "react-redux-firebase": "next",<% } %>
@@ -49,7 +53,8 @@
     "redux-firestore": "latest",<% } %>
     "redux-form": "^7.2.0",
     <% if (materialv1) { %>"redux-form-material-ui": "next",<% } %><% if (!materialv1) { %>"redux-form-material-ui": "^4.2.0",<% } %>
-    "redux-thunk": "^2.2.0",<% } %>
+    "redux-thunk": "^2.2.0",<% } %><% if (includeErrorHandling) { %>
+    "stackdriver-errors-js": "^0.4.0",<% } %>
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

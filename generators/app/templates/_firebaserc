@@ -1,13 +1,13 @@
 {
   "projects": {
+    "default": "<%= firebaseName %>",
     "master": "<%= firebaseName %>",
     "prod": "<%= firebaseName %>"
   },
   "ci": {
     "createConfig": {
       "master": {
-        "version": "${npm_package_version}",
-        "env": "development",
+        "env": "production",
         "firebase": {
           "apiKey": "<%= firebaseKey %>",
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
@@ -22,7 +22,6 @@
         }
       },
       "prod": {
-        "version": "${npm_package_version}",
         "env": "production",
         "firebase": {
           "apiKey": "<%= firebaseKey %>",

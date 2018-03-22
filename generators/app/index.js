@@ -6,6 +6,44 @@ const path = require('path')
 const commandExists = require('command-exists')
 const utils = require('./utils')
 
+const featureChoices = [
+  {
+    name: 'Version 1 of Material-UI (0.20.0 used otherwise)',
+    answerName: 'materialv1',
+    checked: true
+  },
+  {
+    name: 'Firebase Functions (with ESNext support)',
+    answerName: 'includeFunctions',
+    checked: true
+  },
+  {
+    answerName: 'includeAnalytics',
+    name: 'Google Analytics Utils (using react-ga)',
+    checked: true
+  },
+  {
+    answerName: 'includeErrorHandling',
+    name: 'Stackdriver Error Reporting (Client Side)',
+    checked: true
+  },
+  {
+    name: 'Config for Travis CI',
+    answerName: 'includeTravis',
+    checked: true
+  },
+  {
+    name: 'Tests',
+    answerName: 'includeTests',
+    checked: true
+  },
+  {
+    answerName: 'includeBlueprints',
+    name: 'Blueprints (for redux-cli)',
+    checked: true
+  }
+]
+
 const prompts = [
   {
     type: 'input',
@@ -26,31 +64,24 @@ const prompts = [
     message: 'Firebase apiKey',
     required: true
   },
-
   {
     type: 'confirm',
     name: 'includeRedux',
-    message: 'Would to include redux for local state-management?',
-    default: true
-  },
-  {
-    type: 'confirm',
-    name: 'materialv1',
-    message: 'Use material-ui version 1 (still in pre-release)?',
+    message: 'Include redux for local state-management?',
     default: true
   },
   {
     type: 'confirm',
     name: 'includeFirestore',
-    message: 'Include Firestore?',
+    message: 'Use Firestore (RTDB still included)?',
     when: ({ includeRedux }) => includeRedux,
     default: false
   },
   {
-    type: 'confirm',
-    name: 'includeTravis',
-    message: 'Would to include config for Travis CI?',
-    default: true
+    type: 'checkbox',
+    message: 'Other Features To Include?',
+    name: 'otherFeatures',
+    choices: featureChoices
   },
   {
     type: 'list',
@@ -71,12 +102,6 @@ const prompts = [
     ],
     message: 'What service are you deploying to?',
     default: 0
-  },
-  {
-    type: 'confirm',
-    name: 'includeTests',
-    message: 'Include Tests?',
-    default: true
   },
   {
     type: 'confirm',
@@ -112,7 +137,7 @@ const filesArray = [
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/**', dest: 'src/static' },
+  { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/styles/**', dest: 'src/styles' },
   { src: 'tests/**', dest: 'tests' },
   { src: 'testseslintrc', dest: 'tests/.eslintrc' }
@@ -138,6 +163,13 @@ module.exports = class extends Generator {
 
     return this.prompt(prompts).then((props) => {
       this.answers = props
+      // Map features array to answerNames
+      if (props.otherFeatures) {
+        featureChoices.forEach((choice) => {
+          const matching = props.otherFeatures.find(feature => choice.name === feature)
+          this.answers[choice.answerName] = matching
+        })
+      }
       this.data = Object.assign({}, this.intialData, props)
     })
   }
@@ -175,16 +207,12 @@ module.exports = class extends Generator {
 
     if (this.answers.includeRedux) {
       filesArray.push(
-        // { src: 'src/actions/**', dest: 'src/actions' },
-        // { src: 'src/reducers/**', dest: 'src/reducers' },
         { src: 'src/store/createStore.js', dest: 'src/store/createStore.js' },
         { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
         { src: 'src/store/location.js', dest: 'src/store/location.js' },
         { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
         { src: 'src/utils/components.js', dest: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
-        // TODO: Add question about including redux-cli blueprints (they contain template strings)
-        // { src: 'blueprints/**', dest: 'blueprints' },
       )
       if (this.answers.includeFirestore) {
         filesArray.push(
@@ -198,8 +226,46 @@ module.exports = class extends Generator {
         { src: 'src/utils/firebase.js' }
       )
     }
+
+    if (this.answers.includeFunctions) {
+      filesArray.push(
+        { src: 'functions/.runtimeconfig.json', dest: 'functions/.runtimeconfig.json' },
+        { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
+        { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
+        { src: 'functions/package.json', dest: 'functions/package.json' },
+        { src: 'functions/src/indexUser/index.js', dest: 'functions/src/indexUser/index.js' },
+        { src: 'functions/src/utils/async.js', dest: 'functions/src/utils/async.js' },
+        { src: 'functions/test/.eslintrc', dest: 'functions/test/.eslintrc' },
+        { src: 'functions/test/mocha.opts', dest: 'functions/test/mocha.opts' },
+        { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' },
+        { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
+        { src: 'functions/index.js', dest: 'functions/index.js' },
+        { src: 'functions/index.js', dest: 'functions/index.js' }
+      )
+    }
+
+    if (this.answers.includeBlueprints) {
+      filesArray.push(
+        { src: 'blueprints/**', dest: 'blueprints', noTemplating: true }
+      )
+    }
+
+    if (this.answers.includeErrorHandling) {
+      filesArray.push(
+        { src: 'src/utils/errorHandler.js', dest: 'src/utils/errorHandler.js' },
+        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+      )
+    }
+
+    if (this.answers.includeAnalytics) {
+      filesArray.push(
+        { src: 'src/utils/analytics.js', dest: 'src/utils/analytics.js' },
+        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+      )
+    }
+
     filesArray.forEach(file => {
-      if (file.src.indexOf('.png') !== -1) {
+      if (file.noTemplating || file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
           this.templatePath(file.src),
           this.destinationPath(file.dest || file.src || file)
@@ -214,17 +280,32 @@ module.exports = class extends Generator {
   }
 
   install () {
+    let usedYarn = this.answers.useYarn
     return commandExists('yarn')
       .then(() => {
         if (!this.answers.useYarn) {
           console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
+          console.log(chalk.blue('Installing dependencies using NPM...')) // eslint-disable-line no-console
+          // Main npm install then functions npm install
           return this.npmInstall()
         }
-        console.log(chalk.blue('Using Yarn!')) // eslint-disable-line no-console
+        usedYarn = true
+        console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
+        // Main yarn install then functions yarn install
         return this.yarnInstall()
       })
-      .catch(() => {
-        this.npmInstall()
+      .then(() => {
+        if (this.answers.includeFunctions) {
+          console.log(chalk.blue(`Installing functions dependencies using ${usedYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
+          return usedYarn
+            ? this.yarnInstall(undefined, { cwd: 'functions' })
+            : this.npmInstall(undefined, { prefix: 'functions' })
+        }
+        return null
+      })
+      .catch((err) => {
+        console.log(chalk.red('Error installing dependencies:'), err.message || err) // eslint-disable-line no-console
+        return Promise.reject(err)
       })
   }
 }

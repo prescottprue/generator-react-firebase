@@ -78,6 +78,14 @@ const testFiles = [
   'tests/routes/Account/components/AccountForm.spec.js',
 ]
 
+const defaultOtherFeatures =[
+  'Version 1 of Material-UI (0.20.0 used otherwise)',
+  'Firebase Functions (with Babel setup)',
+  'Config for Travis CI',
+  'Tests',
+  'Blueprints (used with redux-cli)',
+]
+
 describe('generator-react-firebase:app', function () {
   this.timeout(15000)
   describe('firebaseName', () => {
@@ -87,7 +95,9 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseName: 'asdf.firebaseio.com',
-            materialv1: false,
+            otherFeatures: [
+              'Config for Travis CI',
+            ],
             useYarn: true
           })
           .toPromise()
@@ -113,10 +123,12 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
-            includeTravis: 'Y',
+            otherFeatures: [
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+            ],
             includeRedux: 'Y',
             deployTo: 'firebase',
-            materialv1: false,
             includeFirestore: false,
             useYarn: true
           })
@@ -141,10 +153,13 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
-            includeTravis: 'Y',
+            otherFeatures: [
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+              'Blueprints (used with redux-cli)',
+            ],
             includeFirestore: false,
             includeRedux: false,
-            materialv1: false,
             deployTo: 'firebase',
             useYarn: true
           })
@@ -172,10 +187,12 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
-            includeTravis: 'Y',
+            otherFeatures: [
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+            ],
             includeRedux: 'Y',
             deployTo: 'firebase',
-            materialv1: false,
             includeFirestore: true,
             useYarn: true
           })
@@ -206,7 +223,10 @@ describe('generator-react-firebase:app', function () {
             includeTravis: 'Y',
             includeFirestore: false,
             includeRedux: false,
-            materialv1: false,
+            otherFeatures: [
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+            ],
             deployTo: 'firebase',
             useYarn: true
           })
@@ -234,10 +254,13 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
-            includeTravis: 'Y',
             includeRedux: 'Y',
             deployTo: 'firebase',
-            materialv1: true,
+            otherFeatures: [
+              'Version 1 of Material-UI (0.20.0 used otherwise)',
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+            ],
             includeFirestore: true,
             useYarn: true
           })
@@ -271,7 +294,10 @@ describe('generator-react-firebase:app', function () {
             includeFirestore: false,
             includeTravis: 'Y',
             includeRedux: 'Y',
-            materialv1: false,
+            otherFeatures: [
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+            ],
             deployTo: 'firebase',
             useYarn: true
           })
@@ -302,8 +328,10 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             includeFirestore: false,
-            includeTravis: 'Y',
-            materialv1: false,
+            otherFeatures: [
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+            ],
             includeRedux: 'N',
             deployTo: 'heroku',
             useYarn: true
