@@ -1,4 +1,4 @@
-describe('<%= camelName %> RTDB Cloud Function', () => {
+describe('<%= camelName %> HTTPS Cloud Function', () => {
   let myFunctions
   let configStub
   let adminInitStub
@@ -33,17 +33,18 @@ describe('<%= camelName %> RTDB Cloud Function', () => {
   })
 
   it('invokes successfully', async () => {
-    const fakeEvent = {
-      data: new functions.database.DeltaSnapshot(
-        adminInitStub,
-        adminInitStub,
-        null,
-        { some: 'thing' }, // data object
-        'requests/fileToDb/123ABC'
-      )
-    }
-    // Invoke with fake event object
-    const result = await myFunctions.indexUser(fakeEvent)
-    expect(result).to.exist
+    // A fake request object, with req.query.text set to 'input'
+    const req = { query: { text: 'input' } };
+    // A fake response object, with a stubbed redirect function which asserts that it is called
+    // with parameters 303, 'new_ref'.
+    const res = {
+      redirect: (code, url) => {
+        assert.equal(code, 303);
+        assert.equal(url, 'new_ref');
+        done();
+      }
+    };
+    // Invoke https function with fake request + response objects
+    await myFunctions.indexUser(req, res)
   })
 })

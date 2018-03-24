@@ -5,20 +5,36 @@ const camelCase = require('lodash/camelCase')
 const get = require('lodash/get')
 const capitalize = require('lodash/capitalize')
 
+const triggerTypePrompt = {
+  type: 'list',
+  name: 'triggerType',
+  message: 'What type of function trigger?',
+  choices: [
+    'HTTPS',
+    'RTDB',
+    'Firestore',
+    'Auth',
+    'Storage'
+  ],
+  default: 0
+}
+
 const prompts = [
   {
-    type: 'list',
-    name: 'triggerType',
-    message: 'What type of function trigger?',
-    choices: [
-      'HTTPS',
-      'RTDB',
-      'Firestore',
-      'Auth',
-      'Storage'
-    ],
-    default: 0
+    type: 'confirm',
+    name: 'includeTests',
+    message: 'Do you want to include tests?',
+    default: false
   }
+]
+
+const functionTypeOptions = [
+  'http',
+  'auth',
+  'https',
+  'storage',
+  'firestore',
+  'rtdb'
 ]
 
 module.exports = class extends Generator {
@@ -31,39 +47,39 @@ module.exports = class extends Generator {
       type: String,
       desc: 'The function name'
     })
-
-    this.argument('triggerType', {
-      required: false,
-      type: String,
-      desc: 'The trigger type'
+    // Adds support for a flags
+    functionTypeOptions.forEach((functionType) => {
+      this.option(functionType)
     })
   }
 
   prompting () {
+    // Convert function type option to trigger type if passed in flag
+    this.triggerFlag = functionTypeOptions.find(optionName =>
+      !!this.options[optionName]
+    )
     // Only prompt if type was not passed
-    if (!this.options.triggerType) {
-      return this.prompt(prompts).then((props) => {
-        this.answers = props
-      })
+    if (!this.triggerFlag) {
+      prompts.unshift(triggerTypePrompt)
     }
+    return this.prompt(prompts).then((props) => {
+      this.answers = props
+    })
   }
 
   writing () {
-    const basePath = `functions/src/${camelCase(this.options.name)}`
+    const camelName = camelCase(this.options.name)
     // Get name from answers falling back to options (in case of argument being
-    // passed for trigger type)
-    let triggerTypeName = get(
+    // passed for trigger type flag)
+    const triggerType = get(
       this,
       'answers.triggerType',
-      get(this, 'options.triggerType', '')
+      this.triggerFlag
     ).toLowerCase()
-
     // Format name for showing
-    if (triggerTypeName === 'http' || triggerTypeName === 'rtdb') {
-      triggerTypeName = `${triggerTypeName.toUpperCase()}${triggerTypeName === 'http' ? 'S' : ''}`
-    } else {
-      triggerTypeName = capitalize(triggerTypeName)
-    }
+    const triggerTypeName = (triggerType === 'http' || triggerType === 'rtdb')
+      ? `${triggerType.toUpperCase()}${triggerType === 'http' ? 'S' : ''}`
+      : capitalize(triggerType)
 
     this.log(
       `${chalk.blue('Generating')} -> Cloud Function:
@@ -72,8 +88,20 @@ module.exports = class extends Generator {
     )
 
     const filesArray = [
-      { src: `_${triggerTypeName}Function.js`, dest: `${basePath}/index.js` }
+      {
+        src: `_${triggerType}Function.js`,
+        dest: `functions/src/${camelName}/index.js`
+      }
     ]
+
+    if (this.answers.includeTests) {
+      filesArray.push(
+        {
+          src: `_${triggerType}Test.js`,
+          dest: `functions/test/${camelName}/index.spec.js`
+        }
+      )
+    }
 
     filesArray.forEach(file => {
       this.fs.copyTpl(
