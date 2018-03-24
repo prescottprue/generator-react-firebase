@@ -45,5 +45,28 @@ describe('<%= camelName %> RTDB Cloud Function', () => {
     // Invoke with fake event object
     const result = await myFunctions.indexUser(fakeEvent)
     expect(result).to.exist
+  describe('Indexes User', () => {
+    it('by placing data within users_public', () => {
+      const fakeEvent = {
+        // The DeltaSnapshot constructor is used by the Functions SDK to transform a raw event from
+        // your database into an object with utility functions such as .val().
+        // Its signature is: DeltaSnapshot(app: firebase.app.App, adminApp: firebase.app.App,
+        // data: any, delta: any, path?: string);
+        // We can pass null for the first 2 parameters. The data parameter represents the state of
+        // the database item before the event, while the delta parameter represents the change that
+        // occured to cause the event to fire. The last parameter is the database path, which we are
+        // not making use of in this test. So we will omit it.
+        data: new functions.database.DeltaSnapshot(
+          adminInitStub,
+          adminInitStub,
+          null,
+          { filePath: 'testing' },
+          'requests/fileToDb/123ABC'
+        )
+      }
+      // Invoke webhook with our fake request and response objects. This will cause the
+      // assertions in the response object to be evaluated.
+      myFunctions.indexUser(fakeEvent)
+    })
   })
 })
