@@ -21,6 +21,11 @@ module.exports = class extends Generator {
       type: String,
       desc: 'The component name'
     })
+    this.argument('basePath', {
+      type: String,
+      required: false,
+      desc: 'The base path of the components folder (starts at "src")'
+    })
   }
 
   prompting () {
@@ -34,7 +39,8 @@ module.exports = class extends Generator {
   }
 
   writing () {
-    const basePath = `src/components/${this.options.name}`
+    const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
+    const basePath = `src/${basePathOption}components/${this.options.name}`
     const filesArray = [
       { src: '_index.js', dest: `${basePath}/index.js` },
       { src: '_main.enhancer.js', dest: `${basePath}/${this.options.name}.enhancer.js` }

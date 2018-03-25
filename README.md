@@ -32,7 +32,7 @@ Project will default to being named with the name of the folder that it is gener
 
 1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
 1. Tryout the [Sub Generators](#sub-generators)
-1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore)
+1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).
 
 ## Features
 * Application Navbar (with Avatar)
@@ -44,7 +44,7 @@ Project will default to being named with the name of the folder that it is gener
 ## Uses
 * [react](https://facebook.github.io/react/) - Rendering + Components
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
-* [material-ui](https://material-ui.com) - Google Material Styling React Components
+* [material-ui](https://material-ui.com) - Google Material Styling React Components (with option for [Version 1](https://material-ui-next.com))
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
 * [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) - Improve CLI experience for Webpack
 
@@ -143,6 +143,9 @@ Sub generators are included to help speed up the application building process. Y
 
 Example: To call the `component` sub-generator with "SomeThing" as the first parameter write: `yo react-firebase:component SomeThing`
 
+##### Path Argument
+Another argument can be passed to sub generators (unless otherwise noted) to provide the base path in which you would like to run the generator (starts from `src`). For example: `yo react-firebase:component Car routes/Project` runs the component generator within the Project route folder meaning that the component will be added to `routes/Project/components` instead of the top level `src/components` folder.
+
 #### Function
 
 Generates a Cloud Function allowing the user to specify trigger type (from HTTPS, Firestore, RTDB, Auth, or Storage)
@@ -193,6 +196,8 @@ async function uppercaserEvent(event) {
   return response
 }
 ```
+
+Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
 #### Component
 
@@ -333,6 +338,8 @@ Generates a React component along with a matching component (which has an scss f
 ------index.js
 ------reducer.js
 ```
+
+Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
 ## Examples
 
