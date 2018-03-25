@@ -9,12 +9,13 @@ const formName = 'TestForm'
 const folderPath = `src/components/${name}Form`
 
 describe('generator-react-firebase:form', () => {
-  beforeEach(() =>
-    helpers.run(path.join(__dirname, '../../generators/form'))
+  before(async () => {
+    await helpers.run(path.join(__dirname, '../../generators/form'))
       .withArguments([ name ])
+      .inDir(testPath)
       .withPrompts()
       .toPromise()
-  )
+  })
 
   describe('index file', () => {
     it('is copied', () => {

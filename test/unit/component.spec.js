@@ -8,16 +8,17 @@ const name = 'Test'
 const folderPath = `src/components/${name}`
 
 describe.skip('generator-react-firebase:component', () => {
-  before(() =>
-    helpers.run(path.join(__dirname, '../../generators/component'))
+  before(async () => {
+    await helpers.run(path.join(__dirname, '../../generators/component'))
       .withArguments([ name ])
+      .inDir(testPath)
       .withPrompts({
         addStyle: true,
         includeEnhancer: false,
         usingFirestore: false
       })
       .toPromise()
-  )
+  })
 
   describe('index file', () => {
     it('is copied', () => {
