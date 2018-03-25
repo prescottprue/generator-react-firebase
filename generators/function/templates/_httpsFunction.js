@@ -5,7 +5,7 @@ import * as functions from 'firebase-functions'
  * Cloud Function triggered by HTTP request
  * @type {functions.CloudFunction}
  */
-export default functions.https.onRequest(<%= name %>Request)
+export default functions.https.<%= eventType %>(<%= name %>Request)
 
 /**
  * @param req - Request

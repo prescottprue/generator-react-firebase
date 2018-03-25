@@ -8,5 +8,8 @@
   ],
   "plugins": [
     "transform-object-rest-spread",
+    ["module-resolver", {
+     "root": ["./src"]
+   }]
   ]
 }

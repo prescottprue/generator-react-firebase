@@ -166,6 +166,7 @@ A component is best for things that will be reused in multiple places. Our examp
 ```js
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import { to } from 'utils/async'
 
 /**
  * @name uppercaser
@@ -184,10 +185,13 @@ async function uppercaserEvent(event) {
   const eventData = event.data.val()
   const params = event.params
   const ref = admin.database().ref('responses')
-  await ref.push(eventData)
-  return data
+  const [writeErr, response] = await to(ref.push(eventData))
+  if (writeErr) {
+    console.error('Error writing response:', writeErr.message || writeErr)
+    throw writeErr
+  }
+  return response
 }
-
 ```
 
 #### Component
@@ -213,6 +217,45 @@ A component is best for things that will be reused in multiple places. Our examp
 ```
 
 */app/components/Car.js:*
+
+```jsx
+import React from 'react'
+import PropTypes from 'prop-types'
+import classes from './Car.scss'
+
+export const Project = ({ car }) => (
+  <div className={classes.container}>
+    <span>Project Component</span>
+    <pre>{JSON.stringify(car, null, 2)}</pre>
+  </div>
+)
+```
+
+#### Form
+
+Generates a Redux Form wrapped React component along with a matching scss file and places it within `/components`.
+
+**command**
+
+`yo react-firebase:form Car`
+
+_or_
+
+`yo react-firebase:form CarForm`
+
+**result**
+
+```
+/app
+--/components
+----/CarForm
+------index.js
+------CarForm.enhancer.js
+------CarForm.js
+------CarForm.scss
+```
+
+*/app/components/CarForm.js:*
 
 ```jsx
 import React from 'react'

@@ -8,14 +8,14 @@ import * as admin from 'firebase-admin'
  */
 export default functions.firestore
   .document('projects/{projectId}')
-  .onUpdate(<%= camelName %>Event)
+  .<%= eventType %>(<%= camelName %>Event)
 
 /**
  * @param  {functions.Event} event - Function event
  * @return {Promise}
  */
 async function <%= camelName %>Event(event) {
-  const eventData = event.data.data()
-  const firestore = admin.firestore()
+  // const eventData = event.data.data()
+  // const firestore = admin.firestore()
   // const ref = firestore.collection()
 }
