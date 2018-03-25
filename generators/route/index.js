@@ -47,8 +47,8 @@ module.exports = class extends Generator {
 
   writing () {
     const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
-    const basePath = `src/${basePathOption}components/${this.options.name}`
-    const pageComponentPath = `${basePath}/${this.options.name}`
+    const basePath = `src/${basePathOption}routes/${this.options.name}`
+    const pageComponentPath = `${basePath}/components/${this.options.name}`
     const filesArray = [
       { src: '_index.js', dest: `${basePath}/index.js` },
       { src: 'component/_index.js', dest: `${pageComponentPath}/index.js` },

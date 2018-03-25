@@ -5,34 +5,33 @@ import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
 
 const name = 'Test'
-const folderPath = `src/components/${name}`
+const formName = 'TestForm'
+const folderPath = `src/components/${name}Form`
 
-describe.skip('generator-react-firebase:component', () => {
-  before(() =>
-    helpers.run(path.join(__dirname, '../../generators/component'))
+describe('generator-react-firebase:form', () => {
+  beforeEach(() =>
+    helpers.run(path.join(__dirname, '../../generators/form'))
       .withArguments([ name ])
-      .withPrompts({
-        addStyle: true,
-        includeEnhancer: false,
-        usingFirestore: false
-      })
+      .withPrompts()
       .toPromise()
   )
 
   describe('index file', () => {
     it('is copied', () => {
-      checkForEachFile([ createFilePath(`${folderPath}/index.js`) ], `${testPath}/`)
+      checkForEachFile([ createFilePath(`${folderPath}/index.js`) ], folderPath)
     })
-    it('has correct content', () => {
-      const fileStr = `import ${name} from './${name}'\n\nexport default ${name}`
+    it.skip('has correct content', () => {
+      const fileStr = `import ${formName} from './${formName}'\n\
+      import enhance from './${formName}.enhancer'\n\n\
+      export default enhance(${formName})`
       assert.fileContent(`${folderPath}/index.js`, fileStr)
     })
   })
 
   describe('js file', () => {
-    const filePath = `${folderPath}/${name}.js`
+    const filePath = `${folderPath}/${formName}.js`
     it('is copied', () => {
-      return checkForEachFile([ createFilePath(filePath)  ], `${testPath}/`)
+      return checkForEachFile([ createFilePath(filePath)  ], folderPath)
     })
     // TODO: Check that content of file is correct
     // it('has correct content', () => {
@@ -42,7 +41,9 @@ describe.skip('generator-react-firebase:component', () => {
 
   describe('scss file', () => {
     it('is copied', () => {
-      return checkForEachFile([ createFilePath(`${folderPath}/${name}.scss`) ], `${testPath}/`)
+      return checkForEachFile([
+        createFilePath(`${folderPath}/${formName}.scss`)
+      ], folderPath)
     })
     // TODO: Check that content of file is correct
     // it('has correct content', () => {
