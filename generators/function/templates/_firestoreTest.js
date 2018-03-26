@@ -1,41 +1,36 @@
-const firebasemock = require('firebase-mock')
-let mockauth = new firebasemock.MockFirebase()
-let mockdatabase = new firebasemock.MockFirebase()
-let mockfirestore = new firebasemock.MockFirestore()
-let mocksdk = firebasemock.MockFirebaseSdk(
-  function() {
-    return mockdatabase
-  },
-  function() {
-    return mockauth
-  },
-  function() {
-    return mockfirestore
-  }
-)
+import firebasemock from 'firebase-mock'
 
-let mockapp = mocksdk.initializeApp()
-
-describe('indexUser Cloud Function', () => {
+describe('<%= camelName %> Firestore Cloud Function', () => {
   let myFunctions
   let configStub
   let adminInitStub
   let functions
+  let mockauth
+  let mockdatabase
+  let mockfirestore
 
-  beforeEach(() => {
-    // Since index.js makes calls to functions.config and admin.initializeApp at the top of the file,
-    // we need to stub both of these functions before requiring index.js. This is because the
-    // functions will be executed as a part of the require process.
-    // Here we stub admin.initializeApp to be a dummy function that doesn't do anything.
-    /* eslint-disable global-require */
+  before(() => {
+    let mocksdk = firebasemock.MockFirebaseSdk(
+      function() {
+        return mockdatabase
+      },
+      function() {
+        return mockauth
+      },
+      function() {
+        return mockfirestore
+      }
+    )
+
+    let mockapp = mocksdk.initializeApp()
     process.env.GCLOUD_PROJECT = 'FakeProjectId'
     mockdatabase = new firebasemock.MockFirebase()
     mockauth = new firebasemock.MockFirebase()
     mockfirestore = new firebasemock.MockFirestore()
     adminInitStub = sinon.stub(mocksdk, 'initializeApp')
-    // Next we stub functions.config(). Normally config values are loaded from Cloud Runtime Config;
-    // here we'll just provide some fake values for firebase.databaseURL and firebase.storageBucket
-    // so that an error is not thrown during admin.initializeApp's parameter check
+
+    // Stub functions.config()
+    /* eslint-disable global-require */
     functions = require('firebase-functions')
     configStub = sinon.stub(functions, 'config').returns({
       firebase: {
@@ -44,6 +39,18 @@ describe('indexUser Cloud Function', () => {
         projectId: 'not-a-project.appspot',
         messagingSenderId: '823357791673'
       }
+    })
+
+    myFunctions = require(`${__dirname}/../../index`)
+    /* eslint-enable global-require */
+
+    // Set mocks to autoflush (makes restore/flush not nessesary)
+    mockdatabase.autoFlush()
+    mockauth.autoFlush()
+    mockfirestore.autoFlush()
+  })
+
+  after(() => {
       // You can stub any other config values needed by your functions here, for example:
       // foo: 'bar'
     })
@@ -78,6 +85,8 @@ describe('indexUser Cloud Function', () => {
       }
     }
     // Invoke function with fake event
+    const res = await myFunctions.indexUser(fakeEvent)
+    expect(res).to.exist
     try {
       await myFunctions.indexUser(fakeEvent)
     } catch (err) {

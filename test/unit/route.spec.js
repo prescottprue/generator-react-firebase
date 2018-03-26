@@ -6,15 +6,15 @@ const name = 'Test'
 const folderPath = `src/routes/${name}`
 
 describe('generator-react-firebase:route', () => {
-  before(() =>
-    helpers.run(path.join(__dirname, '../../generators/route'))
-      .withArguments(['Test'])
+  before(async () => {
+    await helpers.run(path.join(__dirname, '../../generators/route'))
+      .withArguments([name])
       .withPrompts({
         usingFirestore: true,
         includeEnhancer: true
       })
       .toPromise()
-  )
+  })
 
   describe('index.js file', () => {
     checkForEachFile([ `${folderPath}/index.js` ], folderPath)

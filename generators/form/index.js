@@ -1,15 +1,8 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
-
-const prompts = [
-  {
-    type: 'confirm',
-    name: 'usingFirestore',
-    message: 'Are you using Firestore?',
-    default: false
-  }
-]
+const camelCase = require('lodash/camelCase')
+const capitalize = require('lodash/capitalize')
 
 module.exports = class extends Generator {
   constructor (args, opts) {
@@ -19,7 +12,7 @@ module.exports = class extends Generator {
     this.argument('name', {
       required: true,
       type: String,
-      desc: 'The component name'
+      desc: 'The form name'
     })
     this.argument('basePath', {
       type: String,
@@ -30,29 +23,39 @@ module.exports = class extends Generator {
 
   prompting () {
     this.log(
-      `${chalk.blue('Generating')} -> React Enhancer: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> Redux-Form Form: ${chalk.green(this.options.name)}`
     )
 
-    return this.prompt(prompts).then((props) => {
-      this.answers = props
-    })
+    // return this.prompt(prompts).then((props) => {
+    //   this.answers = props
+    // })
   }
 
   writing () {
+    const cleanedName = this.options.name.replace('Form', '').replace('form', '')
+    const name = `${capitalize(camelCase(cleanedName))}Form`
     const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
-    const basePath = `src/${basePathOption}components/${this.options.name}`
+    const basePath = `src/${basePathOption}components/${name}`
     const filesArray = [
       { src: '_index.js', dest: `${basePath}/index.js` },
-      { src: '_main.enhancer.js', dest: `${basePath}/${this.options.name}.enhancer.js` }
+      { src: '_main.js', dest: `${basePath}/${name}.js` },
+      {
+        src: '_main.scss',
+        dest: `${basePath}/${name}.scss`
+      },
+      {
+        src: '_main.enhancer.js',
+        dest: `${basePath}/${name}.enhancer.js`
+      }
     ]
 
     filesArray.forEach(file => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),
-        Object.assign({}, this.answers, {
-          name: this.options.name,
-          lowerName: this.options.name.toLowerCase()
+        Object.assign({}, {
+          name,
+          lowerName: name.toLowerCase()
         })
       )
     })

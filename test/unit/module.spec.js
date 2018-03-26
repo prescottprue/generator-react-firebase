@@ -8,7 +8,7 @@ const folderPath = `src/modules/${name}`
 describe('generator-react-firebase:module', () => {
   before(() =>
     helpers.run(path.join(__dirname, '../../generators/module'))
-      .withArguments(['Test'])
+      .withArguments([name])
       .withPrompts({
         usingFirestore: true
       })

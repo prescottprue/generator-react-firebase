@@ -6,7 +6,7 @@ import * as functions from 'firebase-functions';
  * Cloud Function triggered by Auth Event
  * @type {functions.CloudFunction}
  */
-export default functions.auth.user().onCreate(<%= camelName %>Event)
+export default functions.auth.user().<%= eventType %>(<%= camelName %>Event)
 
 async function <%= camelName %>Event(event) {
   // const user = event.data; // The Firebase user
