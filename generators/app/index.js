@@ -85,6 +85,27 @@ const prompts = [
   },
   {
     type: 'list',
+    name: 'testFramework',
+    message: 'Which test framwork would you like to use?',
+    choices: [
+      'Jest',
+      'Mocha (run through Karma)'
+    ],
+    when: ({ otherFeatures }) => {
+      if (otherFeatures) {
+        const answers = {}
+        featureChoices.forEach((choice) => {
+          const matching = otherFeatures.find(feature => choice.name === feature)
+          answers[choice.answerName] = matching
+        })
+        return answers.includeTests
+      }
+      return false
+    },
+    default: 0
+  },
+  {
+    type: 'list',
     name: 'deployTo',
     choices: [
       {

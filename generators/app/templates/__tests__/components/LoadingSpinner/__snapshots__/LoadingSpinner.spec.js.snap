@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingSpinner renders an svg 1`] = `
+<div
+  className={undefined}
+>
+  <div
+    className={undefined}
+  >
+    <div
+      className="MuiCircularProgress-root-1 MuiCircularProgress-primaryColor-2"
+      role="progressbar"
+      style={
+        Object {
+          "height": 80,
+          "width": 80,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svgIndeterminate-4"
+        viewBox="0 0 50 50"
+      >
+        <circle
+          className="MuiCircularProgress-circle-6 MuiCircularProgress-circleIndeterminate-7"
+          cx={25}
+          cy={25}
+          fill="none"
+          r={20}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`LoadingSpinner renders an svg 2`] = `
+<div
+  className={undefined}
+>
+  <div
+    className={undefined}
+  >
+    <div
+      className="MuiCircularProgress-root-1 MuiCircularProgress-primaryColor-2"
+      role="progressbar"
+      style={
+        Object {
+          "height": 80,
+          "width": 80,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svgIndeterminate-4"
+        viewBox="0 0 50 50"
+      >
+        <circle
+          className="MuiCircularProgress-circle-6 MuiCircularProgress-circleIndeterminate-7"
+          cx={25}
+          cy={25}
+          fill="none"
+          r={20}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

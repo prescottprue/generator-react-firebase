@@ -1,0 +1,7 @@
+extends: ['../.eslintrc', 'plugin:jest/recommended']
+
+env:
+  jest/globals: true
+
+rules:
+  no-unused-expressions: 0

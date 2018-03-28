@@ -10,8 +10,10 @@
     "build:prod": "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
     "start": "cross-env NODE_ENV=development webpack-dashboard -p 1234 -c cyan -m -t react-firebase-redux -- node build/scripts/start",
     "start:simple": "cross-env NODE_ENV=development node build/scripts/start",
-    "test": "cross-env NODE_ENV=test karma start build/karma.config",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:cov": "npm run test -- --coverage",
     "test:watch": "npm test -- --watch",
+    "test:update": "npm test -- -u",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
@@ -24,6 +26,19 @@
   },
   "engines": {
     "node": ">=6.11.5"
+  },
+  "jest": {
+    "roots": [
+      "./__tests__"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(scss|css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ]
   },
   "author": "testuser (https://github.com/testuser)",
   "license": "MIT",
@@ -57,15 +72,17 @@
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-preset-env": "^1.4.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-runtime": "^6.20.0",
     "chai": "^3.5.0",
@@ -76,16 +93,17 @@
     "codecov": "^2.2.0",
     "compression": "^1.6.2",
     "connect-history-api-fallback": "^1.3.0",
-    "cross-env": "^5.0.0",
+    "cross-env": "^5.1.4",
     "css-loader": "^0.28.1",
     "dirty-chai": "^1.2.2",
     "enzyme": "^2.8.2",
-    "eslint": "^3.19.0",
+    "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^5.0.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jest": "^21.15.0",
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-promise": "^3.5.0",
@@ -101,6 +119,7 @@
     "husky": "^0.14.3",
     "ip": "^1.1.5",
     "istanbul-instrumenter-loader": "^3.0.0-rc.1",
+    "jest": "^22.4.3",
     "karma": "^1.7.0",
     "karma-coverage-istanbul-reporter": "^1.3.0",
     "karma-mocha": "^1.3.0",
@@ -112,7 +131,7 @@
     "phantomjs-prebuilt": "^2.1.14",
     "prettier": "^1.5.3",
     "react-addons-test-utils": "^15.5.1",
-    "react-test-renderer": "^15.5.4",
+    "react-test-renderer": "^15.6.2",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.5",
     "sinon": "^2.2.0",
