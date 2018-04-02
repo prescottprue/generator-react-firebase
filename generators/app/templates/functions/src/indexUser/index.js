@@ -108,7 +108,7 @@ async function indexUser(event) {
   }
 
   const data = event.data.data()
-  const previousData = event.data.previous.data();\
+  const previousData = event.data.previous.data();
 
   // Check to see if displayName has changed
   if (data.displayName === previousData.displayName) {

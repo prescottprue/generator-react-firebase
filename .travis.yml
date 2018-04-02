@@ -5,7 +5,7 @@ sudo: false
 language: node_js
 
 node_js:
-  - 6
+  - 6.11.5 
   - 8
   - 9
 
