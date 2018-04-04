@@ -7,6 +7,6 @@ const functionsTest = require('firebase-functions-test')()
 
 global.chai = chai
 global.sinon = sinon
-global.functionsTest = functionsTest
 global.expect = chai.expect
 global.assert = chai.assert
+global.functionsTest = functionsTest

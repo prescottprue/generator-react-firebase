@@ -66,9 +66,10 @@ async function indexUser(change, context) {
     throw nameUpdateErr
   }
 
-  return data
-}
-<% } %><% if (includeRedux && includeFirestore) { %>
+  console.log(`Successfully indexed user with userId: ${userId}`)
+
+  return null
+}<% } %><% if (includeRedux && includeFirestore) { %>
 
 /**
  * Function to index displayName. Triggered by updates to profiles within the

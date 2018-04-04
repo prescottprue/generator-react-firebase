@@ -7,17 +7,8 @@ describe('indexUser Cloud Function', () => {
   let indexUser
 
   before(() => {
-    // Since index.js makes calls to functions.config and admin.initializeApp at the top of the file,
-    // we need to stub both of these functions before requiring index.js. This is because the
-    // functions will be executed as a part of the require process.
-    // Here we stub admin.initializeApp to be a dummy function that doesn't do anything.
     /* eslint-disable global-require */
-
     adminInitStub = sinon.stub(admin, 'initializeApp')
-    // Now we can require index.js and save the exports inside a namespace called myFunctions.
-    // This includes our cloud functions, which can now be accessed at myFunctions.asanaWebhook
-
-    // if we use ../ without dirname here, it can not be run with --prefix from parent folder
     indexUser = functionsTest.features.wrap(
       require(`${__dirname}/../../index`).indexUser
     )

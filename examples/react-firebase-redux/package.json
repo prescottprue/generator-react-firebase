@@ -15,6 +15,8 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "functions:start": "npm run start --prefix functions",
+    "functions:build": "npm run build --prefix functions",
+    "functions:test": "npm run test --prefix functions",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
     "codecov": "cat coverage/*/lcov.info | codecov",
     "prepush": "npm run lint"

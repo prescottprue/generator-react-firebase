@@ -1,7 +1,6 @@
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import { to } from '../utils/async'
-admin.initializeApp()
 
 /**
  * Function to index user data into a public collection for easy access.

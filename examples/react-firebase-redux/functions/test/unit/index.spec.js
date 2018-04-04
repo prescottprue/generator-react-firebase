@@ -1,7 +1,8 @@
 import * as admin from 'firebase-admin' // eslint-disable-line no-unused-vars
 
-describe.skip('Cloud Functions', () => {
+describe('Cloud Functions', () => {
   let myFunctions
+  let configStub
   let adminInitStub
   let admin
 
@@ -14,6 +15,7 @@ describe.skip('Cloud Functions', () => {
 
   after(() => {
     // Restoring our stubs to the original methods.
+    configStub.restore()
     adminInitStub.restore()
   })
 

@@ -9,3 +9,4 @@ global.chai = chai
 global.sinon = sinon
 global.expect = chai.expect
 global.assert = chai.assert
+global.functionsTest = functionsTest
