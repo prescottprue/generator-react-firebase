@@ -31,7 +31,7 @@
   "author": "testuser (https://github.com/testuser)",
   "license": "MIT",
   "dependencies": {
-    "firebase": "^4.6.0",
+    "firebase": "^4.12.1",
     "lodash": "^4.17.4",
     "material-ui": "next",
     "material-ui-icons": "latest",

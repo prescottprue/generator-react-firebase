@@ -37,7 +37,6 @@ describe('indexUser Cloud Function', () => {
     // here we'll just provide some fake values for firebase.databaseURL and firebase.storageBucket
     // so that an error is not thrown during admin.initializeApp's parameter check
     functions = require('firebase-functions')
-    // functions.firestore()
     configStub = sinon.stub(functions, 'config').returns({
       firebase: {
         databaseURL: 'https://not-a-project.firebaseio.com',
@@ -48,8 +47,7 @@ describe('indexUser Cloud Function', () => {
       // You can stub any other config values needed by your functions here, for example:
       // foo: 'bar'
     })
-    // Now we can require index.js and save the exports inside a namespace called myFunctions.
-    // This includes our cloud functions, which can now be accessed at myFunctions.asanaWebhook
+    // Now we require index.js and save the exports inside a namespace called myFunctions
     // if we use ../ without dirname here, it can not be run with --prefix from parent folder
     myFunctions = require(`${__dirname}/../../index`)
     mockdatabase.autoFlush()
@@ -59,21 +57,13 @@ describe('indexUser Cloud Function', () => {
   })
 
   afterEach(() => {
-    // Restoring our stubs to the original methods.
+    // Restoring stubs to the original methods
     configStub.restore()
     adminInitStub.restore()
   })
 
   it('adds display name if it did not exist before', async () => {
     const fakeEvent = {
-      // The DeltaSnapshot constructor is used by the Functions SDK to transform a raw event from
-      // your database into an object with utility functions such as .val().
-      // Its signature is: DeltaSnapshot(app: firebase.app.App, adminApp: firebase.app.App,
-      // data: any, delta: any, path?: string);
-      // We can pass null for the first 2 parameters. The data parameter represents the state of
-      // the database item before the event, while the delta parameter represents the change that
-      // occured to cause the event to fire. The last parameter is the database path, which we are
-      // not making use of in this test. So we will omit it.
       data: new firebasemock.DeltaDocumentSnapshot(
         mockapp,
         null,
@@ -87,8 +77,7 @@ describe('indexUser Cloud Function', () => {
         userId: '123ABC'
       }
     }
-    // Invoke webhook with our fake request and response objects. This will cause the
-    // assertions in the response object to be evaluated.
+    // Invoke function with fake event
     try {
       await myFunctions.indexUser(fakeEvent)
     } catch (err) {
@@ -131,3 +120,5 @@ describe('indexUser Cloud Function', () => {
     expect(res).to.be.null
   })
 })
+
+

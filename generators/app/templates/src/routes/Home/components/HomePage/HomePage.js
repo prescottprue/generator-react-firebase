@@ -2,7 +2,7 @@ import React from 'react'<% if (!materialv1) { %>
 import Theme from 'theme'<% } %>
 import { Link } from 'react-router'
 import { paths } from 'constants'
-import classes from './Home.scss'
+import classes from './HomePage.scss'
 const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
