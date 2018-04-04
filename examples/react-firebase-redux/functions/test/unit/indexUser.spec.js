@@ -9,7 +9,7 @@ describe('indexUser Cloud Function', () => {
   before(() => {
     /* eslint-disable global-require */
     adminInitStub = sinon.stub(admin, 'initializeApp')
-    indexUser = functionsTest.features.wrap(
+    indexUser = functionsTest.wrap(
       require(`${__dirname}/../../index`).indexUser
     )
     /* eslint-enable global-require */
