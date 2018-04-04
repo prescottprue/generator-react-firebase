@@ -19,7 +19,7 @@ branches:
     - prod
 
 cache:
-   # TODO: Use npm once functions runtime is updated to a node verion with lock files
+  # TODO: Use npm once functions runtime is updated to a node verion with lock files
   yarn: true
   directories:
     - node_modules # NPM packages

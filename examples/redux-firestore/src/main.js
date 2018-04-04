@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import createStore from './store/createStore'
+import { initScripts } from 'utils'
 import { version } from '../package.json'
 import { env } from './config'
 import './styles/core.scss'
@@ -10,6 +11,7 @@ import './styles/core.scss'
 // ------------------------------------
 window.version = version
 window.env = env
+initScripts()
 
 // Store Initialization
 // ------------------------------------
