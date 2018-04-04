@@ -1,5 +1,8 @@
 {
   "presets": ["env"],
+  "plugins": [
+    "transform-runtime"
+  ],
   "env": {
     "test": {
       "plugins": [

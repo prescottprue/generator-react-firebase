@@ -31,7 +31,7 @@ export function init() {
  */
 export function setErrorUser(auth) {
   if (errorHandler && errorHandler.setUser && auth && auth.uid) {
-    errorHandler.setUser(uid)
+    errorHandler.setUser(auth.uid)
   }
 }
 

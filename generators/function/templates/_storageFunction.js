@@ -10,13 +10,29 @@ const gcs = require('@google-cloud/storage')()
  * Cloud Function triggered by Cloud Storage Event
  * @type {functions.CloudFunction}
  */
-export default functions.storage.object().onChange(<%= camelName %>Event)
+export default functions.storage
+  .object()
+  .<%= eventType %>(<%= camelName %>Event)
 
 /**
  * @param  {functions.Event} event - Function event
  * @return {Promise}
  */
-async function <%= camelName %>Event(event) {
+<% if (functionsV1) { %>async function <%= camelName %>Event(object, context) {
+  const {
+    bucket: bucketName,
+    name: filePath,
+    contentType,
+  } = object
+
+  const bucket = gcs.bucket(bucketName)
+  const fileName = path.basename(filePath)
+  const tempFilePath = path.join(os.tmpdir(), fileName)
+  // Download the file
+  await bucket.file(filePath).download({ destination: tempFilePath })
+  // Delete the local files to free up disk space
+  return fs.unlinkSync()
+}<% } else { %>async function <%= camelName %>Event(event) {
   const {
     bucket: bucketName,
     name: filePath,
@@ -45,4 +61,4 @@ async function <%= camelName %>Event(event) {
   await bucket.file(filePath).download({ destination: tempFilePath })
   // Delete the local files to free up disk space
   return fs.unlinkSync()
-}
+}<% } %>

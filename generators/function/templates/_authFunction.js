@@ -8,7 +8,9 @@ import * as functions from 'firebase-functions';
  */
 export default functions.auth.user().<%= eventType %>(<%= camelName %>Event)
 
-async function <%= camelName %>Event(event) {
+<% if (functionsV1) { %>async function <%= camelName %>Event(userMetaData, context) {
+  // const { creationTime, lastSignInTime } = userMetadata;
+}<% } else { %>function <%= camelName %>Event(event) {
   // const user = event.data; // The Firebase user
   // const { email, displayName } = user
-}
+}<% } %>
