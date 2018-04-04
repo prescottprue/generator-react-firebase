@@ -1,22 +1,28 @@
 const glob = require('glob')
 const path = require('path')
-const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
 // Initialize Firebase so it is available within functions
 try {
-  admin.initializeApp(functions.config().firebase)
+  admin.initializeApp()
 } catch (e) {
+  /* istanbul ignore next: not called in tests */
   console.error(
     'Caught error initializing app with functions.config():',
     e.message || e
   )
 }
 
+const codeFolder = process.env.NODE_ENV === 'test' ? './src' : './dist'
+
 // Load all folders within dist directory (mirrors layout of src)
-const files = glob.sync('./dist/**/index.js', {
+const files = glob.sync(codeFolder + '/**/index.js', {
   cwd: __dirname,
-  ignore: ['./node_modules/**', './dist/utils/**', './dist/constants']
+  ignore: [
+    './node_modules/**',
+    codeFolder + '/utils/**',
+    codeFolder + '/constants'
+  ]
 })
 
 // Loop over all folders found within dist loading only the relevant function

@@ -4,9 +4,8 @@ import { to } from '../utils/async'<% if (!includeRedux || (includeRedux && !inc
 
 /**
  * Function to index user data into a public collection for easy access.
- * Triggered by user profile updates. Writesdata to users_public collection.
- * @param  {functions.Event} event - Database event from function being
- * triggered when user profile's change
+ * Triggered by updates to profile within "users/${userId}" path. Writes data
+ * to users_public path.
  * @type {functions.CloudFunction}
  */
 export default functions.database
@@ -15,16 +14,20 @@ export default functions.database
 
 /**
  * Index user's by placing their displayName into the users_public collection
- * @param  {functions.Event} event - Database event from function being
- * triggered when user profile's change
+ * @param  {functions.Change} change - Database event from function being
+ * @param  {admin.DataSnapshot} change.before - Snapshot of data before change
+ * @param  {admin.DataSnapshot} change.after - Snapshot of data after change
+ * @param  {functions.EventContext} context - Function context which includes
+ * data about the event. More info in docs:
+ * https://firebase.google.com/docs/reference/functions/functions.EventContext
  * @return {Promise} Resolves with user's profile
  */
-async function indexUser(event) {
-  const { userId } = event.params || {}
+async function indexUser(change, context) {
+  const { userId } = context.params || {}
   const publicProfileRef = admin.database().ref(`users_public/${userId}`)
 
   // Display Name being deleted
-  if (!event.data.exists()) {
+  if (!change.after.val()) {
     console.log(
       `displayName removed from profile with userId: ${userId}, removing from index...`
     )
@@ -43,12 +46,14 @@ async function indexUser(event) {
     return null
   }
 
-  const data = event.data.val()
+  console.log(
+    `Display Name for userId: ${userId} changed, updating user index...`
+  )
 
   // Update displayName within index
   const [nameUpdateErr] = await to(
     publicProfileRef.update({
-      displayName: data.displayName
+      displayName: change.after.val()
     })
   )
 
@@ -61,15 +66,14 @@ async function indexUser(event) {
     throw nameUpdateErr
   }
 
-  return data
-}
-<% } %><% if (includeRedux && includeFirestore) { %>
+  console.log(`Successfully indexed user with userId: ${userId}`)
+
+  return null
+}<% } %><% if (includeRedux && includeFirestore) { %>
 
 /**
- * Function to index displayName. Triggered by user profile updates. Writes
- * data to users_public collection.
- * @param  {functions.Event} event - Firestore event from function being
- * triggered when user profile's change
+ * Function to index displayName. Triggered by updates to profiles within the
+ * users collection. Writes data to "users_public" collection.
  * @type {functions.CloudFunction}
  */
 export default functions.firestore
@@ -78,19 +82,23 @@ export default functions.firestore
 
 /**
  * Index user's by placing their displayName into the users_public collection
- * @param  {functions.Event} event - Database event from function being
- * triggered when user profile's change
+ * @param  {functions.Change} change - Database event from function being
+ * @param  {admin.DataSnapshot} change.before - Snapshot of data before change
+ * @param  {admin.DataSnapshot} change.after - Snapshot of data after change
+ * @param  {functions.EventContext} context - Function context which includes
+ * data about the event. More info in docs:
+ * https://firebase.google.com/docs/reference/functions/functions.EventContext
  * @return {Promise} Resolves with user's profile
  */
-async function indexUser(event) {
-  const { userId } = event.params || {}
+async function indexUser(snap, context) {
+  const { userId } = context.params || {}
   const publicProfileRef = admin
     .firestore()
     .collection('users_public')
     .doc(userId)
 
   // User Profile being deleted
-  if (!event.data.exists) {
+  if (!event.after.exists) {
     console.log(
       `Profile being removed for user with id: ${userId}, removing from index...`
     )
@@ -107,8 +115,8 @@ async function indexUser(event) {
     return null
   }
 
-  const data = event.data.data()
-  const previousData = event.data.previous.data();\
+  const data = event.before.data()
+  const previousData = event.after.data();
 
   // Check to see if displayName has changed
   if (data.displayName === previousData.displayName) {

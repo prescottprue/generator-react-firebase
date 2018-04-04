@@ -1,9 +1,24 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
+const fs = require('fs')
 const camelCase = require('lodash/camelCase')
 const get = require('lodash/get')
 const capitalize = require('lodash/capitalize')
+const semver = require('semver')
+
+function getFbToolsVersion () {
+  const functionsPkgPath = process.cwd() + '/functions/package.json'
+  // If functions package file does not exist, default to not functions v1.0.0
+  if (!fs.existsSync(functionsPkgPath)) {
+    return '0.0.0'
+  }
+  const pkgFile = require(functionsPkgPath)
+  return semver.coerce(get(pkgFile, 'dependencies.firebase-functions'))
+}
+
+const functionsVersion = getFbToolsVersion()
+const functionsV1 = semver.satisfies(functionsVersion, '>=1.x.x')
 
 const functionTypeOptions = [
   'https',
@@ -33,7 +48,10 @@ const choicesByTriggerType = {
   auth: [
     'onCreate',
     'onDelete'
-  ]
+  ],
+  storage: functionsV1
+    ? ['onArchive', 'onDelete', 'onFinalize', 'onMetadataUpdate']
+    : ['onChange']
 }
 
 function buildEventTypePrompt (triggerTypeName, { triggerFlag }) {
@@ -67,9 +85,12 @@ function buildPrompts (generatorContext) {
         return capitalize(typeOption)
       }),
       default: 0
-    },
-    ...Object.entries(choicesByTriggerType)
-      .map(([key]) => buildEventTypePrompt(key, generatorContext)),
+    }
+  ]
+  .concat(
+    Object.keys(choicesByTriggerType)
+      .map((key) => buildEventTypePrompt(key, generatorContext))
+  ).concat([
     {
       type: 'confirm',
       name: 'includeTests',
@@ -77,7 +98,7 @@ function buildPrompts (generatorContext) {
       when: () => typeof generatorContext.options.test === 'undefined',
       default: false
     }
-  ]
+  ])
 }
 
 module.exports = class extends Generator {
@@ -104,7 +125,12 @@ module.exports = class extends Generator {
     )
     const prompts = buildPrompts(this)
     return this.prompt(prompts).then((props) => {
-      this.answers = { ...props, ...this.answers }
+      this.answers = Object.assign({}, props, this.answers)
+
+      this.answers.functionsV1 = functionsV1
+      if (!functionsV1) {
+        this.log('You should checkout firebase-functions v1.0.0 for sweet new features!')
+      }
     })
   }
 

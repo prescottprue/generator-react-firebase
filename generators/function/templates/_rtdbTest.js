@@ -1,8 +1,94 @@
-describe('<%= camelName %> RTDB Cloud Function', () => {
+<% if (functionsV1 && eventType === 'onWrite') { %>import * as admin from 'firebase-admin'
+const userId = 1
+const refParam = `users_public/${userId}`
+
+describe('<%= camelName %> RTDB Cloud Function (<%= eventType %>)', () => {
+  let adminInitStub
+  let <%= camelName %>
+
+  before(() => {
+    /* eslint-disable global-require */
+    adminInitStub = sinon.stub(admin, 'initializeApp')
+    // Syntax may change when this issue is addressed
+    // [#2](https://github.com/firebase/firebase-functions-test/issues/2)
+    <%= camelName %> = functionsTest.features.wrap(
+      require(`${__dirname}/../../index`).<%= camelName %>
+    )
+    /* eslint-enable global-require */
+  })
+
+  after(() => {
+    adminInitStub.restore()
+    functionsTest.cleanup()
+  })
+
+  it('handles event', async () => {
+    const databaseStub = sinon.stub()
+    const refStub = sinon.stub()
+    const removeStub = sinon.stub()
+
+    refStub.withArgs(refParam).returns({ remove: removeStub })
+    removeStub.returns(Promise.resolve({ ref: 'new_ref' }))
+    databaseStub.returns({ ref: refStub })
+    sinon.stub(admin, 'database').get(() => databaseStub)
+    const snap = {
+      val: () => null
+    }
+    const fakeContext = {
+      params: { filePath: 'testing', userId: 1 }
+    }
+
+    const res = await <%= camelName %>({ after: snap }, fakeContext)
+    expect(res).to.be.null
+  })
+})<% } else if (functionsV1 && eventType !== 'onWrite') { %>import * as admin from 'firebase-admin'
+const userId = 1
+const refParam = `users_public/${userId}`
+
+describe('<%= camelName %> RTDB Cloud Function (<%= eventType %>)', () => {
+  let adminInitStub
+  let <%= camelName %>
+
+  before(() => {
+    /* eslint-disable global-require */
+    adminInitStub = sinon.stub(admin, 'initializeApp')
+    // Syntax may change when this issue is addressed
+    // [#2](https://github.com/firebase/firebase-functions-test/issues/2)
+    <%= camelName %> = functionsTest.features.wrap(
+      require(`${__dirname}/../../index`).<%= camelName %>
+    )
+    /* eslint-enable global-require */
+  })
+
+  after(() => {
+    adminInitStub.restore()
+    functionsTest.cleanup()
+  })
+
+  it('handles event', async () => {
+    const databaseStub = sinon.stub()
+    const refStub = sinon.stub()
+    const removeStub = sinon.stub()
+
+    refStub.withArgs(refParam).returns({ remove: removeStub })
+    removeStub.returns(Promise.resolve({ ref: 'new_ref' }))
+    databaseStub.returns({ ref: refStub })
+    sinon.stub(admin, 'database').get(() => databaseStub)
+    const snap = {
+      val: () => null
+    }
+    const fakeContext = {
+      params: { filePath: 'testing', userId: 1 }
+    }
+
+    const res = await <%= camelName %>(snap , fakeContext)
+    expect(res).to.be.null
+  })
+})<% } else { %>describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
   let myFunctions
   let configStub
   let adminInitStub
-  let indexUser
+  let <%= camelName %>
   let functions
   let admin
 
@@ -43,30 +129,7 @@ describe('<%= camelName %> RTDB Cloud Function', () => {
       )
     }
     // Invoke with fake event object
-    const result = await myFunctions.indexUser(fakeEvent)
+    const result = await myFunctions.<%= camelName %>(fakeEvent)
     expect(result).to.exist
-  describe('Indexes User', () => {
-    it('by placing data within users_public', () => {
-      const fakeEvent = {
-        // The DeltaSnapshot constructor is used by the Functions SDK to transform a raw event from
-        // your database into an object with utility functions such as .val().
-        // Its signature is: DeltaSnapshot(app: firebase.app.App, adminApp: firebase.app.App,
-        // data: any, delta: any, path?: string);
-        // We can pass null for the first 2 parameters. The data parameter represents the state of
-        // the database item before the event, while the delta parameter represents the change that
-        // occured to cause the event to fire. The last parameter is the database path, which we are
-        // not making use of in this test. So we will omit it.
-        data: new functions.database.DeltaSnapshot(
-          adminInitStub,
-          adminInitStub,
-          null,
-          { filePath: 'testing' },
-          'requests/fileToDb/123ABC'
-        )
-      }
-      // Invoke webhook with our fake request and response objects. This will cause the
-      // assertions in the response object to be evaluated.
-      myFunctions.indexUser(fakeEvent)
-    })
   })
-})
+})<% } %>

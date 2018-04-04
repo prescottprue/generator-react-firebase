@@ -5,3 +5,4 @@ dist/**
 **/**/index.html
 generators/app/templates
 generators/**/templates
+test/tmp/**
