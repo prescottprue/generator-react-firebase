@@ -28,9 +28,7 @@
 1. Install dependencies: `yarn install` (or `npm install`)
 1. If pulling to a new environment (not where project was created) - create `src/config.js` file that looks like so:
     ```js
-    export const env = 'development' // process.env.NODE_ENV can also be used
-
-    export const firebase = {
+    const firebase = {
       // Config from Firebase console
     }
 
@@ -39,7 +37,7 @@
       userProfile: 'users', // root to which user profiles are written
     }
 
-    export default { env, firebase, reduxFirebase }
+    export default { firebase, reduxFirebase }
     ```
 1. Start Development server: `yarn start` (or `npm start`)
 

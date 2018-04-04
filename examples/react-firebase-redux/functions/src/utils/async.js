@@ -1,5 +1,3 @@
-import { size, pick } from 'lodash'
-
 /**
  * Async await wrapper for easy error handling
  * @param  {Promise} promise - Promise to wrap responses of
