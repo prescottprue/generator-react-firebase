@@ -35,6 +35,7 @@ Project will default to being named with the name of the folder that it is gener
 1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).
 
 ## Features
+* firebase-functions v1 (including support within function sub-generator)
 * Application Navbar (with Avatar)
 * Full Authentication (through Email, Google or Github)
 * Login/Signup Pages with input validation
@@ -164,6 +165,8 @@ A component is best for things that will be reused in multiple places. Our examp
 ----index.js
 ```
 
+For firebase-functions `<v1.0.0`:
+
 */functions/uppercaser/index.js:*
 
 ```js
@@ -189,6 +192,41 @@ async function uppercaserEvent(event) {
   const params = event.params
   const ref = admin.database().ref('responses')
   const [writeErr, response] = await to(ref.push(eventData))
+  if (writeErr) {
+    console.error('Error writing response:', writeErr.message || writeErr)
+    throw writeErr
+  }
+  return response
+}
+```
+
+For firebase-functions `>=v1.0.0`:
+
+*/functions/uppercaser/index.js:*
+
+```js
+import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
+import { to } from 'utils/async'
+
+/**
+ * @name uppercaser
+ * Cloud Function triggered by Real Time Database Event
+ * @type {functions.CloudFunction}
+ */
+export default functions.database
+  .ref('/users/{userId}')
+  .onUpdate(uppercaserEvent)
+
+/**
+ * @param  {functions.Event} event - Function event
+ * @return {Promise}
+ */
+async function uppercaserEvent(change, context) {
+  // const { params, auth, timestamp } = context
+  // const { before, after } = change
+  const ref = admin.database().ref('responses')
+  const [writeErr, response] = await to(ref.push({ hello: 'world' }))
   if (writeErr) {
     console.error('Error writing response:', writeErr.message || writeErr)
     throw writeErr
