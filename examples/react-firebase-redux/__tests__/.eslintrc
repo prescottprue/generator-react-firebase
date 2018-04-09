@@ -1,4 +1,6 @@
-extends: ['../.eslintrc', 'plugin:jest/recommended']
+extends: ['../.eslintrc']
+
+plugins: ['jest']
 
 env:
   jest/globals: true

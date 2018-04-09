@@ -33,6 +33,19 @@
     "roots": [
       "./__tests__"
     ],
+    "testPathIgnorePatterns": [
+      "/__tests__\/setup.js"
+    ],
+    "transform": {
+      "^.+\\.js?$": "babel-jest"
+    },
+    "setupTestFrameworkScriptFile": "./__tests__/setup.js",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "modulePaths": [
+      "./src"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(scss|css|less)$": "<rootDir>/__mocks__/styleMock.js"
@@ -100,7 +113,9 @@
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.1",
     "dirty-chai": "^1.2.2",
-    "enzyme": "^2.8.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15.4": "^1.0.5",
+    "enzyme-to-json": "^3.3.3",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
