@@ -304,6 +304,11 @@ module.exports = class extends Generator {
         return null
       })
       .catch((err) => {
+        // Yarn does not exist
+        if (err === null) {
+          console.log(chalk.blue('Yarn does not exist. Using NPM to install dependencies...')) // eslint-disable-line no-console
+          return this.npmInstall()
+        }
         console.log(chalk.red('Error installing dependencies:'), err && err.message) // eslint-disable-line no-console
         return Promise.reject(err)
       })
