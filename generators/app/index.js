@@ -3,7 +3,7 @@ const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
 const path = require('path')
-const commandExists = require('command-exists')
+const commandExistsSync = require('command-exists').sync
 const utils = require('./utils')
 
 const featureChoices = [
@@ -107,6 +107,7 @@ const prompts = [
     type: 'confirm',
     name: 'useYarn',
     message: 'Use Yarn?',
+    when: () => commandExistsSync('yarn'),
     default: true
   }
 ]
@@ -280,31 +281,33 @@ module.exports = class extends Generator {
   }
 
   install () {
-    let usedYarn = this.answers.useYarn
-    return commandExists('yarn')
+    const { useYarn } = this.answers
+    // Promise chaining used since this.npmInstall.then not a function
+    return Promise.resolve()
       .then(() => {
-        if (!this.answers.useYarn) {
+        if (useYarn === false) {
           console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
+        }
+        if (!useYarn) {
           console.log(chalk.blue('Installing dependencies using NPM...')) // eslint-disable-line no-console
           // Main npm install then functions npm install
           return this.npmInstall()
         }
-        usedYarn = true
         console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
         // Main yarn install then functions yarn install
         return this.yarnInstall()
       })
       .then(() => {
         if (this.answers.includeFunctions) {
-          console.log(chalk.blue(`Installing functions dependencies using ${usedYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
-          return usedYarn
+          console.log(chalk.blue(`Installing functions dependencies using ${useYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
+          return useYarn
             ? this.yarnInstall(undefined, { cwd: 'functions' })
             : this.npmInstall(undefined, { prefix: 'functions' })
         }
         return null
       })
       .catch((err) => {
-        console.log(chalk.red('Error installing dependencies:'), err.message || err) // eslint-disable-line no-console
+        console.log(chalk.red('Error installing dependencies:'), err && err.message) // eslint-disable-line no-console
         return Promise.reject(err)
       })
   }
