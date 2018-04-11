@@ -1,8 +1,8 @@
 import React from 'react'
-import Home from 'routes/Home/components/Home'
+import Home from 'routes/Home/components/HomePage'
 import { shallow } from 'enzyme'
 
-describe('(Component) Home', () => {
+describe('(Route: Home Component) HomePage', () => {
   let _component
 
   beforeEach(() => {
