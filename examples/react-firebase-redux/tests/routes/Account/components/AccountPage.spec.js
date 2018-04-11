@@ -2,7 +2,7 @@ import React from 'react'
 import AccountPage from 'routes/Account/components/AccountPage'
 import { shallow } from 'enzyme'
 
-describe('(Route: Account Component) AccountPage', () => {
+describe.skip('(Route: Account Component) AccountPage', () => {
   let _component
 
   beforeEach(() => {
