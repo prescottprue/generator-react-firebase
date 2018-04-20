@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import Button from 'material-ui/Button'
-import classes from './<%= name %>Form.scss'
+import classes from './<%= name %>.scss'
 
 export const <%= name %> = ({
   handleSubmit,

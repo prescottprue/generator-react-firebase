@@ -1,16 +1,16 @@
 {
   "name": "generator-react-firebase",
-  "version": "2.0.0-rc.9",
+  "version": "2.0.0-rc.10",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
     "lint": "eslint generators test",
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha -R spec ./test/unit/** && npm run test:clean",
-    "test:cov": "istanbul cover ./node_modules/mocha/bin/_mocha ./test/unit/** && npm run test:clean",
+    "test:cov": "istanbul cover $(npm bin)/_mocha ./test/unit/** && npm run test:clean",
     "test:clean": "rimraf test/tmp",
     "codecov": "cat coverage/*/lcov.info | codecov",
-    "prepare": "npm run lint",
+    "prepublishOnly": "npm run lint",
     "prepush": "npm run lint"
   },
   "dependencies": {
@@ -30,11 +30,13 @@
     "chai": "^4.1.0",
     "codecov": "^2.2.0",
     "eslint": "^3.14.0",
+    "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^5.0.0",
     "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "7.1.0",
     "eslint-plugin-standard": "^3.0.1",
@@ -42,6 +44,7 @@
     "husky": "^0.14.3",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.4.2",
+    "prettier": "^1.12.1",
     "rimraf": "^2.6.1",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.7.0"
