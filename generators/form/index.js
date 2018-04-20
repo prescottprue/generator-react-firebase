@@ -55,7 +55,8 @@ module.exports = class extends Generator {
         this.destinationPath(file.dest),
         Object.assign({}, {
           name,
-          lowerName: name.toLowerCase()
+          lowerName: name.toLowerCase(),
+          camelName: camelCase(name)
         })
       )
     })
