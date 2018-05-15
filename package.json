@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "2.0.0-rc.10",
+  "version": "2.0.0",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
@@ -14,21 +14,21 @@
     "prepush": "npm run lint"
   },
   "dependencies": {
-    "chalk": "^2.0.1",
-    "command-exists": "^1.2.2",
-    "lodash": "^4.17.5",
+    "chalk": "^2.4.1",
+    "command-exists": "^1.2.6",
+    "lodash": "^4.17.10",
     "semver": "^5.5.0",
     "yeoman-generator": "^1.1.1",
-    "yosay": "^2.0.0"
+    "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "babel-core": "^6.25.0",
-    "babel-eslint": "^7.2.3",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.1",
-    "chai": "^4.1.0",
-    "codecov": "^2.2.0",
+    "chai": "^4.1.2",
+    "codecov": "^3.0.2",
     "eslint": "^3.14.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
