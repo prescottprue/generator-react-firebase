@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'<% if (includeRedux) { %>
 import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'<% } %>
-<% if (!materialv1) { %>import RaisedButton from 'material-ui/RaisedButton'<% } %><% if (materialv1) { %>import Button from 'material-ui/Button'<% } %>
-<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } if (includeRedux) { %>import { required, validateEmail } from 'utils/form'<% } %>
+<% if (!materialv1) { %>import RaisedButton from 'material-ui/RaisedButton'<% } %><% if (materialv1) { %>import Button from '@material-ui/core/Button'<% } %>
+<% if (!includeRedux && !materialv1) { %>import TextField from 'material-ui/TextField'<% } if (!includeRedux && materialv1) { %>import TextField from '@material-ui/core/TextField'<% } if (includeRedux) { %>import { required, validateEmail } from 'utils/form'<% } %>
 import classes from './SignupForm.scss'
 
 <% if (includeRedux) { %>const SignupForm = ({ pristine, submitting, handleSubmit }) => (

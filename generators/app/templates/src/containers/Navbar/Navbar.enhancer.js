@@ -11,12 +11,10 @@ import { ACCOUNT_PATH } from 'constants'
 import { withRouter, spinnerWhileLoading } from 'utils/components'
 
 export default compose(
-  withFirebase, // add props.firebase (firebaseConnect() can also be used)
   connect(({ firebase: { auth, profile } }) => ({
     auth,
     profile
   })),
-  withRouter,
   // Wait for auth to be loaded before going further
   spinnerWhileLoading(['profile']),<% if (materialv1) { %>
   withStateHandlers(
@@ -33,6 +31,10 @@ export default compose(
       })
     }
   ),<% } %>
+  // Add props.router (used in handlers)
+  withRouter,
+  // Add props.firebase (used in handlers)
+  withFirebase,
   // Handlers
   withHandlers({
     handleLogout: props => () => {

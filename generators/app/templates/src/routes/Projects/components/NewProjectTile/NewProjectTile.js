@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper'
-import ContentAddCircle from <% if (!materialv1) { %>'material-ui/svg-icons/content/add-circle'<% } %><% if (materialv1) { %>'material-ui-icons/AddCircle'<% } %>
+import ContentAddCircle from <% if (!materialv1) { %>'material-ui/svg-icons/content/add-circle'
+import Paper from 'material-ui/Paper'<% } %><% if (materialv1) { %>'@material-ui/icons/AddCircle'
+import Paper from '@material-ui/core/Paper'<% } %>
 import classes from './NewProjectTile.scss'
 
 const iconSize = '6rem'

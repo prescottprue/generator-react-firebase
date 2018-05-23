@@ -191,6 +191,8 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'src/theme.js' }
       )
+    } else {
+      filesArray.push({ src: 'v1theme.js', dest: 'src/theme.js' })
     }
 
     if (this.answers.deployTo === 'firebase') {

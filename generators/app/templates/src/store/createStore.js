@@ -1,12 +1,15 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
-import makeRootReducer from './reducers'
-import firebase from 'firebase'
-<% if (includeRedux && includeFirestore) { %>import 'firebase/firestore'
+import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'<% if (includeRedux && includeFirestore) { %>
 import { reduxFirestore } from 'redux-firestore'<% } %>
-import { firebase as fbConfig, reduxFirebase as reduxConfig } from '../config'
+import makeRootReducer from './reducers'
+import firebase from 'firebase/app'
+import 'firebase/database'
+import 'firebase/auth'
+import 'firebase/storage'<% if (includeRedux && includeFirestore) { %>
+import 'firebase/firestore'<% } %>
+import { firebase as fbConfig, reduxFirebase as rrfConfig } from '../config'
 import { version } from '../../package.json'
 import { updateLocation } from './location'
 
@@ -38,7 +41,7 @@ export default (initialState = {}) => {
   // Initialize Firebase
   firebase.initializeApp(fbConfig)<% if (includeRedux && includeFirestore) { %>
   // Initialize Firestore
-  firebase.firestore()<% } %>
+  firebase.firestore().settings({ timestampsInSnapshots: true })<% } %>
 
   // ======================================================
   // Store Instantiation and HMR Setup
@@ -48,7 +51,7 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reactReduxFirebase(firebase, reduxConfig),<% if (includeRedux && includeFirestore) { %>
+      reactReduxFirebase(firebase, rrfConfig),<% if (includeRedux && includeFirestore) { %>
       reduxFirestore(firebase),<% } %>
       ...enhancers
     )

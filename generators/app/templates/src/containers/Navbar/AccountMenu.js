@@ -2,9 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'<% if (!materialv1) { %>
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'<% } %><% if (materialv1) { %>
-import Menu, { MenuItem } from 'material-ui/Menu'<% } %>
-import IconButton from 'material-ui/IconButton'<% if (materialv1) { %>
-import AccountCircle from 'material-ui-icons/AccountCircle'<% } %><% if (!materialv1) { %>
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import IconButton from '@material-ui/core/IconButton'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = {
+  buttonRoot: {
+    color: 'white'
+  }
+}<% } %><% if (!materialv1) { %>
 import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import Avatar from 'material-ui/Avatar'
 import defaultUserImage from 'static/User.png'
@@ -19,14 +27,15 @@ export const AccountMenu = ({
   onLogoutClick<% if (materialv1) { %>,
   closeAccountMenu,
   anchorEl,
-  handleMenu<% } %>
+  handleMenu,
+  classes<% } %>
 }) => (
   <% if (materialv1) { %><div>
     <IconButton
       aria-owns={anchorEl ? 'menu-appbar' : null}
       aria-haspopup="true"
       onClick={handleMenu}
-      color="contrast">
+      classes={{ root: classes.buttonRoot }}>
       <AccountCircle />
     </IconButton>
     <Menu
@@ -72,7 +81,8 @@ AccountMenu.propTypes = {
   onLogoutClick: PropTypes.func.isRequired<% if (materialv1) { %>,
   anchorEl: PropTypes.object,
   closeAccountMenu: PropTypes.func.isRequired,
-  handleMenu: PropTypes.func<% } %>
+  handleMenu: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired // from withStyles<% } %>
 }
 
-export default AccountMenu
+export default <% if (!materialv1) { %>AccountMenu<% } else { %>withStyles(styles)(AccountMenu)<% } %>

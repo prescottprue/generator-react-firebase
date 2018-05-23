@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
-import ListSubheader from 'material-ui/List/ListSubheader'
-import AccountCircle from 'material-ui-icons/AccountCircle'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import classes from './ProviderDataForm.scss'
 
 export const ProviderData = ({ providerData }) => (
