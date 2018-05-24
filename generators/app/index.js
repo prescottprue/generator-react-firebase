@@ -126,7 +126,6 @@ const filesArray = [
   { src: 'build/lib/**', dest: 'build/lib' },
   { src: 'build/scripts/**', dest: 'build/scripts' },
   { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
-  { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
   { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
   { src: 'src/index.html' },
@@ -140,8 +139,6 @@ const filesArray = [
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/styles/**', dest: 'src/styles' },
-  { src: 'tests/**', dest: 'tests' },
-  { src: 'testseslintrc', dest: 'tests/.eslintrc' }
 ]
 
 module.exports = class extends Generator {
@@ -264,6 +261,14 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'src/utils/analytics.js', dest: 'src/utils/analytics.js' },
         { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+      )
+    }
+
+    if (this.answers.includeTests) {
+      filesArray.push(
+        { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
+        { src: 'tests/**', dest: 'tests' },
+        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
       )
     }
 

@@ -73,19 +73,19 @@
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.24.1",
-    "babel-runtime": "^6.20.0",
+    "babel-runtime": "^6.20.0",<% if (includeTests) { %>
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
-    "chai-enzyme": "^0.6.1",
-    "chalk": "^1.1.3",
+    "chai-enzyme": "^0.6.1",<% } %>
+    "chalk": "^1.1.3",<% if (includeTests) { %>
     "cheerio": "0.22.0",
-    "codecov": "^2.2.0",
+    "codecov": "^2.2.0",<% } %>
     "compression": "^1.6.2",
     "connect-history-api-fallback": "^1.3.0",
     "cross-env": "^5.0.0",
-    "css-loader": "^0.28.1",
+    "css-loader": "^0.28.1",<% if (includeTests) { %>
     "dirty-chai": "^1.2.2",
-    "enzyme": "^2.8.2",
+    "enzyme": "^2.8.2",<% } %>
     "eslint": "^3.19.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
@@ -105,7 +105,7 @@
     "fs-extra": "^3.0.1",
     "html-webpack-plugin": "^2.29.0",
     "husky": "^0.14.3",
-    "ip": "^1.1.5",
+    "ip": "^1.1.5",<% if (includeTests) { %>
     "istanbul-instrumenter-loader": "^3.0.0-rc.1",
     "karma": "^1.7.0",
     "karma-coverage-istanbul-reporter": "^1.3.0",
@@ -113,16 +113,16 @@
     "karma-mocha-reporter": "^2.2.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-webpack-with-fast-source-maps": "^1.10.0",
-    "mocha": "^3.2.0",
-    "node-sass": "^4.5.3",
-    "phantomjs-prebuilt": "^2.1.14",
-    "prettier": "^1.5.3",
+    "mocha": "^3.2.0",<% } %>
+    "node-sass": "^4.5.3",<% if (includeTests) { %>
+    "phantomjs-prebuilt": "^2.1.14",<% } %>
+    "prettier": "^1.5.3",<% if (includeTests) { %>
     "react-addons-test-utils": "^15.5.1",
-    "react-test-renderer": "^15.5.4",
+    "react-test-renderer": "^15.5.4",<% } %>
     "rimraf": "^2.6.1",
-    "sass-loader": "^6.0.5",
+    "sass-loader": "^6.0.5",<% if (includeTests) { %>
     "sinon": "^2.2.0",
-    "sinon-chai": "^2.10.0",
+    "sinon-chai": "^2.10.0",<% } %>
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
     "webpack": "^3.6.0",
