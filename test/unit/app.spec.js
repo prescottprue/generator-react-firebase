@@ -96,7 +96,7 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseName: 'asdf.firebaseio.com',
             otherFeatures: [
-              'Config for Travis CI',
+              defaultOtherFeatures[2],
             ],
             useYarn: true
           })
@@ -108,9 +108,6 @@ describe('generator-react-firebase:app', function () {
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
-        })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
         })
       })
     })
@@ -141,9 +138,6 @@ describe('generator-react-firebase:app', function () {
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
         })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
-        })
       })
     })
 
@@ -172,6 +166,39 @@ describe('generator-react-firebase:app', function () {
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
         })
+      })
+    })
+  })
+
+  describe('tests option', () => {
+    describe('include', () => {
+      before(() =>
+        helpers.run(path.join(__dirname, '../../generators/app'))
+          .withPrompts({
+            githubUser: 'testuser',
+            firebaseInstance: 'testing',
+            otherFeatures: [
+              'Firebase Functions (with Babel setup)',
+              'Config for Travis CI',
+              defaultOtherFeatures[3],
+            ],
+            includeRedux: 'Y',
+            deployTo: 'firebase',
+            includeFirestore: true,
+            useYarn: true
+          })
+          .toPromise()
+      )
+      describe('creates files for', () => {
+        describe('project', () => {
+          checkForEachFile(projectFiles)
+        })
+        describe('application', () => {
+          checkForEachFile(srcFiles, 'src/')
+        })
+        describe('Firestore', () => {
+          checkForEachFile(firestoreFiles)
+        })
         describe('tests', () => {
           checkForEachFile(testFiles)
         })
@@ -180,7 +207,6 @@ describe('generator-react-firebase:app', function () {
   })
 
   describe('firestore option', () => {
-
     describe('include', () => {
       before(() =>
         helpers.run(path.join(__dirname, '../../generators/app'))
@@ -207,9 +233,6 @@ describe('generator-react-firebase:app', function () {
         })
         describe('Firestore', () => {
           checkForEachFile(firestoreFiles)
-        })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
         })
       })
     })
@@ -238,9 +261,6 @@ describe('generator-react-firebase:app', function () {
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
-        })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
         })
       })
     })
@@ -276,15 +296,11 @@ describe('generator-react-firebase:app', function () {
         describe('Firestore', () => {
           checkForEachFile(firestoreFiles)
         })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
-        })
       })
     })
   })
 
   describe('deploy options', () => {
-
     describe('Firebase', () => {
       before(() =>
         helpers.run(path.join(__dirname, '../../generators/app'))
@@ -314,11 +330,7 @@ describe('generator-react-firebase:app', function () {
         describe('firebase', () => {
           checkForEachFile(firebaseFiles)
         })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
-        })
       })
-
     })
 
     describe('Heroku', () => {
@@ -347,9 +359,6 @@ describe('generator-react-firebase:app', function () {
         })
         describe('Heroku', () => {
           checkForEachFile(herokuFiles)
-        })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
         })
       })
     })

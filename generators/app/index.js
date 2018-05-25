@@ -74,7 +74,6 @@ const prompts = [
     type: 'confirm',
     name: 'includeFirestore',
     message: 'Use Firestore (RTDB still included)?',
-    when: ({ includeRedux }) => includeRedux,
     default: false
   },
   {
