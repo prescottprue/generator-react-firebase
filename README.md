@@ -8,7 +8,6 @@
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Code Coverage][coverage-image]][coverage-url]
-[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -24,7 +23,7 @@ npm install -g yo generator-react-firebase
 
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
-1. Start application by running `npm run start`
+1. Start application by running `yarn start` or `npm start`
 
 Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
@@ -36,7 +35,8 @@ Project will default to being named with the name of the folder that it is gener
 
 ## Features
 * firebase-functions v1 (including support within function sub-generator)
-* Application Navbar (with Avatar)
+* React v16.3
+* Material-UI v1 Application Navbar (with Avatar)
 * Full Authentication (through Email, Google or Github)
 * Login/Signup Pages with input validation
 * Route protection (only view certain pages when logged in)
@@ -45,7 +45,7 @@ Project will default to being named with the name of the folder that it is gener
 ## Uses
 * [react](https://facebook.github.io/react/) - Rendering + Components
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
-* [material-ui](https://material-ui.com) - Google Material Styling React Components (with option for [Version 1](https://material-ui-next.com))
+* [material-ui](https://material-ui.com) - Google Material Styling React Components (with option to opt out of Version 1)
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
 * [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) - Improve CLI experience for Webpack
 
@@ -400,8 +400,8 @@ For full projects built out using this as a starting place, check the next secti
 
 ## FAQ
 
-1. Why node `6.11.5` instead of a newer version?
-  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
+1. Why node `6.14.0` instead of a newer version?
+  [Cloud Functions runtime is still on `6.14.0`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
 
 1. Why Yarn over node's `package-lock.json`?
   Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
@@ -413,7 +413,6 @@ For full projects built out using this as a starting place, check the next secti
   * functional components can be helpful (along with other tools) when attempting to optimize things
 
 ## In the future
-* React v16
 * Option to include tests when using sub-generators
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
@@ -432,8 +431,6 @@ MIT © [Scott Prue](http://prue.io)
 [travis-url]: https://travis-ci.org/prescottprue/generator-react-firebase
 [daviddm-image]: https://img.shields.io/david/prescottprue/generator-react-firebase.svg?style=flat-square
 [daviddm-url]: https://david-dm.org/prescottprue/generator-react-firebase
-[climate-image]: https://img.shields.io/codeclimate/github/prescottprue/generator-react-firebase.svg?style=flat-square
-[climate-url]: https://codeclimate.com/github/prescottprue/generator-react-firebase
 [coverage-image]: https://img.shields.io/codecov/c/github/prescottprue/generator-react-firebase.svg?style=flat-square
 [coverage-url]: https://codecov.io/gh/prescottprue/generator-react-firebase
 [license-image]: https://img.shields.io/npm/l/generator-react-firebase.svg?style=flat-square
