@@ -4,7 +4,7 @@ const admin = require('firebase-admin')
 
 // Initialize Firebase so it is available within functions
 try {
-  admin.initializeApp()
+  admin.initializeApp(functions.config().firebase)
 } catch (e) {
   /* istanbul ignore next: not called in tests */
   console.error(
