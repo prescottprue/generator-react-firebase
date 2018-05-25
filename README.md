@@ -36,7 +36,7 @@ Project will default to being named with the name of the folder that it is gener
 ## Features
 * firebase-functions v1 (including support within function sub-generator)
 * React v16.3
-* Material-UI v1 Application Navbar (with Avatar)
+* Material-UI v1 application styling including Navbar
 * Full Authentication (through Email, Google or Github)
 * Login/Signup Pages with input validation
 * Route protection (only view certain pages when logged in)

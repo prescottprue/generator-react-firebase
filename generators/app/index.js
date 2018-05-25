@@ -35,12 +35,12 @@ const featureChoices = [
   {
     name: 'Tests',
     answerName: 'includeTests',
-    checked: true
+    checked: false
   },
   {
     answerName: 'includeBlueprints',
     name: 'Blueprints (for redux-cli)',
-    checked: true
+    checked: false
   }
 ]
 
