@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 <% if (includeRedux) { %>import { Field } from 'redux-form'
-<% if (!materialv1) { %>import RaisedButton from 'material-ui/RaisedButton'<% } %><% if (materialv1) { %>import Button from 'material-ui/Button'<% } %>
-import { TextField } from 'redux-form-material-ui'<% } %><% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %>
+<% if (!materialv1) { %>import RaisedButton from 'material-ui/RaisedButton'<% } %><% if (materialv1) { %>import Button from '@material-ui/core/Button'<% } %>
+import { TextField } from 'redux-form-material-ui'<% } %><% if (!includeRedux && !materialv1) { %>import TextField from 'material-ui/TextField'<% } %><% if (!includeRedux && materialv1) { %>import TextField from '@material-ui/core/TextField'<% } %>
 import ProviderDataForm from '../ProviderDataForm'
 import classes from './AccountForm.scss'
 

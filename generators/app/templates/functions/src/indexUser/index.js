@@ -116,7 +116,7 @@ async function indexUser(snap, context) {
   }
 
   const data = event.before.data()
-  const previousData = event.after.data();
+  const previousData = event.after.data()
 
   // Check to see if displayName has changed
   if (data.displayName === previousData.displayName) {

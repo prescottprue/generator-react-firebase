@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
-import AppBar from 'material-ui/AppBar'<% if (materialv1) { %>
-import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'<% } %>
+import { Link } from 'react-router'<% if (materialv1) { %>
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'<% } else { %>
+import AppBar from 'material-ui/AppBar'<% } %>
 import AccountMenu from './AccountMenu'
 import LoginMenu from './LoginMenu'
 import { LIST_PATH } from 'constants'

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from '@material-ui/core/Button'
 import { TextField } from 'redux-form-material-ui'
 import ProviderDataForm from '../ProviderDataForm'
 import classes from './AccountForm.scss'
@@ -16,15 +16,17 @@ export const AccountForm = ({
     <h4>Account</h4>
     <div className={classes.fields}>
       <Field
+        fullWidth
         name="displayName"
         component={TextField}
-        floatingLabelText="Display Name"
+        label="Display Name"
       />
-      <Field name="email" component={TextField} floatingLabelText="Email" />
+      <Field name="email" label="Email" component={TextField} fullWidth />
       <Field
         name="avatarUrl"
+        label="Avatar Url"
         component={TextField}
-        floatingLabelText="Avatar Url"
+        fullWidth
       />
     </div>
     {!!account &&
@@ -34,12 +36,9 @@ export const AccountForm = ({
           <ProviderDataForm providerData={account.providerData} />
         </div>
       )}
-    <RaisedButton
-      primary
-      label={submitting ? 'Saving' : 'Save'}
-      type="submit"
-      disabled={pristine || submitting}
-    />
+    <Button color="primary" type="submit" disabled={pristine || submitting}>
+      {submitting ? 'Saving' : 'Save'}
+    </Button>
   </form>
 )
 

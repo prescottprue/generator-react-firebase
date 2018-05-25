@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'<% if (!materialv1) { %>
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'<% } %><% if (materialv1) { %>
-import Button from 'material-ui/Button'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from 'material-ui/Dialog'<% } %>
-<% if (!includeRedux) { %>import TextField from 'material-ui/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'<% } %>
+<% if (!includeRedux && !materialv1) { %>import TextField from 'material-ui/TextField'<% } %><% if (!includeRedux && materialv1) { %>import TextField from '@material-ui/core/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'<% } %>
 
@@ -40,7 +39,7 @@ import classes from './NewProjectDialog.scss'
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onRequestClose} color="accent">
+        <Button onClick={onRequestClose} color="secondary">
           Cancel
         </Button>
         <Button type="submit" color="primary">

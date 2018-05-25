@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import { TextField } from 'redux-form-material-ui'
 import ProviderDataForm from '../ProviderDataForm'
 import classes from './AccountForm.scss'

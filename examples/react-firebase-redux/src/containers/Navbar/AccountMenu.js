@@ -1,8 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Menu, { MenuItem } from 'material-ui/Menu'
-import IconButton from 'material-ui/IconButton'
-import AccountCircle from 'material-ui-icons/AccountCircle'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import IconButton from '@material-ui/core/IconButton'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = {
+  buttonRoot: {
+    color: 'white'
+  }
+}
 
 export const AccountMenu = ({
   avatarUrl,
@@ -11,14 +19,15 @@ export const AccountMenu = ({
   onLogoutClick,
   closeAccountMenu,
   anchorEl,
-  handleMenu
+  handleMenu,
+  classes
 }) => (
   <div>
     <IconButton
       aria-owns={anchorEl ? 'menu-appbar' : null}
       aria-haspopup="true"
       onClick={handleMenu}
-      color="contrast">
+      classes={{ root: classes.buttonRoot }}>
       <AccountCircle />
     </IconButton>
     <Menu
@@ -41,7 +50,8 @@ AccountMenu.propTypes = {
   onLogoutClick: PropTypes.func.isRequired,
   anchorEl: PropTypes.object,
   closeAccountMenu: PropTypes.func.isRequired,
-  handleMenu: PropTypes.func
+  handleMenu: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired // from withStyles
 }
 
-export default AccountMenu
+export default withStyles(styles)(AccountMenu)

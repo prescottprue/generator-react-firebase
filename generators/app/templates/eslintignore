@@ -3,4 +3,5 @@
 dist/**
 src/index.html
 blueprints/**
-src/config.js
+src/config.js<% if (includeFunctions) { %>
+functions/dist/**<% } %>

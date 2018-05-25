@@ -120,5 +120,3 @@ describe('indexUser Cloud Function', () => {
     expect(res).to.be.null
   })
 })
-
-

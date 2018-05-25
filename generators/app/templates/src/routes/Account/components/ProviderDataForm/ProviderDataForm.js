@@ -1,8 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-<% if (!materialv1) { %>import { List, ListItem } from 'material-ui/List'<% } %><% if (materialv1) { %>import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
-import ListSubheader from 'material-ui/List/ListSubheader'<% } %>
-import AccountCircle from <% if (materialv1) { %>'material-ui-icons/AccountCircle'<% } %><% if (!materialv1) { %>'material-ui/svg-icons/action/account-circle'<% } %>
+import PropTypes from 'prop-types'<% if (!materialv1) { %>
+import { List, ListItem } from 'material-ui/List'<% } else { %>
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListSubheader from '@material-ui/core/ListSubheader'<% } %>
+import AccountCircle from <% if (materialv1) { %>'@material-ui/icons/AccountCircle'<% } %><% if (!materialv1) { %>'material-ui/svg-icons/action/account-circle'<% } %>
 import classes from './ProviderDataForm.scss'
 
 export const ProviderData = ({ providerData }) => (

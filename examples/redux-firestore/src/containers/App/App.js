@@ -1,17 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory, Router } from 'react-router'
-import { withContext } from 'recompose'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { Provider } from 'react-redux'
+import ThemeSettings from 'theme'
 
-// Themeing/Styling
-import Theme from 'theme'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+const theme = createMuiTheme(ThemeSettings)
 
 const App = ({ routes, store }) => (
-  <Provider store={store}>
-    <Router history={browserHistory}>{routes}</Router>
-  </Provider>
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <Router history={browserHistory}>{routes}</Router>
+    </Provider>
+  </MuiThemeProvider>
 )
 
 App.propTypes = {
@@ -19,9 +20,4 @@ App.propTypes = {
   store: PropTypes.object.isRequired
 }
 
-export default withContext(
-  {
-    muiTheme: PropTypes.object
-  },
-  () => ({ muiTheme: getMuiTheme(Theme) })
-)(App)
+export default App

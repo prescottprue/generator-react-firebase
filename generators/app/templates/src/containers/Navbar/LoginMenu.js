@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-<% if (materialv1) { %>import Button from 'material-ui/Button'<% } %><% if (!materialv1) { %>import FlatButton from 'material-ui/FlatButton'<% } %>
+<% if (materialv1) { %>import Button from '@material-ui/core/Button'<% } %><% if (!materialv1) { %>import FlatButton from 'material-ui/FlatButton'<% } %>
 import { LOGIN_PATH, SIGNUP_PATH } from 'constants'
 import classes from './Navbar.scss'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
-import Paper from 'material-ui/Paper'
+import Paper from <% if (!materialv1) { %>'material-ui/Paper'<% } else { %>'@material-ui/core/Paper'<% } %>
 import { LOGIN_PATH } from 'constants'
 import SignupForm from '../SignupForm'
 
