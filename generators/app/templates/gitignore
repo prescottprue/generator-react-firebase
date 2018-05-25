@@ -5,7 +5,7 @@
 **/dist
 **/node_modules
 coverage
-src/config.js
+src/config.js<% if (includeFunctions) { %>
 functions/etc
 functions/dist
-functions/.runtimeconfig.json
+functions/.runtimeconfig.json<% } %>

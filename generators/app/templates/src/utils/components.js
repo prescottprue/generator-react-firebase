@@ -69,11 +69,6 @@ export const logProps = (propNames, logName = '') =>
 
 export const createWithFromContext = withVar => WrappedComponent => {
   class WithFromContext extends Component {
-    static wrappedComponent = WrappedComponent
-    static contextTypes = {
-      [withVar]: PropTypes.object.isRequired
-    }
-
     render() {
       const props = { [withVar]: this.context[withVar] }
       if (this.context.store && this.context.store.dispatch) {
@@ -81,6 +76,10 @@ export const createWithFromContext = withVar => WrappedComponent => {
       }
       return <WrappedComponent {...this.props} {...props} />
     }
+  }
+
+  WithFromContext.contextTypes = {
+    [withVar]: PropTypes.object.isRequired
   }
 
   return WithFromContext

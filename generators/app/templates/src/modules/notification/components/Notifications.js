@@ -31,8 +31,7 @@ export const Notifications = ({ <% if (!materialv1) { %>allIds, byId, dismissNot
         action={
           <IconButton
             onClick={() => dismissNotification(id)}
-            classes={{ root: classes.buttonRoot }}
-          >
+            classes={{ root: classes.buttonRoot }}>
             <CloseIcon />
           </IconButton>
         }
