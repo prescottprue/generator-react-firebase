@@ -2,11 +2,14 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
-import makeRootReducer from './reducers'
-import firebase from 'firebase'
-import 'firebase/firestore'
 import { reduxFirestore } from 'redux-firestore'
-import { firebase as fbConfig, reduxFirebase as reduxConfig } from '../config'
+import makeRootReducer from './reducers'
+import firebase from 'firebase/app'
+import 'firebase/database'
+import 'firebase/auth'
+import 'firebase/storage'
+import 'firebase/firestore'
+import { firebase as fbConfig, reduxFirebase as rrfConfig } from '../config'
 import { version } from '../../package.json'
 import { updateLocation } from './location'
 
@@ -38,7 +41,7 @@ export default (initialState = {}) => {
   // Initialize Firebase
   firebase.initializeApp(fbConfig)
   // Initialize Firestore
-  firebase.firestore()
+  firebase.firestore().settings({ timestampsInSnapshots: true })
 
   // ======================================================
   // Store Instantiation and HMR Setup
@@ -48,7 +51,7 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reactReduxFirebase(firebase, reduxConfig),
+      reactReduxFirebase(firebase, rrfConfig),
       reduxFirestore(firebase),
       ...enhancers
     )

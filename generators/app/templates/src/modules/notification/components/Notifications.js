@@ -17,11 +17,11 @@ const styles = {
 }<% } else { %>
 const closeIconStyle = { paddingTop: '5px', height: '30px' }<% } %>
 
-export const Notifications = ({ <% if (!materialv1) { %>allIds, byId, dismissNotification }) => (<% } else {%>
+export const Notifications = ({<% if (!materialv1) { %> allIds, byId, dismissNotification }) => (<% } else {%>
   allIds,
   byId,
   dismissNotification,
-  classes,
+  classes
 }) => (<% } %>
   <div>
     {allIds.map(id => (

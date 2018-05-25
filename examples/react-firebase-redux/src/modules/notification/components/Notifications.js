@@ -15,11 +15,11 @@ const styles = {
   }
 }
 
-export const Notifications = ({ 
+export const Notifications = ({
   allIds,
   byId,
   dismissNotification,
-  classes,
+  classes
 }) => (
   <div>
     {allIds.map(id => (

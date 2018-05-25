@@ -256,6 +256,4 @@ describe('indexUser Cloud Function', () => {
     const res = await myFunctions.indexUser(fakeEvent)
     expect(res).to.be.null
   })
-})
-
-<% } %>
+})<% } %>
