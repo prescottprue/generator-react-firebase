@@ -43,7 +43,7 @@ module.exports = {
       firebase: {
         apiKey: '',
         authDomain: 'react-redux-firebase.firebaseapp.com',
-        databaseURL: 'https://react-redux-firebase.firebaseio.com',
+        databaseURL: 'https://react-redux-firebase.firebaseapp.com',
         storageBucket: 'react-redux-firebase.appspot.com'
       },
       reduxFirebase: {
@@ -56,7 +56,7 @@ module.exports = {
       firebase: {
         apiKey: '',
         authDomain: 'react-redux-firebase.firebaseapp.com',
-        databaseURL: 'https://react-redux-firebase.firebaseio.com',
+        databaseURL: 'https://react-redux-firebase.firebaseapp.com',
         storageBucket: 'react-redux-firebase.appspot.com'
       },
       reduxFirebase: {

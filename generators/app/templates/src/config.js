@@ -11,7 +11,7 @@ export const env = 'development'
 export const firebase = {
   apiKey: '<%= firebaseKey %>',
   authDomain: '<%= firebaseName %>.firebaseapp.com',
-  databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
+  databaseURL: 'https://<%= firebaseName %>.firebaseapp.com',
   projectId: "<%= firebaseName %>",
   storageBucket: '<%= firebaseName %>.appspot.com'
 }
