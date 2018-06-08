@@ -14,7 +14,7 @@ describe('<%= pascalEntityName %> Cloud Function', () => {
     functions = require('firebase-functions');
     configStub = sinon.stub(functions, 'config').returns({
         firebase: {
-          databaseURL: 'https://not-a-project.firebaseio.com',
+          databaseURL: 'https://not-a-project.firebaseapp.com',
           storageBucket: 'not-a-project.appspot.com',
         }
         // You can stub any other config values needed by your functions here, for example:

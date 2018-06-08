@@ -14,7 +14,7 @@ describe('generator-react-firebase:app utils', () => {
     describe('handles no input', () => {
       expect(utils.firebaseUrlValidate())
     })
-    describe('warns when input contains http or firebaseio.com', () => {
+    describe('warns when input contains http or firebaseapp.com', () => {
       expect(utils.firebaseUrlValidate('http:'))
     })
     describe('warns when invalid input contains symbols', () => {

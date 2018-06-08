@@ -15,7 +15,7 @@ describe('<%= camelName %> HTTPS Cloud Function', () => {
     functions = require('firebase-functions')
     configStub = sinon.stub(functions, 'config').returns({
       firebase: {
-        databaseURL: 'https://not-a-project.firebaseio.com',
+        databaseURL: 'https://not-a-project.firebaseapp.com',
         storageBucket: 'not-a-project.appspot.com',
         projectId: 'not-a-project.appspot',
         messagingSenderId: '823357791673'

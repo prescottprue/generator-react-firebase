@@ -94,7 +94,7 @@ describe('generator-react-firebase:app', function () {
         helpers.run(path.join(__dirname, '../../generators/app'))
           .withPrompts({
             githubUser: 'testuser',
-            firebaseName: 'asdf.firebaseio.com',
+            firebaseName: 'asdf.firebaseapp.com',
             otherFeatures: [
               defaultOtherFeatures[2],
             ],
