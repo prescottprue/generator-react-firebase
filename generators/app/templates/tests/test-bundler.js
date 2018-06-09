@@ -5,6 +5,8 @@ import dirtyChai from 'dirty-chai'
 import chaiAsPromised from 'chai-as-promised'
 import sinonChai from 'sinon-chai'
 import chaiEnzyme from 'chai-enzyme'
+import { configure } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
 // Mocha / Chai
 // ------------------------------------
@@ -21,6 +23,8 @@ chai.use(chaiEnzyme())
 chai.use(dirtyChai)
 chai.use(chaiAsPromised)
 chai.use(sinonChai)
+
+configure({ adapter: new Adapter() })
 
 // Test Importer
 // ------------------------------------
