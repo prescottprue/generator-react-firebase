@@ -1,3 +1,4 @@
+import StackdriverErrorReporter from 'stackdriver-errors-js'
 import { firebase, googleApis } from '../config'
 import { version, env } from '../../package.json'
 
@@ -10,7 +11,7 @@ let errorHandler
 export function init() {
   if (googleApis && googleApis.apiKey && env === 'production') {
     window.addEventListener('DOMContentLoaded', () => {
-      errorHandler = new window.StackdriverErrorReporter()
+      errorHandler = new StackdriverErrorReporter()
       errorHandler.start({
         key: googleApis.apiKey,
         projectId: firebase.projectId,

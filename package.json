@@ -18,7 +18,7 @@
     "command-exists": "^1.2.6",
     "lodash": "^4.17.10",
     "semver": "^5.5.0",
-    "yeoman-generator": "^1.1.1",
+    "yeoman-generator": "^2.0.5",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
