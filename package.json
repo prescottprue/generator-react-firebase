@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "fs-extra": "^4.0.1",
     "husky": "^0.14.3",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^3.4.2",
+    "mocha": "^5.2.0",
     "prettier": "^1.12.1",
     "rimraf": "^2.6.1",
     "yeoman-assert": "^3.0.0",
