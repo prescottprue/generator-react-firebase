@@ -26,6 +26,8 @@ const karmaConfig = {
     skipFilesWithNoCoverage: false
   },
   files: [
+    './node_modules/babel-polyfill/dist/polyfill.js',
+    './node_modules/phantomjs-polyfill/bind-polyfill.js',
     {
       pattern: TEST_BUNDLER,
       watched: false,
