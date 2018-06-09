@@ -53,7 +53,7 @@ const prompts = [
   },
   {
     name: 'firebaseName',
-    message: `Firebase instance (https://${chalk.red('<your instance>')}.firebaseio.com)`,
+    message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
     default: 'react-redux-firebase',
     /* istanbul ignore next: Tested in utils */
