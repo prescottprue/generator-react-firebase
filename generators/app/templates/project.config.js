@@ -34,7 +34,9 @@ module.exports = {
     'react-redux',
     'redux-thunk',
     'react-router',
-    'react-redux-firebase',
-    'material-ui'
+    'react-redux-firebase',<% if (!materialv1) { %>
+    'material-ui'<% } else { %>
+    '@material-ui/core',
+    '@material-ui/icons'<% } %>
   ]
 }

@@ -9,12 +9,13 @@
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "build:prod": "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
     "build:functions": "npm run build --prefix functions",
-    "deploy": "firebase-ci deploy",
+    "deploy": "firebase-ci deploy -s",
+    "createConfig": "firebase-ci createConfig",
     "start": "cross-env NODE_ENV=development webpack-dashboard -p 1234 -c cyan -m -t <%= appName %> -- node build/scripts/start",
     "start:simple": "cross-env NODE_ENV=development node build/scripts/start",<% if (includeTests) { %>
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",<% } %>
-    "lint": "eslint .",
+    "lint": "eslint src functions server build project.config.js<% if (includeTests) { %> tests<% } %>",
     "lint:fix": "npm run lint -- --fix",<% if (includeFunctions) { %>
     "functions:start": "npm run start --prefix functions",
     "functions:build": "npm run build --prefix functions",

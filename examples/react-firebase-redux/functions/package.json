@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "firebase-admin": "^5.12.1",
-    "firebase-functions": "^1.0.3",
+    "firebase-functions": "^1.0.4",
     "glob": "7.1.2",
     "lodash": "^4.17.10"
   },
@@ -30,7 +30,7 @@
     "babel-core": "^6.26.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
     "firebase-functions-test": "^0.1.2",
     "istanbul": "1.1.0-alpha.1",
