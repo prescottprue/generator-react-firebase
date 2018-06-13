@@ -4,4 +4,5 @@ dist/**
 src/index.html
 blueprints/**
 src/config.js<% if (includeFunctions) { %>
-functions/dist/**<% } %>
+functions/dist/**
+functions/test/mocha.opts<% } %>
