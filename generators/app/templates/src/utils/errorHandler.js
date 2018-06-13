@@ -1,4 +1,4 @@
-import StackdriverErrorReporter from 'stackdriver-errors-js'
+import { StackdriverErrorReporter } from 'stackdriver-errors-js'
 import { firebase, googleApis } from '../config'
 import { version } from '../../package.json'
 
