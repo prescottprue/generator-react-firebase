@@ -15,7 +15,7 @@ const ProjectPage = ({ params, project }) => (
           {project.name || 'Project'}
         </Typography>
         <Typography className={classes.subtitle}>
-          {params.projectname}
+          {params.projectId}
         </Typography>
         <div>
           <pre>{JSON.stringify(project, null, 2)}</pre>

@@ -32,7 +32,7 @@ import classes from './LoginForm.scss'
       /><% } %><% if (materialv1) { %><Button
         color="primary"
         type="submit"
-        raised
+        variant="contained"
         disabled={pristine || submitting}>
         {submitting ? 'Loading' : 'Login'}
       </Button><% } %>
