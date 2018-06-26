@@ -9,10 +9,11 @@
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "build:prod": "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
     "build:functions": "npm run build --prefix functions",
-    "deploy": "firebase-ci deploy",
+    "deploy": "firebase-ci deploy -s",
+    "createConfig": "firebase-ci createConfig",
     "start": "cross-env NODE_ENV=development webpack-dashboard -p 1234 -c cyan -m -t react-firebase-redux -- node build/scripts/start",
     "start:simple": "cross-env NODE_ENV=development node build/scripts/start",
-    "lint": "eslint .",
+    "lint": "eslint src functions server build project.config.js",
     "lint:fix": "npm run lint -- --fix",
     "functions:start": "npm run start --prefix functions",
     "functions:build": "npm run build --prefix functions",
@@ -52,7 +53,6 @@
     "redux-form": "^7.4.0",
     "redux-form-material-ui": "next",
     "redux-thunk": "^2.2.0",
-    "stackdriver-errors-js": "^0.4.0",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
