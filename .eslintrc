@@ -5,10 +5,6 @@ parser: babel-eslint
 extends: [standard, standard-react, prettier]
 plugins: [babel, react, prettier]
 
-ecmaFeatures:
-  jsx: true
-  modules: true
-
 rules:
   semi: [2, 'never']
   no-console: 'error'

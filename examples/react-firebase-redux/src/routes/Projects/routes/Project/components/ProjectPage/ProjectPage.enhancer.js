@@ -7,9 +7,9 @@ import { UserIsAuthenticated } from 'utils/router'
 export default compose(
   // redirect to /login if user is not logged in
   UserIsAuthenticated,
-  firebaseConnect(({ params }) => [{ path: `projects/${params.projectname}` }]),
+  firebaseConnect(({ params }) => [{ path: `projects/${params.projectId}` }]),
   connect(({ firebase: { data } }, { params }) => ({
-    project: getVal(data, `projects/${params.projectname}`)
+    project: get(data, `projects.${params.projectId}`)
   })),
   // Show loading spinner while project is loading
   spinnerWhileLoading(['project'])

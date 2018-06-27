@@ -27,10 +27,10 @@ cache:
 install:
   # TODO: Use npm again functions runtime is updated to a node verion with lock files
   - yarn install
-  - npm i -g firebase-ci # install firebase-ci for use in creating config and deploying
+  - yarn add firebase-ci@0.4.6 # install firebase-ci for use in creating config and deploying
 
 script:
-  - firebase-ci createConfig # create env specific src/config.js
+  - npm run createConfig # create env specific src/config.js
   - npm run lint
   - npm run test
   - npm run build
@@ -40,4 +40,4 @@ addons:
     repo_token: $CODE_CLIMATE
 
 after_success:
-  - firebase-ci deploy -s # deploy without CI actions since createConfig is called earlier 
+  - npm run deploy # deploy without CI actions since createConfig is called earlier 
