@@ -1,7 +1,10 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
+const fs = require('fs-extra')
+const path = require('path')
 const camelCase = require('lodash/camelCase')
+const get = require('lodash/get')
 
 const prompts = [
   {
@@ -25,6 +28,10 @@ const prompts = [
   }
 ]
 
+function loadProjectPackageFile() {
+  return fs.readJson(path.join(process.cwd(), 'package.json'), { throws: false })
+}
+
 module.exports = class extends Generator {
   constructor (args, opts) {
     super(args, opts)
@@ -46,9 +53,14 @@ module.exports = class extends Generator {
     this.log(
       `${chalk.blue('Generating')} -> React Component: ${chalk.green(this.options.name)}`
     )
-
-    return this.prompt(prompts).then((props) => {
-      this.answers = props
+    return loadProjectPackageFile().then((projectPackageFile) => {
+      return this.prompt(prompts).then((props) => {
+        this.answers = Object.assign({}, props, {
+          // proptypes included by default if project package file not loaded
+          // (i.e. null due to throws: false in loadProjectPackageFile)
+          hasPropTypes: !projectPackageFile || !!get(projectPackageFile, 'dependencies.prop-types') || false
+        })
+      })
     })
   }
 
