@@ -4,5 +4,5 @@ import { withHandlers } from 'recompose';
 export default compose(
   withHandlers({
     // someHandler: props => value => {}
-  })
+  }),
 );

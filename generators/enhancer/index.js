@@ -3,7 +3,7 @@ const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const camelCase = require('lodash/camelCase')
 const get = require('lodash/get')
-const fs = require('fs-extra')
+const fs = require('fs')
 const path = require('path')
 
 const prompts = [
@@ -17,10 +17,16 @@ const prompts = [
 
 function loadProjectPackageFile() {
   const packagePath = path.join(process.cwd(), 'package.json')
-  return fs.pathExists(packagePath)
-    .then((exists) =>
-      exists ? fs.readJson(packagePath, { throws: false }) : null
-    )
+  // If functions package file does not exist, default to null
+  if (!fs.existsSync(packagePath)) {
+    return null
+  }
+  // Load package file handling errors
+  try {
+    return require(packagePath)
+  } catch(err) {
+    return null
+  }
 }
 
 module.exports = class extends Generator {

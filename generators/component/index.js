@@ -1,7 +1,7 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
-const fs = require('fs-extra')
+const fs = require('fs')
 const path = require('path')
 const camelCase = require('lodash/camelCase')
 const get = require('lodash/get')
@@ -30,10 +30,16 @@ const prompts = [
 
 function loadProjectPackageFile() {
   const packagePath = path.join(process.cwd(), 'package.json')
-  return fs.pathExists(packagePath)
-    .then((exists) =>
-      exists ? fs.readJson(packagePath, { throws: false }) : null
-    )
+  // If functions package file does not exist, default to null
+  if (!fs.existsSync(packagePath)) {
+    return null
+  }
+  // Load package file handling errors
+  try {
+    return require(packagePath)
+  } catch(err) {
+    return null
+  }
 }
 
 module.exports = class extends Generator {
@@ -57,14 +63,13 @@ module.exports = class extends Generator {
     this.log(
       `${chalk.blue('Generating')} -> React Component: ${chalk.green(this.options.name)}`
     )
-    return loadProjectPackageFile().then((projectPackageFile) => {
-      return this.prompt(prompts).then((props) => {
-        this.answers = Object.assign({}, props, {
-          // proptypes included by default if project package file not loaded
-          // (i.e. null due to throws: false in loadProjectPackageFile)
-          hasPropTypes: !projectPackageFile || !!get(projectPackageFile, 'dependencies.prop-types') || false,
-          airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
-        })
+    const projectPackageFile = loadProjectPackageFile()
+    return this.prompt(prompts).then((props) => {
+      this.answers = Object.assign({}, props, {
+        // proptypes included by default if project package file not loaded
+        // (i.e. null due to throws: false in loadProjectPackageFile)
+        hasPropTypes: !projectPackageFile || !!get(projectPackageFile, 'dependencies.prop-types') || false,
+        airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
       })
     })
   }

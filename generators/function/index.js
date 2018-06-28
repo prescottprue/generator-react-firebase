@@ -6,6 +6,21 @@ const camelCase = require('lodash/camelCase')
 const get = require('lodash/get')
 const capitalize = require('lodash/capitalize')
 const semver = require('semver')
+const path = require('path')
+
+function loadProjectPackageFile() {
+  const packagePath = path.join(process.cwd(), 'package.json')
+  // If functions package file does not exist, default to not functions v1.0.0
+  if (!fs.existsSync(packagePath)) {
+    return null
+  }
+  // Load package file handling errors
+  try {
+    return require(packagePath)
+  } catch(err) {
+    return null
+  }
+}
 
 function getFbToolsVersion () {
   const functionsPkgPath = process.cwd() + '/functions/package.json'
@@ -13,8 +28,13 @@ function getFbToolsVersion () {
   if (!fs.existsSync(functionsPkgPath)) {
     return '0.0.0'
   }
-  const pkgFile = require(functionsPkgPath)
-  return semver.coerce(get(pkgFile, 'dependencies.firebase-functions'))
+  // Load package file handling errors
+  try {
+    const pkgFile = require(functionsPkgPath)
+    return semver.coerce(get(pkgFile, 'dependencies.firebase-functions'))
+  } catch(err) {
+    return '0.0.0'
+  }
 }
 
 const functionsVersion = getFbToolsVersion()
@@ -123,9 +143,12 @@ module.exports = class extends Generator {
     this.triggerFlag = functionTypeOptions.find(optionName =>
       !!this.options[optionName]
     )
+    const projectPackageFile = loadProjectPackageFile()
     const prompts = buildPrompts(this)
     return this.prompt(prompts).then((props) => {
-      this.answers = Object.assign({}, props, this.answers)
+      this.answers = Object.assign({}, props, this.answers, {
+        airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
+      })
 
       this.answers.functionsV1 = functionsV1
       if (!functionsV1) {
@@ -164,7 +187,7 @@ module.exports = class extends Generator {
     if (this.options.test || this.answers.includeTests) {
       filesArray.push(
         {
-          src: `_${triggerType}Test.js`,
+          src: `_${triggerType}Test${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
           dest: `functions/test/${camelName}/index.spec.js`
         }
       )
