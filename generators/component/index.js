@@ -58,7 +58,8 @@ module.exports = class extends Generator {
         this.answers = Object.assign({}, props, {
           // proptypes included by default if project package file not loaded
           // (i.e. null due to throws: false in loadProjectPackageFile)
-          hasPropTypes: !projectPackageFile || !!get(projectPackageFile, 'dependencies.prop-types') || false
+          hasPropTypes: !projectPackageFile || !!get(projectPackageFile, 'dependencies.prop-types') || false,
+          airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
         })
       })
     })
@@ -68,8 +69,14 @@ module.exports = class extends Generator {
     const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
     const basePath = `src/${basePathOption}components/${this.options.name}`
     const filesArray = [
-      { src: '_index.js', dest: `${basePath}/index.js` },
-      { src: '_main.js', dest: `${basePath}/${this.options.name}.js` }
+      {
+        src: `_index${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
+        dest: `${basePath}/index.js`
+      },
+      {
+        src: `_main${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
+        dest: `${basePath}/${this.options.name}.js`
+      }
     ]
 
     if (this.answers.addStyle) {
@@ -81,7 +88,7 @@ module.exports = class extends Generator {
 
     if (this.answers.includeEnhancer) {
       filesArray.push({
-        src: '_main.enhancer.js',
+        src: `_main${this.answers.airbnbLinting ? '-airbnb': ''}.enhancer.js`,
         dest: `${basePath}/${this.options.name}.enhancer.js`
       })
     }
