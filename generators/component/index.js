@@ -29,7 +29,11 @@ const prompts = [
 ]
 
 function loadProjectPackageFile() {
-  return fs.readJson(path.join(process.cwd(), 'package.json'), { throws: false })
+  const packagePath = path.join(process.cwd(), 'package.json')
+  return fs.pathExists(packagePath)
+    .then((exists) =>
+      exists ? fs.readJson(packagePath, { throws: false }) : null
+    )
 }
 
 module.exports = class extends Generator {
