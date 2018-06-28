@@ -2,6 +2,9 @@
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const camelCase = require('lodash/camelCase')
+const get = require('lodash/get')
+const fs = require('fs')
+const path = require('path')
 
 const prompts = [
   {
@@ -11,6 +14,20 @@ const prompts = [
     default: false
   }
 ]
+
+function loadProjectPackageFile() {
+  const packagePath = path.join(process.cwd(), 'package.json')
+  // If functions package file does not exist, default to null
+  if (!fs.existsSync(packagePath)) {
+    return null
+  }
+  // Load package file handling errors
+  try {
+    return require(packagePath)
+  } catch(err) {
+    return null
+  }
+}
 
 module.exports = class extends Generator {
   constructor (args, opts) {
@@ -31,11 +48,15 @@ module.exports = class extends Generator {
 
   prompting () {
     this.log(
-      `${chalk.blue('Generating')} -> React Enhancer: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> React Component Enhancer: ${chalk.green(this.options.name)}`
     )
-
+    const projectPackageFile = loadProjectPackageFile()
     return this.prompt(prompts).then((props) => {
-      this.answers = props
+      this.answers = Object.assign({}, props, {
+        // proptypes included by default if project package file not loaded
+        // (i.e. null due to throws: false in loadProjectPackageFile)
+        airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
+      })
     })
   }
 
@@ -43,8 +64,14 @@ module.exports = class extends Generator {
     const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
     const basePath = `src/${basePathOption}components/${this.options.name}`
     const filesArray = [
-      { src: '_index.js', dest: `${basePath}/index.js` },
-      { src: '_main.enhancer.js', dest: `${basePath}/${this.options.name}.enhancer.js` }
+      {
+        src: `_index${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
+        dest: `${basePath}/index.js`
+      },
+      {
+        src: `_main${this.answers.airbnbLinting ? '-airbnb': ''}.enhancer.js`,
+        dest: `${basePath}/${this.options.name}.enhancer.js`
+      }
     ]
 
     filesArray.forEach(file => {
