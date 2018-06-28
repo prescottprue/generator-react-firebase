@@ -48,16 +48,14 @@ module.exports = class extends Generator {
 
   prompting () {
     this.log(
-      `${chalk.blue('Generating')} -> React Enhancer: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> React Component Enhancer: ${chalk.green(this.options.name)}`
     )
-
-    return loadProjectPackageFile().then((projectPackageFile) => {
-      return this.prompt(prompts).then((props) => {
-        this.answers = Object.assign({}, props, {
-          // proptypes included by default if project package file not loaded
-          // (i.e. null due to throws: false in loadProjectPackageFile)
-          airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
-        })
+    const projectPackageFile = loadProjectPackageFile()
+    return this.prompt(prompts).then((props) => {
+      this.answers = Object.assign({}, props, {
+        // proptypes included by default if project package file not loaded
+        // (i.e. null due to throws: false in loadProjectPackageFile)
+        airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
       })
     })
   }
