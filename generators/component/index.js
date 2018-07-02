@@ -10,22 +10,33 @@ const prompts = [
   {
     type: 'confirm',
     name: 'addStyle',
-    message: 'Do you want to include an SCSS file for styles?',
+    message: 'Do you want to include styles?',
     default: true
+  },
+  {
+    type: 'list',
+    name: 'styleType',
+    when: ({ addStyle }) => addStyle && dependencyExists('@material-ui/core'),
+    choices: [
+      {
+        name: 'Localized MUI Theming (styles.js)',
+        value: 'localized'
+      },
+      {
+        name: 'SCSS File',
+        value: 'scss'
+      }
+    ],
+    message: 'What type of styling?',
+    default: 0
   },
   {
     type: 'confirm',
     name: 'includeEnhancer',
-    message: 'Do you want to include an enhancer (if you are not sure answer false)?',
+    when: ({ styleType }) => !styleType || styleType === 'scss',
+    message: 'Do you want to include an enhancer?',
     default: false
   },
-  {
-    type: 'confirm',
-    name: 'usingFirestore',
-    when: ({ includeEnhancer }) => includeEnhancer,
-    message: 'Are you using Firestore (if you are not sure answer false)?',
-    default: false
-  }
 ]
 
 function loadProjectPackageFile() {
@@ -40,6 +51,12 @@ function loadProjectPackageFile() {
   } catch(err) {
     return null
   }
+}
+
+function dependencyExists(depName, opts = {}) {
+  const { dev = false } = opts
+  const projectPackageFile = loadProjectPackageFile()
+  return !!get(projectPackageFile, `${dev ? 'devDependencies': 'dependencies'}.${depName}`)
 }
 
 module.exports = class extends Generator {
@@ -68,8 +85,12 @@ module.exports = class extends Generator {
       this.answers = Object.assign({}, props, {
         // proptypes included by default if project package file not loaded
         // (i.e. null due to throws: false in loadProjectPackageFile)
-        hasPropTypes: !projectPackageFile || !!get(projectPackageFile, 'dependencies.prop-types') || false,
-        airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
+        hasPropTypes: !projectPackageFile || dependencyExists('prop-types') || false,
+        airbnbLinting: dependencyExists('eslint-config-airbnb', { dev: true }) || false,
+        // Default including of enhancer to true (not asked with manual styles)
+        includeEnhancer: props.includeEnhancer ? props.includeEnhancer : false,
+        // Default style type to scss for when localized styles is not an option
+        styleType: props.styleType || 'scss',
       })
     })
   }
@@ -89,10 +110,17 @@ module.exports = class extends Generator {
     ]
 
     if (this.answers.addStyle) {
-      filesArray.push({
-        src: '_main.scss',
-        dest: `${basePath}/${this.options.name}.scss`
-      })
+      if (this.answers.styleType && this.answers.styleType === 'localized') {
+        filesArray.push({
+          src: '_main.style.js',
+          dest: `${basePath}/${this.options.name}.style.js`
+        })
+      } else {
+        filesArray.push({
+          src: '_main.scss',
+          dest: `${basePath}/${this.options.name}.scss`
+        })
+      }
     }
 
     if (this.answers.includeEnhancer) {

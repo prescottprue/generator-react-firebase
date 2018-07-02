@@ -31,18 +31,19 @@ describe('<%= camelName %> HTTPS Cloud Function', () => {
     adminInitStub.restore()
   })
 
-  it('responds with hello message', (done) => {
+  it('returns hello message when called with empty request', done => {
     // A fake request object, with req.query.text set to 'input'
-    const req = { query: { text: 'input' } }
-    // A fake response object, with a stubbed redirect function which asserts that it is called
-    // with parameters 303, 'new_ref'.
+    const req = {};
+     // const req = { query: { text: 'input' } }; // fake parameters of request
+    // A fake response object, with a stubbed send function which asserts that it is called
+    // with a hello message
     const res = {
-      end: (msg) => {
-        expect(msg).to.equal('Hello from <%= name %>')
-        done()
+      send: (msg) => {
+        expect(msg).to.equal('Hello from <%= name %> function!')
+        done();
       }
     };
     // Invoke https function with fake request + response objects
-    myFunctions.<%= name %>(req, res)
+    myFunctions.<%= camelName %>(req, res)
   })
 })
