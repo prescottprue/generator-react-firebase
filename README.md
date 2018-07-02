@@ -174,14 +174,6 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { to } from 'utils/async'
 
-/**
- * @name uppercaser
- * Cloud Function triggered by Real Time Database Event
- * @type {functions.CloudFunction}
- */
-export default functions.database
-  .ref('/users/{userId}')
-  .onUpdate(uppercaserEvent)
 
 /**
  * @param  {functions.Event} event - Function event
@@ -198,6 +190,15 @@ async function uppercaserEvent(event) {
   }
   return response
 }
+
+/**
+ * @name uppercaser
+ * Cloud Function triggered by Real Time Database Event
+ * @type {functions.CloudFunction}
+ */
+export default functions.database
+  .ref('/users/{userId}')
+  .onUpdate(uppercaserEvent)
 ```
 
 For firebase-functions `>=v1.0.0`:
@@ -208,15 +209,6 @@ For firebase-functions `>=v1.0.0`:
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { to } from 'utils/async'
-
-/**
- * @name uppercaser
- * Cloud Function triggered by Real Time Database Event
- * @type {functions.CloudFunction}
- */
-export default functions.database
-  .ref('/users/{userId}')
-  .onUpdate(uppercaserEvent)
 
 /**
  * @param  {functions.Event} event - Function event
@@ -233,13 +225,22 @@ async function uppercaserEvent(change, context) {
   }
   return response
 }
+
+/**
+ * @name uppercaser
+ * Cloud Function triggered by Real Time Database Event
+ * @type {functions.CloudFunction}
+ */
+export default functions.database
+  .ref('/users/{userId}')
+  .onUpdate(uppercaserEvent)
 ```
 
 Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
 #### Component
 
-Generates a React component along with a matching scss file and places it within `/components`
+Generates a React component along with an option matching style file (either Javascript or SCSS) and places it within `/components`.
 
 A component is best for things that will be reused in multiple places. Our example
 
@@ -255,8 +256,9 @@ A component is best for things that will be reused in multiple places. Our examp
 ----/Car
 ------index.js
 ------Car.enhancer.js // optional
+------Car.styles.js // optional (Localized MUI Styling)
 ------Car.js
-------Car.scss
+------Car.scss // option (SCSS File)
 ```
 
 */app/components/Car.js:*
@@ -266,13 +268,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
-export const Project = ({ car }) => (
+export const Car = ({ car }) => (
   <div className={classes.container}>
-    <span>Project Component</span>
+    <span>Car Component</span>
     <pre>{JSON.stringify(car, null, 2)}</pre>
   </div>
 )
+
+export default Car
 ```
+
+**NOTE:** Option to use Javascript file for styles is only offered if `@material-ui/core` is included in `package.json`
 
 #### Form
 
@@ -305,12 +311,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
-export const Project = ({ car }) => (
+export const CarForm = ({ car }) => (
   <div className={classes.container}>
-    <span>Project Component</span>
+    <span>CarForm Component</span>
     <pre>{JSON.stringify(car, null, 2)}</pre>
   </div>
 )
+
+export default CarForm
 ```
 
 #### Enhancer

@@ -19,7 +19,7 @@ describe('<%= camelName %> HTTPS Cloud Function', () => {
         projectId: 'not-a-project.appspot',
         messagingSenderId: '823357791673'
       }
-      // You can stub any other config values needed by your functions here
+      // Stub any other config values needed by your functions here
     })
     myFunctions = require(`../../index`)
     /* eslint-enable global-require */
@@ -31,18 +31,19 @@ describe('<%= camelName %> HTTPS Cloud Function', () => {
     adminInitStub.restore()
   })
 
-  it('responds with hello message', (done) => {
-    // A fake request object, with req.query.text set to 'input'
-    const req = { query: { text: 'input' } }
-    // A fake response object, with a stubbed redirect function which asserts that it is called
-    // with parameters 303, 'new_ref'.
+  it('responds with hello message when sent an empty request', done => {
+    const req = {}
+    // Parameters of request can also be stubbed
+    // const req = { query: { text: 'input' } }
+    // A fake response object, with a stubbed end function which asserts that
+    // it is called with a hello message
     const res = {
       end: (msg) => {
-        expect(msg).to.equal('Hello from <%= name %>')
+        expect(msg).to.equal('Hello from <%= name %>!')
         done()
       }
-    };
+    }
     // Invoke https function with fake request + response objects
-    myFunctions.<%= name %>(req, res)
+    myFunctions.<%= camelName %>(req, res)
   })
 })
