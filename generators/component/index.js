@@ -88,7 +88,7 @@ module.exports = class extends Generator {
         hasPropTypes: !projectPackageFile || dependencyExists('prop-types') || false,
         airbnbLinting: dependencyExists('eslint-config-airbnb', { dev: true }) || false,
         // Default including of enhancer to true (not asked with manual styles)
-        includeEnhancer: props.includeEnhancer ? props.includeEnhancer : false,
+        includeEnhancer: get(props, 'includeEnhancer', true),
         // Default style type to scss for when localized styles is not an option
         styleType: props.styleType || 'scss',
       })
@@ -112,8 +112,8 @@ module.exports = class extends Generator {
     if (this.answers.addStyle) {
       if (this.answers.styleType && this.answers.styleType === 'localized') {
         filesArray.push({
-          src: '_main.style.js',
-          dest: `${basePath}/${this.options.name}.style.js`
+          src: '_main.styles.js',
+          dest: `${basePath}/${this.options.name}.styles.js`
         })
       } else {
         filesArray.push({
