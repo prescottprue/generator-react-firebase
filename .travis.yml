@@ -5,13 +5,15 @@ sudo: false
 language: node_js
 
 node_js:
-  - 6.14.0 # Cloud Functions Runtime
+  - 6.14.0 # v1 Cloud Functions Runtime
+  - 8 # LTS (also v2 Cloud Functions Runtime)
   - 9
   - 10
 
 branches:
   only:
     - master
+    - next
 
 cache:
   bundler: true
@@ -19,16 +21,25 @@ cache:
     - node_modules # NPM packages
 
 script:
+  - npm run lint
   - npm run test:cov
 
 deploy:
-  skip_cleanup: true
-  provider: npm
-  email: $NPM_EMAIL
-  api_key: $NPM_TOKEN
-  on:
-    node: '10'
-    branch: 'master'
+  - provider: npm
+    skip_cleanup: true
+    email: $NPM_EMAIL
+    api_key: $NPM_TOKEN
+    on:
+      node: '10'
+      branch: 'master'
+  - provider: npm
+    skip_cleanup: true
+    email: $NPM_EMAIL
+    api_key: $NPM_TOKEN
+    tag: next
+    on:
+      node: '10'
+      branch: 'next'
 
 notifications:
   email:

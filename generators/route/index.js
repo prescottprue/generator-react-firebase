@@ -33,6 +33,7 @@ module.exports = class extends Generator {
       required: false,
       desc: 'The base path of the components folder (starts at "src")'
     })
+    this.option('without-suffix')
   }
 
   prompting () {
@@ -41,28 +42,31 @@ module.exports = class extends Generator {
     )
 
     return this.prompt(prompts).then((props) => {
-      this.answers = props
+      this.answers = Object.assign({}, props, { parentSuffix: this.options['without-suffix'] ? '' : 'Page' })
     })
   }
 
   writing () {
+    const { parentSuffix } = this.answers
+    const { name: nameAnswer } = this.options
+    const name = `${nameAnswer}${parentSuffix}`
     const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
-    const basePath = `src/${basePathOption}routes/${this.options.name}`
-    const pageComponentPath = `${basePath}/components/${this.options.name}`
+    const basePath = `src/${basePathOption}routes/${nameAnswer}`
+    const pageComponentPath = `${basePath}/components/${name}`
     const filesArray = [
       { src: '_index.js', dest: `${basePath}/index.js` },
       { src: 'component/_index.js', dest: `${pageComponentPath}/index.js` },
-      { src: 'component/_main.js', dest: `${pageComponentPath}/${this.options.name}.js` },
+      { src: 'component/_main.js', dest: `${pageComponentPath}/${name}.js` },
       {
         src: 'component/_main.scss',
-        dest: `${pageComponentPath}/${this.options.name}.scss`
+        dest: `${pageComponentPath}/${name}.scss`
       }
     ]
 
     if (this.answers.includeEnhancer) {
       filesArray.push({
         src: 'component/_main.enhancer.js',
-        dest: `${pageComponentPath}/${this.options.name}.enhancer.js`
+        dest: `${pageComponentPath}/${name}.enhancer.js`
       })
     }
 
@@ -71,8 +75,8 @@ module.exports = class extends Generator {
         this.templatePath(file.src),
         this.destinationPath(file.dest),
         Object.assign({}, this.answers, {
-          name: this.options.name,
-          lowerName: this.options.name.toLowerCase()
+          name: name,
+          lowerName: name.toLowerCase()
         })
       )
     })

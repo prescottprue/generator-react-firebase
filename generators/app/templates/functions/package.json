@@ -3,7 +3,7 @@
   "description": "Cloud Functions for <%= appName %>",
   "version": "<%= version %>",
   "engines": {
-    "node": ">=6.14.0"
+    "node": "8"
   },
   "scripts": {
     "test": "npm run build && mocha -R ./test/unit/**",
@@ -20,8 +20,8 @@
     "postinstall": "npm run build"
   },
   "dependencies": {
-    "firebase-admin": "^5.12.1",
-    "firebase-functions": "^1.0.4",
+    "firebase-admin": "^5.13.1",
+    "firebase-functions": "^2.0.0",
     "glob": "7.1.2",
     "lodash": "^4.17.10"
   },
