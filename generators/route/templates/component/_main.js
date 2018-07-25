@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+<% if (hasPropTypes) { %>import React from 'react'
+import PropTypes from 'prop-types'<% } else { %>import React, { PropTypes } from 'react'<% } %>
 import classes from './<%= name %>.scss'
 
 export const <%= name %> = ({ <%= lowerName %> }) => (

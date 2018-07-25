@@ -1,6 +1,9 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
+const fs = require('fs')
+const path = require('path')
+const get = require('lodash/get')
 
 const prompts = [
   {
@@ -15,8 +18,44 @@ const prompts = [
     when: ({ includeEnhancer }) => includeEnhancer,
     message: 'Are you using Firestore (if you are not sure answer false)?',
     default: false
-  }
+  },
+  {
+    type: 'list',
+    name: 'styleType',
+    default: dependencyExists('@material-ui/core') ? 0 : 1,
+    choices: [
+      {
+        name: 'Localized MUI Theming (styles.js)',
+        value: 'localized'
+      },
+      {
+        name: 'SCSS File',
+        value: 'scss'
+      }
+    ],
+    message: 'What type of styling for the component?'
+  },
 ]
+
+function loadProjectPackageFile() {
+  const packagePath = path.join(process.cwd(), 'package.json')
+  // If functions package file does not exist, default to null
+  if (!fs.existsSync(packagePath)) {
+    return null
+  }
+  // Load package file handling errors
+  try {
+    return require(packagePath)
+  } catch(err) {
+    return null
+  }
+}
+
+function dependencyExists(depName, opts = {}) {
+  const { dev = false } = opts
+  const projectPackageFile = loadProjectPackageFile()
+  return !!get(projectPackageFile, `${dev ? 'devDependencies': 'dependencies'}.${depName}`)
+}
 
 module.exports = class extends Generator {
   constructor (args, opts) {
@@ -40,9 +79,13 @@ module.exports = class extends Generator {
     this.log(
       `${chalk.blue('Generating')} -> React-Router Route: ${chalk.green(this.options.name)}`
     )
-
+    const projectPackageFile = loadProjectPackageFile()
     return this.prompt(prompts).then((props) => {
-      this.answers = Object.assign({}, props, { parentSuffix: this.options['without-suffix'] ? '' : 'Page' })
+      this.answers = Object.assign({}, props, {
+        parentSuffix: this.options['without-suffix'] ? '' : 'Page',
+        hasPropTypes: !projectPackageFile || dependencyExists('prop-types') || false,
+        styleType: props.styleType || 'scss',
+      })
     })
   }
 
@@ -53,10 +96,16 @@ module.exports = class extends Generator {
     const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
     const basePath = `src/${basePathOption}routes/${nameAnswer}`
     const pageComponentPath = `${basePath}/components/${name}`
+    const lintStyleSuffix = this.answers.airbnbLinting ? '-airbnb': ''
     const filesArray = [
-      { src: '_index.js', dest: `${basePath}/index.js` },
-      { src: 'component/_index.js', dest: `${pageComponentPath}/index.js` },
-      { src: 'component/_main.js', dest: `${pageComponentPath}/${name}.js` },
+      {
+        src: `component/_index${lintStyleSuffix}.js`,
+        dest: `${pageComponentPath}/index.js`
+      },
+      {
+        src: `component/_main${lintStyleSuffix}.js`,
+        dest: `${pageComponentPath}/${name}.js`
+      },
       {
         src: 'component/_main.scss',
         dest: `${pageComponentPath}/${name}.scss`
@@ -65,7 +114,7 @@ module.exports = class extends Generator {
 
     if (this.answers.includeEnhancer) {
       filesArray.push({
-        src: 'component/_main.enhancer.js',
+        src: `component/_main${lintStyleSuffix}.enhancer.js`,
         dest: `${pageComponentPath}/${name}.enhancer.js`
       })
     }
