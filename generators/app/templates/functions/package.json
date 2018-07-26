@@ -3,11 +3,11 @@
   "description": "Cloud Functions for <%= appName %>",
   "version": "<%= version %>",
   "engines": {
-    "node": ">=6.14.0"
+    "node": "6"
   },
   "scripts": {
-    "test": "npm run build && mocha -R ./test/unit/**",
-    "test:cov": "istanbul cover .$(npm bin)/_mocha ./test/unit/**",
+    "test": "npm run build && mocha ./test/unit/**",
+    "test:cov": "istanbul cover $(npm bin)/_mocha ./test/unit/**",
     "lint": "eslint -c .eslintrc ./src",
     "clean": "rimraf dist etc",
     "build": "npm run clean && babel src -d --out-dir dist",
@@ -20,8 +20,8 @@
     "postinstall": "npm run build"
   },
   "dependencies": {
-    "firebase-admin": "^5.12.1",
-    "firebase-functions": "^1.0.4",
+    "firebase-admin": "^5.13.1",
+    "firebase-functions": "^1.1.0",
     "glob": "7.1.2",
     "lodash": "^4.17.10"
   },
