@@ -300,6 +300,7 @@ module.exports = class extends Generator {
           return this.npmInstall()
         }
         console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
+        console.log(chalk.blue('Note: Yarn is no longer nessesary since cloud functions supports node 8 which has package-lock.json support.')) // eslint-disable-line no-console
         // Main yarn install then functions yarn install
         return this.yarnInstall()
       })
