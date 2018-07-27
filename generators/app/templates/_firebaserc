@@ -9,7 +9,7 @@
       "master": {
         "env": "production",
         "firebase": {
-          "apiKey": "<%= firebaseKey %>",
+          "apiKey": "${STAGE_FIREBASE_API_KEY}",
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
@@ -24,7 +24,7 @@
       "prod": {
         "env": "production",
         "firebase": {
-          "apiKey": "<%= firebaseKey %>",
+          "apiKey": "${PROD_FIREBASE_API_KEY}",
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
