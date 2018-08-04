@@ -10,14 +10,18 @@ stages:
 cache:
   untracked: true
   key: ${CI_COMMIT_REF_SLUG}
+  policy: pull # only pull cache, skip uploading
   paths:
     - node_modules/
     - functions/node_modules/
 
 # Install dependencies for React App and Cloud Functions. Installing of
 # cypress binary is skipped (done in E2E Testing Stage)
+# Script run before all stages unless otherwise overriden
 before_script:
-  - npm i
+  - CYPRESS_INSTALL_BINARY=0 npm i
+  - npm i --prefix functions
+  - npm i firebase-ci@next
 
 variables:
   CYPRESS_INSTALL_BINARY: 0 # skip installing cypress binary
@@ -137,7 +141,11 @@ E2E Tests:
   variables:
     CYPRESS_INSTALL_BINARY: 1 # skip installing cypress binary
   before_script:
-    - npm i cypress  # Cypress binary is grabbed (skipped previously)
+     # Install deps including Cypress binary (skipped in default before_script)
+    - npm i
+    - npm i cypress
+    # Confirm Cypress is ready to use
+    - $(npm bin)/cypress verify
   script:
      # Confirm Cypress is ready to use
     - $(npm bin)/cypress verify
@@ -154,14 +162,12 @@ Build Production:
     - master
     - prod
     - web
+  variables:
+    FIREBASE_CI_PROJECT: "prod" # deploy using prod project in .firebaserc
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/
       - $CI_COMMIT_MESSAGE =~ /skip-prod-deploy/
-  cache:
-    policy: pull # only pull cache, skip uploading
-    paths:
-      - node_modules
   artifacts:
     expire_in: 2 weeks
     paths:
@@ -187,6 +193,8 @@ Deploy Production:
     - master
     - prod
     - web
+  variables:
+    FIREBASE_CI_PROJECT: "prod" # deploy using prod project in .firebaserc
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/

@@ -11,9 +11,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     myFunctions = require(`${__dirname}/../../index`)
     // Syntax may change when this issue is addressed
     // [#2](https://github.com/firebase/firebase-functions-test/issues/2)
-    <%= camelName %> = await functionsTest.wrap(
-      myFunctions.<%= camelName %>
-    )
+    <%= camelName %> = functionsTest.wrap(myFunctions.<%= camelName %>)
     /* eslint-enable global-require */
   })
 
