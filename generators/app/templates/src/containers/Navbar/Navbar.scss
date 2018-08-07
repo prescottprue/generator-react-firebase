@@ -1,5 +1,6 @@
 @import 'base';
-.brand {
+
+<% if (!materialv1) { %>.brand {
   font-weight: 200;
   .icon {
     height: 50px;
@@ -67,8 +68,4 @@
   @include mobile {
     display: none;
   }
-}<% if (materialv1) { %>
-
-.flex {
-  flex: 1 !important;
 }<% } %>
