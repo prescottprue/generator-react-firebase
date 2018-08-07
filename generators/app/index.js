@@ -184,6 +184,7 @@ module.exports = class extends Generator {
     }
 
     if (!this.answers.materialv1) {
+      // TODO: delete Navbar.scss or do not copy it
       filesArray.push(
         { src: 'src/theme.js' }
       )
