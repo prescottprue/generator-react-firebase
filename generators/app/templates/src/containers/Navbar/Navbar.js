@@ -44,7 +44,7 @@ export const Navbar = ({
   /><% } %><% if (materialv1) { %><AppBar position="static">
     <Toolbar>
       <Typography
-        type="title"
+        variant="title"
         color="inherit"
         className={classes.flex}
         component={Link}
