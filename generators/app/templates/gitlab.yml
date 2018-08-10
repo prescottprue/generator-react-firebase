@@ -6,7 +6,8 @@ stages:
   - build_production
   - deploy_production
 
-# Cache dependencies across jobs
+# Cache dependencies across jobs only pulling not uploading (upload to cache
+# happens in build stage)
 cache:
   untracked: true
   key: ${CI_COMMIT_REF_SLUG}
@@ -23,12 +24,10 @@ before_script:
   - npm i --prefix functions
   - npm i firebase-ci@next
 
-variables:
-  CYPRESS_INSTALL_BINARY: 0 # skip installing cypress binary
-
 # Build Stage
 # Installs dependencies, builds app, and saves results for later (artifacts).
-
+# 1. Install dependencies for React App and Cloud Functions. Installing of
+# cypress binary is skipped (done in E2E Testing Stage)
 # 2. Build environment specific config file in src/config.js
 # 3. Confirm there is no lint within code (after config is injected for import linting)
 # 4. Build React app to dist folder
@@ -40,36 +39,23 @@ Build:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
-      - $CI_COMMIT_MESSAGE =~ /skip-app-build/
   artifacts:
     expire_in: 2 weeks
     paths:
       - dist
-  before_script:
-    - npm i
-    - npm i firebase-ci
+      - functions/dist
+  # Override cache behavior set above since we want to both pull and push to
+  # the cache (no "policy" provided since pull-push is default)
+  cache:
+    untracked: true
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - functions/node_modules/
   script:
     - npm run build:config # create env specific src/config.js
     - npm run lint
     - npm run build
-
-Build Functions:
-  stage: build
-  image: node:8
-  when: always
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-build/
-      - $CI_COMMIT_MESSAGE =~ /skip-functions-build/
-  artifacts:
-    expire_in: 2 weeks
-    paths:
-      - functions/dist
-  # Install dependencies for React App and Cloud Functions. Installing of
-  # cypress binary is skipped (done in E2E Testing Stage)
-  before_script:
-    - npm i --prefix functions
-  script:
     - npm run build:functions
 
 # Unit Testing Stage
@@ -87,9 +73,12 @@ Unit Tests:
     expire_in: 2 weeks
     paths:
       - functions/dist
+      - functions/coverage # Test coverage report
+      - functions/mochawesome-report # Test results in JSON and HTML
   before_script:
     - npm i --prefix functions
   script:
+    - npm run test --prefix functions
     - npm run test:cov --prefix functions
 
 # Deploy Staging
@@ -99,7 +88,7 @@ Deploy Staging:
   image: node:8
   environment:
     name: staging
-    url: https://barista-stage.firebaseapp.com
+    url: https://<%= appName %>-stage.firebaseapp.com
   when: on_success
   only:
     - master
@@ -108,8 +97,6 @@ Deploy Staging:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/
       - $CI_COMMIT_MESSAGE =~ /skip-stage-deploy/
-  variables:
-    TRAVIS_BRANCH: master # workaround to get firebase-ci to use config for stage from .firebaserc
   script:
     - npm run deploy
 
@@ -128,18 +115,23 @@ E2E Tests:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-tests/
       - $CI_COMMIT_MESSAGE =~ /skip-e2e-tests/
+  # Override cache behavior set above since we want to both pull and push to
+  # the cache (no "policy" provided since pull-push is default)
   cache:
+    untracked: true
+    key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - node_modules
-      - .cache/Cypress
+      - node_modules/
+      - functions/node_modules/
+      - .cache/Cypress/
   artifacts:
     expire_in: 2 weeks
     paths:
       - cypress/videos
       - cypress/screenshots
       - cypress.env.json
-  variables:
-    CYPRESS_INSTALL_BINARY: 1 # skip installing cypress binary
+  # Override before_script behavior set above since we want to install the
+  # Cypress Binary
   before_script:
      # Install deps including Cypress binary (skipped in default before_script)
     - npm i
@@ -147,8 +139,6 @@ E2E Tests:
     # Confirm Cypress is ready to use
     - $(npm bin)/cypress verify
   script:
-     # Confirm Cypress is ready to use
-    - $(npm bin)/cypress verify
      # Create environment specific test config including auth token
      # (saved to cypress.env.json) then run E2E Tests through Cypress
     - npm run test:stage -- --record --key $CYPRESS_KEY
@@ -172,13 +162,12 @@ Build Production:
     expire_in: 2 weeks
     paths:
       - dist
-  before_script:
-    - npm i
-    - npm i firebase-ci
   script:
     - npm run clean # remove existing dist folder
     - npm run build:config # create env specific src/config.js
     - npm run build # rebuild bundle with new config
+    # Note: Functions are not rebuilt since a bundle with env specific config
+    # is not created as with React App
 
 # Deploy Production
 # Deploy React App and Cloud Functions to production environment
@@ -187,8 +176,8 @@ Deploy Production:
   image: node:8
   environment:
     name: production
-    url: https://<%= firebaseName %>.firebaseapp.com
-  when: manual
+    url: https://<%= appName %>.firebaseapp.com
+  when: manual # Only allow run through button on Gitlab site
   only:
     - master
     - prod
@@ -199,14 +188,5 @@ Deploy Production:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/
       - $CI_COMMIT_MESSAGE =~ /skip-prod-deploy/
-  cache:
-    policy: pull # only pull cache, skip uploading
-    paths:
-      - node_modules
-      - functions/node_modules
-  variables:
-    TRAVIS_BRANCH: prod # workaround to get firebase-ci to use config for stage from .firebaserc
-  before_script:
-    - npm i firebase-ci
   script:
-    - npm run deploy
+    - npm run deploy # Deploy Cloud Functions and React App (Firebase Hosting)

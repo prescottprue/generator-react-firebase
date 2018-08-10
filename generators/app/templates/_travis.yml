@@ -5,7 +5,7 @@ sudo: false
 language: node_js
 
 node_js:
- - 6.14.0 <% if (deployTo === 'firebase') { %># runtime used within Firebase functions<% } %>
+  - 8 <% if (deployTo === 'firebase') { %># runtime used within Firebase functions<% } %>
 
 notifications:
   email:
@@ -19,15 +19,12 @@ branches:
     - prod
 
 cache:
-  # TODO: Use npm once functions runtime is updated to a node verion with lock files
-  yarn: true
   directories:
-    - node_modules # NPM packages
+    - $HOME/.npm
 
 install:
-  # TODO: Use npm again functions runtime is updated to a node verion with lock files
-  - yarn install
-  - yarn add firebase-ci@0.4.6 # install firebase-ci for use in creating config and deploying
+  - npm install
+  - npm i firebase-ci@0.4.6 # install firebase-ci for use in creating config and deploying
 
 script:
   <% if (deployTo === 'firebase') { %>- npm run createConfig # create env specific src/config.js<% } %>
