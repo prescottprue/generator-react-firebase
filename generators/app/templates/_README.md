@@ -20,7 +20,7 @@
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^6.11.5`
+* node `^8`
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
@@ -175,13 +175,9 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
 
 ## FAQ
 
-1. Why node `6.11.5` instead of a newer version?
+1. Why node `8` instead of a newer version?
 
-  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
-
-1. Why Yarn over node's `package-lock.json`?
-
-  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+  [Cloud Functions runtime runs on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version.
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
     * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
