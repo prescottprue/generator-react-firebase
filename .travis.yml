@@ -12,13 +12,14 @@ node_js:
 branches:
   only:
     - master
+    - next
 
 cache:
-  bundler: true
   directories:
-    - node_modules # NPM packages
+    - $HOME/.npm
 
 script:
+  - npm run lint
   - npm run test:cov
 
 deploy:
