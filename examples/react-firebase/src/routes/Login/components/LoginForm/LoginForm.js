@@ -1,60 +1,43 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
-import RaisedButton from 'material-ui/RaisedButton'
-import Checkbox from 'material-ui/Checkbox'
-
-import { Field, reduxForm } from 'redux-form'
-import TextField from 'components/TextField'
-import { RECOVER_PATH, LOGIN_FORM_NAME } from 'constants'
+import { Field } from 'redux-form'
+import { TextField } from 'redux-form-material-ui'
+import Button from '@material-ui/core/Button'
+import { required, validateEmail } from 'utils/form'
 import classes from './LoginForm.scss'
 
-import { required, validateEmail } from 'utils/form'
-
-export const LoginForm = ({ handleSubmit, submitting }) => (
+export const LoginForm = ({ pristine, submitting, handleSubmit }) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <Field
-      name='email'
+      name="email"
       component={TextField}
-      label='Email'
+      label="Email"
       validate={[required, validateEmail]}
     />
     <Field
-      name='password'
+      name="password"
       component={TextField}
-      label='Password'
-      type='password'
-      validate={[required]}
+      label="Password"
+      type="password"
+      validate={required}
     />
     <div className={classes.submit}>
-      <RaisedButton
-        label='Login'
-        primary
-        type='submit'
-        disabled={submitting}
-      />
-    </div>
-    <div className={classes.options}>
-      <div className={classes.remember}>
-        <Checkbox
-          name='remember'
-          value='remember'
-          label='Remember'
-          labelStyle={{ fontSize: '.8rem' }}
-        />
-      </div>
-      <Link className={classes.recover} to={RECOVER_PATH}>
-        Forgot Password?
-      </Link>
+      <Button
+        color="primary"
+        type="submit"
+        variant="contained"
+        disabled={pristine || submitting}>
+        {submitting ? 'Loading' : 'Login'}
+      </Button>
     </div>
   </form>
 )
 
 LoginForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  submitting: PropTypes.bool
+  onSubmit: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  pristine: PropTypes.bool.isRequired, // added by redux-form
+  submitting: PropTypes.bool.isRequired, // added by redux-form
+  handleSubmit: PropTypes.func.isRequired // added by redux-form (calls onSubmit)
 }
 
-export default reduxForm({
-  form: LOGIN_FORM_NAME
-})(LoginForm)
+export default LoginForm

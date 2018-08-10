@@ -1,5 +1,4 @@
-// We only need to import the modules necessary for initial render
-import CoreLayout from '../layouts/CoreLayout/CoreLayout'
+import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import LoginRoute from './Login'
 import SignupRoute from './Signup'
@@ -10,7 +9,7 @@ import NotFoundRoute from './NotFound'
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
 
-export const createRoutes = (store) => ({
+export const createRoutes = store => ({
   path: '/',
   component: CoreLayout,
   indexRoute: Home,
@@ -19,6 +18,9 @@ export const createRoutes = (store) => ({
     LoginRoute(store),
     SignupRoute(store),
     ProjectsRoute(store),
+    // AsyncRoute(store) // async routes setup by passing store
+    // SyncRoute, // sync routes just need route object by itself
+    /* Place all Routes above here so NotFoundRoute can act as a 404 page */
     NotFoundRoute(store)
   ]
 })
