@@ -14,22 +14,30 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+```js
+var your => (code) => here;
+```
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Expected behavior/code**
+A clear and concise description of what you expected to happen (or code).
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Babel Configuration (.babelrc, package.json, cli command)**
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+```js
+{
+  "your": { "config": "here" }
+}
+```
 
-**Additional context**
-Add any other context about the problem here.
+**Environment**
+- Babel version(s): [e.g. v6.0.0, v7.0.0-beta.34]
+- Node/npm version: [e.g. Node 8/npm 5]
+- OS: [e.g. OSX 10.13.4, Windows 10]
+- Monorepo [e.g. yes/no/Lerna]
+- How you are using Babel: [e.g. `cli`, `register`, `loader`]
+
+**Possible Solution**
+<!--- Only if you have suggestions on a fix for the bug -->
+
+**Additional context/Screenshots**
+<!-- Add any other context about the problem here. If applicable, add screenshots to help explain. -->
