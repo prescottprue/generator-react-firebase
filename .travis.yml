@@ -5,9 +5,9 @@ sudo: false
 language: node_js
 
 node_js:
-  - 6.14.0 # Cloud Functions Runtime
-  - 9
-  - 10
+  - 6 # Maintenance LTS
+  - 8 # Active LTS
+  - 10 # Current release
 
 branches:
   only:
