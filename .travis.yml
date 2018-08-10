@@ -5,10 +5,9 @@ sudo: false
 language: node_js
 
 node_js:
-  - 6.14.0 # v1 Cloud Functions Runtime
-  - 8 # LTS (also v2 Cloud Functions Runtime)
-  - 9
-  - 10
+  - 6 # Maintenance LTS
+  - 8 # Active LTS
+  - 10 # Current release
 
 branches:
   only:
@@ -16,9 +15,8 @@ branches:
     - next
 
 cache:
-  bundler: true
   directories:
-    - node_modules # NPM packages
+    - $HOME/.npm
 
 script:
   - npm run lint

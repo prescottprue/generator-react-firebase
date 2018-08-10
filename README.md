@@ -409,10 +409,7 @@ For full projects built out using this as a starting place, check the next secti
 ## FAQ
 
 1. Why node `6.14.0` instead of a newer version?
-  [Cloud Functions runtime is still on `6.14.0`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
-
-1. Why Yarn over node's `package-lock.json`?
-  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+  [Cloud Functions runtime was still on `6.14.0`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. Now that they have provided the node 8 runtime option, `generator-react-firebase` will soon be updated to use `package-lock.json` and node 8.
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
   * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)

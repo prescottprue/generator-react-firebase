@@ -188,7 +188,7 @@ module.exports = class extends Generator {
       filesArray.push(
         {
           src: `_${triggerType}Test${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
-          dest: `functions/test/${camelName}/index.spec.js`
+          dest: `functions/test/unit/${camelName}/index.spec.js`
         }
       )
     }

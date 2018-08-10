@@ -1,40 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
-import { Field, reduxForm } from 'redux-form'
-import TextField from 'components/TextField'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import { Field } from 'redux-form'
+import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'
-import { NEW_PROJECT_FORM_NAME } from 'constants'
 
 import classes from './NewProjectDialog.scss'
 
-export const NewProjectDialog = ({ open, onRequestClose, submit, handleSubmit }) => (
-  <Dialog
-    title='New Project'
-    open={open}
-    onRequestClose={onRequestClose}
-    contentClassName={classes.container}
-    actions={[
-      <FlatButton
-        label='Cancel'
-        secondary
-        onTouchTap={onRequestClose}
-      />,
-      <FlatButton
-        label='Create'
-        primary
-        onTouchTap={submit}
-      />
-    ]}
-  >
+export const NewProjectDialog = ({
+  open,
+  onRequestClose,
+  submit,
+  handleSubmit
+}) => (
+  <Dialog open={open} onClose={onRequestClose}>
+    <DialogTitle id="simple-dialog-title">New Project</DialogTitle>
     <form onSubmit={handleSubmit} className={classes.inputs}>
-      <Field
-        name='name'
-        component={TextField}
-        label='Project Name'
-        validate={[required]}
-      />
+      <DialogContent>
+        <Field
+          name="name"
+          component={TextField}
+          label="Project Name"
+          validate={[required]}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onRequestClose} color="secondary">
+          Cancel
+        </Button>
+        <Button type="submit" color="primary">
+          Create
+        </Button>
+      </DialogActions>
     </form>
   </Dialog>
 )
@@ -47,6 +48,4 @@ NewProjectDialog.propTypes = {
   submit: PropTypes.func.isRequired // added by redux-form
 }
 
-export default reduxForm({
-  form: NEW_PROJECT_FORM_NAME
-})(NewProjectDialog)
+export default NewProjectDialog
