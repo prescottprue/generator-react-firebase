@@ -23,7 +23,7 @@ npm install -g yo generator-react-firebase
 
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
-1. Start application by running `yarn start` or `npm start`
+1. Start application by running `npm start`
 
 Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
@@ -41,6 +41,9 @@ Project will default to being named with the name of the folder that it is gener
 * Login/Signup Pages with input validation
 * Route protection (only view certain pages when logged in)
 * Account Page
+* Automatic Build/Deploy config for multiple CI Providers including:
+    * Gitlab (uses pipelines)
+    * Travis
 
 ## Uses
 * [react](https://facebook.github.io/react/) - Rendering + Components
