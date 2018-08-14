@@ -5,6 +5,17 @@ const fs = require('fs')
 const path = require('path')
 const get = require('lodash/get')
 
+const styleChoices = [
+  {
+    name: 'Localized MUI Theming (styles.js)',
+    value: 'localized'
+  },
+  {
+    name: 'SCSS File',
+    value: 'scss'
+  }
+]
+
 const prompts = [
   {
     type: 'confirm',
@@ -23,16 +34,7 @@ const prompts = [
     type: 'list',
     name: 'styleType',
     default: dependencyExists('@material-ui/core') ? 0 : 1,
-    choices: [
-      {
-        name: 'Localized MUI Theming (styles.js)',
-        value: 'localized'
-      },
-      {
-        name: 'SCSS File',
-        value: 'scss'
-      }
-    ],
+    choices: styleChoices,
     message: 'What type of styling for the component?'
   },
 ]
@@ -98,6 +100,10 @@ module.exports = class extends Generator {
     const pageComponentPath = `${basePath}/components/${name}`
     const lintStyleSuffix = this.answers.airbnbLinting ? '-airbnb': ''
     const filesArray = [
+      {
+        src: `_index${lintStyleSuffix}.js`,
+        dest: `${basePath}/index.js`
+      },
       {
         src: `component/_index${lintStyleSuffix}.js`,
         dest: `${pageComponentPath}/index.js`

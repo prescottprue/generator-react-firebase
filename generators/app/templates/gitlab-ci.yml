@@ -13,8 +13,7 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   policy: pull # only pull cache, skip uploading
   paths:
-    - node_modules/
-    - functions/node_modules/
+    - $HOME/.npm/ # node_modules and functions/node_modules
 
 # Install dependencies for React App and Cloud Functions. Installing of
 # cypress binary is skipped (done in E2E Testing Stage)

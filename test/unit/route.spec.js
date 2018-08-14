@@ -11,7 +11,8 @@ describe('generator-react-firebase:route', () => {
       .withArguments([name])
       .withPrompts({
         usingFirestore: true,
-        includeEnhancer: true
+        includeEnhancer: true,
+        styleType: 'scss'
       })
       .toPromise()
   })
@@ -27,10 +28,10 @@ describe('generator-react-firebase:route', () => {
   describe('component', () => {
     describe('enhancer.js file, index.js, .scss file and component file', () => {
       checkForEachFile([
-        `${folderPath}/components/${name}/${name}.enhancer.js`,
-        `${folderPath}/components/${name}/${name}.js`,
-        `${folderPath}/components/${name}/index.js`,
-        `${folderPath}/components/${name}/${name}.scss`
+        `${folderPath}/components/${name}Page/${name}Page.enhancer.js`,
+        `${folderPath}/components/${name}Page/${name}Page.js`,
+        `${folderPath}/components/${name}Page/index.js`,
+        `${folderPath}/components/${name}Page/${name}Page.scss`
       ], folderPath)
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
@@ -38,7 +39,4 @@ describe('generator-react-firebase:route', () => {
       // })
     })
   })
-
-
-
 })

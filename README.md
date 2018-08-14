@@ -417,6 +417,41 @@ For full projects built out using this as a starting place, check the next secti
   * smaller files which are easier to parse
   * functional components can be helpful (along with other tools) when attempting to optimize things
 
+1. Where are the settings for changing how my project deploys through Continious integration?  
+
+  Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
+
+1. How do override `react-redux-firebase` and `redux-firestore` configuration based on environment? Like adding logging only to staging?
+
+  Add the following to `.firebaserc` under the branch associated with the environment you wish to change:
+
+  ```json
+  "reduxFirebase": {
+    "userProfile": "users",
+    "enableLogging": false,
+    "updateProfileOnLogin": false
+  }
+  ```
+
+  Should look end up looking similar to the following:
+
+  ```json
+  "master": {
+    "env": "staging",
+    "firebase": {
+      "apiKey": "${STAGE_FIREBASE_API_KEY}",
+      "authDomain": "some-project.firebaseapp.com",
+      "databaseURL": "https://some-project.firebaseio.com",
+      "projectId": "some-project",
+      "storageBucket": "some-project.appspot.com"
+    },
+    "reduxFirebase": {
+      "enableLogging": true
+    }
+  }
+  ```
+
+
 ## In the future
 * Option to include tests when using sub-generators
 * Airbnb linting option (currently only `standard`)
@@ -444,3 +479,4 @@ MIT © [Prescott Prue](http://prue.io)
 [code-style-url]: http://standardjs.com/
 [gitter-image]: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
 [gitter-url]: https://gitter.im/prescottprue/generator-react-firebase
+[firebase-ci-url]: https://github.com/prescottprue/firebase-ci

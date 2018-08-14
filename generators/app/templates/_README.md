@@ -1,6 +1,6 @@
 # <%= appName %>
 
-<% if (includeTravis) { %>[![Build Status][travis-image]][travis-url]
+<% if (includeCI && ciProvider == 'travis') { %>[![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]<% } %>
 <% if (codeClimate) { %>[![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]<% } %>
@@ -128,7 +128,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
 1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
 
 #### CI Deploy (recommended)
-<% if (includeTravis) { %>**Note**: Config for this is located within `travis.yml`
+<% if (includeCI && ciProvider == 'travis') { %>**Note**: Config for this is located within `travis.yml`
 `firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
@@ -137,7 +137,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
 
 If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
 
-For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %><% if (!includeTravis) { %>1. Login: `firebase login:ci` to generate an authentication token (will be used to give your CI environment rights to deploy on your behalf)
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %><% if (!includeCI) { %>1. Login: `firebase login:ci` to generate an authentication token (will be used to give your CI environment rights to deploy on your behalf)
 1. Set `FIREBASE_TOKEN` environment variable within your CI environment
 1. Create a build script that does the following:
   1. Create a config file by calling `npm run create-config`
@@ -185,7 +185,7 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
     * smaller files which are easier to parse
     * functional components can be helpful (along with other tools) when attempting to optimize things
 
-<% if (includeTravis) { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
+<% if (includeCI && ciProvider == 'travis') { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
 [daviddm-image]: https://img.shields.io/david/<%= githubUser %>/<%= appName %>.svg?style=flat-square
 [daviddm-url]: https://david-dm.org/<%= githubUser %>/<%= appName %><% } %>

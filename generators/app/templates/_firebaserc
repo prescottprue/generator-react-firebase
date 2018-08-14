@@ -7,18 +7,13 @@
   "ci": {
     "createConfig": {
       "master": {
-        "env": "production",
+        "env": "staging",
         "firebase": {
           "apiKey": "${STAGE_FIREBASE_API_KEY}",
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
           "storageBucket": "<%= firebaseName %>.appspot.com"
-        },
-        "reduxFirebase": {
-          "userProfile": "users",
-          "enableLogging": false,
-          "updateProfileOnLogin": false
         }
       },
       "prod": {
@@ -29,11 +24,6 @@
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
           "storageBucket": "<%= firebaseName %>.appspot.com"
-        },
-        "reduxFirebase": {
-          "userProfile": "users",
-          "enableLogging": false,
-          "updateProfileOnLogin": false
         }
       }
     }
