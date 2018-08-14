@@ -19,8 +19,8 @@
     "logs": "npm run build && firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "^5.13.1",
-    "firebase-functions": "^2.0.2",
+    "firebase-admin": "^6.0.0",
+    "firebase-functions": "^2.0.4",
     "glob": "7.1.2",
     "lodash": "^4.17.10"
   },
