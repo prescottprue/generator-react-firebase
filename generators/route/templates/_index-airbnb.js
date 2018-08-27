@@ -11,14 +11,14 @@ export default store => ({
       require => {
         /*  Webpack - use require callback to define
           dependencies for bundling   */
-        const <%= name %> = require('./components/<%= name %>').default;
+        const <%= componentName %> = require('./components/<%= componentName %>').default;
 
         /*  Return getComponent   */
-        cb(null, <%= name %>);
+        cb(null, <%= componentName %>);
 
         /* Webpack named bundle   */
       },
-      '<%= name %>'
+      '<%= componentName %>'
     );
   },
 });

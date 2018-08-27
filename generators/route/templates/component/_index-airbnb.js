@@ -1,4 +1,4 @@
-import <%= name %> from './<%= name %>';<% if (includeEnhancer) { %>
-import enhance from './<%= name %>.enhancer';<% } %>
+import <%= componentName %> from './<%= componentName %>';<% if (includeEnhancer) { %>
+import enhance from './<%= componentName %>.enhancer';<% } %>
 
-export default <% if (includeEnhancer) { %>enhance(<%= name %>);<% } else  { %><%= name %>;<% } %>
+export default <% if (includeEnhancer) { %>enhance(<%= componentName %>);<% } else  { %><%= componentName %>;<% } %>

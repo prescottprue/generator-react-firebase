@@ -112,10 +112,7 @@ module.exports = class extends Generator {
         src: `component/_main${lintStyleSuffix}.js`,
         dest: `${pageComponentPath}/${name}.js`
       },
-      {
-        src: 'component/_main.scss',
-        dest: `${pageComponentPath}/${name}.scss`
-      }
+
     ]
 
     if (this.answers.includeEnhancer) {
@@ -125,12 +122,31 @@ module.exports = class extends Generator {
       })
     }
 
+    // Add styles (styles.js if specified and enhancer exists, otherwise scss)
+    if (this.answers.styleType !== 'scss' && this.answers.includeEnhancer) {
+      filesArray.push(
+        {
+          src: `component/_main.styles.js`,
+          dest: `${pageComponentPath}/${name}.styles.js`
+        }
+      )
+    } else {
+      filesArray.push(
+        {
+          src: 'component/_main.scss',
+          dest: `${pageComponentPath}/${name}.scss`
+        }
+      )
+    }
+
     filesArray.forEach(file => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),
         Object.assign({}, this.answers, {
-          name: name,
+          name: nameAnswer,
+          componentName: name,
+          airbnbLinting: this.answers.airbnbLinting,
           lowerName: nameAnswer.toLowerCase()
         })
       )

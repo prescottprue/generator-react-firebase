@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { withHandlers } from 'recompose';<% if (styleType === 'localized') { %>
 import { withStyles } from '@material-ui/core/styles';
-import styles from './<%= name %>.styles';<% } %>
+import styles from './<%= componentName %>.styles';<% } %>
 
 export default compose(
   withHandlers({
