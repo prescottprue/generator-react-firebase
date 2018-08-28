@@ -13,7 +13,9 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   policy: pull # only pull cache, skip uploading
   paths:
-    - $HOME/.npm/ # node_modules and functions/node_modules
+    - node_modules/
+    - functions/node_modules/
+
 
 # Install dependencies for React App and Cloud Functions. Installing of
 # cypress binary is skipped (done in E2E Testing Stage)
@@ -21,7 +23,7 @@ cache:
 before_script:
   - CYPRESS_INSTALL_BINARY=0 npm i
   - npm i --prefix functions
-  - npm i firebase-ci@next
+  - npm i firebase-tools@4.1.0 firebase-ci@next
 
 # Build Stage
 # Installs dependencies, builds app, and saves results for later (artifacts).
@@ -151,8 +153,6 @@ Build Production:
     - master
     - prod
     - web
-  variables:
-    FIREBASE_CI_PROJECT: "prod" # deploy using prod project in .firebaserc
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/
