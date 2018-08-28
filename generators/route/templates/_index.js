@@ -1,4 +1,4 @@
-import { <%= name.toUpperCase() %>_PATH as path } from 'constants'
+import { <%= pathName %>_PATH as path } from 'constants'
 
 export default store => ({
   path,

@@ -4,6 +4,8 @@ const chalk = require('chalk')
 const fs = require('fs')
 const path = require('path')
 const get = require('lodash/get')
+const lowerFirst = require('lodash/lowerFirst')
+const startCase = require('lodash/startCase')
 
 const styleChoices = [
   {
@@ -111,8 +113,7 @@ module.exports = class extends Generator {
       {
         src: `component/_main${lintStyleSuffix}.js`,
         dest: `${pageComponentPath}/${name}.js`
-      },
-
+      }
     ]
 
     if (this.answers.includeEnhancer) {
@@ -139,6 +140,8 @@ module.exports = class extends Generator {
       )
     }
 
+    const startCasedName = startCase(this.options.name)
+
     filesArray.forEach(file => {
       this.fs.copyTpl(
         this.templatePath(file.src),
@@ -147,7 +150,8 @@ module.exports = class extends Generator {
           name: nameAnswer,
           componentName: name,
           airbnbLinting: this.answers.airbnbLinting,
-          lowerName: nameAnswer.toLowerCase()
+          camelName: lowerFirst(startCasedName.replace(/ /g, '')),
+          pathName: startCasedName.toUpperCase().replace(/ /g, '_')
         })
       )
     })

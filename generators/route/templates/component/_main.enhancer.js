@@ -5,11 +5,11 @@ import { withStyles } from '@material-ui/core/styles'
 import styles from './<%= componentName %>.styles'<% } %>
 
 export default compose(
-  // create listener for <%= lowerName %>, results go into redux
-  <% if (!usingFirestore) { %>firebaseConnect([{ path: '<%= lowerName %>' }]), <% } %><% if (usingFirestore) { %>firestoreConnect([{ collection: '<%= lowerName %>' }]),<% } %>
+  // create listener for <%= camelName %>, results go into redux
+  <% if (!usingFirestore) { %>firebaseConnect([{ path: '<%= camelName %>' }]), <% } %><% if (usingFirestore) { %>firestoreConnect([{ collection: '<%= camelName %>' }]),<% } %>
   // map redux state to props
   connect(({ <% if (usingFirestore) { %>firestore<% } else { %>firebase<% } %>: { data } }) => ({
-    <%= lowerName %>: data.<%= lowerName %>
+    <%= camelName %>: data.<%= camelName %>
   }))<% if (styleType === 'localized') { %>,
   withStyles(styles)<% } %>
 )
