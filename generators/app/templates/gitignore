@@ -1,11 +1,27 @@
+# OS
 *.log
 **/*.log
 .DS_Store
 **/.DS_Store
-**/dist
+
+# Dependencies
 **/node_modules
-coverage
+
+
+# React App
+**/dist
 src/config.js<% if (includeFunctions) { %>
+
+# Functions
 functions/etc
 functions/dist
-functions/.runtimeconfig.json<% } %>
+functions/coverage
+functions/.runtimeconfig.json<% } %><% if (includeTests) { %>
+# Tests
+coverage
+cypress/videos
+cypress/screenshots
+cypress.env.json
+cypress/config.json
+functions/mochawesome-report
+serviceAccount.json<% } %>

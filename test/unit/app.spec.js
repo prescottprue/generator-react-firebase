@@ -48,7 +48,7 @@ const projectFiles = [
   'package.json',
   'project.config.js',
   '.eslintrc',
-  '.travis.yml',
+  '.gitlab-ci.yml',
   'LICENSE',
   '.gitignore',
   'README.md'
@@ -81,7 +81,7 @@ const testFiles = [
 const defaultOtherFeatures =[
   'Version 1 of Material-UI (0.20.0 used otherwise)',
   'Firebase Functions (with Babel setup)',
-  'Config for Travis CI',
+  'Config for Continuous Integration',
   'Tests',
   'Blueprints (used with redux-cli)',
 ]
@@ -98,7 +98,8 @@ describe('generator-react-firebase:app', function () {
             otherFeatures: [
               defaultOtherFeatures[2],
             ],
-            useYarn: true
+            includeCi: true,
+            ciProvider: 'gitlab'
           })
           .toPromise()
       )
@@ -121,13 +122,13 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             otherFeatures: [
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
+              defaultOtherFeatures[1],
+              defaultOtherFeatures[2]
             ],
+            ciProvider: 'gitlab',
             includeRedux: 'Y',
             deployTo: 'firebase',
-            includeFirestore: false,
-            useYarn: true
+            includeFirestore: false
           })
           .toPromise()
       )
@@ -148,9 +149,9 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             otherFeatures: [
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
-              'Blueprints (used with redux-cli)',
+              defaultOtherFeatures[1],
+              defaultOtherFeatures[2],
+              defaultOtherFeatures[4]
             ],
             includeFirestore: false,
             includeRedux: false,
@@ -178,8 +179,7 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             otherFeatures: [
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
+              defaultOtherFeatures[1],
               defaultOtherFeatures[3],
             ],
             includeRedux: 'Y',
@@ -214,13 +214,12 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             otherFeatures: [
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
+              defaultOtherFeatures[1],
+              defaultOtherFeatures[2]
             ],
             includeRedux: 'Y',
             deployTo: 'firebase',
-            includeFirestore: true,
-            useYarn: true
+            includeFirestore: true
           })
           .toPromise()
       )
@@ -243,15 +242,15 @@ describe('generator-react-firebase:app', function () {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
-            includeTravis: 'Y',
+            includeCI: 'Y',
+            ciProvider: 'travis',
             includeFirestore: false,
             includeRedux: false,
             otherFeatures: [
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
+              defaultOtherFeatures[1],
+              defaultOtherFeatures[2],
             ],
-            deployTo: 'firebase',
-            useYarn: true
+            deployTo: 'firebase'
           })
           .toPromise()
       )
@@ -267,7 +266,6 @@ describe('generator-react-firebase:app', function () {
   })
 
   describe('material-ui v1 option', () => {
-
     describe('include', () => {
       before(() =>
         helpers.run(path.join(__dirname, '../../generators/app'))
@@ -277,12 +275,11 @@ describe('generator-react-firebase:app', function () {
             includeRedux: 'Y',
             deployTo: 'firebase',
             otherFeatures: [
-              'Version 1 of Material-UI (0.20.0 used otherwise)',
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
+              defaultOtherFeatures[0],
+              defaultOtherFeatures[1],
+              defaultOtherFeatures[2],
             ],
-            includeFirestore: true,
-            useYarn: true
+            includeFirestore: true
           })
           .toPromise()
       )
@@ -308,14 +305,14 @@ describe('generator-react-firebase:app', function () {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             includeFirestore: false,
-            includeTravis: 'Y',
+            includeCI: 'Y',
+            ciProvider: 'travis',
             includeRedux: 'Y',
             otherFeatures: [
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
+              defaultOtherFeatures[1],
+              defaultOtherFeatures[2]
             ],
-            deployTo: 'firebase',
-            useYarn: true
+            deployTo: 'firebase'
           })
           .toPromise()
        )
@@ -341,12 +338,11 @@ describe('generator-react-firebase:app', function () {
             firebaseInstance: 'testing',
             includeFirestore: false,
             otherFeatures: [
-              'Firebase Functions (with Babel setup)',
-              'Config for Travis CI',
+              defaultOtherFeatures[1],
+              defaultOtherFeatures[2]
             ],
             includeRedux: 'N',
-            deployTo: 'heroku',
-            useYarn: true
+            deployTo: 'heroku'
           })
           .toPromise()
       )

@@ -1,16 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classes from './<%= name %>.scss'
+<% if (hasPropTypes) { %>import React from 'react'
+import PropTypes from 'prop-types'<% } else { %>import React, { PropTypes } from 'react'<% } %><% if (styleType === 'scss') { %>
+import classes from './<%= componentName %>.scss'<% } %>
 
-export const <%= name %> = ({ <%= lowerName %> }) => (
+export const <%= componentName %> = ({ <%= camelName %><% if (styleType !== 'scss') { %>, classes<% } %> }) => (
   <div className={classes.container}>
-    <span><%= name %> Component</span>
-    <pre>{JSON.stringify(<%= lowerName %>, null, 2)}</pre>
+    <span><%= componentName %> Component</span>
+    <pre>{JSON.stringify(<%= camelName %>, null, 2)}</pre>
   </div>
 )
 
-<%= name %>.propTypes = {
-  <%= lowerName %>: PropTypes.object // from enhancer (firestoreConnect + connect)
+<%= componentName %>.propTypes = {<% if (styleType !== 'scss') { %>
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)<% } %>
+  <%= camelName %>: PropTypes.object // from enhancer (firestoreConnect + connect)
 }
 
-export default <%= name %>
+export default <%= componentName %>

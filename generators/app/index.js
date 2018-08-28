@@ -28,8 +28,8 @@ const featureChoices = [
     checked: true
   },
   {
-    name: 'Config for Travis CI',
-    answerName: 'includeTravis',
+    name: 'Config for Continuous Integration',
+    answerName: 'includeCI',
     checked: true
   },
   {
@@ -43,6 +43,12 @@ const featureChoices = [
     checked: false
   }
 ]
+
+function checkAnswersForFeature(currentAnswers, featureName) {
+  const { otherFeatures } = currentAnswers
+  const matchingFeature = featureChoices.find((choice) => choice.answerName === featureName)
+  return otherFeatures.includes(matchingFeature.name)
+}
 
 const prompts = [
   {
@@ -81,6 +87,24 @@ const prompts = [
     message: 'Other Features To Include?',
     name: 'otherFeatures',
     choices: featureChoices
+  },
+  {
+    type: 'list',
+    name: 'ciProvider',
+    when: (currentAnswers) =>
+      checkAnswersForFeature(currentAnswers, 'includeCI'),
+    choices: [
+      {
+        name: 'Gitlab',
+        value: 'gitlab'
+      },
+      {
+        name: 'Travis',
+        value: 'travis'
+      }
+    ],
+    message: 'What provider which you like to use for CI?',
+    default: 0
   },
   {
     type: 'list',
@@ -164,16 +188,21 @@ module.exports = class extends Generator {
       if (props.otherFeatures) {
         featureChoices.forEach((choice) => {
           const matching = props.otherFeatures.find(feature => choice.name === feature)
-          this.answers[choice.answerName] = matching
+          this.answers[choice.answerName] = !!matching
         })
       }
-      this.data = Object.assign({}, this.intialData, props)
+      // console.log('answers:', this.answers)
+      this.data = Object.assign({}, this.intialData, this.answers)
     })
   }
 
   writing () {
-    if (this.answers.includeTravis) {
-      filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
+    if (this.answers.includeCI) {
+      if (this.answers.ciProvider === 'travis') {
+        filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
+      } else {
+        filesArray.push({ src: 'gitlab-ci.yml', dest: '.gitlab-ci.yml' })
+      }
     }
 
     if (this.answers.deployTo === 'heroku') {
@@ -184,6 +213,7 @@ module.exports = class extends Generator {
     }
 
     if (!this.answers.materialv1) {
+      // TODO: delete Navbar.scss or do not copy it
       filesArray.push(
         { src: 'src/theme.js' }
       )
@@ -300,6 +330,7 @@ module.exports = class extends Generator {
           return this.npmInstall()
         }
         console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
+        console.log(chalk.blue('Note: Yarn is no longer nessesary since cloud functions supports node 8 which has package-lock.json support.')) // eslint-disable-line no-console
         // Main yarn install then functions yarn install
         return this.yarnInstall()
       })

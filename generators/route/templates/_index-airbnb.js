@@ -1,4 +1,4 @@
-import { <%= pathName %>_PATH as path } from 'constants'
+import { <%= name.toUpperCase() %>_PATH as path } from 'constants';
 
 export default store => ({
   path,
@@ -11,14 +11,14 @@ export default store => ({
       require => {
         /*  Webpack - use require callback to define
           dependencies for bundling   */
-        const <%= componentName %> = require('./components/<%= componentName %>').default
+        const <%= componentName %> = require('./components/<%= componentName %>').default;
 
         /*  Return getComponent   */
-        cb(null, <%= componentName %>)
+        cb(null, <%= componentName %>);
 
         /* Webpack named bundle   */
       },
       '<%= componentName %>'
-    )
-  }
-})
+    );
+  },
+});
