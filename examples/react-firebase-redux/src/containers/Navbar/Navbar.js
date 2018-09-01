@@ -22,7 +22,7 @@ export const Navbar = ({
   <AppBar position="static">
     <Toolbar>
       <Typography
-        type="title"
+        variant="title"
         color="inherit"
         className={classes.flex}
         component={Link}

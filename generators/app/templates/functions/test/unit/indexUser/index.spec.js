@@ -66,7 +66,7 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
   })
 
   describe('displayName changed', () => {
-    it('Indexes User within users_public/{userId}', () => {
+    it('Indexes User within users_public/{userId}', async () => {
       const databaseStub = sinon.stub()
       const refStub = sinon.stub()
       const updateStub = sinon.stub()
@@ -85,9 +85,8 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
       const fakeContext = {
         params: { filePath: 'testing', userId: 1 }
       }
-      // Invoke webhook with our fake request and response objects. This will cause the
-      // assertions in the response object to be evaluated.
-      return indexUser({ before, after }, fakeContext)
+      const res = await indexUser({ before, after }, fakeContext)
+      expect(res).to.be.null
     })
 
     it('throws if error updating index with displayName', async () => {
@@ -106,8 +105,6 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
       const fakeContext = {
         params: { filePath: 'testing', userId: 1 }
       }
-      // Invoke webhook with our fake request and response objects. This will cause the
-      // assertions in the response object to be evaluated.
       try {
         await indexUser({ after }, fakeContext)
       } catch (err) {
@@ -116,7 +113,7 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
     })
   })
 
-  it('exists if displayName did not change', () => {
+  it('exists if displayName did not change', async () => {
     const databaseStub = sinon.stub()
     const refStub = sinon.stub()
     const updateStub = sinon.stub()
@@ -133,9 +130,10 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
       params: { filePath: 'testing', userId: 1 }
     }
 
-    return indexUser({ before: snap, after: snap }, fakeContext)
+    const res = await indexUser({ before: snap, after: snap }, fakeContext)
+    expect(res).to.be.null
   })
-  }) <% } %><% if (includeRedux && includeFirestore) { %>import * as admin from 'firebase-admin'
+})<% } %><% if (includeRedux && includeFirestore) { %>import * as admin from 'firebase-admin'
 
   describe('indexUser RTDB Cloud Function (onWrite)', () => {
     let adminInitStub
@@ -195,4 +193,4 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
       expect(res).to.equal(afterData)
     })
   })
-<% } %>
+})<% } %>

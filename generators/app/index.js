@@ -2,6 +2,7 @@
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
+const semver = require('semver')
 const path = require('path')
 const commandExistsSync = require('command-exists').sync
 const utils = require('./utils')
@@ -130,8 +131,9 @@ const prompts = [
     type: 'confirm',
     name: 'useYarn',
     message: 'Use Yarn?',
-    when: () => commandExistsSync('yarn'),
-    default: true
+    // Only offer if using versions of node/npm that benift from yarn (adds lock file when not there before)
+    when: () => semver.satisfies(process.version, '<=6.0.0') && commandExistsSync('yarn'),
+    default: false
   }
 ]
 

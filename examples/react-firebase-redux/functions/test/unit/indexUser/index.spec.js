@@ -2,7 +2,7 @@ import * as admin from 'firebase-admin'
 const userId = 1
 const refParam = `users_public/${userId}`
 
-describe('indexUser Cloud Function', () => {
+describe('indexUser RTDB Cloud Function (onWrite)', () => {
   let adminInitStub
   let indexUser
 
@@ -66,7 +66,7 @@ describe('indexUser Cloud Function', () => {
   })
 
   describe('displayName changed', () => {
-    it('Indexes User within users_public/{userId}', () => {
+    it('Indexes User within users_public/{userId}', async () => {
       const databaseStub = sinon.stub()
       const refStub = sinon.stub()
       const updateStub = sinon.stub()
@@ -85,9 +85,8 @@ describe('indexUser Cloud Function', () => {
       const fakeContext = {
         params: { filePath: 'testing', userId: 1 }
       }
-      // Invoke webhook with our fake request and response objects. This will cause the
-      // assertions in the response object to be evaluated.
-      return indexUser({ before, after }, fakeContext)
+      const res = await indexUser({ before, after }, fakeContext)
+      expect(res).to.be.null
     })
 
     it('throws if error updating index with displayName', async () => {
@@ -106,8 +105,6 @@ describe('indexUser Cloud Function', () => {
       const fakeContext = {
         params: { filePath: 'testing', userId: 1 }
       }
-      // Invoke webhook with our fake request and response objects. This will cause the
-      // assertions in the response object to be evaluated.
       try {
         await indexUser({ after }, fakeContext)
       } catch (err) {
@@ -116,7 +113,7 @@ describe('indexUser Cloud Function', () => {
     })
   })
 
-  it('exists if displayName did not change', () => {
+  it('exists if displayName did not change', async () => {
     const databaseStub = sinon.stub()
     const refStub = sinon.stub()
     const updateStub = sinon.stub()
@@ -133,6 +130,7 @@ describe('indexUser Cloud Function', () => {
       params: { filePath: 'testing', userId: 1 }
     }
 
-    return indexUser({ before: snap, after: snap }, fakeContext)
+    const res = await indexUser({ before: snap, after: snap }, fakeContext)
+    expect(res).to.be.null
   })
 })
