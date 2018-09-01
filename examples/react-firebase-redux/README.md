@@ -1,7 +1,6 @@
 # react-firebase-redux
 
-[![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
+
 [![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
@@ -20,7 +19,7 @@
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^6.11.5`
+* node `^8`
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
@@ -125,16 +124,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
 1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
 
 #### CI Deploy (recommended)
-**Note**: Config for this is located within `travis.yml`
-`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
-1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
-1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
-1. Run a build on Travis-CI
-
-If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
-
-For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
 
 #### Manual deploy
 
@@ -151,13 +141,9 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 ## FAQ
 
-1. Why node `6.11.5` instead of a newer version?
+1. Why node `8` instead of a newer version?
 
-  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
-
-1. Why Yarn over node's `package-lock.json`?
-
-  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+  [Cloud Functions runtime runs on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version.
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
     * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
@@ -165,10 +151,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
     * smaller files which are easier to parse
     * functional components can be helpful (along with other tools) when attempting to optimize things
 
-[travis-image]: https://img.shields.io/travis/testuser/react-firebase-redux/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/testuser/react-firebase-redux
-[daviddm-image]: https://img.shields.io/david/testuser/react-firebase-redux.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/testuser/react-firebase-redux
+
 [climate-image]: https://img.shields.io/codeclimate/github/testuser/react-firebase-redux.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/testuser/react-firebase-redux
 [coverage-image]: https://img.shields.io/codeclimate/coverage/github/testuser/react-firebase-redux.svg?style=flat-square
