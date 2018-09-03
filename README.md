@@ -23,7 +23,7 @@ npm install -g yo generator-react-firebase
 
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
-1. Start application by running `yarn start` or `npm start`
+1. Start application by running `npm start`
 
 Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
@@ -41,6 +41,9 @@ Project will default to being named with the name of the folder that it is gener
 * Login/Signup Pages with input validation
 * Route protection (only view certain pages when logged in)
 * Account Page
+* Automatic Build/Deploy config for multiple CI Providers including:
+    * Gitlab (uses pipelines)
+    * Travis
 
 ## Uses
 * [react](https://facebook.github.io/react/) - Rendering + Components
@@ -408,14 +411,49 @@ For full projects built out using this as a starting place, check the next secti
 
 ## FAQ
 
-1. Why node `6.14.0` instead of a newer version?
-  [Cloud Functions runtime was still on `6.14.0`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. Now that they have provided the node 8 runtime option, `generator-react-firebase` will soon be updated to use `package-lock.json` and node 8.
+1. Why node `8` instead of a newer version?
+  [Cloud Functions runtime was still on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
   * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
   * components remain "dumb" by only receiving props which makes them more portable
   * smaller files which are easier to parse
   * functional components can be helpful (along with other tools) when attempting to optimize things
+
+1. Where are the settings for changing how my project deploys through Continious integration?  
+
+  Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
+
+1. How do override `react-redux-firebase` and `redux-firestore` configuration based on environment? Like adding logging only to staging?
+
+  Add the following to `.firebaserc` under the branch associated with the environment you wish to change:
+
+  ```json
+  "reduxFirebase": {
+    "userProfile": "users",
+    "enableLogging": false,
+    "updateProfileOnLogin": false
+  }
+  ```
+
+  Should look end up looking similar to the following:
+
+  ```json
+  "master": {
+    "env": "staging",
+    "firebase": {
+      "apiKey": "${STAGE_FIREBASE_API_KEY}",
+      "authDomain": "some-project.firebaseapp.com",
+      "databaseURL": "https://some-project.firebaseio.com",
+      "projectId": "some-project",
+      "storageBucket": "some-project.appspot.com"
+    },
+    "reduxFirebase": {
+      "enableLogging": true
+    }
+  }
+  ```
+
 
 ## In the future
 * Option to include tests when using sub-generators
@@ -425,7 +463,7 @@ For full projects built out using this as a starting place, check the next secti
 
 ## License
 
-MIT © [Scott Prue](http://prue.io)
+MIT © [Prescott Prue](http://prue.io)
 
 [npm-image]: https://img.shields.io/npm/v/generator-react-firebase.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/generator-react-firebase
@@ -444,3 +482,4 @@ MIT © [Scott Prue](http://prue.io)
 [code-style-url]: http://standardjs.com/
 [gitter-image]: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
 [gitter-url]: https://gitter.im/prescottprue/generator-react-firebase
+[firebase-ci-url]: https://github.com/prescottprue/firebase-ci

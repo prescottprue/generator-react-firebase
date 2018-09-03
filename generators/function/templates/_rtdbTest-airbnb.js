@@ -12,7 +12,7 @@ describe('<%= camelName %> RTDB Cloud Function (<%= eventType %>)', () => {
     // Syntax may change when this issue is addressed
     // [#2](https://github.com/firebase/firebase-functions-test/issues/2)
     <%= camelName %> = functionsTest.wrap(
-      require(`${__dirname}/../../index`).<%= camelName %>
+      require(`${__dirname}/../../../index`).<%= camelName %>
     );
     /* eslint-enable global-require */
   });
@@ -55,7 +55,7 @@ describe('<%= camelName %> RTDB Cloud Function (<%= eventType %>)', () => {
     // Syntax may change when this issue is addressed
     // [#2](https://github.com/firebase/firebase-functions-test/issues/2)
     <%= camelName %> = functionsTest.wrap(
-      require(`${__dirname}/../../index`).<%= camelName %>
+      require(`${__dirname}/../../../index`).<%= camelName %>
     );
     /* eslint-enable global-require */
   });
@@ -108,7 +108,7 @@ describe('<%= camelName %> RTDB Cloud Function (<%= eventType %>)', () => {
       },
       // You can stub any other config values needed by your functions here
     });
-    myFunctions = require(`../../index`);
+    myFunctions = require(`../../../index`);
     /* eslint-enable global-require */
   });
 

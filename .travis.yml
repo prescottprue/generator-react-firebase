@@ -23,13 +23,21 @@ script:
   - npm run test:cov
 
 deploy:
-  skip_cleanup: true
-  provider: npm
-  email: $NPM_EMAIL
-  api_key: $NPM_TOKEN
-  on:
-    node: '10'
-    branch: 'master'
+  - provider: npm
+    skip_cleanup: true
+    email: $NPM_EMAIL
+    api_key: $NPM_TOKEN
+    on:
+      node: '10'
+      branch: 'master'
+  - provider: npm
+    skip_cleanup: true
+    email: $NPM_EMAIL
+    api_key: $NPM_TOKEN
+    tag: next
+    on:
+      node: '10'
+      branch: 'next'
 
 notifications:
   email:

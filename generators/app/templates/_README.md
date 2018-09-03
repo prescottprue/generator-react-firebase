@@ -1,6 +1,6 @@
 # <%= appName %>
 
-<% if (includeTravis) { %>[![Build Status][travis-image]][travis-url]
+<% if (includeCI && ciProvider == 'travis') { %>[![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]<% } %>
 <% if (codeClimate) { %>[![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]<% } %>
@@ -20,7 +20,7 @@
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^6.11.5`
+* node `^8`
 * yarn `^0.23.0` or npm `^3.0.0`
 
 ## Getting Started
@@ -128,7 +128,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
 1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
 
 #### CI Deploy (recommended)
-<% if (includeTravis) { %>**Note**: Config for this is located within `travis.yml`
+<% if (includeCI && ciProvider == 'travis') { %>**Note**: Config for this is located within `travis.yml`
 `firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
@@ -137,7 +137,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
 
 If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
 
-For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %><% if (!includeTravis) { %>1. Login: `firebase login:ci` to generate an authentication token (will be used to give your CI environment rights to deploy on your behalf)
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %><% if (!includeCI) { %>1. Login: `firebase login:ci` to generate an authentication token (will be used to give your CI environment rights to deploy on your behalf)
 1. Set `FIREBASE_TOKEN` environment variable within your CI environment
 1. Create a build script that does the following:
   1. Create a config file by calling `npm run create-config`
@@ -175,13 +175,9 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
 
 ## FAQ
 
-1. Why node `6.11.5` instead of a newer version?
+1. Why node `8` instead of a newer version?
 
-  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
-
-1. Why Yarn over node's `package-lock.json`?
-
-  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+  [Cloud Functions runtime runs on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version.
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
     * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
@@ -189,7 +185,7 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
     * smaller files which are easier to parse
     * functional components can be helpful (along with other tools) when attempting to optimize things
 
-<% if (includeTravis) { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
+<% if (includeCI && ciProvider == 'travis') { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
 [daviddm-image]: https://img.shields.io/david/<%= githubUser %>/<%= appName %>.svg?style=flat-square
 [daviddm-url]: https://david-dm.org/<%= githubUser %>/<%= appName %><% } %>
