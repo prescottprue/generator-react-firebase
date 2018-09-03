@@ -8,7 +8,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
   before(() => {
     /* eslint-disable global-require */
     adminInitStub = sinon.stub(admin, 'initializeApp');
-    myFunctions = require(`${__dirname}/../../index`);
+    myFunctions = require(`${__dirname}/../../../index`);
     // Syntax may change when this issue is addressed
     // [#2](https://github.com/firebase/firebase-functions-test/issues/2)
     <%= camelName %> = await functionsTest.wrap(
@@ -39,7 +39,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
 
   before(() => {
     /* eslint-disable global-require */
-    myFunctions = require(`${__dirname}/../../index`);
+    myFunctions = require(`${__dirname}/../../../index`);
     // Syntax may change when this issue is addressed
     // [#2](https://github.com/firebase/firebase-functions-test/issues/2)
     <%= camelName %> = await functionsTest.wrap(
@@ -104,7 +104,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
       },
     });
 
-    myFunctions = require(`${__dirname}/../../index`);
+    myFunctions = require(`${__dirname}/../../../index`);
     /* eslint-enable global-require */
 
     // Set mocks to autoflush (makes restore/flush not nessesary)

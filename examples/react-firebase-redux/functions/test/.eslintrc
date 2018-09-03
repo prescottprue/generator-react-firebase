@@ -7,7 +7,6 @@ globals:
   sinon: true
   expect: true
   should: true
-  assert: true
   functionsTest: true
 
 rules:

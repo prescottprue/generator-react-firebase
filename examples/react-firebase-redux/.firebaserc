@@ -7,9 +7,9 @@
   "ci": {
     "createConfig": {
       "master": {
-        "env": "production",
+        "env": "staging",
         "firebase": {
-          "apiKey": "",
+          "apiKey": "${STAGE_FIREBASE_API_KEY}",
           "authDomain": "redux-firebasev3.firebaseapp.com",
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",
@@ -24,7 +24,7 @@
       "prod": {
         "env": "production",
         "firebase": {
-          "apiKey": "",
+          "apiKey": "${PROD_FIREBASE_API_KEY}",
           "authDomain": "redux-firebasev3.firebaseapp.com",
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",

@@ -8,9 +8,9 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
  * @return {Promise}
  */
 <% if (functionsV1 && eventType === 'onWrite') { %>async function <%= camelName %>Event(change, context) {
-  // const { params, auth, timestamp } = context
+  const { params: { pushId } } = context // contains auth and timestamp
   // const { before, after } = change
-  const ref = admin.database().ref('responses')<% if (airbnbLinting) { %>;<% } %>
+  const ref = admin.database().ref(`responses/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
   const [writeErr, response] = await to(ref.push({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
   if (writeErr) {
     console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
@@ -18,9 +18,9 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
   }
   return response<% if (airbnbLinting) { %>;<% } %>
 }<% } else if (functionsV1 && eventType !== 'onWrite') { %>async function <%= camelName %>Event(snap, context) {
-  // const { params, auth, timestamp } = context
+  const { params: { pushId } } = context // contains auth and timestamp
   // const eventData = snap.val()
-  const ref = admin.database().ref('responses')<% if (airbnbLinting) { %>;<% } %>
+  const ref = admin.database().ref(`responses/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
   const [writeErr, response] = await to(ref.push({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
   if (writeErr) {
     console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
@@ -28,9 +28,9 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
   }
   return response<% if (airbnbLinting) { %>;<% } %>
 }<% } else { %>async function <%= camelName %>Event(event) {
-  // const { params, data } = event
-  // const eventData = data.val()
-  const ref = admin.database().ref('responses')<% if (airbnbLinting) { %>;<% } %>
+  const { params: { pushId }, data } = event
+  const eventData = data.val()
+  const ref = admin.database().ref(`responses/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
   const [writeErr, response] = await to(ref.push(eventData))<% if (airbnbLinting) { %>;<% } %>
   if (writeErr) {
     console.error(
