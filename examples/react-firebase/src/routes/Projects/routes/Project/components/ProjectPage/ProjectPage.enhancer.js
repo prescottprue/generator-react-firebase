@@ -1,6 +1,7 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { firebaseConnect, getVal } from 'react-redux-firebase'
+import { get } from 'lodash'
+import { firebaseConnect } from 'react-redux-firebase'
 import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
 
