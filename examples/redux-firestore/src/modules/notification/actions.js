@@ -36,7 +36,7 @@ export const showSuccess = message =>
   showNotification({ type: 'success', message })
 
 export const showError = message =>
-  showNotification({ type: 'success', message })
+  showNotification({ type: 'error', message: `Error: ${message || ''}` })
 
 /**
  * @description Dismiss a notification by the given id.

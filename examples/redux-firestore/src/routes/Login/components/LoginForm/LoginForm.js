@@ -25,7 +25,7 @@ export const LoginForm = ({ pristine, submitting, handleSubmit }) => (
       <Button
         color="primary"
         type="submit"
-        raised
+        variant="contained"
         disabled={pristine || submitting}>
         {submitting ? 'Loading' : 'Login'}
       </Button>
