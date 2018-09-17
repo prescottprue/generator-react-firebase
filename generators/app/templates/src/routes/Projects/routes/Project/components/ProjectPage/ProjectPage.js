@@ -14,9 +14,7 @@ const ProjectPage = ({ params, project }) => (
         <Typography className={classes.title} component="h2">
           {project.name || 'Project'}
         </Typography>
-        <Typography className={classes.subtitle}>
-          {params.projectId}
-        </Typography>
+        <Typography className={classes.subtitle}>{params.projectId}</Typography>
         <div>
           <pre>{JSON.stringify(project, null, 2)}</pre>
         </div>

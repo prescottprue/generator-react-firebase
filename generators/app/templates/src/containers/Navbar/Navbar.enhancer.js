@@ -5,10 +5,12 @@ import { connect } from 'react-redux'
   withProps,
   flattenProp,
   withStateHandlers
-} from 'recompose'<% } %>
+} from 'recompose'
+import { withStyles } from '@material-ui/core'<% } %>
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { ACCOUNT_PATH } from 'constants'
-import { withRouter, spinnerWhileLoading } from 'utils/components'
+import { withRouter, spinnerWhileLoading } from 'utils/components'<% if (materialv1) { %>
+import styles from './Navbar.styles'<% } %>
 
 export default compose(
   connect(({ firebase: { auth, profile } }) => ({
@@ -51,5 +53,6 @@ export default compose(
     authExists: isLoaded(auth) && !isEmpty(auth)
   })),
   // Flatten profile so that avatarUrl and displayName are available
-  flattenProp('profile')
+  flattenProp('profile')<% if (materialv1) { %>,
+  withStyles(styles)<% } %>
 )

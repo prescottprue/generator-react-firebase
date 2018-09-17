@@ -7,8 +7,8 @@ import Typography from '@material-ui/core/Typography'<% } else { %>
 import AppBar from 'material-ui/AppBar'<% } %>
 import AccountMenu from './AccountMenu'
 import LoginMenu from './LoginMenu'
-import { LIST_PATH } from 'constants'
-import classes from './Navbar.scss'
+import { LIST_PATH } from 'constants'<% if (!materialv1) { %>
+import classes from './Navbar.scss'<% } %>
 
 export const Navbar = ({
   avatarUrl,
@@ -18,7 +18,8 @@ export const Navbar = ({
   handleLogout<% if (materialv1) { %>,
   closeAccountMenu,
   anchorEl,
-  handleMenu<% } %>
+  handleMenu,
+  classes<% } %>
 }) => (
   <% if (!materialv1) { %><AppBar
     title={
@@ -76,7 +77,8 @@ Navbar.propTypes = {
   handleLogout: PropTypes.func.isRequired<% if (materialv1) { %>,<% } %> // from enhancer (withHandlers - firebase)<% if (materialv1) { %>
   closeAccountMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   handleMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  anchorEl: PropTypes.object // from enhancer (withStateHandlers - handleMenu)<% } %>
+  anchorEl: PropTypes.object, // from enhancer (withStateHandlers - handleMenu)
+  classes: PropTypes.object // from enhancer (withStyles)<% } %>
 }
 
 export default Navbar
