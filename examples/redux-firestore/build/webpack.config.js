@@ -157,22 +157,13 @@ config.plugins.push(extractStyles)
 
 // Images
 // ------------------------------------
-config.module.rules.push(
-  {
-    test: /\.(png|jpg|gif)$/,
-    loader: 'url-loader',
-    options: {
-      limit: 8192
-    }
-  },
-  {
-    test: /octicons\.css$/,
-    loader: 'url-loader',
-    options: {
-      limit: 8192
-    }
+config.module.rules.push({
+  test: /\.(png|jpg|gif)$/,
+  loader: 'url-loader',
+  options: {
+    limit: 8192
   }
-)
+})
 
 // Fonts
 // ------------------------------------
@@ -265,7 +256,7 @@ if (__PROD__) {
     new FaviconsWebpackPlugin({
       logo: 'static/logo.svg',
       inject: true,
-      title: 'portfolio',
+      title: 'redux-firestore',
       persistentCache: true,
       icons: {
         favicons: true,

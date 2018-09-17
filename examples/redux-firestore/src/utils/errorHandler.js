@@ -1,5 +1,7 @@
 import { firebase, googleApis } from '../config'
-import { version, env } from '../../package.json'
+import { version } from '../../package.json'
+
+const environment = process.env.NODE_ENV
 
 let errorHandler
 
@@ -8,7 +10,7 @@ let errorHandler
  * is only initialized if in production environment and api key exists.
  */
 export function init() {
-  if (googleApis && googleApis.apiKey && env === 'production') {
+  if (googleApis && googleApis.apiKey && environment === 'production') {
     window.addEventListener('DOMContentLoaded', () => {
       errorHandler = new window.StackdriverErrorReporter()
       errorHandler.start({

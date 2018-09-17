@@ -158,7 +158,12 @@ const filesArray = [
   { src: 'src/normalize.js' },
   { src: 'src/constants.js' },
   { src: 'src/components/**', dest: 'src/components' },
-  { src: 'src/containers/**', dest: 'src/containers' },
+  { src: 'src/containers/App', dest: 'src/containers/App' },
+  { src: 'src/containers/Navbar/AccountMenu.js', dest: 'src/containers/Navbar/AccountMenu.js' },
+  { src: 'src/containers/Navbar/index.js', dest: 'src/containers/Navbar/index.js' },
+  { src: 'src/containers/Navbar/LoginMenu.js', dest: 'src/containers/Navbar/LoginMenu.js' },
+  { src: 'src/containers/Navbar/Navbar.enhancer.js', dest: 'src/containers/Navbar/Navbar.enhancer.js' },
+  { src: 'src/containers/Navbar/Navbar.js', dest: 'src/containers/Navbar/Navbar.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
@@ -215,12 +220,15 @@ module.exports = class extends Generator {
     }
 
     if (!this.answers.materialv1) {
-      // TODO: delete Navbar.scss or do not copy it
       filesArray.push(
-        { src: 'src/theme.js' }
+        { src: 'src/theme.js' },
+        { src: 'src/containers/Navbar/Navbar.scss', dest: 'src/containers/Navbar/Navbar.scss' }
       )
     } else {
-      filesArray.push({ src: 'v1theme.js', dest: 'src/theme.js' })
+      filesArray.push(
+        { src: 'v1theme.js', dest: 'src/theme.js' },
+        { src: 'src/containers/Navbar/Navbar.styles.js', dest: 'src/containers/Navbar/Navbar.styles.js' }
+      )
     }
 
     if (this.answers.deployTo === 'firebase') {

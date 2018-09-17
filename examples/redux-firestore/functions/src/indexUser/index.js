@@ -21,7 +21,7 @@ export default functions.firestore
  * https://firebase.google.com/docs/reference/functions/functions.EventContext
  * @return {Promise} Resolves with user's profile
  */
-async function indexUser(snap, context) {
+async function indexUser(change, context) {
   const { userId } = context.params || {}
   const publicProfileRef = admin
     .firestore()
@@ -29,7 +29,7 @@ async function indexUser(snap, context) {
     .doc(userId)
 
   // User Profile being deleted
-  if (!event.after.exists) {
+  if (!change.after.exists) {
     console.log(
       `Profile being removed for user with id: ${userId}, removing from index...`
     )
@@ -46,11 +46,11 @@ async function indexUser(snap, context) {
     return null
   }
 
-  const data = event.before.data()
-  const previousData = event.after.data()
+  const previousData = change.before.data()
+  const newData = change.after.data()
 
   // Check to see if displayName has changed
-  if (data.displayName === previousData.displayName) {
+  if (previousData.displayName === newData.displayName) {
     console.log(
       `displayName parameter did not change for user with id: ${userId}, no need to update index. Exiting...`
     )
@@ -59,9 +59,12 @@ async function indexUser(snap, context) {
 
   // Update displayName within index
   const [nameUpdateErr] = await to(
-    publicProfileRef.update({
-      displayName: data.displayName
-    })
+    publicProfileRef.set(
+      {
+        displayName: newData.displayName
+      },
+      { merge: true }
+    )
   )
 
   // Handle errors updating displayName index
@@ -73,5 +76,5 @@ async function indexUser(snap, context) {
     throw nameUpdateErr
   }
 
-  return data
+  return newData
 }
