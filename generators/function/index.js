@@ -44,6 +44,7 @@ const functionTypeOptions = [
   'https',
   'rtdb',
   'firestore',
+  'pubsub',
   'storage',
   'auth'
 ]
@@ -68,6 +69,9 @@ const choicesByTriggerType = {
   auth: [
     'onCreate',
     'onDelete'
+  ],
+  pubsub: [
+    'onPublish'
   ],
   storage: functionsV1
     ? ['onArchive', 'onDelete', 'onFinalize', 'onMetadataUpdate']
@@ -102,6 +106,9 @@ function buildPrompts (generatorContext) {
         if (typeOption === 'https' || typeOption === 'rtdb') {
           return typeOption.toUpperCase()
         }
+        if (typeOption === 'pubsub') {
+          return 'PubSub'
+        }
         return capitalize(typeOption)
       }),
       default: 0
@@ -119,6 +126,19 @@ function buildPrompts (generatorContext) {
       default: false
     }
   ])
+}
+
+function triggerTypeToName(triggerType) {
+  switch(triggerType) {
+    case 'http':
+      return `${triggerType.toUpperCase()}${triggerType === 'http' ? 'S' : ''}`
+    case 'rtdb':
+      return 'Real Time Database'
+    case 'pubsub':
+      return triggerType.toUpperCase()
+    default:
+      return capitalize(triggerType)
+  }
 }
 
 module.exports = class extends Generator {
@@ -151,8 +171,9 @@ module.exports = class extends Generator {
       })
 
       this.answers.functionsV1 = functionsV1
+      
       if (!functionsV1) {
-        this.log('You should checkout firebase-functions v1.0.0 for sweet new features!')
+        this.log('You should checkout the latest firebase-functions for sweet new features!')
       }
     })
   }
@@ -167,10 +188,7 @@ module.exports = class extends Generator {
       this.triggerFlag
     ).toLowerCase()
     // Format name for showing
-    const triggerTypeName = (triggerType === 'http' || triggerType === 'rtdb')
-      ? `${triggerType.toUpperCase()}${triggerType === 'http' ? 'S' : ''}`
-      : capitalize(triggerType)
-
+    const triggerTypeName = triggerTypeToName()
     this.log(
       `${chalk.blue('Generating')} -> Cloud Function: ${chalk.green(this.options.name)}
       Trigger Type: ${chalk.cyan(triggerTypeName)}

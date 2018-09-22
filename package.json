@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
-    "codecov": "^3.0.2",
+    "codecov": "^3.1.0",
     "eslint": "^4.8.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
