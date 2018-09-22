@@ -108,12 +108,12 @@ module.exports = class extends Generator {
       if (this.answers.styleType && this.answers.styleType === 'localized') {
         filesArray.push({
           src: '_main.styles.js',
-          dest: `${basePath}/${this.options.name}.styles.js`
+          dest: `${basePath}/${name}.styles.js`
         })
       } else {
         filesArray.push({
           src: '_main.scss',
-          dest: `${basePath}/${this.options.name}.scss`
+          dest: `${basePath}/${name}.scss`
         })
       }
     }

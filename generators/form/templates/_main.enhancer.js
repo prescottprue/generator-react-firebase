@@ -1,9 +1,9 @@
 import { compose } from 'redux'
 import { withHandlers } from 'recompose'
-import { reduxForm } from 'redux-form'
-import { formNames } from 'constants'<% if (styleType === 'localized') { %>
+import { reduxForm } from 'redux-form'<% if (styleType === 'localized') { %>
 import { withStyles } from '@material-ui/core/styles'
-import styles from './<%= name %>.styles'<% } %>
+import styles from './<%= name %>.styles'
+<% } %>import { formNames } from 'constants'
 
 export default compose(
   // Add handlers as props
@@ -13,7 +13,7 @@ export default compose(
     }
   }),
   // Add form capabilities (including submit and validation handling)
-  reduxForm({ form: formNames.<%= camelName %> }),<% if (styleType === 'localized') { %>
+  reduxForm({ form: formNames.<%= camelName %> || '<%= camelName %>' }),<% if (styleType === 'localized') { %>
   // Add styles as "classes" prop
   withStyles(styles)<% } %>
 )

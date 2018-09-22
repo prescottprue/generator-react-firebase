@@ -30,7 +30,7 @@ export const <%= name %> = ({
 )
 
 <%= name %>.propTypes = {
-  <% if (addStyle && styleType !== 'scss') { %>classes: PropTypes.object, // from enhancer (withStyles)
+  <% if (addStyle && styleType !== 'scss') { %>classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   <% } %>submitting: PropTypes.bool.isRequired, // from enhancer (reduxForm)
   pristine: PropTypes.bool.isRequired, // from enhancer (reduxForm)
   handleSubmit: PropTypes.func.isRequired // from enhancer (reduxForm)
