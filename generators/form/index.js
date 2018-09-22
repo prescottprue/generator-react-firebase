@@ -3,6 +3,56 @@ const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const camelCase = require('lodash/camelCase')
 const capitalize = require('lodash/capitalize')
+const fs = require('fs')
+const path = require('path')
+const get = require('lodash/get')
+
+const prompts = [
+  {
+    type: 'confirm',
+    name: 'addStyle',
+    message: 'Do you want to include styles?',
+    default: true
+  },
+  {
+    type: 'list',
+    name: 'styleType',
+    when: ({ addStyle }) => addStyle && dependencyExists('@material-ui/core'),
+    choices: [
+      {
+        name: 'Localized MUI Theming (styles.js)',
+        value: 'localized'
+      },
+      {
+        name: 'SCSS File',
+        value: 'scss'
+      }
+    ],
+    message: 'What type of styling?',
+    default: 0
+  },
+]
+
+function loadProjectPackageFile() {
+  const packagePath = path.join(process.cwd(), 'package.json')
+  // If functions package file does not exist, default to null
+  if (!fs.existsSync(packagePath)) {
+    return null
+  }
+  // Load package file handling errors
+  try {
+    return require(packagePath)
+  } catch (err) {
+    return null
+  }
+}
+
+function dependencyExists(depName, opts = {}) {
+  const { dev = false } = opts
+  const projectPackageFile = loadProjectPackageFile()
+  return !!get(projectPackageFile, `${dev ? 'devDependencies' : 'dependencies'}.${depName}`)
+}
+
 
 module.exports = class extends Generator {
   constructor (args, opts) {
@@ -23,12 +73,21 @@ module.exports = class extends Generator {
 
   prompting () {
     this.log(
-      `${chalk.blue('Generating')} -> Redux-Form Form: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> redux-form Form: ${chalk.green(this.options.name)}`
     )
-
-    // return this.prompt(prompts).then((props) => {
-    //   this.answers = props
-    // })
+    
+    const projectPackageFile = loadProjectPackageFile()
+    return this.prompt(prompts).then((props) => {
+      this.answers = Object.assign({}, props, {
+        // proptypes included by default if project package file not loaded
+        // (i.e. null due to throws: false in loadProjectPackageFile)
+        hasPropTypes: !projectPackageFile || dependencyExists('prop-types') || false,
+        materialv1: dependencyExists('@material-ui/core'),
+        airbnbLinting: dependencyExists('eslint-config-airbnb', { dev: true }) || false,
+        // Default style type to scss for when localized styles is not an option
+        styleType: props.styleType || 'scss',
+      })
+    })
   }
 
   writing () {
@@ -40,20 +99,30 @@ module.exports = class extends Generator {
       { src: '_index.js', dest: `${basePath}/index.js` },
       { src: '_main.js', dest: `${basePath}/${name}.js` },
       {
-        src: '_main.scss',
-        dest: `${basePath}/${name}.scss`
-      },
-      {
-        src: '_main.enhancer.js',
+        src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.enhancer.js`,
         dest: `${basePath}/${name}.enhancer.js`
       }
     ]
+
+    if (this.answers.addStyle) {
+      if (this.answers.styleType && this.answers.styleType === 'localized') {
+        filesArray.push({
+          src: '_main.styles.js',
+          dest: `${basePath}/${this.options.name}.styles.js`
+        })
+      } else {
+        filesArray.push({
+          src: '_main.scss',
+          dest: `${basePath}/${this.options.name}.scss`
+        })
+      }
+    }
 
     filesArray.forEach(file => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),
-        Object.assign({}, {
+        Object.assign({}, this.answers, {
           name,
           lowerName: name.toLowerCase(),
           camelName: camelCase(name)
