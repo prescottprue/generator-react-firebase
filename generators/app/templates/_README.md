@@ -25,7 +25,7 @@
 
 ## Getting Started
 
-1. Install dependencies: `npm i`
+1. Install app and functions dependencies: `npm i && npm i --prefix functions`
 1. Create `src/config.js` file that looks like so if it does not already exist:
     ```js
     const firebase = {

@@ -26,7 +26,8 @@ npm install -g yo generator-react-firebase
 ## Getting Started
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
-1. Start application by running `npm start`
+1. Confirm dependencies are installed: `npm i && npm i --prefix functions`
+1. Start application: `npm start`
 
 Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
