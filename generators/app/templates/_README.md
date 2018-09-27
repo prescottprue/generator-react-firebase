@@ -25,21 +25,32 @@
 
 ## Getting Started
 
-1. Install dependencies: `yarn install` (or `npm install`)
-1. If pulling to a new environment (not where project was created) - create `src/config.js` file that looks like so:
+1. Install dependencies: `npm i`
+1. Create `src/config.js` file that looks like so if it does not already exist:
     ```js
     const firebase = {
       // Config from Firebase console
     }
 
-    // Config for react-redux-firebase
-    export const reduxFirebase = {
-      userProfile: 'users', // root to which user profiles are written
-    }
+    // Overrides for for react-redux-firebase/redux-firestore config
+    export const reduxFirebase = {}
+    <% if (includeAnalytics) { %>
+    export const analyticsTrackingId = ''<% } %>
+    <% if (firebasePublicVapidKey) { %>
+    export const publicVapidKey = ''<% } %>
+    <% if (sentryDsn) { %>
+    export const sentryDsn = ''<% } %>
 
-    export default { firebase, reduxFirebase }
+    export default {
+      env,
+      firebase,
+      reduxFirebase<% if (sentryDsn) { %>,
+      sentryDsn<% } %><% if (firebasePublicVapidKey) { %>,
+      publicVapidKey<% } %><% if (includeAnalytics) { %>,
+      analyticsTrackingId<% } %>
+    }
     ```
-1. Start Development server: `yarn start` (or `npm start`)
+1. Start Development server: `npm start`
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
@@ -47,14 +58,13 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |-------------------|-----------|
 |`start`            |Serves your app at `localhost:3000` and displays [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
 |`start:simple`     |Serves your app at `localhost:3000` without [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
-|`build`            |Builds the application to ./dist|
+|`build`            |Builds the application to ./dist|<% if (includeTests) { %>
 |`test`             |Runs unit tests with Karma. See [testing](#testing)|
-|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
+|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|<% } %>
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
-
 
 ## Config Files
 
@@ -116,10 +126,10 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ### Routing
 We use `react-router` [route definitions](https://github.com/ReactTraining/react-router/blob/v3/docs/API.md#plainroute) (`<route>/index.js`) to define units of logic within our application. See the [application structure](#application-structure) section for more information.
 
-## Testing
+<% if (includeTests) { %>## Testing
 To add a unit test, create a `.spec.js` file anywhere inside of `./tests`. Karma and webpack will automatically find these files, and Mocha and Chai will be available within your test without the need to import them.
 
-## Production
+<% } %>## Production
 
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
@@ -154,7 +164,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
 1. Build Project: `npm run build`
 1. Confirm Firebase config by running locally: `firebase serve`
-1. Deploy to firebase: `firebase deploy`
+1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.<% } %><% if (deployTo === 's3') { %>
 Selecting AWS S3 from the deploy options when running the generator adds deploy configs in `.travis.yml`.
 

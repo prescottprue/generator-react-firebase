@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script defer src="https://cdn.rawgit.com/GoogleCloudPlatform/stackdriver-errors-js/v0.4.0/dist/stackdriver-errors-concat.min.js"></script>
-  <title><%= appName %></title>
+  <meta name="description" content="Simple Firebase + React App created with generator-react-firebase.">
+  <meta name="theme-color" content="#2196f3" />
+  <!-- Use minimum-scale=1 to enable GPU rasterization -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  <!-- Tracking/Reporting Bundles -->
+  <script defer src="https://cdn.rawgit.com/GoogleCloudPlatform/stackdriver-errors-js/v0.4.0/dist/stackdriver-errors-concat.min.js"></script><% if (includeSentry) { %>
+  <script src=https://cdn.ravenjs.com/3.24.0/raven.min.js crossorigin=anonymous></script><% } %>
+  <title><%= capitalAppName %></title>
 </head>
 <body>
   <div id="root" style="height: 100%"></div>
+  <noscript>Javascript must be enabled for <%= capitalAppName %> to work. Please use a compatiable browser.</noscript>
 </body>
 </html>

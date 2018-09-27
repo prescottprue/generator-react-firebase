@@ -36,15 +36,15 @@ export function showNotification(notif) {
  * Show message for a success
  * @param {String} message - Message to show
  */
-export function showSuccess (message) {
+export function showSuccess(message) {
   return showNotification({ type: 'success', message })
 }
-  
+
 /**
  * Show message for a error
  * @param {String} message - Message to show
  */
-export function showError (message) {
+export function showError(message) {
   return showNotification({ type: 'error', message: `Error: ${message || ''}` })
 }
 
@@ -52,7 +52,7 @@ export function showError (message) {
  * Dismiss a notification by the given id.
  * @param {Number} id - notification id
  */
-export function dismissNotification (payload) {
+export function dismissNotification(payload) {
   return {
     type: NOTIFICATION_DISMISS,
     payload
@@ -62,6 +62,6 @@ export function dismissNotification (payload) {
 /**
  * Clear all notifications
  */
-export function clearNotifications () {
+export function clearNotifications() {
   return { type: NOTIFICATION_CLEAR }
 }

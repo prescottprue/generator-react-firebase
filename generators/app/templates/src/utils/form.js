@@ -32,4 +32,3 @@ export function validateEmail(value) {
     ? 'Invalid email address'
     : undefined
 }
-

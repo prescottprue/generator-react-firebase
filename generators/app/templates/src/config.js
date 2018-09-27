@@ -5,7 +5,7 @@
  * settings can be applied.
  */
 
-export const env = 'development'
+export const env = 'local'
 
 // Config for firebase
 export const firebase = {
@@ -13,17 +13,28 @@ export const firebase = {
   authDomain: '<%= firebaseName %>.firebaseapp.com',
   databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
   projectId: "<%= firebaseName %>",
-  storageBucket: '<%= firebaseName %>.appspot.com'
+  storageBucket: '<%= firebaseName %>.appspot.com'<% if(messagingSenderId) { %>,
+  messagingSenderId: '<%= messagingSenderId %>'<% } %>
 }
 
-// Config for react-redux-firebase
+// Config to override default reduxFirebase config in store/createStore
+// which is not environment specific.
 // For more details, visit http://react-redux-firebase.com/docs/api/enhancer.html
 export const reduxFirebase = {
-  userProfile: 'users', // root that user profiles are written to
-  enableLogging: false, // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
-  useFirestoreForProfile: <% if (includeRedux && includeFirestore) { %>true<% } %><% if (includeRedux && !includeFirestore) { %>false<% } %>, // Save profile to Firestore instead of Real Time Database<% } %>
-  // updateProfileOnLogin: false // enable/disable updating of profile on login
-  // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
-}
+  enableLogging: false, // enable/disable Firebase Database Logging
+}<% if (includeAnalytics) { %>
 
-export default { env, firebase, reduxFirebase }
+export const analyticsTrackingId = ''<% } %><% if (firebasePublicVapidKey) { %>
+
+export const publicVapidKey = '<%= firebasePublicVapidKey %>'<% } %><% if (sentryDsn) { %>
+
+export const sentryDsn = '<%= sentryDsn %>'<% } %>
+
+export default {
+  env,
+  firebase,
+  reduxFirebase<% if (sentryDsn) { %>,
+  sentryDsn <% } %><% if (firebasePublicVapidKey) { %>,
+  publicVapidKey<% } %><% if (includeAnalytics) { %>,
+  analyticsTrackingId<% } %>
+}

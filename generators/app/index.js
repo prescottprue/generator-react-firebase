@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const semver = require('semver')
 const path = require('path')
+const captialize = require('lodash/capitalize')
 const commandExistsSync = require('command-exists').sync
 const utils = require('./utils')
 
@@ -25,7 +26,18 @@ const featureChoices = [
   },
   {
     answerName: 'includeErrorHandling',
-    name: 'Stackdriver Error Reporting (Client Side)',
+    name: 'Stackdriver Error Reporting (Client Side To Match Functions)',
+    checked: true
+  },
+  {
+    answerName: 'includeSentry',
+    name: 'Sentry.io Error Reporting',
+    checked: true
+  },
+  {
+    answerName: 'includeMessaging',
+    name: 'Firebase Cloud Messaging',
+    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
     checked: true
   },
   {
@@ -57,7 +69,6 @@ const prompts = [
     name: 'firebaseName',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
-    default: 'react-redux-firebase',
     /* istanbul ignore next: Tested in utils */
     validate: utils.firebaseUrlValidate
   },
@@ -83,6 +94,19 @@ const prompts = [
     message: 'Other Features To Include:',
     name: 'otherFeatures',
     choices: featureChoices
+  },
+  {
+    name: 'messagingSenderId',
+    message: 'Firebase messagingSenderId',
+    required: true,
+    when: (currentAnswers) =>
+      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+  },
+  {
+    name: 'firebasePublicVapidKey',
+    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
+    message: 'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
+    required: true
   },
   {
     type: 'list',
@@ -142,7 +166,11 @@ const filesArray = [
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
-  { src: 'public/**', dest: 'public' },
+  // { src: 'public/**', dest: 'public' }, // individual files copied
+  { src: 'public/favicon.ico' },
+  { src: 'public/humans.txt' },
+  { src: 'public/manifest.json' },
+  { src: 'public/robots.txt' },
   { src: 'build/lib/**', dest: 'build/lib' },
   { src: 'build/scripts/**', dest: 'build/scripts' },
   { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
@@ -171,11 +199,18 @@ module.exports = class extends Generator {
     super(args, opts)
 
     this.argument('name', { type: String, required: false })
+    const appName = this.options.name || path.basename(process.cwd()) || 'react-firebase'
     this.intialData = {
       version: '0.0.1',
+      messagingSenderId: null,
+      firebasePublicVapidKey: null,
+      includeMessaging: false,
+      includeSentry: false,
+      sentryDsn: null,
       codeClimate: true,
       appPath: this.env.options.appPath,
-      appName: this.options.name || path.basename(process.cwd()) || 'react-firebase'
+      appName,
+      capitalAppName: captialize(appName)
     }
   }
 
@@ -302,6 +337,13 @@ module.exports = class extends Generator {
         { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
         { src: 'tests/**', dest: 'tests' },
         { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+      )
+    }
+
+    if (this.answers.includeMessaging) {
+      filesArray.push(
+        { src: 'src/utils/firebaseMessaging.js' },
+        { src: 'public/firebase-messaging-sw.js' },
       )
     }
 

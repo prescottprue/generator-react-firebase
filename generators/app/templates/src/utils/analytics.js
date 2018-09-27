@@ -1,16 +1,16 @@
 import ReactGA from 'react-ga'
 import { version } from '../../package.json'
-import { analyticsTrackingId, env } from 'config' // eslint-disable-line import/no-unresolved
+import { analyticsTrackingId, env as environment } from 'config' // eslint-disable-line import/no-unresolved
 
 /**
  * Initialize Google Analytics if analytics id exists and environment is
  * production
  */
-export function initGA() {
-  if (analyticsTrackingId && env === 'production') {
+function initGA() {
+  if (analyticsTrackingId) {
     ReactGA.initialize(analyticsTrackingId)
     ReactGA.set({
-      appName: env || 'Production',
+      appName: environment || 'Production',
       appVersion: version
     })
   }
@@ -21,7 +21,7 @@ export function initGA() {
  * @param  {Object} eventData - Data associated with the event.
  */
 export function triggerAnalyticsEvent(eventData) {
-  if (analyticsTrackingId && env === 'production') {
+  if (analyticsTrackingId) {
     ReactGA.event(eventData)
   } else {
     console.debug('Analytics Event:', eventData) // eslint-disable-line no-console
@@ -46,6 +46,15 @@ export function trackRouteUpdate() {
   if (analyticsTrackingId) {
     ReactGA.set({ page: window.location.pathname })
     ReactGA.pageview(window.location.pathname)
+  }
+}
+
+/**
+ * Initialize All Analytics libraries if within production environment
+ */
+export function init() {
+  if (environment === 'production') {
+    initGA()
   }
 }
 
