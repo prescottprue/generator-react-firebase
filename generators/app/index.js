@@ -76,7 +76,7 @@ const prompts = [
     type: 'confirm',
     name: 'includeFirestore',
     message: 'Use Firestore (RTDB still included)?',
-    default: false
+    default: true
   },
   {
     type: 'checkbox',
