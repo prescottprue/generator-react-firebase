@@ -20,7 +20,6 @@ npm install -g yo generator-react-firebase
 ```
 
 ## Getting Started
-
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
 1. Start application by running `npm start`
@@ -28,7 +27,7 @@ npm install -g yo generator-react-firebase
 Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
 #### Whats Next
-
+1. Enable Google and Email Sign In Methods in the Authentication tab of the Firebase Console in order to login within your application
 1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
 1. Tryout the [Sub Generators](#sub-generators)
 1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).

@@ -1,8 +1,8 @@
 # <%= appName %>
-
-<% if (includeCI && ciProvider == 'travis') { %>[![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]<% } %>
-<% if (codeClimate) { %>[![Code Coverage][coverage-image]][coverage-url]
+<% if (includeCI && ciProvider == 'travis') { %>
+[![Build Status][travis-image]][travis-url]
+[![Dependency Status][daviddm-image]][daviddm-url]<% } %><% if (codeClimate && includeTests) { %>
+[![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]<% } %>
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
@@ -13,15 +13,15 @@
 1. [Getting Started](#getting-started)
 1. [Application Structure](#application-structure)
 1. [Development](#development)
-  1. [Routing](#routing)
-1. [Testing](#testing)
+  1. [Routing](#routing)<% if (includeTests) { %>
+1. [Testing](#testing)<% } %>
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
 
 ## Requirements
 * node `^8`
-* yarn `^0.23.0` or npm `^3.0.0`
+* npm `^3.0.0`
 
 ## Getting Started
 
@@ -33,13 +33,13 @@
     }
 
     // Overrides for for react-redux-firebase/redux-firestore config
-    export const reduxFirebase = {}
-    <% if (includeAnalytics) { %>
-    export const analyticsTrackingId = ''<% } %>
-    <% if (firebasePublicVapidKey) { %>
-    export const publicVapidKey = ''<% } %>
-    <% if (sentryDsn) { %>
-    export const sentryDsn = ''<% } %>
+    export const reduxFirebase = {}<% if (includeAnalytics) { %>
+    
+    export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'<% } %><% if (firebasePublicVapidKey) { %>
+    
+    export const publicVapidKey = '<- publicVapidKey from Firebase console ->'<% } %><% if (sentryDsn) { %>
+    
+    export const sentryDsn = '<- DSN From Sentry.io ->'<% } %>
 
     export default {
       env,
@@ -81,7 +81,6 @@ More details in the [Application Structure Section](#application-structure)
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications. If you wish to read more about this pattern, please check out this [awesome writeup](https://github.com/davezuko/react-redux-starter-kit/wiki/Fractal-Project-Structure) by [Justin Greenberg](https://github.com/justingreenberg).
 
 ```
-.
 ├── build                    # All build-related configuration
 │   ├── scripts              # Scripts used within the building process<% if (deployTo !== 'firebase') { %>
 │   │  └── compile.js        # Custom Compiler that calls Webpack compiler
@@ -108,7 +107,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │       ├── assets       # Assets required to render components
 │   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
 │   │       ├── modules      # Collections of reducers/constants/actions
-│   │       └── routes **    # Fractal sub-routes (** optional)
+│   │       └── routes/**    # Fractal sub-routes (** optional)
 │   ├── static               # Static assets
 │   ├── store                # Redux-specific pieces
 │   │   ├── createStore.js   # Create and instrument redux store
