@@ -33,9 +33,21 @@ export function triggerAnalyticsEvent(eventData) {
  * @param {Object} auth - Authentication data
  * @param {String} auth.uid - User's id
  */
-export function setGAUser(auth) {
+function setGAUser(auth) {
   if (auth && auth.uid) {
     ReactGA.set({ userId: auth.uid })
+  }
+}
+
+/**
+ * Set user auth data within Analytics context (can be
+ * multiple analytics providers)
+ * @param {Object} auth - Authentication data
+ * @param {String} auth.uid - User's id
+ */
+export function setAnalyticsUser(auth) {
+  if (environment === 'production') {
+    setGAUser()
   }
 }
 
