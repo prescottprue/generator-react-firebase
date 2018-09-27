@@ -18,17 +18,23 @@ Install [Yeoman](http://yeoman.io) and generator-react-firebase using [npm](http
 ```bash
 npm install -g yo generator-react-firebase
 ```
+## Before Starting
+1. Do the following in the Firebase Console:
+    1. Create both a Firestore Database and Real Time Database
+    1. Enable Google and/or Email Sign In Methods in the Authentication tab (required to enable login/signup within your application)
 
 ## Getting Started
-
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
-1. Start application by running `npm start`
+1. Confirm dependencies are installed: `npm i && npm i --prefix functions`
+1. Start application: `npm start`
 
 Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
 #### Whats Next
-
+1. Deploy your application either [manually through firebase-tools](#manual) or by [setting up CI Deployment](#ci)
+1. Enable APIs for features which were opted into:
+    * [Firebase Cloud Messaging API](https://console.cloud.google.com/apis/api/fcm.googleapis.com/overview)
 1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
 1. Tryout the [Sub Generators](#sub-generators)
 1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).
@@ -453,7 +459,6 @@ For full projects built out using this as a starting place, check the next secti
     }
   }
   ```
-
 
 ## In the future
 * Option to include tests when using sub-generators

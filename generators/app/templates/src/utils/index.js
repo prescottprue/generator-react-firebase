@@ -1,7 +1,31 @@
-import { initGA } from './analytics'
-import { init as initErrorHandler } from './errorHandler'
+import { init as initAnalytics } from './analytics'
+import { init as initErrorHandling } from './errorHandler'
 
-export const initScripts = () => {
-  <% if (includeAnalytics && includeErrorHandling) { %>initGA()
-  initErrorHandler()<% } %><% if (includeAnalytics && !includeErrorHandling) { %>initGA()<% } %><% if (includeErrorHandling && !includeAnalytics) { %>initErrorHandler()<% } %>
+/**
+ * Log a message and return data passed. Useful for logging
+ * messages within functional programming flows.
+ * @param message - Message to log along with data.
+ * @example Basic
+ * import { flow, map as fpMap } from 'lodash'
+ * const original = []
+ * flow(
+ *   fpLog('Before Map'),
+ *   fpMap('branchName') // get branchName
+ * )(original)
+ * // => 'Before Map' [{ name: 'test' }]
+ * // => 'After Map' ['test']
+ */
+export function fpLog(message) {
+  return existing => {
+    console.log(message, existing) // eslint-disable-line no-console
+    return existing
+  }
+}
+
+/**
+ * Initialize global scripts including analytics and error handling
+ */
+export function initScripts() {
+  <% if (includeAnalytics && includeErrorHandling) { %>initAnalytics()
+  initErrorHandling()<% } %><% if (includeAnalytics && !includeErrorHandling) { %>initAnalytics()<% } %><% if (includeErrorHandling && !includeAnalytics) { %>initErrorHandling()<% } %>
 }
