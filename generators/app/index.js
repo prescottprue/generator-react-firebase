@@ -158,10 +158,11 @@ const prompts = [
 
 const filesArray = [
   { src: '_README.md', dest: 'README.md' },
-  { src: 'LICENSE', dest: 'LICENSE' },
+  { src: 'jsconfig.json' },
+  { src: 'LICENSE' },
   { src: 'project.config.js' },
   { src: '_package.json', dest: 'package.json' },
-  { src: 'CONTRIBUTING.md', dest: 'CONTRIBUTING.md' },
+  { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
@@ -298,6 +299,7 @@ module.exports = class extends Generator {
     if (this.answers.includeFunctions) {
       filesArray.push(
         { src: 'functions/.runtimeconfig.json', dest: 'functions/.runtimeconfig.json' },
+        { src: 'functions/jsconfig.json' },
         { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
         { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
         { src: 'functions/package.json', dest: 'functions/package.json' },
