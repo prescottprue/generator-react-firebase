@@ -71,8 +71,9 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 There are multiple configuration files:
 
 * Project Path Configuration - `project.config.js`
-* Firebase Project Configuration (including how `src/config.js` is built on CI) - `.firebaserc`
+* Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
 * Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+* Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
 
