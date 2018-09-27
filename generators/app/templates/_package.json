@@ -18,6 +18,8 @@
     "lint": "eslint src functions server build project.config.js<% if (includeTests) { %> tests<% } %>",
     "lint:fix": "npm run lint -- --fix",<% if (includeFunctions) { %>
     "functions:start": "npm run start --prefix functions",
+    "functions:serve": "npm run serve --prefix functions",
+    "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",
     "functions:test": "npm run test --prefix functions",<% } %>
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",<% if (deployTo !== 'firebase') { %>

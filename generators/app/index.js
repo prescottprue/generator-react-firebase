@@ -9,7 +9,7 @@ const utils = require('./utils')
 
 const featureChoices = [
   {
-    name: 'Version 1 of Material-UI (0.20.0 used otherwise)',
+    name: 'Material-UI Version 3 (0.20.0 used otherwise)',
     answerName: 'materialv1',
     checked: true
   },
@@ -36,11 +36,6 @@ const featureChoices = [
   {
     name: 'Tests',
     answerName: 'includeTests',
-    checked: false
-  },
-  {
-    answerName: 'includeBlueprints',
-    name: 'Blueprints (for redux-cli)',
     checked: false
   }
 ]
@@ -85,7 +80,7 @@ const prompts = [
   },
   {
     type: 'checkbox',
-    message: 'Other Features To Include?',
+    message: 'Other Features To Include:',
     name: 'otherFeatures',
     choices: featureChoices
   },
@@ -198,7 +193,6 @@ module.exports = class extends Generator {
           this.answers[choice.answerName] = !!matching
         })
       }
-      // console.log('answers:', this.answers)
       this.data = Object.assign({}, this.intialData, this.answers)
     })
   }
