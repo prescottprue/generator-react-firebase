@@ -208,6 +208,7 @@ module.exports = class extends Generator {
       includeMessaging: false,
       includeSentry: false,
       sentryDsn: null,
+      ciProvider: null,
       codeClimate: true,
       appPath: this.env.options.appPath,
       appName,
