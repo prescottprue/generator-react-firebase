@@ -2,7 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const project = require('../project.config')
 
 const inProject = path.resolve.bind(path, project.basePath)
@@ -251,19 +250,6 @@ if (__PROD__) {
         evaluate: true,
         if_return: true,
         join_vars: true
-      }
-    }),
-    new FaviconsWebpackPlugin({
-      logo: 'static/logo.svg',
-      inject: true,
-      title: '<%= appName %>',
-      persistentCache: true,
-      icons: {
-        favicons: true,
-        appleIcon: true,
-        appleStartup: true,
-        firefox: true,
-        android: true
       }
     })
   )

@@ -5,6 +5,7 @@
     "prod": "<%= firebaseName %>"
   },
   "ci": {
+    "copyVersion": true,
     "createConfig": {
       "master": {
         "env": "staging",
@@ -13,8 +14,12 @@
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
-          "storageBucket": "<%= firebaseName %>.appspot.com"
-        }
+          "storageBucket": "<%= firebaseName %>.appspot.com"<% if(messagingSenderId) { %>,
+          "messagingSenderId": "<%= messagingSenderId %>"<% } %>
+        }<% if(includeSentry) { %>,
+        "sentryDsn": "${SENTRY_DSN}"<% } %><% if(includeAnalytics) { %>,
+        "analyticsTrackingId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
+        "publicVapidKey": "${STAGE_PUBLIC_VAPID_KEY}"<% } %>
       },
       "prod": {
         "env": "production",
@@ -23,8 +28,12 @@
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
-          "storageBucket": "<%= firebaseName %>.appspot.com"
-        }
+          "storageBucket": "<%= firebaseName %>.appspot.com"<% if(messagingSenderId) { %>,
+          "messagingSenderId": "<%= messagingSenderId %>"<% } %>
+        }<% if(includeSentry) { %>,
+        "sentryDsn": "${SENTRY_DSN}"<% } %><% if(includeAnalytics) { %>,
+        "analyticsTrackingId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
+        "publicVapidKey": "${PROD_PUBLIC_VAPID_KEY}"<% } %>
       }
     }
   }

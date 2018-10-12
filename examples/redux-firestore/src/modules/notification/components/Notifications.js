@@ -49,6 +49,9 @@ Notifications.propTypes = {
 export default compose(
   pure,
   withStyles(styles),
-  connect(({ notifications: { allIds, byId } }) => ({ allIds, byId }), actions),
+  connect(
+    ({ notifications: { allIds, byId } }) => ({ allIds, byId }),
+    actions
+  ),
   branch(props => !size(props.allIds), renderNothing) // only render if notifications exist
 )(Notifications)

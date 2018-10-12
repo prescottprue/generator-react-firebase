@@ -1,6 +1,7 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-<% if (includeRedux && includeFirestore) { %>import { firestoreConnect, getVal } from 'react-redux-firebase'<% } %><% if (includeRedux && !includeFirestore) { %>import { firebaseConnect, getVal } from 'react-redux-firebase'<% } %>
+import { get } from 'lodash'
+<% if (includeRedux && includeFirestore) { %>import { firestoreConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && !includeFirestore) { %>import { firebaseConnect } from 'react-redux-firebase'<% } %>
 import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
 

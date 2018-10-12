@@ -128,9 +128,12 @@ async function indexUser(change, context) {
 
   // Update displayName within index
   const [nameUpdateErr] = await to(
-    publicProfileRef.update({
-      displayName: newData.displayName
-    })
+    publicProfileRef.set(
+      {
+        displayName: newData.displayName
+      },
+      { merge: true }
+    )
   )
 
   // Handle errors updating displayName index

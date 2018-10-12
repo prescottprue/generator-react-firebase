@@ -23,9 +23,8 @@ cache:
     - $HOME/.npm
 
 install:
-  - npm install
-  - npm i firebase-tools@4.1.0
-  - npm i firebase-ci@v0.5.0-beta # install firebase-ci for use in creating config and deploying
+  - <% if (includeTests) { %>CYPRESS_INSTALL_BINARY=0 <% } %>npm i
+  - npm i firebase-tools@4.1.0 firebase-ci@next # install deps used in creating config and deploying
 
 script:
   <% if (deployTo === 'firebase') { %>- npm run createConfig # create env specific src/config.js<% } %>

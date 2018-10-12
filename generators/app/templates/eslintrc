@@ -6,14 +6,13 @@ extends: [standard, standard-react, prettier, prettier/react]
 plugins: [babel, react, prettier]
 
 env:
-  browser: true
   es6: true
-  node: true
 
 globals:
   __DEV__: false
   __COVERAGE__: false
-  __TEST__: false
+  __TEST__: false<% if (includeSentry) { %>
+  Raven: false<% } %>
 
 rules:
   semi: [2, 'never']
@@ -30,3 +29,7 @@ rules:
     tabWidth: 2,
     useTabs: false
   }]
+
+settings:
+  react:
+    version: 16.3

@@ -4,12 +4,13 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const semver = require('semver')
 const path = require('path')
+const captialize = require('lodash/capitalize')
 const commandExistsSync = require('command-exists').sync
 const utils = require('./utils')
 
 const featureChoices = [
   {
-    name: 'Version 1 of Material-UI (0.20.0 used otherwise)',
+    name: 'Material-UI Version 3 (0.20.0 used otherwise)',
     answerName: 'materialv1',
     checked: true
   },
@@ -25,7 +26,18 @@ const featureChoices = [
   },
   {
     answerName: 'includeErrorHandling',
-    name: 'Stackdriver Error Reporting (Client Side)',
+    name: 'Stackdriver Error Reporting (Client Side To Match Functions)',
+    checked: true
+  },
+  {
+    answerName: 'includeSentry',
+    name: 'Sentry.io Error Reporting',
+    checked: true
+  },
+  {
+    answerName: 'includeMessaging',
+    name: 'Firebase Cloud Messaging',
+    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
     checked: true
   },
   {
@@ -36,11 +48,6 @@ const featureChoices = [
   {
     name: 'Tests',
     answerName: 'includeTests',
-    checked: false
-  },
-  {
-    answerName: 'includeBlueprints',
-    name: 'Blueprints (for redux-cli)',
     checked: false
   }
 ]
@@ -62,7 +69,6 @@ const prompts = [
     name: 'firebaseName',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
-    default: 'react-redux-firebase',
     /* istanbul ignore next: Tested in utils */
     validate: utils.firebaseUrlValidate
   },
@@ -81,13 +87,44 @@ const prompts = [
     type: 'confirm',
     name: 'includeFirestore',
     message: 'Use Firestore (RTDB still included)?',
-    default: false
+    default: true
   },
   {
     type: 'checkbox',
-    message: 'Other Features To Include?',
+    message: 'Other Features To Include:',
     name: 'otherFeatures',
     choices: featureChoices
+  },
+  {
+    name: 'messagingSenderId',
+    message: 'Firebase messagingSenderId',
+    required: true,
+    when: (currentAnswers) =>
+      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+  },
+  {
+    name: 'firebasePublicVapidKey',
+    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
+    message: 'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
+    required: true
+  },
+  {
+    type: 'list',
+    name: 'ciProvider',
+    when: (currentAnswers) =>
+      checkAnswersForFeature(currentAnswers, 'includeCI'),
+    choices: [
+      {
+        name: 'Gitlab',
+        value: 'gitlab'
+      },
+      {
+        name: 'Travis',
+        value: 'travis'
+      }
+    ],
+    message: 'What provider which you like to use for CI?',
+    default: 0
   },
   {
     type: 'list',
@@ -139,15 +176,20 @@ const prompts = [
 
 const filesArray = [
   { src: '_README.md', dest: 'README.md' },
-  { src: 'LICENSE', dest: 'LICENSE' },
+  { src: 'jsconfig.json' },
+  { src: 'LICENSE' },
   { src: 'project.config.js' },
   { src: '_package.json', dest: 'package.json' },
-  { src: 'CONTRIBUTING.md', dest: 'CONTRIBUTING.md' },
+  { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
-  { src: 'public/**', dest: 'public' },
+  // { src: 'public/**', dest: 'public' }, // individual files copied
+  { src: 'public/favicon.ico' },
+  { src: 'public/humans.txt' },
+  { src: 'public/manifest.json' },
+  { src: 'public/robots.txt' },
   { src: 'build/lib/**', dest: 'build/lib' },
   { src: 'build/scripts/**', dest: 'build/scripts' },
   { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
@@ -158,7 +200,12 @@ const filesArray = [
   { src: 'src/normalize.js' },
   { src: 'src/constants.js' },
   { src: 'src/components/**', dest: 'src/components' },
-  { src: 'src/containers/**', dest: 'src/containers' },
+  { src: 'src/containers/App', dest: 'src/containers/App' },
+  { src: 'src/containers/Navbar/AccountMenu.js', dest: 'src/containers/Navbar/AccountMenu.js' },
+  { src: 'src/containers/Navbar/index.js', dest: 'src/containers/Navbar/index.js' },
+  { src: 'src/containers/Navbar/LoginMenu.js', dest: 'src/containers/Navbar/LoginMenu.js' },
+  { src: 'src/containers/Navbar/Navbar.enhancer.js', dest: 'src/containers/Navbar/Navbar.enhancer.js' },
+  { src: 'src/containers/Navbar/Navbar.js', dest: 'src/containers/Navbar/Navbar.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
@@ -171,11 +218,19 @@ module.exports = class extends Generator {
     super(args, opts)
 
     this.argument('name', { type: String, required: false })
+    const appName = this.options.name || path.basename(process.cwd()) || 'react-firebase'
     this.intialData = {
       version: '0.0.1',
+      messagingSenderId: null,
+      firebasePublicVapidKey: null,
+      includeMessaging: false,
+      includeSentry: false,
+      sentryDsn: null,
+      ciProvider: null,
       codeClimate: true,
       appPath: this.env.options.appPath,
-      appName: this.options.name || path.basename(process.cwd()) || 'react-firebase'
+      appName,
+      capitalAppName: captialize(appName)
     }
   }
 
@@ -193,7 +248,6 @@ module.exports = class extends Generator {
           this.answers[choice.answerName] = !!matching
         })
       }
-      // console.log('answers:', this.answers)
       this.data = Object.assign({}, this.intialData, this.answers)
     })
   }
@@ -217,10 +271,14 @@ module.exports = class extends Generator {
     if (!this.answers.materialv1) {
       // TODO: delete Navbar.scss or do not copy it
       filesArray.push(
-        { src: 'src/theme.js' }
+        { src: 'src/theme.js' },
+        { src: 'src/containers/Navbar/Navbar.scss', dest: 'src/containers/Navbar/Navbar.scss' }
       )
     } else {
-      filesArray.push({ src: 'v1theme.js', dest: 'src/theme.js' })
+      filesArray.push(
+        { src: 'v1theme.js', dest: 'src/theme.js' },
+        { src: 'src/containers/Navbar/Navbar.styles.js', dest: 'src/containers/Navbar/Navbar.styles.js' }
+      )
     }
 
     if (this.answers.deployTo === 'firebase') {
@@ -261,6 +319,7 @@ module.exports = class extends Generator {
     if (this.answers.includeFunctions) {
       filesArray.push(
         { src: 'functions/.runtimeconfig.json', dest: 'functions/.runtimeconfig.json' },
+        { src: 'functions/jsconfig.json' },
         { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
         { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
         { src: 'functions/package.json', dest: 'functions/package.json' },
@@ -300,6 +359,13 @@ module.exports = class extends Generator {
         { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
         { src: 'tests/**', dest: 'tests' },
         { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+      )
+    }
+
+    if (this.answers.includeMessaging) {
+      filesArray.push(
+        { src: 'src/utils/firebaseMessaging.js' },
+        { src: 'public/firebase-messaging-sw.js' },
       )
     }
 
