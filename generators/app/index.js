@@ -172,9 +172,8 @@ const filesArray = [
   { src: 'public/humans.txt' },
   { src: 'public/manifest.json' },
   { src: 'public/robots.txt' },
-  { src: 'build/lib/**', dest: 'build/lib' },
-  { src: 'build/scripts/**', dest: 'build/scripts' },
-  { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
+  { src: 'config/**', dest: 'config' },
+  { src: 'scripts/**', dest: 'scripts' },
   { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
   { src: 'src/index.html' },
@@ -337,7 +336,7 @@ module.exports = class extends Generator {
 
     if (this.answers.includeTests) {
       filesArray.push(
-        { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
+        { src: 'config/**', dest: 'config' },
         { src: 'tests/**', dest: 'tests' },
         { src: 'testseslintrc', dest: 'tests/.eslintrc' }
       )
