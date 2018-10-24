@@ -1,4 +1,4 @@
-import { LOGIN_PATH as path } from 'constants'
+import { LOGIN_PATH as path } from 'constants/paths'
 
 export default store => ({
   path,

@@ -6,8 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import AccountMenu from './AccountMenu'
 import LoginMenu from './LoginMenu'
-import { LIST_PATH } from 'constants'
-import classes from './Navbar.scss'
+import { LIST_PATH } from 'constants/paths'
 
 export const Navbar = ({
   avatarUrl,
@@ -17,7 +16,8 @@ export const Navbar = ({
   handleLogout,
   closeAccountMenu,
   anchorEl,
-  handleMenu
+  handleMenu,
+  classes
 }) => (
   <AppBar position="static">
     <Toolbar>
@@ -26,7 +26,8 @@ export const Navbar = ({
         color="inherit"
         className={classes.flex}
         component={Link}
-        to={authExists ? LIST_PATH : '/'}>
+        to={authExists ? LIST_PATH : '/'}
+      >
         react-firebase-redux
       </Typography>
       {authExists ? (
@@ -54,7 +55,8 @@ Navbar.propTypes = {
   handleLogout: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   closeAccountMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   handleMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  anchorEl: PropTypes.object // from enhancer (withStateHandlers - handleMenu)
+  anchorEl: PropTypes.object, // from enhancer (withStateHandlers - handleMenu)
+  classes: PropTypes.object // from enhancer (withStyles)
 }
 
 export default Navbar

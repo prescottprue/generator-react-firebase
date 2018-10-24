@@ -12,7 +12,7 @@ export const firebase = {
   apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
   authDomain: 'redux-firebasev3.firebaseapp.com',
   databaseURL: 'https://redux-firebasev3.firebaseio.com',
-  projectId: "redux-firebasev3",
+  projectId: 'redux-firebasev3',
   storageBucket: 'redux-firebasev3.appspot.com'
 }
 
@@ -21,9 +21,15 @@ export const firebase = {
 export const reduxFirebase = {
   userProfile: 'users', // root that user profiles are written to
   enableLogging: false, // enable/disable Firebase Database Logging
-  useFirestoreForProfile: false, // Save profile to Firestore instead of Real Time Database
+  useFirestoreForProfile: false // Save profile to Firestore instead of Real Time Database
   // updateProfileOnLogin: false // enable/disable updating of profile on login
   // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
 }
+
+export const analyticsTrackingId = ''
+
+export const publicVapidKey = ''
+
+export const sentryDsn = ''
 
 export default { env, firebase, reduxFirebase }

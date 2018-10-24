@@ -3,13 +3,12 @@ import * as functions from 'firebase-functions'
 import { to } from '../utils/async'
 
 /**
- * Function to index user data into a public collection for easy access.
- * Triggered by updates to profile within "users/${userId}" path. Writes data
- * to users_public path.
+ * Function to index displayName. Triggered by updates to profiles within the
+ * users collection. Writes data to "users_public" collection.
  * @type {functions.CloudFunction}
  */
-export default functions.database
-  .ref('/users/{userId}/displayName')
+export default functions.firestore
+  .document('/users/{userId}')
   .onWrite(indexUser)
 
 /**
@@ -24,14 +23,17 @@ export default functions.database
  */
 async function indexUser(change, context) {
   const { userId } = context.params || {}
-  const publicProfileRef = admin.database().ref(`users_public/${userId}`)
+  const publicProfileRef = admin
+    .firestore()
+    .collection('users_public')
+    .doc(userId)
 
-  // Display Name being deleted
-  if (!change.after.val()) {
+  // User Profile being deleted
+  if (!change.after.exists) {
     console.log(
-      `displayName removed from profile with userId: ${userId}, removing from index...`
+      `Profile being removed for user with id: ${userId}, removing from index...`
     )
-    const [nameRemoveErr] = await to(publicProfileRef.remove())
+    const [nameRemoveErr] = await to(publicProfileRef.delete())
     // Handle errors removing displayName index
     if (nameRemoveErr) {
       console.error(
@@ -40,21 +42,29 @@ async function indexUser(change, context) {
       )
       throw nameRemoveErr
     }
+    console.log(`Successfully removed user with id: ${userId} from index.`)
+    return null
+  }
+
+  const previousData = change.before.data()
+  const newData = change.after.data()
+
+  // Check to see if displayName has changed
+  if (previousData.displayName === newData.displayName) {
     console.log(
-      `Successfully removed displayName from index for userId: ${userId}`
+      `displayName parameter did not change for user with id: ${userId}, no need to update index. Exiting...`
     )
     return null
   }
 
-  console.log(
-    `Display Name for userId: ${userId} changed, updating user index...`
-  )
-
   // Update displayName within index
   const [nameUpdateErr] = await to(
-    publicProfileRef.update({
-      displayName: change.after.val()
-    })
+    publicProfileRef.set(
+      {
+        displayName: newData.displayName
+      },
+      { merge: true }
+    )
   )
 
   // Handle errors updating displayName index
@@ -66,7 +76,5 @@ async function indexUser(change, context) {
     throw nameUpdateErr
   }
 
-  console.log(`Successfully indexed user with userId: ${userId}`)
-
-  return null
+  return newData
 }

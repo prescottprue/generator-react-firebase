@@ -1,11 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { paths } from 'constants'
-import classes from './HomePage.scss'
+import {
+  ACCOUNT_PATH,
+  LIST_PATH,
+  LOGIN_PATH,
+  SIGNUP_PATH
+} from 'constants/paths'
 const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
-export const Home = () => (
+export const Home = ({ classes }) => (
   <div className={classes.container}>
     <div className="flex-row-center">
       <h2>Home Route</h2>
@@ -20,7 +24,8 @@ export const Home = () => (
               <a
                 href={reactRouterUrl}
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 react-router
               </a>
             </span>
@@ -39,10 +44,10 @@ export const Home = () => (
         </span>
         <ul>
           <li>
-            <Link to={paths.list}>Projects</Link>
+            <Link to={LIST_PATH}>Projects</Link>
           </li>
           <li>
-            <Link to={paths.account}>Account</Link>
+            <Link to={ACCOUNT_PATH}>Account</Link>
           </li>
         </ul>
       </div>
@@ -54,10 +59,10 @@ export const Home = () => (
         </span>
         <ul>
           <li>
-            <Link to={paths.login}>Login</Link>
+            <Link to={LOGIN_PATH}>Login</Link>
           </li>
           <li>
-            <Link to={paths.signup}>Signup</Link>
+            <Link to={SIGNUP_PATH}>Signup</Link>
           </li>
         </ul>
       </div>
@@ -70,14 +75,15 @@ export const Home = () => (
               <a
                 href={reactRouterUrl}
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 redux-form
               </a>
             </span>
           </div>
         </div>
         <span>The following routes use redux-form:</span>
-        <Link to={paths.account}>
+        <Link to={ACCOUNT_PATH}>
           <p>Account Page</p>
         </Link>
       </div>

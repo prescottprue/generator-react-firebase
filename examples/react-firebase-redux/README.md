@@ -1,8 +1,5 @@
 # react-firebase-redux
 
-
-[![Code Coverage][coverage-image]][coverage-url]
-[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -13,32 +10,36 @@
 1. [Application Structure](#application-structure)
 1. [Development](#development)
   1. [Routing](#routing)
-1. [Testing](#testing)
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
 
 ## Requirements
 * node `^8`
-* yarn `^0.23.0` or npm `^3.0.0`
+* npm `^3.0.0`
 
 ## Getting Started
 
-1. Install dependencies: `yarn install` (or `npm install`)
-1. If pulling to a new environment (not where project was created) - create `src/config.js` file that looks like so:
+1. Install app and functions dependencies: `npm i && npm i --prefix functions`
+1. Create `src/config.js` file that looks like so if it does not already exist:
     ```js
     const firebase = {
       // Config from Firebase console
     }
 
-    // Config for react-redux-firebase
-    export const reduxFirebase = {
-      userProfile: 'users', // root to which user profiles are written
-    }
+    // Overrides for for react-redux-firebase/redux-firestore config
+    export const reduxFirebase = {}
+    
+    export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'
 
-    export default { firebase, reduxFirebase }
+    export default {
+      env,
+      firebase,
+      reduxFirebase,
+      analyticsTrackingId
+    }
     ```
-1. Start Development server: `yarn start` (or `npm start`)
+1. Start Development server: `npm start`
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
@@ -47,21 +48,19 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |`start`            |Serves your app at `localhost:3000` and displays [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
 |`start:simple`     |Serves your app at `localhost:3000` without [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
 |`build`            |Builds the application to ./dist|
-|`test`             |Runs unit tests with Karma. See [testing](#testing)|
-|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
-
 
 ## Config Files
 
 There are multiple configuration files:
 
 * Project Path Configuration - `project.config.js`
-* Firebase Project Configuration (including how `src/config.js` is built on CI) - `.firebaserc`
+* Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
 * Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+* Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
 
@@ -70,7 +69,6 @@ More details in the [Application Structure Section](#application-structure)
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications. If you wish to read more about this pattern, please check out this [awesome writeup](https://github.com/davezuko/react-redux-starter-kit/wiki/Fractal-Project-Structure) by [Justin Greenberg](https://github.com/justingreenberg).
 
 ```
-.
 ├── build                    # All build-related configuration
 │   ├── scripts              # Scripts used within the building process
 │   ├── karma.config.js      # Test configuration for Karma
@@ -94,7 +92,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │       ├── assets       # Assets required to render components
 │   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
 │   │       ├── modules      # Collections of reducers/constants/actions
-│   │       └── routes **    # Fractal sub-routes (** optional)
+│   │       └── routes/**    # Fractal sub-routes (** optional)
 │   ├── static               # Static assets
 │   ├── store                # Redux-specific pieces
 │   │   ├── createStore.js   # Create and instrument redux store
@@ -111,9 +109,6 @@ The application structure presented in this boilerplate is **fractal**, where fu
 
 ### Routing
 We use `react-router` [route definitions](https://github.com/ReactTraining/react-router/blob/v3/docs/API.md#plainroute) (`<route>/index.js`) to define units of logic within our application. See the [application structure](#application-structure) section for more information.
-
-## Testing
-To add a unit test, create a `.spec.js` file anywhere inside of `./tests`. Karma and webpack will automatically find these files, and Mocha and Chai will be available within your test without the need to import them.
 
 ## Production
 
@@ -136,7 +131,7 @@ Build code before deployment by running `npm run build`. There are multiple opti
   * What Firebase project do you want to associate as default?  -> **your Firebase project name**
 1. Build Project: `npm run build`
 1. Confirm Firebase config by running locally: `firebase serve`
-1. Deploy to firebase: `firebase deploy`
+1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
 ## FAQ

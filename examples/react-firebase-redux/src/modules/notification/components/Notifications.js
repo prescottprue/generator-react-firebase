@@ -29,7 +29,8 @@ export const Notifications = ({
         action={
           <IconButton
             onClick={() => dismissNotification(id)}
-            classes={{ root: classes.buttonRoot }}>
+            classes={{ root: classes.buttonRoot }}
+          >
             <CloseIcon />
           </IconButton>
         }
@@ -49,6 +50,9 @@ Notifications.propTypes = {
 export default compose(
   pure,
   withStyles(styles),
-  connect(({ notifications: { allIds, byId } }) => ({ allIds, byId }), actions),
+  connect(
+    ({ notifications: { allIds, byId } }) => ({ allIds, byId }),
+    actions
+  ),
   branch(props => !size(props.allIds), renderNothing) // only render if notifications exist
 )(Notifications)

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
-import { LOGIN_PATH } from 'constants'
+import { LOGIN_PATH } from 'constants/paths'
 import SignupForm from '../SignupForm'
 
 import classes from './SignupPage.scss'
