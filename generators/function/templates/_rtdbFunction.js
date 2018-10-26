@@ -14,6 +14,7 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
  * @return {Promise}
  */
 <% if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>async function <%= camelName %>Event(change, context) {
+  // const { params, auth, timestamp } = context
   const { before, after } = change
   console.log('<%= camelName %> <%= eventType %> event:', { before: before.val(), after: after.val() })
   const ref = admin.database().ref(`responses/<%= camelName %>`).push()<% if (airbnbLinting) { %>;<% } %>
@@ -25,8 +26,7 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
   return response<% if (airbnbLinting) { %>;<% } %>
 }<% } else if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>async function <%= camelName %>Event(snap, context) {
   const { params: { pushId } } = context
-  const eventData = snap.val()
-  console.log('<%= camelName %> <%= eventType %> event:', eventData)
+  console.log('<%= camelName %> <%= eventType %> event:', snap.val())
   const ref = admin.database().ref(`responses/<%= camelName %>/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
   const [writeErr, response] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
   if (writeErr) {
@@ -36,8 +36,7 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
   return response<% if (airbnbLinting) { %>;<% } %>
 }<% } else { %>async function <%= camelName %>Event(event) {
   const { params: { pushId }, data } = event
-  const eventData = data.val()
-  console.log('<%= camelName %> <%= eventType %> event:', eventData)
+  console.log('<%= camelName %> <%= eventType %> event:', event.val())
   const ref = admin.database().ref(`responses/<%= camelName %>/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
   const [writeErr, response] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
   if (writeErr) {
