@@ -10,6 +10,6 @@ For example:
 @import './variables/components';
 @import './themes/default';
 */
-@import './device-sizes';
-@import './colors';
-@import './standard-classes';
+@import 'device-sizes';
+@import 'colors';
+@import 'standard-classes';

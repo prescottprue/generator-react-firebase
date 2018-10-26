@@ -18,6 +18,10 @@ export default {
   spacing,
   zIndex: zIndex,
   fontFamily: 'Roboto, sans-serif',
+  // Enable typography v2: https://material-ui.com/style/typography/#migration-to-typography-v2
+  typography: {
+    useNextVariants: true
+  },
   palette: {
     primary1Color: blueGrey500,
     primary2Color: blueGrey700,

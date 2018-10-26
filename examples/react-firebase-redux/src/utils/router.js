@@ -53,6 +53,18 @@ export const UserIsNotAuthenticated = UserAuthWrapper({
   }
 })
 
+export function errorLoading(err) {
+  console.error('Dynamic page loading failed', err)
+}
+
+export function loadRoute(cb) {
+  return module => cb(null, module.default)
+}
+
+export function loadChildRoutes(cb, store) {
+  return modules => modules.forEach(module => module.default(store))
+}
+
 export default {
   UserIsAuthenticated,
   UserIsNotAuthenticated

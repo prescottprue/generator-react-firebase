@@ -4,7 +4,6 @@ import { isEmpty } from 'react-redux-firebase'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
-import classes from './ProjectsPage.scss'
 
 export const ProjectsPage = ({
   children,
@@ -15,6 +14,7 @@ export const ProjectsPage = ({
   toggleDialog,
   deleteProject,
   addProject,
+  classes,
   goToProject
 }) =>
   children ? (

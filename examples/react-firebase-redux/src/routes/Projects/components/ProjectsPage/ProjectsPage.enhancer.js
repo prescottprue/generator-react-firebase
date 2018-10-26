@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { LIST_PATH } from 'constants/paths'
 import { withHandlers, withStateHandlers, pure } from 'recompose'
 import { firestoreConnect } from 'react-redux-firebase'
+import { withStyles } from "@material-ui/core/styles";
 import { withNotifications } from 'modules/notification'
 import { withRouter, spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
+import * as styles from './ProjectsPage.styles';
 
 export default compose(
   // redirect to /login if user is not logged in
@@ -86,5 +88,5 @@ export default compose(
       router.push(`${LIST_PATH}/${projectId}`)
     }
   }),
-  pure // shallow equals comparison on props (prevent unessesary re-renders)
+  withStyles(styles)
 )
