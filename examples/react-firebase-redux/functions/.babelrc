@@ -2,11 +2,14 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": "6.11"
+        "node": "8"
       }
     }]
   ],
   "plugins": [
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    ["module-resolver", {
+      "root": ["./src"]
+    }]
   ]
 }

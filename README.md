@@ -226,6 +226,8 @@ import { to } from 'utils/async'
 async function uppercaserEvent(change, context) {
   // const { params, auth, timestamp } = context
   // const { before, after } = change
+  const { before, after } = change
+  console.log('<%= camelName %> <%= eventType %> event:', { before: before.val(), after: after.val() })
   const ref = admin.database().ref('responses')
   const [writeErr, response] = await to(ref.push({ hello: 'world' }))
   if (writeErr) {
@@ -245,7 +247,7 @@ export default functions.database
   .onUpdate(uppercaserEvent)
 ```
 
-Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
+**Note:** This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
 #### Component
 
@@ -421,47 +423,51 @@ For full projects built out using this as a starting place, check the next secti
   [Cloud Functions runtime was still on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
-  * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
-  * components remain "dumb" by only receiving props which makes them more portable
-  * smaller files which are easier to parse
-  * functional components can be helpful (along with other tools) when attempting to optimize things
+    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
+    * components remain "dumb" by only receiving props which makes them more portable
+    * smaller files which are easier to parse
+    * functional components can be helpful (along with other tools) when attempting to optimize things
 
 1. Where are the settings for changing how my project deploys through Continious integration?  
 
-  Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
+    Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
 
 1. How do override `react-redux-firebase` and `redux-firestore` configuration based on environment? Like adding logging only to staging?
 
-  Add the following to `.firebaserc` under the branch associated with the environment you wish to change:
+    Add the following to `.firebaserc` under the branch associated with the environment you wish to change:
 
-  ```json
-  "reduxFirebase": {
-    "userProfile": "users",
-    "enableLogging": false,
-    "updateProfileOnLogin": false
-  }
-  ```
-
-  Should look end up looking similar to the following:
-
-  ```json
-  "master": {
-    "env": "staging",
-    "firebase": {
-      "apiKey": "${STAGE_FIREBASE_API_KEY}",
-      "authDomain": "some-project.firebaseapp.com",
-      "databaseURL": "https://some-project.firebaseio.com",
-      "projectId": "some-project",
-      "storageBucket": "some-project.appspot.com"
-    },
+    ```json
     "reduxFirebase": {
-      "enableLogging": true
+      "userProfile": "users",
+      "enableLogging": false
     }
-  }
-  ```
+    ```
+
+    Should look end up looking similar to the following:
+
+    ```json
+    "ci": {
+      "copyVersion": true,
+      "createConfig": {
+        "master": {
+          "env": "staging",
+          "firebase": {
+            "apiKey": "${STAGE_FIREBASE_API_KEY}",
+            "authDomain": "some-project.firebaseapp.com",
+            "databaseURL": "https://some-project.firebaseio.com",
+            "projectId": "some-project",
+            "storageBucket": "some-project.appspot.com"
+          },
+          "reduxFirebase": {
+            "userProfile": "users",
+            "enableLogging": true
+          }
+        }
+      }
+    }
+    ```
 
 ## In the future
-* Option to include tests when using sub-generators
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
 * Open to ideas
