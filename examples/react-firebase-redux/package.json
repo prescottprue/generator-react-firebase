@@ -10,13 +10,14 @@
     "deploy": "firebase-ci deploy -s",
     "createConfig": "firebase-ci createConfig",
     "start": "node scripts/start.js",
-    "lint": "eslint src functions server build project.config.js",
+    "lint": "eslint src functions scripts config",
     "lint:fix": "npm run lint -- --fix",
     "functions:start": "npm run start --prefix functions",
     "functions:serve": "npm run serve --prefix functions",
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",
     "functions:test": "npm run test --prefix functions",
+    "test": "node scripts/test.js",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
     "prepush": "npm run lint"
   },
@@ -25,12 +26,15 @@
     "url": "git+https://github.com/testuser/react-firebase-redux.git"
   },
   "engines": {
-    "node": ">=6.14.0"
+    "node": ">=8"
   },
   "author": "testuser (https://github.com/testuser)",
   "license": "MIT",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "dependencies": {
-    "@material-ui/core": "^3.3.0",
+    "@material-ui/core": "^3.3.2",
     "@material-ui/icons": "^3.0.1",
     "firebase": "^5.5.5",
     "lodash": "^4.17.11",
@@ -100,6 +104,7 @@
     "react-app-polyfill": "^0.1.3",
     "react-dev-utils": "^6.0.5",
     "react-dom": "^16.5.2",
+    "react-test-renderer": "^16.6.0",
     "resolve": "1.8.1",
     "sass-loader": "^7.1.0",
     "scss-loader": "0.0.1",

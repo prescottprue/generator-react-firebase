@@ -1,13 +1,13 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { LIST_PATH } from 'constants/paths'
-import { withHandlers, withStateHandlers, pure } from 'recompose'
+import { withHandlers, withStateHandlers } from 'recompose'
 import { firestoreConnect } from 'react-redux-firebase'
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles'
 import { withNotifications } from 'modules/notification'
 import { withRouter, spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
-import * as styles from './ProjectsPage.styles';
+import styles from './ProjectsPage.styles'
 
 export default compose(
   // redirect to /login if user is not logged in

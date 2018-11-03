@@ -4,15 +4,15 @@ import { Field } from 'redux-form'
 import Button from '@material-ui/core/Button'
 import { TextField } from 'redux-form-material-ui'
 import ProviderDataForm from '../ProviderDataForm'
-import classes from './AccountForm.scss'
 
 export const AccountForm = ({
   account,
   handleSubmit,
   submitting,
+  classes,
   pristine
 }) => (
-  <form className={classes.container} onSubmit={handleSubmit}>
+  <form className={classes.root} onSubmit={handleSubmit}>
     <h4>Account</h4>
     <div className={classes.fields}>
       <Field
@@ -44,9 +44,10 @@ export const AccountForm = ({
 
 AccountForm.propTypes = {
   account: PropTypes.object,
-  handleSubmit: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  handleSubmit: PropTypes.func.isRequired, // from enhancer (reduxForm)
+  pristine: PropTypes.bool.isRequired, // from enhancer (reduxForm)
+  submitting: PropTypes.bool.isRequired // from enhancer (reduxForm)
 }
 
 export default AccountForm

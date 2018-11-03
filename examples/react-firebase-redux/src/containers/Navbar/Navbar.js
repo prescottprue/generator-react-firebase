@@ -22,7 +22,7 @@ export const Navbar = ({
   <AppBar position="static">
     <Toolbar>
       <Typography
-        variant="title"
+        variant="h6"
         color="inherit"
         className={classes.flex}
         component={Link}
@@ -56,7 +56,7 @@ Navbar.propTypes = {
   closeAccountMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   handleMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   anchorEl: PropTypes.object, // from enhancer (withStateHandlers - handleMenu)
-  classes: PropTypes.object // from enhancer (withStyles)
+  classes: PropTypes.object.isRequired // from enhancer (withStyles)
 }
 
 export default Navbar

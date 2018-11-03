@@ -6,7 +6,7 @@ import {
   flattenProp,
   withStateHandlers
 } from 'recompose'
-import { withStyles } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { ACCOUNT_PATH } from 'constants/paths'
 import { withRouter, spinnerWhileLoading } from 'utils/components'

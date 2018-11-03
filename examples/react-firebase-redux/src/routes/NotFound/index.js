@@ -1,11 +1,11 @@
-import { loadRoute, errorLoading } from "utils/router";
+import { loadRoute, errorLoading } from 'utils/router'
 
 export default () => ({
-  path: "*",
+  path: '*',
   /*  Async getComponent is only invoked when route matches   */
   getComponent(nextState, cb) {
-    return import("./components/NotFound")
+    return import('./NotFound')
       .then(loadRoute(cb))
-      .catch(errorLoading);
+      .catch(errorLoading)
   }
-});
+})

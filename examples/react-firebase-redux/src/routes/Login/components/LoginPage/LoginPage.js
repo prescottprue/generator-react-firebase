@@ -5,10 +5,14 @@ import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
 import { SIGNUP_PATH } from 'constants/paths'
 import LoginForm from '../LoginForm'
-import classes from './LoginPage.scss'
 
-export const LoginPage = ({ emailLogin, googleLogin, onSubmitFail }) => (
-  <div className={classes.container}>
+export const LoginPage = ({
+  emailLogin,
+  googleLogin,
+  onSubmitFail,
+  classes
+}) => (
+  <div className={classes.root}>
     <Paper className={classes.panel}>
       <LoginForm onSubmit={emailLogin} onSubmitFail={onSubmitFail} />
     </Paper>
