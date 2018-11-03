@@ -2,3 +2,4 @@ extends: '../.eslintrc'
 
 rules:
   no-console: 0
+  

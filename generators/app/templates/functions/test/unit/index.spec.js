@@ -4,7 +4,6 @@ describe('Cloud Functions', () => {
   let myFunctions
   let configStub
   let adminInitStub
-  let admin
 
   before(() => {
     /* eslint-disable global-require */
