@@ -10,11 +10,6 @@ const utils = require('./utils')
 
 const featureChoices = [
   {
-    name: 'Material-UI Version 3 (0.20.0 used otherwise)',
-    answerName: 'materialv1',
-    checked: true
-  },
-  {
     name: 'Firebase Functions (with ESNext support)',
     answerName: 'includeFunctions',
     checked: true
@@ -37,7 +32,7 @@ const featureChoices = [
   {
     answerName: 'includeMessaging',
     name: 'Firebase Cloud Messaging',
-    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
+    when: currentAnswers => !!currentAnswers.messagingSenderId,
     checked: true
   },
   {
@@ -54,7 +49,9 @@ const featureChoices = [
 
 function checkAnswersForFeature(currentAnswers, featureName) {
   const { otherFeatures } = currentAnswers
-  const matchingFeature = featureChoices.find((choice) => choice.answerName === featureName)
+  const matchingFeature = featureChoices.find(
+    choice => choice.answerName === featureName
+  )
   return otherFeatures.includes(matchingFeature.name)
 }
 
@@ -99,20 +96,20 @@ const prompts = [
     name: 'messagingSenderId',
     message: 'Firebase messagingSenderId',
     required: true,
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeMessaging')
   },
   {
     name: 'firebasePublicVapidKey',
-    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
-    message: 'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
+    when: currentAnswers => !!currentAnswers.messagingSenderId,
+    message:
+      'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
     required: true
   },
   {
     type: 'list',
     name: 'ciProvider',
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeCI'),
+    when: currentAnswers => checkAnswersForFeature(currentAnswers, 'includeCI'),
     choices: [
       {
         name: 'Gitlab',
@@ -151,7 +148,8 @@ const prompts = [
     name: 'useYarn',
     message: 'Use Yarn?',
     // Only offer if using versions of node/npm that benift from yarn (adds lock file when not there before)
-    when: () => semver.satisfies(process.version, '<=6.0.0') && commandExistsSync('yarn'),
+    when: () =>
+      semver.satisfies(process.version, '<=6.0.0') && commandExistsSync('yarn'),
     default: false
   }
 ]
@@ -174,32 +172,27 @@ const filesArray = [
   { src: 'public/robots.txt' },
   { src: 'config/**', dest: 'config' },
   { src: 'scripts/**', dest: 'scripts' },
-  { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
   { src: 'src/index.html' },
-  { src: 'src/main.js' },
-  { src: 'src/normalize.js' },
+  { src: 'src/index.js' },
   { src: 'src/constants.js' },
   { src: 'src/components/**', dest: 'src/components' },
-  { src: 'src/containers/App', dest: 'src/containers/App' },
-  { src: 'src/containers/Navbar/AccountMenu.js', dest: 'src/containers/Navbar/AccountMenu.js' },
-  { src: 'src/containers/Navbar/index.js', dest: 'src/containers/Navbar/index.js' },
-  { src: 'src/containers/Navbar/LoginMenu.js', dest: 'src/containers/Navbar/LoginMenu.js' },
-  { src: 'src/containers/Navbar/Navbar.enhancer.js', dest: 'src/containers/Navbar/Navbar.enhancer.js' },
-  { src: 'src/containers/Navbar/Navbar.js', dest: 'src/containers/Navbar/Navbar.js' },
+  { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/styles/**', dest: 'src/styles' },
+  { src: 'v1theme.js', dest: 'src/theme.js' }
 ]
 
 module.exports = class extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
 
     this.argument('name', { type: String, required: false })
-    const appName = this.options.name || path.basename(process.cwd()) || 'react-firebase'
+    const appName =
+      this.options.name || path.basename(process.cwd()) || 'react-firebase'
     this.intialData = {
       version: '0.0.1',
       messagingSenderId: null,
@@ -215,17 +208,23 @@ module.exports = class extends Generator {
     }
   }
 
-  prompting () {
-    this.log(yosay(
-      `Welcome to the ${chalk.blue('React')} ${chalk.red('Firebase')} generator!`
-    ))
+  prompting() {
+    this.log(
+      yosay(
+        `Welcome to the ${chalk.blue('React')} ${chalk.red(
+          'Firebase'
+        )} generator!`
+      )
+    )
 
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = props
       // Map features array to answerNames
       if (props.otherFeatures) {
-        featureChoices.forEach((choice) => {
-          const matching = props.otherFeatures.find(feature => choice.name === feature)
+        featureChoices.forEach(choice => {
+          const matching = props.otherFeatures.find(
+            feature => choice.name === feature
+          )
           this.answers[choice.answerName] = !!matching
         })
       }
@@ -233,7 +232,7 @@ module.exports = class extends Generator {
     })
   }
 
-  writing () {
+  writing() {
     if (this.answers.includeCI) {
       if (this.answers.ciProvider === 'travis') {
         filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
@@ -249,18 +248,6 @@ module.exports = class extends Generator {
       )
     }
 
-    if (!this.answers.materialv1) {
-      filesArray.push(
-        { src: 'src/theme.js' },
-        { src: 'src/containers/Navbar/Navbar.scss', dest: 'src/containers/Navbar/Navbar.scss' }
-      )
-    } else {
-      filesArray.push(
-        { src: 'v1theme.js', dest: 'src/theme.js' },
-        { src: 'src/containers/Navbar/Navbar.styles.js', dest: 'src/containers/Navbar/Navbar.styles.js' }
-      )
-    }
-
     if (this.answers.deployTo === 'firebase') {
       filesArray.push(
         { src: 'firebase.json', dest: 'firebase.json' },
@@ -269,9 +256,11 @@ module.exports = class extends Generator {
         { src: 'storage.rules', dest: 'storage.rules' }
       )
     } else {
-      filesArray.push(
-        { src: 'build/create-config.js', dest: 'build/create-config.js' }
-      )
+      // TODO: Replace this with something else
+      // filesArray.push({
+      //   src: 'build/create-config.js',
+      //   dest: 'build/create-config.js'
+      // })
     }
 
     if (this.answers.includeRedux) {
@@ -291,32 +280,32 @@ module.exports = class extends Generator {
       }
     } else {
       // Handle files that do not do internal string templateing well
-      filesArray.push(
-        { src: 'src/utils/firebase.js' }
-      )
+      filesArray.push({ src: 'src/utils/firebase.js' })
     }
 
     if (this.answers.includeFunctions) {
       filesArray.push(
-        { src: 'functions/.runtimeconfig.json', dest: 'functions/.runtimeconfig.json' },
+        {
+          src: 'functions/.runtimeconfig.json',
+          dest: 'functions/.runtimeconfig.json'
+        },
         { src: 'functions/jsconfig.json' },
         { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
         { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
         { src: 'functions/package.json', dest: 'functions/package.json' },
-        { src: 'functions/src/indexUser/index.js', dest: 'functions/src/indexUser/index.js' },
-        { src: 'functions/src/utils/async.js', dest: 'functions/src/utils/async.js' },
+        {
+          src: 'functions/src/indexUser/index.js',
+          dest: 'functions/src/indexUser/index.js'
+        },
+        {
+          src: 'functions/src/utils/async.js',
+          dest: 'functions/src/utils/async.js'
+        },
         { src: 'functions/test/.eslintrc', dest: 'functions/test/.eslintrc' },
         { src: 'functions/test/mocha.opts', dest: 'functions/test/mocha.opts' },
         { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' },
         { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
-        { src: 'functions/index.js', dest: 'functions/index.js' },
         { src: 'functions/index.js', dest: 'functions/index.js' }
-      )
-    }
-
-    if (this.answers.includeBlueprints) {
-      filesArray.push(
-        { src: 'blueprints/**', dest: 'blueprints', noTemplating: true }
       )
     }
 
@@ -345,7 +334,7 @@ module.exports = class extends Generator {
     if (this.answers.includeMessaging) {
       filesArray.push(
         { src: 'src/utils/firebaseMessaging.js' },
-        { src: 'public/firebase-messaging-sw.js' },
+        { src: 'public/firebase-messaging-sw.js' }
       )
     }
 
@@ -364,13 +353,19 @@ module.exports = class extends Generator {
     })
   }
 
-  install () {
+  install() {
     const { useYarn } = this.answers
     // Promise chaining used since this.npmInstall.then not a function
     return Promise.resolve()
       .then(() => {
         if (useYarn === false) {
-          console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
+          /* eslint-disable no-console */
+          console.log(
+            chalk.yellow(
+              'Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*'
+            )
+          )
+          /* eslint-enable no-console */
         }
         if (!useYarn) {
           console.log(chalk.blue('Installing dependencies using NPM...')) // eslint-disable-line no-console
@@ -378,21 +373,40 @@ module.exports = class extends Generator {
           return this.npmInstall()
         }
         console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
-        console.log(chalk.blue('Note: Yarn is no longer nessesary since cloud functions supports node 8 which has package-lock.json support.')) // eslint-disable-line no-console
+        /* eslint-disable no-console */
+        console.log(
+          chalk.blue(
+            'Note: Yarn is no longer nessesary since cloud functions supports node 8 which has package-lock.json support.'
+          )
+        )
+        /* eslint-enable no-console */
         // Main yarn install then functions yarn install
         return this.yarnInstall()
       })
       .then(() => {
         if (this.answers.includeFunctions) {
-          console.log(chalk.blue(`Installing functions dependencies using ${useYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
+          /* eslint-disable no-console */
+          console.log(
+            chalk.blue(
+              `Installing functions dependencies using ${
+                useYarn ? 'Yarn' : 'NPM'
+              }...`
+            )
+          )
+          /* eslint-enable no-console */
           return useYarn
             ? this.yarnInstall(undefined, { cwd: 'functions' })
             : this.npmInstall(undefined, { prefix: 'functions' })
         }
         return null
       })
-      .catch((err) => {
-        console.log(chalk.red('Error installing dependencies:'), err && err.message) // eslint-disable-line no-console
+      .catch(err => {
+        /* eslint-disable no-console */
+        console.log(
+          chalk.red('Error installing dependencies:'),
+          err && err.message
+        )
+        /* eslint-enable no-console */
         return Promise.reject(err)
       })
   }

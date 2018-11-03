@@ -17,8 +17,6 @@ export default compose(
     auth,
     profile
   })),
-  // Wait for auth to be loaded before going further
-  spinnerWhileLoading(['profile']),
   withStateHandlers(
     ({ accountMenuOpenInitially = false }) => ({
       accountMenuOpen: accountMenuOpenInitially,

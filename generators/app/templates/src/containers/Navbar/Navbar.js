@@ -7,8 +7,7 @@ import Typography from '@material-ui/core/Typography'<% } else { %>
 import AppBar from 'material-ui/AppBar'<% } %>
 import AccountMenu from './AccountMenu'
 import LoginMenu from './LoginMenu'
-import { LIST_PATH } from 'constants'<% if (!materialv1) { %>
-import classes from './Navbar.scss'<% } %>
+import { LIST_PATH } from 'constants'
 
 export const Navbar = ({
   avatarUrl,

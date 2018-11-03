@@ -16,7 +16,7 @@ export const spinnerWhile = condition =>
   branch(condition, renderComponent(LoadingSpinner))
 
 /**
- * Show a loading spinner while props are loading . Checks
+ * Show a loading spinner while props are loading. Checks
  * for undefined, null, or a value (as well as handling `auth.isLoaded` and
  * `profile.isLoaded`). **NOTE:** Meant to be used with props which are passed
  * as props from state.firebase using connect (from react-redux), which means

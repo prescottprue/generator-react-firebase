@@ -1,11 +1,12 @@
-@import 'styles/base';
+@import '../../../../styles/base';
+
 .container {
   @extend .flex-column-center;
-  padding-top: 4rem;
+  padding-top: 4rem !important;
 }
 
 .section {
   @extend .flex-column-center;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
 }
