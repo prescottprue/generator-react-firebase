@@ -5,8 +5,8 @@ import { reducer as form } from 'redux-form'
 import { reducer as notifications } from 'modules/notification'
 import locationReducer from './location'
 
-export const makeRootReducer = asyncReducers => {
-  return combineReducers({
+export const makeRootReducer = asyncReducers =>
+  combineReducers({
     // Add sync reducers here
     firebase,
     firestore,
@@ -15,7 +15,6 @@ export const makeRootReducer = asyncReducers => {
     location: locationReducer,
     ...asyncReducers
   })
-}
 
 export const injectReducer = (store, { key, reducer }) => {
   store.asyncReducers[key] = reducer

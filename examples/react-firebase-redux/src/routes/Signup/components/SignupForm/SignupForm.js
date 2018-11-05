@@ -32,8 +32,7 @@ const SignupForm = ({ pristine, submitting, handleSubmit }) => (
         color="primary"
         type="submit"
         raised
-        disabled={pristine || submitting}
-      >
+        disabled={pristine || submitting}>
         {submitting ? 'Loading' : 'Sign Up'}
       </Button>
     </div>

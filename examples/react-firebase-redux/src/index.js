@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createStore from './store/createStore'
 import { initScripts } from 'utils'
+import createStore from './store/createStore'
 import { version } from '../package.json'
 import { env } from './config'
 import './index.css'

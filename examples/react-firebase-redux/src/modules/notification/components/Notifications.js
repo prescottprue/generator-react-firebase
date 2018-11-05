@@ -6,8 +6,8 @@ import { pure, compose, renderNothing, branch } from 'recompose'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import * as actions from '../actions'
 import { withStyles } from '@material-ui/core/styles'
+import * as actions from '../actions'
 
 const styles = {
   buttonRoot: {
@@ -29,8 +29,7 @@ export const Notifications = ({
         action={
           <IconButton
             onClick={() => dismissNotification(id)}
-            classes={{ root: classes.buttonRoot }}
-          >
+            classes={{ root: classes.buttonRoot }}>
             <CloseIcon />
           </IconButton>
         }
@@ -47,7 +46,7 @@ Notifications.propTypes = {
   dismissNotification: PropTypes.func.isRequired
 }
 
-export default compose(
+const enhance = compose(
   pure,
   withStyles(styles),
   connect(
@@ -55,4 +54,6 @@ export default compose(
     actions
   ),
   branch(props => !size(props.allIds), renderNothing) // only render if notifications exist
-)(Notifications)
+)
+
+export default enhance(Notifications)

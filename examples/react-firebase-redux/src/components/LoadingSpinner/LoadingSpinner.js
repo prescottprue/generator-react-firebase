@@ -11,6 +11,7 @@ const LoadingSpinner = ({ size, classes }) => (
 )
 
 LoadingSpinner.propTypes = {
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   size: PropTypes.number
 }
 

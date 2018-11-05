@@ -1,11 +1,11 @@
-import React, { cloneElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'react-redux-firebase'
 import { Route, Switch } from 'react-router-dom'
+import ProjectRoute from 'routes/Projects/routes/Project'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
-import ProjectRoute from 'routes/Projects/routes/Project'
 
 const renderChildren = (routes, match, parentProps) =>
   routes.map(route => (
@@ -17,7 +17,6 @@ const renderChildren = (routes, match, parentProps) =>
   ))
 
 export const ProjectsPage = ({
-  children,
   projects,
   collabProjects,
   auth,
@@ -63,7 +62,8 @@ export const ProjectsPage = ({
 // )
 
 ProjectsPage.propTypes = {
-  children: PropTypes.object, // from react-router
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  match: PropTypes.object.isRequired, // from enhancer (withRouter)
   auth: PropTypes.object, // from enhancer (connect + firebaseConnect - firebase)
   projects: PropTypes.array, // from enhancer (connect + firebaseConnect - firebase)
   newDialogOpen: PropTypes.bool, // from enhancer (withStateHandlers)

@@ -12,6 +12,7 @@ export const CoreLayout = ({ children, classes }) => (
 )
 
 CoreLayout.propTypes = {
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   children: PropTypes.element.isRequired
 }
 

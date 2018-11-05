@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { withRouter } from 'react-router-dom'
 import { ACCOUNT_PATH } from 'constants/paths'
-import { spinnerWhileLoading } from 'utils/components'
 import styles from './Navbar.styles'
 
 export default compose(

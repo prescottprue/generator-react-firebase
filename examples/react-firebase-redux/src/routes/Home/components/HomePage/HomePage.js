@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {
   ACCOUNT_PATH,
@@ -6,6 +7,7 @@ import {
   LOGIN_PATH,
   SIGNUP_PATH
 } from 'constants/paths'
+
 const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
@@ -24,8 +26,7 @@ export const Home = ({ classes }) => (
               <a
                 href={reactRouterUrl}
                 target="_blank"
-                rel="noopener noreferrer"
-              >
+                rel="noopener noreferrer">
                 react-router
               </a>
             </span>
@@ -75,8 +76,7 @@ export const Home = ({ classes }) => (
               <a
                 href={reactRouterUrl}
                 target="_blank"
-                rel="noopener noreferrer"
-              >
+                rel="noopener noreferrer">
                 redux-form
               </a>
             </span>
@@ -90,5 +90,9 @@ export const Home = ({ classes }) => (
     </div>
   </div>
 )
+
+Home.proptypes = {
+  classes: PropTypes.object.isRequired // from enhancer (withStyles)
+}
 
 export default Home

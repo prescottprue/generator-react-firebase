@@ -1,35 +1,57 @@
-root: true
-
-parser: babel-eslint
-
-extends: [standard, standard-react, prettier, prettier/react]
-plugins: [babel, react, prettier]
-
-env:
-  es6: true
-
-globals:
-  __DEV__: false
-  __COVERAGE__: false
-  __TEST__: false<% if (includeSentry) { %>
-  Raven: false<% } %>
-
-rules:
-  semi: [2, 'never']
-  no-console: 'error'
-  jsx-quotes: ['error', 'prefer-double']
-  no-return-await: 2
-  prettier/prettier: ['error', {
-    singleQuote: true,
-    trailingComma: 'none',
-    semi: false,
-    bracketSpacing: true,
-    jsxBracketSameLine: true,
-    printWidth: 80,
-    tabWidth: 2,
-    useTabs: false
-  }]
-
-settings:
-  react:
-    version: 16.3
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": [
+    "react-app",
+    "prettier"
+  ],
+  "plugins": [
+    "babel",
+    "react",
+    "prettier"
+  ],
+  "rules": {
+    "semi": [ 2, "never" ],
+    "no-console": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "none",
+        "semi": false,
+        "bracketSpacing": true,
+        "jsxBracketSameLine": true,
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false
+      }
+    ]
+  },<% if (includeSentry) { %>
+  "globals": {
+    "Raven": false
+  },<% } %>
+  "settings": {
+    "react": {
+      "version": "16.6"
+    }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.test.js",
+        "*.spec.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    },
+    {
+      "files": [
+        "scripts/*"
+      ],
+      "rules": {
+        "no-console": 0
+      }
+    }
+  ]
+}

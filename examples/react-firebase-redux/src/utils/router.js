@@ -1,7 +1,6 @@
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { LIST_PATH } from 'constants/paths'
 import LoadingSpinner from 'components/LoadingSpinner'
-import Loadable from 'react-loadable'
 import createHistory from 'history/createBrowserHistory'
 import { get } from 'lodash'
 
@@ -45,10 +44,9 @@ export const UserIsNotAuthenticated = UserAuthWrapper({
   wrapperDisplayName: 'UserIsNotAuthenticated',
   allowRedirectBack: false,
   LoadingComponent: LoadingSpinner,
-  failureRedirectPath: (state, props) => {
+  failureRedirectPath: (state, props) =>
     // redirect to page user was on or to list path
-    return get(props, 'location.query.redirect') || LIST_PATH
-  },
+    get(props, 'location.query.redirect') || LIST_PATH,
   authSelector: ({ firebase: { auth } }) => auth,
   authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
     !auth.isLoaded || isInitializing,

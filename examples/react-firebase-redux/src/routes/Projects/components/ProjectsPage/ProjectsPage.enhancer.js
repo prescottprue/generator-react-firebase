@@ -86,7 +86,6 @@ export default compose(
         })
     },
     goToProject: props => projectId => {
-      console.log('props:', props)
       props.history.push(`${LIST_PATH}/${projectId}`)
     }
   }),

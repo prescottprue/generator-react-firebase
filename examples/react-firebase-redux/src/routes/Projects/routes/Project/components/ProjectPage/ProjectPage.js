@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 
-const ProjectPage = ({ params, project, projectId, classes }) => (
+const ProjectPage = ({ project, projectId, classes }) => (
   <div className={classes.container}>
     <Card className={classes.card}>
       <CardContent>

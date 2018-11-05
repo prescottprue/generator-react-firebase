@@ -25,15 +25,13 @@ export default compose(
     projectId
   })),
   // Create listeners based on current users UID
-  firestoreConnect(({ projectId }) => {
-    return [
-      // Listener for projects the current user created
-      {
-        collection: 'projects',
-        doc: projectId
-      }
-    ]
-  }),
+  firestoreConnect(({ projectId }) => [
+    // Listener for projects the current user created
+    {
+      collection: 'projects',
+      doc: projectId
+    }
+  ]),
   // Map projects from state to props
   connect(({ firestore: { data } }, { projectId }) => ({
     project: get(data, `projects.${projectId}`)

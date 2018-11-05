@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import LoadingSpinner from './index'
 import renderer from 'react-test-renderer'
+import LoadingSpinner from './index'
 
 it('renders without crashing', () => {
   const div = document.createElement('div')
