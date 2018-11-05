@@ -1,8 +1,8 @@
 const flexColumnCenter = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center"
-};
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
+}
 
 export default theme => ({
   root: {
@@ -11,4 +11,4 @@ export default theme => ({
   section: {
     ...flexColumnCenter
   }
-});
+})

@@ -1,3 +1,4 @@
 import ProjectTile from './ProjectTile'
+import enhance from './ProjectTIle.enhancer'
 
-export default ProjectTile
+export default enhance(ProjectTile)

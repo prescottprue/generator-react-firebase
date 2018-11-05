@@ -18,6 +18,7 @@ Install [Yeoman](http://yeoman.io) and generator-react-firebase using [npm](http
 ```bash
 npm install -g yo generator-react-firebase
 ```
+
 ## Before Starting
 1. Do the following in the Firebase Console:
     1. Create both a Firestore Database and Real Time Database
@@ -41,8 +42,9 @@ Project will default to being named with the name of the folder that it is gener
 
 ## Features
 * firebase-functions v1 (including support within function sub-generator)
-* React v16.3
-* Material-UI v1 application styling including Navbar
+* React v16.6
+* Async route loading (using 
+* Material-UI application styling including Navbar
 * Full Authentication (through Email, Google or Github)
 * Login/Signup Pages with input validation
 * Route protection (only view certain pages when logged in)
@@ -54,8 +56,9 @@ Project will default to being named with the name of the folder that it is gener
 ## Uses
 * [react](https://facebook.github.io/react/) - Rendering + Components
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
-* [material-ui](https://material-ui.com) - Google Material Styling React Components (with option to opt out of Version 1)
+* [material-ui](https://material-ui.com) - Google Material Styling React Components
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
+* [react-loadable](https://github.com/jamiebuilds/react-loadable) - HOC for async route/component chunk loading
 * [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) - Improve CLI experience for Webpack
 
 *When opting into redux*

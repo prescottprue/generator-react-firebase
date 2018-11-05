@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
 import { LOGIN_PATH } from 'constants/paths'

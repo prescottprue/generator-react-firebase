@@ -1,11 +1,9 @@
-import { loadRoute, errorLoading } from 'utils/router'
+import { Loadable } from 'utils/components'
 
-export default store => ({
+export default {
   path: ':projectId',
-  /*  Async getComponent is only invoked when route matches   */
-  getComponent(nextState, cb) {
-    return import('./components/ProjectPage')
-      .then(loadRoute(cb))
-      .catch(errorLoading)
-  }
-})
+  component: Loadable({
+    loader: () =>
+      import(/* webpackChunkName: 'Project' */ './components/ProjectPage')
+  })
+}

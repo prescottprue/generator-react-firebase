@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
 import { SIGNUP_PATH } from 'constants/paths'
@@ -30,9 +30,10 @@ export const LoginPage = ({
 )
 
 LoginPage.propTypes = {
-  emailLogin: PropTypes.func, // from enhancer (withHandlers)
-  onSubmitFail: PropTypes.func, // from enhancer (withHandlers)
-  googleLogin: PropTypes.func // from enhancer (withHandlers)
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  emailLogin: PropTypes.func.isRequired, // from enhancer (withHandlers)
+  onSubmitFail: PropTypes.func.isRequired, // from enhancer (withHandlers)
+  googleLogin: PropTypes.func.isRequired // from enhancer (withHandlers)
 }
 
 export default LoginPage

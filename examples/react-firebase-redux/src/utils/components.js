@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { pick, some } from 'lodash'
 import { isLoaded } from 'react-redux-firebase'
 import { mapProps, branch, renderComponent } from 'recompose'
+import LoadableComponent from 'react-loadable'
 import LoadingSpinner from 'components/LoadingSpinner'
 
 /**
@@ -85,10 +86,15 @@ export const createWithFromContext = withVar => WrappedComponent => {
   return WithFromContext
 }
 
-export const withRouter = createWithFromContext('router')
-
 /**
  * HOC that adds store to props
  * @return {HigherOrderComponent}
  */
 export const withStore = createWithFromContext('store')
+
+export function Loadable(opts) {
+  return LoadableComponent({
+    loading: LoadingSpinner,
+    ...opts
+  })
+}

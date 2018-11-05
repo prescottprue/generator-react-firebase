@@ -1,11 +1,10 @@
-import { loadRoute, errorLoading } from 'utils/router'
+import Loadable from 'react-loadable'
+import LoadingSpinner from 'components/LoadingSpinner'
 
-export default () => ({
-  path: '*',
-  /*  Async getComponent is only invoked when route matches   */
-  getComponent(nextState, cb) {
-    return import('./NotFound')
-      .then(loadRoute(cb))
-      .catch(errorLoading)
-  }
-})
+export default {
+  component: Loadable({
+    loader: () =>
+      import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage'),
+    loading: LoadingSpinner
+  })
+}

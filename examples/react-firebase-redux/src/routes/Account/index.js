@@ -1,12 +1,10 @@
+import { Loadable } from 'utils/components'
 import { ACCOUNT_PATH as path } from 'constants/paths'
-import { loadRoute, errorLoading } from 'utils/router'
 
-export default store => ({
+export default {
   path,
-  /*  Async getComponent is only invoked when route matches   */
-  getComponent(nextState, cb) {
-    return import('./components/AccountPage')
-      .then(loadRoute(cb))
-      .catch(errorLoading)
-  }
-})
+  component: Loadable({
+    loader: () =>
+      import(/* webpackChunkName: 'Account' */ './components/AccountPage')
+  })
+}

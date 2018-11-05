@@ -5,7 +5,8 @@ import { withHandlers, withStateHandlers } from 'recompose'
 import { firestoreConnect } from 'react-redux-firebase'
 import { withStyles } from '@material-ui/core/styles'
 import { withNotifications } from 'modules/notification'
-import { withRouter, spinnerWhileLoading } from 'utils/components'
+import { withRouter } from 'react-router-dom'
+import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
 import styles from './ProjectsPage.styles'
 
@@ -84,8 +85,9 @@ export default compose(
           return Promise.reject(err)
         })
     },
-    goToProject: ({ router }) => projectId => {
-      router.push(`${LIST_PATH}/${projectId}`)
+    goToProject: props => projectId => {
+      console.log('props:', props)
+      props.history.push(`${LIST_PATH}/${projectId}`)
     }
   }),
   withStyles(styles)
