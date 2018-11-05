@@ -1,22 +1,11 @@
-const flexColumnCenter = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center'
-}
-const flexRowCenter = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center'
-}
-
 export default theme => ({
   root: {
-    ...flexRowCenter,
+    ...theme.flexRowCenter,
     width: '100%',
     height: '100%'
   },
   pane: {
-    ...flexColumnCenter,
+    ...theme.flexColumnCenter,
     justifyContent: 'space-around',
     flexBasis: '60%'
   },
@@ -27,7 +16,7 @@ export default theme => ({
     cursor: 'pointer'
   },
   meta: {
-    ...flexColumnCenter,
+    ...theme.flexColumnCenter,
     flexBasis: '60%',
     marginBottom: '3rem',
     marginTop: '2rem'

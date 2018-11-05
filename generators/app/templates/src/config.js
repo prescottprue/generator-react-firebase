@@ -11,7 +11,7 @@ export const firebase = {
   apiKey: '<%= firebaseKey %>',
   authDomain: '<%= firebaseName %>.firebaseapp.com',
   databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
-  projectId: "<%= firebaseName %>",
+  projectId: '<%= firebaseName %>',
   storageBucket: '<%= firebaseName %>.appspot.com'<% if(messagingSenderId) { %>,
   messagingSenderId: '<%= messagingSenderId %>'<% } %>
 }

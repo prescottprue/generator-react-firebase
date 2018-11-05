@@ -1,6 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { browserHistory } from 'react-router'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'<% if (includeRedux && includeFirestore) { %>
 import { reduxFirestore } from 'redux-firestore'<% } %>
 import firebase from 'firebase/app'
@@ -8,13 +7,12 @@ import 'firebase/database'
 import 'firebase/auth'
 import 'firebase/storage'<% if (includeRedux && includeFirestore) { %>
 import 'firebase/firestore'<% } %><% if (includeMessaging) { %>
-import 'firebase/messaging'<% } %>
-import makeRootReducer from './reducers'<% if (includeMessaging) { %>
+import 'firebase/messaging'<% } %><% if (includeMessaging) { %>
 import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (includeAnalytics) { %>
 import { setAnalyticsUser } from 'utils/analytics'<% } %>
+import makeRootReducer from './reducers'
 import { firebase as fbConfig, reduxFirebase as rrfConfig } from '../config'
 import { version } from '../../package.json'
-import { updateLocation } from './location'
 
 export default (initialState = {}) => {
   // ======================================================
@@ -29,17 +27,6 @@ export default (initialState = {}) => {
     thunk.withExtraArgument(getFirebase)
     // This is where you add other middleware like redux-observable
   ]
-
-  // ======================================================
-  // Store Enhancers
-  // ======================================================
-  const enhancers = []
-  if (__DEV__) {
-    const devToolsExtension = window.devToolsExtension
-    if (typeof devToolsExtension === 'function') {
-      enhancers.push(devToolsExtension())
-    }
-  }
 
   const defaultRRFConfig = {
     userProfile: 'users', // root that user profiles are written to
@@ -96,9 +83,6 @@ export default (initialState = {}) => {
   )
 
   store.asyncReducers = {}
-
-  // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
-  store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

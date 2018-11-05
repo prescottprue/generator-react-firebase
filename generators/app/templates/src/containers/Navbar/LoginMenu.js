@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import { LOGIN_PATH, SIGNUP_PATH } from 'constants'
 

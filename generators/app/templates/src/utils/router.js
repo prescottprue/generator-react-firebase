@@ -1,7 +1,8 @@
 import { UserAuthWrapper } from 'redux-auth-wrapper'
-import { browserHistory } from 'react-router'
-import { LIST_PATH } from 'constants'
+import { LIST_PATH } from 'constants/paths'
 import LoadingSpinner from 'components/LoadingSpinner'
+import createHistory from 'history/createBrowserHistory'
+import { get } from 'lodash'
 
 const AUTHED_REDIRECT = 'AUTHED_REDIRECT'
 const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
@@ -20,7 +21,10 @@ export const UserIsAuthenticated = UserAuthWrapper({
     !auth.isLoaded || isInitializing,
   predicate: auth => !auth.isEmpty,
   redirectAction: newLoc => dispatch => {
-    browserHistory.replace(newLoc)
+    // in your function then call add the below
+    const history = createHistory()
+    // Use push, replace, and go to navigate around.
+    history.push('/')
     dispatch({
       type: UNAUTHED_REDIRECT,
       payload: { message: 'User is not authenticated.' }
@@ -42,18 +46,16 @@ export const UserIsNotAuthenticated = UserAuthWrapper({
   LoadingComponent: LoadingSpinner,
   failureRedirectPath: (state, props) =>
     // redirect to page user was on or to list path
-    props.location.query.redirect || LIST_PATH,
+    get(props, 'location.query.redirect') || LIST_PATH,
   authSelector: ({ firebase: { auth } }) => auth,
   authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
     !auth.isLoaded || isInitializing,
   predicate: auth => auth.isEmpty,
   redirectAction: newLoc => dispatch => {
-    browserHistory.replace(newLoc)
+    // in your function then call add the below
+    const history = createHistory()
+    // Use push, replace, and go to navigate around.
+    history.push('/')
     dispatch({ type: AUTHED_REDIRECT })
   }
 })
-
-export default {
-  UserIsAuthenticated,
-  UserIsNotAuthenticated
-}

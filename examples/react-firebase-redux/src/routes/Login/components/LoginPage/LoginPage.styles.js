@@ -1,12 +1,6 @@
-const flexColumnCenter = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center'
-}
-
 export default theme => ({
   root: {
-    ...flexColumnCenter,
+    ...theme.flexColumnCenter,
     justifyContent: 'flex-start',
     height: '100%',
     width: '100%',
@@ -14,7 +8,7 @@ export default theme => ({
     paddingTop: '1.5rem'
   },
   panel: {
-    ...flexColumnCenter,
+    ...theme.flexColumnCenter,
     justifyContent: 'center',
     flexGrow: 1,
     padding: '1.25rem',
@@ -26,7 +20,7 @@ export default theme => ({
     marginBottom: '.5rem'
   },
   signup: {
-    ...flexColumnCenter,
+    ...theme.flexColumnCenter,
     marginTop: '2rem'
   },
   signupLabel: {

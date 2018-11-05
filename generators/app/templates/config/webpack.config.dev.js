@@ -9,10 +9,10 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 
 
 // Webpack uses `publicPath` to determine where the app is being served from.

@@ -31,11 +31,14 @@
     export const reduxFirebase = {}
     
     export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'
+    
+    export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
 
     export default {
       env,
       firebase,
       reduxFirebase,
+      publicVapidKey,
       analyticsTrackingId
     }
     ```

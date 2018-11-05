@@ -6,19 +6,18 @@ import { connect } from 'react-redux'
   flattenProp,
   withStateHandlers
 } from 'recompose'
-import { withStyles } from '@material-ui/core'<% } %>
+import { withStyles } from '@material-ui/core/styles'<% } %>
+import { withRouter } from 'react-router-dom'
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { ACCOUNT_PATH } from 'constants'
-import { withRouter, spinnerWhileLoading } from 'utils/components'<% if (materialv1) { %>
-import styles from './Navbar.styles'<% } %>
+import { spinnerWhileLoading } from 'utils/components'
+import styles from './Navbar.styles'
 
 export default compose(
   connect(({ firebase: { auth, profile } }) => ({
     auth,
     profile
-  })),
-  // Wait for auth to be loaded before going further
-  spinnerWhileLoading(['profile']),<% if (materialv1) { %>
+  })),<% if (materialv1) { %>
   withStateHandlers(
     ({ accountMenuOpenInitially = false }) => ({
       accountMenuOpen: accountMenuOpenInitially,
@@ -45,7 +44,7 @@ export default compose(
       props.closeAccountMenu()<% } %>
     },
     goToAccount: props => () => {
-      props.router.push(ACCOUNT_PATH)<% if (materialv1) { %>
+      props.history.push(ACCOUNT_PATH)<% if (materialv1) { %>
       props.closeAccountMenu()<% } %>
     }
   }),

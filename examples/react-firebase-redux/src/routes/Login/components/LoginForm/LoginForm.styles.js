@@ -1,12 +1,6 @@
-const flexColumnCenter = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center'
-}
-
 export default theme => ({
   root: {
-    ...flexColumnCenter,
+    ...theme.flexColumnCenter,
     justifyContent: 'flex-start',
     flexGrow: 1,
     height: '100%',
@@ -14,7 +8,7 @@ export default theme => ({
     margin: '.2rem'
   },
   submit: {
-    ...flexColumnCenter,
+    ...theme.flexColumnCenter,
     justifyContent: 'center',
     flexGrow: 1,
     textAlign: 'center',

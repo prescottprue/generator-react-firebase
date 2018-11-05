@@ -196,6 +196,7 @@ module.exports = class extends Generator {
     this.intialData = {
       version: '0.0.1',
       messagingSenderId: null,
+      materialv1: true,
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,

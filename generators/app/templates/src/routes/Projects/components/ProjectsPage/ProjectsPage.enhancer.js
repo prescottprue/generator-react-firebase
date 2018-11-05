@@ -1,11 +1,13 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { LIST_PATH } from 'constants'
-import { withHandlers, withStateHandlers, pure } from 'recompose'
+import { LIST_PATH } from 'constants/paths'
+import { withHandlers, withStateHandlers } from 'recompose'
+import { withRoute } from 'react-router-dom'
 import { <% if (includeRedux && includeFirestore) { %>firestoreConnect<% } %><% if (includeRedux && !includeFirestore) { %>firebaseConnect<% } %> } from 'react-redux-firebase'
 import { withNotifications } from 'modules/notification'
-import { withRouter, spinnerWhileLoading } from 'utils/components'
+import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
+import styles from './ProjectsPage.styles'
 
 export default compose(
   // redirect to /login if user is not logged in
@@ -97,9 +99,9 @@ export default compose(
           return Promise.reject(err)
         })
     },
-    goToProject: ({ router }) => projectId => {
-      router.push(`${LIST_PATH}/${projectId}`)
+    goToProject: ({ history }) => projectId => {
+      history.push(`${LIST_PATH}/${projectId}`)
     }
   }),
-  pure // shallow equals comparison on props (prevent unessesary re-renders)
+  withStyles(styles)
 )

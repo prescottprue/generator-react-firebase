@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { browserHistory, Router } from 'react-router'
+import { BrowserRouter as Router } from 'react-router-dom'
 <% if (!materialv1) { %>import { withContext } from 'recompose'<% } else { %>import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'<% } %><% if (includeRedux) { %>
 import { Provider } from 'react-redux'<% } %><% if (!materialv1) { %>
 import getMuiTheme from 'material-ui/styles/getMuiTheme'<% } %>
@@ -10,14 +10,10 @@ const theme = createMuiTheme(ThemeSettings)
 <% } %>
 <% if (!includeRedux) { %>const App = ({ routes }) => (
   <Router history={browserHistory}>{routes}</Router>
-)<% } %><% if (includeRedux && !materialv1) { %>const App = ({ routes, store }) => (
-  <Provider store={store}>
-    <Router history={browserHistory}>{routes}</Router>
-  </Provider>
 )<% } else { %>const App = ({ routes, store }) => (
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <Router history={browserHistory}>{routes}</Router>
+      <Router>{routes}</Router>
     </Provider>
   </MuiThemeProvider>
 )<% } %>

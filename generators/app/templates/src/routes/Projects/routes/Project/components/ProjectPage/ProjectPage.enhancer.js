@@ -1,9 +1,14 @@
+import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { get } from 'lodash'
 <% if (includeRedux && includeFirestore) { %>import { firestoreConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && !includeFirestore) { %>import { firebaseConnect } from 'react-redux-firebase'<% } %>
+import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
+import { setPropTypes, withProps } from 'recompose'
 import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
+import styles from './ProjectPage.styles'
 
 export default compose(
   // redirect to /login if user is not logged in

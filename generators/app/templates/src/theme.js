@@ -35,5 +35,15 @@ export default {
     borderColor: grey400,
     disabledColor: fade(darkBlack, 0.3),
     pickerHeaderColor: pinkA200
+  },
+  flexColumnCenter: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  flexRowCenter: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 }
