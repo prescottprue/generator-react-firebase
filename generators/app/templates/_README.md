@@ -176,12 +176,14 @@ Selecting AWS S3 from the deploy options when running the generator adds deploy 
 Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment.
 
 To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.org):
+1. Select yes to question `Would to include config for Travis CI?` when generating
+1. Select `Heroku` under deploy options
 1. Enable Repo on Travis-CI Account
 2. Get API Key from Heroku Dashboard
 3. Create a new App (this name will be used in travis env var)
 4. Set the following environment vars within the Travis-CI repo settings page:
-  * HEROKU_KEY - Your Heroku API key
-  * APP - Your Heroku App name<% } %>
+  * `HEROKU_KEY` - Your Heroku API key
+  * `HEROKU_APP` - Your Heroku App name<% } %>
 
 ## FAQ
 

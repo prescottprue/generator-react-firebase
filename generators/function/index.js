@@ -135,7 +135,7 @@ function triggerTypeToName(triggerType) {
     case 'rtdb':
       return 'Real Time Database'
     case 'pubsub':
-      return triggerType.toUpperCase()
+      return 'PubSub'
     default:
       return capitalize(triggerType)
   }
@@ -187,8 +187,9 @@ module.exports = class extends Generator {
       'answers.triggerType',
       this.triggerFlag
     ).toLowerCase()
+
     // Format name for showing
-    const triggerTypeName = triggerTypeToName()
+    const triggerTypeName = triggerTypeToName(triggerType)
     this.log(
       `${chalk.blue('Generating')} -> Cloud Function: ${chalk.green(this.options.name)}
       Trigger Type: ${chalk.cyan(triggerTypeName)}
