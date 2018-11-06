@@ -93,40 +93,56 @@ A component is best for things that will be reused in multiple places. Our examp
 ----index.js
 ```
 
-For firebase-functions `<v1.0.0`:
+For firebase-functions `>v1.0.0`:
 
 */functions/uppercaser/index.js:*
 
 ```js
-import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
-import { to } from 'utils/async'
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import { to } from 'utils/async';
 
+const eventName = 'uppercaser';
 
 /**
  * @param  {functions.Event} event - Function event
  * @return {Promise}
  */
 async function uppercaserEvent(event) {
-  const eventData = event.data.val()
-  const params = event.params
-  const ref = admin.database().ref('responses')
-  const [writeErr, response] = await to(ref.push(eventData))
+  const { params: { pushId }, data } = event;
+
+  console.log('uppercaser onUpdate event:', data.val());
+
+  // Create RTDB for response
+  const ref = admin.database().ref(`responses/${eventName}/${pushId}`);
+
+  // Write data to RTDB
+  const [writeErr] = await to(ref.set({ hello: 'world' }));
+
+  // Handle errors writing data to RTDB
   if (writeErr) {
-    console.error('Error writing response:', writeErr.message || writeErr)
-    throw writeErr
+    console.error(
+      `Error writing response: ${writeErr.message || ''}`,
+      writeErr
+    );
+    throw writeErr;
   }
-  return response
+
+  // End function execution by returning
+  return null;
 }
 
 /**
+ * Event handler that fires every time data is updated in Firebase Realtime Database.
+ *
+ * Trigger: `RTDB - onUpdate - '/uppercaser/{pushId}'`
  * @name uppercaser
- * Cloud Function triggered by Real Time Database Event
  * @type {functions.CloudFunction}
+ * @public
  */
 export default functions.database
-  .ref('/users/{userId}')
-  .onUpdate(uppercaserEvent)
+  .ref(`/${eventName}/{pushId}`)
+  .onUpdate(uppercaserEvent);
 ```
 
 For firebase-functions `>=v1.0.0`:
@@ -138,32 +154,48 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { to } from 'utils/async'
 
+const eventName = 'uppercaser'
+
 /**
- * @param  {functions.Event} event - Function event
+ * 
+ * @param  {functions.database.DataSnapshot} snap - Data snapshot of the event
+ * @param {Function} snap.val - Value after event
+ * @param {functions.EventContext} context - Function event context
+ * @param {Object} context.auth - Authentication information for the user that triggered the function
  * @return {Promise}
  */
-async function uppercaserEvent(change, context) {
-  // const { params, auth, timestamp } = context
-  // const { before, after } = change
-  const { before, after } = change
-  console.log('<%= camelName %> <%= eventType %> event:', { before: before.val(), after: after.val() })
-  const ref = admin.database().ref('responses')
-  const [writeErr, response] = await to(ref.push({ hello: 'world' }))
+async function uppercaserEvent(snap, context) {
+  const { params: { pushId } } = context
+
+  console.log('uppercaser onCreate event:', snap.val())
+
+  // Create RTDB for response
+  const ref = admin.database().ref(`responses/${eventName}/${pushId}`)
+
+  // Write data to RTDB
+  const [writeErr] = await to(ref.set({ hello: 'world' }))
+
+  // Handle errors writing data to RTDB
   if (writeErr) {
-    console.error('Error writing response:', writeErr.message || writeErr)
+    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)
     throw writeErr
   }
-  return response
+
+  // End function execution by returning
+  return null
 }
 
 /**
+ * Cloud Function that is called every time new data is created in Firebase Realtime Database.
+ *
+ * Trigger: `RTDB - onCreate - '/requests/uppercaser/{pushId}'`
  * @name uppercaser
- * Cloud Function triggered by Real Time Database Event
  * @type {functions.CloudFunction}
+ * @public
  */
 export default functions.database
-  .ref('/users/{userId}')
-  .onUpdate(uppercaserEvent)
+  .ref(`/requests/${eventName}/{pushId}`)
+  .onCreate(uppercaserEvent)
 ```
 
 **Note:** This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
