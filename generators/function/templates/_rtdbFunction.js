@@ -2,6 +2,8 @@ import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %
 import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
 import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
 
+const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
+
 /**
  * <% if (!functionsV1) { %>@param  {functions.Event} event - Function event<% } %><% if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>@param  {functions.Change} change - Function change interface containing state objects
  * @param {functions.database.DataSnapshot} change.before - State prior to the event.
@@ -19,7 +21,7 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
   const { before, after } = change<% if (airbnbLinting) { %>;<% } %>
   console.log('<%= camelName %> <%= eventType %> event:', { before: before.val(), after: after.val() })<% if (airbnbLinting) { %>;<% } %>
   // Create RTDB for response
-  const ref = admin.database().ref(`responses/<%= camelName %>`).push()<% if (airbnbLinting) { %>;<% } %>
+  const ref = admin.database().ref(`responses/${eventName}`).push()<% if (airbnbLinting) { %>;<% } %>
   // Write data to RTDB
   const [writeErr] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
   // Handle errors writing data to RTDB
@@ -33,7 +35,7 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
   const { params: { pushId } } = context<% if (airbnbLinting) { %>;<% } %>
   console.log('<%= camelName %> <%= eventType %> event:', snap.val())<% if (airbnbLinting) { %>;<% } %>
   // Create RTDB for response
-  const ref = admin.database().ref(`responses/<%= camelName %>/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
+  const ref = admin.database().ref(`responses/${eventName}/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
   // Write data to RTDB
   const [writeErr] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
   // Handle errors writing data to RTDB
@@ -47,7 +49,7 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
   const { params: { pushId }, data } = event<% if (airbnbLinting) { %>;<% } %>
   console.log('<%= camelName %> <%= eventType %> event:', data.val())<% if (airbnbLinting) { %>;<% } %>
   // Create RTDB for response
-  const ref = admin.database().ref(`responses/<%= camelName %>/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
+  const ref = admin.database().ref(`responses/${eventName}/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
   // Write data to RTDB
   const [writeErr] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
   // Handle errors writing data to RTDB
@@ -71,5 +73,5 @@ import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
  * @type {functions.CloudFunction}
  */
 export default functions.database
-  .ref(<% if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>'/requests/<%= camelName %>/{pushId}'<% } else {%>'/<%= camelName %>'<% } %>)
+  .ref(<% if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>`/requests/${eventName}/{pushId}`<% } else {%>`/${eventName}/{pushId}`<% } %>)
   .<%= eventType %>(<%= camelName %>Event)<% if (airbnbLinting) { %>;<% } %>
