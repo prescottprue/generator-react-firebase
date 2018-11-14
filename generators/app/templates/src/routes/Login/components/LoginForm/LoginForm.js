@@ -6,9 +6,8 @@ import { TextField } from 'redux-form-material-ui'<% } %>
 import TextField from 'material-ui/TextField'<% } if (materialv1 && !includeRedux) { %>import RaisedButton from '@material-ui/core/RaisedButton'
 import TextField from '@material-ui/core/TextField'<% } if (materialv1) { %>import Button from '@material-ui/core/Button'<% } %><% if (includeRedux) { %>
 import { required, validateEmail } from 'utils/form'<% } %>
-import classes from './LoginForm.scss'
 
-<% if (includeRedux) { %>export const LoginForm = ({ pristine, submitting, handleSubmit }) => (
+<% if (includeRedux) { %>export const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
   <form className={classes.container} onSubmit={handleSubmit}>
     <Field
       name="email"
@@ -41,10 +40,10 @@ import classes from './LoginForm.scss'
 )
 
 LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  pristine: PropTypes.bool.isRequired, // added by redux-form
-  submitting: PropTypes.bool.isRequired, // added by redux-form
-  handleSubmit: PropTypes.func.isRequired // added by redux-form (calls onSubmit)
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  pristine: PropTypes.bool.isRequired, // from enhancer (reduxForm)
+  submitting: PropTypes.bool.isRequired, // from enhancer (reduxForm)
+  handleSubmit: PropTypes.func.isRequired // from enhancer (reduxForm - calls onSubmit)
 }
 
 export default LoginForm<% } %><% if (!includeRedux) { %>export const LoginForm = ({ handleSubmit, error }) => (

@@ -107,6 +107,12 @@ const prompts = [
     required: true
   },
   {
+    name: 'sentryDsn',
+    message: 'Sentry DSN (skip to leave for later)',
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeSentry')
+  },
+  {
     type: 'list',
     name: 'ciProvider',
     when: currentAnswers => checkAnswersForFeature(currentAnswers, 'includeCI'),
@@ -162,20 +168,21 @@ const filesArray = [
   { src: '_package.json', dest: 'package.json' },
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
+  { src: 'env.local', dest: '.env.local' },
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
   // { src: 'public/**', dest: 'public' }, // individual files copied
   { src: 'public/favicon.ico' },
   { src: 'public/humans.txt' },
+  { src: 'public/index.html' },
   { src: 'public/manifest.json' },
   { src: 'public/robots.txt' },
   { src: 'config/**', dest: 'config' },
   { src: 'scripts/**', dest: 'scripts' },
   { src: 'src/config.js' },
-  { src: 'src/index.html' },
   { src: 'src/index.js' },
-  { src: 'src/constants.js' },
+  { src: 'src/constants/**', dest: 'src/constants' },
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
@@ -346,6 +353,7 @@ module.exports = class extends Generator {
           this.destinationPath(file.dest || file.src || file)
         )
       }
+
       return this.fs.copyTpl(
         this.templatePath(file.src || file),
         this.destinationPath(file.dest || file.src || file),

@@ -47,13 +47,12 @@ Notifications.propTypes = {
 }
 
 const enhance = compose(
-  pure,<% if (materialv1) { %>
-  withStyles(styles),<% } %>
   connect(
     ({ notifications: { allIds, byId } }) => ({ allIds, byId }),
     actions
   ),
-  branch(props => !size(props.allIds), renderNothing) // only render if notifications exist
+  branch(props => !size(props.allIds), renderNothing), // only render if notifications exist
+  withStyles(styles)
 )
 
 export default enhance(Notifications)

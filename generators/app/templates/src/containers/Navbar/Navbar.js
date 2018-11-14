@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { LIST_PATH } from 'constants'
+import { LIST_PATH } from 'constants/paths'
 import AccountMenu from './AccountMenu'
 import LoginMenu from './LoginMenu'
 
@@ -47,7 +47,7 @@ export const Navbar = ({
 )
 
 Navbar.propTypes = {
-  classes: PropTypes.object.isRequired // from enhancer (withStyles)
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   displayName: PropTypes.string, // from enhancer (flattenProps - profile)
   avatarUrl: PropTypes.string, // from enhancer (flattenProps - profile)
   authExists: PropTypes.bool, // from enhancer (withProps - auth)

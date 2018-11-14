@@ -34,9 +34,9 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "@material-ui/core": "^3.3.2",
+    "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
-    "firebase": "^5.5.7",
+    "firebase": "^5.5.8",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.1",
     "react": "^16.6.0",

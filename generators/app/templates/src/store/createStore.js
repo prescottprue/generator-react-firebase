@@ -77,8 +77,7 @@ export default (initialState = {}) => {
     compose(
       applyMiddleware(...middleware),<% if (includeRedux && includeFirestore) { %>
       reduxFirestore(firebase),<% } %>
-      reactReduxFirebase(firebase, combinedConfig),
-      ...enhancers
+      reactReduxFirebase(firebase, combinedConfig)
     )
   )
 

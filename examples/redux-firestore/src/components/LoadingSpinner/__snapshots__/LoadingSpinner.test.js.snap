@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders a spinner 1`] = `
+<div>
+  <div
+    className="LoadingSpinner-progress-13"
+  >
+    <div
+      className="MuiCircularProgress-root-14 MuiCircularProgress-colorPrimary-17 MuiCircularProgress-indeterminate-16"
+      mode="indeterminate"
+      role="progressbar"
+      style={
+        Object {
+          "height": 80,
+          "width": 80,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svg-19"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          className="MuiCircularProgress-circle-20 MuiCircularProgress-circleIndeterminate-22"
+          cx={44}
+          cy={44}
+          fill="none"
+          r={20.2}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

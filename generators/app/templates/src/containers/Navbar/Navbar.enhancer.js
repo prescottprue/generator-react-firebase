@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'<% } %>
 import { withRouter } from 'react-router-dom'
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
-import { ACCOUNT_PATH } from 'constants'
+import { ACCOUNT_PATH } from 'constants/paths'
 import { spinnerWhileLoading } from 'utils/components'
 import styles from './Navbar.styles'
 

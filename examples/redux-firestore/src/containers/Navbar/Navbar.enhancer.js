@@ -6,10 +6,11 @@ import {
   flattenProp,
   withStateHandlers
 } from 'recompose'
-import { withStyles } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
-import { ACCOUNT_PATH } from 'constants'
-import { withRouter, spinnerWhileLoading } from 'utils/components'
+import { ACCOUNT_PATH } from 'constants/paths'
+import { spinnerWhileLoading } from 'utils/components'
 import styles from './Navbar.styles'
 
 export default compose(
@@ -17,8 +18,6 @@ export default compose(
     auth,
     profile
   })),
-  // Wait for auth to be loaded before going further
-  spinnerWhileLoading(['profile']),
   withStateHandlers(
     ({ accountMenuOpenInitially = false }) => ({
       accountMenuOpen: accountMenuOpenInitially,
@@ -45,7 +44,7 @@ export default compose(
       props.closeAccountMenu()
     },
     goToAccount: props => () => {
-      props.router.push(ACCOUNT_PATH)
+      props.history.push(ACCOUNT_PATH)
       props.closeAccountMenu()
     }
   }),

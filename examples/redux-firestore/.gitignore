@@ -7,10 +7,10 @@
 # Dependencies
 **/node_modules
 
-
 # React App
 **/dist
 src/config.js
+.env
 
 # Functions
 functions/etc

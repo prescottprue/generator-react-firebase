@@ -1,21 +1,16 @@
-@import 'base';
+@import 'styles/_base.scss';
 
 .container {
   @extend .flex-column-center;
   justify-content: flex-start;
-  height: 100%;
+  flex-grow: 1;
   width: 100%;
-  margin: .2rem;
+  font-size: 1.4rem;
 }
-
 .submit {
   @extend .flex-column-center;
+  justify-content: center;
   width: 30%;
   min-width: 192px;
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-.fields {
-  width: 60%;
+  padding-top: 1.75rem;
 }
