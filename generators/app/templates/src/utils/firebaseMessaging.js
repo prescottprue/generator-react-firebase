@@ -71,6 +71,15 @@ export function requestPermission() {
  */
 export function initializeMessaging(dispatch) {
   const messaging = firebase.messaging()
+  if (!publicVapidKey) {
+    /* eslint-disable no-console */
+    console.warn(
+      'Skipping messaging initialization, publicVapidKey not set in src/config.js'
+    )
+    /* eslint-enable no-console */
+    return
+  }
+
   messaging.usePublicVapidKey(publicVapidKey)
 
   // Handle Instance ID token updates

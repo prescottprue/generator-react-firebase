@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { withHandlers, pure, compose, setPropTypes } from 'recompose'
+import { withHandlers, compose, setPropTypes } from 'recompose'
 import { withFirebase } from 'react-redux-firebase'
 import { withStyles } from '@material-ui/core/styles'
 import { withNotifications } from 'modules/notification'

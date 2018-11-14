@@ -182,6 +182,7 @@ const filesArray = [
   { src: 'scripts/**', dest: 'scripts' },
   { src: 'src/config.js' },
   { src: 'src/index.js' },
+  { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },

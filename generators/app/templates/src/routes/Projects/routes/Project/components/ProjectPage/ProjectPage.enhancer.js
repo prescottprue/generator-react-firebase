@@ -11,22 +11,36 @@ import { UserIsAuthenticated } from 'utils/router'
 import styles from './ProjectPage.styles'
 
 export default compose(
-  // redirect to /login if user is not logged in
-  UserIsAuthenticated,<% if (includeRedux && includeFirestore) { %>
+  // Redirect to /login if user is not logged in
+  UserIsAuthenticated,
+  // Add props.match
+  withRouter,
+  // Set proptypes of props used in HOCs
+  setPropTypes({
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        projectId: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired
+  }),
+  withProps(({ match: { params: { projectId } } }) => ({
+    projectId
+  })),<% if (includeRedux && includeFirestore) { %>
   // Create listeners based on current users UID
-  firestoreConnect(({ params }) => [
+  firestoreConnect(({ projectId }) => [
     // Listener for projects the current user created
     {
       collection: 'projects',
-      doc: params.projectId
+      doc: projectId
     }
   ]),
   // Map projects from state to props
-  connect(({ firestore: { data } }, { params }) => ({<% } %><% if (includeRedux && !includeFirestore) { %>
-  firebaseConnect(({ params }) => [{ path: `projects/${params.projectId}` }]),
-  connect(({ firebase: { data } }, { params }) => ({<% } %>
-    project: get(data, `projects.${params.projectId}`)
+  connect(({ firestore: { data } }, { projectId }) => ({<% } %><% if (includeRedux && !includeFirestore) { %>
+  firebaseConnect(({ projectId }) => [{ path: `projects/${projectId}` }]),
+  connect(({ firebase: { data } }, { projectId }) => ({<% } %>
+    project: get(data, `projects.${projectId}`)
   })),
   // Show loading spinner while project is loading
-  spinnerWhileLoading(['project'])
+  spinnerWhileLoading(['project']),
+  withStyles(styles)
 )
