@@ -334,7 +334,6 @@ module.exports = class extends Generator {
 
     if (this.answers.includeTests) {
       filesArray.push(
-        { src: 'config/**', dest: 'config' },
         { src: 'tests/**', dest: 'tests' },
         { src: 'testseslintrc', dest: 'tests/.eslintrc' }
       )

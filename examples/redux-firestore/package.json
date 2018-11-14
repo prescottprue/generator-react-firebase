@@ -11,6 +11,7 @@
     "createConfig": "firebase-ci createConfig",
     "start": "node scripts/start.js",
     "lint": "eslint src functions scripts config",
+    "test": "node scripts/test.js",
     "lint:fix": "npm run lint -- --fix",
     "functions:start": "npm run start --prefix functions",
     "functions:serve": "npm run serve --prefix functions",
@@ -82,20 +83,21 @@
     "html-webpack-plugin": "4.0.0-alpha.2",
     "husky": "^0.14.3",
     "identity-obj-proxy": "3.0.0",
-    "jest": "23.6.0",
+    "jest": "^24.0.0-alpha.6",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
     "mini-css-extract-plugin": "0.4.3",
     "node-sass": "^4.10.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.1.0",
-    "prettier": "^1.14.3",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.0.6",
     "postcss-safe-parser": "4.0.1",
+    "prettier": "^1.14.3",
     "react-app-polyfill": "^0.1.3",
     "react-dev-utils": "^6.0.5",
+    "react-test-renderer": "^16.6.3",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
@@ -149,7 +151,8 @@
       "web.jsx",
       "jsx",
       "node"
-    ]
+    ],
+    "snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"
   },
   "babel": {
     "presets": [

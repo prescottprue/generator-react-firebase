@@ -151,7 +151,9 @@
       "web.jsx",
       "jsx",
       "node"
-    ]
+    ],
+    "snapshotResolver": "<rootDir>/scripts/snapshotResolver.js",
+    "resolveSnapshotPath": "__snapshots__"
   },
   "babel": {
     "presets": [

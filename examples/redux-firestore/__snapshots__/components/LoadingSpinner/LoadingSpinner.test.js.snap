@@ -3,10 +3,10 @@
 exports[`renders a spinner 1`] = `
 <div>
   <div
-    className="LoadingSpinner-progress-13"
+    className="LoadingSpinner-progress-14"
   >
     <div
-      className="MuiCircularProgress-root-14 MuiCircularProgress-colorPrimary-17 MuiCircularProgress-indeterminate-16"
+      className="MuiCircularProgress-root-15 MuiCircularProgress-colorPrimary-18 MuiCircularProgress-indeterminate-17"
       mode="indeterminate"
       role="progressbar"
       style={
@@ -17,11 +17,11 @@ exports[`renders a spinner 1`] = `
       }
     >
       <svg
-        className="MuiCircularProgress-svg-19"
+        className="MuiCircularProgress-svg-20"
         viewBox="22 22 44 44"
       >
         <circle
-          className="MuiCircularProgress-circle-20 MuiCircularProgress-circleIndeterminate-22"
+          className="MuiCircularProgress-circle-21 MuiCircularProgress-circleIndeterminate-23"
           cx={44}
           cy={44}
           fill="none"
