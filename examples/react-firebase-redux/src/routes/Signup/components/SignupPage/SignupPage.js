@@ -6,9 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import { LOGIN_PATH } from 'constants/paths'
 import SignupForm from '../SignupForm'
 
-import classes from './SignupPage.scss'
-
-export const SignupPage = ({ emailSignup, googleLogin, onSubmitFail }) => (
+const SignupPage = ({ emailSignup, googleLogin, onSubmitFail, classes }) => (
   <div className={classes.container}>
     <Paper className={classes.panel}>
       <SignupForm onSubmit={emailSignup} onSubmitFail={onSubmitFail} />
@@ -27,9 +25,10 @@ export const SignupPage = ({ emailSignup, googleLogin, onSubmitFail }) => (
 )
 
 SignupPage.propTypes = {
-  emailSignup: PropTypes.func, // from enhancer (withHandlers - firebase)
-  googleLogin: PropTypes.func, // from enhancer (withHandlers - firebase)
-  onSubmitFail: PropTypes.func // from enhancer (reduxForm)
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  emailSignup: PropTypes.func.isRequired, // from enhancer (withHandlers)
+  googleLogin: PropTypes.func.isRequired, // from enhancer (withHandlers)
+  onSubmitFail: PropTypes.func.isRequired // from enhancer (reduxForm)
 }
 
 export default SignupPage

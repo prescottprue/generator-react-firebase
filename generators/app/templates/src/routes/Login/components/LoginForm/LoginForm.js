@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'<% if (includeRedux) { %>
 import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'<% } %>
-<% if (!materialv1 && !includeRedux) { %>import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'<% } if (materialv1 && !includeRedux) { %>import RaisedButton from '@material-ui/core/RaisedButton'
-import TextField from '@material-ui/core/TextField'<% } if (materialv1) { %>import Button from '@material-ui/core/Button'<% } %><% if (includeRedux) { %>
+<% if (!includeRedux) { %>import RaisedButton from '@material-ui/core/RaisedButton'
+import TextField from '@material-ui/core/TextField'<% } else { %>import Button from '@material-ui/core/Button'<% } %><% if (includeRedux) { %>
 import { required, validateEmail } from 'utils/form'<% } %>
 
-<% if (includeRedux) { %>export const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
-  <form className={classes.container} onSubmit={handleSubmit}>
+<% if (includeRedux) { %>const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
+  <form className={classes.root} onSubmit={handleSubmit}>
     <Field
       name="email"
       component={TextField}
