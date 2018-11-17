@@ -208,6 +208,7 @@ module.exports = class extends Generator {
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
+      includeFunctions: false,
       sentryDsn: null,
       ciProvider: null,
       codeClimate: true,
