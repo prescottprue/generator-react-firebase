@@ -11,14 +11,51 @@ import 'firebase/messaging'
 import { initializeMessaging } from 'utils/firebaseMessaging'
 import { setAnalyticsUser } from 'utils/analytics'
 import makeRootReducer from './reducers'
-import { firebase as fbConfig, reduxFirebase as rrfConfig } from '../config'
-import { version } from '../../package.json'
+import {
+  firebase as fbConfig,
+  reduxFirebase as rrfConfig,
+  env
+} from '../config'
 
 export default (initialState = {}) => {
   // ======================================================
-  // Window Vars Config
+  // Redux + Firebase Config (react-redux-firebase & redux-firestore)
   // ======================================================
-  window.version = version
+  const defaultRRFConfig = {
+    // updateProfileOnLogin: false // enable/disable updating of profile on login
+    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
+    userProfile: 'users', // root that user profiles are written to
+    updateProfileOnLogin: false, // enable/disable updating of profile on login
+    presence: 'presence', // list currently online users under "presence" path in RTDB
+    sessions: null, // Skip storing of sessions
+    enableLogging: false, // enable/disable Firebase Database Logging
+    useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
+    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore onAuthStateChanged: (auth, firebase, dispatch) => {
+      if (auth) {
+        // Set auth within analytics
+        setAnalyticsUser(auth)
+        // Initalize messaging with dispatch
+        initializeMessaging(dispatch)
+      }
+    }
+  }
+
+  // Combine default config with overrides if they exist (set within .firebaserc)
+  const combinedConfig = rrfConfig
+    ? { ...defaultRRFConfig, ...rrfConfig }
+    : defaultRRFConfig
+
+  // ======================================================
+  // Store Enhancers
+  // ======================================================
+  const enhancers = []
+
+  if (env === 'local') {
+    const devToolsExtension = window.devToolsExtension
+    if (typeof devToolsExtension === 'function') {
+      enhancers.push(devToolsExtension())
+    }
+  }
 
   // ======================================================
   // Middleware Configuration
@@ -28,34 +65,10 @@ export default (initialState = {}) => {
     // This is where you add other middleware like redux-observable
   ]
 
-  const defaultRRFConfig = {
-    userProfile: 'users', // root that user profiles are written to
-    updateProfileOnLogin: false, // enable/disable updating of profile on login
-    presence: 'presence', // list currently online users under "presence" path in RTDB
-    sessions: null, // Skip storing of sessions
-    enableLogging: false, // enable/disable Firebase Database Logging
-    useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
-    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore
-    onAuthStateChanged: (auth, firebase, dispatch) => {
-      if (auth) {
-        // Set auth within analytics
-        setAnalyticsUser(auth)
-        // Initalize messaging with dispatch
-        initializeMessaging(dispatch)
-      }
-    }
-    // updateProfileOnLogin: false // enable/disable updating of profile on login
-    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
-  }
-
-  // Combine default config with overrides if they exist
-  const combinedConfig = rrfConfig
-    ? { ...defaultRRFConfig, ...rrfConfig }
-    : defaultRRFConfig
-
-  // Initialize Firebase
+  // ======================================================
+  // Firebase Initialization
+  // ======================================================
   firebase.initializeApp(fbConfig)
-  // Initialize Firestore
   firebase.firestore().settings({ timestampsInSnapshots: true })
 
   // ======================================================

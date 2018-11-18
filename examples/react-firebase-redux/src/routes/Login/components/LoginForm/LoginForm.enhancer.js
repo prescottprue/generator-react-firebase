@@ -6,14 +6,12 @@ import { withStyles } from '@material-ui/core/styles'
 import styles from './LoginForm.styles'
 
 export default compose(
-  // Set prop-types used in HOCs
+  // set proptypes used in HOCs
   setPropTypes({
-    onSubmit: PropTypes.func.isRequired // called by handleSubmit
+    onSubmit: PropTypes.func.isRequired // eslint-disable-line react/no-unused-prop-types
   }),
-  // Add form capabilities (handleSubmit, pristine, submitting)
   reduxForm({
     form: LOGIN_FORM_NAME
   }),
-  // Add styles as props.classes
   withStyles(styles)
 )

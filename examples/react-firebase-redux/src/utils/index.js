@@ -11,6 +11,7 @@ import { init as initErrorHandling } from './errorHandler'
  * flow(
  *   fpLog('Before Map'),
  *   fpMap('branchName') // get branchName
+ *   fpLog('After Map'),
  * )(original)
  * // => 'Before Map' [{ name: 'test' }]
  * // => 'After Map' ['test']

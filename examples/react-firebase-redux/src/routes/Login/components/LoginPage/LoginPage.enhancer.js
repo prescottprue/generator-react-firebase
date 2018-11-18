@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { withHandlers, pure, compose, setPropTypes } from 'recompose'
+import { withHandlers, compose, setPropTypes } from 'recompose'
 import { withFirebase } from 'react-redux-firebase'
 import { withStyles } from '@material-ui/core/styles'
 import { withNotifications } from 'modules/notification'
@@ -32,7 +32,5 @@ export default compose(
       firebase.login(creds).catch(err => showError(err.message))
   }),
   // add props.classes
-  withStyles(styles, { withTheme: true }),
-  // shallow equals comparison on props (prevent unessesary re-renders)
-  pure
+  withStyles(styles, { withTheme: true })
 )

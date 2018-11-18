@@ -5,7 +5,7 @@ import { TextField } from 'redux-form-material-ui'
 import Button from '@material-ui/core/Button'
 import { required, validateEmail } from 'utils/form'
 
-export const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
+const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
   <form className={classes.root} onSubmit={handleSubmit}>
     <Field
       name="email"
@@ -36,7 +36,7 @@ LoginForm.propTypes = {
   classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   pristine: PropTypes.bool.isRequired, // from enhancer (reduxForm)
   submitting: PropTypes.bool.isRequired, // from enhancer (reduxForm)
-  handleSubmit: PropTypes.func.isRequired // from enhancer (reduxForm)
+  handleSubmit: PropTypes.func.isRequired // from enhancer (reduxForm - calls onSubmit)
 }
 
 export default LoginForm

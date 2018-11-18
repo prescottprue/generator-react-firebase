@@ -12,10 +12,10 @@ module.exports = {
         moduleDirectory: ['node_modules', '/']
       }
     }
-  },<% if (includeSentry) { %>
+  },
   globals: {
-    Raven: false
-  },<% } %>
+    Raven: true
+  },
   rules: {
     semi: [
       2, 'never'
@@ -47,7 +47,7 @@ module.exports = {
       }
     },
     {
-      files: ['config/*', 'scripts/*'],
+      files: ['scripts/*'],
       rules: {
         'no-console': 0,
         'func-names': 0,

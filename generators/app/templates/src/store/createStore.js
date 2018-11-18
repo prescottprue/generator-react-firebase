@@ -28,10 +28,10 @@ export default (initialState = {}) => {
     updateProfileOnLogin: false, // enable/disable updating of profile on login
     presence: 'presence', // list currently online users under "presence" path in RTDB
     sessions: null, // Skip storing of sessions
-    enableLogging: false<% if(includeRedux && includeFirestore) { %>,<% } %> // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
+    enableLogging: false<% if((includeRedux && includeFirestore) || includeMessaging || includeAnalytics) { %>,<% } %> // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
     useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
-    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore<% } %><% if (includeMessaging && !includeAnalytics) { %>
-    onAuthStateChanged: (auth, firebase, dispatch) => {
+    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore<% } %>
+    <% if (includeMessaging && !includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
       if (auth) {
         // Initalize messaging with dispatch
         initializeMessaging(dispatch)

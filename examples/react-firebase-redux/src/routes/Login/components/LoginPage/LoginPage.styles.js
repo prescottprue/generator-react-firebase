@@ -21,6 +21,7 @@ export default theme => ({
   },
   signup: {
     ...theme.flexColumnCenter,
+    justifyContent: 'center',
     marginTop: '2rem'
   },
   signupLabel: {

@@ -1,17 +1,19 @@
-import PropTypes from 'prop-types'
-import { compose, setPropTypes } from 'recompose'
-import { reduxForm } from 'redux-form'
-import { LOGIN_FORM_NAME } from 'constants/formNames'
-import { withStyles } from '@material-ui/core/styles'
-import styles from './LoginForm.styles'
-
-export default compose(
-  // set proptypes used in HOCs
-  setPropTypes({
-    onSubmit: PropTypes.func.isRequired // eslint-disable-line react/no-unused-prop-types
-  }),
-  reduxForm({
-    form: LOGIN_FORM_NAME
-  }),
-  withStyles(styles)
-)
+export default theme => ({
+  root: {
+    ...theme.flexColumnCenter,
+    justifyContent: 'flex-start',
+    flexGrow: 1,
+    height: '100%',
+    width: '100%',
+    margin: '.2rem'
+  },
+  submit: {
+    ...theme.flexColumnCenter,
+    justifyContent: 'center',
+    flexGrow: 1,
+    textAlign: 'center',
+    padding: '1.25rem',
+    minWidth: '192px',
+    marginTop: '1.5rem'
+  }
+})

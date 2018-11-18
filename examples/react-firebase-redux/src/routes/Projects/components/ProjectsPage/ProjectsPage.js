@@ -59,7 +59,6 @@ export const ProjectsPage = ({
     />
   </Switch>
 )
-// )
 
 ProjectsPage.propTypes = {
   classes: PropTypes.object.isRequired, // from enhancer (withStyles)

@@ -47,6 +47,7 @@ export const Navbar = ({
 )
 
 Navbar.propTypes = {
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   displayName: PropTypes.string, // from enhancer (flattenProps - profile)
   avatarUrl: PropTypes.string, // from enhancer (flattenProps - profile)
   authExists: PropTypes.bool, // from enhancer (withProps - auth)
@@ -54,8 +55,7 @@ Navbar.propTypes = {
   handleLogout: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   closeAccountMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
   handleMenu: PropTypes.func.isRequired, // from enhancer (withHandlers - firebase)
-  anchorEl: PropTypes.object, // from enhancer (withStateHandlers - handleMenu)
-  classes: PropTypes.object.isRequired // from enhancer (withStyles)
+  anchorEl: PropTypes.object // from enhancer (withStateHandlers - handleMenu)
 }
 
 export default Navbar

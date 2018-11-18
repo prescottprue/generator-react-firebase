@@ -5,8 +5,8 @@ import { TextField } from 'redux-form-material-ui'
 import Button from '@material-ui/core/Button'
 import { required, validateEmail } from 'utils/form'
 
-export const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
-  <form className={classes.container} onSubmit={handleSubmit}>
+const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
+  <form className={classes.root} onSubmit={handleSubmit}>
     <Field
       name="email"
       component={TextField}

@@ -2,6 +2,7 @@ import { withFirebase } from 'react-redux-firebase'
 import { withHandlers, compose } from 'recompose'
 import { UserIsNotAuthenticated } from 'utils/router'
 import { withNotifications } from 'modules/notification'
+import { withStyles } from '@material-ui/core/styles'
 import styles from './SignupPage.styles'
 
 export default compose(

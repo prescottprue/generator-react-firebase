@@ -108,7 +108,7 @@ const prompts = [
   },
   {
     name: 'sentryDsn',
-    message: 'Sentry DSN (skip to leave for later)',
+    message: 'Sentry DSN',
     when: currentAnswers =>
       checkAnswersForFeature(currentAnswers, 'includeSentry')
   },
@@ -299,7 +299,7 @@ module.exports = class extends Generator {
           dest: 'functions/.runtimeconfig.json'
         },
         { src: 'functions/jsconfig.json' },
-        { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
+        { src: 'functions/.eslintrc.js', dest: 'functions/.eslintrc.js' },
         { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
         { src: 'functions/package.json', dest: 'functions/package.json' },
         {

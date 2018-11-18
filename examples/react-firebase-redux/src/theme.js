@@ -1,13 +1,13 @@
 export default {
-  typography: {
-    useNextVariants: true
-  },
   palette: {
     primary: {
       main: '#2196f3'
     }
   },
-  // flexClasses: {
+  // Enable typography v2: https://material-ui.com/style/typography/#migration-to-typography-v2
+  typography: {
+    useNextVariants: true
+  },
   flexColumnCenter: {
     display: 'flex',
     flexDirection: 'column',
@@ -18,5 +18,4 @@ export default {
     flexDirection: 'row',
     justifyContent: 'center'
   }
-  // }
 }

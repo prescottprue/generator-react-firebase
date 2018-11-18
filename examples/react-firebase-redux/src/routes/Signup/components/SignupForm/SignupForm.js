@@ -30,7 +30,7 @@ const SignupForm = ({ pristine, submitting, handleSubmit, classes }) => (
       <Button
         color="primary"
         type="submit"
-        raised
+        variant="contained"
         disabled={pristine || submitting}>
         {submitting ? 'Loading' : 'Sign Up'}
       </Button>
@@ -40,7 +40,6 @@ const SignupForm = ({ pristine, submitting, handleSubmit, classes }) => (
 
 SignupForm.propTypes = {
   classes: PropTypes.object.isRequired, // from enhancer (withStyles)
-  onSubmit: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   pristine: PropTypes.bool.isRequired, // from enhancer (reduxForm)
   submitting: PropTypes.bool.isRequired, // from enhancer (reduxForm)
   handleSubmit: PropTypes.func.isRequired // from enhancer (reduxForm - calls onSubmit)

@@ -12,10 +12,10 @@ module.exports = {
         moduleDirectory: ['node_modules', '/']
       }
     }
-  },<% if (includeSentry) { %>
+  },
   globals: {
-    Raven: false
-  },<% } %>
+      Raven: false
+    }
   rules: {
     semi: [
       2, 'never'

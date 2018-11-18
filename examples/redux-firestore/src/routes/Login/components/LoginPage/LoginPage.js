@@ -16,7 +16,7 @@ export const LoginPage = ({
     <Paper className={classes.panel}>
       <LoginForm onSubmit={emailLogin} onSubmitFail={onSubmitFail} />
     </Paper>
-    <div className={classes.or}>or</div>
+    <div className={classes.orLabel}>or</div>
     <div className={classes.providers}>
       <GoogleButton onClick={googleLogin} />
     </div>

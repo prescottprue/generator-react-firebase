@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { pick, some } from 'lodash'
 import { isLoaded } from 'react-redux-firebase'
-import { mapProps, branch, renderComponent } from 'recompose'
 import LoadableComponent from 'react-loadable'
+import { mapProps, branch, renderComponent } from 'recompose'
 import LoadingSpinner from 'components/LoadingSpinner'
 
 /**
@@ -17,7 +17,7 @@ export const spinnerWhile = condition =>
   branch(condition, renderComponent(LoadingSpinner))
 
 /**
- * Show a loading spinner while props are loading. Checks
+ * Show a loading spinner while props are loading . Checks
  * for undefined, null, or a value (as well as handling `auth.isLoaded` and
  * `profile.isLoaded`). **NOTE:** Meant to be used with props which are passed
  * as props from state.firebase using connect (from react-redux), which means
@@ -68,22 +68,24 @@ export const logProps = (propNames, logName = '') =>
     return ownerProps
   })
 
-export const createWithFromContext = withVar => WrappedComponent => {
-  class WithFromContext extends Component {
-    render() {
-      const props = { [withVar]: this.context[withVar] }
-      if (this.context.store && this.context.store.dispatch) {
-        props.dispatch = this.context.store.dispatch
+export function createWithFromContext(withVar) {
+  return WrappedComponent => {
+    class WithFromContext extends Component {
+      render() {
+        const props = { [withVar]: this.context[withVar] }
+        if (this.context.store && this.context.store.dispatch) {
+          props.dispatch = this.context.store.dispatch
+        }
+        return <WrappedComponent {...this.props} {...props} />
       }
-      return <WrappedComponent {...this.props} {...props} />
     }
-  }
 
-  WithFromContext.contextTypes = {
-    [withVar]: PropTypes.object.isRequired
-  }
+    WithFromContext.contextTypes = {
+      [withVar]: PropTypes.object.isRequired
+    }
 
-  return WithFromContext
+    return WithFromContext
+  }
 }
 
 /**
@@ -92,6 +94,12 @@ export const createWithFromContext = withVar => WrappedComponent => {
  */
 export const withStore = createWithFromContext('store')
 
+/**
+ * Create component which is loaded async, showing a loading spinner
+ * in the meantime.
+ * @param {Object} opts - Loading options
+ * @param {Function} opts.loader - Loader function (should return import promise)
+ */
 export function Loadable(opts) {
   return LoadableComponent({
     loading: LoadingSpinner,

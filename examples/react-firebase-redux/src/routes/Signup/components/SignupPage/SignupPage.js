@@ -7,11 +7,11 @@ import { LOGIN_PATH } from 'constants/paths'
 import SignupForm from '../SignupForm'
 
 const SignupPage = ({ emailSignup, googleLogin, onSubmitFail, classes }) => (
-  <div className={classes.container}>
+  <div className={classes.root}>
     <Paper className={classes.panel}>
       <SignupForm onSubmit={emailSignup} onSubmitFail={onSubmitFail} />
     </Paper>
-    <div className={classes.or}>or</div>
+    <div className={classes.orLabel}>or</div>
     <div className={classes.providers}>
       <GoogleButton onClick={googleLogin} />
     </div>

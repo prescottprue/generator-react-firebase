@@ -23,12 +23,12 @@ if (process.env.NODE_ENV !== 'test') {
 const codeFolder = process.env.NODE_ENV === 'test' ? './src' : './dist'
 
 // Load all folders within dist directory (mirrors layout of src)
-const files = glob.sync(`${codeFolder}/**/index.js`, {
+const files = glob.sync(codeFolder + '/**/index.js', {
   cwd: __dirname,
   ignore: [
     './node_modules/**',
-    `${codeFolder}/utils/**`,
-    `${codeFolder}/constants`
+    codeFolder + '/utils/**',
+    codeFolder + '/constants'
   ]
 })
 
@@ -41,6 +41,6 @@ files.forEach(functionFile => {
 
   // Load single function from default
   !process.env.FUNCTION_NAME || process.env.FUNCTION_NAME === folderName // eslint-disable-line no-unused-expressions
-    ? (exports[folderName] = require(functionFile).default) // eslint-disable-line global-require, import/no-dynamic-require
+    ? (exports[folderName] = require(functionFile).default) // eslint-disable-line global-require
     : () => {}
 })

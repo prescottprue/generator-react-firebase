@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import { withHandlers, compose, setPropTypes } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withFirebase } from 'react-redux-firebase'
+import { withHandlers, compose, setPropTypes } from 'recompose'
 import { spinnerWhileLoading } from 'utils/components'
 import { withNotifications } from 'modules/notification'
 import { UserIsAuthenticated } from 'utils/router'
@@ -24,7 +24,6 @@ export default compose(
       updateProfile: PropTypes.func.isRequired
     })
   }),
-  // Handlers as props
   withHandlers({
     updateAccount: ({ firebase, showSuccess, showError }) => newAccount =>
       firebase
