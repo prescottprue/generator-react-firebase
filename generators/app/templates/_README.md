@@ -8,24 +8,26 @@
 [![Code Style][code-style-image]][code-style-url]
 
 ## Table of Contents
+
 1. [Features](#features)
 1. [Requirements](#requirements)
 1. [Getting Started](#getting-started)
 1. [Application Structure](#application-structure)
 1. [Development](#development)
-  1. [Routing](#routing)<% if (includeTests) { %>
+    1. [Routing](#routing)<% if (includeTests) { %>
 1. [Testing](#testing)<% } %>
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
 
 ## Requirements
+
 * node `^8`
 * npm `^3.0.0`
 
 ## Getting Started
 
-1. Install app and functions dependencies: `npm i && npm i --prefix functions`
+1. Install app and functions dependencies: `npm i && npm i --prefix functions` or `yarn install && yarn install --cwd functions`
 1. Create `src/config.js` file that looks like so if it does not already exist:
     ```js
     const firebase = {
@@ -34,11 +36,11 @@
 
     // Overrides for for react-redux-firebase/redux-firestore config
     export const reduxFirebase = {}<% if (includeAnalytics) { %>
-    
+
     export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'<% } %><% if (firebasePublicVapidKey) { %>
-    
+
     export const publicVapidKey = '<- publicVapidKey from Firebase console ->'<% } %><% if (sentryDsn) { %>
-    
+
     export const sentryDsn = '<- DSN From Sentry.io ->'<% } %>
 
     export default {

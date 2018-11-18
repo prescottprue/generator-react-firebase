@@ -19,16 +19,16 @@ export default theme => ({
     marginTop: '1rem',
     marginBottom: '.5rem'
   },
-  signup: {
+  login: {
     ...theme.flexColumnCenter,
     justifyContent: 'center',
-    marginTop: '2rem'
+    marginTop: '1.5rem'
   },
-  signupLabel: {
+  loginLabel: {
     fontSize: '1rem',
     fontWeight: 'bold'
   },
-  signupLink: {
+  loginLink: {
     fontSize: '1.2rem'
   },
   providers: {

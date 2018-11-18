@@ -60,14 +60,16 @@ const prompts = [
     type: 'input',
     name: 'githubUser',
     message: 'Github Username',
-    default: 'testuser'
+    default: 'testuser',
+    store: true
   },
   {
     name: 'firebaseName',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
     /* istanbul ignore next: Tested in utils */
-    validate: utils.firebaseUrlValidate
+    validate: utils.firebaseUrlValidate,
+    store: true
   },
   {
     name: 'firebaseKey',
@@ -169,6 +171,7 @@ const filesArray = [
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'env.local', dest: '.env.local' },
+  { src: 'env.test', dest: '.env.test' },
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
@@ -186,6 +189,7 @@ const filesArray = [
   { src: 'src/constants/**', dest: 'src/constants' },
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
+  { src: 'src/utils/index.js', dest: 'src/utils/index.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
@@ -208,6 +212,7 @@ module.exports = class extends Generator {
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
+      includeFunctions: false,
       sentryDsn: null,
       ciProvider: null,
       codeClimate: true,
@@ -319,10 +324,10 @@ module.exports = class extends Generator {
     }
 
     if (this.answers.includeErrorHandling) {
-      filesArray.push(
-        { src: 'src/utils/errorHandler.js', dest: 'src/utils/errorHandler.js' },
-        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
-      )
+      filesArray.push({
+        src: 'src/utils/errorHandler.js',
+        dest: 'src/utils/errorHandler.js'
+      })
     }
 
     if (this.answers.includeAnalytics) {

@@ -29,14 +29,16 @@ export default (initialState = {}) => {
   ]
 
   const defaultRRFConfig = {
+    // updateProfileOnLogin: false // enable/disable updating of profile on login
+    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
     userProfile: 'users', // root that user profiles are written to
     updateProfileOnLogin: false, // enable/disable updating of profile on login
     presence: 'presence', // list currently online users under "presence" path in RTDB
     sessions: null, // Skip storing of sessions
     enableLogging: false, // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
-    useFirestoreForProfile: <% if(includeRedux && includeFirestore) { %>true<% } %><% if (includeRedux && !includeFirestore) { %>false<% } %>, // Save profile to Firestore instead of Real Time Database<% } %>
-    useFirestoreForStorageMeta: <% if (includeRedux && includeFirestore) { %>true<% } %><% if (includeRedux && !includeFirestore) { %>false<% } %>, // Metadata associated with storage file uploads goes to Firestore
-    <% if (includeMessaging && !includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
+    useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
+    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore<% } %><% if (includeMessaging && !includeAnalytics) { %>
+    onAuthStateChanged: (auth, firebase, dispatch) => {
       if (auth) {
         // Initalize messaging with dispatch
         initializeMessaging(dispatch)
@@ -54,11 +56,9 @@ export default (initialState = {}) => {
         setAnalyticsUser(auth)
       }
     }<% } %>
-    // updateProfileOnLogin: false // enable/disable updating of profile on login
-    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
   }
 
-  // Combine default config with overrides if they exist
+  // Combine default config with overrides if they exist (set within .firebaserc)
   const combinedConfig = rrfConfig
     ? { ...defaultRRFConfig, ...rrfConfig }
     : defaultRRFConfig
