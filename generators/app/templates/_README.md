@@ -133,7 +133,9 @@ There are two types of routes definitions:
 #### Sync Routes
 
 The most simple way to define a route is a simple object with `path` and `component`:
-*src/routes/Home/HomePage*
+
+*src/routes/Home/index.js*
+
 ```js
 import HomePage from './components/HomePage'
 
@@ -147,6 +149,8 @@ export default {
 #### Async Routes
 
 Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `react-loadable`:
+
+*src/routes/NotFound/index.js*
 
 ```js
 import Loadable from 'react-loadable'
