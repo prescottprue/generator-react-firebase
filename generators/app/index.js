@@ -185,6 +185,11 @@ const filesArray = [
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/utils/index.js', dest: 'src/utils/index.js' },
+  { src: 'v1theme.js', dest: 'src/theme.js' },
+  {
+    src: 'src/containers/Navbar/Navbar.styles.js',
+    dest: 'src/containers/Navbar/Navbar.styles.js'
+  },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
