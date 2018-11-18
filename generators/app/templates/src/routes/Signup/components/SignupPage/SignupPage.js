@@ -11,7 +11,7 @@ const SignupPage = ({ emailSignup, googleLogin, onSubmitFail, classes }) => (
     <Paper className={classes.panel}>
       <SignupForm onSubmit={emailSignup} onSubmitFail={onSubmitFail} />
     </Paper>
-    <div className={classes.or}>or</div>
+    <div className={classes.orLabel}>or</div>
     <div className={classes.providers}>
       <GoogleButton onClick={googleLogin} />
     </div>

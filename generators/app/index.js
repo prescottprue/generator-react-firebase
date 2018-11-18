@@ -171,6 +171,7 @@ const filesArray = [
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'env.local', dest: '.env.local' },
+  { src: 'env.test', dest: '.env.test' },
   { src: 'eslintrc', dest: '.eslintrc' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js

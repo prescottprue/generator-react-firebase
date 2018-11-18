@@ -1,8 +1,11 @@
-import { UserAuthWrapper } from 'redux-auth-wrapper'
-import { LIST_PATH } from 'constants/paths'
-import LoadingSpinner from 'components/LoadingSpinner'
+import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
+import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import createHistory from 'history/createBrowserHistory'
-import { get } from 'lodash'
+import LoadingSpinner from 'components/LoadingSpinner'
+import { LIST_PATH } from 'constants/paths'
+
+const locationHelper = locationHelperBuilder({})
+const history = createHistory()
 
 const AUTHED_REDIRECT = 'AUTHED_REDIRECT'
 const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
@@ -13,18 +16,17 @@ const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
  * @param {Component} componentToWrap - Component to wrap
  * @return {Component} wrappedComponent
  */
-export const UserIsAuthenticated = UserAuthWrapper({
+export const UserIsAuthenticated = connectedRouterRedirect({
+  redirectPath: '/login',
+  AuthenticatingComponent: LoadingSpinner,
   wrapperDisplayName: 'UserIsAuthenticated',
-  LoadingComponent: LoadingSpinner,
-  authSelector: ({ firebase: { auth } }) => auth,
+  // Want to redirect the user when they are done loading and authenticated
+  authenticatedSelector: ({ firebase: { auth } }) => auth.isEmpty,
   authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
     !auth.isLoaded || isInitializing,
-  predicate: auth => !auth.isEmpty,
   redirectAction: newLoc => dispatch => {
-    // in your function then call add the below
-    const history = createHistory()
     // Use push, replace, and go to navigate around.
-    history.push('/')
+    history.push(newLoc)
     dispatch({
       type: UNAUTHED_REDIRECT,
       payload: { message: 'User is not authenticated.' }
@@ -40,22 +42,22 @@ export const UserIsAuthenticated = UserAuthWrapper({
  * @param {Component} componentToWrap - Component to wrap
  * @return {Component} wrappedComponent
  */
-export const UserIsNotAuthenticated = UserAuthWrapper({
+export const UserIsNotAuthenticated = connectedRouterRedirect({
+  AuthenticatingComponent: LoadingSpinner,
   wrapperDisplayName: 'UserIsNotAuthenticated',
   allowRedirectBack: false,
-  LoadingComponent: LoadingSpinner,
-  failureRedirectPath: (state, props) =>
-    // redirect to page user was on or to list path
-    get(props, 'location.query.redirect') || LIST_PATH,
-  authSelector: ({ firebase: { auth } }) => auth,
+  // Want to redirect the user when they are done loading and authenticated
+  authenticatedSelector: ({ firebase: { auth } }) => auth.isEmpty,
   authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
     !auth.isLoaded || isInitializing,
-  predicate: auth => auth.isEmpty,
+  redirectPath: (state, ownProps) =>
+    locationHelper.getRedirectQueryParam(ownProps) || LIST_PATH,
   redirectAction: newLoc => dispatch => {
-    // in your function then call add the below
-    const history = createHistory()
     // Use push, replace, and go to navigate around.
-    history.push('/')
-    dispatch({ type: AUTHED_REDIRECT })
+    history.push(newLoc)
+    dispatch({
+      type: AUTHED_REDIRECT,
+      payload: { message: 'User is not authenticated.' }
+    })
   }
 })
