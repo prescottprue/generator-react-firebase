@@ -30,7 +30,7 @@ export default (initialState = {}) => {
     sessions: null, // Skip storing of sessions
     enableLogging: false<% if((includeRedux && includeFirestore) || includeMessaging || includeAnalytics) { %>,<% } %> // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
     useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
-    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore<% } %>
+    useFirestoreForStorageMeta: true<% } %><% if(includeMessaging || includeAnalytics) { %>,<% } %> <% if (includeRedux && includeFirestore) { %>// Metadata associated with storage file uploads goes to Firestore<% } %>
     <% if (includeMessaging && !includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
       if (auth) {
         // Initalize messaging with dispatch
@@ -91,7 +91,8 @@ export default (initialState = {}) => {
     compose(
       applyMiddleware(...middleware),<% if (includeRedux && includeFirestore) { %>
       reduxFirestore(firebase),<% } %>
-      reactReduxFirebase(firebase, combinedConfig)
+      reactReduxFirebase(firebase, combinedConfig),
+      ...enhancers
     )
   )
 

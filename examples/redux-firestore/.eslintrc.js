@@ -14,8 +14,8 @@ module.exports = {
     }
   },
   globals: {
-      Raven: false
-    }
+    Raven: false
+  },
   rules: {
     semi: [
       2, 'never'
