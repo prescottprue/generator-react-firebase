@@ -32,7 +32,7 @@
     "url": "git+https://github.com/<%= githubUser %>/<%= appName %>.git"
   },
   "engines": {
-    "node": ">=6.14.0"
+    "node": ">=8"
   },
   "author": "<%= githubUser %> (https://github.com/<%= githubUser %>)",
   "license": "MIT",

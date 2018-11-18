@@ -20,7 +20,7 @@ npm install -g yo generator-react-firebase
 ```
 ## Before Starting
 1. Do the following in the Firebase Console:
-    1. Create both a Firestore Database and Real Time Database
+    1. Create both a Firestore Database and Real Time Database within your project
     1. Enable Google and/or Email Sign In Methods in the Authentication tab (required to enable login/signup within your application)
 
 ## Getting Started
@@ -29,18 +29,18 @@ npm install -g yo generator-react-firebase
 1. Confirm dependencies are installed: `npm i && npm i --prefix functions`
 1. Start application: `npm start`
 
-Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
+    Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
 #### Whats Next
 1. Deploy your application either [manually through firebase-tools](#manual) or by [setting up CI Deployment](#ci)
 1. Enable APIs for features which were opted into:
     * [Firebase Cloud Messaging API](https://console.cloud.google.com/apis/api/fcm.googleapis.com/overview)
 1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
-1. Tryout the [Sub Generators](#sub-generators)
+1. Tryout the [Sub Generators](#sub-generators) to add new features to your project quickly
 1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).
 
 ## Features
-* firebase-functions v1 (including support within function sub-generator)
+* Up to date `firebase-functions` (including support within function sub-generator)
 * React v16.3
 * Material-UI v1 application styling including Navbar
 * Full Authentication (through Email, Google or Github)
@@ -65,87 +65,6 @@ Project will default to being named with the name of the folder that it is gener
 * [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
 * [redux-form](redux-form.com) - Form input validation + state
 * [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui) - Material UI components that work nicely with redux-form
-
-## Generated Project
-
-Project outputted from generator has a README explaining the full structure and details specific to settings you choose. The following scripts are included:
-
-|`npm run <script>`    |Description|
-|-------------------|-----------|
-|`start`            |Serves your app at `localhost:3000`|
-|`build`            |Builds the application to ./dist|
-|`test`             |Runs unit tests with Karma. See [testing](#testing)|
-|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
-|`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
-|`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
-
-View [the example application README](/examples/react-firebase-redux/README.md) for more details.
-
-### Production
-
-Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the [Firebase section](#firebase).
-
-### Deployment
-
-#### Firebase
-
-1. Login to [Firebase](firebase.google.com) (or Signup if you don't have an account) and create a new project
-1. Install cli: `npm i -g firebase-tools`
-1. Choose to go to a either the [CI section](https://github.com/prescottprue/generator-react-firebase#ci)(suggested) or the [Manual section](https://github.com/prescottprue/generator-react-firebase#manual)
-
-##### CI
-
-If opting into [Travis-CI](travis-ci.org), config is included within `travis.yml` that uses `firebase-ci` to simplify the CI deployment process. All that is required is providing authentication with Firebase:
-
-1. Select yes to question `Would to include config for Travis CI?` when generating
-1. Select `Firebase` under deploy options
-1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
-1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
-1. Run a build on Travis-CI
-1. To deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`
-
-Settings for each environment can be provided through the `.firebaserc` file.
-
-For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
-
-##### Manual
-
-1. Run `firebase:login`
-1. Initialize project with `firebase init` then answer:
-
-  * What file should be used for Database Rules?  -> `database.rules.json`
-  * What do you want to use as your public directory? -> `build`
-  * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
-  * What Firebase project do you want to associate as default?  -> **your Firebase project name**
-
-1. Build Project: `npm run build`
-1. Confirm Firebase config by running locally: `firebase serve` (make sure you run `npm run build` first)
-1. Deploy to firebase: `firebase deploy`
-
-#### AWS S3
-
-Selecting AWS S3 from the deploy options when running the generator adds deploy configs in `.travis.yml`.
-
-1. Select yes to question `Would to include config for Travis CI?` when generating
-1. Select `AWS` under deploy options
-1. Get your AWS Key and Secret from the AWS Console Credentials page
-1. Set the following environment vars within the Travis-CI repo settings page:
-  * `AWS_KEY` - Your AWS key
-  * `AWS_SECRET` - Your AWS secret
-  * `S3_BUCKET` - Your S3 Bucket
-
-#### Heroku
-
-Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile`. If you choose yes when offered travis, as deploy configs will be included in `.travis.yml` for out of the box deployment.
-
-1. Select yes to question `Would to include config for Travis CI?` when generating
-1. Select `Heroku` under deploy options
-1. Enable Repo on Travis-CI Account
-2. Get API Key from Heroku Dashboard
-3. Create a new App (this name will be used in travis env var)
-4. Set the following environment vars within the Travis-CI repo settings page:
-  * `HEROKU_KEY` - Your Heroku API key
-  * `HEROKU_APP` - Your Heroku App name
 
 ## Sub generators
 
@@ -174,40 +93,56 @@ A component is best for things that will be reused in multiple places. Our examp
 ----index.js
 ```
 
-For firebase-functions `<v1.0.0`:
+For firebase-functions `>v1.0.0`:
 
 */functions/uppercaser/index.js:*
 
 ```js
-import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
-import { to } from 'utils/async'
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import { to } from 'utils/async';
 
+const eventName = 'uppercaser';
 
 /**
  * @param  {functions.Event} event - Function event
  * @return {Promise}
  */
 async function uppercaserEvent(event) {
-  const eventData = event.data.val()
-  const params = event.params
-  const ref = admin.database().ref('responses')
-  const [writeErr, response] = await to(ref.push(eventData))
+  const { params: { pushId }, data } = event;
+
+  console.log('uppercaser onUpdate event:', data.val());
+
+  // Create RTDB for response
+  const ref = admin.database().ref(`responses/${eventName}/${pushId}`);
+
+  // Write data to RTDB
+  const [writeErr] = await to(ref.set({ hello: 'world' }));
+
+  // Handle errors writing data to RTDB
   if (writeErr) {
-    console.error('Error writing response:', writeErr.message || writeErr)
-    throw writeErr
+    console.error(
+      `Error writing response: ${writeErr.message || ''}`,
+      writeErr
+    );
+    throw writeErr;
   }
-  return response
+
+  // End function execution by returning
+  return null;
 }
 
 /**
+ * Event handler that fires every time data is updated in Firebase Realtime Database.
+ *
+ * Trigger: `RTDB - onUpdate - '/uppercaser/{pushId}'`
  * @name uppercaser
- * Cloud Function triggered by Real Time Database Event
  * @type {functions.CloudFunction}
+ * @public
  */
 export default functions.database
-  .ref('/users/{userId}')
-  .onUpdate(uppercaserEvent)
+  .ref(`/${eventName}/{pushId}`)
+  .onUpdate(uppercaserEvent);
 ```
 
 For firebase-functions `>=v1.0.0`:
@@ -219,33 +154,51 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { to } from 'utils/async'
 
+const eventName = 'uppercaser'
+
 /**
- * @param  {functions.Event} event - Function event
+ * 
+ * @param  {functions.database.DataSnapshot} snap - Data snapshot of the event
+ * @param {Function} snap.val - Value after event
+ * @param {functions.EventContext} context - Function event context
+ * @param {Object} context.auth - Authentication information for the user that triggered the function
  * @return {Promise}
  */
-async function uppercaserEvent(change, context) {
-  // const { params, auth, timestamp } = context
-  // const { before, after } = change
-  const ref = admin.database().ref('responses')
-  const [writeErr, response] = await to(ref.push({ hello: 'world' }))
+async function uppercaserEvent(snap, context) {
+  const { params: { pushId } } = context
+
+  console.log('uppercaser onCreate event:', snap.val())
+
+  // Create RTDB for response
+  const ref = admin.database().ref(`responses/${eventName}/${pushId}`)
+
+  // Write data to RTDB
+  const [writeErr] = await to(ref.set({ hello: 'world' }))
+
+  // Handle errors writing data to RTDB
   if (writeErr) {
-    console.error('Error writing response:', writeErr.message || writeErr)
+    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)
     throw writeErr
   }
-  return response
+
+  // End function execution by returning
+  return null
 }
 
 /**
+ * Cloud Function that is called every time new data is created in Firebase Realtime Database.
+ *
+ * Trigger: `RTDB - onCreate - '/requests/uppercaser/{pushId}'`
  * @name uppercaser
- * Cloud Function triggered by Real Time Database Event
  * @type {functions.CloudFunction}
+ * @public
  */
 export default functions.database
-  .ref('/users/{userId}')
-  .onUpdate(uppercaserEvent)
+  .ref(`/requests/${eventName}/{pushId}`)
+  .onCreate(uppercaserEvent)
 ```
 
-Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
+**Note:** This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
 #### Component
 
@@ -396,6 +349,11 @@ Generates a React component along with a matching component (which has an scss f
 
 Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
+
+## Generated Project
+
+Project outputted from generator has a README explaining the full structure and details specific to settings you choose. This includes everything from running your code to deploying it.
+
 ## Examples
 
 Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
@@ -410,6 +368,7 @@ For full projects built out using this as a starting place, check the next secti
 
 * [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations.
 * [devshare.io](https://devshare.io) - Codesharing site based on Firebase's Firepad and Realtime Database
+* A number of projects at [Reside](https://www.residebrokerage.com/careers/)
 * [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/material) - Shows usage of react-redux-firebase with material-ui
 * [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore) - Shows usage of react-redux-firebase with firestore
 
@@ -420,48 +379,55 @@ For full projects built out using this as a starting place, check the next secti
 1. Why node `8` instead of a newer version?
   [Cloud Functions runtime was still on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
+1. How do I deploy my application?
+  The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
+
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
-  * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
-  * components remain "dumb" by only receiving props which makes them more portable
-  * smaller files which are easier to parse
-  * functional components can be helpful (along with other tools) when attempting to optimize things
+    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
+    * components remain "dumb" by only receiving props which makes them more portable
+    * smaller files which are easier to parse
+    * functional components can be helpful (along with other tools) when attempting to optimize things
 
 1. Where are the settings for changing how my project deploys through Continious integration?  
 
-  Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
+    Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
 
-1. How do override `react-redux-firebase` and `redux-firestore` configuration based on environment? Like adding logging only to staging?
+1. How does one override `react-redux-firebase` and `redux-firestore` configuration based on the environment? Like adding logging only to staging?
 
-  Add the following to `.firebaserc` under the branch associated with the environment you wish to change:
+    Add the following to `.firebaserc` under the branch associated with the environment you wish to change:
 
-  ```json
-  "reduxFirebase": {
-    "userProfile": "users",
-    "enableLogging": false,
-    "updateProfileOnLogin": false
-  }
-  ```
-
-  Should look end up looking similar to the following:
-
-  ```json
-  "master": {
-    "env": "staging",
-    "firebase": {
-      "apiKey": "${STAGE_FIREBASE_API_KEY}",
-      "authDomain": "some-project.firebaseapp.com",
-      "databaseURL": "https://some-project.firebaseio.com",
-      "projectId": "some-project",
-      "storageBucket": "some-project.appspot.com"
-    },
+    ```json
     "reduxFirebase": {
-      "enableLogging": true
+      "userProfile": "users",
+      "enableLogging": false
     }
-  }
-  ```
+    ```
+
+    Should look end up looking similar to the following:
+
+    ```json
+    "ci": {
+      "copyVersion": true,
+      "createConfig": {
+        "master": {
+          "env": "staging",
+          "firebase": {
+            "apiKey": "${STAGE_FIREBASE_API_KEY}",
+            "authDomain": "some-project.firebaseapp.com",
+            "databaseURL": "https://some-project.firebaseio.com",
+            "projectId": "some-project",
+            "storageBucket": "some-project.appspot.com"
+          },
+          "reduxFirebase": {
+            "userProfile": "users",
+            "enableLogging": true
+          }
+        }
+      }
+    }
+    ```
 
 ## In the future
-* Option to include tests when using sub-generators
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
 * Open to ideas

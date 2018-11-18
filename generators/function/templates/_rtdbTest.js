@@ -121,7 +121,7 @@ describe('<%= camelName %> RTDB Cloud Function (<%= eventType %>)', () => {
         adminInitStub,
         null,
         { some: 'thing' }, // data object
-        'requests/fileToDb/123ABC'
+        'requests/<%= camelName %>/123ABC'
       )
     }
     // Invoke with fake event object
