@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 export const LoadingSpinner = ({ size, classes }) => (
-  <div className={classes.container}>
+  <div className={classes.root}>
     <div className={classes.progress}>
       <CircularProgress mode="indeterminate" size={size || 80} />
     </div>

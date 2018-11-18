@@ -104,7 +104,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── layouts              # Components that dictate major page structure
 │   │   └── CoreLayout       # Global application layout in which to render routes
 │   ├── routes               # Main route definitions and async split points
-│   │   ├── index.js         # Bootstrap main application routes with store
+│   │   ├── index.js         # Bootstrap main application routes
 │   │   └── Home             # Fractal route
 │   │       ├── index.js     # Route definitions and async split points
 │   │       ├── assets       # Assets required to render components
@@ -126,7 +126,45 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ```
 
 ### Routing
-We use `react-router` [route definitions](https://github.com/ReactTraining/react-router/blob/v3/docs/API.md#plainroute) (`<route>/index.js`) to define units of logic within our application. See the [application structure](#application-structure) section for more information.
+We use `react-router-dom` [route matching](https://reacttraining.com/react-router/web/guides/basic-components/route-matching) (`<route>/index.js`) to define units of logic within our application. The application routes are defined within `src/routes/index.js`, which loads route settings which live in each route's `index.js`. The component with the suffix `Page` is the top level component of each route (i.e. `HomePage` is the top level component for `Home` route).
+
+There are two types of routes definitions:
+
+#### Sync Routes
+
+The most simple way to define a route is a simple object with `path` and `component`:
+*src/routes/Home/HomePage*
+```js
+import HomePage from './components/HomePage'
+
+// Sync route definition
+export default {
+  path: '/',
+  component: HomePage
+}
+```
+
+#### Async Routes
+
+Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `react-loadable`:
+
+```js
+import Loadable from 'react-loadable'
+import LoadingSpinner from 'components/LoadingSpinner'
+
+// Async route definition
+export default {
+  component: Loadable({
+    loader: () =>
+      import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage'),
+    loading: LoadingSpinner
+  })
+}
+```
+
+With this setting, the name of the file (called a "chunk") is defined as part of the code as well as a loading spinner showing while the bundle file is loading.
+
+More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
 
 <% if (includeTests) { %>## Testing
 To add a unit test, create a `.spec.js` file anywhere inside of `./tests`. Karma and webpack will automatically find these files, and Mocha and Chai will be available within your test without the need to import them.
@@ -136,45 +174,44 @@ To add a unit test, create a `.spec.js` file anywhere inside of `./tests`. Karma
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
 ### Deployment
+
 <% if (deployTo === 'firebase') { %>
-1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
+1. Install Firebase Command Line Tool: `npm i -g firebase-tools`<% if (includeCI) { %>
 
 #### CI Deploy (recommended)
-<% if (includeCI && ciProvider == 'travis') { %>**Note**: Config for this is located within `travis.yml`
-`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+
+**Note**: Config for this is located within<% } %><% if (ciProvider == 'travis') { %>`travis.yml`<% } %><% if (ciProvider == 'travis') { %>`gitlab-ci.yml`<% } %>
+<% if (includeCI) { %>`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
 1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
-1. Run a build on Travis-CI
+1. Run a build on CI
 
 If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
 
-For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %><% if (!includeCI) { %>1. Login: `firebase login:ci` to generate an authentication token (will be used to give your CI environment rights to deploy on your behalf)
-1. Set `FIREBASE_TOKEN` environment variable within your CI environment
-1. Create a build script that does the following:
-  1. Create a config file by calling `npm run create-config`
-  1. Install firebase tools by calling `npm i -g firebase-tools`
-  1. Call firebase deploy: `firebase deploy --project ${projectName}` (if you are using functions, make sure to first install dependencies using  `npm i --prefix functions`)<% } %>
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)<% } %>
 
 #### Manual deploy
 
 1. Run `firebase:login`
 1. Initialize project with `firebase init` then answer:
-  * What file should be used for Database Rules?  -> `database.rules.json`
-  * What do you want to use as your public directory? -> `build`
-  * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
-  * What Firebase project do you want to associate as default?  -> **your Firebase project name**
+    * What file should be used for Database Rules?  -> `database.rules.json`
+    * What do you want to use as your public directory? -> `build`
+    * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
+    * What Firebase project do you want to associate as default?  -> **your Firebase project name**
 1. Build Project: `npm run build`
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
+
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.<% } %><% if (deployTo === 's3') { %>
-Selecting AWS S3 from the deploy options when running the generator adds deploy configs in `.travis.yml`.
+Selecting AWS S3 from the deploy options when running the generator adds deploy configs in <% if (ciProvider == 'travis') { %>`travis.yml`<% } %><% if (ciProvider == 'travis') { %>`gitlab-ci.yml`<% } %>.
 
 1. Get your AWS Key and Secret from the AWS Console Credentials page
 2. Set the following environment vars within the Travis-CI repo settings page:
-  * AWS_KEY - Your AWS key
-  * AWS_SECRET - Your AWS secret
-  * BUCKET - Your S3 Bucket<% } %><% if (deployTo === 'heroku') { %>
+    * AWS_KEY - Your AWS key
+    * AWS_SECRET - Your AWS secret
+    * BUCKET - Your S3 Bucket<% } %><% if (deployTo === 'heroku') { %>
+
 Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment.
 
 To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.org):

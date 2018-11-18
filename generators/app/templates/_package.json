@@ -5,22 +5,20 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "deploy": "firebase-ci deploy -s",
-    "createConfig": "firebase-ci createConfig",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",<% if (includeTests) { %>
-    "test": "react-scripts test",<% } %>
-    "lint": "eslint src functions scripts config<% if (includeTests) { %> tests<% } %>",
-    "lint:fix": "npm run lint -- --fix",<% if (includeFunctions) { %>
+    "test": "react-scripts test",<% } %><% if (deployTo !== 'firebase') { %>
+    "create-config": "node build/create-config",<% } else { %>"createConfig": "firebase-ci createConfig",
+    "deploy": "firebase-ci deploy -s",<% } %><% if (includeFunctions) { %>
     "functions:start": "npm run start --prefix functions",
     "functions:serve": "npm run serve --prefix functions",
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",
     "functions:test": "npm run test --prefix functions",<% } %>
-    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",<% if (deployTo !== 'firebase') { %>
-    "create-config": "node build/create-config",<% } %><% if (includeTests) { %>
-    "codecov": "cat coverage/*/lcov.info | codecov",<% } %>
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
     "prepush": "npm run lint"
   },
   "repository": {
@@ -56,7 +54,8 @@
     "redux-form-material-ui": "next",
     "redux-thunk": "^2.2.0"<% } %>
   },
-  "devDependencies": {<% if (includeTests) { %>
+  "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",<% if (includeTests) { %>
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^1.0.0-beta.0",<% } %>

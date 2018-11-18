@@ -60,16 +60,14 @@ const prompts = [
     type: 'input',
     name: 'githubUser',
     message: 'Github Username',
-    default: 'testuser',
-    store: true
+    default: 'testuser'
   },
   {
     name: 'firebaseName',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
     /* istanbul ignore next: Tested in utils */
-    validate: utils.firebaseUrlValidate,
-    store: true
+    validate: utils.firebaseUrlValidate
   },
   {
     name: 'firebaseKey',
@@ -171,8 +169,7 @@ const filesArray = [
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
   { src: 'env.local', dest: '.env.local' },
-  { src: 'env.test', dest: '.env.test' },
-  { src: 'eslintrc', dest: '.eslintrc' },
+  { src: 'eslintrc.js', dest: '.eslintrc.js' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
   // { src: 'public/**', dest: 'public' }, // individual files copied
@@ -181,8 +178,6 @@ const filesArray = [
   { src: 'public/index.html' },
   { src: 'public/manifest.json' },
   { src: 'public/robots.txt' },
-  { src: 'config/**', dest: 'config' },
-  { src: 'scripts/**', dest: 'scripts' },
   { src: 'src/config.js' },
   { src: 'src/index.js' },
   { src: 'src/index.css' },
@@ -340,6 +335,8 @@ module.exports = class extends Generator {
     if (this.answers.includeTests) {
       filesArray.push(
         { src: 'tests/**', dest: 'tests' },
+        { src: 'scripts/**', dest: 'scripts' },
+        { src: 'env.test', dest: '.env.test' },
         { src: 'testseslintrc', dest: 'tests/.eslintrc' }
       )
     }

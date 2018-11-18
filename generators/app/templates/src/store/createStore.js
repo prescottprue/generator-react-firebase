@@ -7,27 +7,20 @@ import 'firebase/database'
 import 'firebase/auth'
 import 'firebase/storage'<% if (includeRedux && includeFirestore) { %>
 import 'firebase/firestore'<% } %><% if (includeMessaging) { %>
-import 'firebase/messaging'<% } %><% if (includeMessaging) { %>
+import 'firebase/messaging'
 import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (includeAnalytics) { %>
 import { setAnalyticsUser } from 'utils/analytics'<% } %>
 import makeRootReducer from './reducers'
-import { firebase as fbConfig, reduxFirebase as rrfConfig } from '../config'
-import { version } from '../../package.json'
+import {
+  firebase as fbConfig,
+  reduxFirebase as rrfConfig,
+  env
+} from '../config'
 
 export default (initialState = {}) => {
   // ======================================================
-  // Window Vars Config
+  // Redux + Firebase Config (react-redux-firebase & redux-firestore)
   // ======================================================
-  window.version = version
-
-  // ======================================================
-  // Middleware Configuration
-  // ======================================================
-  const middleware = [
-    thunk.withExtraArgument(getFirebase)
-    // This is where you add other middleware like redux-observable
-  ]
-
   const defaultRRFConfig = {
     // updateProfileOnLogin: false // enable/disable updating of profile on login
     // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
@@ -35,7 +28,7 @@ export default (initialState = {}) => {
     updateProfileOnLogin: false, // enable/disable updating of profile on login
     presence: 'presence', // list currently online users under "presence" path in RTDB
     sessions: null, // Skip storing of sessions
-    enableLogging: false, // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
+    enableLogging: false<% if(includeRedux && includeFirestore) { %>,<% } %> // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
     useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
     useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore<% } %><% if (includeMessaging && !includeAnalytics) { %>
     onAuthStateChanged: (auth, firebase, dispatch) => {
@@ -43,14 +36,14 @@ export default (initialState = {}) => {
         // Initalize messaging with dispatch
         initializeMessaging(dispatch)
       }
-    }<% } %><% if (includeMessaging && includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
+    }<% } %><% if (includeMessaging && includeAnalytics) { %> onAuthStateChanged: (auth, firebase, dispatch) => {
       if (auth) {
         // Set auth within analytics
         setAnalyticsUser(auth)
         // Initalize messaging with dispatch
         initializeMessaging(dispatch)
       }
-    }<% } %><% if (!includeMessaging && includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
+    }<% } %><% if (!includeMessaging && includeAnalytics) { %> onAuthStateChanged: (auth, firebase, dispatch) => {
       if (auth) {
         // Set auth within analytics
         setAnalyticsUser(auth)
@@ -63,9 +56,30 @@ export default (initialState = {}) => {
     ? { ...defaultRRFConfig, ...rrfConfig }
     : defaultRRFConfig
 
-  // Initialize Firebase
+  // ======================================================
+  // Store Enhancers
+  // ======================================================
+  const enhancers = []
+
+  if (env === 'local') {
+    const devToolsExtension = window.devToolsExtension
+    if (typeof devToolsExtension === 'function') {
+      enhancers.push(devToolsExtension())
+    }
+  }
+
+  // ======================================================
+  // Middleware Configuration
+  // ======================================================
+  const middleware = [
+    thunk.withExtraArgument(getFirebase)
+    // This is where you add other middleware like redux-observable
+  ]
+
+  // ======================================================
+  // Firebase Initialization
+  // ======================================================
   firebase.initializeApp(fbConfig)<% if (includeRedux && includeFirestore) { %>
-  // Initialize Firestore
   firebase.firestore().settings({ timestampsInSnapshots: true })<% } %>
 
   // ======================================================

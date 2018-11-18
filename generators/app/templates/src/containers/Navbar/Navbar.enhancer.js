@@ -1,22 +1,24 @@
 import { connect } from 'react-redux'
-<% if (!materialv1) { %>import { withHandlers, compose, withProps, flattenProp } from 'recompose'<% } %><% if (materialv1) { %>import {
+import {
   withHandlers,
   compose,
   withProps,
   flattenProp,
   withStateHandlers
 } from 'recompose'
-import { withStyles } from '@material-ui/core/styles'<% } %>
+import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { ACCOUNT_PATH } from 'constants/paths'
 import styles from './Navbar.styles'
 
 export default compose(
+  // Map redux state to props
   connect(({ firebase: { auth, profile } }) => ({
     auth,
     profile
-  })),<% if (materialv1) { %>
+  })),
+  // State handlers as props
   withStateHandlers(
     ({ accountMenuOpenInitially = false }) => ({
       accountMenuOpen: accountMenuOpenInitially,
@@ -30,27 +32,29 @@ export default compose(
         anchorEl: event.target
       })
     }
-  ),<% } %>
+  ),
   // Add props.router (used in handlers)
   withRouter,
   // Add props.firebase (used in handlers)
   withFirebase,
-  // Handlers
+  // Handlers as props
   withHandlers({
     handleLogout: props => () => {
       props.firebase.logout()
-      props.router.push('/')<% if (materialv1) { %>
-      props.closeAccountMenu()<% } %>
+      props.history.push('/')
+      props.closeAccountMenu()
     },
     goToAccount: props => () => {
-      props.history.push(ACCOUNT_PATH)<% if (materialv1) { %>
-      props.closeAccountMenu()<% } %>
+      props.history.push(ACCOUNT_PATH)
+      props.closeAccountMenu()
     }
   }),
+  // Add custom props
   withProps(({ auth, profile }) => ({
     authExists: isLoaded(auth) && !isEmpty(auth)
   })),
-  // Flatten profile so that avatarUrl and displayName are available
-  flattenProp('profile')<% if (materialv1) { %>,
-  withStyles(styles)<% } %>
+  // Flatten profile so that avatarUrl and displayName are props
+  flattenProp('profile'),
+  // Add styles as classes prop
+  withStyles(styles)
 )

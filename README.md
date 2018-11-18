@@ -56,6 +56,7 @@ npm install -g yo generator-react-firebase
 * UI Testing with Cypress
 
 ## Uses
+
 * [react](https://facebook.github.io/react/) - Rendering + Components
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
 * [material-ui](https://material-ui.com) - Google Material Styling React Components
@@ -385,6 +386,11 @@ For full projects built out using this as a starting place, check the next secti
 
 1. How do I deploy my application?
   The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
+
+1. How do I add a route?
+    1. Use the route sub-generator to add the route: `yo react-firebase:route MyRoute`
+    1. Add a `path` of the new route to `constants/paths` (i.e. `MYROUTE_PATH`)
+    1. Add the route to the list of routes in `src/routes/index.js`
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
     * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)

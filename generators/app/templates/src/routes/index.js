@@ -12,11 +12,17 @@ export default function createRoutes(store) {
   return (
     <CoreLayout>
       <Switch>
-        <Route path="/" exact component={Home.component} />
-        <Route path={AccountRoute.path} component={AccountRoute.component} />
-        <Route path={ProjectsRoute.path} component={ProjectsRoute.component} />
-        <Route path={SignupRoute.path} component={SignupRoute.component} />
-        <Route path={LoginRoute.path} component={LoginRoute.component} />
+        <Route exact path={Home.path} component={Home.component} />
+        {/* Build Route components from routeSettings */
+        [
+          AccountRoute,
+          ProjectsRoute,
+          SignupRoute,
+          LoginRoute
+          /* Add More Routes Here */
+        ].map((settings, index) => (
+          <Route key={`Route-${index}`}{...settings} />
+        ))}
         <Route component={NotFoundRoute.component} />
       </Switch>
     </CoreLayout>
