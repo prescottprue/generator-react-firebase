@@ -65,6 +65,14 @@ function dependencyExists(depName, opts = {}) {
   )
 }
 
+function getIndexFileName(answers) {
+  if (dependencyExists('react-loadable')) {
+    return '_index-loadable.js'
+  }
+  const lintStyleSuffix = this.answers.airbnbLinting ? '-airbnb' : ''
+  return `_index${lintStyleSuffix}.js`
+}
+
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts)
@@ -112,7 +120,7 @@ module.exports = class extends Generator {
     const lintStyleSuffix = this.answers.airbnbLinting ? '-airbnb' : ''
     const filesArray = [
       {
-        src: `_index${lintStyleSuffix}.js`,
+        src: getIndexFileName(this.answers),
         dest: `${basePath}/index.js`
       },
       {
@@ -155,6 +163,7 @@ module.exports = class extends Generator {
           name: nameAnswer,
           componentName: name,
           airbnbLinting: this.answers.airbnbLinting,
+          startCasedName,
           camelName: lowerFirst(startCasedName.replace(/ /g, '')),
           pathName: startCasedName.toUpperCase().replace(/ /g, '_')
         })
