@@ -36,7 +36,7 @@ const prompts = [
     when: ({ styleType }) => !styleType || styleType === 'scss',
     message: 'Do you want to include an enhancer?',
     default: false
-  },
+  }
 ]
 
 function loadProjectPackageFile() {
@@ -48,7 +48,7 @@ function loadProjectPackageFile() {
   // Load package file handling errors
   try {
     return require(packagePath)
-  } catch(err) {
+  } catch (err) {
     return null
   }
 }
@@ -56,11 +56,14 @@ function loadProjectPackageFile() {
 function dependencyExists(depName, opts = {}) {
   const { dev = false } = opts
   const projectPackageFile = loadProjectPackageFile()
-  return !!get(projectPackageFile, `${dev ? 'devDependencies': 'dependencies'}.${depName}`)
+  return !!get(
+    projectPackageFile,
+    `${dev ? 'devDependencies' : 'dependencies'}.${depName}`
+  )
 }
 
 module.exports = class extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
 
     // Get first cli argument, and set it as this.options.name
@@ -76,35 +79,41 @@ module.exports = class extends Generator {
     })
   }
 
-  prompting () {
+  prompting() {
     this.log(
-      `${chalk.blue('Generating')} -> React Component: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> React Component: ${chalk.green(
+        this.options.name
+      )}`
     )
     const projectPackageFile = loadProjectPackageFile()
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = Object.assign({}, props, {
         // proptypes included by default if project package file not loaded
         // (i.e. null due to throws: false in loadProjectPackageFile)
-        hasPropTypes: !projectPackageFile || dependencyExists('prop-types') || false,
-        airbnbLinting: dependencyExists('eslint-config-airbnb', { dev: true }) || false,
+        hasPropTypes:
+          !projectPackageFile || dependencyExists('prop-types') || false,
+        airbnbLinting:
+          dependencyExists('eslint-config-airbnb', { dev: true }) || false,
         // Default including of enhancer to true (not asked with manual styles)
         includeEnhancer: get(props, 'includeEnhancer', true),
         // Default style type to scss for when localized styles is not an option
-        styleType: props.styleType || 'scss',
+        styleType: props.styleType || 'scss'
       })
     })
   }
 
-  writing () {
-    const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
+  writing() {
+    const basePathOption = this.options.basePath
+      ? `${this.options.basePath}/`
+      : ''
     const basePath = `src/${basePathOption}components/${this.options.name}`
     const filesArray = [
       {
-        src: `_index${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
+        src: `_index${this.answers.airbnbLinting ? '-airbnb' : ''}.js`,
         dest: `${basePath}/index.js`
       },
       {
-        src: `_main${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
+        src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.js`,
         dest: `${basePath}/${this.options.name}.js`
       }
     ]
@@ -125,7 +134,7 @@ module.exports = class extends Generator {
 
     if (this.answers.includeEnhancer) {
       filesArray.push({
-        src: `_main${this.answers.airbnbLinting ? '-airbnb': ''}.enhancer.js`,
+        src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.enhancer.js`,
         dest: `${basePath}/${this.options.name}.enhancer.js`
       })
     }

@@ -1,0 +1,9 @@
+{
+  "gcm_sender_id": "React-firebase-redux",
+  "short_name": "React-firebase-redux",
+  "name": "React-firebase-redux",
+  "start_url": "/login/",
+  "background_color": "#2196f3",
+  "theme_color": "#2196f3",
+  "display": "standalone"
+}

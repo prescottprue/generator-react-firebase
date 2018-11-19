@@ -18,6 +18,7 @@ Install [Yeoman](http://yeoman.io) and generator-react-firebase using [npm](http
 ```bash
 npm install -g yo generator-react-firebase
 ```
+
 ## Before Starting
 1. Do the following in the Firebase Console:
     1. Create both a Firestore Database and Real Time Database within your project
@@ -40,23 +41,27 @@ npm install -g yo generator-react-firebase
 1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).
 
 ## Features
-* Up to date `firebase-functions` (including support within function sub-generator)
-* React v16.3
-* Material-UI v1 application styling including Navbar
-* Full Authentication (through Email, Google or Github)
-* Login/Signup Pages with input validation
+
+* React v16.6
+* Material-UI application styling including Navbar
+* Full Authentication with validation (through Email, Google or Github)
+* Async route loading (using [react-loadable][react-loadable-url])
 * Route protection (only view certain pages when logged in)
-* Account Page
+* Firebase Functions Setup with function splitting for faster cold-starts (including support within function sub-generator)
+* Account Management Page
 * Automatic Build/Deploy config for multiple CI Providers including:
     * Gitlab (uses pipelines)
     * Travis
+* Component Testing With Jest
+* UI Testing with Cypress
 
 ## Uses
+
 * [react](https://facebook.github.io/react/) - Rendering + Components
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
-* [material-ui](https://material-ui.com) - Google Material Styling React Components (with option to opt out of Version 1)
+* [material-ui](https://material-ui.com) - Google Material Styling React Components
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
-* [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) - Improve CLI experience for Webpack
+* [react-loadable](https://github.com/jamiebuilds/react-loadable) - HOC for async route/component chunk loading
 
 *When opting into redux*
 
@@ -382,6 +387,11 @@ For full projects built out using this as a starting place, check the next secti
 1. How do I deploy my application?
   The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
 
+1. How do I add a route?
+    1. Use the route sub-generator to add the route: `yo react-firebase:route MyRoute`
+    1. Add a `path` of the new route to `constants/paths` (i.e. `MYROUTE_PATH`)
+    1. Add the route to the list of routes in `src/routes/index.js`
+
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
     * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
     * components remain "dumb" by only receiving props which makes them more portable
@@ -454,3 +464,4 @@ MIT © [Prescott Prue](http://prue.io)
 [gitter-image]: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
 [gitter-url]: https://gitter.im/prescottprue/generator-react-firebase
 [firebase-ci-url]: https://github.com/prescottprue/firebase-ci
+[react-loadable-url]: https://github.com/jamiebuilds/react-loadable

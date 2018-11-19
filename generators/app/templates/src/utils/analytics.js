@@ -1,6 +1,6 @@
 import ReactGA from 'react-ga'
+import { analyticsTrackingId, env as environment } from 'config'
 import { version } from '../../package.json'
-import { analyticsTrackingId, env as environment } from 'config' // eslint-disable-line import/no-unresolved
 
 /**
  * Initialize Google Analytics if analytics id exists and environment is

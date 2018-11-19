@@ -13,7 +13,7 @@ const prompts = [
 ]
 
 module.exports = class extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
 
     // Get first cli argument, and set it as this.options.name
@@ -24,17 +24,19 @@ module.exports = class extends Generator {
     })
   }
 
-  prompting () {
+  prompting() {
     this.log(
-      `${chalk.blue('Generating')} -> Redux Module: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> Redux Module: ${chalk.green(
+        this.options.name
+      )}`
     )
 
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = props
     })
   }
 
-  writing () {
+  writing() {
     const basePath = `src/modules/${this.options.name}`
     const filesArray = [
       { src: '_index.js', dest: `${basePath}/index.js` },

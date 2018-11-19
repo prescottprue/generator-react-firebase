@@ -1,8 +1,8 @@
 stages:
-  - build
-  - unit_tests
-  - deploy_staging
-  - e2e_tests
+  - build<% if(includeTests && includeFunctions) { %>
+  - unit_tests<% } %>
+  - deploy_staging<% if(includeTests) { %>
+  - e2e_tests<% } %>
   - build_production
   - deploy_production
 
@@ -13,16 +13,16 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   policy: pull # only pull cache, skip uploading
   paths:
-    - node_modules/
-    - functions/node_modules/
+    - node_modules/<% if(includeFunctions) { %>
+    - functions/node_modules/<% } %>
 
-# Install dependencies for React App and Cloud Functions. Installing of
-# cypress binary is skipped (done in E2E Testing Stage)
+# Install dependencies for React App<% if(includeFunctions) { %> and Cloud Functions<% } %>. <% if(includeTests) { %>Installing of
+# cypress binary is skipped (done in E2E Testing Stage)<% } %>
 # Script run before all stages unless otherwise overriden
 before_script:
-  - CYPRESS_INSTALL_BINARY=0 npm i
-  - npm i --prefix functions
-  - npm i firebase-tools@6.0.1 firebase-ci@next
+  - CYPRESS_INSTALL_BINARY=0 npm i<% if(includeFunctions) { %>
+  - npm i --prefix functions<% } %>
+  - npm i firebase-tools@6.1.0 firebase-ci@next
 
 # Build Stage
 # Installs dependencies, builds app, and saves results for later (artifacts).
@@ -61,7 +61,7 @@ Build:
     - npm run build
     - npm run build:functions
 
-# Unit Testing Stage
+<% if(includeTests && includeFunctions) { %># Unit Testing Stage
 # Run unit tests for Cloud Functions
 Unit Tests:
   stage: unit_tests
@@ -85,10 +85,9 @@ Unit Tests:
   before_script:
     - npm i --prefix functions
   script:
-    - npm run test --prefix functions
     - npm run test:cov --prefix functions
 
-# Deploy Staging
+<% } %># Deploy Staging
 # Deploy React App and Cloud Functions
 Deploy Staging:
   stage: deploy_staging
@@ -115,7 +114,7 @@ Deploy Staging:
   script:
     - npm run deploy
 
-# End To End Tests
+<% if(includeTests) { %># End To End Tests
 # Install Cypress binary and run end to end tests using Cypress
 E2E Tests:
   stage: e2e_tests
@@ -137,7 +136,6 @@ E2E Tests:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
-      - functions/node_modules/
       - .cache/Cypress/
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
@@ -162,7 +160,7 @@ E2E Tests:
      # (saved to cypress.env.json) then run E2E Tests through Cypress
     - npm run test:stage -- --record --key $CYPRESS_KEY
 
-# Build Production version of bundle (has different config)
+<% } %># Build Production version of bundle (has different config)
 Build Production:
   stage: build_production
   image: node:8
@@ -181,8 +179,6 @@ Build Production:
     when: always
     paths:
       - dist
-  dependencies:
-    - Build
   script:
     - npm run clean # remove existing dist folder
     - npm run build:config # create env specific src/config.js
@@ -211,8 +207,6 @@ Deploy Production:
     when: on_failure
     paths:
       - firebase-debug.log
-  dependencies:
-    - Build # Load artifacts from build stage
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/

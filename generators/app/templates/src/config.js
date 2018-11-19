@@ -11,7 +11,7 @@ export const firebase = {
   apiKey: '<%= firebaseKey %>',
   authDomain: '<%= firebaseName %>.firebaseapp.com',
   databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
-  projectId: "<%= firebaseName %>",
+  projectId: '<%= firebaseName %>',
   storageBucket: '<%= firebaseName %>.appspot.com'<% if(messagingSenderId) { %>,
   messagingSenderId: '<%= messagingSenderId %>'<% } %>
 }
@@ -23,9 +23,9 @@ export const reduxFirebase = {
   enableLogging: false, // enable/disable Firebase Database Logging
 }<% if (includeAnalytics) { %>
 
-export const analyticsTrackingId = ''<% } %><% if (firebasePublicVapidKey) { %>
+export const analyticsTrackingId = ''<% } %><% if (includeMessaging) { %>
 
-export const publicVapidKey = '<%= firebasePublicVapidKey %>'<% } %><% if (sentryDsn) { %>
+export const publicVapidKey = '<%= firebasePublicVapidKey %>' <% } %><% if (includeErrorHandling) { %>
 
 export const sentryDsn = '<%= sentryDsn %>'<% } %>
 

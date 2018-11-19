@@ -24,13 +24,13 @@ function loadProjectPackageFile() {
   // Load package file handling errors
   try {
     return require(packagePath)
-  } catch(err) {
+  } catch (err) {
     return null
   }
 }
 
 module.exports = class extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
 
     // Get first cli argument, and set it as this.options.name
@@ -46,30 +46,36 @@ module.exports = class extends Generator {
     })
   }
 
-  prompting () {
+  prompting() {
     this.log(
-      `${chalk.blue('Generating')} -> React Component Enhancer: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> React Component Enhancer: ${chalk.green(
+        this.options.name
+      )}`
     )
     const projectPackageFile = loadProjectPackageFile()
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = Object.assign({}, props, {
         // proptypes included by default if project package file not loaded
         // (i.e. null due to throws: false in loadProjectPackageFile)
-        airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
+        airbnbLinting:
+          !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') ||
+          false
       })
     })
   }
 
-  writing () {
-    const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
+  writing() {
+    const basePathOption = this.options.basePath
+      ? `${this.options.basePath}/`
+      : ''
     const basePath = `src/${basePathOption}components/${this.options.name}`
     const filesArray = [
       {
-        src: `_index${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
+        src: `_index${this.answers.airbnbLinting ? '-airbnb' : ''}.js`,
         dest: `${basePath}/index.js`
       },
       {
-        src: `_main${this.answers.airbnbLinting ? '-airbnb': ''}.enhancer.js`,
+        src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.enhancer.js`,
         dest: `${basePath}/${this.options.name}.enhancer.js`
       }
     ]

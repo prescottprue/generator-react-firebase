@@ -1,5 +1,5 @@
 <% if (includeRedux) { %>import { reduxForm } from 'redux-form'
-import { NEW_PROJECT_FORM_NAME } from 'constants'<% } %>
+import { NEW_PROJECT_FORM_NAME } from 'constants/formNames'<% } %>
 
 export default <% if (includeRedux) { %>reduxForm({
   form: NEW_PROJECT_FORM_NAME,

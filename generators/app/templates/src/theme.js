@@ -18,6 +18,10 @@ export default {
   spacing,
   zIndex: zIndex,
   fontFamily: 'Roboto, sans-serif',
+  // Enable typography v2: https://material-ui.com/style/typography/#migration-to-typography-v2
+  typography: {
+    useNextVariants: true
+  },
   palette: {
     primary1Color: blueGrey500,
     primary2Color: blueGrey700,
@@ -31,5 +35,15 @@ export default {
     borderColor: grey400,
     disabledColor: fade(darkBlack, 0.3),
     pickerHeaderColor: pinkA200
+  },
+  flexColumnCenter: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  flexRowCenter: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 }

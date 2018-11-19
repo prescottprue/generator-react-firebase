@@ -30,7 +30,7 @@ const prompts = [
     ],
     message: 'What type of styling?',
     default: 0
-  },
+  }
 ]
 
 function loadProjectPackageFile() {
@@ -50,12 +50,14 @@ function loadProjectPackageFile() {
 function dependencyExists(depName, opts = {}) {
   const { dev = false } = opts
   const projectPackageFile = loadProjectPackageFile()
-  return !!get(projectPackageFile, `${dev ? 'devDependencies' : 'dependencies'}.${depName}`)
+  return !!get(
+    projectPackageFile,
+    `${dev ? 'devDependencies' : 'dependencies'}.${depName}`
+  )
 }
 
-
 module.exports = class extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
 
     // Get first cli argument, and set it as this.options.name
@@ -71,29 +73,37 @@ module.exports = class extends Generator {
     })
   }
 
-  prompting () {
+  prompting() {
     this.log(
-      `${chalk.blue('Generating')} -> redux-form Form: ${chalk.green(this.options.name)}`
+      `${chalk.blue('Generating')} -> redux-form Form: ${chalk.green(
+        this.options.name
+      )}`
     )
-    
+
     const projectPackageFile = loadProjectPackageFile()
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = Object.assign({}, props, {
         // proptypes included by default if project package file not loaded
         // (i.e. null due to throws: false in loadProjectPackageFile)
-        hasPropTypes: !projectPackageFile || dependencyExists('prop-types') || false,
+        hasPropTypes:
+          !projectPackageFile || dependencyExists('prop-types') || false,
         materialv1: dependencyExists('@material-ui/core'),
-        airbnbLinting: dependencyExists('eslint-config-airbnb', { dev: true }) || false,
+        airbnbLinting:
+          dependencyExists('eslint-config-airbnb', { dev: true }) || false,
         // Default style type to scss for when localized styles is not an option
-        styleType: props.styleType || 'scss',
+        styleType: props.styleType || 'scss'
       })
     })
   }
 
-  writing () {
-    const cleanedName = this.options.name.replace('Form', '').replace('form', '')
+  writing() {
+    const cleanedName = this.options.name
+      .replace('Form', '')
+      .replace('form', '')
     const name = `${capitalize(camelCase(cleanedName))}Form`
-    const basePathOption = this.options.basePath ? `${this.options.basePath}/` : ''
+    const basePathOption = this.options.basePath
+      ? `${this.options.basePath}/`
+      : ''
     const basePath = `src/${basePathOption}components/${name}`
     const filesArray = [
       { src: '_index.js', dest: `${basePath}/index.js` },

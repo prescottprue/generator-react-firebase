@@ -1,0 +1,9 @@
+{
+  "gcm_sender_id": "Redux-firestore",
+  "short_name": "Redux-firestore",
+  "name": "Redux-firestore",
+  "start_url": "/login/",
+  "background_color": "#2196f3",
+  "theme_color": "#2196f3",
+  "display": "standalone"
+}

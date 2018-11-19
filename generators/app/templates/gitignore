@@ -7,10 +7,10 @@
 # Dependencies
 **/node_modules
 
-
 # React App
 **/dist
-src/config.js<% if (includeFunctions) { %>
+src/config.js
+.env<% if (includeFunctions) { %>
 
 # Functions
 functions/etc

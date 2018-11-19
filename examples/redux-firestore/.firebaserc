@@ -1,30 +1,39 @@
 {
   "projects": {
-    "default": "react-redux-firebase",
-    "master": "react-redux-firebase",
-    "prod": "react-redux-firebase"
+    "default": "redux-firebasev3",
+    "master": "redux-firebasev3",
+    "prod": "redux-firebasev3"
   },
   "ci": {
+    "copyVersion": true,
     "createConfig": {
       "master": {
         "env": "staging",
         "firebase": {
-          "apiKey": "${STAGE_FIREBASE_API_KEY}",
-          "authDomain": "react-redux-firebase.firebaseapp.com",
-          "databaseURL": "https://react-redux-firebase.firebaseio.com",
-          "projectId": "react-redux-firebase",
-          "storageBucket": "react-redux-firebase.appspot.com"
-        }
+          "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
+          "authDomain": "redux-firebasev3.firebaseapp.com",
+          "databaseURL": "https://redux-firebasev3.firebaseio.com",
+          "projectId": "redux-firebasev3",
+          "storageBucket": "redux-firebasev3.appspot.com",
+          "messagingSenderId": "823357791673"
+        },
+        "sentryDsn": "${SENTRY_DSN}",
+        "analyticsTrackingId": "${GA_TRACKING_ID}",
+        "publicVapidKey": "${STAGE_PUBLIC_VAPID_KEY}"
       },
       "prod": {
         "env": "production",
         "firebase": {
-          "apiKey": "${PROD_FIREBASE_API_KEY}",
-          "authDomain": "react-redux-firebase.firebaseapp.com",
-          "databaseURL": "https://react-redux-firebase.firebaseio.com",
-          "projectId": "react-redux-firebase",
-          "storageBucket": "react-redux-firebase.appspot.com"
-        }
+          "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
+          "authDomain": "redux-firebasev3.firebaseapp.com",
+          "databaseURL": "https://redux-firebasev3.firebaseio.com",
+          "projectId": "redux-firebasev3",
+          "storageBucket": "redux-firebasev3.appspot.com",
+          "messagingSenderId": "823357791673"
+        },
+        "sentryDsn": "${SENTRY_DSN}",
+        "analyticsTrackingId": "${GA_TRACKING_ID}",
+        "publicVapidKey": "${PROD_PUBLIC_VAPID_KEY}"
       }
     }
   }

@@ -19,13 +19,13 @@ function initStackdriverErrorReporter() {
     })
   }
   return errorHandler
-}
-<% if (includeSentry) { %>
+}<% if (includeSentry) { %>
+
 /**
  * Initialize Raven (reports to sentry.io)
  */
 function initRaven() {
-  if (sentryDsn && Raven) {
+  if (sentryDsn && window.Raven) {
     window.Raven.config(sentryDsn, {
       environment,
       release: version
@@ -58,14 +58,14 @@ export function setErrorUser(auth) {
     // Set user within Stackdriver
     if (errorHandler && errorHandler.setUser) {
       errorHandler.setUser(auth.uid)
-    }
+    }<% if (includeSentry) { %>
     // Set user within Raven (so it will show in Sentry)
     if (window.Raven && window.Raven.setUserContext) {
       window.Raven.setUserContext({
         id: auth.uid,
         email: auth.email || 'none'
       })
-    }
+    }<% } %>
   }
 }
 

@@ -4,8 +4,8 @@
     "master": "<%= firebaseName %>",
     "prod": "<%= firebaseName %>"
   },
-  "ci": {
-    "copyVersion": true,
+  "ci": {<% if(includeFunctions) { %>
+    "copyVersion": true,<% } %>
     "createConfig": {
       "master": {
         "env": "staging",
