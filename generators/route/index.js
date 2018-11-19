@@ -69,7 +69,7 @@ function getIndexFileName(answers) {
   if (dependencyExists('react-loadable')) {
     return '_index-loadable.js'
   }
-  const lintStyleSuffix = this.answers.airbnbLinting ? '-airbnb' : ''
+  const lintStyleSuffix = answers.airbnbLinting ? '-airbnb' : ''
   return `_index${lintStyleSuffix}.js`
 }
 
