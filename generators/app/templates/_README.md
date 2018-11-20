@@ -1,7 +1,7 @@
 # <%= appName %>
 <% if (includeCI && ciProvider == 'travis') { %>
 [![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]<% } %><% if (codeClimate && includeTests) { %>
+[![Dependency Status][daviddm-image]][daviddm-url]<% } %><% if (codeClimate && includeComponentTests) { %>
 [![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]<% } %>
 [![License][license-image]][license-url]
@@ -14,7 +14,7 @@
 1. [Getting Started](#getting-started)
 1. [Application Structure](#application-structure)
 1. [Development](#development)
-    1. [Routing](#routing)<% if (includeTests) { %>
+    1. [Routing](#routing)<% if (includeComponentTests || includeUiTests) { %>
 1. [Testing](#testing)<% } %>
 1. [Configuration](#configuration)
 1. [Production](#production)
@@ -60,8 +60,8 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |-------------------|-----------|
 |`start`            |Serves your app at `localhost:3000` and displays [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
 |`start:simple`     |Serves your app at `localhost:3000` without [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
-|`build`            |Builds the application to ./dist|<% if (includeTests) { %>
-|`test`             |Runs unit tests with Karma. See [testing](#testing)|
+|`build`            |Builds the application to ./dist|<% if (includeComponentTests) { %>
+|`test`             |Runs unit tests with Jest. See [testing](#testing)|
 |`test:watch`       |Runs `test` in watch mode to re-run tests when changed|<% } %>
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
@@ -72,7 +72,6 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 
 There are multiple configuration files:
 
-* Project Path Configuration - `project.config.js`
 * Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
 * Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
 * Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
@@ -81,25 +80,22 @@ More details in the [Application Structure Section](#application-structure)
 
 ## Application Structure
 
-The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications. If you wish to read more about this pattern, please check out this [awesome writeup](https://github.com/davezuko/react-redux-starter-kit/wiki/Fractal-Project-Structure) by [Justin Greenberg](https://github.com/justingreenberg).
+The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications.
 
 ```
-├── build                    # All build-related configuration
-│   ├── scripts              # Scripts used within the building process<% if (deployTo !== 'firebase') { %>
+├── public                    # All build-related configuration
+│   ├── index.html           # Main HTML page container for app
+│   ├── scripts              # Scripts used within the building process
 │   │  └── compile.js        # Custom Compiler that calls Webpack compiler
-│   │  └── start.js          # Starts the custom compiler
-│   ├── create-config.js     # Script for building config.js in ci environments<% } %>
-│   ├── karma.config.js      # Test configuration for Karma
-│   └── webpack.config.js    # Environment-specific configuration files for webpack
-├── server                   # Express application that provides webpack middleware
-│   └── main.js              # Server application entry point
+│   │  └── start.js          # Starts the custom compiler<% if (includeComponentTests) { %>
+├── scripts                   # Scripts to help with development
+│   └── snapshotResolver.js  # Resolver for Jest snapshots
 ├── src                      # Application source code
 │   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
-│   ├── constants.js         # Project constants such as firebase paths and form names
-│   ├── index.html           # Main HTML page container for app
-│   ├── main.js              # Application bootstrap and rendering
-│   ├── normalize.js         # Browser normalization and polyfills
 │   ├── components           # Global Reusable Presentational Components
+│   ├── constants            # Project constants such as firebase paths and form names
+│   │  ├── formNames.js      # Names of redux forms
+│   │  └── paths.js          # Paths for application routes
 │   ├── containers           # Global Reusable Container Components (connected to redux state)
 │   ├── layouts              # Components that dictate major page structure
 │   │   └── CoreLayout       # Global application layout in which to render routes
@@ -120,17 +116,25 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │   ├── components.js   # Utilities for building/implementing react components (often used in enhancers)
 │   │   ├── form.js         # For forms (often used in enhancers that use redux-form)
 │   │   └── router.js       # Utilities for routing such as those that redirect back to home if not logged in
-├── project.config.js        # Project configuration settings
+├── tests                    # Unit tests
+├── .env.local                # Environment settings for when running locally
+├── .eslintignore            # ESLint ignore file
+├── .eslintrc.js             # ESLint configuration
 ├── .firebaserc              # Firebase Project configuration settings (including ci settings)
-└── tests                    # Unit tests
+└── database.rules.json      # Rules for Firebase Real Time Database
+└── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
+└── firestore.indexes.json   # Indexs for Cloud Firestore
+└── firestore.rules          # Rules for Cloud Firestore
+└── storage.rules            # Rules for Cloud Storage For Firebase
 ```
 
-### Routing
+## Routing
+
 We use `react-router-dom` [route matching](https://reacttraining.com/react-router/web/guides/basic-components/route-matching) (`<route>/index.js`) to define units of logic within our application. The application routes are defined within `src/routes/index.js`, which loads route settings which live in each route's `index.js`. The component with the suffix `Page` is the top level component of each route (i.e. `HomePage` is the top level component for `Home` route).
 
 There are two types of routes definitions:
 
-#### Sync Routes
+### Sync Routes
 
 The most simple way to define a route is a simple object with `path` and `component`:
 
@@ -146,7 +150,7 @@ export default {
 }
 ```
 
-#### Async Routes
+### Async Routes
 
 Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `react-loadable`:
 
@@ -170,21 +174,25 @@ With this setting, the name of the file (called a "chunk") is defined as part of
 
 More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
 
-<% if (includeTests) { %>## Testing
-To add a unit test, create a `.spec.js` file anywhere inside of `./tests`. Karma and webpack will automatically find these files, and Mocha and Chai will be available within your test without the need to import them.
+<% if (includeComponentTests || includeUiTests) { %>## Testing<% } %><% if (includeComponentTests) { %>
 
-<% } %>## Production
+#### Component Tests
 
+To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `src`. Jest will automatically find these files and generate snapshots to the `__snapshots` folder.<% } %><% if (includeUiTests) { %>
+
+#### UI Tests
+
+Cypress is used to write and run UI tests which live in the `test` folder
+
+## Deployment
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
-
-### Deployment
 
 <% if (deployTo === 'firebase') { %>
 1. Install Firebase Command Line Tool: `npm i -g firebase-tools`<% if (includeCI) { %>
 
 #### CI Deploy (recommended)
 
-**Note**: Config for this is located within<% } %><% if (ciProvider == 'travis') { %>`travis.yml`<% } %><% if (ciProvider == 'travis') { %>`gitlab-ci.yml`<% } %>
+**Note**: Config for this is located within<% } %><% if (ciProvider == 'travis') { %>`.travis.yml`<% } %><% if (ciProvider == 'travis') { %>`.gitlab-ci.yml`<% } %>
 <% if (includeCI) { %>`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)

@@ -41,8 +41,18 @@ const featureChoices = [
     checked: true
   },
   {
-    name: 'Tests',
-    answerName: 'includeTests',
+    name: 'Component Tests (Jest)',
+    answerName: 'includeComponentTests',
+    checked: false
+  },
+  {
+    name: 'Cloud Functions Tests (Mocha)',
+    answerName: 'includeFunctionsTests',
+    checked: false
+  },
+  {
+    name: 'UI Tests (Cypress)',
+    answerName: 'includeUiTests',
     checked: false
   }
 ]
@@ -212,6 +222,9 @@ module.exports = class extends Generator {
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
+      includeUiTests: false,
+      includeComponentTests: false,
+      includeFunctionsTests: false,
       includeFunctions: false,
       sentryDsn: null,
       ciProvider: null,
@@ -334,6 +347,24 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'src/utils/analytics.js', dest: 'src/utils/analytics.js' },
         { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+      )
+    }
+
+    if (this.answers.includeUiTests) {
+      filesArray.push(
+        { src: 'test/**', dest: 'test' },
+        { src: 'cypress.env.json', dest: 'cypress.env.json' },
+        { src: 'cypress.json', dest: 'cypress.json' },
+        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+      )
+    }
+
+    if (this.answers.includeComponentTests) {
+      filesArray.push(
+        { src: 'jestTests/**', dest: 'src' },
+        { src: 'scripts/**', dest: 'scripts' },
+        { src: 'env.test', dest: '.env.test' },
+        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
       )
     }
 

@@ -1,0 +1,9 @@
+{
+  "chromeWebSecurity": false,
+  "fixturesFolder": "test/ui/fixtures",
+  "integrationFolder": "test/ui/integration",
+  "pluginsFile": "test/ui/plugins/index.js",
+  "screenshotsFolder": "test/ui/screenshots",
+  "videosFolder": "test/ui/videos",
+  "supportFile": "test/ui/support/index.js"
+}

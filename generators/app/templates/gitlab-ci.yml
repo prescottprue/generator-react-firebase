@@ -1,7 +1,7 @@
 stages:
-  - build<% if(includeTests && includeFunctions) { %>
+  - build<% if(includeFunctionsTests && includeFunctions) { %>
   - unit_tests<% } %>
-  - deploy_staging<% if(includeTests) { %>
+  - deploy_staging<% if(includeUiTests) { %>
   - e2e_tests<% } %>
   - build_production
   - deploy_production
@@ -16,8 +16,8 @@ cache:
     - node_modules/<% if(includeFunctions) { %>
     - functions/node_modules/<% } %>
 
-# Install dependencies for React App<% if(includeFunctions) { %> and Cloud Functions<% } %>. <% if(includeTests) { %>Installing of
-# cypress binary is skipped (done in E2E Testing Stage)<% } %>
+# Install dependencies for React App<% if(includeFunctions) { %> and Cloud Functions<% } %>. <% if(includeUiTests) { %>Installing of
+# Cypress binary is skipped (done in E2E Testing Stage)<% } %>
 # Script run before all stages unless otherwise overriden
 before_script:
   - CYPRESS_INSTALL_BINARY=0 npm i<% if(includeFunctions) { %>
@@ -61,7 +61,7 @@ Build:
     - npm run build
     - npm run build:functions
 
-<% if(includeTests && includeFunctions) { %># Unit Testing Stage
+<% if(includeFunctionsTests && includeFunctions) { %># Unit Testing Stage
 # Run unit tests for Cloud Functions
 Unit Tests:
   stage: unit_tests
@@ -114,7 +114,7 @@ Deploy Staging:
   script:
     - npm run deploy
 
-<% if(includeTests) { %># End To End Tests
+<% if(includeUiTests) { %># End To End Tests
 # Install Cypress binary and run end to end tests using Cypress
 E2E Tests:
   stage: e2e_tests
