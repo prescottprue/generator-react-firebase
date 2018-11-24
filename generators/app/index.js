@@ -341,7 +341,7 @@ module.exports = class extends Generator {
 
     if (this.answers.includeUiTests) {
       filesArray.push(
-        { src: 'test/**', dest: 'test' },
+        { src: 'cypress/**', dest: 'cypress' },
         { src: 'cypress.env.json' },
         { src: 'cypress.json' },
         { src: 'testseslintrc', dest: 'tests/.eslintrc' }

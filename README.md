@@ -354,7 +354,6 @@ Generates a React component along with a matching component (which has an scss f
 
 Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
-
 ## Generated Project
 
 Project outputted from generator has a README explaining the full structure and details specific to settings you choose. This includes everything from running your code to deploying it.
@@ -438,9 +437,26 @@ For full projects built out using this as a starting place, check the next secti
     ```
 1. Why are there `__snapshots__` folders everywhere when opting into Jest?
 
-Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
+    Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
+
+1. How do I move/rename the `cypress` folder to something more general?
+    If you wanted to move the `cypress` folder into `test/ui` for intance, you could modify your `cypress.json` file to match the following:
+
+    **cypress.json**
+    ```json
+    {
+      "chromeWebSecurity": false,
+      "fixturesFolder": "test/ui/fixtures",
+      "integrationFolder": "test/ui/integration",
+      "pluginsFile": "test/ui/plugins/index.js",
+      "screenshotsFolder": "test/ui/screenshots",
+      "videosFolder": "test/ui/videos",
+      "supportFile": "test/ui/support/index.js"
+    }
+    ```
 
 ## In the future
+
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
 * Open to ideas
