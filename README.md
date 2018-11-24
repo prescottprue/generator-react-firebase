@@ -436,6 +436,9 @@ For full projects built out using this as a starting place, check the next secti
       }
     }
     ```
+1. Why are there `__snapshots__` folders everywhere when opting into Jest?
+
+Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
 
 ## In the future
 * Airbnb linting option (currently only `standard`)
