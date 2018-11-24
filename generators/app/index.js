@@ -174,7 +174,6 @@ const filesArray = [
   { src: '_README.md', dest: 'README.md' },
   { src: 'jsconfig.json' },
   { src: 'LICENSE' },
-  { src: 'project.config.js' },
   { src: '_package.json', dest: 'package.json' },
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
@@ -194,18 +193,14 @@ const filesArray = [
   { src: 'src/constants/**', dest: 'src/constants' },
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
-  { src: 'src/utils/index.js', dest: 'src/utils/index.js' },
+  { src: 'src/utils/index.js' },
   { src: 'v1theme.js', dest: 'src/theme.js' },
-  {
-    src: 'src/containers/Navbar/Navbar.styles.js',
-    dest: 'src/containers/Navbar/Navbar.styles.js'
-  },
+  { src: 'src/containers/Navbar/Navbar.styles.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
-  { src: 'src/styles/**', dest: 'src/styles' },
-  { src: 'v1theme.js', dest: 'src/theme.js' }
+  { src: 'src/styles/**', dest: 'src/styles' }
 ]
 
 module.exports = class extends Generator {
@@ -292,11 +287,11 @@ module.exports = class extends Generator {
 
     if (this.answers.includeRedux) {
       filesArray.push(
-        { src: 'src/store/createStore.js', dest: 'src/store/createStore.js' },
-        { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
-        { src: 'src/store/location.js', dest: 'src/store/location.js' },
-        { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
-        { src: 'src/utils/components.js', dest: 'src/utils/components.js' },
+        { src: 'src/store/createStore.js' },
+        { src: 'src/store/reducers.js' },
+        { src: 'src/store/location.js' },
+        { src: 'src/utils/router.js' },
+        { src: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
       )
       if (this.answers.includeFirestore) {
@@ -317,44 +312,38 @@ module.exports = class extends Generator {
           dest: 'functions/.runtimeconfig.json'
         },
         { src: 'functions/jsconfig.json' },
-        { src: 'functions/.eslintrc.js', dest: 'functions/.eslintrc.js' },
-        { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
-        { src: 'functions/package.json', dest: 'functions/package.json' },
-        {
-          src: 'functions/src/indexUser/index.js',
-          dest: 'functions/src/indexUser/index.js'
-        },
+        { src: 'functions/.eslintrc.js' },
+        { src: 'functions/.babelrc' },
+        { src: 'functions/package.json' },
+        { src: 'functions/src/indexUser/index.js' },
         {
           src: 'functions/src/utils/async.js',
           dest: 'functions/src/utils/async.js'
         },
-        { src: 'functions/test/.eslintrc', dest: 'functions/test/.eslintrc' },
-        { src: 'functions/test/mocha.opts', dest: 'functions/test/mocha.opts' },
-        { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' },
+        { src: 'functions/test/.eslintrc' },
+        { src: 'functions/test/mocha.opts' },
+        { src: 'functions/test/setup.js' },
         { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
-        { src: 'functions/index.js', dest: 'functions/index.js' }
+        { src: 'functions/index.js' }
       )
     }
 
     if (this.answers.includeErrorHandling) {
-      filesArray.push({
-        src: 'src/utils/errorHandler.js',
-        dest: 'src/utils/errorHandler.js'
-      })
+      filesArray.push({ src: 'src/utils/errorHandler.js' })
     }
 
     if (this.answers.includeAnalytics) {
       filesArray.push(
-        { src: 'src/utils/analytics.js', dest: 'src/utils/analytics.js' },
-        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+        { src: 'src/utils/analytics.js' },
+        { src: 'src/utils/index.js' }
       )
     }
 
     if (this.answers.includeUiTests) {
       filesArray.push(
         { src: 'test/**', dest: 'test' },
-        { src: 'cypress.env.json', dest: 'cypress.env.json' },
-        { src: 'cypress.json', dest: 'cypress.json' },
+        { src: 'cypress.env.json' },
+        { src: 'cypress.json' },
         { src: 'testseslintrc', dest: 'tests/.eslintrc' }
       )
     }
@@ -363,17 +352,7 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'jestTests/**', dest: 'src' },
         { src: 'scripts/**', dest: 'scripts' },
-        { src: 'env.test', dest: '.env.test' },
-        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
-      )
-    }
-
-    if (this.answers.includeTests) {
-      filesArray.push(
-        { src: 'tests/**', dest: 'tests' },
-        { src: 'scripts/**', dest: 'scripts' },
-        { src: 'env.test', dest: '.env.test' },
-        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+        { src: 'env.test', dest: '.env.test' }
       )
     }
 
@@ -391,7 +370,6 @@ module.exports = class extends Generator {
           this.destinationPath(file.dest || file.src || file)
         )
       }
-
       return this.fs.copyTpl(
         this.templatePath(file.src || file),
         this.destinationPath(file.dest || file.src || file),

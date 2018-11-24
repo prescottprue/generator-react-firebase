@@ -7,13 +7,13 @@
     "clean": "rimraf dist",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject","createConfig": "firebase-ci createConfig",
+    "eject": "react-scripts eject",
+    "build:config": "firebase-ci createConfig",
     "deploy": "firebase-ci deploy -s",
     "functions:start": "npm run start --prefix functions",
     "functions:serve": "npm run serve --prefix functions",
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",
-    "functions:test": "npm run test --prefix functions",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
@@ -21,12 +21,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/testuser/react-firebase-redux.git"
+    "url": "git+https://github.com/prescottprue/react-firebase-redux.git"
   },
   "engines": {
     "node": ">=8"
   },
-  "author": "testuser (https://github.com/testuser)",
+  "author": "prescottprue (https://github.com/prescottprue)",
   "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^3.5.1",

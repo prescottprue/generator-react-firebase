@@ -58,9 +58,9 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 
 |`npm run <script>`    |Description|
 |-------------------|-----------|
-|`start`            |Serves your app at `localhost:3000` and displays [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
-|`start:simple`     |Serves your app at `localhost:3000` without [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
-|`build`            |Builds the application to ./dist|<% if (includeComponentTests) { %>
+|`start`            |Serves your app at `localhost:3000` with automatic refreshing and hot module replacement|
+|`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using `firebase serve`|
+|`build`            |Builds the application to `./dist`|<% if (includeComponentTests) { %>
 |`test`             |Runs unit tests with Jest. See [testing](#testing)|
 |`test:watch`       |Runs `test` in watch mode to re-run tests when changed|<% } %>
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
@@ -83,13 +83,13 @@ More details in the [Application Structure Section](#application-structure)
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications.
 
 ```
-├── public                    # All build-related configuration
+├── public                   # All build-related configuration
 │   ├── index.html           # Main HTML page container for app
 │   ├── scripts              # Scripts used within the building process
 │   │  └── compile.js        # Custom Compiler that calls Webpack compiler
 │   │  └── start.js          # Starts the custom compiler<% if (includeComponentTests) { %>
 ├── scripts                   # Scripts to help with development
-│   └── snapshotResolver.js  # Resolver for Jest snapshots
+│   └── snapshotResolver.js  # Resolver for Jest snapshots<% } %>
 ├── src                      # Application source code
 │   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
 │   ├── components           # Global Reusable Presentational Components
@@ -112,19 +112,19 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │   ├── createStore.js   # Create and instrument redux store
 │   │   └── reducers.js      # Reducer registry and injection
 │   ├── styles               # Application-wide styles (generally settings)
-│   └── utils                 # General Utilities (used throughout application)
-│   │   ├── components.js   # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js         # For forms (often used in enhancers that use redux-form)
-│   │   └── router.js       # Utilities for routing such as those that redirect back to home if not logged in
+│   └── utils                # General Utilities (used throughout application)
+│   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
+│   │   ├── form.js          # For forms (often used in enhancers that use redux-form)
+│   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
 ├── tests                    # Unit tests
-├── .env.local                # Environment settings for when running locally
+├── .env.local               # Environment settings for when running locally
 ├── .eslintignore            # ESLint ignore file
 ├── .eslintrc.js             # ESLint configuration
 ├── .firebaserc              # Firebase Project configuration settings (including ci settings)
-└── database.rules.json      # Rules for Firebase Real Time Database
-└── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
-└── firestore.indexes.json   # Indexs for Cloud Firestore
-└── firestore.rules          # Rules for Cloud Firestore
+├── database.rules.json      # Rules for Firebase Real Time Database
+├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
+├── firestore.indexes.json   # Indexs for Cloud Firestore
+├── firestore.rules          # Rules for Cloud Firestore
 └── storage.rules            # Rules for Cloud Storage For Firebase
 ```
 
@@ -173,9 +173,9 @@ export default {
 With this setting, the name of the file (called a "chunk") is defined as part of the code as well as a loading spinner showing while the bundle file is loading.
 
 More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
-
-<% if (includeComponentTests || includeUiTests) { %>## Testing<% } %><% if (includeComponentTests) { %>
-
+<% if (includeComponentTests || includeUiTests) { %>
+## Testing
+<% } %><% if (includeComponentTests) { %>
 #### Component Tests
 
 To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `src`. Jest will automatically find these files and generate snapshots to the `__snapshots` folder.<% } %><% if (includeUiTests) { %>
@@ -188,7 +188,7 @@ Cypress is used to write and run UI tests which live in the `test` folder
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
 <% if (deployTo === 'firebase') { %>
-1. Install Firebase Command Line Tool: `npm i -g firebase-tools`<% if (includeCI) { %>
+1. Install Firebase Command Line Tool: `npm i -g firebase-tools`<% } %><% if (includeCI) { %>
 
 #### CI Deploy (recommended)
 
