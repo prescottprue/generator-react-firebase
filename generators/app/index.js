@@ -15,21 +15,6 @@ const featureChoices = [
     checked: true
   },
   {
-    answerName: 'includeAnalytics',
-    name: 'Google Analytics Utils (using react-ga)',
-    checked: true
-  },
-  {
-    answerName: 'includeErrorHandling',
-    name: 'Stackdriver Error Reporting (Client Side To Match Functions)',
-    checked: true
-  },
-  {
-    answerName: 'includeSentry',
-    name: 'Sentry.io Error Reporting',
-    checked: true
-  },
-  {
     answerName: 'includeMessaging',
     name: 'Firebase Cloud Messaging',
     when: currentAnswers => !!currentAnswers.messagingSenderId,
@@ -46,7 +31,7 @@ const featureChoices = [
     checked: false
   },
   {
-    name: 'Cloud Functions Tests (Mocha)',
+    name: 'Cloud Functions Tests (Mocha + Chai)',
     answerName: 'includeFunctionsTests',
     checked: false
   },
@@ -54,6 +39,21 @@ const featureChoices = [
     name: 'UI Tests (Cypress)',
     answerName: 'includeUiTests',
     checked: false
+  },
+  {
+    answerName: 'includeAnalytics',
+    name: 'Google Analytics Utils (react-ga)',
+    checked: true
+  },
+  {
+    answerName: 'includeErrorHandling',
+    name: 'Stackdriver Error Reporting (Client side to match cloud functions)',
+    checked: true
+  },
+  {
+    answerName: 'includeSentry',
+    name: 'Sentry.io Error Reporting',
+    checked: true
   }
 ]
 
@@ -386,9 +386,7 @@ module.exports = class extends Generator {
         if (useYarn === false) {
           /* eslint-disable no-console */
           console.log(
-            chalk.yellow(
-              'Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*'
-            )
+            chalk.yellow('Opted out of yarn even though it is available.')
           )
           /* eslint-enable no-console */
         }

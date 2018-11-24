@@ -1,5 +1,7 @@
 # react-firebase-redux
 
+[![Code Coverage][coverage-image]][coverage-url]
+[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -11,6 +13,7 @@
 1. [Application Structure](#application-structure)
 1. [Development](#development)
     1. [Routing](#routing)
+1. [Testing](#testing)
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
@@ -50,6 +53,8 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |`start`            |Serves your app at `localhost:3000` with automatic refreshing and hot module replacement|
 |`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using `firebase serve`|
 |`build`            |Builds the application to `./dist`|
+|`test`             |Runs unit tests with Jest. See [testing](#testing)|
+|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
@@ -75,6 +80,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── scripts              # Scripts used within the building process
 │   │  └── compile.js        # Custom Compiler that calls Webpack compiler
 │   │  └── start.js          # Starts the custom compiler
+├── scripts                   # Scripts to help with development
+│   └── snapshotResolver.js  # Resolver for Jest snapshots
 ├── src                      # Application source code
 │   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
 │   ├── components           # Global Reusable Presentational Components
@@ -159,6 +166,11 @@ With this setting, the name of the file (called a "chunk") is defined as part of
 
 More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
 
+## Testing
+
+#### Component Tests
+
+To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `src`. Jest will automatically find these files and generate snapshots to the `__snapshots` folder.
 
 ## FAQ
 

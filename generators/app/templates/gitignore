@@ -18,9 +18,8 @@ functions/dist
 functions/coverage
 functions/.runtimeconfig.json<% } %><% if (includeComponentTests || includeUiTests) { %>
 
-# Tests<% } %><% if (includeComponentTests) { %>
-functions/mochawesome-report
-coverage<% } %><% if (includeUiTests) { %>
+# Tests<% } %><% if (includeFunctionsTests) { %>
+functions/mochawesome-report<% } %><% if (includeUiTests) { %>
 cypress/videos
 cypress/screenshots
 cypress.env.json
