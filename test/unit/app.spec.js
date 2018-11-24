@@ -43,7 +43,6 @@ const reduxFiles = ['src/store/createStore.js', 'src/store/reducers.js']
 
 const projectFiles = [
   'package.json',
-  'project.config.js',
   '.eslintrc.js',
   '.gitlab-ci.yml',
   'LICENSE',
@@ -58,18 +57,17 @@ const firestoreFiles = ['firestore.indexes.json', 'firestore.rules']
 const herokuFiles = ['Procfile', 'app.json']
 
 const testFiles = [
-  'tests/.eslintrc',
-  'tests/test-bundler.js',
-  'tests/layouts/CoreLayout.spec.js',
-  'tests/routes/Account/index.spec.js',
-  'tests/routes/Account/components/AccountForm.spec.js'
+  'test/.eslintrc',
+  'test/test-bundler.js',
+  'test/layouts/CoreLayout.spec.js',
+  'test/routes/Account/index.spec.js',
+  'test/routes/Account/components/AccountForm.spec.js'
 ]
 
 const defaultOtherFeatures = [
   'Version 1 of Material-UI (0.20.0 used otherwise)',
   'Firebase Functions (with Babel setup)',
   'Config for Continuous Integration',
-  'Tests',
   'Blueprints (used with redux-cli)'
 ]
 
@@ -182,7 +180,7 @@ describe('generator-react-firebase:app', function() {
         describe('Firestore', () => {
           checkForEachFile(firestoreFiles)
         })
-        describe('tests', () => {
+        describe.skip('tests', () => {
           checkForEachFile(testFiles)
         })
       })
