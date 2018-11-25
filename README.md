@@ -455,6 +455,12 @@ For full projects built out using this as a starting place, check the next secti
     }
     ```
 
+1. Some of my answers were saved, how did that happen? Why?
+
+    Yeoman has the `store` option, which uses [the Yeoman Storage API to store answers](https://yeoman.io/authoring/storage.html) to questions within within a `.yo-rc.json`. This allows you to rerun the generator in the future to recieve updates without having to remember the answers you used or re-lookup them up.
+
+    This also shows you how examples were done by answering the generator questions.
+
 ## In the future
 
 * Airbnb linting option (currently only `standard`)

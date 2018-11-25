@@ -18,12 +18,10 @@
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",<% } %><% if (includeFunctionsTests) { %>
     "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
-    "test:run:base": "npm run build:testConfig && cypress run",
-    "test:open:base": "npm run build:testConfig && cypress open",
-    "test:run": "npm run test:run:base",
-    "test:open": "npm run test:open:base",
-    "test:stage": "npm run test:run:base -- --env firebaseProjectId=fireadmin-stage,env=stage",
-    "test:open:stage": "npm run test:ui:base -- --env firebaseProjectId=fireadmin-stage,env=stage",<% } %>
+    "test": "npm run build:testConfig && cypress run",
+    "test:open": "npm run build:testConfig && cypress open",
+    "test:stage": "npm run test:base -- --env envName=stage",
+    "test:open:stage": "npm run test:base -- --env envName=stage",<% } %>
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
@@ -66,10 +64,13 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",<% if (includeComponentTests) { %>
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
-    "chai-enzyme": "^1.0.0-beta.0",<% } %>
+    "chai-enzyme": "^1.0.0-beta.0",<% } %><% if (includeUiTests) { %>
+    "cypress": "^3.1.2",
+    "cypress-firebase": "^0.0.5",<% } %>
     "eslint": "5.6.0",
     "eslint-config-prettier": "^2.3.0",
-    "eslint-config-react-app": "^3.0.4",
+    "eslint-config-react-app": "^3.0.4",<% if (includeUiTests) { %>
+    "eslint-plugin-cypress": "^2.0.1",<% } %>
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-prettier": "^2.1.2",

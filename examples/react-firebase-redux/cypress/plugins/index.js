@@ -14,7 +14,7 @@ module.exports = (on, config) => {
   if (!config.env || !config.env.envName || config.env.envName === 'local') {
     config.baseUrl = 'http://localhost:3000'
   } else {
-    config.baseUrl = `https://<%= firebaseName %>.firebaseapp.com`
+    config.baseUrl = `https://redux-firebasev3.firebaseapp.com`
   }
   return config
 }

@@ -182,7 +182,10 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 
 #### UI Tests
 
-Cypress is used to write and run UI tests which live in the `test` folder
+Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
+
+  * Run using Cypress run: `npm run test`
+  * Open Test Runner UI (`cypress open`): `npm run test:open`
 
 ## Deployment
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.

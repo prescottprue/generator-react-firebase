@@ -70,51 +70,59 @@ const prompts = [
     type: 'input',
     name: 'githubUser',
     message: 'Github Username',
-    default: 'testuser'
+    default: 'testuser',
+    store: true
   },
   {
     name: 'firebaseName',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
     /* istanbul ignore next: Tested in utils */
-    validate: utils.firebaseUrlValidate
+    validate: utils.firebaseUrlValidate,
+    store: true
   },
   {
     name: 'firebaseKey',
     message: 'Firebase apiKey',
-    required: true
+    required: true,
+    store: true
   },
   {
     type: 'confirm',
     name: 'includeRedux',
     message: 'Include redux for local state-management?',
-    default: true
+    default: true,
+    store: true
   },
   {
     type: 'confirm',
     name: 'includeFirestore',
     message: 'Use Firestore (RTDB still included)?',
-    default: true
+    default: true,
+    store: true
   },
   {
     type: 'checkbox',
     message: 'Other Features To Include:',
     name: 'otherFeatures',
-    choices: featureChoices
+    choices: featureChoices,
+    store: true
   },
   {
     name: 'messagingSenderId',
     message: 'Firebase messagingSenderId',
     required: true,
     when: currentAnswers =>
-      checkAnswersForFeature(currentAnswers, 'includeMessaging')
+      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+    store: true
   },
   {
     name: 'firebasePublicVapidKey',
     when: currentAnswers => !!currentAnswers.messagingSenderId,
     message:
       'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
-    required: true
+    required: true,
+    store: true
   },
   {
     name: 'sentryDsn',
@@ -137,7 +145,8 @@ const prompts = [
       }
     ],
     message: 'What provider which you like to use for CI?',
-    default: 0
+    default: 0,
+    store: true
   },
   {
     type: 'list',
@@ -157,7 +166,8 @@ const prompts = [
       }
     ],
     message: 'What service are you deploying to?',
-    default: 0
+    default: 0,
+    store: true
   },
   {
     type: 'confirm',
@@ -343,8 +353,7 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'cypress/**', dest: 'cypress' },
         { src: 'cypress.env.json' },
-        { src: 'cypress.json' },
-        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+        { src: 'cypress.json' }
       )
     }
 

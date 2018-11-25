@@ -1,7 +1,5 @@
 # react-firebase-redux
 
-[![Code Coverage][coverage-image]][coverage-url]
-[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -37,10 +35,13 @@
 
     export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'
 
+    export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
+
     export default {
       env,
       firebase,
       reduxFirebase,
+      publicVapidKey,
       analyticsTrackingId
     }
     ```
@@ -53,8 +54,6 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |`start`            |Serves your app at `localhost:3000` with automatic refreshing and hot module replacement|
 |`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using `firebase serve`|
 |`build`            |Builds the application to `./dist`|
-|`test`             |Runs unit tests with Jest. See [testing](#testing)|
-|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
@@ -80,8 +79,6 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── scripts              # Scripts used within the building process
 │   │  └── compile.js        # Custom Compiler that calls Webpack compiler
 │   │  └── start.js          # Starts the custom compiler
-├── scripts                   # Scripts to help with development
-│   └── snapshotResolver.js  # Resolver for Jest snapshots
 ├── src                      # Application source code
 │   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
 │   ├── components           # Global Reusable Presentational Components
@@ -168,9 +165,46 @@ More about how routing works is available in [the react-router-dom docs](https:/
 
 ## Testing
 
-#### Component Tests
 
-To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `src`. Jest will automatically find these files and generate snapshots to the `__snapshots` folder.
+#### UI Tests
+
+Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
+
+  * Run using Cypress run: `npm run test`
+  * Open Test Runner UI (`cypress open`): `npm run test:open`
+
+## Deployment
+Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
+
+
+1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
+
+#### CI Deploy (recommended)
+
+**Note**: Config for this is located within
+`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+
+1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
+1. Run a build on CI
+
+If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
+
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
+
+#### Manual deploy
+
+1. Run `firebase:login`
+1. Initialize project with `firebase init` then answer:
+    * What file should be used for Database Rules?  -> `database.rules.json`
+    * What do you want to use as your public directory? -> `build`
+    * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
+    * What Firebase project do you want to associate as default?  -> **your Firebase project name**
+1. Build Project: `npm run build`
+1. Confirm Firebase config by running locally: `firebase serve`
+1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
+
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
 ## FAQ
 

@@ -1,6 +1,7 @@
 stages:
   - build
   - deploy_staging
+  - e2e_tests
   - build_production
   - deploy_production
 
@@ -14,7 +15,8 @@ cache:
     - node_modules/
     - functions/node_modules/
 
-# Install dependencies for React App and Cloud Functions. 
+# Install dependencies for React App and Cloud Functions. Installing of
+# Cypress binary is skipped (done in E2E Testing Stage)
 # Script run before all stages unless otherwise overriden
 before_script:
   - CYPRESS_INSTALL_BINARY=0 npm i
@@ -84,6 +86,52 @@ Deploy Staging:
     - Build
   script:
     - npm run deploy
+
+# End To End Tests
+# Install Cypress binary and run end to end tests using Cypress
+E2E Tests:
+  stage: e2e_tests
+  image: cypress/base
+  when: on_success
+  allow_failure: true
+  only:
+    - master
+    - web
+    - schedules
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-tests/
+      - $CI_COMMIT_MESSAGE =~ /skip-e2e-tests/
+  # Override cache behavior set above since we want to both pull and push to
+  # the cache (no "policy" provided since pull-push is default)
+  cache:
+    untracked: true
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - .cache/Cypress/
+  artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    expire_in: 2 weeks
+    when: always
+    paths:
+      - cypress/videos
+      - cypress/screenshots
+      - cypress.env.json
+  dependencies:
+    - Build
+  # Override before_script behavior set above since we want to install the
+  # Cypress Binary
+  before_script:
+     # Install deps including Cypress binary (skipped in default before_script)
+    - npm i
+    - npm i cypress
+    # Confirm Cypress is ready to use
+    - $(npm bin)/cypress verify
+  script:
+     # Create environment specific test config including auth token
+     # (saved to cypress.env.json) then run E2E Tests through Cypress
+    - npm run test:stage -- --record --key $CYPRESS_KEY
 
 # Build Production version of bundle (has different config)
 Build Production:
