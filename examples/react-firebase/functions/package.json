@@ -8,7 +8,7 @@
   "scripts": {
     "test": "npm run build && mocha ./test/unit/**",
     "test:cov": "istanbul cover $(npm bin)/_mocha ./test/unit/**",
-    "lint": "eslint -c .eslintrc ./src",
+    "lint": "eslint -c .eslintrc.js ./src",
     "clean": "rimraf dist etc",
     "build": "npm run clean && babel src -d --out-dir dist",
     "watch": "npm run build -- --watch",

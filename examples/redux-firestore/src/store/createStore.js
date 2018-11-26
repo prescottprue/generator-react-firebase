@@ -7,9 +7,6 @@ import 'firebase/database'
 import 'firebase/auth'
 import 'firebase/storage'
 import 'firebase/firestore'
-import 'firebase/messaging'
-import { initializeMessaging } from 'utils/firebaseMessaging'
-import { setAnalyticsUser } from 'utils/analytics'
 import makeRootReducer from './reducers'
 import {
   firebase as fbConfig,
@@ -22,22 +19,14 @@ export default (initialState = {}) => {
   // Redux + Firebase Config (react-redux-firebase & redux-firestore)
   // ======================================================
   const defaultRRFConfig = {
-    // updateProfileOnLogin: false // enable/disable updating of profile on login
-    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
     userProfile: 'users', // root that user profiles are written to
     updateProfileOnLogin: false, // enable/disable updating of profile on login
     presence: 'presence', // list currently online users under "presence" path in RTDB
     sessions: null, // Skip storing of sessions
     enableLogging: false, // enable/disable Firebase Database Logging
     useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
-    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore onAuthStateChanged: (auth, firebase, dispatch) => {
-      if (auth) {
-        // Set auth within analytics
-        setAnalyticsUser(auth)
-        // Initalize messaging with dispatch
-        initializeMessaging(dispatch)
-      }
-    }
+    useFirestoreForStorageMeta: true // Metadata associated with storage file uploads goes to Firestore
+    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
   }
 
   // Combine default config with overrides if they exist (set within .firebaserc)
@@ -80,7 +69,8 @@ export default (initialState = {}) => {
     compose(
       applyMiddleware(...middleware),
       reduxFirestore(firebase),
-      reactReduxFirebase(firebase, combinedConfig)
+      reactReduxFirebase(firebase, combinedConfig),
+      ...enhancers
     )
   )
 

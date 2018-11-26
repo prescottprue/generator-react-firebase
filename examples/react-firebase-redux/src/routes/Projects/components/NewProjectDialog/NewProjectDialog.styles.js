@@ -1,11 +1,11 @@
 export default theme => ({
   root: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 2
   },
   inputs: {
-    ...theme.flexColumnCenter,
+    ...theme.flexColumnCenter
   },
   buttons: {
-    ...theme.flexColumnCenter,
+    ...theme.flexColumnCenter
   }
 })

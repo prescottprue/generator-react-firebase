@@ -1,12 +1,12 @@
 module.exports = {
-  extends: "../.eslintrc",
+  'extends': '../.eslintrc.js',
   rules: {
-    "no-console": 0
+    'no-console': 0
   },
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       node: {
-        moduleDirectory: ["node_modules", "/"]
+        moduleDirectory: ['node_modules', '/']
       }
     }
   }

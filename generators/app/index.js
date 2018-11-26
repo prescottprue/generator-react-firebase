@@ -329,7 +329,7 @@ module.exports = class extends Generator {
           src: 'functions/src/utils/async.js',
           dest: 'functions/src/utils/async.js'
         },
-        { src: 'functions/test/.eslintrc' },
+        { src: 'functions/test/.eslintrc.js' },
         { src: 'functions/test/mocha.opts' },
         { src: 'functions/test/setup.js' },
         { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
@@ -350,6 +350,7 @@ module.exports = class extends Generator {
 
     if (this.answers.includeUiTests) {
       filesArray.push(
+        { src: 'cypress/.eslintrc.js', dest: 'cypress/.eslintrc.js' },
         { src: 'cypress/**', dest: 'cypress' },
         { src: 'cypress.env.json' },
         { src: 'cypress.json' }

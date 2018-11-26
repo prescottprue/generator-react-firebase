@@ -1,4 +1,4 @@
-import { compose } from 'recompose';
+import { compose } from 'recompose'
 <% if (includeRedux) { %>import { reduxForm } from 'redux-form'
 import { NEW_PROJECT_FORM_NAME } from 'constants/formNames'<% } %>
 import { withStyles } from '@material-ui/core/styles'

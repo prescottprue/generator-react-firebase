@@ -9,14 +9,9 @@ import DialogContent from '@material-ui/core/DialogContent'
 import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'<% } %>
 
-<% if (includeRedux) { %>const NewProjectDialog = ({
-  classes,
-  handleSubmit,
-  open,
-  onRequestClose
-}) => (
+<% if (includeRedux) { %>const NewProjectDialog = ({ classes, handleSubmit, open, onRequestClose }) => (
   <Dialog open={open} onClose={onRequestClose}>
-    <DialogTitle id="simple-dialog-title">New Project</DialogTitle>
+    <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
     <form onSubmit={handleSubmit} className={classes.inputs}>
       <DialogContent>
         <Field
