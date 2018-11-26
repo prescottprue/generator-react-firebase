@@ -16,12 +16,12 @@ src/config.js
 functions/etc
 functions/dist
 functions/coverage
-functions/.runtimeconfig.json<% } %><% if (includeTests) { %>
-# Tests
-coverage
+functions/.runtimeconfig.json<% } %><% if (includeComponentTests || includeUiTests) { %>
+
+# Tests<% } %><% if (includeFunctionsTests) { %>
+functions/mochawesome-report<% } %><% if (includeUiTests) { %>
 cypress/videos
 cypress/screenshots
 cypress.env.json
 cypress/config.json
-functions/mochawesome-report
 serviceAccount.json<% } %>

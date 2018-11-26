@@ -15,21 +15,6 @@ const featureChoices = [
     checked: true
   },
   {
-    answerName: 'includeAnalytics',
-    name: 'Google Analytics Utils (using react-ga)',
-    checked: true
-  },
-  {
-    answerName: 'includeErrorHandling',
-    name: 'Stackdriver Error Reporting (Client Side To Match Functions)',
-    checked: true
-  },
-  {
-    answerName: 'includeSentry',
-    name: 'Sentry.io Error Reporting',
-    checked: true
-  },
-  {
     answerName: 'includeMessaging',
     name: 'Firebase Cloud Messaging',
     when: currentAnswers => !!currentAnswers.messagingSenderId,
@@ -41,9 +26,34 @@ const featureChoices = [
     checked: true
   },
   {
-    name: 'Tests',
-    answerName: 'includeTests',
+    name: 'Component Tests (Jest)',
+    answerName: 'includeComponentTests',
     checked: false
+  },
+  {
+    name: 'Cloud Functions Tests (Mocha + Chai)',
+    answerName: 'includeFunctionsTests',
+    checked: false
+  },
+  {
+    name: 'UI Tests (Cypress)',
+    answerName: 'includeUiTests',
+    checked: false
+  },
+  {
+    answerName: 'includeAnalytics',
+    name: 'Google Analytics Utils (react-ga)',
+    checked: true
+  },
+  {
+    answerName: 'includeErrorHandling',
+    name: 'Stackdriver Error Reporting (Client side to match cloud functions)',
+    checked: true
+  },
+  {
+    answerName: 'includeSentry',
+    name: 'Sentry.io Error Reporting',
+    checked: true
   }
 ]
 
@@ -60,51 +70,59 @@ const prompts = [
     type: 'input',
     name: 'githubUser',
     message: 'Github Username',
-    default: 'testuser'
+    default: 'testuser',
+    store: true
   },
   {
     name: 'firebaseName',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
     /* istanbul ignore next: Tested in utils */
-    validate: utils.firebaseUrlValidate
+    validate: utils.firebaseUrlValidate,
+    store: true
   },
   {
     name: 'firebaseKey',
     message: 'Firebase apiKey',
-    required: true
+    required: true,
+    store: true
   },
   {
     type: 'confirm',
     name: 'includeRedux',
     message: 'Include redux for local state-management?',
-    default: true
+    default: true,
+    store: true
   },
   {
     type: 'confirm',
     name: 'includeFirestore',
     message: 'Use Firestore (RTDB still included)?',
-    default: true
+    default: true,
+    store: true
   },
   {
     type: 'checkbox',
     message: 'Other Features To Include:',
     name: 'otherFeatures',
-    choices: featureChoices
+    choices: featureChoices,
+    store: true
   },
   {
     name: 'messagingSenderId',
     message: 'Firebase messagingSenderId',
     required: true,
     when: currentAnswers =>
-      checkAnswersForFeature(currentAnswers, 'includeMessaging')
+      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+    store: true
   },
   {
     name: 'firebasePublicVapidKey',
     when: currentAnswers => !!currentAnswers.messagingSenderId,
     message:
       'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
-    required: true
+    required: true,
+    store: true
   },
   {
     name: 'sentryDsn',
@@ -127,7 +145,8 @@ const prompts = [
       }
     ],
     message: 'What provider which you like to use for CI?',
-    default: 0
+    default: 0,
+    store: true
   },
   {
     type: 'list',
@@ -147,7 +166,8 @@ const prompts = [
       }
     ],
     message: 'What service are you deploying to?',
-    default: 0
+    default: 0,
+    store: true
   },
   {
     type: 'confirm',
@@ -164,7 +184,6 @@ const filesArray = [
   { src: '_README.md', dest: 'README.md' },
   { src: 'jsconfig.json' },
   { src: 'LICENSE' },
-  { src: 'project.config.js' },
   { src: '_package.json', dest: 'package.json' },
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
@@ -184,18 +203,13 @@ const filesArray = [
   { src: 'src/constants/**', dest: 'src/constants' },
   { src: 'src/components/**', dest: 'src/components' },
   { src: 'src/containers/**', dest: 'src/containers' },
-  { src: 'src/utils/index.js', dest: 'src/utils/index.js' },
+  { src: 'src/utils/index.js' },
   { src: 'v1theme.js', dest: 'src/theme.js' },
-  {
-    src: 'src/containers/Navbar/Navbar.styles.js',
-    dest: 'src/containers/Navbar/Navbar.styles.js'
-  },
+  { src: 'src/containers/Navbar/Navbar.styles.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/**', dest: 'src/static', noTemplating: true },
-  { src: 'src/styles/**', dest: 'src/styles' },
-  { src: 'v1theme.js', dest: 'src/theme.js' }
+  { src: 'src/static/**', dest: 'src/static', noTemplating: true }
 ]
 
 module.exports = class extends Generator {
@@ -212,6 +226,9 @@ module.exports = class extends Generator {
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
+      includeUiTests: false,
+      includeComponentTests: false,
+      includeFunctionsTests: false,
       includeFunctions: false,
       sentryDsn: null,
       ciProvider: null,
@@ -247,6 +264,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    // CI Settings
     if (this.answers.includeCI) {
       if (this.answers.ciProvider === 'travis') {
         filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
@@ -279,13 +297,15 @@ module.exports = class extends Generator {
 
     if (this.answers.includeRedux) {
       filesArray.push(
-        { src: 'src/store/createStore.js', dest: 'src/store/createStore.js' },
-        { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
-        { src: 'src/store/location.js', dest: 'src/store/location.js' },
-        { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
-        { src: 'src/utils/components.js', dest: 'src/utils/components.js' },
+        { src: 'src/store/createStore.js' },
+        { src: 'src/store/reducers.js' },
+        { src: 'src/store/location.js' },
+        { src: 'src/utils/router.js' },
+        { src: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
       )
+
+      // Firestore
       if (this.answers.includeFirestore) {
         filesArray.push(
           { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
@@ -297,52 +317,46 @@ module.exports = class extends Generator {
       filesArray.push({ src: 'src/utils/firebase.js' })
     }
 
+    // Cloud Functions
     if (this.answers.includeFunctions) {
       filesArray.push(
-        {
-          src: 'functions/.runtimeconfig.json',
-          dest: 'functions/.runtimeconfig.json'
-        },
+        { src: 'functions/.runtimeconfig.json' },
         { src: 'functions/jsconfig.json' },
-        { src: 'functions/.eslintrc.js', dest: 'functions/.eslintrc.js' },
-        { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
-        { src: 'functions/package.json', dest: 'functions/package.json' },
-        {
-          src: 'functions/src/indexUser/index.js',
-          dest: 'functions/src/indexUser/index.js'
-        },
-        {
-          src: 'functions/src/utils/async.js',
-          dest: 'functions/src/utils/async.js'
-        },
-        { src: 'functions/test/.eslintrc', dest: 'functions/test/.eslintrc' },
-        { src: 'functions/test/mocha.opts', dest: 'functions/test/mocha.opts' },
-        { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' },
-        { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
-        { src: 'functions/index.js', dest: 'functions/index.js' }
+        { src: 'functions/.eslintrc.js' },
+        { src: 'functions/.babelrc' },
+        { src: 'functions/package.json' },
+        { src: 'functions/src/indexUser/index.js' },
+        { src: 'functions/src/utils/async.js' },
+        { src: 'functions/index.js' }
       )
     }
 
-    if (this.answers.includeErrorHandling) {
-      filesArray.push({
-        src: 'src/utils/errorHandler.js',
-        dest: 'src/utils/errorHandler.js'
-      })
-    }
-
-    if (this.answers.includeAnalytics) {
+    // Cloud Functions Tests
+    if (this.answers.includeFunctionsTests) {
       filesArray.push(
-        { src: 'src/utils/analytics.js', dest: 'src/utils/analytics.js' },
-        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+        { src: 'functions/test/.eslintrc.js' },
+        { src: 'functions/test/mocha.opts' },
+        { src: 'functions/test/setup.js' },
+        { src: 'functions/test/unit/**', dest: 'functions/test/unit' }
       )
     }
 
-    if (this.answers.includeTests) {
+    // UI Tests
+    if (this.answers.includeUiTests) {
       filesArray.push(
-        { src: 'tests/**', dest: 'tests' },
+        { src: 'cypress/.eslintrc.js', dest: 'cypress/.eslintrc.js' },
+        { src: 'cypress/**', dest: 'cypress' },
+        { src: 'cypress.env.json' },
+        { src: 'cypress.json' }
+      )
+    }
+
+    // React Component Tests
+    if (this.answers.includeComponentTests) {
+      filesArray.push(
+        { src: 'jestTests/**', dest: 'src' },
         { src: 'scripts/**', dest: 'scripts' },
-        { src: 'env.test', dest: '.env.test' },
-        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+        { src: 'env.test', dest: '.env.test' }
       )
     }
 
@@ -353,6 +367,17 @@ module.exports = class extends Generator {
       )
     }
 
+    if (this.answers.includeErrorHandling) {
+      filesArray.push({ src: 'src/utils/errorHandler.js' })
+    }
+
+    if (this.answers.includeAnalytics) {
+      filesArray.push(
+        { src: 'src/utils/analytics.js' },
+        { src: 'src/utils/index.js' }
+      )
+    }
+
     filesArray.forEach(file => {
       if (file.noTemplating || file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
@@ -360,7 +385,6 @@ module.exports = class extends Generator {
           this.destinationPath(file.dest || file.src || file)
         )
       }
-
       return this.fs.copyTpl(
         this.templatePath(file.src || file),
         this.destinationPath(file.dest || file.src || file),
@@ -377,9 +401,7 @@ module.exports = class extends Generator {
         if (useYarn === false) {
           /* eslint-disable no-console */
           console.log(
-            chalk.yellow(
-              'Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*'
-            )
+            chalk.yellow('Opted out of yarn even though it is available.')
           )
           /* eslint-enable no-console */
         }

@@ -7,13 +7,18 @@
     "clean": "rimraf dist",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject","createConfig": "firebase-ci createConfig",
+    "eject": "react-scripts eject",
+    "build:config": "firebase-ci createConfig",
+    "build:testConfig": "cypress-firebase createTestEnvFile",
     "deploy": "firebase-ci deploy -s",
     "functions:start": "npm run start --prefix functions",
     "functions:serve": "npm run serve --prefix functions",
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",
-    "functions:test": "npm run test --prefix functions",
+    "test": "npm run build:testConfig && cypress run",
+    "test:open": "npm run build:testConfig && cypress open",
+    "test:stage": "npm run test:base -- --env envName=stage",
+    "test:open:stage": "npm run test:base -- --env envName=stage",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
@@ -21,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/testuser/react-firebase-redux.git"
+    "url": "git+https://github.com/prescottprue/react-firebase-redux.git"
   },
   "engines": {
     "node": ">=8"
   },
-  "author": "testuser (https://github.com/testuser)",
+  "author": "prescottprue (https://github.com/prescottprue)",
   "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^3.5.1",
@@ -38,12 +43,12 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-ga": "^2.3.5",
-    "react-scripts": "2.1.1",
     "react-google-button": "^0.5.3",
     "react-loadable": "^5.5.0",
     "react-redux": "^5.0.7",
     "react-redux-firebase": "^2.1.9",
     "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
     "redux-auth-wrapper": "^2.0.3",
@@ -53,9 +58,13 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "cypress": "^3.1.2",
+    "cypress-firebase": "^0.0.5",
     "eslint": "5.6.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-react-app": "^3.0.4",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-cypress": "^2.1.2",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-prettier": "^2.1.2",
@@ -65,7 +74,7 @@
     "prettier": "^1.14.3"
   },
   "eslintConfig": {
-    "extends": "./eslintrc.json"
+    "extends": "./eslintrc.js"
   },
   "browserslist": [
     ">0.2%",

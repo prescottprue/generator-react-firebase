@@ -24,10 +24,6 @@ const srcFiles = [
   'src/modules/notification/actionTypes.js',
   'src/modules/notification/index.js',
   'src/modules/notification/reducer.js',
-  'src/styles/_base.scss',
-  'src/styles/_colors.scss',
-  'src/styles/_device-sizes.scss',
-  'src/styles/core.scss',
   'src/utils/components.js',
   'src/utils/form.js',
   'src/utils/router.js',
@@ -35,6 +31,7 @@ const srcFiles = [
   'src/constants/paths.js',
   'src/constants/formNames.js',
   'src/index.js',
+  'src/index.css',
   'src/theme.js',
   'public/index.html'
 ]
@@ -43,7 +40,6 @@ const reduxFiles = ['src/store/createStore.js', 'src/store/reducers.js']
 
 const projectFiles = [
   'package.json',
-  'project.config.js',
   '.eslintrc.js',
   '.gitlab-ci.yml',
   'LICENSE',
@@ -57,20 +53,10 @@ const firestoreFiles = ['firestore.indexes.json', 'firestore.rules']
 
 const herokuFiles = ['Procfile', 'app.json']
 
-const testFiles = [
-  'tests/.eslintrc',
-  'tests/test-bundler.js',
-  'tests/layouts/CoreLayout.spec.js',
-  'tests/routes/Account/index.spec.js',
-  'tests/routes/Account/components/AccountForm.spec.js'
-]
-
 const defaultOtherFeatures = [
-  'Version 1 of Material-UI (0.20.0 used otherwise)',
   'Firebase Functions (with Babel setup)',
-  'Config for Continuous Integration',
-  'Tests',
-  'Blueprints (used with redux-cli)'
+  'Firebase Cloud Messaging',
+  'Config for Continuous Integration'
 ]
 
 describe('generator-react-firebase:app', function() {
@@ -181,9 +167,6 @@ describe('generator-react-firebase:app', function() {
         })
         describe('Firestore', () => {
           checkForEachFile(firestoreFiles)
-        })
-        describe('tests', () => {
-          checkForEachFile(testFiles)
         })
       })
     })

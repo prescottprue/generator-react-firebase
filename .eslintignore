@@ -7,3 +7,4 @@ dist/**
 generators/app/templates
 generators/**/templates
 test/tmp/**
+examples/redux-firestore/**

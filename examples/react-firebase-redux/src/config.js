@@ -11,7 +11,7 @@ export const firebase = {
   apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
   authDomain: 'redux-firebasev3.firebaseapp.com',
   databaseURL: 'https://redux-firebasev3.firebaseio.com',
-  projectId: "redux-firebasev3",
+  projectId: 'redux-firebasev3',
   storageBucket: 'redux-firebasev3.appspot.com',
   messagingSenderId: '823357791673'
 }
@@ -25,7 +25,7 @@ export const reduxFirebase = {
 
 export const analyticsTrackingId = ''
 
-export const publicVapidKey = 'BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg'
+export const publicVapidKey = 'BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg' 
 
 export const sentryDsn = ''
 

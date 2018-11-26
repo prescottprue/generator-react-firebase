@@ -354,7 +354,6 @@ Generates a React component along with a matching component (which has an scss f
 
 Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
-
 ## Generated Project
 
 Project outputted from generator has a README explaining the full structure and details specific to settings you choose. This includes everything from running your code to deploying it.
@@ -437,7 +436,41 @@ For full projects built out using this as a starting place, check the next secti
     }
     ```
 
+1. Why are there `__snapshots__` folders everywhere when opting into Jest?
+
+    Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
+
+    I got it working by:
+      1. Ejecting result of generator (`yarn eject`)
+      1. Installing beta version of Jest that is at least  `24.0.0-alpha.6` - `yarn add jest@beta --dev`
+      1. Adding [a snapshot resolver to place snapshots where you want](https://gist.github.com/prescottprue/5ece5e173bcfba7ed86dae6a91444451) as `scripts/snapshotResolver.js`
+      1. Referencing the snapshot resolver reference within `package.json` (which should contain jest config after ejecting):
+        `"snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"`
+
+1. How do I move/rename the `cypress` folder to something more general?
+    If you wanted to move the `cypress` folder into `test/ui` for intance, you could modify your `cypress.json` file to match the following:
+
+    **cypress.json**
+    ```json
+    {
+      "chromeWebSecurity": false,
+      "fixturesFolder": "test/ui/fixtures",
+      "integrationFolder": "test/ui/integration",
+      "pluginsFile": "test/ui/plugins/index.js",
+      "screenshotsFolder": "test/ui/screenshots",
+      "videosFolder": "test/ui/videos",
+      "supportFile": "test/ui/support/index.js"
+    }
+    ```
+
+1. Some of my answers were saved, how did that happen? Why?
+
+    Yeoman has the `store` option, which uses [the Yeoman Storage API to store answers](https://yeoman.io/authoring/storage.html) to questions within within a `.yo-rc.json`. This allows you to rerun the generator in the future to recieve updates without having to remember the answers you used or re-lookup them up.
+
+    This also shows you how examples were done by answering the generator questions.
+
 ## In the future
+
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
 * Open to ideas

@@ -27,7 +27,7 @@ export default (initialState = {}) => {
     presence: 'presence', // list currently online users under "presence" path in RTDB
     sessions: null, // Skip storing of sessions
     enableLogging: false, // enable/disable Firebase Database Logging
-     onAuthStateChanged: (auth, firebase, dispatch) => {
+    onAuthStateChanged: (auth, firebase, dispatch) => {
       if (auth) {
         // Set auth within analytics
         setAnalyticsUser(auth)
@@ -75,7 +75,8 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reactReduxFirebase(firebase, combinedConfig)
+      reactReduxFirebase(firebase, combinedConfig),
+      ...enhancers
     )
   )
 

@@ -1,34 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'<% if (!materialv1) { %>
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'<% } %><% if (materialv1) { %>
+import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'<% } %>
-<% if (!includeRedux && !materialv1) { %>import TextField from 'material-ui/TextField'<% } %><% if (!includeRedux && materialv1) { %>import TextField from '@material-ui/core/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
+import DialogContent from '@material-ui/core/DialogContent'
+<% if (!includeRedux) { %>import TextField from '@material-ui/core/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import { required } from 'utils/form'<% } %>
 
-import classes from './NewProjectDialog.scss'
-
-<% if (includeRedux) { %>export const NewProjectDialog = ({
-  open,
-  onRequestClose,
-  submit,
-  handleSubmit
-}) => (
-  <Dialog<% if (materialv1) { %> open={open} onClose={onRequestClose}><% } %><% if (!materialv1) { %>
-    open={open}
-    title="New Project"
-    onRequestClose={onRequestClose}
-    contentClassName={classes.container}
-    actions={[
-      <FlatButton label="Cancel" secondary onTouchTap={onRequestClose} />,
-      <FlatButton label="Create" primary onTouchTap={submit} />
-    ]}><% } %>
-    <% if (materialv1) { %><DialogTitle id="simple-dialog-title">New Project</DialogTitle>
+<% if (includeRedux) { %>const NewProjectDialog = ({ classes, handleSubmit, open, onRequestClose }) => (
+  <Dialog open={open} onClose={onRequestClose}>
+    <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
     <form onSubmit={handleSubmit} className={classes.inputs}>
       <DialogContent>
         <Field
@@ -47,23 +30,14 @@ import classes from './NewProjectDialog.scss'
         </Button>
       </DialogActions>
     </form>
-  </Dialog><% } %><% if (!materialv1) { %><form onSubmit={handleSubmit} className={classes.inputs}>
-      <Field
-        name="name"
-        component={TextField}
-        floatingLabelText="Project Name"
-        validate={[required]}
-      />
-    </form>
-  </Dialog><% } %>
+  </Dialog>
 )
 
 NewProjectDialog.propTypes = {
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  handleSubmit: PropTypes.func.isRequired, // from enhancer (reduxForm)
   open: PropTypes.bool.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  handleSubmit: PropTypes.func.isRequired, // added by redux-form
-  submit: PropTypes.func.isRequired // added by redux-form
+  onRequestClose: PropTypes.func.isRequired
 }
 
 export default NewProjectDialog<% } %><% if (!includeRedux) { %>export default class NewProjectDialog extends Component {
