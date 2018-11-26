@@ -435,9 +435,17 @@ For full projects built out using this as a starting place, check the next secti
       }
     }
     ```
+
 1. Why are there `__snapshots__` folders everywhere when opting into Jest?
 
     Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
+
+    I got it working by:
+      1. Ejecting result of generator (`yarn eject`)
+      1. Installing beta version of Jest that is at least  `24.0.0-alpha.6` - `yarn add jest@beta --dev`
+      1. Adding [a snapshot resolver to place snapshots where you want](https://gist.github.com/prescottprue/5ece5e173bcfba7ed86dae6a91444451) as `scripts/snapshotResolver.js`
+      1. Referencing the snapshot resolver reference within `package.json` (which should contain jest config after ejecting):
+        `"snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"`
 
 1. How do I move/rename the `cypress` folder to something more general?
     If you wanted to move the `cypress` folder into `test/ui` for intance, you could modify your `cypress.json` file to match the following:

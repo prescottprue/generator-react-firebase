@@ -264,6 +264,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    // CI Settings
     if (this.answers.includeCI) {
       if (this.answers.ciProvider === 'travis') {
         filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
@@ -303,6 +304,8 @@ module.exports = class extends Generator {
         { src: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
       )
+
+      // Firestore
       if (this.answers.includeFirestore) {
         filesArray.push(
           { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
@@ -314,40 +317,31 @@ module.exports = class extends Generator {
       filesArray.push({ src: 'src/utils/firebase.js' })
     }
 
+    // Cloud Functions
     if (this.answers.includeFunctions) {
       filesArray.push(
-        {
-          src: 'functions/.runtimeconfig.json',
-          dest: 'functions/.runtimeconfig.json'
-        },
+        { src: 'functions/.runtimeconfig.json' },
         { src: 'functions/jsconfig.json' },
         { src: 'functions/.eslintrc.js' },
         { src: 'functions/.babelrc' },
         { src: 'functions/package.json' },
         { src: 'functions/src/indexUser/index.js' },
-        {
-          src: 'functions/src/utils/async.js',
-          dest: 'functions/src/utils/async.js'
-        },
-        { src: 'functions/test/.eslintrc.js' },
-        { src: 'functions/test/mocha.opts' },
-        { src: 'functions/test/setup.js' },
-        { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
+        { src: 'functions/src/utils/async.js' },
         { src: 'functions/index.js' }
       )
     }
 
-    if (this.answers.includeErrorHandling) {
-      filesArray.push({ src: 'src/utils/errorHandler.js' })
-    }
-
-    if (this.answers.includeAnalytics) {
+    // Cloud Functions Tests
+    if (this.answers.includeFunctionsTests) {
       filesArray.push(
-        { src: 'src/utils/analytics.js' },
-        { src: 'src/utils/index.js' }
+        { src: 'functions/test/.eslintrc.js' },
+        { src: 'functions/test/mocha.opts' },
+        { src: 'functions/test/setup.js' },
+        { src: 'functions/test/unit/**', dest: 'functions/test/unit' }
       )
     }
 
+    // UI Tests
     if (this.answers.includeUiTests) {
       filesArray.push(
         { src: 'cypress/.eslintrc.js', dest: 'cypress/.eslintrc.js' },
@@ -357,6 +351,7 @@ module.exports = class extends Generator {
       )
     }
 
+    // React Component Tests
     if (this.answers.includeComponentTests) {
       filesArray.push(
         { src: 'jestTests/**', dest: 'src' },
@@ -369,6 +364,17 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'src/utils/firebaseMessaging.js' },
         { src: 'public/firebase-messaging-sw.js' }
+      )
+    }
+
+    if (this.answers.includeErrorHandling) {
+      filesArray.push({ src: 'src/utils/errorHandler.js' })
+    }
+
+    if (this.answers.includeAnalytics) {
+      filesArray.push(
+        { src: 'src/utils/analytics.js' },
+        { src: 'src/utils/index.js' }
       )
     }
 
