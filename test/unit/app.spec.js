@@ -24,10 +24,6 @@ const srcFiles = [
   'src/modules/notification/actionTypes.js',
   'src/modules/notification/index.js',
   'src/modules/notification/reducer.js',
-  'src/styles/_base.scss',
-  'src/styles/_colors.scss',
-  'src/styles/_device-sizes.scss',
-  'src/styles/core.scss',
   'src/utils/components.js',
   'src/utils/form.js',
   'src/utils/router.js',
@@ -35,6 +31,7 @@ const srcFiles = [
   'src/constants/paths.js',
   'src/constants/formNames.js',
   'src/index.js',
+  'src/index.css',
   'src/theme.js',
   'public/index.html'
 ]
