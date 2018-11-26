@@ -66,7 +66,7 @@
     "prettier": "^1.14.3"
   },
   "eslintConfig": {
-    "extends": "./eslintrc.json"
+    "extends": "./eslintrc.js"
   },
   "browserslist": [
     ">0.2%",

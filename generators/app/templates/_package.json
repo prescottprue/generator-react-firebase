@@ -86,7 +86,7 @@
     "sinon-chai": "^3.1.0"<%} %>
   },
   "eslintConfig": {
-    "extends": "./eslintrc.json"
+    "extends": "./eslintrc.js"
   },
   "browserslist": [
     ">0.2%",

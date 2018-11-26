@@ -25,7 +25,7 @@ function initStackdriverErrorReporter() {
  * Initialize Raven (reports to sentry.io)
  */
 function initRaven() {
-  if (sentryDsn && Raven) {
+  if (sentryDsn && window.Raven) {
     window.Raven.config(sentryDsn, {
       environment,
       release: version
