@@ -11,29 +11,26 @@ import { required, validateEmail } from 'utils/form'<% } %>
     <Field
       name="email"
       component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Email"<% } %><% if (materialv1) { %>label="Email"<% } %>
+      autoComplete="email"
+      label="Email"
       validate={[required, validateEmail]}
     />
     <Field
       name="password"
       component={TextField}
-      <% if (!materialv1) { %>floatingLabelText="Password"<% } %><% if (materialv1) { %>label="Password"<% } %>
+      autoComplete="current-password"
+      label="Password"
       type="password"
       validate={required}
     />
     <div className={classes.submit}>
-      <% if (!materialv1) { %><RaisedButton
-        label={submitting ? 'Loading' : 'Login'}
-        primary
-        type="submit"
-        disabled={pristine || submitting}
-      /><% } %><% if (materialv1) { %><Button
+      <Button
         color="primary"
         type="submit"
         variant="contained"
         disabled={pristine || submitting}>
         {submitting ? 'Loading' : 'Login'}
-      </Button><% } %>
+      </Button>
     </div>
   </form>
 )
