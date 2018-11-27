@@ -67,15 +67,15 @@
     "chai-enzyme": "^1.0.0-beta.0",<% } %><% if (includeUiTests) { %>
     "cypress": "^3.1.2",
     "cypress-firebase": "^0.0.5",<% } %>
-    "eslint": "5.6.0",
+    "eslint": "^5.6.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-react-app": "^3.0.4",<% if (includeUiTests) { %>
     "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-cypress": "^2.1.2",<% } %>
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^2.1.2",
-    "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-react": "^7.11.1",
     "husky": "^0.14.3",<% if (includeComponentTests) { %>
     "jest": "^24.0.0-alpha.6",
     "jest-pnp-resolver": "1.0.1",

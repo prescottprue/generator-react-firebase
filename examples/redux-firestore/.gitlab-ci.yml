@@ -1,5 +1,6 @@
 stages:
   - build
+  - unit_tests
   - deploy_staging
   - build_production
   - deploy_production
@@ -57,6 +58,32 @@ Build:
     - npm run lint
     - npm run build
     - npm run build:functions
+
+# Unit Testing Stage
+# Run unit tests for Cloud Functions
+Unit Tests:
+  stage: unit_tests
+  image: node:8
+  when: on_success
+  allow_failure: true
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-tests/
+      - $CI_COMMIT_MESSAGE =~ /skip-unit-tests/
+  artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    expire_in: 2 weeks
+    when: always
+    paths:
+      - functions/dist
+      - functions/coverage # Test coverage report
+      - functions/mochawesome-report # Test results in JSON and HTML
+  dependencies:
+    - Build
+  before_script:
+    - npm i --prefix functions
+  script:
+    - npm run test:cov --prefix functions
 
 # Deploy Staging
 # Deploy React App and Cloud Functions

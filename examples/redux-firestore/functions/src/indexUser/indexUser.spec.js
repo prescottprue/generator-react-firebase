@@ -4,14 +4,16 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
   let adminInitStub
   let indexUser
   let updateStub
+  let setStub
   let deleteStub
   let docStub
   let collectionStub
 
   beforeEach(() => {
     updateStub = sinon.stub().returns(Promise.resolve({}))
+    setStub = sinon.stub().returns(Promise.resolve({}))
     deleteStub = sinon.stub().returns(Promise.resolve({}))
-    docStub = sinon.stub().returns({ update: updateStub, delete: deleteStub })
+    docStub = sinon.stub().returns({ set: setStub, update: updateStub, delete: deleteStub })
     collectionStub = sinon
       .stub()
       .returns({ add: sinon.stub().returns(Promise.resolve({})), doc: docStub })
@@ -25,7 +27,7 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
     // Set GCLOUD_PROJECT to env
     process.env.GCLOUD_PROJECT = 'test'
     indexUser = functionsTest.wrap(
-      require(`${__dirname}/../../../index`).indexUser
+      require(`${__dirname}/../../index`).indexUser
     )
     /* eslint-enable global-require */
   })

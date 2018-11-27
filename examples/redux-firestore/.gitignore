@@ -17,3 +17,4 @@ functions/etc
 functions/dist
 functions/coverage
 functions/.runtimeconfig.json
+functions/mochawesome-report
