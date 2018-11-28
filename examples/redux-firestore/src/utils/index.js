@@ -1,3 +1,6 @@
+import { init as initAnalytics } from './analytics'
+import { init as initErrorHandling } from './errorHandler'
+
 /**
  * Log a message and return data passed. Useful for logging
  * messages within functional programming flows.
@@ -24,5 +27,6 @@ export function fpLog(message) {
  * Initialize global scripts including analytics and error handling
  */
 export function initScripts() {
-  // Initialize global scripts here
+  initAnalytics()
+  initErrorHandling()
 }

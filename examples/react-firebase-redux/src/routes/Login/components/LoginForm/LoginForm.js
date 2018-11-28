@@ -10,12 +10,14 @@ const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
     <Field
       name="email"
       component={TextField}
+      autoComplete="email"
       label="Email"
       validate={[required, validateEmail]}
     />
     <Field
       name="password"
       component={TextField}
+      autoComplete="current-password"
       label="Password"
       type="password"
       validate={required}

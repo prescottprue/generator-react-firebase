@@ -8,7 +8,6 @@ importScripts('https://www.gstatic.com/firebasejs/5.4.1/firebase-messaging.js')
 
 const PROD_MESSAGING_ID = '823357791673'
 const STAGE_MESSAGING_ID = '' // TODO: Set your staging messaging ID here
-
 /* eslint-disable prettier/prettier */
 firebase.initializeApp({
   // Use prod id if stage id not defined or running on prod Firebase hosting

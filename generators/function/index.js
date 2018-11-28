@@ -199,7 +199,7 @@ module.exports = class extends Generator {
         src: `_${triggerType}Test${
           this.answers.airbnbLinting ? '-airbnb' : ''
         }.js`,
-        dest: `functions/test/unit/${camelName}/index.spec.js`
+        dest: `functions/src/${camelName}/${camelName}.spec.js`
       })
     }
 

@@ -10,8 +10,8 @@ const utils = require('./utils')
 
 const featureChoices = [
   {
-    name: 'Firebase Functions (with ESNext support)',
-    answerName: 'includeFunctions',
+    name: 'Continuous Integration config',
+    answerName: 'includeCI',
     checked: true
   },
   {
@@ -21,38 +21,38 @@ const featureChoices = [
     checked: true
   },
   {
-    name: 'Config for Continuous Integration',
-    answerName: 'includeCI',
+    name: 'Firebase Functions (with ESNext support)',
+    answerName: 'includeFunctions',
     checked: true
   },
   {
-    name: 'Component Tests (Jest)',
+    name: 'Tests for Firebase Functions (Mocha + Chai)',
+    answerName: 'includeFunctionsTests',
+    checked: true
+  },
+  {
+    name: 'Tests for React Components (Jest)',
     answerName: 'includeComponentTests',
     checked: false
   },
   {
-    name: 'Cloud Functions Tests (Mocha + Chai)',
-    answerName: 'includeFunctionsTests',
-    checked: false
-  },
-  {
-    name: 'UI Tests (Cypress)',
+    name: 'Tests for UI (Cypress)',
     answerName: 'includeUiTests',
     checked: false
   },
   {
     answerName: 'includeAnalytics',
-    name: 'Google Analytics Utils (react-ga)',
-    checked: true
-  },
-  {
-    answerName: 'includeErrorHandling',
-    name: 'Stackdriver Error Reporting (Client side to match cloud functions)',
+    name: 'Google Analytics (react-ga)',
     checked: true
   },
   {
     answerName: 'includeSentry',
-    name: 'Sentry.io Error Reporting',
+    name: 'Error Tracking (Sentry.io)',
+    checked: true
+  },
+  {
+    answerName: 'includeErrorHandling',
+    name: 'Client Side Error Reporting (Stackdriver)',
     checked: true
   }
 ]
@@ -325,8 +325,7 @@ module.exports = class extends Generator {
         { src: 'functions/.eslintrc.js' },
         { src: 'functions/.babelrc' },
         { src: 'functions/package.json' },
-        { src: 'functions/src/indexUser/index.js' },
-        { src: 'functions/src/utils/async.js' },
+        { src: 'functions/src' },
         { src: 'functions/index.js' }
       )
     }
@@ -334,10 +333,9 @@ module.exports = class extends Generator {
     // Cloud Functions Tests
     if (this.answers.includeFunctionsTests) {
       filesArray.push(
-        { src: 'functions/test/.eslintrc.js' },
-        { src: 'functions/test/mocha.opts' },
-        { src: 'functions/test/setup.js' },
-        { src: 'functions/test/unit/**', dest: 'functions/test/unit' }
+        { src: 'functions/mocha.opts' },
+        { src: 'functions/scripts/testSetup.js' },
+        { src: 'functionsTests', dest: 'functions/src' }
       )
     }
 
@@ -398,6 +396,9 @@ module.exports = class extends Generator {
     // Promise chaining used since this.npmInstall.then not a function
     return Promise.resolve()
       .then(() => {
+        /* eslint-disable no-console */
+        console.log('\nGeneration complete!')
+        /* eslint-enable no-console */
         if (useYarn === false) {
           /* eslint-disable no-console */
           console.log(
@@ -406,11 +407,19 @@ module.exports = class extends Generator {
           /* eslint-enable no-console */
         }
         if (!useYarn) {
-          console.log(chalk.blue('Installing dependencies using NPM...')) // eslint-disable-line no-console
+          /* eslint-disable no-console */
+          console.log(
+            `Install dependencies by calling ${chalk.blue('npm install')}`
+          )
+          /* eslint-enable no-console */
           // Main npm install then functions npm install
           return this.npmInstall()
         }
-        console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
+        /* eslint-disable no-console */
+        console.log(
+          `Install dependencies by calling ${chalk.blue('yarn install')}`
+        )
+        /* eslint-enable no-console */
         /* eslint-disable no-console */
         console.log(
           chalk.blue(

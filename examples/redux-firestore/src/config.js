@@ -12,7 +12,8 @@ export const firebase = {
   authDomain: 'redux-firebasev3.firebaseapp.com',
   databaseURL: 'https://redux-firebasev3.firebaseio.com',
   projectId: 'redux-firebasev3',
-  storageBucket: 'redux-firebasev3.appspot.com'
+  storageBucket: 'redux-firebasev3.appspot.com',
+  messagingSenderId: '823357791673'
 }
 
 // Config to override default reduxFirebase config in store/createStore
@@ -22,8 +23,16 @@ export const reduxFirebase = {
   enableLogging: false, // enable/disable Firebase Database Logging
 }
 
+export const analyticsTrackingId = ''
+
+export const publicVapidKey = 'BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg' 
+
+export const sentryDsn = ''
+
 export default {
   env,
   firebase,
-  reduxFirebase
+  reduxFirebase,
+  publicVapidKey,
+  analyticsTrackingId
 }

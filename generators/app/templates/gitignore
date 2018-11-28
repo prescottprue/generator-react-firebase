@@ -9,17 +9,17 @@
 
 # React App
 **/dist
+build
 src/config.js
 .env<% if (includeFunctions) { %>
 
 # Functions
 functions/etc
 functions/dist
-functions/coverage
-functions/.runtimeconfig.json<% } %><% if (includeComponentTests || includeUiTests) { %>
+functions/.runtimeconfig.json<% } %><% if (includeFunctionsTests) { %>
+functions/coverage<% } %><% if (includeComponentTests || includeUiTests) { %>
 
-# Tests<% } %><% if (includeFunctionsTests) { %>
-functions/mochawesome-report<% } %><% if (includeUiTests) { %>
+# Tests<% } %><% if (includeUiTests) { %>
 cypress/videos
 cypress/screenshots
 cypress.env.json

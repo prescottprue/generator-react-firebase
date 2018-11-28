@@ -41,13 +41,13 @@ module.exports = {
   }<% if (includeComponentTests) { %>,
   overrides: [
     {
-      files: ['*.test.js', '*.spec.js'],
+      files: ['./src/**/*.test.js', './src/**/*.spec.js'],
       env: {
         jest: true
       }
     },
     {
-      files: ['scripts/*'],
+      files: ['./scripts/*'],
       rules: {
         'no-console': 0,
         'func-names': 0,

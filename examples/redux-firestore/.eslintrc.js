@@ -13,6 +13,9 @@ module.exports = {
       }
     }
   },
+  globals: {
+    Raven: false
+  },
   rules: {
     semi: [
       2, 'never'
@@ -35,5 +38,28 @@ module.exports = {
         useTabs: false
       }
     ]
-  }
+  },
+  overrides: [
+    {
+      files: ['./src/**/*.test.js', './src/**/*.spec.js'],
+      env: {
+        jest: true
+      }
+    },
+    {
+      files: ['./scripts/*'],
+      rules: {
+        'no-console': 0,
+        'func-names': 0,
+        'prefer-destructuring': 0,
+        'no-use-before-define': 0,
+        'import/order': 0,
+        'consistent-return': 0,
+        'no-param-reassign': 0,
+        'import/no-extraneous-dependencies': 0,
+        'global-require': 0,
+        'import/no-dynamic-require': 0
+      }
+    }
+  ]
 }

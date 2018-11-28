@@ -9,18 +9,11 @@
 
 # React App
 **/dist
+build
 src/config.js
 .env
 
 # Functions
 functions/etc
 functions/dist
-functions/coverage
 functions/.runtimeconfig.json
-
-# Tests
-cypress/videos
-cypress/screenshots
-cypress.env.json
-cypress/config.json
-serviceAccount.json

@@ -1,12 +1,12 @@
 stages:
   - build
   - deploy_staging
-  - e2e_tests
   - build_production
   - deploy_production
 
-# Cache dependencies across jobs only pulling not uploading (upload to cache
-# happens in build stage)
+# Shared Settings
+## Cache dependencies across jobs only pulling not uploading (upload to cache
+## happens in build stage)
 cache:
   untracked: true
   key: ${CI_COMMIT_REF_SLUG}
@@ -15,22 +15,15 @@ cache:
     - node_modules/
     - functions/node_modules/
 
-# Install dependencies for React App and Cloud Functions. Installing of
-# Cypress binary is skipped (done in E2E Testing Stage)
-# Script run before all stages unless otherwise overriden
+## Install dependencies for React App and Cloud Functions. 
+## Script run before all stages unless otherwise overriden
 before_script:
   - CYPRESS_INSTALL_BINARY=0 npm i
   - npm i --prefix functions
   - npm i firebase-tools@6.1.0 firebase-ci@next
 
 # Build Stage
-# Installs dependencies, builds app, and saves results for later (artifacts).
-# 1. Install dependencies for React App and Cloud Functions. Installing of
-# cypress binary is skipped (done in E2E Testing Stage)
-# 2. Build environment specific config file in src/config.js
-# 3. Confirm there is no lint within code (after config is injected for import linting)
-# 4. Build React app to dist folder
-# 5. Preserve build results and dependencies for future jobs in the pipeline
+## Installs dependencies, builds app, and saves results for later (artifacts).
 Build:
   stage: build
   image: node:8
@@ -43,7 +36,6 @@ Build:
     when: always
     paths:
       - dist
-      - functions/dist
       - node_modules/
       - functions/node_modules/
   # Override cache behavior set above since we want to both pull and push to
@@ -58,10 +50,9 @@ Build:
     - npm run build:config # create env specific src/config.js
     - npm run lint
     - npm run build
-    - npm run build:functions
 
-# Deploy Staging
-# Deploy React App and Cloud Functions
+# Deploy Staging Stage
+## Deploy React App and Firebase Functions
 Deploy Staging:
   stage: deploy_staging
   image: node:8
@@ -87,53 +78,8 @@ Deploy Staging:
   script:
     - npm run deploy
 
-# End To End Tests
-# Install Cypress binary and run end to end tests using Cypress
-E2E Tests:
-  stage: e2e_tests
-  image: cypress/base
-  when: on_success
-  allow_failure: true
-  only:
-    - master
-    - web
-    - schedules
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-tests/
-      - $CI_COMMIT_MESSAGE =~ /skip-e2e-tests/
-  # Override cache behavior set above since we want to both pull and push to
-  # the cache (no "policy" provided since pull-push is default)
-  cache:
-    untracked: true
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-      - .cache/Cypress/
-  artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
-    expire_in: 2 weeks
-    when: always
-    paths:
-      - cypress/videos
-      - cypress/screenshots
-      - cypress.env.json
-  dependencies:
-    - Build
-  # Override before_script behavior set above since we want to install the
-  # Cypress Binary
-  before_script:
-     # Install deps including Cypress binary (skipped in default before_script)
-    - npm i
-    - npm i cypress
-    # Confirm Cypress is ready to use
-    - $(npm bin)/cypress verify
-  script:
-     # Create environment specific test config including auth token
-     # (saved to cypress.env.json) then run E2E Tests through Cypress
-    - npm run test:stage -- --record --key $CYPRESS_KEY
-
-# Build Production version of bundle (has different config)
+# Build Production Stage
+## Build production version of bundle (has different config)
 Build Production:
   stage: build_production
   image: node:8
@@ -159,8 +105,8 @@ Build Production:
     # Note: Functions are not rebuilt since a bundle with env specific config
     # is not created as with React App
 
-# Deploy Production
-# Deploy React App and Cloud Functions to production environment
+# Deploy Production Stage
+## Deploy React App and Cloud Functions to production environment
 Deploy Production:
   stage: deploy_production
   image: node:8
