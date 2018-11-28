@@ -62,7 +62,9 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using `firebase serve`|
 |`build`            |Builds the application to `./dist`|<% if (includeComponentTests) { %>
 |`test`             |Runs unit tests with Jest. See [testing](#testing)|
-|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|<% } %>
+|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|<% } %><% if (includeUiTests) { %>
+|`test:ui`          |Runs ui tests with Cypress. See [testing](#testing)|
+|`test:ui:open`     |Opens ui tests runner (Cypress Dashboard). See [testing](#testing)|<% } %>
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
@@ -184,8 +186,8 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 
 Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
 
-  * Run using Cypress run: `npm run test`
-  * Open Test Runner UI (`cypress open`): `npm run test:open`
+    * Run using Cypress run: `npm run test:ui`
+    * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
 
 ## Deployment
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.

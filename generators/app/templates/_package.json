@@ -18,10 +18,10 @@
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",<% } %><% if (includeFunctionsTests) { %>
     "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
-    "test": "npm run build:testConfig && cypress run",
-    "test:open": "npm run build:testConfig && cypress open",
-    "test:stage": "npm run test:base -- --env envName=stage",
-    "test:open:stage": "npm run test:base -- --env envName=stage",<% } %>
+    "test:ui": "npm run build:testConfig && cypress run",
+    "test:ui:open": "npm run build:testConfig && cypress open",
+    "test:ui:stage": "npm run test:base -- --env envName=stage",
+    "test:ui:open:stage": "npm run test:base -- --env envName=stage",<% } %>
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",

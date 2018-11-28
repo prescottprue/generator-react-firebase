@@ -2,15 +2,16 @@
   "name": "react-firebase-redux-functions",
   "description": "Cloud Functions for react-firebase-redux",
   "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
   "engines": {
     "node": "8"
   },
   "scripts": {
-    "test": "npm run build && mocha ./test/unit/**",
-    "test:cov": "istanbul cover $(npm bin)/_mocha ./test/unit/**",
-    "lint": "eslint -c .eslintrc.js ./src",
+    "lint": "eslint -c .eslintrc.js .",
     "clean": "rimraf dist etc",
-    "build": "npm run clean && babel src -d --out-dir dist --retainLines",
+    "build": "npm run clean && babel src -d --out-dir dist",
+    "build:prod": "cross-env BABEL_ENV=production npm run build",
     "watch": "npm run build -- --watch",
     "serve": "npm run build && firebase serve --only functions",
     "shell": "npm run build && firebase functions:shell",
@@ -19,22 +20,25 @@
     "logs": "npm run build && firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "^6.1.0",
+    "firebase-admin": "^6.2.0",
     "firebase-functions": "^2.1.0",
-    "glob": "7.1.2",
+    "glob": "^7.1.3",
     "lodash": "^4.17.11"
   },
-  "private": true,
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "babel-plugin-module-resolver": "^3.1.1",
-    "chai": "^4.2.0",
-    "firebase-functions-test": "^0.1.3",
-    "istanbul": "1.1.0-alpha.1",
-    "mocha": "^5.2.0",
-    "rimraf": "^2.6.2",
-    "sinon": "^7.1.1"
+    "cross-env": "^5.2.0",
+    "eslint": "^5.6.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-prettier": "^2.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "^1.15.2",
+    "rimraf": "^2.6.2"
   }
 }

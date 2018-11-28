@@ -5,9 +5,6 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
 import 'firebase/storage'
-import 'firebase/messaging'
-import { initializeMessaging } from 'utils/firebaseMessaging'
-import { setAnalyticsUser } from 'utils/analytics'
 import makeRootReducer from './reducers'
 import {
   firebase as fbConfig,
@@ -20,21 +17,12 @@ export default (initialState = {}) => {
   // Redux + Firebase Config (react-redux-firebase & redux-firestore)
   // ======================================================
   const defaultRRFConfig = {
-    // updateProfileOnLogin: false // enable/disable updating of profile on login
-    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
     userProfile: 'users', // root that user profiles are written to
     updateProfileOnLogin: false, // enable/disable updating of profile on login
     presence: 'presence', // list currently online users under "presence" path in RTDB
     sessions: null, // Skip storing of sessions
-    enableLogging: false, // enable/disable Firebase Database Logging
-    onAuthStateChanged: (auth, firebase, dispatch) => {
-      if (auth) {
-        // Set auth within analytics
-        setAnalyticsUser(auth)
-        // Initalize messaging with dispatch
-        initializeMessaging(dispatch)
-      }
-    }
+    enableLogging: false // enable/disable Firebase Database Logging
+    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
   }
 
   // Combine default config with overrides if they exist (set within .firebaserc)

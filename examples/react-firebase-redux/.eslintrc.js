@@ -13,9 +13,6 @@ module.exports = {
       }
     }
   },
-  globals: {
-    Raven: false
-  },
   rules: {
     semi: [
       2, 'never'

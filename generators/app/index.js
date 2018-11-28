@@ -10,7 +10,7 @@ const utils = require('./utils')
 
 const featureChoices = [
   {
-    name: 'Config for Continuous Integration',
+    name: 'Continuous Integration config',
     answerName: 'includeCI',
     checked: true
   },
@@ -42,18 +42,17 @@ const featureChoices = [
   },
   {
     answerName: 'includeAnalytics',
-    name: 'Google Analytics Utils (react-ga)',
-    checked: true
-  },
-  {
-    answerName: 'includeErrorHandling',
-    name:
-      'Stackdriver Error Reporting (Client side matches Firebase Functions)',
+    name: 'Google Analytics (react-ga)',
     checked: true
   },
   {
     answerName: 'includeSentry',
-    name: 'Sentry.io Error Reporting',
+    name: 'Error Tracking (Sentry.io)',
+    checked: true
+  },
+  {
+    answerName: 'includeErrorHandling',
+    name: 'Client Side Error Reporting (Stackdriver)',
     checked: true
   }
 ]

@@ -11,7 +11,6 @@
 1. [Application Structure](#application-structure)
 1. [Development](#development)
     1. [Routing](#routing)
-1. [Testing](#testing)
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
@@ -33,16 +32,10 @@
     // Overrides for for react-redux-firebase/redux-firestore config
     export const reduxFirebase = {}
 
-    export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'
-
-    export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
-
     export default {
       env,
       firebase,
-      reduxFirebase,
-      publicVapidKey,
-      analyticsTrackingId
+      reduxFirebase
     }
     ```
 1. Start Development server: `npm start`
@@ -163,48 +156,6 @@ With this setting, the name of the file (called a "chunk") is defined as part of
 
 More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
 
-## Testing
-
-
-#### UI Tests
-
-Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
-
-  * Run using Cypress run: `npm run test`
-  * Open Test Runner UI (`cypress open`): `npm run test:open`
-
-## Deployment
-Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
-
-
-1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
-
-#### CI Deploy (recommended)
-
-**Note**: Config for this is located within
-`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
-
-1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
-1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
-1. Run a build on CI
-
-If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
-
-For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
-
-#### Manual deploy
-
-1. Run `firebase:login`
-1. Initialize project with `firebase init` then answer:
-    * What file should be used for Database Rules?  -> `database.rules.json`
-    * What do you want to use as your public directory? -> `build`
-    * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
-    * What Firebase project do you want to associate as default?  -> **your Firebase project name**
-1. Build Project: `npm run build`
-1. Confirm Firebase config by running locally: `firebase serve`
-1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
-
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
 ## FAQ
 

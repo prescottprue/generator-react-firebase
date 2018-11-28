@@ -7,13 +7,8 @@
       "includeRedux": true,
       "includeFirestore": false,
       "otherFeatures": [
-        "Firebase Functions (with ESNext support)",
-        "Firebase Cloud Messaging",
-        "Config for Continuous Integration",
-        "UI Tests (Cypress)",
-        "Google Analytics Utils (react-ga)",
-        "Stackdriver Error Reporting (Client side to match cloud functions)",
-        "Sentry.io Error Reporting"
+        "Continuous Integration config",
+        "Firebase Functions (with ESNext support)"
       ],
       "messagingSenderId": "823357791673",
       "firebasePublicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg",
