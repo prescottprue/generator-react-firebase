@@ -54,9 +54,9 @@ const firestoreFiles = ['firestore.indexes.json', 'firestore.rules']
 const herokuFiles = ['Procfile', 'app.json']
 
 const defaultOtherFeatures = [
-  'Firebase Functions (with Babel setup)',
+  'Continuous Integration config',
   'Firebase Cloud Messaging',
-  'Config for Continuous Integration'
+  'Firebase Functions (with Babel setup)',
 ]
 
 describe('generator-react-firebase:app', function() {
@@ -69,7 +69,7 @@ describe('generator-react-firebase:app', function() {
           .withPrompts({
             githubUser: 'testuser',
             firebaseName: 'asdf.firebaseio.com',
-            otherFeatures: [defaultOtherFeatures[2]],
+            otherFeatures: [defaultOtherFeatures[0]],
             includeCi: true,
             ciProvider: 'gitlab'
           })
@@ -94,7 +94,7 @@ describe('generator-react-firebase:app', function() {
           .withPrompts({
             githubUser: 'testuser',
             firebaseInstance: 'testing',
-            otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]],
+            otherFeatures: [defaultOtherFeatures[0], defaultOtherFeatures[1]],
             ciProvider: 'gitlab',
             includeRedux: 'Y',
             deployTo: 'firebase',
