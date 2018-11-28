@@ -11,7 +11,7 @@
     "test:clean": "rimraf test/tmp",
     "codecov": "cat coverage/*/lcov.info | codecov",
     "prepublishOnly": "npm run lint",
-    "prepush": "npm run lint"
+    "pre-push": "npm run lint"
   },
   "dependencies": {
     "chalk": "^2.4.1",
@@ -41,11 +41,11 @@
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-standard": "^3.0.1",
     "fs-extra": "^6.0.1",
-    "husky": "^0.14.3",
+    "husky": "^1.2.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.2.0",
-    "prettier": "^1.12.1",
-    "rimraf": "^2.6.1",
+    "prettier": "^1.15.2",
+    "rimraf": "^2.6.2",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.7.0"
   },

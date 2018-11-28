@@ -25,7 +25,7 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
-    "prepush": "npm run lint"
+    "pre-push": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -61,7 +61,7 @@
     "redux-thunk": "^2.2.0"<% } %>
   },
   "devDependencies": {
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0",<% if (includeComponentTests) { %>
+    "babel-eslint": "^9.0.0",<% if (includeComponentTests) { %>
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^1.0.0-beta.0",<% } %><% if (includeUiTests) { %>
@@ -69,19 +69,20 @@
     "cypress-firebase": "^0.0.5",<% } %>
     "eslint": "^5.6.0",
     "eslint-config-prettier": "^2.3.0",
-    "eslint-config-react-app": "^3.0.4",<% if (includeUiTests) { %>
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-plugin-flowtype": "^2.0.0",<% if (includeUiTests) { %>
     "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-cypress": "^2.1.2",<% } %>
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "husky": "^0.14.3",<% if (includeComponentTests) { %>
+    "husky": "^1.2.0",<% if (includeComponentTests) { %>
     "jest": "^24.0.0-alpha.6",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",<% } %>
     "node-sass": "^4.10.0",
-    "prettier": "^1.14.3"<% if (includeComponentTests) { %>,
+    "prettier": "^1.15.2"<% if (includeComponentTests) { %>,
     "react-test-renderer": "^16.6.3",
     "sinon": "^5.1.1",
     "sinon-chai": "^3.1.0"<%} %>
@@ -94,7 +95,7 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],<% if (includeComponentTests) { %>
+  ]<% if (includeComponentTests) { %>,
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
@@ -131,13 +132,5 @@
       "node"
     ],
     "snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"
-  },<%} %>
-  "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      "@babel/plugin-syntax-dynamic-import"
-    ]
-  }
+  }<%} %>
 }
