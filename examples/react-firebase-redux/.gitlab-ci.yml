@@ -4,6 +4,12 @@ stages:
   - build_production
   - deploy_production
 
+# To cache both npm modules and Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
 # Shared Settings
 ## Cache dependencies across jobs only pulling not uploading (upload to cache
 ## happens in build stage)
@@ -12,6 +18,7 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   policy: pull # only pull cache, skip uploading
   paths:
+    - .npm
     - node_modules/
     - functions/node_modules/
 
@@ -32,6 +39,7 @@ Build:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
   artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
     expire_in: 2 weeks
     when: always
     paths:

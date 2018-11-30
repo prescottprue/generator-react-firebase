@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-export const ProjectTile = ({
+const ProjectTile = ({
   name,
   onSelect,
   onDelete,

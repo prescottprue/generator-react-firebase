@@ -1,5 +1,4 @@
 {
-  "gcm_sender_id": "<%= capitalAppName %>",
   "short_name": "<%= capitalAppName %>",
   "name": "<%= capitalAppName %>",
   "start_url": "/login/",

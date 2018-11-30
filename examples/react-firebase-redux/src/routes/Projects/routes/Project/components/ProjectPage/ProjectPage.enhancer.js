@@ -5,12 +5,14 @@ import { get } from 'lodash'
 import { firebaseConnect } from 'react-redux-firebase'
 import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
-import { setPropTypes, withProps } from 'recompose'
+import { setPropTypes, setDisplayName, withProps } from 'recompose'
 import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
 import styles from './ProjectPage.styles'
 
 export default compose(
+  // Set component display name (more clear in dev/error tools)
+  setDisplayName('EnhancedProjectPage'),
   // Redirect to /login if user is not logged in
   UserIsAuthenticated,
   // Add props.match
@@ -32,5 +34,6 @@ export default compose(
   })),
   // Show loading spinner while project is loading
   spinnerWhileLoading(['project']),
+  // Add styles as props.classes
   withStyles(styles)
 )

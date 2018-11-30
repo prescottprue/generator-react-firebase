@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import { SIGNUP_PATH } from 'constants/paths'
 import LoginForm from '../LoginForm'
 
-export const LoginPage = ({
+const LoginPage = ({
   emailLogin,
   googleLogin,
   onSubmitFail,
