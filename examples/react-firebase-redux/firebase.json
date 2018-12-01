@@ -10,7 +10,9 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "jsconfig.json",
+      "cypress/**"
     ],
     "rewrites": [
       {
@@ -24,12 +26,11 @@
       "npm --prefix \"$RESOURCE_DIR\" run build:prod"
     ],
     "ignore": [
-      "src",
-      "test",
-      "jsconfig.json",
-      "scripts/**",
+      "**/.*",
       "**/*.spec.js",
-      "**/.*"
+      "src",
+      "scripts/**",
+      "jsconfig.json"
     ]
   }
 }

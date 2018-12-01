@@ -11,7 +11,7 @@ import {
 const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
-export const Home = ({ classes }) => (
+const Home = ({ classes }) => (
   <div className={classes.root}>
     <div className="flex-row-center">
       <h2>Home Route</h2>

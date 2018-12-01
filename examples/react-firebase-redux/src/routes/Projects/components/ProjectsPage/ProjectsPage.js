@@ -6,17 +6,9 @@ import ProjectRoute from 'routes/Projects/routes/Project'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
+import { renderChildren } from 'utils/router'
 
-const renderChildren = (routes, match, parentProps) =>
-  routes.map(route => (
-    <Route
-      key={`${match.url}-${route.path}`}
-      path={`${match.url}/${route.path}`}
-      render={props => <route.component {...parentProps} {...props} />}
-    />
-  ))
-
-export const ProjectsPage = ({
+const ProjectsPage = ({
   projects,
   collabProjects,
   auth,
@@ -47,10 +39,10 @@ export const ProjectsPage = ({
             {!isEmpty(projects) &&
               projects.map((project, ind) => (
                 <ProjectTile
-                  key={`Project-${project.id}-${ind}`}
-                  name={project.name}
-                  onSelect={() => goToProject(project.id)}
-                  onDelete={() => deleteProject(project.id)}
+                  key={`Project-${project.key}-${ind}`}
+                  name={project.value.name}
+                  onSelect={() => goToProject(project.key)}
+                  onDelete={() => deleteProject(project.key)}
                 />
               ))}
           </div>

@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 
-export const AccountPage = ({ avatarUrl, updateAccount, profile, classes }) => (
+const AccountPage = ({ avatarUrl, updateAccount, profile, classes }) => (
   <div className={classes.root}>
     <Paper className={classes.pane}>
       <div className={classes.settings}>
@@ -29,9 +29,9 @@ export const AccountPage = ({ avatarUrl, updateAccount, profile, classes }) => (
 
 AccountPage.propTypes = {
   classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  updateAccount: PropTypes.func.isRequired, // from enhancer (withHandlers)
   avatarUrl: PropTypes.string,
-  profile: PropTypes.object,
-  updateAccount: PropTypes.func
+  profile: PropTypes.object
 }
 
 export default AccountPage
