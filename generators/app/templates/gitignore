@@ -7,21 +7,21 @@
 # Dependencies
 **/node_modules
 
-
 # React App
 **/dist
-src/config.js<% if (includeFunctions) { %>
+build
+src/config.js
+.env<% if (includeFunctions) { %>
 
 # Functions
 functions/etc
 functions/dist
-functions/coverage
-functions/.runtimeconfig.json<% } %><% if (includeTests) { %>
-# Tests
-coverage
+functions/.runtimeconfig.json<% } %><% if (includeFunctionsTests) { %>
+functions/coverage<% } %><% if (includeComponentTests || includeUiTests) { %>
+
+# Tests<% } %><% if (includeUiTests) { %>
 cypress/videos
 cypress/screenshots
 cypress.env.json
 cypress/config.json
-functions/mochawesome-report
 serviceAccount.json<% } %>

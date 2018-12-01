@@ -4,19 +4,20 @@ import { Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import Button from '@material-ui/core/Button'
 import { required, validateEmail } from 'utils/form'
-import classes from './LoginForm.scss'
 
-export const LoginForm = ({ pristine, submitting, handleSubmit }) => (
-  <form className={classes.container} onSubmit={handleSubmit}>
+const LoginForm = ({ pristine, submitting, handleSubmit, classes }) => (
+  <form className={classes.root} onSubmit={handleSubmit}>
     <Field
       name="email"
       component={TextField}
+      autoComplete="email"
       label="Email"
       validate={[required, validateEmail]}
     />
     <Field
       name="password"
       component={TextField}
+      autoComplete="current-password"
       label="Password"
       type="password"
       validate={required}
@@ -34,10 +35,10 @@ export const LoginForm = ({ pristine, submitting, handleSubmit }) => (
 )
 
 LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  pristine: PropTypes.bool.isRequired, // added by redux-form
-  submitting: PropTypes.bool.isRequired, // added by redux-form
-  handleSubmit: PropTypes.func.isRequired // added by redux-form (calls onSubmit)
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  pristine: PropTypes.bool.isRequired, // from enhancer (reduxForm)
+  submitting: PropTypes.bool.isRequired, // from enhancer (reduxForm)
+  handleSubmit: PropTypes.func.isRequired // from enhancer (reduxForm - calls onSubmit)
 }
 
 export default LoginForm

@@ -18,6 +18,7 @@ Install [Yeoman](http://yeoman.io) and generator-react-firebase using [npm](http
 ```bash
 npm install -g yo generator-react-firebase
 ```
+
 ## Before Starting
 1. Do the following in the Firebase Console:
     1. Create both a Firestore Database and Real Time Database within your project
@@ -40,23 +41,27 @@ npm install -g yo generator-react-firebase
 1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).
 
 ## Features
-* Up to date `firebase-functions` (including support within function sub-generator)
-* React v16.3
-* Material-UI v1 application styling including Navbar
-* Full Authentication (through Email, Google or Github)
-* Login/Signup Pages with input validation
+
+* React v16.6
+* Material-UI application styling including Navbar
+* Full Authentication with validation (through Email, Google or Github)
+* Async route loading (using [react-loadable][react-loadable-url])
 * Route protection (only view certain pages when logged in)
-* Account Page
+* Firebase Functions Setup with function splitting for faster cold-starts (including support within function sub-generator)
+* Account Management Page
 * Automatic Build/Deploy config for multiple CI Providers including:
     * Gitlab (uses pipelines)
     * Travis
+* Component Testing With Jest
+* UI Testing with Cypress
 
 ## Uses
+
 * [react](https://facebook.github.io/react/) - Rendering + Components
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
-* [material-ui](https://material-ui.com) - Google Material Styling React Components (with option to opt out of Version 1)
+* [material-ui](https://material-ui.com) - Google Material Styling React Components
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
-* [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) - Improve CLI experience for Webpack
+* [react-loadable](https://github.com/jamiebuilds/react-loadable) - HOC for async route/component chunk loading
 
 *When opting into redux*
 
@@ -349,7 +354,6 @@ Generates a React component along with a matching component (which has an scss f
 
 Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
-
 ## Generated Project
 
 Project outputted from generator has a README explaining the full structure and details specific to settings you choose. This includes everything from running your code to deploying it.
@@ -381,6 +385,11 @@ For full projects built out using this as a starting place, check the next secti
 
 1. How do I deploy my application?
   The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
+
+1. How do I add a route?
+    1. Use the route sub-generator to add the route: `yo react-firebase:route MyRoute`
+    1. Add a `path` of the new route to `constants/paths` (i.e. `MYROUTE_PATH`)
+    1. Add the route to the list of routes in `src/routes/index.js`
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
     * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
@@ -427,7 +436,41 @@ For full projects built out using this as a starting place, check the next secti
     }
     ```
 
+1. Why are there `__snapshots__` folders everywhere when opting into Jest?
+
+    Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
+
+    I got it working by:
+      1. Ejecting result of generator (`yarn eject`)
+      1. Installing beta version of Jest that is at least  `24.0.0-alpha.6` - `yarn add jest@beta --dev`
+      1. Adding [a snapshot resolver to place snapshots where you want](https://gist.github.com/prescottprue/5ece5e173bcfba7ed86dae6a91444451) as `scripts/snapshotResolver.js`
+      1. Referencing the snapshot resolver reference within `package.json` (which should contain jest config after ejecting):
+        `"snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"`
+
+1. How do I move/rename the `cypress` folder to something more general?
+    If you wanted to move the `cypress` folder into `test/ui` for intance, you could modify your `cypress.json` file to match the following:
+
+    **cypress.json**
+    ```json
+    {
+      "chromeWebSecurity": false,
+      "fixturesFolder": "test/ui/fixtures",
+      "integrationFolder": "test/ui/integration",
+      "pluginsFile": "test/ui/plugins/index.js",
+      "screenshotsFolder": "test/ui/screenshots",
+      "videosFolder": "test/ui/videos",
+      "supportFile": "test/ui/support/index.js"
+    }
+    ```
+
+1. Some of my answers were saved, how did that happen? Why?
+
+    Yeoman has the `store` option, which uses [the Yeoman Storage API to store answers](https://yeoman.io/authoring/storage.html) to questions within within a `.yo-rc.json`. This allows you to rerun the generator in the future to recieve updates without having to remember the answers you used or re-lookup them up.
+
+    This also shows you how examples were done by answering the generator questions.
+
 ## In the future
+
 * Airbnb linting option (currently only `standard`)
 * Option to use simple file structure instead of fractal pattern
 * Open to ideas
@@ -454,3 +497,4 @@ MIT © [Prescott Prue](http://prue.io)
 [gitter-image]: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
 [gitter-url]: https://gitter.im/prescottprue/generator-react-firebase
 [firebase-ci-url]: https://github.com/prescottprue/firebase-ci
+[react-loadable-url]: https://github.com/jamiebuilds/react-loadable

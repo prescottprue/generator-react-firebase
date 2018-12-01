@@ -10,8 +10,14 @@ const utils = require('./utils')
 
 const featureChoices = [
   {
-    name: 'Material-UI Version 3 (0.20.0 used otherwise)',
-    answerName: 'materialv1',
+    name: 'Continuous Integration config',
+    answerName: 'includeCI',
+    checked: true
+  },
+  {
+    answerName: 'includeMessaging',
+    name: 'Firebase Cloud Messaging',
+    when: currentAnswers => !!currentAnswers.messagingSenderId,
     checked: true
   },
   {
@@ -20,41 +26,42 @@ const featureChoices = [
     checked: true
   },
   {
-    answerName: 'includeAnalytics',
-    name: 'Google Analytics Utils (using react-ga)',
+    name: 'Tests for Firebase Functions (Mocha + Chai)',
+    answerName: 'includeFunctionsTests',
     checked: true
   },
   {
-    answerName: 'includeErrorHandling',
-    name: 'Stackdriver Error Reporting (Client Side To Match Functions)',
+    name: 'Tests for React Components (Jest)',
+    answerName: 'includeComponentTests',
+    checked: false
+  },
+  {
+    name: 'Tests for UI (Cypress)',
+    answerName: 'includeUiTests',
+    checked: false
+  },
+  {
+    answerName: 'includeAnalytics',
+    name: 'Google Analytics (react-ga)',
     checked: true
   },
   {
     answerName: 'includeSentry',
-    name: 'Sentry.io Error Reporting',
+    name: 'Error Tracking (Sentry.io)',
     checked: true
   },
   {
-    answerName: 'includeMessaging',
-    name: 'Firebase Cloud Messaging',
-    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
+    answerName: 'includeErrorHandling',
+    name: 'Client Side Error Reporting (Stackdriver)',
     checked: true
-  },
-  {
-    name: 'Config for Continuous Integration',
-    answerName: 'includeCI',
-    checked: true
-  },
-  {
-    name: 'Tests',
-    answerName: 'includeTests',
-    checked: false
   }
 ]
 
 function checkAnswersForFeature(currentAnswers, featureName) {
   const { otherFeatures } = currentAnswers
-  const matchingFeature = featureChoices.find((choice) => choice.answerName === featureName)
+  const matchingFeature = featureChoices.find(
+    choice => choice.answerName === featureName
+  )
   return otherFeatures.includes(matchingFeature.name)
 }
 
@@ -63,56 +70,70 @@ const prompts = [
     type: 'input',
     name: 'githubUser',
     message: 'Github Username',
-    default: 'testuser'
+    default: 'testuser',
+    store: true
   },
   {
     name: 'firebaseName',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
     /* istanbul ignore next: Tested in utils */
-    validate: utils.firebaseUrlValidate
+    validate: utils.firebaseUrlValidate,
+    store: true
   },
   {
     name: 'firebaseKey',
     message: 'Firebase apiKey',
-    required: true
+    required: true,
+    store: true
   },
   {
     type: 'confirm',
     name: 'includeRedux',
     message: 'Include redux for local state-management?',
-    default: true
+    default: true,
+    store: true
   },
   {
     type: 'confirm',
     name: 'includeFirestore',
     message: 'Use Firestore (RTDB still included)?',
-    default: true
+    default: true,
+    store: true
   },
   {
     type: 'checkbox',
     message: 'Other Features To Include:',
     name: 'otherFeatures',
-    choices: featureChoices
+    choices: featureChoices,
+    store: true
   },
   {
     name: 'messagingSenderId',
     message: 'Firebase messagingSenderId',
     required: true,
-    when: (currentAnswers) =>
+    when: currentAnswers =>
       checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+    store: true
   },
   {
     name: 'firebasePublicVapidKey',
-    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
-    message: 'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
-    required: true
+    when: currentAnswers => !!currentAnswers.messagingSenderId,
+    message:
+      'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
+    required: true,
+    store: true
+  },
+  {
+    name: 'sentryDsn',
+    message: 'Sentry DSN',
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeSentry')
   },
   {
     type: 'list',
     name: 'ciProvider',
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeCI'),
+    when: currentAnswers => checkAnswersForFeature(currentAnswers, 'includeCI'),
     choices: [
       {
         name: 'Gitlab',
@@ -124,7 +145,8 @@ const prompts = [
       }
     ],
     message: 'What provider which you like to use for CI?',
-    default: 0
+    default: 0,
+    store: true
   },
   {
     type: 'list',
@@ -144,14 +166,16 @@ const prompts = [
       }
     ],
     message: 'What service are you deploying to?',
-    default: 0
+    default: 0,
+    store: true
   },
   {
     type: 'confirm',
     name: 'useYarn',
     message: 'Use Yarn?',
     // Only offer if using versions of node/npm that benift from yarn (adds lock file when not there before)
-    when: () => semver.satisfies(process.version, '<=6.0.0') && commandExistsSync('yarn'),
+    when: () =>
+      semver.satisfies(process.version, '<=6.0.0') && commandExistsSync('yarn'),
     default: false
   }
 ]
@@ -160,53 +184,52 @@ const filesArray = [
   { src: '_README.md', dest: 'README.md' },
   { src: 'jsconfig.json' },
   { src: 'LICENSE' },
-  { src: 'project.config.js' },
   { src: '_package.json', dest: 'package.json' },
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
-  { src: 'eslintrc', dest: '.eslintrc' },
+  { src: 'env.local', dest: '.env.local' },
+  { src: 'eslintrc.js', dest: '.eslintrc.js' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
   // { src: 'public/**', dest: 'public' }, // individual files copied
   { src: 'public/favicon.ico' },
   { src: 'public/humans.txt' },
+  { src: 'public/index.html' },
   { src: 'public/manifest.json' },
   { src: 'public/robots.txt' },
-  { src: 'build/lib/**', dest: 'build/lib' },
-  { src: 'build/scripts/**', dest: 'build/scripts' },
-  { src: 'build/webpack.config.js', dest: 'build/webpack.config.js' },
-  { src: 'server/**', dest: 'server' },
   { src: 'src/config.js' },
-  { src: 'src/index.html' },
-  { src: 'src/main.js' },
-  { src: 'src/normalize.js' },
-  { src: 'src/constants.js' },
+  { src: 'src/index.js' },
+  { src: 'src/index.css' },
+  { src: 'src/constants/**', dest: 'src/constants' },
   { src: 'src/components/**', dest: 'src/components' },
-  { src: 'src/containers/App', dest: 'src/containers/App' },
-  { src: 'src/containers/Navbar/AccountMenu.js', dest: 'src/containers/Navbar/AccountMenu.js' },
-  { src: 'src/containers/Navbar/index.js', dest: 'src/containers/Navbar/index.js' },
-  { src: 'src/containers/Navbar/LoginMenu.js', dest: 'src/containers/Navbar/LoginMenu.js' },
-  { src: 'src/containers/Navbar/Navbar.enhancer.js', dest: 'src/containers/Navbar/Navbar.enhancer.js' },
-  { src: 'src/containers/Navbar/Navbar.js', dest: 'src/containers/Navbar/Navbar.js' },
+  { src: 'src/containers/**', dest: 'src/containers' },
+  { src: 'src/utils/index.js' },
+  { src: 'v1theme.js', dest: 'src/theme.js' },
+  { src: 'src/containers/Navbar/Navbar.styles.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/**', dest: 'src/static', noTemplating: true },
-  { src: 'src/styles/**', dest: 'src/styles' },
+  { src: 'src/static/**', dest: 'src/static', noTemplating: true }
 ]
 
 module.exports = class extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
 
     this.argument('name', { type: String, required: false })
-    const appName = this.options.name || path.basename(process.cwd()) || 'react-firebase'
+    const appName =
+      this.options.name || path.basename(process.cwd()) || 'react-firebase'
     this.intialData = {
       version: '0.0.1',
       messagingSenderId: null,
+      materialv1: true,
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
+      includeUiTests: false,
+      includeComponentTests: false,
+      includeFunctionsTests: false,
+      includeFunctions: false,
       sentryDsn: null,
       ciProvider: null,
       codeClimate: true,
@@ -216,17 +239,23 @@ module.exports = class extends Generator {
     }
   }
 
-  prompting () {
-    this.log(yosay(
-      `Welcome to the ${chalk.blue('React')} ${chalk.red('Firebase')} generator!`
-    ))
+  prompting() {
+    this.log(
+      yosay(
+        `Welcome to the ${chalk.blue('React')} ${chalk.red(
+          'Firebase'
+        )} generator!`
+      )
+    )
 
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = props
       // Map features array to answerNames
       if (props.otherFeatures) {
-        featureChoices.forEach((choice) => {
-          const matching = props.otherFeatures.find(feature => choice.name === feature)
+        featureChoices.forEach(choice => {
+          const matching = props.otherFeatures.find(
+            feature => choice.name === feature
+          )
           this.answers[choice.answerName] = !!matching
         })
       }
@@ -234,7 +263,8 @@ module.exports = class extends Generator {
     })
   }
 
-  writing () {
+  writing() {
+    // CI Settings
     if (this.answers.includeCI) {
       if (this.answers.ciProvider === 'travis') {
         filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
@@ -250,18 +280,6 @@ module.exports = class extends Generator {
       )
     }
 
-    if (!this.answers.materialv1) {
-      filesArray.push(
-        { src: 'src/theme.js' },
-        { src: 'src/containers/Navbar/Navbar.scss', dest: 'src/containers/Navbar/Navbar.scss' }
-      )
-    } else {
-      filesArray.push(
-        { src: 'v1theme.js', dest: 'src/theme.js' },
-        { src: 'src/containers/Navbar/Navbar.styles.js', dest: 'src/containers/Navbar/Navbar.styles.js' }
-      )
-    }
-
     if (this.answers.deployTo === 'firebase') {
       filesArray.push(
         { src: 'firebase.json', dest: 'firebase.json' },
@@ -270,20 +288,24 @@ module.exports = class extends Generator {
         { src: 'storage.rules', dest: 'storage.rules' }
       )
     } else {
-      filesArray.push(
-        { src: 'build/create-config.js', dest: 'build/create-config.js' }
-      )
+      // TODO: Replace this with something else
+      // filesArray.push({
+      //   src: 'build/create-config.js',
+      //   dest: 'build/create-config.js'
+      // })
     }
 
     if (this.answers.includeRedux) {
       filesArray.push(
-        { src: 'src/store/createStore.js', dest: 'src/store/createStore.js' },
-        { src: 'src/store/reducers.js', dest: 'src/store/reducers.js' },
-        { src: 'src/store/location.js', dest: 'src/store/location.js' },
-        { src: 'src/utils/router.js', dest: 'src/utils/router.js' },
-        { src: 'src/utils/components.js', dest: 'src/utils/components.js' },
+        { src: 'src/store/createStore.js' },
+        { src: 'src/store/reducers.js' },
+        { src: 'src/store/location.js' },
+        { src: 'src/utils/router.js' },
+        { src: 'src/utils/components.js' },
         { src: 'src/utils/form.js' }
       )
+
+      // Firestore
       if (this.answers.includeFirestore) {
         filesArray.push(
           { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
@@ -292,61 +314,65 @@ module.exports = class extends Generator {
       }
     } else {
       // Handle files that do not do internal string templateing well
-      filesArray.push(
-        { src: 'src/utils/firebase.js' }
-      )
+      filesArray.push({ src: 'src/utils/firebase.js' })
     }
 
+    // Cloud Functions
     if (this.answers.includeFunctions) {
       filesArray.push(
-        { src: 'functions/.runtimeconfig.json', dest: 'functions/.runtimeconfig.json' },
+        { src: 'functions/.runtimeconfig.json' },
         { src: 'functions/jsconfig.json' },
-        { src: 'functions/.eslintrc', dest: 'functions/.eslintrc' },
-        { src: 'functions/.babelrc', dest: 'functions/.babelrc' },
-        { src: 'functions/package.json', dest: 'functions/package.json' },
-        { src: 'functions/src/indexUser/index.js', dest: 'functions/src/indexUser/index.js' },
-        { src: 'functions/src/utils/async.js', dest: 'functions/src/utils/async.js' },
-        { src: 'functions/test/.eslintrc', dest: 'functions/test/.eslintrc' },
-        { src: 'functions/test/mocha.opts', dest: 'functions/test/mocha.opts' },
-        { src: 'functions/test/setup.js', dest: 'functions/test/setup.js' },
-        { src: 'functions/test/unit/**', dest: 'functions/test/unit' },
-        { src: 'functions/index.js', dest: 'functions/index.js' },
-        { src: 'functions/index.js', dest: 'functions/index.js' }
+        { src: 'functions/.eslintrc.js' },
+        { src: 'functions/.babelrc' },
+        { src: 'functions/package.json' },
+        { src: 'functions/src' },
+        { src: 'functions/index.js' }
       )
     }
 
-    if (this.answers.includeBlueprints) {
+    // Cloud Functions Tests
+    if (this.answers.includeFunctionsTests) {
       filesArray.push(
-        { src: 'blueprints/**', dest: 'blueprints', noTemplating: true }
+        { src: 'functions/mocha.opts' },
+        { src: 'functions/scripts/testSetup.js' },
+        { src: 'functionsTests', dest: 'functions/src' }
       )
     }
 
-    if (this.answers.includeErrorHandling) {
+    // UI Tests
+    if (this.answers.includeUiTests) {
       filesArray.push(
-        { src: 'src/utils/errorHandler.js', dest: 'src/utils/errorHandler.js' },
-        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
+        { src: 'cypress/.eslintrc.js', dest: 'cypress/.eslintrc.js' },
+        { src: 'cypress/**', dest: 'cypress' },
+        { src: 'cypress.env.json' },
+        { src: 'cypress.json' }
       )
     }
 
-    if (this.answers.includeAnalytics) {
+    // React Component Tests
+    if (this.answers.includeComponentTests) {
       filesArray.push(
-        { src: 'src/utils/analytics.js', dest: 'src/utils/analytics.js' },
-        { src: 'src/utils/index.js', dest: 'src/utils/index.js' }
-      )
-    }
-
-    if (this.answers.includeTests) {
-      filesArray.push(
-        { src: 'build/karma.config.js', dest: 'build/karma.config.js' },
-        { src: 'tests/**', dest: 'tests' },
-        { src: 'testseslintrc', dest: 'tests/.eslintrc' }
+        { src: 'jestTests/**', dest: 'src' },
+        // { src: 'scripts/**', dest: 'scripts' },
+        { src: 'env.test', dest: '.env.test' }
       )
     }
 
     if (this.answers.includeMessaging) {
       filesArray.push(
         { src: 'src/utils/firebaseMessaging.js' },
-        { src: 'public/firebase-messaging-sw.js' },
+        { src: 'public/firebase-messaging-sw.js' }
+      )
+    }
+
+    if (this.answers.includeErrorHandling) {
+      filesArray.push({ src: 'src/utils/errorHandler.js' })
+    }
+
+    if (this.answers.includeAnalytics) {
+      filesArray.push(
+        { src: 'src/utils/analytics.js' },
+        { src: 'src/utils/index.js' }
       )
     }
 
@@ -365,35 +391,69 @@ module.exports = class extends Generator {
     })
   }
 
-  install () {
+  install() {
     const { useYarn } = this.answers
     // Promise chaining used since this.npmInstall.then not a function
     return Promise.resolve()
       .then(() => {
+        /* eslint-disable no-console */
+        console.log('\nGeneration complete!')
+        /* eslint-enable no-console */
         if (useYarn === false) {
-          console.log(chalk.yellow('Opted out of yarn even though it is available. Functions runtime suggests it so you have a lock file for node v6.11.*')) // eslint-disable-line no-console
+          /* eslint-disable no-console */
+          console.log(
+            chalk.yellow('Opted out of yarn even though it is available.')
+          )
+          /* eslint-enable no-console */
         }
         if (!useYarn) {
-          console.log(chalk.blue('Installing dependencies using NPM...')) // eslint-disable-line no-console
+          /* eslint-disable no-console */
+          console.log(
+            `Install dependencies by calling ${chalk.blue('npm install')}`
+          )
+          /* eslint-enable no-console */
           // Main npm install then functions npm install
           return this.npmInstall()
         }
-        console.log(chalk.blue('Installing dependencies using Yarn...')) // eslint-disable-line no-console
-        console.log(chalk.blue('Note: Yarn is no longer nessesary since cloud functions supports node 8 which has package-lock.json support.')) // eslint-disable-line no-console
+        /* eslint-disable no-console */
+        console.log(
+          `Install dependencies by calling ${chalk.blue('yarn install')}`
+        )
+        /* eslint-enable no-console */
+        /* eslint-disable no-console */
+        console.log(
+          chalk.blue(
+            'Note: Yarn is no longer nessesary since cloud functions supports node 8 which has package-lock.json support.'
+          )
+        )
+        /* eslint-enable no-console */
         // Main yarn install then functions yarn install
         return this.yarnInstall()
       })
       .then(() => {
         if (this.answers.includeFunctions) {
-          console.log(chalk.blue(`Installing functions dependencies using ${useYarn ? 'Yarn' : 'NPM'}...`)) // eslint-disable-line no-console
+          /* eslint-disable no-console */
+          console.log(
+            chalk.blue(
+              `Installing functions dependencies using ${
+                useYarn ? 'Yarn' : 'NPM'
+              }...`
+            )
+          )
+          /* eslint-enable no-console */
           return useYarn
             ? this.yarnInstall(undefined, { cwd: 'functions' })
             : this.npmInstall(undefined, { prefix: 'functions' })
         }
         return null
       })
-      .catch((err) => {
-        console.log(chalk.red('Error installing dependencies:'), err && err.message) // eslint-disable-line no-console
+      .catch(err => {
+        /* eslint-disable no-console */
+        console.log(
+          chalk.red('Error installing dependencies:'),
+          err && err.message
+        )
+        /* eslint-enable no-console */
         return Promise.reject(err)
       })
   }

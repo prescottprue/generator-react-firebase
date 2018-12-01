@@ -1,0 +1,5 @@
+{
+  "TEST_UID": "<- uid of test user here ->",
+  "FIREBASE_PROJECT_ID": "<%= firebaseName %>",
+  "FIREBASE_API_KEY": "<%= firebaseKey %>"
+}

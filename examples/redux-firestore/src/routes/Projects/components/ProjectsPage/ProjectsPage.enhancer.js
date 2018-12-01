@@ -1,13 +1,18 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { LIST_PATH } from 'constants'
-import { withHandlers, withStateHandlers, pure } from 'recompose'
+import { LIST_PATH } from 'constants/paths'
+import { withHandlers, withStateHandlers, setDisplayName } from 'recompose'
+import { withRouter } from 'react-router-dom'
 import { firestoreConnect } from 'react-redux-firebase'
+import { withStyles } from '@material-ui/core/styles'
 import { withNotifications } from 'modules/notification'
-import { withRouter, spinnerWhileLoading } from 'utils/components'
+import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
+import styles from './ProjectsPage.styles'
 
 export default compose(
+  // Set component display name (more clear in dev/error tools)
+  setDisplayName('EnhancedProjectsPage'),
   // redirect to /login if user is not logged in
   UserIsAuthenticated,
   // Map auth uid from state to props
@@ -82,9 +87,10 @@ export default compose(
           return Promise.reject(err)
         })
     },
-    goToProject: ({ router }) => projectId => {
-      router.push(`${LIST_PATH}/${projectId}`)
+    goToProject: ({ history }) => projectId => {
+      history.push(`${LIST_PATH}/${projectId}`)
     }
   }),
-  pure // shallow equals comparison on props (prevent unessesary re-renders)
+  // Add styles as props.classes
+  withStyles(styles)
 )

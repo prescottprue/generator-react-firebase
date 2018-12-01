@@ -1,31 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'<% if (materialv1) { %>
+import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'<% } %>
-import classes from './ProjectPage.scss'
+import Typography from '@material-ui/core/Typography'
 
-const ProjectPage = ({ params, project }) => (
-  <div className={classes.container}>
-    <% if (!materialv1) { %><h2>Project Container</h2>
-    <pre>Project Key: {params.projectname}</pre>
-    <pre>{JSON.stringify(project, null, 2)}</pre><% } %><% if (materialv1) { %><Card className={classes.card}>
+const ProjectPage = ({ project, projectId, classes }) => (
+  <div className={classes.root}>
+    <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.title} component="h2">
           {project.name || 'Project'}
         </Typography>
-        <Typography className={classes.subtitle}>{params.projectId}</Typography>
-        <div>
+        <Typography className={classes.subtitle}>{projectId}</Typography>
+        <div style={{ marginTop: '10rem' }}>
           <pre>{JSON.stringify(project, null, 2)}</pre>
         </div>
       </CardContent>
-    </Card><% } %>
+    </Card>
   </div>
 )
 
 ProjectPage.propTypes = {
-  project: PropTypes.object,
-  params: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  project: PropTypes.object.isRequired, // from enhancer (connect)
+  projectId: PropTypes.string.isRequired // from enhancer (withProps)
 }
 
 export default ProjectPage

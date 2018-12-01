@@ -1,13 +1,14 @@
-import React, { cloneElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'react-redux-firebase'
+import { Route, Switch } from 'react-router-dom'
+import ProjectRoute from 'routes/Projects/routes/Project'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
-import classes from './ProjectsPage.scss'
+import { renderChildren } from 'utils/router'
 
-export const ProjectsPage = ({
-  children,
+const ProjectsPage = ({
   projects,
   collabProjects,
   auth,
@@ -15,34 +16,45 @@ export const ProjectsPage = ({
   toggleDialog,
   deleteProject,
   addProject,
+  classes,
+  match,
   goToProject
-}) =>
-  children ? (
-    cloneElement(children, { auth })
-  ) : (
-    <div className={classes.container}>
-      <NewProjectDialog
-        onSubmit={addProject}
-        open={newDialogOpen}
-        onRequestClose={toggleDialog}
-      />
-      <div className={classes.tiles}>
-        <NewProjectTile onClick={toggleDialog} />
-        {!isEmpty(projects) &&
-          projects.map((project, ind) => (
-            <ProjectTile
-              key={`Project-${<% if (includeRedux && includeFirestore) { %>project.id<% } %><% if (includeRedux && !includeFirestore) { %>project.key<% } %>}-${ind}`}
-              name={<% if (includeRedux && includeFirestore) { %>project.name<% } %><% if (includeRedux && !includeFirestore) { %>project.value.name<% } %>}
-              onSelect={() => goToProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
-              onDelete={() => deleteProject(<% if (includeRedux && !includeFirestore) { %>project.key<% } %><% if (includeRedux && includeFirestore) { %>project.id<% } %>)}
-            />
-          ))}
-      </div>
-    </div>
-  )
+}) => (
+  <Switch>
+    {/* Child routes */}
+    {renderChildren([ProjectRoute], match, { auth })}
+    {/* Main Route */}
+    <Route
+      exact
+      path={match.path}
+      render={() => (
+        <div className={classes.root}>
+          <NewProjectDialog
+            onSubmit={addProject}
+            open={newDialogOpen}
+            onRequestClose={toggleDialog}
+          />
+          <div className={classes.tiles}>
+            <NewProjectTile onClick={toggleDialog} />
+            {!isEmpty(projects) &&
+              projects.map((project, ind) => (
+                <ProjectTile
+                  key={`Project-${project.<% if (includeRedux && includeFirestore) { %>id<% } else { %>key<% } %>}-${ind}`}
+                  name={<% if (includeRedux && includeFirestore) { %>project.name<% } else { %>project.value.name<% } %>}
+                  onSelect={() => goToProject(project.<% if (includeRedux && includeFirestore) { %>id<% } else { %>key<% } %>)}
+                  onDelete={() => deleteProject(project.<% if (includeRedux && includeFirestore) { %>id<% } else { %>key<% } %>)}
+                />
+              ))}
+          </div>
+        </div>
+      )}
+    />
+  </Switch>
+)
 
 ProjectsPage.propTypes = {
-  children: PropTypes.object, // from react-router
+  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
+  match: PropTypes.object.isRequired, // from enhancer (withRouter)
   auth: PropTypes.object, // from enhancer (connect + firebaseConnect - firebase)
   projects: PropTypes.array, // from enhancer (connect + firebaseConnect - firebase)
   newDialogOpen: PropTypes.bool, // from enhancer (withStateHandlers)

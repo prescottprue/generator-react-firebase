@@ -1,21 +1,46 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { browserHistory } from 'react-router'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
-import makeRootReducer from './reducers'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
 import 'firebase/storage'
-import { firebase as fbConfig, reduxFirebase as rrfConfig } from '../config'
-import { version } from '../../package.json'
-import { updateLocation } from './location'
+import makeRootReducer from './reducers'
+import {
+  firebase as fbConfig,
+  reduxFirebase as rrfConfig,
+  env
+} from '../config'
 
 export default (initialState = {}) => {
   // ======================================================
-  // Window Vars Config
+  // Redux + Firebase Config (react-redux-firebase & redux-firestore)
   // ======================================================
-  window.version = version
+  const defaultRRFConfig = {
+    userProfile: 'users', // root that user profiles are written to
+    updateProfileOnLogin: false, // enable/disable updating of profile on login
+    presence: 'presence', // list currently online users under "presence" path in RTDB
+    sessions: null, // Skip storing of sessions
+    enableLogging: false // enable/disable Firebase Database Logging
+    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
+  }
+
+  // Combine default config with overrides if they exist (set within .firebaserc)
+  const combinedConfig = rrfConfig
+    ? { ...defaultRRFConfig, ...rrfConfig }
+    : defaultRRFConfig
+
+  // ======================================================
+  // Store Enhancers
+  // ======================================================
+  const enhancers = []
+
+  if (env === 'local') {
+    const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
+    if (typeof devToolsExtension === 'function') {
+      enhancers.push(devToolsExtension())
+    }
+  }
 
   // ======================================================
   // Middleware Configuration
@@ -26,17 +51,8 @@ export default (initialState = {}) => {
   ]
 
   // ======================================================
-  // Store Enhancers
+  // Firebase Initialization
   // ======================================================
-  const enhancers = []
-  if (__DEV__) {
-    const devToolsExtension = window.devToolsExtension
-    if (typeof devToolsExtension === 'function') {
-      enhancers.push(devToolsExtension())
-    }
-  }
-
-  // Initialize Firebase
   firebase.initializeApp(fbConfig)
 
   // ======================================================
@@ -47,14 +63,12 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reactReduxFirebase(firebase, rrfConfig),
+      reactReduxFirebase(firebase, combinedConfig),
       ...enhancers
     )
   )
-  store.asyncReducers = {}
 
-  // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
-  store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
+  store.asyncReducers = {}
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

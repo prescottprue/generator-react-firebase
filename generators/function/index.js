@@ -17,12 +17,12 @@ function loadProjectPackageFile() {
   // Load package file handling errors
   try {
     return require(packagePath)
-  } catch(err) {
+  } catch (err) {
     return null
   }
 }
 
-function getFbToolsVersion () {
+function getFbToolsVersion() {
   const functionsPkgPath = process.cwd() + '/functions/package.json'
   // If functions package file does not exist, default to not functions v1.0.0
   if (!fs.existsSync(functionsPkgPath)) {
@@ -32,7 +32,7 @@ function getFbToolsVersion () {
   try {
     const pkgFile = require(functionsPkgPath)
     return semver.coerce(get(pkgFile, 'dependencies.firebase-functions'))
-  } catch(err) {
+  } catch (err) {
     return '0.0.0'
   }
 }
@@ -50,51 +50,34 @@ const functionTypeOptions = [
 ]
 
 const choicesByTriggerType = {
-  https: [
-    'onCall',
-    'onRequest'
-  ],
-  rtdb: [
-    'onWrite',
-    'onCreate',
-    'onUpdate',
-    'onDelete'
-  ],
-  firestore: [
-    'onWrite',
-    'onCreate',
-    'onUpdate',
-    'onDelete'
-  ],
-  auth: [
-    'onCreate',
-    'onDelete'
-  ],
-  pubsub: [
-    'onPublish'
-  ],
+  https: ['onCall', 'onRequest'],
+  rtdb: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
+  firestore: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
+  auth: ['onCreate', 'onDelete'],
+  pubsub: ['onPublish'],
   storage: functionsV1
     ? ['onArchive', 'onDelete', 'onFinalize', 'onMetadataUpdate']
     : ['onChange']
 }
 
-function buildEventTypePrompt (triggerTypeName, { triggerFlag }) {
+function buildEventTypePrompt(triggerTypeName, { triggerFlag }) {
   const choicesForType = choicesByTriggerType[triggerTypeName]
   return {
     type: 'list',
     name: 'eventType',
     message: 'What function event type?',
     when: ({ triggerType }) =>
-      choicesForType && (
-      (triggerType && triggerType.toLowerCase().indexOf(triggerTypeName) !== -1) ||
-      (triggerFlag && triggerFlag.toLowerCase().indexOf(triggerTypeName) !== -1)
-    ),
+      choicesForType &&
+      ((triggerType &&
+        triggerType.toLowerCase().indexOf(triggerTypeName) !== -1) ||
+        (triggerFlag &&
+          triggerFlag.toLowerCase().indexOf(triggerTypeName) !== -1)),
     choices: choicesForType,
     default: 0
   }
 }
 
-function buildPrompts (generatorContext) {
+function buildPrompts(generatorContext) {
   return [
     {
       type: 'list',
@@ -102,7 +85,7 @@ function buildPrompts (generatorContext) {
       message: 'What type of function trigger?',
       // Only prompt if type was not passed
       when: () => !generatorContext.triggerFlag,
-      choices: functionTypeOptions.map((typeOption) => {
+      choices: functionTypeOptions.map(typeOption => {
         if (typeOption === 'https' || typeOption === 'rtdb') {
           return typeOption.toUpperCase()
         }
@@ -114,22 +97,24 @@ function buildPrompts (generatorContext) {
       default: 0
     }
   ]
-  .concat(
-    Object.keys(choicesByTriggerType)
-      .map((key) => buildEventTypePrompt(key, generatorContext))
-  ).concat([
-    {
-      type: 'confirm',
-      name: 'includeTests',
-      message: 'Do you want to include tests?',
-      when: () => typeof generatorContext.options.test === 'undefined',
-      default: false
-    }
-  ])
+    .concat(
+      Object.keys(choicesByTriggerType).map(key =>
+        buildEventTypePrompt(key, generatorContext)
+      )
+    )
+    .concat([
+      {
+        type: 'confirm',
+        name: 'includeTests',
+        message: 'Do you want to include tests?',
+        when: () => typeof generatorContext.options.test === 'undefined',
+        default: false
+      }
+    ])
 }
 
 function triggerTypeToName(triggerType) {
-  switch(triggerType) {
+  switch (triggerType) {
     case 'http':
       return `${triggerType.toUpperCase()}${triggerType === 'http' ? 'S' : ''}`
     case 'rtdb':
@@ -142,7 +127,7 @@ function triggerTypeToName(triggerType) {
 }
 
 module.exports = class extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
 
     // Get first cli argument, and set it as this.options.name
@@ -152,33 +137,37 @@ module.exports = class extends Generator {
       desc: 'The function name'
     })
     // Adds support for a flags
-    functionTypeOptions.forEach((functionType) => {
+    functionTypeOptions.forEach(functionType => {
       this.option(functionType)
     })
     this.option('test', { type: Boolean })
   }
 
-  prompting () {
+  prompting() {
     // Convert function type option to trigger type if passed in flag
-    this.triggerFlag = functionTypeOptions.find(optionName =>
-      !!this.options[optionName]
+    this.triggerFlag = functionTypeOptions.find(
+      optionName => !!this.options[optionName]
     )
     const projectPackageFile = loadProjectPackageFile()
     const prompts = buildPrompts(this)
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = Object.assign({}, props, this.answers, {
-        airbnbLinting: !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') || false
+        airbnbLinting:
+          !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') ||
+          false
       })
 
       this.answers.functionsV1 = functionsV1
-      
+
       if (!functionsV1) {
-        this.log('You should checkout the latest firebase-functions for sweet new features!')
+        this.log(
+          'You should checkout the latest firebase-functions for sweet new features!'
+        )
       }
     })
   }
 
-  writing () {
+  writing() {
     const camelName = camelCase(this.options.name)
     // Get name from answers falling back to options (in case of argument being
     // passed for trigger type flag)
@@ -191,7 +180,9 @@ module.exports = class extends Generator {
     // Format name for showing
     const triggerTypeName = triggerTypeToName(triggerType)
     this.log(
-      `${chalk.blue('Generating')} -> Cloud Function: ${chalk.green(this.options.name)}
+      `${chalk.blue('Generating')} -> Cloud Function: ${chalk.green(
+        this.options.name
+      )}
       Trigger Type: ${chalk.cyan(triggerTypeName)}
       Event Type: ${chalk.cyan(this.answers.eventType) || ''}`
     )
@@ -204,12 +195,12 @@ module.exports = class extends Generator {
     ]
 
     if (this.options.test || this.answers.includeTests) {
-      filesArray.push(
-        {
-          src: `_${triggerType}Test${this.answers.airbnbLinting ? '-airbnb': ''}.js`,
-          dest: `functions/test/unit/${camelName}/index.spec.js`
-        }
-      )
+      filesArray.push({
+        src: `_${triggerType}Test${
+          this.answers.airbnbLinting ? '-airbnb' : ''
+        }.js`,
+        dest: `functions/src/${camelName}/${camelName}.spec.js`
+      })
     }
 
     filesArray.forEach(file => {

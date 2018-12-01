@@ -1,25 +1,46 @@
-import { firebase, googleApis } from '../config'
+import { firebase, sentryDsn, env as environment } from '../config'
 import { version } from '../../package.json'
-
-const environment = process.env.NODE_ENV
 
 let errorHandler
 
 /**
- * Initialize client side error reporting to Stackdriver. Error handling
- * is only initialized if in production environment and api key exists.
+ * Initialize Stackdriver Error Reporter only if api key exists
  */
-export function init() {
-  if (googleApis && googleApis.apiKey && environment === 'production') {
+function initStackdriverErrorReporter() {
+  if (typeof window.StackdriverErrorReporter === 'function') {
     window.addEventListener('DOMContentLoaded', () => {
-      errorHandler = new window.StackdriverErrorReporter()
+      const errorHandler = new window.StackdriverErrorReporter()
       errorHandler.start({
-        key: googleApis.apiKey,
+        key: firebase.apiKey,
         projectId: firebase.projectId,
         service: 'redux-firestore-site',
         version
       })
     })
+  }
+  return errorHandler
+}
+
+/**
+ * Initialize Raven (reports to sentry.io)
+ */
+function initRaven() {
+  if (sentryDsn && window.Raven) {
+    window.Raven.config(sentryDsn, {
+      environment,
+      release: version
+    }).install()
+  }
+}
+
+/**
+ * Initialize client side error reporting. Error handling is only
+ * initialized if in production environment.
+ */
+export function init() {
+  if (environment === 'production') {
+    initStackdriverErrorReporter()
+    initRaven()
   } else {
     errorHandler = console.error // eslint-disable-line no-console
   }
@@ -27,13 +48,24 @@ export function init() {
 }
 
 /**
- * Set user's uid within Stackdriver error reporting context
+ * Set user's uid within error reporting context (can be one or
+ * many error handling utilities)
  * @param {Object} auth - Authentication data
  * @param {String} auth.uid - User's id
  */
 export function setErrorUser(auth) {
-  if (errorHandler && errorHandler.setUser && auth && auth.uid) {
-    errorHandler.setUser(auth.uid)
+  if (auth && auth.uid && environment === 'production') {
+    // Set user within Stackdriver
+    if (errorHandler && errorHandler.setUser) {
+      errorHandler.setUser(auth.uid)
+    }
+    // Set user within Raven (so it will show in Sentry)
+    if (window.Raven && window.Raven.setUserContext) {
+      window.Raven.setUserContext({
+        id: auth.uid,
+        email: auth.email || 'none'
+      })
+    }
   }
 }
 

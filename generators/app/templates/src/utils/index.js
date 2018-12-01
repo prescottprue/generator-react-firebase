@@ -1,7 +1,7 @@
-import { init as initAnalytics } from './analytics'
-import { init as initErrorHandling } from './errorHandler'
+<% if (includeAnalytics) { %>import { init as initAnalytics } from './analytics'
+<% } %><% if (includeErrorHandling) { %>import { init as initErrorHandling } from './errorHandler'
 
-/**
+<% } %>/**
  * Log a message and return data passed. Useful for logging
  * messages within functional programming flows.
  * @param message - Message to log along with data.
@@ -11,6 +11,7 @@ import { init as initErrorHandling } from './errorHandler'
  * flow(
  *   fpLog('Before Map'),
  *   fpMap('branchName') // get branchName
+ *   fpLog('After Map'),
  * )(original)
  * // => 'Before Map' [{ name: 'test' }]
  * // => 'After Map' ['test']
@@ -27,5 +28,5 @@ export function fpLog(message) {
  */
 export function initScripts() {
   <% if (includeAnalytics && includeErrorHandling) { %>initAnalytics()
-  initErrorHandling()<% } %><% if (includeAnalytics && !includeErrorHandling) { %>initAnalytics()<% } %><% if (includeErrorHandling && !includeAnalytics) { %>initErrorHandling()<% } %>
+  initErrorHandling()<% } else { %>// Initialize global scripts here<% } %><% if (includeAnalytics && !includeErrorHandling) { %>initAnalytics()<% } %><% if (includeErrorHandling && !includeAnalytics) { %>initErrorHandling()<% } %>
 }
