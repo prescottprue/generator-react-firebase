@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const NotFoundPage = ({ classes }) => (
+const NotFoundPage = ({ classes }) => (
   <div className={classes.root}>
     <h1>Whoops! 404!</h1>
     <p>This page was not found.</p>

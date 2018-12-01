@@ -6,17 +6,9 @@ import ProjectRoute from 'routes/Projects/routes/Project'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
+import { renderChildren } from 'utils/router'
 
-const renderChildren = (routes, match, parentProps) =>
-  routes.map(route => (
-    <Route
-      key={`${match.url}-${route.path}`}
-      path={`${match.url}/${route.path}`}
-      render={props => <route.component {...parentProps} {...props} />}
-    />
-  ))
-
-export const ProjectsPage = ({
+const ProjectsPage = ({
   projects,
   collabProjects,
   auth,

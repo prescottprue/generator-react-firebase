@@ -353,7 +353,7 @@ module.exports = class extends Generator {
     if (this.answers.includeComponentTests) {
       filesArray.push(
         { src: 'jestTests/**', dest: 'src' },
-        { src: 'scripts/**', dest: 'scripts' },
+        // { src: 'scripts/**', dest: 'scripts' },
         { src: 'env.test', dest: '.env.test' }
       )
     }

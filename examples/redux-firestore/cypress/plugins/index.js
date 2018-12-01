@@ -8,13 +8,12 @@
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
 
+const cypressFirebasePlugin = require('cypress-firebase').plugin
+
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  if (!config.env || !config.env.envName || config.env.envName === 'local') {
-    config.baseUrl = 'http://localhost:3000'
-  } else {
-    config.baseUrl = `https://redux-firebasev3.firebaseapp.com`
-  }
-  return config
+  
+  // Extends with config from .firebaserc
+  return cypressFirebasePlugin(config)
 }

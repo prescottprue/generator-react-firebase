@@ -6,6 +6,12 @@ stages:
   - build_production
   - deploy_production
 
+# To cache both npm modules and Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
 # Shared Settings
 ## Cache dependencies across jobs only pulling not uploading (upload to cache
 ## happens in build stage)
@@ -14,6 +20,7 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   policy: pull # only pull cache, skip uploading
   paths:
+    - .npm
     - node_modules/
     - functions/node_modules/
 
@@ -23,7 +30,7 @@ cache:
 before_script:
   - CYPRESS_INSTALL_BINARY=0 npm i
   - npm i --prefix functions
-  - npm i firebase-tools@6.1.0 firebase-ci@next
+  - npm i firebase-ci@next
 
 # Build Stage
 ## Installs dependencies, builds app, and saves results for later (artifacts).
@@ -35,6 +42,7 @@ Build:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
   artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
     expire_in: 2 weeks
     when: always
     paths:
@@ -134,7 +142,7 @@ Deploy Staging:
 ## Install Cypress binary and run end to end tests using Cypress
 UI Tests:
   stage: ui_tests
-  image: cypress/base
+  image: cypress/base:8
   when: on_success
   allow_failure: true
   only:
@@ -152,7 +160,7 @@ UI Tests:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
-      - .cache/Cypress/
+      - cache/Cypress/
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
     expire_in: 2 weeks
