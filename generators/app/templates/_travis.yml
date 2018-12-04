@@ -24,7 +24,7 @@ cache:
 
 install:
   - <% if (includeUiTests) { %>CYPRESS_INSTALL_BINARY=0 <% } %>npm i
-  - npm i firebase-tools@6.1.1 firebase-ci@next # install deps used in creating config and deploying
+  - npm i firebase-ci@^0.5.0 # install deps used in creating config and deploying
 
 script:
   <% if (deployTo === 'firebase') { %>- npm run createConfig # create env specific src/config.js<% } %>
