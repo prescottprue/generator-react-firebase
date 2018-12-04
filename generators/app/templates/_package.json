@@ -52,7 +52,6 @@
     <% if (includeRedux) { %>"react-redux": "^5.0.7",
     "react-redux-firebase": "^2.1.9",<% } %>
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
     "recompose": "^0.30.0",<% if (includeRedux) { %>
     "redux": "^4.0.0",
     "redux-auth-wrapper": "^2.0.3",<% } %><% if (includeRedux && includeFirestore) { %>
@@ -67,7 +66,7 @@
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^1.0.0-beta.0",<% } %><% if (includeUiTests) { %>
     "cypress": "^3.1.2",
-    "cypress-firebase": "^0.0.6",<% } %>
+    "cypress-firebase": "^0.0.8",<% } %>
     "eslint": "^5.6.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-react-app": "^3.0.5",
@@ -78,13 +77,14 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "firebase-tools": "^6.1.1",<% if (includeUiTests) { %><% } %>
+    "firebase-tools": "^6.1.2",<% if (includeUiTests) { %><% } %>
     "husky": "^1.2.0",<% if (includeComponentTests) { %>
     "jest": "^23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",<% } %>
     "node-sass": "^4.10.0",
-    "prettier": "^1.15.2"<% if (includeComponentTests) { %>,
+    "prettier": "^1.15.2",
+    "react-scripts": "2.1.1"<% if (includeComponentTests) { %>,
     "react-test-renderer": "^16.6.3",
     "sinon": "^5.1.1",
     "sinon-chai": "^3.1.0"<%} %>
