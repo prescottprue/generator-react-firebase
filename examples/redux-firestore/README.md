@@ -85,8 +85,6 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── scripts              # Scripts used within the building process
 │   │  └── compile.js        # Custom Compiler that calls Webpack compiler
 │   │  └── start.js          # Starts the custom compiler
-├── scripts                   # Scripts to help with development
-│   └── snapshotResolver.js  # Resolver for Jest snapshots
 ├── src                      # Application source code
 │   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
 │   ├── components           # Global Reusable Presentational Components

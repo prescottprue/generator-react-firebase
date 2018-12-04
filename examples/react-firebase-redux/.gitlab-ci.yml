@@ -27,7 +27,7 @@ cache:
 before_script:
   - CYPRESS_INSTALL_BINARY=0 npm i
   - npm i --prefix functions
-  - npm i firebase-tools@6.1.0 firebase-ci@next
+  - npm i firebase-ci@next
 
 # Build Stage
 ## Installs dependencies, builds app, and saves results for later (artifacts).

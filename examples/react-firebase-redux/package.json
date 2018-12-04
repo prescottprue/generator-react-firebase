@@ -42,7 +42,6 @@
     "react-redux": "^5.0.7",
     "react-redux-firebase": "^2.1.9",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
     "redux-auth-wrapper": "^2.0.3",
@@ -60,9 +59,11 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.11.1",
+    "firebase-tools": "^6.1.2",
     "husky": "^1.2.0",
     "node-sass": "^4.10.0",
-    "prettier": "^1.15.2"
+    "prettier": "^1.15.2",
+    "react-scripts": "2.1.1"
   },
   "eslintConfig": {
     "extends": "./eslintrc.js"
