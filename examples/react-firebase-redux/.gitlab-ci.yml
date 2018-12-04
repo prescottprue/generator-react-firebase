@@ -19,15 +19,15 @@ cache:
   policy: pull # only pull cache, skip uploading
   paths:
     - .npm
-    - node_modules/
-    - functions/node_modules/
+    - node_modules
+    - functions/node_modules
 
 ## Install dependencies for React App and Cloud Functions. 
 ## Script run before all stages unless otherwise overriden
 before_script:
-  - CYPRESS_INSTALL_BINARY=0 npm i
+  - npm i
   - npm i --prefix functions
-  - npm i firebase-ci@next
+  - npm i firebase-ci@^0.5.0
 
 # Build Stage
 ## Installs dependencies, builds app, and saves results for later (artifacts).
@@ -44,16 +44,15 @@ Build:
     when: always
     paths:
       - dist
-      - node_modules/
-      - functions/node_modules/
   # Override cache behavior set above since we want to both pull and push to
   # the cache (no "policy" provided since pull-push is default)
   cache:
     untracked: true # track files that are untracked in git
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - node_modules/
-      - functions/node_modules/
+      - .npm
+      - node_modules
+      - functions/node_modules
   script:
     - npm run build:config # create env specific src/config.js
     - npm run lint

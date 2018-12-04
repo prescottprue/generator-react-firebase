@@ -5,13 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-const ProjectTile = ({
-  name,
-  onSelect,
-  onDelete,
-  showDelete,
-  classes
-}) => (
+const ProjectTile = ({ name, onSelect, onDelete, showDelete, classes }) => (
   <Paper className={classes.root}>
     <div className={classes.top}>
       <span className={classes.name} onClick={onSelect}>

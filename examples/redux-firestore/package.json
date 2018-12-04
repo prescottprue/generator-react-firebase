@@ -60,7 +60,7 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "^10.0.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^1.0.0-beta.0",
