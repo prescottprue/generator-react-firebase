@@ -381,7 +381,7 @@ For full projects built out using this as a starting place, check the next secti
 ## FAQ
 
 1. Why node `8` instead of a newer version?
-  [Cloud Functions runtime was still on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
+  [Cloud Functions runtime is still on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
 1. How do I deploy my application?
   The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
@@ -468,6 +468,38 @@ For full projects built out using this as a starting place, check the next secti
     Yeoman has the `store` option, which uses [the Yeoman Storage API to store answers](https://yeoman.io/authoring/storage.html) to questions within within a `.yo-rc.json`. This allows you to rerun the generator in the future to recieve updates without having to remember the answers you used or re-lookup them up.
 
     This also shows you how examples were done by answering the generator questions.
+
+1. How can I extend the build settings of my app after generating?
+
+    There are two options:
+    * Use `npm run eject` or `yarn eject` to eject from react-scripts (this cannot be undone)
+    * Use `customize-cra` and `react-app-rewired` to modify settings without ejecting (for more see the question about not ejecting)
+
+1. How do I extend the webpack/babel config without ejecting?
+
+    1. Install `customize-cra` and `react-app-rewired`:
+
+        ```bash
+        npm i --save-dev customize-cra react-app-rewired
+        ```
+    1. Add the following to the `scripts` section of your `package.json` file:
+
+        ```json
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "eject": "react-app-rewired eject",
+        "test": "react-app-rewired test"
+        ```
+    1. Add `config-overrides.js` that looks like so (any utils can be used in `override`):
+
+        ```js
+        const utils = require('customize-cra');
+
+        module.exports = utils.override(
+          utils.disableEsLint(),
+          utils.useBabelRc()
+        );
+        ```
 
 ## In the future
 

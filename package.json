@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {

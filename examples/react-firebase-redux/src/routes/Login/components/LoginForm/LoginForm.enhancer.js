@@ -8,7 +8,7 @@ import styles from './LoginForm.styles'
 export default compose(
   // Set proptypes used in HOCs
   setPropTypes({
-    onSubmit: PropTypes.func.isRequired  // called by handleSubmit
+    onSubmit: PropTypes.func.isRequired // called by handleSubmit
   }),
   // Add Form Capabilities
   reduxForm({

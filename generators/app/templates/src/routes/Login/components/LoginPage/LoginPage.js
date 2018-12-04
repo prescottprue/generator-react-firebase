@@ -6,12 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import { SIGNUP_PATH } from 'constants/paths'
 import LoginForm from '../LoginForm'
 
-const LoginPage = ({
-  emailLogin,
-  googleLogin,
-  onSubmitFail,
-  classes
-}) => (
+const LoginPage = ({ emailLogin, googleLogin, onSubmitFail, classes }) => (
   <div className={classes.root}>
     <Paper className={classes.panel}>
       <LoginForm onSubmit={emailLogin} onSubmitFail={onSubmitFail} />

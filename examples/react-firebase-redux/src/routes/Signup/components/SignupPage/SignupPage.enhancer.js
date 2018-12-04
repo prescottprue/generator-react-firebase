@@ -1,11 +1,6 @@
 import PropTypes from 'prop-types'
 import { withFirebase } from 'react-redux-firebase'
-import {
-  withHandlers,
-  compose,
-  setPropTypes,
-  setDisplayName
-} from 'recompose'
+import { withHandlers, compose, setPropTypes, setDisplayName } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import { UserIsNotAuthenticated } from 'utils/router'
 import { withNotifications } from 'modules/notification'
