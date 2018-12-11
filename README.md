@@ -500,6 +500,16 @@ For full projects built out using this as a starting place, check the next secti
           utils.useBabelRc()
         );
         ```
+1. What happened to the `scss` from before? What if I want to do the same setup?
+
+    It was removed in favor of Javascript styling through `*.styles.js` files. It is common to use Javascript styles with material-ui, so following this pattern allows mirrors their examples/docs.
+
+    If you want to do the same setup as before, make sure you reference the scss files correctly (now that the build config is through `react-scripts`). For example if you want to import `styles/_base.scss` make sure you switch your imports like the following:
+
+    ```diff
+    - @import 'base';
+    + @import 'styles/_base.scss';
+    ```
 
 ## In the future
 
