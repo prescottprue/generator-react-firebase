@@ -1,5 +1,3 @@
-@import 'styles/base';
-
 .root {
-  @extend .flex-column-center;
+  display: flex;
 }
