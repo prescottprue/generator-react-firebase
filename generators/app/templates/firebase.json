@@ -10,7 +10,7 @@
     "indexes": "firestore.indexes.json"
   }<% } %><% if (deployTo === 'firebase') { %>,
   "hosting": {
-    "public": "dist",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
