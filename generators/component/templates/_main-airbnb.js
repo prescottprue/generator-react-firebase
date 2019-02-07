@@ -12,7 +12,7 @@ function <%= name %>({ <%= camelName %><% if (addStyle && styleType !== 'scss') 
 }
 
 <%= name %>.propTypes = {
-  <% if (addStyle && styleType !== 'scss') { %>classes: PropTypes.object, // from enhancer (withStyles)
+  <% if (addStyle && styleType !== 'scss') { %>classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   <% } %><%= camelName %>: PropTypes.object,<% if (includeEnhancer) { %> // from enhancer (firestoreConnect + connect)<% } %>
 };
 
