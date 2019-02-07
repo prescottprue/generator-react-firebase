@@ -88,7 +88,6 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
  * Trigger: `RTDB - <%= eventType %> - <% if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>'/requests/<%= camelName %>/{pushId}'<% } else {%>'/<%= camelName %>/{pushId}'<% } %>`
  * @name <%= camelName %>
  * @type {functions.CloudFunction}
- * @public
  */
 export default functions.database
   .ref(<% if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>`/requests/${eventName}/{pushId}`<% } else {%>`/${eventName}/{pushId}`<% } %>)

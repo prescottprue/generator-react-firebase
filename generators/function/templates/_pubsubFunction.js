@@ -45,7 +45,6 @@ async function <%= camelName %>Event(message) {
  * Trigger: `PubSub - onPublish`
  * @name <%= camelName %>
  * @type {functions.CloudFunction}
- * @public
  */
 export default functions.pubsub
   .topic('<%= camelName %>')

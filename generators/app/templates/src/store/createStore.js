@@ -77,8 +77,7 @@ export default (initialState = {}) => {
   // ======================================================
   // Firebase Initialization
   // ======================================================
-  firebase.initializeApp(fbConfig)<% if (includeRedux && includeFirestore) { %>
-  firebase.firestore().settings({ timestampsInSnapshots: true })<% } %>
+  firebase.initializeApp(fbConfig)
 
   // ======================================================
   // Store Instantiation and HMR Setup
