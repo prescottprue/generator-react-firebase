@@ -1,10 +1,10 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
-const camelCase = require('lodash/camelCase')
-const capitalize = require('lodash/capitalize')
 const fs = require('fs')
 const path = require('path')
+const camelCase = require('lodash/camelCase')
+const upperFirst = require('lodash/upperFirst')
 const get = require('lodash/get')
 
 const prompts = [
@@ -100,7 +100,7 @@ module.exports = class extends Generator {
     const cleanedName = this.options.name
       .replace('Form', '')
       .replace('form', '')
-    const name = `${capitalize(camelCase(cleanedName))}Form`
+    const name = `${upperFirst(camelCase(cleanedName))}Form`
     const basePathOption = this.options.basePath
       ? `${this.options.basePath}/`
       : ''
