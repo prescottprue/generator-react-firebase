@@ -30,7 +30,7 @@ cache:
 before_script:
   - <% if (includeUiTests) { %>CYPRESS_INSTALL_BINARY=0 <% } %>npm i<% if(includeFunctions) { %>
   - npm i --prefix functions<% } %>
-  - npm i firebase-ci@^0.5.0
+  - npm i firebase-ci@^0.5.4
 
 # Build Stage
 ## Installs dependencies, builds app, and saves results for later (artifacts).

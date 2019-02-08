@@ -42,7 +42,7 @@ npm install -g yo generator-react-firebase
 
 ## Features
 
-* React v16.6
+* React + React Dom `^16.8.1` (has hooks)
 * Material-UI application styling including Navbar
 * Full Authentication with validation (through Email, Google or Github)
 * Async route loading (using [react-loadable][react-loadable-url])
@@ -235,12 +235,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
-export const Car = ({ car }) => (
-  <div className={classes.container}>
-    <span>Car Component</span>
-    <pre>{JSON.stringify(car, null, 2)}</pre>
-  </div>
-)
+function Car({ car }) {
+  return (
+    <div className={classes.container}>
+      <span>Car Component</span>
+      <pre>{JSON.stringify(car, null, 2)}</pre>
+    </div>
+  )
+}
 
 export default Car
 ```
@@ -278,12 +280,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './Car.scss'
 
-export const CarForm = ({ car }) => (
-  <div className={classes.container}>
-    <span>CarForm Component</span>
-    <pre>{JSON.stringify(car, null, 2)}</pre>
-  </div>
-)
+function CarForm({ car }) {
+  return (
+    <div className={classes.container}>
+      <span>CarForm Component</span>
+      <pre>{JSON.stringify(car, null, 2)}</pre>
+    </div>
+  )
+}
 
 export default CarForm
 ```
