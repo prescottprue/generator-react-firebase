@@ -1,8 +1,6 @@
-import {
-  SOME_ACTION
-} from './actionTypes'
+import { SOME_ACTION } from './actionTypes'
 
-export const someAsyncAction = () => {
+export function someAsyncAction() {
   const payload = { id: Date.now() }
   return dispatch => {
     dispatch({ type: SOME_ACTION, payload })
@@ -16,4 +14,6 @@ export const someAsyncAction = () => {
   }
 }
 
-export const someAction = () => ({ type: SOME_ACTION })
+export function someAction () {
+  return { type: SOME_ACTION }
+}

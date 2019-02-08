@@ -1,6 +1,7 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
+const camelCase = require('lodash/camelCase')
 
 const prompts = [
   {
@@ -51,6 +52,7 @@ module.exports = class extends Generator {
         this.destinationPath(file.dest),
         Object.assign({}, this.answers, {
           name: this.options.name,
+          camelName: camelCase(this.options.name),
           lowerName: this.options.name.toLowerCase()
         })
       )
