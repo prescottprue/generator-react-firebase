@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { without, omit } from 'lodash'
 import { SOME_ACTION } from './actionTypes'
 
-export default (state = {}, action) => {
+export default <%= camelName %>(state = {}, action = {}) {
   switch (action.type) {
     case SOME_ACTION:
       return {
