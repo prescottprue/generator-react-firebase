@@ -7,15 +7,19 @@ import ThemeSettings from 'theme'
 
 const theme = createMuiTheme(ThemeSettings)
 
-<% if (!includeRedux) { %>const App = ({ routes }) => (
-  <Router history={browserHistory}>{routes}</Router>
-)<% } else { %>const App = ({ routes, store }) => (
-  <MuiThemeProvider theme={theme}>
-    <Provider store={store}>
-      <Router>{routes}</Router>
-    </Provider>
-  </MuiThemeProvider>
-)<% } %>
+<% if (!includeRedux) { %>function App({ routes }) {
+  return (
+    <Router history={browserHistory}>{routes}</Router>
+  )
+}<% } else { %>function App({ routes, store }) {
+  return (
+    <MuiThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Router>{routes}</Router>
+      </Provider>
+    </MuiThemeProvider>
+  )
+}<% } %>
 
 App.propTypes = {
   routes: PropTypes.object.isRequired<% if (includeRedux) { %>,
