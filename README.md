@@ -33,7 +33,7 @@ npm install -g yo generator-react-firebase
     Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
 #### Whats Next
-1. Deploy your application either [manually through firebase-tools](#manual) or by [setting up CI Deployment](#ci)
+1. [Deploy](#deployment) your application either [manually through firebase-tools](#manual-deploy) or by [setting up CI Deployment](#ci-deploy)
 1. Enable APIs for features which were opted into:
     * [Firebase Cloud Messaging API](https://console.cloud.google.com/apis/api/fcm.googleapis.com/overview)
 1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
@@ -358,9 +358,57 @@ Generates a React component along with a matching component (which has an scss f
 
 Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
+
 ## Generated Project
 
-Project outputted from generator has a README explaining the full structure and details specific to settings you choose. This includes everything from running your code to deploying it.
+Project outputted from generator has a README explaining the full structure and details specific to settings you choose. This includes everything from running your code to deploying it. Some of the key pieces of that information are included below:
+
+### Testing
+
+#### Component Tests
+
+To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `src`. Jest will automatically find these files and generate snapshots to the `__snapshots` folder.
+
+#### UI Tests
+
+Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
+
+    * Run using Cypress run: `npm run test:ui`
+    * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
+
+### Deployment
+Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
+
+
+1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
+
+#### CI Deploy
+
+**Note**: Config for this is located within
+`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+
+1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
+1. Run a build on CI
+
+If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
+
+For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
+
+#### Manual Deploy
+
+1. Run `firebase:login`
+1. Initialize project with `firebase init` then answer:
+    * What file should be used for Database Rules?  -> `database.rules.json`
+    * What do you want to use as your public directory? -> `build`
+    * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
+    * What Firebase project do you want to associate as default?  -> **your Firebase project name**
+1. Build Project: `npm run build`
+1. Confirm Firebase config by running locally: `firebase serve`
+1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
+
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
+
 
 ## Examples
 

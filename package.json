@@ -72,7 +72,9 @@
     "es6",
     "generator-react",
     "generator-redux",
-    "yeoman-generator"
+    "yeoman-generator",
+    "hooks",
+    "react-scripts"
   ],
   "files": [
     "generators"
