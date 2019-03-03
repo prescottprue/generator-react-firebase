@@ -1,13 +1,14 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { LIST_PATH } from 'constants/paths'
 import { withHandlers, withStateHandlers, setDisplayName } from 'recompose'
-import { withRouter } from 'react-router-dom'
-import { <% if (includeRedux && includeFirestore) { %>firestoreConnect<% } %><% if (includeRedux && !includeFirestore) { %>firebaseConnect<% } %> } from 'react-redux-firebase'
+import { withRouter } from 'react-router-dom'<% if (includeRedux && includeFirestore) { %>
+import firestoreConnect from 'react-redux-firebase/lib/firestoreConnect'<% } %><% if (includeRedux && !includeFirestore) { %>
+import firebaseConnect from 'react-redux-firebase/lib/firebaseConnect'<% } %>
 import { withStyles } from '@material-ui/core/styles'
 import { withNotifications } from 'modules/notification'
 import { spinnerWhileLoading } from 'utils/components'
 import { UserIsAuthenticated } from 'utils/router'
+import { LIST_PATH } from 'constants/paths'
 import styles from './ProjectsPage.styles'
 
 export default compose(

@@ -1,7 +1,8 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'<% if (includeRedux && includeFirestore) { %>
-import { reduxFirestore } from 'redux-firestore'<% } %>
+import reactReduxFirebase from 'react-redux-firebase/lib/enhancer'
+import { getFirebase } from 'react-redux-firebase/lib/createFirebaseInstance'<% if (includeRedux && includeFirestore) { %>
+import reduxFirestore from 'redux-firestore/lib/enhancer'<% } %>
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'

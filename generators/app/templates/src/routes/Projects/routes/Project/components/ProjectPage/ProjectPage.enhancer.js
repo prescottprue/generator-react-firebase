@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { get } from 'lodash'
-<% if (includeRedux && includeFirestore) { %>import { firestoreConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && !includeFirestore) { %>import { firebaseConnect } from 'react-redux-firebase'<% } %>
+import { get } from 'lodash'<% if (includeRedux && includeFirestore) { %>
+import firestoreConnect from 'react-redux-firebase/lib/firestoreConnect'<% } %><% if (includeRedux && !includeFirestore) { %>
+import firebaseConnect from 'react-redux-firebase/lib/firebaseConnect'<% } %>
 import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { setPropTypes, setDisplayName, withProps } from 'recompose'

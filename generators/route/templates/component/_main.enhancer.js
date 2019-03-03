@@ -1,6 +1,7 @@
 import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { <% if (usingFirestore) { %>firestoreConnect<% } %><% if (!usingFirestore) { %>firebaseConnect<% } %> } from 'react-redux-firebase'<% if (styleType === 'localized') { %>
+import { connect } from 'react-redux'<% if (usingFirestore) { %>
+import firestoreConnect from 'react-redux-firebase/lib/firestoreConnect'<% } else { %>
+import firebaseConnect from 'react-redux-firebase/lib/firebaseConnect'<% } %><% if (styleType === 'localized') { %>
 import { withStyles } from '@material-ui/core/styles'
 import styles from './<%= componentName %>.styles'<% } %>
 

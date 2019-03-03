@@ -1,6 +1,7 @@
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { <% if (usingFirestore) { %>firestoreConnect<% } %><% if (!usingFirestore) { %>firebaseConnect<% } %> } from 'react-redux-firebase';
+import { connect } from 'react-redux';<% if (usingFirestore) { %>
+import firestoreConnect from 'react-redux-firebase/lib/firestoreConnect';<% } else { %>
+import firebaseConnect from 'react-redux-firebase/lib/firebaseConnect';<% } %>
 
 export default compose(
   // create listener for <%= camelName %>, results go into redux state
