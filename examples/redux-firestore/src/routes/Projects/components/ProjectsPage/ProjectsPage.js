@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { isEmpty } from 'react-redux-firebase'
+import { isEmpty } from 'react-redux-firebase/lib/helpers'
 import { Route, Switch } from 'react-router-dom'
 import ProjectRoute from 'routes/Projects/routes/Project'
 import ProjectTile from '../ProjectTile'

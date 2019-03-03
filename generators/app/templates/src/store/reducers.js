@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import firebase from 'react-redux-firebase/lib/reducers'<% if (includeRedux && includeFirestore) { %>
+import firebase from 'react-redux-firebase/lib/reducer'<% if (includeRedux && includeFirestore) { %>
 import firestore from 'redux-firestore/lib/reducers'<% } %>
 import { reducer as form } from 'redux-form'
 import { reducer as notifications } from 'modules/notification'
