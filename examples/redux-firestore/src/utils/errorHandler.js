@@ -1,7 +1,8 @@
+import * as Sentry from '@sentry/browser';
 import { firebase, sentryDsn, env as environment } from '../config'
 import { version } from '../../package.json'
 
-let errorHandler
+let errorHandler; // eslint-disable-line import/no-mutable-exports
 
 /**
  * Initialize Stackdriver Error Reporter only if api key exists
@@ -22,14 +23,13 @@ function initStackdriverErrorReporter() {
 }
 
 /**
- * Initialize Raven (reports to sentry.io)
+ * Initialize Sentry (reports to sentry.io)
  */
-function initRaven() {
-  if (sentryDsn && window.Raven) {
-    window.Raven.config(sentryDsn, {
-      environment,
-      release: version
-    }).install()
+function initSentry() {
+  if (environment === 'production') {
+    Sentry.init({
+      dsn: sentryDsn
+    });
   }
 }
 
@@ -40,11 +40,10 @@ function initRaven() {
 export function init() {
   if (environment === 'production') {
     initStackdriverErrorReporter()
-    initRaven()
+    initSentry()
   } else {
     errorHandler = console.error // eslint-disable-line no-console
   }
-  return errorHandler
 }
 
 /**
@@ -59,13 +58,13 @@ export function setErrorUser(auth) {
     if (errorHandler && errorHandler.setUser) {
       errorHandler.setUser(auth.uid)
     }
-    // Set user within Raven (so it will show in Sentry)
-    if (window.Raven && window.Raven.setUserContext) {
-      window.Raven.setUserContext({
+    // Set user within Sentry
+    Sentry.configureScope(scope => {
+      scope.setUser({
         id: auth.uid,
         email: auth.email || 'none'
       })
-    }
+    })
   }
 }
 

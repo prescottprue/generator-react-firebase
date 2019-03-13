@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
+import reactReduxFirebase from 'react-redux-firebase/lib/enhancer'
+import { getFirebase } from 'react-redux-firebase/lib/createFirebaseInstance'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
@@ -72,7 +73,7 @@ export default (initialState = {}) => {
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default
+      const reducers = require('./reducers').default // eslint-disable-line global-require
       store.replaceReducer(reducers(store.asyncReducers))
     })
   }

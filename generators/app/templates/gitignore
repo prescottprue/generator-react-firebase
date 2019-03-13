@@ -16,7 +16,8 @@ src/config.js
 functions/etc
 functions/dist
 functions/.runtimeconfig.json<% } %><% if (includeFunctionsTests) { %>
-functions/coverage<% } %><% if (includeComponentTests || includeUiTests) { %>
+functions/coverage
+functions/.nyc_output<% } %><% if (includeComponentTests || includeUiTests) { %>
 
 # Tests<% } %><% if (includeUiTests) { %>
 cypress/videos

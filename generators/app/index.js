@@ -392,69 +392,34 @@ module.exports = class extends Generator {
   }
 
   install() {
-    const { useYarn } = this.answers
+    /* eslint-disable no-console */
+    console.log(chalk.blue('\nProject Generated successfully'))
+    const yarnExists = commandExistsSync('yarn')
+    const installCommand = yarnExists ? 'yarnInstall' : 'npmInstall'
+    const depManagerName = yarnExists ? 'Yarn' : 'NPM'
+    console.log(`Installing dependencies using ${depManagerName}...`)
     // Promise chaining used since this.npmInstall.then not a function
     return Promise.resolve()
       .then(() => {
-        /* eslint-disable no-console */
-        console.log('\nGeneration complete!')
-        /* eslint-enable no-console */
-        if (useYarn === false) {
-          /* eslint-disable no-console */
-          console.log(
-            chalk.yellow('Opted out of yarn even though it is available.')
-          )
-          /* eslint-enable no-console */
-        }
-        if (!useYarn) {
-          /* eslint-disable no-console */
-          console.log(
-            `Install dependencies by calling ${chalk.blue('npm install')}`
-          )
-          /* eslint-enable no-console */
-          // Main npm install then functions npm install
-          return this.npmInstall()
-        }
-        /* eslint-disable no-console */
-        console.log(
-          `Install dependencies by calling ${chalk.blue('yarn install')}`
-        )
-        /* eslint-enable no-console */
-        /* eslint-disable no-console */
-        console.log(
-          chalk.blue(
-            'Note: Yarn is no longer nessesary since cloud functions supports node 8 which has package-lock.json support.'
-          )
-        )
-        /* eslint-enable no-console */
-        // Main yarn install then functions yarn install
-        return this.yarnInstall()
+        return this[installCommand]()
       })
       .then(() => {
+        console.log(
+          chalk.blue(
+            `Dependencies successfully installed using ${depManagerName}...`
+          )
+        )
         if (this.answers.includeFunctions) {
-          /* eslint-disable no-console */
           console.log(
             chalk.blue(
-              `Installing functions dependencies using ${
-                useYarn ? 'Yarn' : 'NPM'
-              }...`
+              `Installing functions dependencies using ${depManagerName}...`
             )
           )
           /* eslint-enable no-console */
-          return useYarn
-            ? this.yarnInstall(undefined, { cwd: 'functions' })
-            : this.npmInstall(undefined, { prefix: 'functions' })
+          return this[installCommand](undefined, {
+            [yarnExists ? 'cwd' : 'prefix']: 'functions'
+          })
         }
-        return null
-      })
-      .catch(err => {
-        /* eslint-disable no-console */
-        console.log(
-          chalk.red('Error installing dependencies:'),
-          err && err.message
-        )
-        /* eslint-enable no-console */
-        return Promise.reject(err)
       })
   }
 }

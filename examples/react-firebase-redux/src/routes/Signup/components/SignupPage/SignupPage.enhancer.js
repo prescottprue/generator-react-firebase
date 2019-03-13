@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { withFirebase } from 'react-redux-firebase'
+import withFirebase from 'react-redux-firebase/lib/withFirebase'
 import { withHandlers, compose, setPropTypes, setDisplayName } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import { UserIsNotAuthenticated } from 'utils/router'
@@ -27,7 +27,7 @@ export default compose(
   withHandlers({
     onSubmitFail: props => (formErrs, dispatch, err) =>
       props.showError(formErrs ? 'Form Invalid' : err.message || 'Error'),
-    googleLogin: ({ firebase, showError }) => e =>
+    googleLogin: ({ firebase, showError }) => () =>
       firebase
         .login({ provider: 'google', type: 'popup' })
         .catch(err => showError(err.message)),
