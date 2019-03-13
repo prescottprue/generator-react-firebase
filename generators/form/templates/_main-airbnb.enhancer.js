@@ -3,7 +3,7 @@ import { withHandlers } from 'recompose';
 import { reduxForm } from 'redux-form';<% if (styleType === 'localized') { %>
 import { withStyles } from '@material-ui/core/styles';
 import styles from './<%= name %>.styles';
-<% } %>import { formNames } from 'constants';
+<% } %>import { formNames } from 'constants/formNames';
 
 export default compose(
   // Add handlers as props
