@@ -13,8 +13,6 @@ const styles = {
 }
 
 function AccountMenu({
-  avatarUrl,
-  displayName,
   goToAccount,
   onLogoutClick,
   closeAccountMenu,
@@ -51,8 +49,6 @@ AccountMenu.propTypes = {
   onLogoutClick: PropTypes.func.isRequired,
   closeAccountMenu: PropTypes.func.isRequired,
   handleMenu: PropTypes.func.isRequired,
-  displayName: PropTypes.string,
-  avatarUrl: PropTypes.string,
   anchorEl: PropTypes.object
 }
 

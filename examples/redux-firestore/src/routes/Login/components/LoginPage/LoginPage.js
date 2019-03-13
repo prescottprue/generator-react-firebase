@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import { SIGNUP_PATH } from 'constants/paths'
 import LoginForm from '../LoginForm'
 
-function LoginPage({ emailLogin, googleLogin, onSubmitFail, classes }) {
+function LoginPage({ emailLogin, showSuccess, googleLogin, onSubmitFail, classes }) {
   return (
     <div className={classes.root}>
       <Paper className={classes.panel}>

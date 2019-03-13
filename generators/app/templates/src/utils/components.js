@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { pick, some } from 'lodash'
 import { isLoaded } from 'react-redux-firebase/lib/helpers'
 import LoadableComponent from 'react-loadable'
@@ -13,8 +10,9 @@ import LoadingSpinner from 'components/LoadingSpinner'
  * @param  {Function} condition - Condition function for when to show spinner
  * @return {HigherOrderComponent}
  */
-export const spinnerWhile = condition =>
-  branch(condition, renderComponent(LoadingSpinner))
+export function spinnerWhile(condition) {
+  return branch(condition, renderComponent(LoadingSpinner))
+}
 
 /**
  * Show a loading spinner while props are loading . Checks
@@ -37,8 +35,9 @@ export const spinnerWhile = condition =>
  * @param  {Array} propNames - List of prop names to check loading for
  * @return {HigherOrderComponent}
  */
-export const spinnerWhileLoading = propNames =>
-  spinnerWhile(props => some(propNames, name => !isLoaded(props[name])))
+export function spinnerWhileLoading(propNames) {
+  return spinnerWhile(props => some(propNames, name => !isLoaded(props[name])))
+}
 
 /**
  * HOC that logs props using console.log. Accepts an array list of prop names
@@ -59,40 +58,17 @@ export const spinnerWhileLoading = propNames =>
  * are logged
  * @return {HigherOrderComponent}
  */
-export const logProps = (propNames, logName = '') =>
-  mapProps(ownerProps => {
+export function logProps(propNames, logName = '') {
+  return mapProps(ownerProps => {
+    /* eslint-disable no-console */
     console.log(
       `${logName} props:`,
       propNames ? pick(ownerProps, propNames) : ownerProps
     )
+    /* eslint-enable no-console */
     return ownerProps
   })
-
-export function createWithFromContext(withVar) {
-  return WrappedComponent => {
-    class WithFromContext extends Component {
-      render() {
-        const props = { [withVar]: this.context[withVar] }
-        if (this.context.store && this.context.store.dispatch) {
-          props.dispatch = this.context.store.dispatch
-        }
-        return <WrappedComponent {...this.props} {...props} />
-      }
-    }
-
-    WithFromContext.contextTypes = {
-      [withVar]: PropTypes.object.isRequired
-    }
-
-    return WithFromContext
-  }
 }
-
-/**
- * HOC that adds store to props
- * @return {HigherOrderComponent}
- */
-export const withStore = createWithFromContext('store')
 
 /**
  * Create component which is loaded async, showing a loading spinner

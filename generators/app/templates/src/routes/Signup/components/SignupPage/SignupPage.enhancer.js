@@ -27,7 +27,7 @@ export default compose(
   withHandlers({
     onSubmitFail: props => (formErrs, dispatch, err) =>
       props.showError(formErrs ? 'Form Invalid' : err.message || 'Error'),
-    googleLogin: ({ firebase, showError }) => e =>
+    googleLogin: ({ firebase, showError }) => () =>
       firebase
         .login({ provider: 'google', type: 'popup' })
         .catch(err => showError(err.message)),

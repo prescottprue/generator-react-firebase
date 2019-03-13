@@ -21,7 +21,7 @@ export default compose(
   // Wait for uid to exist before going further
   spinnerWhileLoading(['uid']),
   // Create listeners based on current users UID
-  <% if (includeRedux && !includeFirestore) { %>firebaseConnect(({ params, uid }) => [
+  <% if (includeRedux && !includeFirestore) { %>firebaseConnect(({ uid }) => [
     {
       path: 'projects',
       queryParams: ['orderByChild=createdBy', `equalTo=${uid}`]
@@ -30,7 +30,7 @@ export default compose(
   // Map projects from state to props
   connect(({ firebase: { ordered } }) => ({
     projects: ordered.projects
-  })),<% } %><% if (includeRedux && includeFirestore) { %>firestoreConnect(({ params, uid }) => [
+  })),<% } %><% if (includeRedux && includeFirestore) { %>firestoreConnect(({ uid }) => [
     // Listener for projects the current user created
     {
       collection: 'projects',

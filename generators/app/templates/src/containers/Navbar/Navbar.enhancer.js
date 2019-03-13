@@ -29,7 +29,7 @@ export default compose(
       anchorEl: null
     }),
     {
-      closeAccountMenu: ({ accountMenuOpen }) => () => ({
+      closeAccountMenu: () => () => ({
         anchorEl: null
       }),
       handleMenu: () => event => ({
@@ -54,7 +54,7 @@ export default compose(
     }
   }),
   // Add custom props
-  withProps(({ auth, profile }) => ({
+  withProps(({ auth }) => ({
     authExists: isLoaded(auth) && !isEmpty(auth)
   })),
   // Flatten profile so that avatarUrl and displayName are props

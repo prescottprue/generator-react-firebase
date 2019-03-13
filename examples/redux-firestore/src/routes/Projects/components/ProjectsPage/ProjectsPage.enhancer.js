@@ -20,7 +20,7 @@ export default compose(
   // Wait for uid to exist before going further
   spinnerWhileLoading(['uid']),
   // Create listeners based on current users UID
-  firestoreConnect(({ params, uid }) => [
+  firestoreConnect(({ uid }) => [
     // Listener for projects the current user created
     {
       collection: 'projects',

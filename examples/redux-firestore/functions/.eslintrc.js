@@ -18,6 +18,7 @@ module.exports = {
       },
       globals: {
         functionsTest: true,
+        expect: true,
         sinon: true
       },
       rules: {

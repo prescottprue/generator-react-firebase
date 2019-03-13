@@ -42,7 +42,7 @@ export default (initialState = {}) => {
         // Initalize messaging with dispatch
         initializeMessaging(dispatch)
       }
-    }<% } %><% if (!includeMessaging && includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
+    }<% } %><% if (!includeMessaging && includeAnalytics) { %>onAuthStateChanged: (auth, firebaseInstance, dispatch) => {
       if (auth) {
         // Set auth within analytics
         setAnalyticsUser(auth)
@@ -98,7 +98,7 @@ export default (initialState = {}) => {
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default
+      const reducers = require('./reducers').default // eslint-disable-line global-require
       store.replaceReducer(reducers(store.asyncReducers))
     })
   }
