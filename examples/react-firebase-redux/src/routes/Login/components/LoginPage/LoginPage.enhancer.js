@@ -26,11 +26,11 @@ export default compose(
   withHandlers({
     onSubmitFail: props => (formErrs, dispatch, err) =>
       props.showError(formErrs ? 'Form Invalid' : err.message || 'Error'),
-    googleLogin: ({ firebase, showError, router }) => event =>
+    googleLogin: ({ firebase, showError }) => () =>
       firebase
         .login({ provider: 'google', type: 'popup' })
         .catch(err => showError(err.message)),
-    emailLogin: ({ firebase, router, showError }) => creds =>
+    emailLogin: ({ firebase, showError }) => creds =>
       firebase.login(creds).catch(err => showError(err.message))
   }),
   // Add styles as props.classes

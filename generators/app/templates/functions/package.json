@@ -37,16 +37,16 @@
     "babel-plugin-module-resolver": "^3.1.1",<% if(includeFunctionsTests) { %>
     "chai": "^4.2.0",<% } %>
     "cross-env": "^5.2.0",
-    "eslint": "^5.6.0",
-    "eslint-config-prettier": "^2.3.0",
+    "eslint": "^5.15.1",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-flowtype": "^2.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-prettier": "^2.1.2",
-    "eslint-plugin-react": "^7.11.1",<% if(includeFunctionsTests) { %>
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",<% if(includeFunctionsTests) { %>
     "firebase-functions-test": "^0.1.3",<% } %>
     "prettier": "^1.15.2",<% if(includeFunctionsTests) { %>
-    "mocha": "^6.2.0",
+    "mocha": "^6.0.2",
     "nyc": "^13.3.0",<% } %>
     "rimraf": "^2.6.2"<% if(includeFunctionsTests) { %>,
     "sinon": "^7.2.7"<% } %>

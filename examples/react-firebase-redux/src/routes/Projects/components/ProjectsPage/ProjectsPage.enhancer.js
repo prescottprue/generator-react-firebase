@@ -20,7 +20,7 @@ export default compose(
   // Wait for uid to exist before going further
   spinnerWhileLoading(['uid']),
   // Create listeners based on current users UID
-  firebaseConnect(({ params, uid }) => [
+  firebaseConnect(({ uid }) => [
     {
       path: 'projects',
       queryParams: ['orderByChild=createdBy', `equalTo=${uid}`]

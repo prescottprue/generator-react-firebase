@@ -17,6 +17,7 @@ functions/etc
 functions/dist
 functions/.runtimeconfig.json
 functions/coverage
+functions/.nyc_output
 
 # Tests
 cypress/videos

@@ -4,5 +4,7 @@ dist/**
 src/index.html
 blueprints/**
 src/config.js<% if (includeFunctions) { %>
-functions/dist/**
-functions/test/mocha.opts<% } %>
+functions/dist/**<% } %><% if (includeFunctionsTests) { %>
+functions/test/mocha.opts
+functions/coverage
+functions/.nyc_output<% } %>

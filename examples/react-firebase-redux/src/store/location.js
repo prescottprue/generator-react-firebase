@@ -16,8 +16,8 @@ export function locationChange(location = '/') {
 // ------------------------------------
 // Specialized Action Creator
 // ------------------------------------
-export const updateLocation = ({ dispatch }) => {
-  return nextLocation => dispatch(locationChange(nextLocation))
+export function updateLocation({ dispatch }) {
+  return nextLocation => dispatch(locationChange(nextLocation));
 }
 
 // ------------------------------------

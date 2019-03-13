@@ -5,7 +5,7 @@ module.exports = {
   plugins: ['import', 'babel', 'react', 'prettier'],
   settings: {
     react: {
-      version: '16.6'
+      version: '16.8'
     },
     'import/resolver': {
       node: {
