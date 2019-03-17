@@ -21,15 +21,13 @@ cache:
   policy: pull # only pull cache, skip uploading
   paths:
     - .npm
-    - node_modules
-    - functions/node_modules
 
 ## Install dependencies for React App and Cloud Functions. Installing of
 ## Cypress binary is skipped (done in E2E Testing Stage)
 ## Script run before all stages unless otherwise overriden
 before_script:
-  - CYPRESS_INSTALL_BINARY=0 npm i
-  - npm i --prefix functions
+  - CYPRESS_INSTALL_BINARY=0 npm ci
+  - npm ci --prefix functions
 
 # Build Stage
 ## Installs dependencies, builds app, and saves results for later (artifacts).
@@ -53,8 +51,6 @@ Build:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm
-      - node_modules
-      - functions/node_modules
   script:
     - npm run build:config # create env specific src/config.js
     - npm run lint
@@ -83,7 +79,7 @@ Function Tests:
   dependencies:
     - Build
   before_script:
-    - npm i --prefix functions
+    - npm ci --prefix functions
   script:
     - npm run test:cov --prefix functions
 
@@ -126,7 +122,7 @@ Deploy Staging:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/
       - $CI_COMMIT_MESSAGE =~ /skip-stage-deploy/
   artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 1 weeks
     when: on_failure
     paths:
@@ -158,10 +154,9 @@ UI Tests:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm
-      - node_modules
       - cache/Cypress
   artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 2 weeks
     when: always
     paths:
@@ -174,8 +169,8 @@ UI Tests:
   # Cypress Binary
   before_script:
      # Install deps including Cypress binary (skipped in default before_script)
-    - npm i
-    - npm i cypress
+    - npm ci
+    - npm ci cypress
     # Confirm Cypress is ready to use
     - $(npm bin)/cypress verify
   script:
@@ -198,7 +193,7 @@ Build Production:
       - $CI_COMMIT_MESSAGE =~ /skip-deploy/
       - $CI_COMMIT_MESSAGE =~ /skip-prod-deploy/
   artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 1 week
     when: always
     paths:
@@ -226,7 +221,7 @@ Deploy Production:
   variables:
     FIREBASE_CI_PROJECT: "prod" # deploy using prod project in .firebaserc
   artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 1 week
     when: on_failure
     paths:

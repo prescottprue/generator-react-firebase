@@ -10,7 +10,8 @@ import 'firebase/storage'<% if (includeRedux && includeFirestore) { %>
 import 'firebase/firestore'<% } %><% if (includeMessaging) { %>
 import 'firebase/messaging'
 import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (includeAnalytics) { %>
-import { setAnalyticsUser } from 'utils/analytics'<% } %>
+import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (includeErrorHandling || includeSentry) { %>
+import { setErrorUser } from '../utils/errorHandler'<% } %>
 import makeRootReducer from './reducers'
 import {
   firebase as fbConfig,
@@ -30,24 +31,16 @@ export default (initialState = {}) => {
     enableLogging: false<% if((includeRedux && includeFirestore) || includeMessaging || includeAnalytics) { %>,<% } %> // enable/disable Firebase Database Logging<% if (includeRedux && includeFirestore) { %>
     useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
     useFirestoreForStorageMeta: true<% } %><% if(includeRedux && includeFirestore && (includeMessaging || includeAnalytics)) { %>,<% } %><% if (includeRedux && includeFirestore) { %> // Metadata associated with storage file uploads goes to Firestore<% } %>
-    <% if (includeMessaging && !includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
-      if (auth) {
+    <% if (includeMessaging || includeAnalytics || includeSentry || includeErrorHandling) { %>onAuthStateChanged: (auth, firebaseInstance, dispatch) => {
+      if (auth) {<% if (includeSentry || includeErrorHandling) { %>
+        // Set auth within error handler
+        setErrorUser(auth)<% } %><% if (includeMessaging) { %>
         // Initalize messaging with dispatch
-        initializeMessaging(dispatch)
-      }
-    }<% } %><% if (includeMessaging && includeAnalytics) { %>onAuthStateChanged: (auth, firebase, dispatch) => {
-      if (auth) {
+        initializeMessaging(dispatch)<% } %><% if (includeAnalytics) { %>
         // Set auth within analytics
-        setAnalyticsUser(auth)
-        // Initalize messaging with dispatch
-        initializeMessaging(dispatch)
+        setAnalyticsUser(auth)<% } %>
       }
-    }<% } %><% if (!includeMessaging && includeAnalytics) { %>onAuthStateChanged: (auth, firebaseInstance, dispatch) => {
-      if (auth) {
-        // Set auth within analytics
-        setAnalyticsUser(auth)
-      }
-    }<% } %><% if (!includeMessaging && !includeAnalytics) { %>// profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile<% } %>
+    }<% } %><% if (!includeMessaging && !includeAnalytics && !includeSentry && !includeErrorHandling) { %>// profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile<% } %>
   }
 
   // Combine default config with overrides if they exist (set within .firebaserc)
@@ -60,7 +53,7 @@ export default (initialState = {}) => {
   // ======================================================
   const enhancers = []
 
-  if (env === 'local') {
+  if (env === 'dev') {
     const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension())

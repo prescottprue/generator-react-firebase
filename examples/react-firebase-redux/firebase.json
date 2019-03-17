@@ -28,6 +28,9 @@
     "ignore": [
       "**/.*",
       "**/*.spec.js",
+      "**/node_modules/**",
+      "mocha.opts",
+      "coverage/**",
       "src",
       "scripts/**",
       "jsconfig.json"
