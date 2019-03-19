@@ -15,12 +15,7 @@ const styles = {
   }
 }
 
-function Notifications({
-  allIds,
-  byId,
-  dismissNotification,
-  classes
-}) {
+function Notifications({ allIds, byId, dismissNotification, classes }) {
   return (
     <div>
       {allIds.map(id => (

@@ -5,13 +5,7 @@ import Button from '@material-ui/core/Button'
 import { TextField } from 'redux-form-material-ui'<% } %><% if (!includeRedux) { %>import TextField from '@material-ui/core/TextField'<% } %>
 import ProviderDataForm from '../ProviderDataForm'
 
-<% if (includeRedux) { %>function AccountForm({
-  account,
-  handleSubmit,
-  submitting,
-  pristine,
-  classes
-}) {
+<% if (includeRedux) { %>function AccountForm({ account, handleSubmit, submitting, pristine, classes }) {
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
       <h4>Account</h4>

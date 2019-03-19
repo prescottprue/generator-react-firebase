@@ -11,6 +11,7 @@ import 'firebase/firestore'
 import 'firebase/messaging'
 import { initializeMessaging } from 'utils/firebaseMessaging'
 import { setAnalyticsUser } from 'utils/analytics'
+import { setErrorUser } from '../utils/errorHandler'
 import makeRootReducer from './reducers'
 import {
   firebase as fbConfig,
@@ -30,12 +31,14 @@ export default (initialState = {}) => {
     enableLogging: false, // enable/disable Firebase Database Logging
     useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
     useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore
-    onAuthStateChanged: (auth, firebase, dispatch) => {
+    onAuthStateChanged: (auth, firebaseInstance, dispatch) => {
       if (auth) {
-        // Set auth within analytics
-        setAnalyticsUser(auth)
+        // Set auth within error handler
+        setErrorUser(auth)
         // Initalize messaging with dispatch
         initializeMessaging(dispatch)
+        // Set auth within analytics
+        setAnalyticsUser(auth)
       }
     }
   }
@@ -50,7 +53,7 @@ export default (initialState = {}) => {
   // ======================================================
   const enhancers = []
 
-  if (env === 'local') {
+  if (env === 'dev') {
     const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension())
