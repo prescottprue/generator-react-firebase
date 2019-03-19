@@ -7,13 +7,11 @@
 // You can read more here:
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
-
 const cypressFirebasePlugin = require('cypress-firebase').plugin
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  
   // Extends with config from .firebaserc
   return cypressFirebasePlugin(config)
 }

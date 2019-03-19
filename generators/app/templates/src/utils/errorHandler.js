@@ -26,9 +26,11 @@ function initStackdriverErrorReporter() {
  * Initialize Sentry (reports to sentry.io)
  */
 function initSentry() {
-  if (environment === 'production') {
+  if (environment !== 'dev') {
     Sentry.init({
-      dsn: sentryDsn
+      dsn: sentryDsn,
+      environment,
+      release: version
     });
   }
 }<% } %>
@@ -38,7 +40,7 @@ function initSentry() {
  * initialized if in production environment.
  */
 export function init() {
-  if (environment === 'production') {
+  if (environment !== 'dev') {
     initStackdriverErrorReporter()<% if (includeSentry) { %>
     initSentry()<% } %>
   } else {
@@ -53,7 +55,7 @@ export function init() {
  * @param {String} auth.uid - User's id
  */
 export function setErrorUser(auth) {
-  if (auth && auth.uid && environment === 'production') {
+  if (auth && auth.uid && environment !== 'dev') {
     // Set user within Stackdriver
     if (errorHandler && errorHandler.setUser) {
       errorHandler.setUser(auth.uid)

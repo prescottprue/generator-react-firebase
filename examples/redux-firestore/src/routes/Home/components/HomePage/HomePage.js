@@ -32,7 +32,10 @@ function Home({ classes }) {
                 </a>
               </span>
               <span> and </span>
-              <a href={authWrapperUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={authWrapperUrl}
+                target="_blank"
+                rel="noopener noreferrer">
                 redux-auth-wrapper
               </a>
             </div>
@@ -56,8 +59,8 @@ function Home({ classes }) {
         <div className={classes.section}>
           <h4>Logged In</h4>
           <span>
-            User is redirected to <pre>/projects</pre> if authenticated and trying
-            to vist:
+            User is redirected to <pre>/projects</pre> if authenticated and
+            trying to vist:
           </span>
           <ul>
             <li>
