@@ -9,7 +9,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     adminInitStub = sinon.stub(admin, 'initializeApp')
     /* eslint-disable global-require */
     <%= camelName %> = functionsTest.wrap(
-      require(`${__dirname}/../../../index`).<%= camelName %>
+      require(`${__dirname}/../../index`).<%= camelName %>
     )
     /* eslint-enable global-require */
   })

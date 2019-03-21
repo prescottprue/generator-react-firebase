@@ -2,15 +2,10 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
-import createHistory from 'history/createBrowserHistory'
 import LoadingSpinner from 'components/LoadingSpinner'
-import { LIST_PATH } from 'constants/paths'
+import { LIST_PATH, LOGIN_PATH } from 'constants/paths'
 
 const locationHelper = locationHelperBuilder({})
-const history = createHistory()
-
-const AUTHED_REDIRECT = 'AUTHED_REDIRECT'
-const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
 
 /**
  * Higher Order Component that redirects to `/login` instead
@@ -19,22 +14,14 @@ const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
  * @return {Component} wrappedComponent
  */
 export const UserIsAuthenticated = connectedRouterRedirect({
-  redirectPath: '/login',
+  redirectPath: LOGIN_PATH,
   AuthenticatingComponent: LoadingSpinner,
   wrapperDisplayName: 'UserIsAuthenticated',
   // Want to redirect the user when they are done loading and authenticated
   authenticatedSelector: ({ firebase: { auth } }) =>
     !auth.isEmpty && !!auth.uid,
   authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
-    !auth.isLoaded || isInitializing,
-  redirectAction: newLoc => dispatch => {
-    // Use push, replace, and go to navigate around.
-    history.push(newLoc)
-    dispatch({
-      type: UNAUTHED_REDIRECT,
-      payload: { message: 'User is not authenticated.' }
-    })
-  }
+    !auth.isLoaded || isInitializing
 })
 
 /**
@@ -54,15 +41,7 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
   authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
     !auth.isLoaded || isInitializing,
   redirectPath: (state, ownProps) =>
-    locationHelper.getRedirectQueryParam(ownProps) || LIST_PATH,
-  redirectAction: newLoc => dispatch => {
-    // Use push, replace, and go to navigate around.
-    history.push(newLoc)
-    dispatch({
-      type: AUTHED_REDIRECT,
-      payload: { message: 'User is not authenticated.' }
-    })
-  }
+    locationHelper.getRedirectQueryParam(ownProps) || LIST_PATH
 })
 
 /**
