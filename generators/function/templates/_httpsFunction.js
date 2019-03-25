@@ -7,14 +7,14 @@ import * as functions from 'firebase-functions'
  * @param {Object} context.auth.uid - UID of user that made the request
  * @param {Object} context.auth.name - Name of user that made the request
  */
-async function <%= name %>Request(data, context) {
+export async function <%= name %>Request(data, context) {
   // Return data back to client to end function execution
-  return {}
+  return { message: 'Hello World' }
 }<% } else { %>/**
   * @param req - Express HTTP Request
   * @param res - Express HTTP Response
   */
- async function <%= name %>Request(req, res) {
+ export async function <%= name %>Request(req, res) {
    // Write response to request to end function execution
    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
    res.end('Hello from <%= name %>')

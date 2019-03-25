@@ -40,6 +40,43 @@ export function spinnerWhileLoading(propNames) {
 }
 
 /**
+ * HOC that shows a component while condition is true
+ * @param  {Function} condition - function which returns a boolean indicating
+ * whether to render the provided component or not
+ * @param  {React.Component} component - React component to render if condition
+ * is true
+ * @return {HigherOrderComponent}
+ */
+export function renderWhile(condition, component) {
+  return branch(condition, renderComponent(component))
+}
+
+/**
+ * HOC that shows a component while any of a list of props loaded from Firebase
+ * is empty (uses react-redux-firebase's isEmpty).
+ * @param  {Array} propNames - List of prop names to check loading for
+ * @param  {React.Component} component - React component to render if prop loaded
+ * from Firebase is empty
+ * @return {HigherOrderComponent}
+ * @example
+ * renderWhileEmpty(['todos'], () => <div>Todos Not Found</div>),
+ */
+export function renderWhileEmpty(propsNames, component) {
+  return renderWhile(
+    // Any of the listed prop name correspond to empty props (supporting dot path names)
+    props =>
+      some(propsNames, name => {
+        const propValue = get(props, name)
+        return (
+          isLoaded(propValue) &&
+          (isEmpty(propValue) || (isArray(propValue) && !size(propValue)))
+        )
+      }),
+    component
+  )
+}
+
+/**
  * HOC that logs props using console.log. Accepts an array list of prop names
  * to log, if none provided all props are logged. **NOTE:** Only props at
  * available to the HOC will be logged.
