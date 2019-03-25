@@ -37,7 +37,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
   before(() => {
     /* eslint-disable global-require */
     <%= camelName %> = functionsTest.wrap(
-      require(`${__dirname}/../../../index`).<%= camelName %>
+      require(`${__dirname}/../../index`).<%= camelName %>
     )
     /* eslint-enable global-require */
   })
@@ -98,7 +98,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
       }
     })
 
-    myFunctions = require(`${__dirname}/../../../index`)
+    myFunctions = require(`${__dirname}/../../index`)
     /* eslint-enable global-require */
 
     // Set mocks to autoflush (makes restore/flush not nessesary)
