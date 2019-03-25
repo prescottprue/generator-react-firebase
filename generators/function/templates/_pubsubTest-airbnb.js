@@ -21,7 +21,7 @@ describe('<%= camelName %> PubSub Cloud Function', () => {
       },
       // Stub any other config values needed by your functions here
     });
-    myFunctions = require('../../../index');
+    myFunctions = require('../../index');
     /* eslint-enable global-require */
   });
 

@@ -1,4 +1,4 @@
-<% if (hasPropTypes) { %>import React from 'react'
+<% if (hasPropTypes) { %>import React from 'react';
 import PropTypes from 'prop-types'<% } else { %>import React, { PropTypes } from 'react'<% } %>;<% if (addStyle && styleType === 'scss') { %>
 import classes from './<%= name %>.scss';<%}%>
 
