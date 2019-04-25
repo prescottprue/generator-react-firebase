@@ -84,7 +84,7 @@
     "jest-resolve": "23.6.0",<% } %>
     "node-sass": "^4.10.0",
     "prettier": "^1.16.4",
-    "react-scripts": "2.1.5"<% if (includeComponentTests) { %>,
+    "react-scripts": "3.0.0"<% if (includeComponentTests) { %>,
     "react-test-renderer": "^16.8.3"<%} %>
   },
   "eslintConfig": {
