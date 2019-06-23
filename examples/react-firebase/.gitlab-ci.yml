@@ -1,0 +1,135 @@
+stages:
+  - build
+  - deploy_staging
+  - build_production
+  - deploy_production
+
+# To cache both npm modules and Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
+# Shared Settings
+## Cache dependencies across jobs only pulling not uploading (upload to cache
+## happens in build stage)
+cache:
+  untracked: true
+  key: ${CI_COMMIT_REF_SLUG}
+  policy: pull # only pull cache, skip uploading
+  paths:
+    - .npm
+
+## Install dependencies for React App. 
+## Script run before all stages unless otherwise overriden
+before_script:
+  - npm ci
+
+# Build Stage
+## Installs dependencies, builds app, and saves results for later (artifacts).
+Build:
+  stage: build
+  image: node:8
+  when: always
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-build/
+  artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    expire_in: 2 weeks
+    when: always
+    paths:
+      - dist
+  # Override cache behavior set above since we want to both pull and push to
+  # the cache (no "policy" provided since pull-push is default)
+  cache:
+    untracked: true # track files that are untracked in git
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm
+  script:
+    - npm run build:config # create env specific src/config.js
+    - npm run lint
+    - npm run build
+
+# Deploy Staging Stage
+## Deploy React App and Firebase Functions
+Deploy Staging:
+  stage: deploy_staging
+  image: node:8
+  environment:
+    name: staging
+    url: https://react-firebase-stage.firebaseapp.com
+  when: on_success
+  only:
+    - master
+    - web
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-deploy/
+      - $CI_COMMIT_MESSAGE =~ /skip-stage-deploy/
+  artifacts:
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+    expire_in: 1 weeks
+    when: on_failure
+    paths:
+      - firebase-debug.log
+  dependencies:
+    - Build
+  script:
+    - npm run deploy
+
+# Build Production Stage
+## Build production version of bundle (has different config)
+Build Production:
+  stage: build_production
+  image: node:8
+  when: on_success
+  only:
+    - master
+    - prod
+    - web
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-deploy/
+      - $CI_COMMIT_MESSAGE =~ /skip-prod-deploy/
+  artifacts:
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+    expire_in: 1 week
+    when: always
+    paths:
+      - dist
+  script:
+    - npm run clean # remove existing dist folder
+    - npm run build:config # create env specific src/config.js
+    - npm run build # rebuild bundle with new config
+    # Note: Functions are not rebuilt since a bundle with env specific config
+    # is not created as with React App
+
+# Deploy Production Stage
+## Deploy React App and Cloud Functions to production environment
+Deploy Production:
+  stage: deploy_production
+  image: node:8
+  environment:
+    name: production
+    url: https://react-firebase.firebaseapp.com
+  when: manual # Only allow run through button on Gitlab site
+  only:
+    - master
+    - prod
+    - web
+  variables:
+    FIREBASE_CI_PROJECT: "prod" # deploy using prod project in .firebaserc
+  artifacts:
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+    expire_in: 1 week
+    when: on_failure
+    paths:
+      - firebase-debug.log
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-deploy/
+      - $CI_COMMIT_MESSAGE =~ /skip-prod-deploy/
+  script:
+    - npm run deploy # Deploy Cloud Functions and React App (Firebase Hosting)

@@ -1,5 +1,4 @@
 import path from 'path'
-import fs from 'fs-extra'
 import rimraf from 'rimraf'
 import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
@@ -11,7 +10,8 @@ const folderPath = `src/components/${name}Form`
 describe('generator-react-firebase:form', () => {
   describe('with styles in styles.js file', () => {
     before(async () => {
-      await helpers.run(path.join(__dirname, '../../generators/form'))
+      await helpers
+        .run(path.join(__dirname, '../../generators/form'))
         .withArguments([name])
         .inDir(testPath)
         .withPrompts({
@@ -23,7 +23,10 @@ describe('generator-react-firebase:form', () => {
 
     describe('index file', () => {
       it('is copied', () => {
-        return checkForEachFile([createFilePath(`${folderPath}/index.js`)], folderPath)
+        return checkForEachFile(
+          [createFilePath(`${folderPath}/index.js`)],
+          folderPath
+        )
       })
       it.skip('has correct content', () => {
         const fileStr = `import ${formName} from './${formName}'\n\
@@ -43,12 +46,13 @@ describe('generator-react-firebase:form', () => {
       //   assert.fileContent(filePath,)
       // })
     })
-    
+
     describe('styles.js file', () => {
       it.skip('is copied', () => {
-        return checkForEachFile([
-          createFilePath(`${folderPath}/${formName}.styles.js`)
-        ], folderPath)
+        return checkForEachFile(
+          [createFilePath(`${folderPath}/${formName}.styles.js`)],
+          folderPath
+        )
       })
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
@@ -59,7 +63,8 @@ describe('generator-react-firebase:form', () => {
 
   describe('with styles in scss file', () => {
     before(async () => {
-      await helpers.run(path.join(__dirname, '../../generators/form'))
+      await helpers
+        .run(path.join(__dirname, '../../generators/form'))
         .withArguments([name])
         .inDir(testPath)
         .withPrompts({
@@ -94,9 +99,10 @@ describe('generator-react-firebase:form', () => {
 
     describe('scss file', () => {
       it.skip('is copied', () => {
-        return checkForEachFile([
-          createFilePath(`${folderPath}/${formName}.scss`)
-        ], folderPath)
+        return checkForEachFile(
+          [createFilePath(`${folderPath}/${formName}.scss`)],
+          folderPath
+        )
       })
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
@@ -105,10 +111,10 @@ describe('generator-react-firebase:form', () => {
     })
   })
 
-
   describe('without style', () => {
     before(async () => {
-      await helpers.run(path.join(__dirname, '../../generators/form'))
+      await helpers
+        .run(path.join(__dirname, '../../generators/form'))
         .withArguments([name])
         .inDir(testPath)
         .withPrompts({
@@ -151,5 +157,4 @@ describe('generator-react-firebase:form', () => {
       // })
     })
   })
-
 })

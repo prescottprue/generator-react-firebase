@@ -1,5 +1,4 @@
 import path from 'path'
-import fs from 'fs-extra'
 import rimraf from 'rimraf'
 import helpers from 'yeoman-test'
 import { checkForEachFile } from '../utils'
@@ -10,8 +9,9 @@ let folderPath = `src/components/${name}`
 describe('generator-react-firebase:component', () => {
   describe('Not Include Enhancer', () => {
     before(async () => {
-      await helpers.run(path.join(__dirname, '../../generators/component'))
-        .withArguments([ name ])
+      await helpers
+        .run(path.join(__dirname, '../../generators/component'))
+        .withArguments([name])
         .inDir(testPath)
         .withPrompts({
           addStyle: true,
@@ -22,7 +22,7 @@ describe('generator-react-firebase:component', () => {
     })
 
     describe('index file', () => {
-      checkForEachFile([ `${folderPath}/index.js` ], `${testPath}/`)
+      checkForEachFile([`${folderPath}/index.js`], `${testPath}/`)
       it('has correct content', () => {
         const fileStr = `import ${name} from './${name}'\n\nexport default ${name}`
         assert.fileContent(`${folderPath}/index.js`, fileStr)
@@ -31,7 +31,7 @@ describe('generator-react-firebase:component', () => {
 
     describe('js file', () => {
       const filePath = `${folderPath}/${name}.js`
-      checkForEachFile([ filePath  ], `${testPath}/`)
+      checkForEachFile([filePath], `${testPath}/`)
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
       //   assert.fileContent(filePath,)
@@ -39,7 +39,7 @@ describe('generator-react-firebase:component', () => {
     })
 
     describe('scss file', () => {
-      checkForEachFile([ `${folderPath}/${name}.scss` ], `${testPath}/`)
+      checkForEachFile([`${folderPath}/${name}.scss`], `${testPath}/`)
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
       //   assert.fileContent('app/components/Test/Test.js', //)
@@ -49,8 +49,9 @@ describe('generator-react-firebase:component', () => {
 
   describe('Include Enhancer', () => {
     before(async () => {
-      await helpers.run(path.join(__dirname, '../../generators/component'))
-        .withArguments([ name ])
+      await helpers
+        .run(path.join(__dirname, '../../generators/component'))
+        .withArguments([name])
         .inDir(testPath)
         .withPrompts({
           addStyle: true,
@@ -61,7 +62,7 @@ describe('generator-react-firebase:component', () => {
     })
 
     describe('index file', () => {
-      checkForEachFile([ `${folderPath}/index.js` ], `${testPath}/`)
+      checkForEachFile([`${folderPath}/index.js`], `${testPath}/`)
       it.skip('has correct content', () => {
         const fileStr = `import ${name} from './${name}'\nimport enhancer from './${name}.enhancer'\n\nexport default enhance(${name})\n`
         console.log('what I am guessing:', JSON.stringify(fileStr))
@@ -72,7 +73,7 @@ describe('generator-react-firebase:component', () => {
 
     describe('js file', () => {
       const filePath = `${folderPath}/${name}.js`
-      checkForEachFile([ filePath  ], `${testPath}/`)
+      checkForEachFile([filePath], `${testPath}/`)
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
       //   assert.fileContent(filePath,)
@@ -80,7 +81,7 @@ describe('generator-react-firebase:component', () => {
     })
 
     describe('scss file', () => {
-      checkForEachFile([ `${folderPath}/${name}.scss` ], `${testPath}/`)
+      checkForEachFile([`${folderPath}/${name}.scss`], `${testPath}/`)
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
       //   assert.fileContent('app/components/Test/Test.js', //)
@@ -93,8 +94,9 @@ describe('generator-react-firebase:component', () => {
       const afterPath = 'routes/Account'
       const afterPath2 = `/components/${name}`
       folderPath = `src/${afterPath}/${afterPath2}`
-      await helpers.run(path.join(__dirname, '../../generators/component'))
-        .withArguments([ name,  afterPath ])
+      await helpers
+        .run(path.join(__dirname, '../../generators/component'))
+        .withArguments([name, afterPath])
         .inDir(testPath)
         .withPrompts({
           addStyle: true,
@@ -107,14 +109,17 @@ describe('generator-react-firebase:component', () => {
     describe('index file', () => {
       const afterPath = 'routes/Account'
       const afterPath2 = `/components/${name}`
-      checkForEachFile([ `src/${afterPath}/${afterPath2}/index.js` ], `${testPath}/`)
+      checkForEachFile(
+        [`src/${afterPath}/${afterPath2}/index.js`],
+        `${testPath}/`
+      )
     })
 
     describe('js file', () => {
       const afterPath = 'routes/Account'
       const afterPath2 = `/components/${name}`
       const filePath = `src/${afterPath}/${afterPath2}/${name}.js`
-      checkForEachFile([ filePath  ], `${testPath}/`)
+      checkForEachFile([filePath], `${testPath}/`)
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
       //   assert.fileContent(filePath,)
@@ -124,7 +129,10 @@ describe('generator-react-firebase:component', () => {
     describe('scss file', () => {
       const afterPath = 'routes/Account'
       const afterPath2 = `/components/${name}`
-      checkForEachFile([ `src/${afterPath}/${afterPath2}/${name}.scss` ], `${testPath}/`)
+      checkForEachFile(
+        [`src/${afterPath}/${afterPath2}/${name}.scss`],
+        `${testPath}/`
+      )
       // TODO: Check that content of file is correct
       // it('has correct content', () => {
       //   assert.fileContent('app/components/Test/Test.js', //)
