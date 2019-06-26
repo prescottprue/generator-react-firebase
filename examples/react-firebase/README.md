@@ -1,163 +1,167 @@
 # react-firebase
 
-[![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
-[![Code Coverage][coverage-image]][coverage-url]
-[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
 ## Table of Contents
+
 1. [Features](#features)
 1. [Requirements](#requirements)
 1. [Getting Started](#getting-started)
 1. [Application Structure](#application-structure)
 1. [Development](#development)
-  1. [Routing](#routing)
-1. [Testing](#testing)
+    1. [Routing](#routing)
 1. [Configuration](#configuration)
 1. [Production](#production)
 1. [Deployment](#deployment)
 
 ## Requirements
-* node `^6.11.5`
-* yarn `^0.23.0` or npm `^3.0.0`
+
+* node `^8`
+* npm `^3.0.0`
 
 ## Getting Started
 
-1. Install dependencies: `yarn install` (or `npm install`)
-1. If pulling to a new environment (not where project was created) - create `src/config.js` file that looks like so:
+1. Install app and functions dependencies: `npm i && npm i --prefix functions` or `yarn install && yarn install --cwd functions`
+1. Create `src/config.js` file that looks like so if it does not already exist:
     ```js
     const firebase = {
       // Config from Firebase console
     }
 
-    // Config for react-redux-firebase
-    export const reduxFirebase = {
-      userProfile: 'users', // root to which user profiles are written
-    }
+    // Overrides for for react-redux-firebase/redux-firestore config
+    export const reduxFirebase = {}
 
-    export default { firebase, reduxFirebase }
+    export default {
+      env,
+      firebase,
+      reduxFirebase
+    }
     ```
-1. Start Development server: `yarn start` (or `npm start`)
+1. Start Development server: `npm start`
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
 |`npm run <script>`    |Description|
 |-------------------|-----------|
-|`start`            |Serves your app at `localhost:3000` and displays [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
-|`start:simple`     |Serves your app at `localhost:3000` without [Webpack Dashboard](https://github.com/FormidableLabs/webpack-dashboard)|
-|`build`            |Builds the application to ./dist|
-|`test`             |Runs unit tests with Karma. See [testing](#testing)|
-|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
+|`start`            |Serves your app at `localhost:3000` with automatic refreshing and hot module replacement|
+|`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using `firebase serve`|
+|`build`            |Builds the application to `./dist`|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
-
 ## Config Files
 
 There are multiple configuration files:
 
-* Project Path Configuration - `project.config.js`
-* Firebase Project Configuration (including how `src/config.js` is built on CI) - `.firebaserc`
+* Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
 * Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+* Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
 
 ## Application Structure
 
-The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications. If you wish to read more about this pattern, please check out this [awesome writeup](https://github.com/davezuko/react-redux-starter-kit/wiki/Fractal-Project-Structure) by [Justin Greenberg](https://github.com/justingreenberg).
+The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications.
 
 ```
-.
-├── build                    # All build-related configuration
+├── public                   # All build-related configuration
+│   ├── index.html           # Main HTML page container for app
 │   ├── scripts              # Scripts used within the building process
-│   ├── karma.config.js      # Test configuration for Karma
-│   └── webpack.config.js    # Environment-specific configuration files for webpack
-├── server                   # Express application that provides webpack middleware
-│   └── main.js              # Server application entry point
+│   │  └── compile.js        # Custom Compiler that calls Webpack compiler
+│   │  └── start.js          # Starts the custom compiler
 ├── src                      # Application source code
 │   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
-│   ├── constants.js         # Project constants such as firebase paths and form names
-│   ├── index.html           # Main HTML page container for app
-│   ├── main.js              # Application bootstrap and rendering
-│   ├── normalize.js         # Browser normalization and polyfills
 │   ├── components           # Global Reusable Presentational Components
+│   ├── constants            # Project constants such as firebase paths and form names
+│   │  ├── formNames.js      # Names of redux forms
+│   │  └── paths.js          # Paths for application routes
 │   ├── containers           # Global Reusable Container Components (connected to redux state)
 │   ├── layouts              # Components that dictate major page structure
 │   │   └── CoreLayout       # Global application layout in which to render routes
 │   ├── routes               # Main route definitions and async split points
-│   │   ├── index.js         # Bootstrap main application routes with store
+│   │   ├── index.js         # Bootstrap main application routes
 │   │   └── Home             # Fractal route
 │   │       ├── index.js     # Route definitions and async split points
 │   │       ├── assets       # Assets required to render components
 │   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
 │   │       ├── modules      # Collections of reducers/constants/actions
-│   │       └── routes **    # Fractal sub-routes (** optional)
+│   │       └── routes/**    # Fractal sub-routes (** optional)
 │   ├── static               # Static assets
 │   ├── store                # Redux-specific pieces
 │   │   ├── createStore.js   # Create and instrument redux store
 │   │   └── reducers.js      # Reducer registry and injection
 │   ├── styles               # Application-wide styles (generally settings)
-│   └── utils                 # General Utilities (used throughout application)
-│   │   ├── components.js   # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js         # For forms (often used in enhancers that use redux-form)
-│   │   └── router.js       # Utilities for routing such as those that redirect back to home if not logged in
-├── project.config.js        # Project configuration settings
+│   └── utils                # General Utilities (used throughout application)
+│   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
+│   │   ├── form.js          # For forms (often used in enhancers that use redux-form)
+│   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
+├── tests                    # Unit tests
+├── .env.local               # Environment settings for when running locally
+├── .eslintignore            # ESLint ignore file
+├── .eslintrc.js             # ESLint configuration
 ├── .firebaserc              # Firebase Project configuration settings (including ci settings)
-└── tests                    # Unit tests
+├── database.rules.json      # Rules for Firebase Real Time Database
+├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
+├── firestore.indexes.json   # Indexs for Cloud Firestore
+├── firestore.rules          # Rules for Cloud Firestore
+└── storage.rules            # Rules for Cloud Storage For Firebase
 ```
 
-### Routing
-We use `react-router` [route definitions](https://github.com/ReactTraining/react-router/blob/v3/docs/API.md#plainroute) (`<route>/index.js`) to define units of logic within our application. See the [application structure](#application-structure) section for more information.
+## Routing
 
-## Testing
-To add a unit test, create a `.spec.js` file anywhere inside of `./tests`. Karma and webpack will automatically find these files, and Mocha and Chai will be available within your test without the need to import them.
+We use `react-router-dom` [route matching](https://reacttraining.com/react-router/web/guides/basic-components/route-matching) (`<route>/index.js`) to define units of logic within our application. The application routes are defined within `src/routes/index.js`, which loads route settings which live in each route's `index.js`. The component with the suffix `Page` is the top level component of each route (i.e. `HomePage` is the top level component for `Home` route).
 
-## Production
+There are two types of routes definitions:
 
-Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
+### Sync Routes
 
-### Deployment
+The most simple way to define a route is a simple object with `path` and `component`:
 
-1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
+*src/routes/Home/index.js*
 
-#### CI Deploy (recommended)
-**Note**: Config for this is located within `travis.yml`
-`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+```js
+import HomePage from './components/HomePage'
 
-1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
-1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
-1. Run a build on Travis-CI
+// Sync route definition
+export default {
+  path: '/',
+  component: HomePage
+}
+```
 
-If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
+### Async Routes
 
-For more options on CI settings checkout the [firebase-ci docs](https://github.com/prescottprue/firebase-ci)
+Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `react-loadable`:
 
-#### Manual deploy
+*src/routes/NotFound/index.js*
 
-1. Run `firebase:login`
-1. Initialize project with `firebase init` then answer:
-  * What file should be used for Database Rules?  -> `database.rules.json`
-  * What do you want to use as your public directory? -> `build`
-  * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
-  * What Firebase project do you want to associate as default?  -> **your Firebase project name**
-1. Build Project: `npm run build`
-1. Confirm Firebase config by running locally: `firebase serve`
-1. Deploy to firebase: `firebase deploy`
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
+```js
+import Loadable from 'react-loadable'
+import LoadingSpinner from 'components/LoadingSpinner'
+
+// Async route definition
+export default {
+  component: Loadable({
+    loader: () =>
+      import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage'),
+    loading: LoadingSpinner
+  })
+}
+```
+
+With this setting, the name of the file (called a "chunk") is defined as part of the code as well as a loading spinner showing while the bundle file is loading.
+
+More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
+
 
 ## FAQ
 
-1. Why node `6.11.5` instead of a newer version?
+1. Why node `8` instead of a newer version?
 
-  [Cloud Functions runtime is still on `6.11.5`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version. This will be switched when the functions runtime is updated.
-
-1. Why Yarn over node's `package-lock.json`?
-
-  Relates to previous question. Node `6.*.*` and equivalent npm didn't include lock files by default.
+  [Cloud Functions runtime runs on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version.
 
 1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
     * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
@@ -165,15 +169,12 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
     * smaller files which are easier to parse
     * functional components can be helpful (along with other tools) when attempting to optimize things
 
-[travis-image]: https://img.shields.io/travis/testuser/react-firebase/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/testuser/react-firebase
-[daviddm-image]: https://img.shields.io/david/testuser/react-firebase.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/testuser/react-firebase
-[climate-image]: https://img.shields.io/codeclimate/github/testuser/react-firebase.svg?style=flat-square
-[climate-url]: https://codeclimate.com/github/testuser/react-firebase
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/testuser/react-firebase.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/testuser/react-firebase
+
+[climate-image]: https://img.shields.io/codeclimate/github/prescottprue/react-firebase.svg?style=flat-square
+[climate-url]: https://codeclimate.com/github/prescottprue/react-firebase
+[coverage-image]: https://img.shields.io/codeclimate/coverage/github/prescottprue/react-firebase.svg?style=flat-square
+[coverage-url]: https://codeclimate.com/github/prescottprue/react-firebase
 [license-image]: https://img.shields.io/npm/l/react-firebase.svg?style=flat-square
-[license-url]: https://github.com/testuser/react-firebase/blob/master/LICENSE
+[license-url]: https://github.com/prescottprue/react-firebase/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/

@@ -1,49 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
 import Button from '@material-ui/core/Button'
-import { required, validateEmail } from 'utils/form'
-import classes from './SignupForm.scss'
+import TextField from '@material-ui/core/TextField'
 
-const SignupForm = ({ pristine, submitting, handleSubmit }) => (
-  <form className={classes.container} onSubmit={handleSubmit}>
-    <Field
-      name="username"
-      component={TextField}
-      label="Username"
-      validate={required}
-    />
-    <Field
-      name="email"
-      component={TextField}
-      label="Email"
-      validate={[required, validateEmail]}
-    />
-    <Field
-      name="password"
-      component={TextField}
-      label="Password"
-      type="password"
-      validate={required}
-    />
-    <div className={classes.submit}>
-      <Button
-        color="primary"
-        type="submit"
-        raised
-        disabled={pristine || submitting}>
-        {submitting ? 'Loading' : 'Sign Up'}
-      </Button>
-    </div>
-  </form>
-)
+function SignupForm({ handleSubmit }) {
+  return (
+    <form className={classes.container} onSubmit={handleSubmit}>
+      <div>
+        <TextField label='Username' />
+      </div>
+      <div>
+        <TextField
+          hintText='someone@email.com'
+          label='Email'
+        />
+      </div>
+      <div>
+        <TextField
+          label='Password'
+          type="password"
+        />
+      </div>
+      <div className={classes.submit}>
+        <RaisedButton
+          label='Signup'
+          primary
+          type='submit'
+          style={buttonStyle}
+        />
+      </div>
+    </form>
+  )
+}
 
 SignupForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  pristine: PropTypes.bool.isRequired, // added by redux-form
-  submitting: PropTypes.bool.isRequired, // added by redux-form
-  handleSubmit: PropTypes.func.isRequired // added by redux-form (calls onSubmit)
+  handleSubmit: PropTypes.func
 }
 
 export default SignupForm

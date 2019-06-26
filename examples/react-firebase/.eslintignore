@@ -4,5 +4,3 @@ dist/**
 src/index.html
 blueprints/**
 src/config.js
-functions/dist/**
-functions/test/mocha.opts
