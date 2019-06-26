@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 <% if (includeRedux) { %>import { Field } from 'redux-form'
 import Button from '@material-ui/core/Button'
-import { TextField } from 'redux-form-material-ui'<% } %><% if (!includeRedux) { %>import TextField from '@material-ui/core/TextField'<% } %>
+import TextField from 'components/FormTextField'<% } %><% if (!includeRedux) { %>import TextField from '@material-ui/core/TextField'<% } %>
 import ProviderDataForm from '../ProviderDataForm'
 
 <% if (includeRedux) { %>function AccountForm({ account, handleSubmit, submitting, pristine, classes }) {

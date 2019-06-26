@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
@@ -48,7 +48,7 @@
     "prettier": "^1.17.0",
     "rimraf": "^2.6.3",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^1.9.1"
+    "yeoman-test": "^2.0.0"
   },
   "homepage": "https://github.com/prescottprue/generator-react-firebase",
   "license": "MIT",
