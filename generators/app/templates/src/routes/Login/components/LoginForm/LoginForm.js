@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'<% if (includeRedux) { %>
 import { Field } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'<% } %>
+import TextField from 'components/FormTextField'<% } %>
 <% if (!includeRedux) { %>import RaisedButton from '@material-ui/core/RaisedButton'
 import TextField from '@material-ui/core/TextField'<% } else { %>import Button from '@material-ui/core/Button'<% } %><% if (includeRedux) { %>
 import { required, validateEmail } from 'utils/form'<% } %>
