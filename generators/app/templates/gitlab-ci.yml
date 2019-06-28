@@ -42,7 +42,7 @@ Build:
     expire_in: 2 weeks
     when: always
     paths:
-      - dist
+      - build
   # Override cache behavior set above since we want to both pull and push to
   # the cache (no "policy" provided since pull-push is default)
   cache:
@@ -59,7 +59,7 @@ Build:
 ## Cloud Functions Unit Tests (Mocha/Chai)
 Function Tests:
   stage: unit_tests
-  image: node:8
+  image: node:10
   when: on_success
   allow_failure: true
   except:
@@ -107,7 +107,7 @@ Component Tests:
 ## Deploy React App and Firebase Functions
 Deploy Staging:
   stage: deploy_staging
-  image: node:8
+  image: node:10
   environment:
     name: staging
     url: https://<%= appName %>-stage.firebaseapp.com
@@ -194,7 +194,7 @@ Build Production:
     expire_in: 1 week
     when: always
     paths:
-      - dist
+      - build
   script:
     - npm run clean # remove existing dist folder
     - npm run build:config # create env specific src/config.js
@@ -216,7 +216,7 @@ Deploy Production:
     - prod
     - web
   variables:
-    FIREBASE_CI_PROJECT: "prod" # deploy using prod project in .firebaserc
+    FIREBASE_CI_PROJECT: prod # deploy using prod project in .firebaserc
   artifacts:
     name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 1 week

@@ -1,7 +1,6 @@
 <% if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>import * as admin from 'firebase-admin'
 
 describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
-  let myFunctions
   let adminInitStub
   let <%= camelName %>
 
