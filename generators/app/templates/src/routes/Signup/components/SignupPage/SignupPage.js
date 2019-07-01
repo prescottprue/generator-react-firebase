@@ -14,7 +14,7 @@ function SignupPage({ emailSignup, googleLogin, onSubmitFail, classes }) {
       </Paper>
       <div className={classes.orLabel}>or</div>
       <div className={classes.providers}>
-        <GoogleButton onClick={googleLogin} />
+        <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
       </div>
       <div className={classes.login}>
         <span className={classes.loginLabel}>Already have an account?</span>
