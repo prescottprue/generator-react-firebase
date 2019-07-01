@@ -62,8 +62,8 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.0",<% if (includeUiTests) { %>
-    "cypress": "^3.1.5",
-    "cypress-firebase": "next",<% } %>
+    "cypress": "^3.3.2",
+    "cypress-firebase": "0.2.0",<% } %>
     "eslint": "^5.15.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-config-react-app": "^3.0.7",
@@ -75,9 +75,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",<% if (deployTo === 'firebase') { %>
-    "firebase-ci": "^0.5.6",
+    "firebase-ci": "^0.6.0",
     "firebase-tools": "^7.0.0",<% } %>
-    "husky": "^2.4.1",<% if (includeComponentTests) { %>
+    "husky": "3.0.0",<% if (includeComponentTests) { %>
     "jest": "^23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",<% } %>
