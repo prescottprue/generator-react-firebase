@@ -39,7 +39,7 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
   // const { params, auth, timestamp } = context<% if (airbnbLinting) { %>;<% } %>
   const { before, after } = change<% if (airbnbLinting) { %>;<% } %>
 
-  console.log('<%= camelName %> <%= eventType %> event:', { before: before.val(), after: after.val() })<% if (airbnbLinting) { %>;<% } %>
+  console.log('<%= camelName %> <%= eventType %> event:', { before: before.data(), after: after.data() })<% if (airbnbLinting) { %>;<% } %>
 
   // Create Firestore Collection Reference for the response
   const collectionRef = admin.firestore().collection(`${eventName}_responses`)<% if (airbnbLinting) { %>;<% } %>
