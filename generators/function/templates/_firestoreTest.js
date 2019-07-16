@@ -26,11 +26,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     const res = await <%= camelName %>(fakeEvent, fakeContext)
     expect(res).to.be.null
   })
-})<% } else if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>import * as admin from 'firebase-admin'
-
-describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
-  let myFunctions
-  let functions
+})<% } else if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
   let <%= camelName %>
 
   before(() => {
@@ -44,7 +40,6 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
   after(() => {
     // Restoring stubs to the original methods
     functionsTest.cleanup()
-    adminInitStub.restore()
   })
 
   it('returns null if display name is not changed', async () => {
