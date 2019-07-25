@@ -54,7 +54,7 @@ const choicesByTriggerType = {
   rtdb: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
   firestore: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
   auth: ['onCreate', 'onDelete'],
-  pubsub: ['onPublish'],
+  pubsub: ['onPublish', 'onRun'],
   storage: functionsV1
     ? ['onArchive', 'onDelete', 'onFinalize', 'onMetadataUpdate']
     : ['onChange']
@@ -186,10 +186,13 @@ module.exports = class extends Generator {
       Trigger Type: ${chalk.cyan(triggerTypeName)}
       Event Type: ${chalk.cyan(this.answers.eventType) || ''}`
     )
-
+    const lintSuffix =
+      this.answers.airbnbLinting && ['pubsub', 'https'].includes(triggerType)
+        ? '-airbnb'
+        : ''
     const filesArray = [
       {
-        src: `_${triggerType}Function.js`,
+        src: `_${triggerType}Function${lintSuffix}.js`,
         dest: `functions/src/${camelName}/index.js`
       }
     ]
