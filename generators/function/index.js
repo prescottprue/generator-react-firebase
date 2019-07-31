@@ -40,13 +40,20 @@ function getFbToolsVersion() {
 const functionsVersion = getFbToolsVersion()
 const functionsV1 = semver.satisfies(functionsVersion, '>=1.x.x')
 
+const HTTPS_FUNCTION_TYPE = 'https'
+const RTDB_FUNCTION_TYPE = 'rtdb'
+const PUBSUB_FUNCTION_TYPE = 'pubsub'
+const FIRESTORE_FUNCTION_TYPE = 'firestore'
+const STORAGE_FUNCTION_TYPE = 'storage'
+const AUTH_FUNCTION_TYPE = 'auth'
+
 const functionTypeOptions = [
-  'https',
-  'rtdb',
-  'firestore',
-  'pubsub',
-  'storage',
-  'auth'
+  HTTPS_FUNCTION_TYPE,
+  RTDB_FUNCTION_TYPE,
+  FIRESTORE_FUNCTION_TYPE,
+  PUBSUB_FUNCTION_TYPE,
+  STORAGE_FUNCTION_TYPE,
+  AUTH_FUNCTION_TYPE
 ]
 
 const choicesByTriggerType = {
@@ -54,7 +61,7 @@ const choicesByTriggerType = {
   rtdb: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
   firestore: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
   auth: ['onCreate', 'onDelete'],
-  pubsub: ['onPublish'],
+  pubsub: ['onPublish', 'onRun'],
   storage: functionsV1
     ? ['onArchive', 'onDelete', 'onFinalize', 'onMetadataUpdate']
     : ['onChange']
@@ -86,10 +93,13 @@ function buildPrompts(generatorContext) {
       // Only prompt if type was not passed
       when: () => !generatorContext.triggerFlag,
       choices: functionTypeOptions.map(typeOption => {
-        if (typeOption === 'https' || typeOption === 'rtdb') {
+        if (
+          typeOption === HTTPS_FUNCTION_TYPE ||
+          typeOption === RTDB_FUNCTION_TYPE
+        ) {
           return typeOption.toUpperCase()
         }
-        if (typeOption === 'pubsub') {
+        if (typeOption === PUBSUB_FUNCTION_TYPE) {
           return 'PubSub'
         }
         return capitalize(typeOption)
@@ -186,10 +196,14 @@ module.exports = class extends Generator {
       Trigger Type: ${chalk.cyan(triggerTypeName)}
       Event Type: ${chalk.cyan(this.answers.eventType) || ''}`
     )
-
+    const lintSuffix =
+      this.answers.airbnbLinting &&
+      [PUBSUB_FUNCTION_TYPE, HTTPS_FUNCTION_TYPE].includes(triggerType)
+        ? '-airbnb'
+        : ''
     const filesArray = [
       {
-        src: `_${triggerType}Function.js`,
+        src: `_${triggerType}Function${lintSuffix}.js`,
         dest: `functions/src/${camelName}/index.js`
       }
     ]

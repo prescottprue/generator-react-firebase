@@ -180,7 +180,7 @@ UI Tests:
 ## Build production version of bundle (has different config)
 Build Production:
   stage: build_production
-  image: node:8
+  image: node:10
   when: on_success
   only:
     - master

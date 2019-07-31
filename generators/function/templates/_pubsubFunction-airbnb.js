@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions'
+import * as functions from 'firebase-functions';
 <% if (eventType === 'onPublish') { %>
 /**
  * Parse message body from message into JSON handling errors
@@ -8,10 +8,10 @@ import * as functions from 'firebase-functions'
  */
 function parseMessageBody(message) {
   try {
-    return message.json
+    return message.json;
   } catch (e) {
-    console.error('PubSub message was not JSON and an error was thrown: ', e)
-    return null
+    console.error('PubSub message was not JSON and an error was thrown: ', e);
+    return null;
   }
 }
 
@@ -21,22 +21,22 @@ function parseMessageBody(message) {
  */
 async function <%= camelName %>Event(message) {
   // Parse message body from message into JSON
-  const messageBody = parseMessageBody(message)
+  const messageBody = parseMessageBody(message);
 
   // Handle message not having a body
   if (!messageBody) {
-    const noBodyMsg = 'The message does not have a body'
-    console.error(noBodyMsg)
-    throw new Error(noBodyMsg)
+    const noBodyMsg = 'The message does not have a body';
+    console.error(noBodyMsg);
+    throw new Error(noBodyMsg);
   }
 
   // Get attributes from message
-  const { attributes } = message || {}
+  const { attributes } = message || {};
 
-  console.log('Pub Sub message: ', { messageBody, attributes })
+  console.log('Pub Sub message: ', { messageBody, attributes });
 
   // End function execution by returning
-  return null
+  return null;
 }
 
 /**
@@ -48,19 +48,20 @@ async function <%= camelName %>Event(message) {
  */
 export default functions.pubsub
   .topic('<%= camelName %>')
-  .onPublish(<%= camelName %>Event)<% } else { %>
+  .onPublish(<%= camelName %>Event);<% } else { %>
 /**
  * @param {functions.pubsub.Context} context - Function context
  * @return {Promise}
  */
 async function <%= camelName %>Event(context) {
-  console.log('Pub Sub message: ', { context })
+  console.log('Pub Sub message: ', { context });
 
   // End function execution by returning
-  return null
+  return null;
 }
 
-const schedule = 'every 5 minutes'
+
+const schedule = 'every 5 minutes';
 
 /**
  * Cloud Function triggered on a specified CRON schedule
@@ -69,4 +70,4 @@ const schedule = 'every 5 minutes'
  * @name <%= camelName %>
  * @type {functions.CloudFunction}
  */
-export default functions.pubsub.schedule(schedule).onRun(<%= camelName %>Event)<% } %>
+export default functions.pubsub.schedule(schedule).onRun(<%= camelName %>Event);<% } %>

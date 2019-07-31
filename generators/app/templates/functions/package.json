@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "scripts": {
     <% if(includeFunctionsTests) { %>"test": "mocha ./src/**/*.spec.js --opts ./mocha.opts",

@@ -12,14 +12,15 @@ async function <%= name %>Request(data, context) {
   // Return data back to client to end function execution
   return {};
 }<% } else { %>/**
-  * @param req - Express HTTP Request
-  * @param res - Express HTTP Response
-  */
- async function <%= name %>Request(req, res) {
-   // Write response to request to end function execution
-   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-   res.end('Hello from <%= name %>');
- }<% } %>
+ * Handle request from calling /<%= name %> endpoint
+ * @param req - Express HTTP Request
+ * @param res - Express HTTP Response
+ */
+async function <%= name %>Request(req, res) {
+  // Write response to request to end function execution
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end('Hello from <%= name %>');
+}<% } %>
 
 /**
  * @name <%= name %>
@@ -32,6 +33,8 @@ import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %
 
 <% if (eventType === 'onCall') { %>
 /**
+ * @name <%= name %>
+ * Cloud Function triggered by HTTP request to /<%= name %> endpoint
  * @param req - Express HTTP Request
  * @param res - Express HTTP Response
  */

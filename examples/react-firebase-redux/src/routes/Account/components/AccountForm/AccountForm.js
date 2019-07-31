@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import Button from '@material-ui/core/Button'
-import { TextField } from 'redux-form-material-ui'
+import TextField from 'components/FormTextField'
 import ProviderDataForm from '../ProviderDataForm'
 
 function AccountForm({ account, handleSubmit, submitting, pristine, classes }) {

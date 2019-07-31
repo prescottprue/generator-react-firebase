@@ -76,7 +76,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",<% if (deployTo === 'firebase') { %>
     "firebase-ci": "^0.6.0",
-    "firebase-tools": "^7.0.0",<% } %>
+    "firebase-tools": "^7.2.2",<% } %>
     "husky": "3.0.0",<% if (includeComponentTests) { %>
     "jest": "^23.6.0",
     "jest-pnp-resolver": "1.0.1",
