@@ -1,5 +1,5 @@
-import { pick, some } from 'lodash'
-import { isLoaded } from 'react-redux-firebase/lib/helpers'
+import { get, isArray, size, pick, some } from 'lodash'
+import { isLoaded, isEmpty } from 'react-redux-firebase/lib/helpers'
 import LoadableComponent from 'react-loadable'
 import { mapProps, branch, renderComponent } from 'recompose'
 import LoadingSpinner from 'components/LoadingSpinner'
@@ -37,6 +37,43 @@ export function spinnerWhile(condition) {
  */
 export function spinnerWhileLoading(propNames) {
   return spinnerWhile(props => some(propNames, name => !isLoaded(props[name])))
+}
+
+/**
+ * HOC that shows a component while condition is true
+ * @param  {Function} condition - function which returns a boolean indicating
+ * whether to render the provided component or not
+ * @param  {React.Component} component - React component to render if condition
+ * is true
+ * @return {HigherOrderComponent}
+ */
+export function renderWhile(condition, component) {
+  return branch(condition, renderComponent(component))
+}
+
+/**
+ * HOC that shows a component while any of a list of props loaded from Firebase
+ * is empty (uses react-redux-firebase's isEmpty).
+ * @param  {Array} propNames - List of prop names to check loading for
+ * @param  {React.Component} component - React component to render if prop loaded
+ * from Firebase is empty
+ * @return {HigherOrderComponent}
+ * @example
+ * renderWhileEmpty(['todos'], () => <div>Todos Not Found</div>),
+ */
+export function renderWhileEmpty(propsNames, component) {
+  return renderWhile(
+    // Any of the listed prop name correspond to empty props (supporting dot path names)
+    props =>
+      some(propsNames, name => {
+        const propValue = get(props, name)
+        return (
+          isLoaded(propValue) &&
+          (isEmpty(propValue) || (isArray(propValue) && !size(propValue)))
+        )
+      }),
+    component
+  )
 }
 
 /**

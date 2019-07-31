@@ -7,11 +7,7 @@ import 'firebase/database'
 import 'firebase/auth'
 import 'firebase/storage'
 import makeRootReducer from './reducers'
-import {
-  firebase as fbConfig,
-  reduxFirebase as rrfConfig,
-  env
-} from '../config'
+import config, { firebase as fbConfig } from '../config'
 
 export default (initialState = {}) => {
   // ======================================================
@@ -27,8 +23,8 @@ export default (initialState = {}) => {
   }
 
   // Combine default config with overrides if they exist (set within .firebaserc)
-  const combinedConfig = rrfConfig
-    ? { ...defaultRRFConfig, ...rrfConfig }
+  const combinedConfig = config.reduxFirebase
+    ? { ...defaultRRFConfig, ...config.reduxFirebase }
     : defaultRRFConfig
 
   // ======================================================
@@ -36,7 +32,7 @@ export default (initialState = {}) => {
   // ======================================================
   const enhancers = []
 
-  if (env === 'dev') {
+  if (window && window.location && window.location.hostname === 'localhost') {
     const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension())
@@ -54,7 +50,7 @@ export default (initialState = {}) => {
   // ======================================================
   // Firebase Initialization
   // ======================================================
-  firebase.initializeApp(fbConfig)
+  firebase.initializeApp(config.firebase)
 
   // ======================================================
   // Store Instantiation and HMR Setup

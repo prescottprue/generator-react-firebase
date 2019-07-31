@@ -190,7 +190,6 @@ const filesArray = [
   { src: 'env.local', dest: '.env.local' },
   { src: 'eslintrc.js', dest: '.eslintrc.js' },
   { src: 'eslintignore', dest: '.eslintignore' },
-  // { src: 'babelrc', dest: '.babelrc' }, // config is in build/webpack.config.js
   // { src: 'public/**', dest: 'public' }, // individual files copied
   { src: 'public/favicon.ico' },
   { src: 'public/humans.txt' },
