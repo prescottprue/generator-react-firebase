@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "3.2.7",
+  "version": "3.2.8",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "command-exists": "^1.2.8",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "semver": "^6.0.0",
     "yeoman-generator": "^3.2.0",
     "yosay": "^2.0.2"

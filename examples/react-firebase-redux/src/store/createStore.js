@@ -7,7 +7,7 @@ import 'firebase/database'
 import 'firebase/auth'
 import 'firebase/storage'
 import makeRootReducer from './reducers'
-import config, { firebase as fbConfig } from '../config'
+import config from '../config'
 
 export default (initialState = {}) => {
   // ======================================================

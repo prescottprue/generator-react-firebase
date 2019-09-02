@@ -20,16 +20,18 @@ export default compose(
   withRouter,
   // Set proptypes of props used in HOCs
   setPropTypes({
+    // From react-router
     match: PropTypes.shape({
       params: PropTypes.shape({
         projectId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   }),
+  // Map projectId from route params (projects/:projectId) into props.projectId
   withProps(({ match: { params: { projectId } } }) => ({
     projectId
   })),<% if (includeRedux && includeFirestore) { %>
-  // Create listeners based on current users UID
+  // Create firestore listeners on mount
   firestoreConnect(({ projectId }) => [
     // Listener for projects the current user created
     {
@@ -37,9 +39,11 @@ export default compose(
       doc: projectId
     }
   ]),
-  // Map projects from state to props
+  // Map projects from redux state to props
   connect(({ firestore: { data } }, { projectId }) => ({<% } %><% if (includeRedux && !includeFirestore) { %>
+  // Create listener for projects data within Firebase
   firebaseConnect(({ projectId }) => [{ path: `projects/${projectId}` }]),
+  // Map projects data from redux state to props
   connect(({ firebase: { data } }, { projectId }) => ({<% } %>
     project: get(data, `projects.${projectId}`)
   })),

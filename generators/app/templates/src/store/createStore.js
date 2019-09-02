@@ -13,7 +13,7 @@ import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (inclu
 import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (includeErrorHandling || includeSentry) { %>
 import { setErrorUser } from '../utils/errorHandler'<% } %>
 import makeRootReducer from './reducers'
-import config, { firebase as fbConfig } from '../config'
+import config from '../config'
 
 export default (initialState = {}) => {
   // ======================================================
