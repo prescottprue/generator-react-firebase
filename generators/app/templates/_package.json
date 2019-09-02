@@ -64,7 +64,7 @@
     "babel-eslint": "^10.0.0",<% if (includeUiTests) { %>
     "cypress": "^3.4.1",
     "cypress-firebase": "0.2.4",<% } %>
-    "eslint": "^6.3.0",
+    "eslint": "^5.15.0",
     "eslint-config-prettier": "^6.1.0",
     "eslint-config-react-app": "^3.0.7",
     "eslint-plugin-babel": "^5.3.0",    
