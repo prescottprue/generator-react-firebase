@@ -19,16 +19,20 @@ export default compose(
   withRouter,
   // Set proptypes of props used in HOCs
   setPropTypes({
+    // From react-router
     match: PropTypes.shape({
       params: PropTypes.shape({
         projectId: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   }),
+  // Map projectId from route params (projects/:projectId) into props.projectId
   withProps(({ match: { params: { projectId } } }) => ({
     projectId
   })),
+  // Create listener for projects data within Firebase
   firebaseConnect(({ projectId }) => [{ path: `projects/${projectId}` }]),
+  // Map projects data from redux state to props
   connect(({ firebase: { data } }, { projectId }) => ({
     project: get(data, `projects.${projectId}`)
   })),

@@ -10,7 +10,7 @@
  * const original = []
  * flow(
  *   fpLog('Before Map'),
- *   fpMap('branchName') // get branchName
+ *   fpMap('name')
  *   fpLog('After Map'),
  * )(original)
  * // => 'Before Map' [{ name: 'test' }]
@@ -28,6 +28,6 @@ export function fpLog(message) {
  */
 export function initScripts() {
   <% if (includeAnalytics && includeErrorHandling) { %>initAnalytics()
-  initErrorHandling()<% } else { %>// Initialize global scripts here<% } %>
-  <% if (includeAnalytics && !includeErrorHandling) { %>initAnalytics()<% } %><% if (includeErrorHandling && !includeAnalytics) { %>initErrorHandling()<% } %>
+  initErrorHandling()<% } else { %>// Initialize global scripts here<% } %><% if (includeAnalytics && !includeErrorHandling) { %>
+  initAnalytics()<% } %><% if (includeErrorHandling && !includeAnalytics) { %>initErrorHandling()<% } %>
 }
