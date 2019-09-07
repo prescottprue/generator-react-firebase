@@ -41,10 +41,10 @@
     "@material-ui/core": "^4.4.0",
     "@material-ui/icons": "^4.2.0",<% if (includeSentry) { %>
     "@sentry/browser": "^5.4.0",<% } %>
-    "firebase": "^6.5.0",
+    "firebase": "^6.6.0",
     "history": "^4.9.0",
     "lodash": "^4.17.15",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",<% if (includeAnalytics) { %>
     "react-ga": "^2.3.5",<% } %>
@@ -63,7 +63,7 @@
   "devDependencies": {
     "babel-eslint": "^10.0.0",<% if (includeUiTests) { %>
     "cypress": "^3.4.1",
-    "cypress-firebase": "^0.2.4",<% } %>
+    "cypress-firebase": "0.2.5",<% } %>
     "eslint": "^6.3.0",
     "eslint-config-prettier": "^6.1.0",
     "eslint-config-react-app": "^5.0.1",
