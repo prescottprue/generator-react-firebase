@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
+import TextField from 'components/FormTextField'
 import Button from '@material-ui/core/Button'
 import { required, validateEmail } from 'utils/form'
 

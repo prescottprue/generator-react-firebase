@@ -9,15 +9,15 @@ stages:
 # To cache both npm modules and Cypress binary we use environment variables
 # to point at the folders we can list as paths in "cache" job settings
 variables:
-  npm_config_cache: "$CI_PROJECT_DIR/.npm"
-  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+  npm_config_cache: $CI_PROJECT_DIR/.npm
+  CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/cache/Cypress
+  HUSKY_SKIP_INSTALL: 1
 
 # Shared Settings
 ## Cache dependencies across jobs only pulling not uploading (upload to cache
 ## happens in build stage)
 cache:
-  untracked: true
-  key: ${CI_COMMIT_REF_SLUG}
+  key: $CI_COMMIT_REF_SLUG
   policy: pull # only pull cache, skip uploading
   paths:
     - .npm
@@ -33,22 +33,21 @@ before_script:
 ## Installs dependencies, builds app, and saves results for later (artifacts).
 Build:
   stage: build
-  image: node:8
+  image: node:10
   when: always
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
   artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 2 weeks
     when: always
     paths:
-      - dist
+      - build
   # Override cache behavior set above since we want to both pull and push to
   # the cache (no "policy" provided since pull-push is default)
   cache:
-    untracked: true # track files that are untracked in git
-    key: ${CI_COMMIT_REF_SLUG}
+    key: $CI_COMMIT_REF_SLUG
     paths:
       - .npm
   script:
@@ -61,7 +60,7 @@ Build:
 ## Cloud Functions Unit Tests (Mocha/Chai)
 Function Tests:
   stage: unit_tests
-  image: node:8
+  image: node:10
   when: on_success
   allow_failure: true
   except:
@@ -70,7 +69,7 @@ Function Tests:
       - $CI_COMMIT_MESSAGE =~ /skip-unit-tests/
       - $CI_COMMIT_MESSAGE =~ /skip-functions-tests/
   artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 2 weeks
     when: always
     paths:
@@ -86,7 +85,7 @@ Function Tests:
 ## React Components Unit + Snapshot Tests (Jest)
 Component Tests:
   stage: unit_tests
-  image: node:8
+  image: node:10
   when: on_success
   allow_failure: true
   except:
@@ -95,7 +94,7 @@ Component Tests:
       - $CI_COMMIT_MESSAGE =~ /skip-unit-tests/
       - $CI_COMMIT_MESSAGE =~ /skip-component-tests/
   artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 2 weeks
     when: always
     paths:
@@ -109,7 +108,7 @@ Component Tests:
 ## Deploy React App and Firebase Functions
 Deploy Staging:
   stage: deploy_staging
-  image: node:8
+  image: node:10
   environment:
     name: staging
     url: https://redux-firestore-stage.firebaseapp.com
@@ -136,7 +135,7 @@ Deploy Staging:
 ## Install Cypress binary and run end to end tests using Cypress
 UI Tests:
   stage: ui_tests
-  image: cypress/base:8
+  image: cypress/base:10
   when: on_success
   allow_failure: true
   only:
@@ -150,8 +149,7 @@ UI Tests:
   # Override cache behavior set above since we want to both pull and push to
   # the cache (no "policy" provided since pull-push is default)
   cache:
-    untracked: true
-    key: ${CI_COMMIT_REF_SLUG}
+    key: $CI_COMMIT_REF_SLUG
     paths:
       - .npm
       - cache/Cypress
@@ -182,7 +180,7 @@ UI Tests:
 ## Build production version of bundle (has different config)
 Build Production:
   stage: build_production
-  image: node:8
+  image: node:10
   when: on_success
   only:
     - master
@@ -197,7 +195,7 @@ Build Production:
     expire_in: 1 week
     when: always
     paths:
-      - dist
+      - build
   script:
     - npm run clean # remove existing dist folder
     - npm run build:config # create env specific src/config.js
@@ -209,7 +207,7 @@ Build Production:
 ## Deploy React App and Cloud Functions to production environment
 Deploy Production:
   stage: deploy_production
-  image: node:8
+  image: node:10
   environment:
     name: production
     url: https://redux-firestore.firebaseapp.com
@@ -219,7 +217,7 @@ Deploy Production:
     - prod
     - web
   variables:
-    FIREBASE_CI_PROJECT: "prod" # deploy using prod project in .firebaserc
+    FIREBASE_CI_PROJECT: prod # deploy using prod project in .firebaserc
   artifacts:
     name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
     expire_in: 1 week

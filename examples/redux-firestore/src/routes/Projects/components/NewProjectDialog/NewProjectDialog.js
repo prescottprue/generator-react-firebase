@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import { Field } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
+import TextField from 'components/FormTextField'
 import { required } from 'utils/form'
 
 function NewProjectDialog({ classes, handleSubmit, open, onRequestClose }) {
