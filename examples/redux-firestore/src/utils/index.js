@@ -10,7 +10,7 @@ import { init as initErrorHandling } from './errorHandler'
  * const original = []
  * flow(
  *   fpLog('Before Map'),
- *   fpMap('branchName') // get branchName
+ *   fpMap('name')
  *   fpLog('After Map'),
  * )(original)
  * // => 'Before Map' [{ name: 'test' }]
