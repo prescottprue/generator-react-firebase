@@ -13,8 +13,8 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
  * @param  {functions.database.DataSnapshot} snap - Data snapshot of the event
  * @param {Function} snap.val - Value after event<% } %><% if (functionsV1) { %>
  * @param {functions.EventContext} context - Function event context
- * @param {Object} context.auth - Authentication information for the user that triggered the function<% } %>
- * @return {Promise}
+ * @param {object} context.auth - Authentication information for the user that triggered the function<% } %>
+ * @returns {Promise} Resolves after handling event
  */
 <% if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>async function <%= camelName %>Event(change, context) {
   // const { params, auth, timestamp } = context

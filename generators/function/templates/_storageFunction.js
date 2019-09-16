@@ -5,8 +5,9 @@ import os from 'os'<% if (airbnbLinting) { %>;<% } %>
 import fs from 'fs'<% if (airbnbLinting) { %>;<% } %>
 
 /**
- * @param  {functions.Event} event - Function event
- * @return {Promise}
+ * Handle <%= camelName %> event
+ * @param {functions.Event} event - Function event
+ * @returns {Promise} After handling <%= camelName %> event
  */
 <% if (functionsV1) { %>async function <%= camelName %>Event(object, context) {
   const { name: filePath, contentType } = object<% if (airbnbLinting) { %>;<% } %>
