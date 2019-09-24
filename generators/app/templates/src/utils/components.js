@@ -37,12 +37,13 @@ export function spinnerWhile(condition) {
  */
 export function spinnerWhileLoading(propNames) {
   if (!propNames || !Array.isArray(propNames)) {
-    const missingPropNamesErrMsg = 'spinnerWhileLoading requires propNames array'
-    console.error(missingPropNamesErrMsg)
+    const missingPropNamesErrMsg =
+      'spinnerWhileLoading requires propNames array'
+    console.error(missingPropNamesErrMsg) // eslint-disable-line no-console
     throw new Error(missingPropNamesErrMsg)
   }
   return spinnerWhile(props =>
-    propNames.some(propNames, name => !isLoaded(get(props, name)))
+    propNames.some(name => !isLoaded(get(props, name)))
   )
 }
 
@@ -71,7 +72,7 @@ export function renderWhile(condition, component) {
 export function renderWhileEmpty(propNames, component) {
   if (!propNames || !Array.isArray(propNames)) {
     const missingPropNamesErrMsg = 'renderWhileEmpty requires propNames array'
-    console.error(missingPropNamesErrMsg)
+    console.error(missingPropNamesErrMsg) // eslint-disable-line no-console
     throw new Error(missingPropNamesErrMsg)
   }
   return renderWhile(
@@ -81,7 +82,8 @@ export function renderWhileEmpty(propNames, component) {
         const propValue = get(props, name)
         return (
           isLoaded(propValue) &&
-          (isEmpty(propValue) || (Array.isArray(propValue) && !Object.keys(propValue).length))
+          (isEmpty(propValue) ||
+            (Array.isArray(propValue) && !Object.keys(propValue).length))
         )
       }),
     component

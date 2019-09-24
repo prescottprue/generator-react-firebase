@@ -9,7 +9,8 @@ module.exports = {
     }
   },
   rules: {
-    'no-console': 0
+    'no-console': 0,
+    'jsdoc/newline-after-description': 0
   }<% if(includeFunctionsTests) { %>,
   overrides: [
     {

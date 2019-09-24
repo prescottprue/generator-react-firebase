@@ -29,6 +29,7 @@ function Navbar({ history, firebase, auth, profile }) {
           data-test="brand">
           <%= appName %>
         </Typography>
+        <div className={classes.flex} />
         {authExists ? (
           <AccountMenu />
         ) : (
