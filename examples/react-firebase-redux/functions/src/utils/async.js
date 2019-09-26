@@ -1,7 +1,7 @@
 /**
  * Async await wrapper for easy error handling
- * @param  {Promise} promise - Promise to wrap responses of
- * @return {Promise} Resolves and rejects with an array
+ * @param {Promise} promise - Promise to wrap responses of
+ * @returns {Promise} Resolves and rejects with an array
  * @example
  * async function asyncFunctionWithThrow() {
  *  const [err, snap] = await to(

@@ -11,7 +11,6 @@ const srcFiles = [
   'src/containers/App/index.js',
   'src/containers/Navbar/AccountMenu.js',
   'src/containers/Navbar/index.js',
-  'src/containers/Navbar/LoginMenu.js',
   'src/containers/Navbar/Navbar.enhancer.js',
   'src/containers/Navbar/Navbar.js',
   'src/containers/Navbar/Navbar.styles.js',
@@ -227,7 +226,7 @@ describe('generator-react-firebase:app', function() {
     })
   })
 
-  describe('material-ui v1 option', () => {
+  describe('material-ui > v1 option', () => {
     describe('include', () => {
       before(() =>
         helpers

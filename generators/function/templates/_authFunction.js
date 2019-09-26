@@ -1,6 +1,9 @@
 import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %>
 // import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
 
+/**
+ * @returns {Promise} Resolves after handling even
+ */
 <% if (functionsV1) { %>async function <%= camelName %>Event(userRecord, context) {
   // const { creationTime, lastSignInTime } = userRecord<% if (airbnbLinting) { %>;<% } %>
   console.log('Hello world', userRecord, context)

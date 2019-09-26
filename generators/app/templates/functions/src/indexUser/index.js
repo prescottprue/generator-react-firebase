@@ -14,13 +14,13 @@ export default functions.database
 
 /**
  * Index user's by placing their displayName into the users_public collection
- * @param  {functions.Change} change - Database event from function being
- * @param  {admin.DataSnapshot} change.before - Snapshot of data before change
- * @param  {admin.DataSnapshot} change.after - Snapshot of data after change
- * @param  {functions.EventContext} context - Function context which includes
+ * @param {functions.Change} change - Database event from function being
+ * @param {admin.firestore.DataSnapshot} change.before - Snapshot of data before change
+ * @param {admin.firestore.DataSnapshot} change.after - Snapshot of data after change
+ * @param {functions.EventContext} context - Function context which includes
  * data about the event. More info in docs:
  * https://firebase.google.com/docs/reference/functions/functions.EventContext
- * @return {Promise} Resolves with user's profile
+ * @returns {Promise} Resolves with user's profile
  */
 async function indexUser(change, context) {
   const { userId } = context.params || {}
@@ -82,13 +82,13 @@ export default functions.firestore
 
 /**
  * Index user's by placing their displayName into the users_public collection
- * @param  {functions.Change} change - Database event from function being
- * @param  {admin.DataSnapshot} change.before - Snapshot of data before change
- * @param  {admin.DataSnapshot} change.after - Snapshot of data after change
- * @param  {functions.EventContext} context - Function context which includes
+ * @param {functions.Change} change - Database event from function being
+ * @param {admin.firestore.DataSnapshot} change.before - Snapshot of data before change
+ * @param {admin.firestore.DataSnapshot} change.after - Snapshot of data after change
+ * @param {functions.EventContext} context - Function context which includes
  * data about the event. More info in docs:
  * https://firebase.google.com/docs/reference/functions/functions.EventContext
- * @return {Promise} Resolves with user's profile
+ * @returns {Promise} Resolves with user's profile
  */
 async function indexUser(change, context) {
   const { userId } = context.params || {}

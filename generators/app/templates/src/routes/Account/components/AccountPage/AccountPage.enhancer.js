@@ -10,13 +10,13 @@ import styles from './AccountPage.styles'
 
 export default compose(
   <% if (includeRedux) { %>UserIsAuthenticated, // redirect to /login if user is not authenticated
-  withFirebase,
+  withFirebase, // add props.firebase
   withNotifications,
   connect(({ firebase: { profile } }) => ({
     profile,
     avatarUrl: profile.avatarUrl
   })),
-  spinnerWhileLoading(['profile']),
+  spinnerWhileLoading(['profile']), // spinner until profile loads
   setPropTypes({
     showSuccess: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,

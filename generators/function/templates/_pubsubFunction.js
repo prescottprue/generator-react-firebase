@@ -2,9 +2,9 @@ import * as functions from 'firebase-functions'
 <% if (eventType === 'onPublish') { %>
 /**
  * Parse message body from message into JSON handling errors
- * @param {Object} message - Message object from pubsub containing json
+ * @param {object} message - Message object from pubsub containing json
  * parameter with body of message
- * @return {Object}
+ * @returns {object}
  */
 function parseMessageBody(message) {
   try {
@@ -16,8 +16,9 @@ function parseMessageBody(message) {
 }
 
 /**
+ * Handle <%= camelName %> pub sub event
  * @param {functions.pubsub.Message} message - Pubsub message object
- * @return {Promise}
+ * @returns {Promise}
  */
 async function <%= camelName %>Event(message) {
   // Parse message body from message into JSON
@@ -50,8 +51,9 @@ export default functions.pubsub
   .topic('<%= camelName %>')
   .onPublish(<%= camelName %>Event)<% } else { %>
 /**
+ * Handle <%= camelName %> pub sub event
  * @param {functions.pubsub.Context} context - Function context
- * @return {Promise}
+ * @returns {Promise}
  */
 async function <%= camelName %>Event(context) {
   console.log('Pub Sub message: ', { context })

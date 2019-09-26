@@ -6,16 +6,16 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
 
 /**
  * <% if (!functionsV1) { %>@param {functions.Event} event - Function event
- * @param {functions.firestore.DataSnapshot} event.data - Data snapshot of the event<% } %><% if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>@param  {functions.Change} change - Function change interface containing state objects
- * @param {functions.firestore.DataSnapshot} change.before - State prior to the event.
+ * @param {admin.firestore.DataSnapshot} event.data - Data snapshot of the event<% } %><% if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>@param  {admin.Change} change - Function change interface containing state objects
+ * @param {admin.firestore.DataSnapshot} change.before - State prior to the event.
  * @param {Function} change.before.data - Value before change event
- * @param {functions.firestore.DataSnapshot} change.after - State after the event.
+ * @param {admin.firestore.DataSnapshot} change.after - State after the event.
  * @param {Function} change.after.data - Value after change event<% } else if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>
- * @param {functions.firestore.DataSnapshot} snap - Data snapshot of the event
+ * @param {admin.firestore.DataSnapshot} snap - Data snapshot of the event
  * @param {Function} snap.data - Value of document<% } %><% if (functionsV1) { %>
  * @param {functions.EventContext} context - Function event context
- * @param {Object} context.auth - Authentication information for the user that triggered the function<% } %>
- * @return {Promise}
+ * @param {object} context.auth - Authentication information for the user that triggered the function<% } %>
+ * @returns {Promise}
  */
 <% if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>async function <%= camelName %>Event(snap, context) {
   // const { params, auth, timestamp } = context<% if (airbnbLinting) { %>;<% } %>

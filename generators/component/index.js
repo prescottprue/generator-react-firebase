@@ -3,8 +3,27 @@ const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const fs = require('fs')
 const path = require('path')
+const semver = require('semver')
 const camelCase = require('lodash/camelCase')
 const get = require('lodash/get')
+
+const styleChoices = [
+  {
+    name: 'JSS with HOC (withStyles)',
+    value: 'localized'
+  },
+  {
+    name: 'SCSS File',
+    value: 'scss'
+  }
+]
+
+if (reactVersionHasHooks()) {
+  styleChoices.unshift({
+    name: 'JSS with React Hooks (useStyles)',
+    value: 'hooks'
+  })
+}
 
 const prompts = [
   {
@@ -17,23 +36,13 @@ const prompts = [
     type: 'list',
     name: 'styleType',
     when: ({ addStyle }) => addStyle && dependencyExists('@material-ui/core'),
-    choices: [
-      {
-        name: 'Localized MUI Theming (styles.js)',
-        value: 'localized'
-      },
-      {
-        name: 'SCSS File',
-        value: 'scss'
-      }
-    ],
+    choices: styleChoices,
     message: 'What type of styling?',
     default: 0
   },
   {
     type: 'confirm',
     name: 'includeEnhancer',
-    when: ({ styleType }) => !styleType || styleType === 'scss',
     message: 'Do you want to include an enhancer?',
     default: false
   }
@@ -60,6 +69,12 @@ function dependencyExists(depName, opts = {}) {
     projectPackageFile,
     `${dev ? 'devDependencies' : 'dependencies'}.${depName}`
   )
+}
+
+function reactVersionHasHooks() {
+  const projectPackageFile = loadProjectPackageFile()
+  const reactVersion = get(projectPackageFile, 'dependencies.react')
+  return semver.satisfies(semver.coerce(reactVersion), '>=16.9.0')
 }
 
 module.exports = class extends Generator {
@@ -107,19 +122,22 @@ module.exports = class extends Generator {
       ? `${this.options.basePath}/`
       : ''
     const basePath = `src/${basePathOption}components/${this.options.name}`
+    const withLintSuffix = `_main${this.answers.airbnbLinting ? '-airbnb' : ''}`
     const filesArray = [
       {
         src: `_index${this.answers.airbnbLinting ? '-airbnb' : ''}.js`,
         dest: `${basePath}/index.js`
       },
       {
-        src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.js`,
+        src: `${withLintSuffix}${
+          this.answers.styleType === 'hooks' ? '-hooks' : ''
+        }.js`,
         dest: `${basePath}/${this.options.name}.js`
       }
     ]
 
     if (this.answers.addStyle) {
-      if (this.answers.styleType && this.answers.styleType === 'localized') {
+      if (this.answers.styleType && this.answers.styleType !== 'scss') {
         filesArray.push({
           src: '_main.styles.js',
           dest: `${basePath}/${this.options.name}.styles.js`
