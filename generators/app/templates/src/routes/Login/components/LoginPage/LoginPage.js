@@ -33,7 +33,6 @@ function LoginPage({ emailLogin, googleLogin, onSubmitFail }) {
 }
 
 LoginPage.propTypes = {
-  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   emailLogin: PropTypes.func.isRequired, // from enhancer (withHandlers)
   onSubmitFail: PropTypes.func.isRequired, // from enhancer (withHandlers)
   googleLogin: PropTypes.func.isRequired // from enhancer (withHandlers)

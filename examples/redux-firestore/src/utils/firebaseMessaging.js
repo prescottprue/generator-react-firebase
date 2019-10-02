@@ -12,7 +12,7 @@ function updateUserProfileWithToken(messagingToken) {
   const currentUserUid =
     firebase.auth().currentUser && firebase.auth().currentUser.uid
   if (!currentUserUid) {
-    return Promise.resolve();
+    return Promise.resolve()
   }
   return firebase
     .firestore()

@@ -63,17 +63,19 @@
     "babel-eslint": "^10.0.0",
     "cypress": "^3.4.1",
     "cypress-firebase": "0.2.5",
-    "eslint": "^6.3.0",
-    "eslint-config-prettier": "^6.1.0",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
     "eslint-config-react-app": "^5.0.1",
     "eslint-plugin-babel": "^5.3.0",    
-    "eslint-plugin-flowtype": "^4.2.0",
+    "eslint-plugin-flowtype": "^4.3.0",
     "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-cypress": "^2.6.1",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsdoc": "^15.9.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "firebase-ci": "^0.6.0",
     "firebase-tools": "^7.3.0",
     "husky": "^3.0.5",
@@ -88,12 +90,7 @@
   "eslintConfig": {
     "extends": "./eslintrc.js"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": [],
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"

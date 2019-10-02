@@ -13,7 +13,9 @@ describe('indexUser RTDB Cloud Function (onWrite)', () => {
     updateStub = sinon.stub().returns(Promise.resolve({}))
     setStub = sinon.stub().returns(Promise.resolve({}))
     deleteStub = sinon.stub().returns(Promise.resolve({}))
-    docStub = sinon.stub().returns({ set: setStub, update: updateStub, delete: deleteStub })
+    docStub = sinon
+      .stub()
+      .returns({ set: setStub, update: updateStub, delete: deleteStub })
     collectionStub = sinon
       .stub()
       .returns({ add: sinon.stub().returns(Promise.resolve({})), doc: docStub })
