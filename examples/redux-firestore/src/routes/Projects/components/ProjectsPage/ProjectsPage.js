@@ -16,9 +16,9 @@ function ProjectsPage({
   projects,
   collabProjects,
   auth,
-  deleteProject,
   newDialogOpen,
   toggleDialog,
+  deleteProject,
   addProject,
   match,
   goToProject
