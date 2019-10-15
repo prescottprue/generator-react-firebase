@@ -1,8 +1,8 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser'
 import { firebase, sentryDsn, env as environment } from '../config'
 import { version } from '../../package.json'
 
-let errorHandler; // eslint-disable-line import/no-mutable-exports
+let errorHandler // eslint-disable-line import/no-mutable-exports
 
 /**
  * Initialize Stackdriver Error Reporter only if api key exists
@@ -31,7 +31,7 @@ function initSentry() {
       dsn: sentryDsn,
       environment,
       release: version
-    });
+    })
   }
 }
 
