@@ -1,12 +1,13 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
+import { useFirebase } from 'react-redux-firebase'
+import { useHistory } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { makeStyles } from '@material-ui/core/styles'
 import { ACCOUNT_PATH } from 'constants/paths'
-import enhance from './Navbar.enhancer'
 
 const useStyles = makeStyles(() => ({
   buttonRoot: {
@@ -14,9 +15,11 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function AccountMenu({ firebase, history }) {
+function AccountMenu() {
   const classes = useStyles()
   const [anchorEl, setMenu] = useState(null)
+  const history = useHistory()
+  const firebase = useFirebase()
 
   function closeAccountMenu(e) {
     setMenu(null)
@@ -31,8 +34,8 @@ function AccountMenu({ firebase, history }) {
     })
   }
   function goToAccount() {
-    history.push(ACCOUNT_PATH)
     closeAccountMenu()
+    history.push(ACCOUNT_PATH)
   }
 
   return (
@@ -58,13 +61,4 @@ function AccountMenu({ firebase, history }) {
   )
 }
 
-AccountMenu.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired // from enhancer (withRouter)
-  }),
-  firebase: PropTypes.shape({
-    logout: PropTypes.func.isRequired // from enhancer (withFirebase)
-  })
-}
-
-export default enhance(AccountMenu)
+export default AccountMenu

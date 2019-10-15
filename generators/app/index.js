@@ -216,6 +216,7 @@ module.exports = class extends Generator {
     super(args, opts)
 
     this.argument('name', { type: String, required: false })
+    this.argument('skipInstall', { type: Boolean, required: false })
     const appName =
       this.options.name || path.basename(process.cwd()) || 'react-firebase'
     this.intialData = {
@@ -396,29 +397,31 @@ module.exports = class extends Generator {
     const yarnExists = commandExistsSync('yarn')
     const installCommand = yarnExists ? 'yarnInstall' : 'npmInstall'
     const depManagerName = yarnExists ? 'Yarn' : 'NPM'
-    console.log(`Installing dependencies using ${depManagerName}...`)
-    // Promise chaining used since this.npmInstall.then not a function
-    return Promise.resolve()
-      .then(() => {
-        return this[installCommand]()
-      })
-      .then(() => {
-        console.log(
-          chalk.blue(
-            `Dependencies successfully installed using ${depManagerName}...`
-          )
-        )
-        if (this.answers.includeFunctions) {
+    if (!this.options.skipInstall) {
+      console.log(`Installing dependencies using ${depManagerName}...`)
+      // Promise chaining used since this.npmInstall.then not a function
+      return Promise.resolve()
+        .then(() => {
+          return this[installCommand]()
+        })
+        .then(() => {
           console.log(
             chalk.blue(
-              `Installing functions dependencies using ${depManagerName}...`
+              `Dependencies successfully installed using ${depManagerName}...`
             )
           )
-          /* eslint-enable no-console */
-          return this[installCommand](undefined, {
-            [yarnExists ? 'cwd' : 'prefix']: 'functions'
-          })
-        }
-      })
+          if (this.answers.includeFunctions) {
+            console.log(
+              chalk.blue(
+                `Installing functions dependencies using ${depManagerName}...`
+              )
+            )
+            return this[installCommand](undefined, {
+              [yarnExists ? 'cwd' : 'prefix']: 'functions'
+            })
+          }
+        })
+      /* eslint-enable no-console */
+    }
   }
 }

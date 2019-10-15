@@ -1,49 +1,9 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import reactReduxFirebase from 'react-redux-firebase/lib/enhancer'
-import { getFirebase } from 'react-redux-firebase/lib/createFirebaseInstance'
-import reduxFirestore from 'redux-firestore/lib/enhancer'
-import firebase from 'firebase/app'
-import 'firebase/database'
-import 'firebase/auth'
-import 'firebase/storage'
-import 'firebase/firestore'
-import 'firebase/messaging'
-import { initializeMessaging } from 'utils/firebaseMessaging'
-import { setAnalyticsUser } from 'utils/analytics'
-import { setErrorUser } from '../utils/errorHandler'
+import { getFirebase } from 'react-redux-firebase'
 import makeRootReducer from './reducers'
-import config from '../config'
 
 export default (initialState = {}) => {
-  // ======================================================
-  // Redux + Firebase Config (react-redux-firebase & redux-firestore)
-  // ======================================================
-  const defaultRRFConfig = {
-    userProfile: 'users', // root that user profiles are written to
-    updateProfileOnLogin: false, // enable/disable updating of profile on login
-    presence: 'presence', // list currently online users under "presence" path in RTDB
-    sessions: null, // Skip storing of sessions
-    enableLogging: false, // enable/disable Firebase Database Logging
-    useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
-    useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore
-    onAuthStateChanged: (auth, firebaseInstance, dispatch) => {
-      if (auth) {
-        // Set auth within error handler
-        setErrorUser(auth)
-        // Initalize messaging with dispatch
-        initializeMessaging(dispatch)
-        // Set auth within analytics
-        setAnalyticsUser(auth)
-      }
-    }
-  }
-
-  // Combine default config with overrides if they exist (set within .firebaserc)
-  const combinedConfig = config.reduxFirebase
-    ? { ...defaultRRFConfig, ...config.reduxFirebase }
-    : defaultRRFConfig
-
   // ======================================================
   // Store Enhancers
   // ======================================================
@@ -77,8 +37,6 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reduxFirestore(firebase),
-      reactReduxFirebase(firebase, combinedConfig),
       ...enhancers
     )
   )

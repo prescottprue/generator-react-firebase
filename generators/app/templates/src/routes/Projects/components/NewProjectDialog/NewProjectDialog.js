@@ -6,10 +6,16 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 <% if (!includeRedux) { %>import TextField from '@material-ui/core/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
+import { makeStyles } from '@material-ui/core/styles'
 import TextField from 'components/FormTextField'
 import { required } from 'utils/form'<% } %>
+import styles from './NewProjectDialog.styles'
 
-<% if (includeRedux) { %>function NewProjectDialog({ classes, handleSubmit, open, onRequestClose }) {
+const useStyles = makeStyles(styles)
+
+<% if (includeRedux) { %>function NewProjectDialog({ handleSubmit, open, onRequestClose }) {
+  const classes = useStyles()
+
   return (
     <Dialog open={open} onClose={onRequestClose}>
       <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
@@ -36,13 +42,12 @@ import { required } from 'utils/form'<% } %>
 }
 
 NewProjectDialog.propTypes = {
-  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   handleSubmit: PropTypes.func.isRequired, // from enhancer (reduxForm)
   open: PropTypes.bool.isRequired,
   onRequestClose: PropTypes.func.isRequired
 }
 
-export default NewProjectDialog<% } %><% if (!includeRedux) { %>export default class NewProjectDialog extends Component {
+export default NewProjectDialog<% } %><% if (!includeRedux) { %>export default NewProjectDialog extends Component {
   static propTypes = {
     open: PropTypes.bool,
     onCreateClick: PropTypes.func.isRequired
