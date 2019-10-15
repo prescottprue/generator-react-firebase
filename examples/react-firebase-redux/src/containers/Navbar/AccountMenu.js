@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { makeStyles } from '@material-ui/core/styles'
 import { ACCOUNT_PATH } from 'constants/paths'
+import enhance from './Navbar.enhancer'
 
 const useStyles = makeStyles(() => ({
   buttonRoot: {
@@ -66,4 +67,4 @@ AccountMenu.propTypes = {
   })
 }
 
-export default AccountMenu
+export default enhance(AccountMenu)

@@ -67,4 +67,4 @@ AccountMenu.propTypes = {
   })
 }
 
-export default AccountMenu
+export default enhance(AccountMenu)
