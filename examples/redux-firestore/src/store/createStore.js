@@ -25,11 +25,6 @@ export default (initialState = {}) => {
   ]
 
   // ======================================================
-  // Firebase Initialization
-  // ======================================================
-  firebase.initializeApp(config.firebase)
-
-  // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
   const store = createStore(

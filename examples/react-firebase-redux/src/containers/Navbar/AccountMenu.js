@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useFirebase } from 'react-redux-firebase'
 import { useHistory } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu'
@@ -28,10 +27,9 @@ function AccountMenu() {
     setMenu(e.target)
   }
   function handleLogout() {
-    return firebase.logout().then(() => {
-      closeAccountMenu()
-      history.push('/')
-    })
+    closeAccountMenu()
+    // redirect to '/' handled by UserIsAuthenticated HOC
+    return firebase.logout()
   }
   function goToAccount() {
     closeAccountMenu()

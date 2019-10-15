@@ -11,6 +11,11 @@ module.exports = {
     'react',
     'prettier'
   ],
+  settings: {
+    react: {
+      version: '16.10'
+    }
+  },
   rules: {
     semi: [
       2,

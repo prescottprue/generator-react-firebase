@@ -25,8 +25,7 @@ function useProjects() {
   useFirebaseConnect([
     {
       path: 'projects',
-      queryParams: ['limitToLast=10'],
-      queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`]
+      queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`, 'limitToLast=10']
     }
   ])
 

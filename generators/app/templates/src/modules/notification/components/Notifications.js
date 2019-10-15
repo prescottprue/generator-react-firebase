@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
-import * as actions from '../actions'
 import useNotifications from '../useNotifications'
 
 const useStyles = makeStyles(() => ({
@@ -14,7 +12,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-export default function Notifications() {
+function Notifications() {
   const classes = useStyles()
   const { allIds, byId } = useSelector(({ notifications }) => notifications)
   const { dismissNotification } = useNotifications()
@@ -48,3 +46,5 @@ export default function Notifications() {
     </div>
   )
 }
+
+export default Notifications

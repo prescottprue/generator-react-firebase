@@ -8,8 +8,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles'
 import { useFirebase } from 'react-redux-firebase'
 import { LIST_PATH } from 'constants/paths'
+import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
-import useNotifications from 'modules/notification/components/useNotifications'
 
 const useStyles = makeStyles(styles)
 

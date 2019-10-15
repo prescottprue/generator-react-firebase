@@ -302,7 +302,8 @@ module.exports = class extends Generator {
         { src: 'src/store/location.js' },
         { src: 'src/utils/router.js' },
         { src: 'src/utils/components.js' },
-        { src: 'src/utils/form.js' }
+        { src: 'src/utils/form.js' },
+        { src: 'src/defaultConfig.js' }
       )
 
       // Firestore

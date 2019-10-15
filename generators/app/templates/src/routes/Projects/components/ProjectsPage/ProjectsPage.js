@@ -27,8 +27,7 @@ function useProjects() {
   <% if (includeRedux && !includeFirestore) { %>useFirebaseConnect([
     {
       path: 'projects',
-      queryParams: ['limitToLast=10'],
-      queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`]
+      queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`, 'limitToLast=10']
     }
   ])<% } %><% if (includeRedux && includeFirestore) { %>useFirestoreConnect([
     {
