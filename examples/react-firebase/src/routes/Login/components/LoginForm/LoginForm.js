@@ -1,9 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 import RaisedButton from '@material-ui/core/RaisedButton'
 import TextField from '@material-ui/core/TextField'
+import styles from './LoginForm.styles'
+
+const useStyles = makeStyles(styles)
 
 function LoginForm({ handleSubmit, error }) {
+  const classes = useStyles()
+
   return (
     <form className={classes.container} onSubmit={handleSubmit}>
       <div>

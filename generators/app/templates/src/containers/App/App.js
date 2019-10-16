@@ -19,17 +19,19 @@ import { firebase as fbConfig, reduxFirebase as envRfConfig } from 'config'
 const theme = createMuiTheme(ThemeSettings)
 
 // Initialize Firebase instance
-firebase.initializeApp(fbConfig)
+firebase.initializeApp(fbConfig)<% if (includeRedux) { %>
 
 // Combine default and environment specific configs for react-redux-firebase
 const rrfConfig = {
   ...defaultRRFConfig,
   ...envRfConfig
-}
+}<% } %>
 
 <% if (!includeRedux) { %>function App({ routes }) {
   return (
-    <Router history={browserHistory}>{routes}</Router>
+    <FirebaseAppProvider firebaseConfig={fbConfig} initPerformance>
+      <Router history={browserHistory}>{routes}</Router>
+    </FirebaseAppProvider>
   )
 }<% } else { %>function App({ routes, store }) {
   return (

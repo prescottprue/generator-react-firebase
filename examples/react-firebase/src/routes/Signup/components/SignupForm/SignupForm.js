@@ -1,9 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import styles from './SignupForm.styles'
+
+const useStyles = makeStyles(styles)
 
 function SignupForm({ handleSubmit }) {
+  const classes = useStyles()
+
   return (
     <form className={classes.container} onSubmit={handleSubmit}>
       <div>

@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { isEmpty, isLoaded } from 'react-redux-firebase'
 import { Route, Switch } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import { useSelector } from 'react-redux'<% if (includeRedux && !includeFirestore) { %>
+import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux) { %>
+import {
+  useFirestoreDoc,
+  useFirebaseApp,
+  SuspenseWithPerf
+} from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
+import { useSelector } from 'react-redux'
 import { useFirebase, useFirebaseConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %>
@@ -20,25 +25,38 @@ const useStyles = makeStyles(styles)
 
 function useProjects() {
   const { showSuccess, showError } = useNotifications()
-  <% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()<% } %><% if (includeRedux && includeFirestore) { %>const firestore = useFirestore()<% } %>
+  <% if (!includeRedux) { %>const firebaseApp = useFirebaseApp();
+  const auth = firebaseApp.auth().currentUser
+  const projectsRef = firebaseApp
+    .firestore()
+    .collection('projects')
+    .where('createdBy', '==', auth.uid)
+
+  const projects = useFirestoreCollection(projectsRef)<% } %><% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()
+
   // Get auth from redux state
   const auth = useSelector(state => state.firebase.auth)
   // Create listeners based on current users UID
-  <% if (includeRedux && !includeFirestore) { %>useFirebaseConnect([
+  useFirebaseConnect([
     {
       path: 'projects',
       queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`, 'limitToLast=10']
     }
-  ])<% } %><% if (includeRedux && includeFirestore) { %>useFirestoreConnect([
+  ])
+
+  // Get projects from redux state
+  const projects = useSelector(state => state.firebase.ordered.projects)<% } %><% if (includeRedux && includeFirestore) { %>const firestore = useFirestore()
+
+  useFirestoreConnect([
     {
       collection: 'projects',
       where: ['createdBy', '==', auth.uid]
     }
-  ])<% } %>
+  ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.<% if (includeRedux && !includeFirestore) { %>firebase<% } %><% if (includeRedux && includeFirestore) {%>firestore<% } %>.ordered.projects)
-  
+  const projects = useSelector(state => state.firestore.ordered.projects)<% } %>
+
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
@@ -54,6 +72,20 @@ function useProjects() {
         createdAt: firebase.database.ServerValue.TIMESTAMP
       })<% } %><% if (includeRedux && includeFirestore) { %>firestore
       .add('projects', {
+        ...newInstance,
+        createdBy: auth.uid,
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      })<% } %><% if (!includeRedux && includeFirestore) { %>firebaseApp
+      .firestore()
+      .collection('projects')
+      .add({
+        ...newInstance,
+        createdBy: auth.uid,
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      })<% } %><% if (!includeRedux && !includeFirestore) { %>firebaseApp
+      .database()
+      .ref('projects')
+      .push({
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.database.ServerValue.TIMESTAMP
@@ -80,13 +112,12 @@ function ProjectsPage({ match }) {
     addProject,
     newDialogOpen,
     toggleDialog
-  } = useProjects()
-
+  } = useProjects()<% if (includeRedux) { %>
 
   // Show spinner while projects are loading
   if (!isLoaded(projects)) {
     return <LoadingSpinner />
-  }
+  }<% } %>
 
   return (
     <Switch>
@@ -106,15 +137,35 @@ function ProjectsPage({ match }) {
             <div className={classes.tiles}>
               <NewProjectTile onClick={toggleDialog} />
               {!isEmpty(projects) &&
+                <% if (!includeRedux && includeFirestore) { %>projects.docs((projectSnap, ind) => {
+                  const project = projectSnap.data()
+                  return (
+                    <ProjectTile
+                      key={`Project-${projectSnap.id}-${ind}`}
+                      name={project && project.name}
+                      projectId={projectSnap.id}
+                    />
+                  )
+                })<% } %><% if (!includeRedux && !includeFirestore) { %>
+                projects.map((projectSnap, ind) => {
+                  const project = projectSnap.val()
+                  return (
+                    <ProjectTile
+                      key={`Project-${projectSnap.key}-${ind}`}
+                      name={project && project.name}
+                      projectId={projectSnap.key}
+                    />
+                  )
+                })<% } %><% if (includeRedux && !includeFirestore) { %>
                 projects.map((project, ind) => {
                   return (
                     <ProjectTile
                       key={`Project-${project.key}-${ind}`}
-                      name={project.value.name}
+                      name={project && project.value.name}
                       projectId={project.key}
                     />
                   )
-                })}
+                })<% } %>}
             </div>
           </div>
         )}

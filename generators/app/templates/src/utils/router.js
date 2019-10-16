@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'<% if (includeRedux) { %>
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import { createBrowserHistory } from 'history'
@@ -63,7 +63,7 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
       payload: { message: 'User is not authenticated.' }
     })
   }
-})
+})<% } %>
 
 /**
  * Render children based on route config objects

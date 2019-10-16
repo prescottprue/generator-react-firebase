@@ -1,10 +1,3 @@
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { UserIsAuthenticated } from 'utils/router'
 
-import styles from './AccountPage.styles'
-
-export default compose(
-  
-  // add props.classes
-  withStyles(styles)
-)
+export default UserIsAuthenticated // redirect to /login if user is not authenticated

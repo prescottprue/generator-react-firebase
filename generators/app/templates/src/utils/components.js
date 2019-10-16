@@ -1,8 +1,8 @@
-import { get, pick } from 'lodash'
+import { get, pick } from 'lodash'<% if (includeRedux) { %>
 import { isLoaded, isEmpty } from 'react-redux-firebase/lib/helpers'
 import LoadableComponent from 'react-loadable'
-import { mapProps, branch, renderComponent } from 'recompose'
-import LoadingSpinner from 'components/LoadingSpinner'
+import { mapProps, branch, renderComponent } from 'recompose'<% } %>
+import LoadingSpinner from 'components/LoadingSpinner'<% if (includeRedux) { %>
 
 /**
  * Show a loading spinner when a condition is truthy. Used within
@@ -119,7 +119,7 @@ export function logProps(propNames, logName = '') {
     /* eslint-enable no-console */
     return ownerProps
   })
-}
+}<% } %>
 
 /**
  * Create component which is loaded async, showing a loading spinner

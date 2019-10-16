@@ -208,7 +208,9 @@ const filesArray = [
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/**', dest: 'src/static', noTemplating: true }
+  { src: 'src/static/**', dest: 'src/static', noTemplating: true },
+  { src: 'src/utils/components.js' },
+  { src: 'src/utils/router.js' }
 ]
 
 module.exports = class extends Generator {
@@ -300,8 +302,6 @@ module.exports = class extends Generator {
         { src: 'src/store/createStore.js' },
         { src: 'src/store/reducers.js' },
         { src: 'src/store/location.js' },
-        { src: 'src/utils/router.js' },
-        { src: 'src/utils/components.js' },
         { src: 'src/utils/form.js' },
         { src: 'src/defaultConfig.js' }
       )

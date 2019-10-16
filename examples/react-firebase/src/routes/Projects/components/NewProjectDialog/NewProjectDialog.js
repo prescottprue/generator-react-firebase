@@ -6,67 +6,57 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import TextField from '@material-ui/core/TextField'
+import styles from './NewProjectDialog.styles'
 
-export default class NewProjectDialog extends Component {
-  static propTypes = {
-    open: PropTypes.bool,
-    onCreateClick: PropTypes.func.isRequired
+const useStyles = makeStyles(styles)
+
+export default function NewProjectDialog({ onRequestClose, onCreateClick }) {
+  const [name, changeInputValue] = useState(null)
+  const [errorState, changeErrorValue] = useState(null)
+  function handleInputChange(e) {
+    changeInputValue(e.target.value)
+    changeErrorValue(null)
   }
 
-  handleInputChange = (e) => {
+  function handleSubmit(e) {
     e.preventDefault()
-    this.setState({
-      name: e.target.value,
-      error: null
-    })
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    if (!this.state.name) {
-      return this.setState({
-        error: 'Name is required'
-      })
-    }
-    if (this.props && this.props.onCreateClick) {
-      this.props.onCreateClick(this.state.name)
-      this.props.onRequestClose()
+    changeInputValue(e.target.value)
+    changeErrorValue('Name is required')
+    if (onCreateClick) {
+      onCreateClick(this.state.name)
+      onRequestClose()
     }
   }
 
-  render () {
-    const { open, onRequestClose } = this.props
-    const { error } = this.state
-
-    return (
-      <Dialog
-        title='New Project'
-        open={open}
-        onRequestClose={onRequestClose}
-        contentClassName={classes.container}
-        actions={[
-          <FlatButton
-            label='Cancel'
-            secondary
-            onTouchTap={onRequestClose}
-          />,
-          <FlatButton
-            label='Create'
-            primary
-            onTouchTap={this.handleSubmit}
-          />
-        ]}
-      >
-        <div className={classes.inputs}>
-          <TextField
-            hintText='exampleProject'
-            floatingLabelText='Project Name'
-            ref='projectNameField'
-            onChange={this.handleInputChange}
-            errorText={error || null}
-          />
-        </div>
-      </Dialog>
-    )
-  }
+  return (
+    <Dialog
+      title='New Project'
+      open={open}
+      onRequestClose={onRequestClose}
+      contentClassName={classes.container}
+      actions={[
+        <FlatButton
+          label='Cancel'
+          secondary
+          onTouchTap={onRequestClose}
+        />,
+        <FlatButton
+          label='Create'
+          primary
+          onTouchTap={handleSubmit}
+        />
+      ]}
+    >
+      <div className={classes.inputs}>
+        <TextField
+          hintText='exampleProject'
+          floatingLabelText='Project Name'
+          ref='projectNameField'
+          onChange={handleInputChange}
+          value={name}
+          errorText={error || null}
+        />
+      </div>
+    </Dialog>
+  )
 }
