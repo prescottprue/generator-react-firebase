@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 <% if (includeRedux) { %>import Button from '@material-ui/core/Button'
 import { Field } from 'redux-form'
@@ -14,7 +15,6 @@ const useStyles = makeStyles(styles)
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
-      <h4>Account</h4>
       <div className={classes.fields}>
         <Field
           fullWidth
@@ -32,7 +32,7 @@ const useStyles = makeStyles(styles)
       </div>
       {!!account && !!account.providerData && (
         <div>
-          <h4>Linked Accounts</h4>
+          <Typography variant="h6">Linked Accounts</Typography>
           <ProviderDataForm providerData={account.providerData} />
         </div>
       )}
