@@ -5,6 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const semver = require('semver')
 const camelCase = require('lodash/camelCase')
+const startCase = require('lodash/startCase')
 const get = require('lodash/get')
 
 const styleChoices = [
@@ -42,8 +43,16 @@ const prompts = [
   },
   {
     type: 'confirm',
+    name: 'includeHook',
+    message: 'Do you want to include a custom hook?',
+    when: () => reactVersionHasHooks(),
+    default: false
+  },
+  {
+    type: 'confirm',
     name: 'includeEnhancer',
     message: 'Do you want to include an enhancer?',
+    when: ({ styleType }) => styleType !== 'localized', // HOC included automatically
     default: false
   }
 ]
@@ -110,7 +119,9 @@ module.exports = class extends Generator {
         airbnbLinting:
           dependencyExists('eslint-config-airbnb', { dev: true }) || false,
         // Default including of enhancer to true (not asked with manual styles)
-        includeEnhancer: get(props, 'includeEnhancer', true),
+        includeEnhancer:
+          get(props, 'styleType') === 'localized' ||
+          get(props, 'includeEnhancer', true),
         // Default style type to scss for when localized styles is not an option
         styleType: props.styleType || 'scss'
       })
@@ -150,6 +161,13 @@ module.exports = class extends Generator {
       }
     }
 
+    if (this.answers.includeHook) {
+      filesArray.push({
+        src: `_main.hook.js`,
+        dest: `${basePath}/${this.options.name}.hook.js`
+      })
+    }
+
     if (this.answers.includeEnhancer) {
       filesArray.push({
         src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.enhancer.js`,
@@ -164,7 +182,8 @@ module.exports = class extends Generator {
         Object.assign({}, this.answers, {
           name: this.options.name,
           lowerName: this.options.name.toLowerCase(),
-          camelName: camelCase(this.options.name)
+          camelName: camelCase(this.options.name),
+          startCaseName: startCase(this.options.name).replace(/ /g, '')
         })
       )
     })
