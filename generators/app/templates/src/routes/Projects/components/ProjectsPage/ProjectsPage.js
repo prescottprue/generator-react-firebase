@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux) { %>
 import {
   useFirestoreDoc,
   useFirebaseApp,
-  SuspenseWithPerf
+  SuspenseWithPerf,
+  useUser
 } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
 import { useFirebase, useFirebaseConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
@@ -26,7 +27,7 @@ const useStyles = makeStyles(styles)
 function useProjects() {
   const { showSuccess, showError } = useNotifications()
   <% if (!includeRedux) { %>const firebaseApp = useFirebaseApp();
-  const auth = firebaseApp.auth().currentUser
+  const auth = useUser()
   const projectsRef = firebaseApp
     .firestore()
     .collection('projects')

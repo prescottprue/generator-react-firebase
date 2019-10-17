@@ -1,5 +1,8 @@
-import React from 'react'
-import { Route } from 'react-router-dom'<% if (includeRedux) { %>
+import React from 'react'<% if (!includeRedux) { %>
+import { Route, Redirect } from 'react-router-dom'
+import { AuthCheck } from 'reactfire'
+import { LOGIN_PATH } from 'constants/paths'<% } %><% if (includeRedux) { %>
+import { Route } from 'react-router-dom'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import { createBrowserHistory } from 'history'
@@ -63,7 +66,26 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
       payload: { message: 'User is not authenticated.' }
     })
   }
-})<% } %>
+})<% } %><% if (includeRedux) { %>
+
+/**
+ * Render children based on route config objects
+ * @param {Array} routes - Routes settings array
+ * @param {Object} match - Routes settings array
+ * @param {Object} parentProps - Props to pass to children from parent
+ */
+export function renderChildren(routes, match, parentProps) {
+  return routes.map(route => {
+    return (
+      <Route
+        key={`${match.url}-${route.path}`}
+        path={`${match.url}/${route.path}`}
+        render={props => <route.component {...parentProps} {...props} />}
+      />
+    )
+  })
+}<% } else { %>
+
 
 /**
  * Render children based on route config objects
@@ -76,7 +98,24 @@ export function renderChildren(routes, match, parentProps) {
     <Route
       key={`${match.url}-${route.path}`}
       path={`${match.url}/${route.path}`}
-      render={props => <route.component {...parentProps} {...props} />}
+      render={props => {
+        return route.authRequired
+        ? (
+          <AuthCheck fallback={
+            <Redirect
+              to={{
+                pathname: LOGIN_PATH,
+                state: { from: props.location }
+              }}
+            />
+          }>
+            <route.component {...parentProps} {...props} />
+          </AuthCheck>
+        )
+        : (
+          <route.component {...parentProps} {...props} />
+        )
+      }}
     />
-  ))
-}
+  )
+}<% } %>

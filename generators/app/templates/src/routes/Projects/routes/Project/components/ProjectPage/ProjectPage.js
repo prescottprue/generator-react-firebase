@@ -10,7 +10,7 @@ import {
   useFirestoreDoc,
   useFirebaseApp,
   SuspenseWithPerf
-} from 'reactfire';<% } %>
+} from 'reactfire'<% } %>
 import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './ProjectPage.styles'
 
@@ -38,7 +38,7 @@ function ProjectPage() {
       .collection('projects')
       .doc(projectId)
 
-    const projectDoc = useFirestoreDoc(burritoRef)
+    const projectDoc = useFirestoreDoc(projectRef)
     const project = projectDoc.data()
   <% } %>
 
