@@ -72,11 +72,13 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
  * @param {Object} parentProps - Props to pass to children from parent
  */
 export function renderChildren(routes, match, parentProps) {
-  return routes.map(route => (
-    <Route
-      key={`${match.url}-${route.path}`}
-      path={`${match.url}/${route.path}`}
-      render={props => <route.component {...parentProps} {...props} />}
-    />
-  ))
+  return routes.map(route => {
+    return (
+      <Route
+        key={`${match.url}-${route.path}`}
+        path={`${match.url}/${route.path}`}
+        render={props => <route.component {...parentProps} {...props} />}
+      />
+    )
+  })
 }

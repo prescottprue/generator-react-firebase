@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import { getFirebase } from 'react-redux-firebase'
 import makeRootReducer from './reducers'
 
-export default (initialState = {}) => {
+export default createReduxStore(initialState = {}) => {
   // ======================================================
   // Store Enhancers
   // ======================================================

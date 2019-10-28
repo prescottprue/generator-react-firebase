@@ -19,6 +19,7 @@ const useStyles = makeStyles(styles)
 function useProjects() {
   const { showSuccess, showError } = useNotifications()
   const firebase = useFirebase()
+
   // Get auth from redux state
   const auth = useSelector(state => state.firebase.auth)
   // Create listeners based on current users UID
@@ -31,7 +32,7 @@ function useProjects() {
 
   // Get projects from redux state
   const projects = useSelector(state => state.firebase.ordered.projects)
-  
+
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
@@ -70,7 +71,6 @@ function ProjectsPage({ match }) {
     toggleDialog
   } = useProjects()
 
-
   // Show spinner while projects are loading
   if (!isLoaded(projects)) {
     return <LoadingSpinner />
@@ -94,11 +94,12 @@ function ProjectsPage({ match }) {
             <div className={classes.tiles}>
               <NewProjectTile onClick={toggleDialog} />
               {!isEmpty(projects) &&
+                
                 projects.map((project, ind) => {
                   return (
                     <ProjectTile
                       key={`Project-${project.key}-${ind}`}
-                      name={project.value.name}
+                      name={project && project.value.name}
                       projectId={project.key}
                     />
                   )

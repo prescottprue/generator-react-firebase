@@ -51,43 +51,42 @@ LoginForm.propTypes = {
 
 export default LoginForm<% } %><% if (!includeRedux) { %>function LoginForm({ handleSubmit, error }) {
   const classes = useStyles()
+  const [username, changeUsernameValue] = useState(null)
+  const [email, changeEmailValue] = useState(null)
+  const [password, changePasswordValue] = useState(null)
+  const [submitting, changeSubmittingValue] = useState(false)
+
+  function signup() {
+    changeSubmittingValue(true)
+    return firebaseApp
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        changeSubmittingValue(false)
+      })
+  }
 
   return (
     <form className={classes.container} onSubmit={handleSubmit}>
       <div>
         <TextField
-          hintText='someone@email.com'
-          floatingLabelText='Email'
-          errorText={error || null}
+          hintText="someone@email.com"
+          floatingLabelText="Email"
+          value={email}
+          onChange={e => changeEmailValue(e.target.value)}
         />
       </div>
       <div>
         <TextField
-          type='password'
-          floatingLabelText='Password'
-          errorText={error || null}
+          label="Password"
+          type="password"
+          value={password}
+          onChange={e => changePasswordValue(e.target.value)}
         />
       </div>
-      <div className={classes.submit}>
-        <RaisedButton
-          label='Login'
-          primary
-          type='submit'
-        />
-      </div>
-      <div className={classes.options}>
-        <div className={classes.remember}>
-          <Checkbox
-            name='remember'
-            value='remember'
-            label='Remember'
-            labelStyle={{ fontSize: '.8rem' }}
-          />
-        </div>
-        <Link className={classes.recover} to={RECOVER_PATH}>
-          Forgot Password?
-        </Link>
-      </div>
+      <Button color="primary" type="submit" onClick={login}>
+        {submitting ? 'Saving' : 'Login'}
+      </Button>
     </form>
   )
 }

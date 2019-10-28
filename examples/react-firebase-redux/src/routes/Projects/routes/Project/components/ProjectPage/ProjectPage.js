@@ -3,8 +3,8 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useParams } from 'react-router-dom'
+import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './ProjectPage.styles'
@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles)
 function ProjectPage() {
   const { projectId } = useParams()
   const classes = useStyles()
-
+  
   // Create listener for projects
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 

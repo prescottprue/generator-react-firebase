@@ -1,22 +1,17 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { isEmpty, isLoaded } from 'react-redux-firebase'
+import PropTypes from 'prop-types'<% if (includeRedux) { %>
+import { isEmpty, isLoaded } from 'react-redux-firebase'<% } %>
 import { Route, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux) { %>
-import {
-  useFirestoreDoc,
-  useFirebaseApp,
-  SuspenseWithPerf,
-  useUser
-} from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
+import { useFirebaseApp, useUser } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
 import { useFirebase, useFirebaseConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %>
 import ProjectRoute from 'routes/Projects/routes/Project'
 import { useNotifications } from 'modules/notification'
-import { renderChildren } from 'utils/router'
-import LoadingSpinner from 'components/LoadingSpinner'
+import { renderChildren } from 'utils/router'<% if (includeRedux) { %>
+import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -26,9 +21,9 @@ const useStyles = makeStyles(styles)
 
 function useProjects() {
   const { showSuccess, showError } = useNotifications()
-  <% if (!includeRedux) { %>const firebaseApp = useFirebaseApp();
+  <% if (!includeRedux) { %>const firebase = useFirebaseApp()
   const auth = useUser()
-  const projectsRef = firebaseApp
+  const projectsRef = firebase
     .firestore()
     .collection('projects')
     .where('createdBy', '==', auth.uid)
@@ -75,14 +70,14 @@ function useProjects() {
       .add('projects', {
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       })<% } %><% if (!includeRedux && includeFirestore) { %>firebaseApp
       .firestore()
       .collection('projects')
       .add({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       })<% } %><% if (!includeRedux && !includeFirestore) { %>firebaseApp
       .database()
       .ref('projects')

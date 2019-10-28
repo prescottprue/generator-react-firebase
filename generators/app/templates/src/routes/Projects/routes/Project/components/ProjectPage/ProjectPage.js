@@ -10,16 +10,16 @@ import {
   useFirestoreDoc,
   useFirebaseApp,
   SuspenseWithPerf
-} from 'reactfire'<% } %>
-import LoadingSpinner from 'components/LoadingSpinner'
+} from 'reactfire'<% } %><% if (includeRedux) { %>
+import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import styles from './ProjectPage.styles'
 
 const useStyles = makeStyles(styles)
 
 function ProjectPage() {
   const { projectId } = useParams()
-  const classes = useStyles()
-  <% if (includeRedux) { %>
+  const classes = useStyles()<% if (includeRedux) { %>
+
   // Create listener for projects
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 
@@ -32,15 +32,14 @@ function ProjectPage() {
   if (!isLoaded(project)) {
     return <LoadingSpinner />
   }<% } %><% if (!includeRedux) { %>
-    const firebaseApp = useFirebaseApp()
-    const projectRef = firebaseApp
-      .firestore()
-      .collection('projects')
-      .doc(projectId)
+  const firebaseApp = useFirebaseApp()
+  const projectRef = firebaseApp
+    .firestore()
+    .collection('projects')
+    .doc(projectId)
 
-    const projectDoc = useFirestoreDoc(projectRef)
-    const project = projectDoc.data()
-  <% } %>
+  const projectDoc = useFirestoreDoc(projectRef)
+  const project = projectDoc.data()<% } %>
 
   return (
     <div className={classes.root}><% if (!includeRedux) { %>

@@ -1,4 +1,4 @@
-import { get, pick } from 'lodash'
+import LoadableComponent from 'react-loadable'
 import LoadingSpinner from 'components/LoadingSpinner'
 
 /**

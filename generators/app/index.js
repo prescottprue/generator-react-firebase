@@ -296,7 +296,7 @@ module.exports = class extends Generator {
       //   dest: 'build/create-config.js'
       // })
     }
-
+    const ignorePaths = []
     if (this.answers.includeRedux) {
       filesArray.push(
         { src: 'src/store/createStore.js' },
@@ -316,6 +316,9 @@ module.exports = class extends Generator {
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push({ src: 'src/utils/firebase.js' })
+      ignorePaths.push('**/NewProjectDialog.enhancer.js')
+      ignorePaths.push('**/AccountForm.enhancer.js')
+      ignorePaths.push('**/SignupForm.enhancer.js')
     }
 
     // Cloud Functions
@@ -381,13 +384,16 @@ module.exports = class extends Generator {
       if (file.noTemplating || file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
           this.templatePath(file.src),
-          this.destinationPath(file.dest || file.src || file)
+          this.destinationPath(file.dest || file.src || file),
+          { globOptions: { ignore: ignorePaths } }
         )
       }
       return this.fs.copyTpl(
         this.templatePath(file.src || file),
         this.destinationPath(file.dest || file.src || file),
-        this.data
+        this.data,
+        {}, // templateOptions    // not here
+        { globOptions: { ignore: ignorePaths } } // < but here
       )
     })
   }

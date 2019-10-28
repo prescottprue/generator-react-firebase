@@ -8,8 +8,7 @@ import {
   useFirestoreDoc,
   useFirebaseApp,
   SuspenseWithPerf
-} from 'reactfire';
-import LoadingSpinner from 'components/LoadingSpinner'
+} from 'reactfire'
 import styles from './ProjectPage.styles'
 
 const useStyles = makeStyles(styles)
@@ -17,16 +16,14 @@ const useStyles = makeStyles(styles)
 function ProjectPage() {
   const { projectId } = useParams()
   const classes = useStyles()
-  
-    const firebaseApp = useFirebaseApp()
-    const projectRef = firebaseApp
-      .firestore()
-      .collection('projects')
-      .doc(projectId)
+  const firebaseApp = useFirebaseApp()
+  const projectRef = firebaseApp
+    .firestore()
+    .collection('projects')
+    .doc(projectId)
 
-    const projectDoc = useFirestoreDoc(burritoRef)
-    const project = projectDoc.data()
-  
+  const projectDoc = useFirestoreDoc(projectRef)
+  const project = projectDoc.data()
 
   return (
     <div className={classes.root}>

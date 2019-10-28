@@ -1,17 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { isEmpty, isLoaded } from 'react-redux-firebase'
 import { Route, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  useFirestoreDoc,
-  useFirebaseApp,
-  SuspenseWithPerf
-} from 'reactfire'
+import { useFirebaseApp, useUser } from 'reactfire'
 import ProjectRoute from 'routes/Projects/routes/Project'
 import { useNotifications } from 'modules/notification'
 import { renderChildren } from 'utils/router'
-import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -21,9 +15,9 @@ const useStyles = makeStyles(styles)
 
 function useProjects() {
   const { showSuccess, showError } = useNotifications()
-  const firebaseApp = useFirebaseApp();
-  const auth = firebaseApp.auth().currentUser
-  const projectsRef = firebaseApp
+  const firebase = useFirebaseApp()
+  const auth = useUser()
+  const projectsRef = firebase
     .firestore()
     .collection('projects')
     .where('createdBy', '==', auth.uid)

@@ -1,8 +1,7 @@
-import { firebase as config } from '../config'
-const { apiKey, authDomain, databaseURL, storageBucket } = config
 import Firebase from 'firebase'
+import { firebase as config } from '../config'
 
 // Initialize Firebase
-Firebase.initializeApp({ apiKey, authDomain, databaseURL, storageBucket })
+Firebase.initializeApp(config)
 
 export default Firebase
