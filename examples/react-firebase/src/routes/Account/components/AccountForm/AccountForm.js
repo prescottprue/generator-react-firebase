@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useFirebaseApp, useUser } from 'reactfire' 
+import { useFirebaseApp, useUser } from 'reactfire'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import ProviderDataForm from '../ProviderDataForm'
 import styles from './AccountForm.styles'
@@ -63,5 +64,5 @@ AccountForm.propTypes = {
   account: PropTypes.object,
   handleSubmit: PropTypes.func
 }
-export default AccountForm
 
+export default AccountForm

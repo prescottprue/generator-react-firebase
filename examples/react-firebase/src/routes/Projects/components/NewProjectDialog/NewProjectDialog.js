@@ -1,22 +1,17 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
+import { useFirebaseApp } from 'reactfire'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import TextField from '@material-ui/core/TextField'
-import styles from './NewProjectDialog.styles'
-
-const useStyles = makeStyles(styles)
-
-
 
 function NewProjectDialog({ open, onRequestClose, onCreateClick }) {
-  const classes = useStyles()
   const [name, changeInputValue] = useState(null)
   const [error, changeErrorValue] = useState(null)
+  const firebaseApp = useFirebaseApp()
 
   function handleInputChange(e) {
     changeInputValue(e.target.value)
@@ -26,10 +21,16 @@ function NewProjectDialog({ open, onRequestClose, onCreateClick }) {
   function handleSubmit(e) {
     e.preventDefault()
     changeInputValue(e.target.value)
-    changeErrorValue('Name is required')
-    if (onCreateClick) {
-      onCreateClick(name)
-      onRequestClose()
+    if (!name) {
+      changeErrorValue('Name is required')
+    } else {
+      return firebaseApp
+        .firestore()
+        .collection()
+        .add({ name })
+        .then(() => {
+          onRequestClose()
+        })
     }
   }
 
@@ -50,7 +51,7 @@ function NewProjectDialog({ open, onRequestClose, onCreateClick }) {
         <Button onClick={onRequestClose} color="secondary">
           Cancel
         </Button>
-        <Button type="submit" color="primary">
+        <Button type="submit" color="primary" onClick={handleSubmit}>
           Create
         </Button>
       </DialogActions>

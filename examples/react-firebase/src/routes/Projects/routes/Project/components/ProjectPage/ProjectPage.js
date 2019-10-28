@@ -4,11 +4,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams } from 'react-router-dom'
-import {
-  useFirestoreDoc,
-  useFirebaseApp,
-  SuspenseWithPerf
-} from 'reactfire'
+import { useFirestoreDoc, useFirebaseApp, SuspenseWithPerf } from 'reactfire'
 import styles from './ProjectPage.styles'
 
 const useStyles = makeStyles(styles)
@@ -22,15 +18,12 @@ function ProjectPage() {
     .collection('projects')
     .doc(projectId)
 
-  const projectDoc = useFirestoreDoc(projectRef)
-  const project = projectDoc.data()
+  const projectSnap = useFirestoreDoc(projectRef)
+  const project = projectSnap.data()
 
   return (
     <div className={classes.root}>
-      <SuspenseWithPerf
-        fallback={'loading project'}
-        traceId={'load-project'}
-      >
+      <SuspenseWithPerf fallback="loading project" traceId="load-project">
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.title} component="h2">

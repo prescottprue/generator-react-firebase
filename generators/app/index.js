@@ -206,7 +206,6 @@ const filesArray = [
   { src: 'v1theme.js', dest: 'src/theme.js' },
   { src: 'src/containers/Navbar/Navbar.styles.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
-  { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/utils/components.js' },
@@ -303,7 +302,8 @@ module.exports = class extends Generator {
         { src: 'src/store/reducers.js' },
         { src: 'src/store/location.js' },
         { src: 'src/utils/form.js' },
-        { src: 'src/defaultConfig.js' }
+        { src: 'src/defaultConfig.js' },
+        { src: 'src/modules/**', dest: 'src/modules' }
       )
 
       // Firestore

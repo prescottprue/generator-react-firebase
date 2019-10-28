@@ -1,12 +1,13 @@
-import React from 'react'
+import React from 'react'<% if (!includeRedux) { %>
+import { useFirebaseApp, useFirestoreDoc, useUser } from 'reactfire'<% } %>
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'<% if (includeRedux) { %>
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'
-import { useNotifications } from 'modules/notification'
+import { useNotifications } from 'modules/notification'<% } %>
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 import styles from './AccountPage.styles'
@@ -14,27 +15,43 @@ import styles from './AccountPage.styles'
 const useStyles = makeStyles(styles)
 
 function AccountPage() {
-  const classes = useStyles()
+  const classes = useStyles()<% if (!includeRedux) { %>
+  const firebase = useFirebaseApp()
+  const auth = useUser()
+  const accountRef = firebase
+    .firestore()
+    .collection('users')
+    .doc(auth.uid)
+  const profileSnap = useFirestoreDoc(accountRef)
+  const profile = profileSnap.data()
+  const {
+    isLoaded: profileLoaded,
+    isEmpty: profileEmpty,
+    ...cleanProfile
+  } = profile<% } else { %>
   const firebase = useFirebase()
   const { showSuccess, showError } = useNotifications()
-  
+
   // Get profile from redux state
   const profile = useSelector(state => state.firebase.profile)
-  const { isLoaded: profileLoaded, isEmpty: profileEmpty, ...cleanProfile }  = profile
+  const {
+    isLoaded: profileLoaded,
+    isEmpty: profileEmpty,
+    ...cleanProfile
+  } = profile
 
   if (!isLoaded(profile)) {
     return <LoadingSpinner />
-  }
+  }<% } %>
 
   function updateAccount(newAccount) {
-    return firebase
-      .updateProfile(newAccount)
+    return firebase.updateProfile(newAccount)<% if (includeRedux) { %>
       .then(() => showSuccess('Profile updated successfully'))
-      .catch(error => {
-        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-        showError('Error updating profile: ', error.message || error)
-        return Promise.reject(error)
-      })
+      <% } %>.catch(error => {
+      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console<% if (includeRedux) { %>
+      showError('Error updating profile: ', error.message || error)<% } %>
+      return Promise.reject(error)
+    })
   }
 
   return (

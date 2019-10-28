@@ -1,11 +1,12 @@
 import React<% if (!includeRedux) { %>, { useState }<% } %> from 'react'
 import PropTypes from 'prop-types'<% if (!includeRedux) { %>
-import { useFirebaseApp, useUser } from 'reactfire'<% } %> 
+import { useFirebaseApp, useUser } from 'reactfire'<% } %>
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-<% if (includeRedux) { %>import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button'<% if (includeRedux) { %>
 import { Field } from 'redux-form'
-import TextField from 'components/FormTextField'<% } %><% if (!includeRedux) { %>import TextField from '@material-ui/core/TextField'<% } %>
+import TextField from 'components/FormTextField'<% } %><% if (!includeRedux) { %>
+import TextField from '@material-ui/core/TextField'<% } %>
 import ProviderDataForm from '../ProviderDataForm'
 import styles from './AccountForm.styles'
 
@@ -49,9 +50,7 @@ AccountForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired, // from enhancer (reduxForm)
   pristine: PropTypes.bool.isRequired, // from enhancer (reduxForm)
   submitting: PropTypes.bool.isRequired // from enhancer (reduxForm)
-}
-
-export default AccountForm<% } %><% if (!includeRedux) { %>function AccountForm({ account }) {
+}<% } %><% if (!includeRedux) { %>function AccountForm({ account }) {
   const classes = useStyles()
   const firebaseApp = useFirebaseApp()
   const auth = useUser()
@@ -104,6 +103,6 @@ export default AccountForm<% } %><% if (!includeRedux) { %>function AccountForm(
 AccountForm.propTypes = {
   account: PropTypes.object,
   handleSubmit: PropTypes.func
-}
+}<% } %>
+
 export default AccountForm
-<% } %>

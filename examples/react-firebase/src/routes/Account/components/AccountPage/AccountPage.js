@@ -1,12 +1,9 @@
 import React from 'react'
+import { useFirebaseApp, useFirestoreDoc, useUser } from 'reactfire'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelector } from 'react-redux'
-import { isLoaded, useFirebase } from 'react-redux-firebase'
-import LoadingSpinner from 'components/LoadingSpinner'
-import { useNotifications } from 'modules/notification'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 import styles from './AccountPage.styles'
@@ -15,26 +12,25 @@ const useStyles = makeStyles(styles)
 
 function AccountPage() {
   const classes = useStyles()
-  const firebase = useFirebase()
-  const { showSuccess, showError } = useNotifications()
-  
-  // Get profile from redux state
-  const profile = useSelector(state => state.firebase.profile)
-  const { isLoaded: profileLoaded, isEmpty: profileEmpty, ...cleanProfile }  = profile
-
-  if (!isLoaded(profile)) {
-    return <LoadingSpinner />
-  }
+  const firebase = useFirebaseApp()
+  const auth = useUser()
+  const accountRef = firebase
+    .firestore()
+    .collection('users')
+    .doc(auth.uid)
+  const profileSnap = useFirestoreDoc(accountRef)
+  const profile = profileSnap.data()
+  const {
+    isLoaded: profileLoaded,
+    isEmpty: profileEmpty,
+    ...cleanProfile
+  } = profile
 
   function updateAccount(newAccount) {
-    return firebase
-      .updateProfile(newAccount)
-      .then(() => showSuccess('Profile updated successfully'))
-      .catch(error => {
-        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-        showError('Error updating profile: ', error.message || error)
-        return Promise.reject(error)
-      })
+    return firebase.updateProfile(newAccount).catch(error => {
+      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+      return Promise.reject(error)
+    })
   }
 
   return (

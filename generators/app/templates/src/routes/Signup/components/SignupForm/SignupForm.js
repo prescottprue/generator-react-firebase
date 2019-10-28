@@ -1,6 +1,7 @@
-import React from 'react'
+import React<% if (!includeRedux) { %>, { useState }<% } %> from 'react'
 import PropTypes from 'prop-types'<% if (includeRedux) { %>
-import { Field } from 'redux-form'<% } %>
+import { Field } from 'redux-form'<% } %><% if (!includeRedux) { %>
+import { useFirebaseApp } from 'reactfire'<% } %>
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'<% if (includeRedux) { %>
 import TextField from 'components/FormTextField'<% } %>

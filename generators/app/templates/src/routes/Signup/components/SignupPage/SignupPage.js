@@ -4,8 +4,8 @@ import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
 import { useFirebase } from 'react-redux-firebase'
 import { makeStyles } from '@material-ui/core/styles'
-import { LOGIN_PATH } from 'constants/paths'
-import { useNotifications } from 'modules/notification'
+import { LOGIN_PATH } from 'constants/paths'<% if (includeRedux) { %>
+import { useNotifications } from 'modules/notification'<% } %>
 import SignupForm from '../SignupForm'
 import styles from './SignupPage.styles'
 
@@ -13,32 +13,30 @@ const useStyles = makeStyles(styles)
 
 function SignupPage() {
   const classes = useStyles()
-  const firebase = useFirebase()
+  const firebase = useFirebase()<% if (includeRedux) { %>
   const { showError } = useNotifications()
 
   function onSubmitFail(formErrs, dispatch, err) {
     showError(formErrs ? 'Form Invalid' : err.message || 'Error')
-  }
+  }<% } %>
 
   function googleLogin() {
-    return firebase
-    .login({ provider: 'google', type: 'popup' })
-    .catch(err => showError(err.message))
+    return firebase.login({ provider: 'google', type: 'popup' })<% if (includeRedux) { %>
+    .catch(err => showError(err.message))<% } %>
   }
-   
+
   function emailSignup(creds) {
-    return firebase
-    .createUser(creds, {
+    return firebase.createUser(creds, {
       email: creds.email,
       username: creds.username
-    })
-    .catch(err => showError(err.message))
+    })<% if (includeRedux) { %>
+    .catch(err => showError(err.message))<% } %>
   }
 
   return (
     <div className={classes.root}>
       <Paper className={classes.panel}>
-        <SignupForm onSubmit={emailSignup} onSubmitFail={onSubmitFail} />
+        <SignupForm onSubmit={emailSignup} <% if (includeRedux) { %>onSubmitFail={onSubmitFail} <% } %>/>
       </Paper>
       <div className={classes.orLabel}>or</div>
       <div className={classes.providers}>

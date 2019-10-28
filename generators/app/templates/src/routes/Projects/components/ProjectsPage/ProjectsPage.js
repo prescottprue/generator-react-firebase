@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'<% if (includeRedux) { %>
 import { isEmpty, isLoaded } from 'react-redux-firebase'<% } %>
 import { Route, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux) { %>
-import { useFirebaseApp, useUser } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
+import { useFirebaseApp, useFirestoreCollection, useUser } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
 import { useFirebase, useFirebaseConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %>
 import ProjectRoute from 'routes/Projects/routes/Project'
-import { useNotifications } from 'modules/notification'
 import { renderChildren } from 'utils/router'<% if (includeRedux) { %>
+import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
@@ -19,8 +19,8 @@ import styles from './ProjectsPage.styles'
 
 const useStyles = makeStyles(styles)
 
-function useProjects() {
-  const { showSuccess, showError } = useNotifications()
+function useProjects() {<% if (includeRedux) { %>
+  const { showSuccess, showError } = useNotifications()<% } %>
   <% if (!includeRedux) { %>const firebase = useFirebaseApp()
   const auth = useUser()
   const projectsRef = firebase
@@ -57,10 +57,10 @@ function useProjects() {
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
-  function addProject(newInstance) {
+  function addProject(newInstance) {<% if (includeRedux) { %>
     if (!auth.uid) {
       return showError('You must be logged in to create a project')
-    }
+    }<% } %>
     return <% if (includeRedux && !includeFirestore) { %>firebase
       .push('projects', {
         ...newInstance,
@@ -71,14 +71,14 @@ function useProjects() {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      })<% } %><% if (!includeRedux && includeFirestore) { %>firebaseApp
+      })<% } %><% if (!includeRedux && includeFirestore) { %>firebase
       .firestore()
       .collection('projects')
       .add({
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      })<% } %><% if (!includeRedux && !includeFirestore) { %>firebaseApp
+      })<% } %><% if (!includeRedux && !includeFirestore) { %>firebase
       .database()
       .ref('projects')
       .push({
@@ -87,12 +87,12 @@ function useProjects() {
         createdAt: firebase.database.ServerValue.TIMESTAMP
       })<% } %>
       .then(() => {
-        toggleDialog()
-        showSuccess('Project added successfully')
+        toggleDialog()<% if (includeRedux) { %>
+        showSuccess('Project added successfully')<% } %>
       })
       .catch(err => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not add project')
+        console.error('Error:', err) // eslint-disable-line no-console<% if (includeRedux) { %>
+        showError(err.message || 'Could not add project')<% } %>
         return Promise.reject(err)
       })
   }
@@ -132,8 +132,7 @@ function ProjectsPage({ match }) {
             />
             <div className={classes.tiles}>
               <NewProjectTile onClick={toggleDialog} />
-              {!isEmpty(projects) &&
-                <% if (!includeRedux && includeFirestore) { %>projects.docs((projectSnap, ind) => {
+              {<% if (!includeRedux && includeFirestore) { %>!isEmpty(projects) && projects.docs((projectSnap, ind) => {
                   const project = projectSnap.data()
                   return (
                     <ProjectTile
@@ -142,7 +141,7 @@ function ProjectsPage({ match }) {
                       projectId={projectSnap.id}
                     />
                   )
-                })<% } %><% if (!includeRedux && !includeFirestore) { %>
+                })<% } %><% if (!includeRedux && !includeFirestore) { %>projects &&
                 projects.map((projectSnap, ind) => {
                   const project = projectSnap.val()
                   return (
@@ -152,8 +151,7 @@ function ProjectsPage({ match }) {
                       projectId={projectSnap.key}
                     />
                   )
-                })<% } %><% if (includeRedux && !includeFirestore) { %>
-                projects.map((project, ind) => {
+                })<% } %><% if (includeRedux && !includeFirestore) { %>!isEmpty(projects) && projects.map((project, ind) => {
                   return (
                     <ProjectTile
                       key={`Project-${project.key}-${ind}`}
@@ -171,7 +169,7 @@ function ProjectsPage({ match }) {
 }
 
 ProjectsPage.propTypes = {
-  match: PropTypes.object.isRequired, // from enhancer (withRouter)
+  match: PropTypes.object.isRequired // from enhancer (withRouter)
 }
 
 export default ProjectsPage

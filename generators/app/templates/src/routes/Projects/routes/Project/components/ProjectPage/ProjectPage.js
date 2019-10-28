@@ -6,11 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useParams } from 'react-router-dom'<% if (includeRedux) { %>
 import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } else { %>
-import {
-  useFirestoreDoc,
-  useFirebaseApp,
-  SuspenseWithPerf
-} from 'reactfire'<% } %><% if (includeRedux) { %>
+import { useFirestoreDoc, useFirebaseApp, SuspenseWithPerf } from 'reactfire'<% } %><% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import styles from './ProjectPage.styles'
 
@@ -24,9 +20,9 @@ function ProjectPage() {
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 
   // Get projects from redux state
-  const project = useSelector(({ firebase: { data } }) => {
-    return data.projects && data.projects[projectId]
-  })
+  const project = useSelector(({ firebase: { data: { projects } } }) =>
+    projects && projects[projectId]
+  )
 
   // Show loading spinner while project is loading
   if (!isLoaded(project)) {
@@ -38,15 +34,12 @@ function ProjectPage() {
     .collection('projects')
     .doc(projectId)
 
-  const projectDoc = useFirestoreDoc(projectRef)
-  const project = projectDoc.data()<% } %>
+  const projectSnap = useFirestoreDoc(projectRef)
+  const project = projectSnap.data()<% } %>
 
   return (
     <div className={classes.root}><% if (!includeRedux) { %>
-      <SuspenseWithPerf
-        fallback={'loading project'}
-        traceId={'load-project'}
-      >
+      <SuspenseWithPerf fallback="loading project" traceId="load-project">
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.title} component="h2">
