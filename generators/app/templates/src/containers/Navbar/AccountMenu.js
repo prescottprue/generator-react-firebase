@@ -1,5 +1,6 @@
-import React, { Fragment, useState } from 'react'
-import { useFirebase } from 'react-redux-firebase'
+import React, { Fragment, useState } from 'react'<% if (includeRedux) { %>
+import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
+import { useFirebaseApp } from 'reactfire'<% } %>
 import { useHistory } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -17,8 +18,9 @@ const useStyles = makeStyles(() => ({
 function AccountMenu() {
   const classes = useStyles()
   const [anchorEl, setMenu] = useState(null)
-  const history = useHistory()
-  const firebase = useFirebase()
+  const history = useHistory()<% if (includeRedux) { %>
+  const firebase = useFirebase()<% } %><% if (!includeRedux) { %>
+  const firebase = useFirebaseApp()<% } %>
 
   function closeAccountMenu(e) {
     setMenu(null)

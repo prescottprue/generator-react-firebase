@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
-import { useFirebase } from 'react-redux-firebase'
+import { useFirebaseApp } from 'reactfire'
 import { makeStyles } from '@material-ui/core/styles'
 import { LOGIN_PATH } from 'constants/paths'
 import SignupForm from '../SignupForm'
@@ -12,19 +12,17 @@ const useStyles = makeStyles(styles)
 
 function SignupPage() {
   const classes = useStyles()
-  const firebase = useFirebase()
+  const firebase = useFirebaseApp()
 
   function googleLogin() {
-    return firebase.login({ provider: 'google', type: 'popup' })
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider)
   }
 
   function emailSignup(creds) {
-    return firebase.createUser(creds, {
-      email: creds.email,
-      username: creds.username
-    })
+    return firebase.auth().createUserWithEmailAndPassword(creds.email, creds.password)
   }
-
+  
   return (
     <div className={classes.root}>
       <Paper className={classes.panel}>

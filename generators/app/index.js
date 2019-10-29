@@ -318,7 +318,12 @@ module.exports = class extends Generator {
       filesArray.push({ src: 'src/utils/firebase.js' })
       ignorePaths.push('**/NewProjectDialog.enhancer.js')
       ignorePaths.push('**/AccountForm.enhancer.js')
+      ignorePaths.push('**/AccountPage.enhancer.js')
+      ignorePaths.push('**/ProjectPage.enhancer.js')
+      ignorePaths.push('**/ProjectsPage.enhancer.js')
       ignorePaths.push('**/SignupForm.enhancer.js')
+      ignorePaths.push('**/SignupPage.enhancer.js')
+      ignorePaths.push('**/LoginPage.enhancer.js')
     }
 
     // Cloud Functions

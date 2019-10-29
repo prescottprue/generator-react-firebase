@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import GoogleButton from 'react-google-button'
-import { useFirebase } from 'react-redux-firebase'
+import GoogleButton from 'react-google-button'<% if (includeRedux) { %>
+import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
+import { useFirebaseApp } from 'reactfire'<% } %>
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import { SIGNUP_PATH } from 'constants/paths'<% if (includeRedux) { %>
@@ -12,22 +13,32 @@ import styles from './LoginPage.styles'
 const useStyles = makeStyles(styles)
 
 function LoginPage() {
-  const classes = useStyles()
-  const firebase = useFirebase()<% if (includeRedux) { %>
+  const classes = useStyles()<% if (includeRedux) { %>
+  const firebase = useFirebase()
   const { showError } = useNotifications()
 
   function onSubmitFail(formErrs, dispatch, err) {
     return showError(formErrs ? 'Form Invalid' : err.message || 'Error')
-  }<% } %>
+  }
 
   function googleLogin() {
-    return firebase.login({ provider: 'google', type: 'popup' })<% if (includeRedux) { %>
-      .catch(err => showError(err.message))<% } %>
+    return firebase.login({ provider: 'google', type: 'popup' })
+      .catch(err => showError(err.message))
   }
 
   function emailLogin(creds) {
-    return firebase.login(creds)<% if (includeRedux) { %>.catch(err => showError(err.message))<% } %>
+    return firebase.login(creds).catch(err => showError(err.message))
+  }<% } %><% if (!includeRedux) { %>
+  const firebase = useFirebaseApp()
+
+  function googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider)
   }
+
+  function emailLogin(creds) {
+    return firebase.auth().signInWithEmailAndPassword(creds.email, creds.password)
+  }<% } %>
 
   return (
     <div className={classes.root}>

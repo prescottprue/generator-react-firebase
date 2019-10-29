@@ -10452,10 +10452,13 @@ react@^16.10.0:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
-reactfire@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/reactfire/-/reactfire-1.0.0.tgz#d62a6c0d854bae9fd1eee4f9c4128682fc35ff21"
-  integrity sha1-1ipsDYVLrp/R7uT5xBKGgvw1/yE=
+reactfire@^2.0.0-alpha.2:
+  version "2.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/reactfire/-/reactfire-2.0.0-alpha.2.tgz#d865b4e9c1d9d54670e7995007b3e709bcb56770"
+  integrity sha512-3JmFHQYU1/xfIZHnw5clvGMgT0EvaSi6UjZ3VQGk+/q5XZT3AFjXal4FwPPUXJrzWJa6meIBWRlEHsTX8rg91w==
+  dependencies:
+    rxfire "^3.6.3"
+    rxjs "^6.4.0"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -10969,6 +10972,13 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   integrity sha1-6Eg5bwV9Ij8kOGkkYY4laUFh7Ec=
   dependencies:
     aproba "^1.1.1"
+
+rxfire@^3.6.3:
+  version "3.8.7"
+  resolved "https://registry.yarnpkg.com/rxfire/-/rxfire-3.8.7.tgz#df9b89c9d358d2112bb7a83161b8917d76a1df08"
+  integrity sha512-ak2ftQ4Qd7O6km+3JMINq+bHcznk9wMABIiZiEfiQ1L2j6PdU7ItCeomTJPVwKwGRbG4NBcE2Z5vgrCyWAZ0oA==
+  dependencies:
+    tslib "1.10.0"
 
 rxjs@^6.4.0:
   version "6.5.3"

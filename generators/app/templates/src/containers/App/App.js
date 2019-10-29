@@ -8,9 +8,10 @@ import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import 'firebase/database'<% if (includeAnalytics) { %>
-import 'firebase/analytics'<% } %><% if (includeRedux && includeFirestore) { %>
-import 'firebase/firestore'<% } %><% if (includeMessaging) { %>
+import 'firebase/database'<% if (includeRedux && includeFirestore) { %>
+import 'firebase/firestore'<% } %>
+import 'firebase/performance'<% if (includeAnalytics) { %>
+import 'firebase/analytics'<% } %><% if (includeMessaging) { %>
 import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (includeAnalytics) { %>
 import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (includeErrorHandling || includeSentry) { %>
 import { setErrorUser } from 'utils/errorHandler'<% } %>
