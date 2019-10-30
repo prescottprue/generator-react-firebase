@@ -4,27 +4,24 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import 'firebase/firestore'
-import { initializeMessaging } from 'utils/firebaseMessaging'
-import { setAnalyticsUser } from 'utils/analytics'
-import { setErrorUser } from 'utils/errorHandler'
+import 'firebase/performance'
 import ThemeSettings from 'theme'
 import { defaultRRFConfig } from 'defaultConfig'
-import { firebase as fbConfig, reduxFirebase as envRfConfig } from 'config'
+import * as config from 'config'
 
 const theme = createMuiTheme(ThemeSettings)
 
 // Initialize Firebase instance
-firebase.initializeApp(fbConfig)
-
+firebase.initializeApp(config.firebase)
 // Combine default and environment specific configs for react-redux-firebase
 const rrfConfig = {
   ...defaultRRFConfig,
-  ...envRfConfig
+  ...(config.reduxFirebase || {})
 }
 
 function App({ routes, store }) {
@@ -33,7 +30,7 @@ function App({ routes, store }) {
       <Provider store={store}>
         <ReactReduxFirebaseProvider
           firebase={firebase}
-          config={rrfConfig}
+          config={config.reduxFirebase}
           dispatch={store.dispatch}
           createFirestoreInstance={createFirestoreInstance}>
           <Router>{routes}</Router>

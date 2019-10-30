@@ -14,7 +14,7 @@ function Navbar() {
   const classes = useStyles()
   const auth = useUser()
   const authExists = !!auth && !!auth.uid
-  
+
   return (
     <NavbarWithoutAuth brandPath={authExists ? LIST_PATH : '/'}>
       {authExists ? (

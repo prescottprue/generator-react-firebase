@@ -1,4 +1,3 @@
-import { init as initAnalytics } from './analytics'
 import { init as initErrorHandling } from './errorHandler'
 
 /**
@@ -27,6 +26,5 @@ export function fpLog(message) {
  * Initialize global scripts including analytics and error handling
  */
 export function initScripts() {
-  initAnalytics()
-  initErrorHandling()
+  // Initialize global scripts hereinitErrorHandling()
 }

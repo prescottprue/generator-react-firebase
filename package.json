@@ -67,6 +67,7 @@
     "react-firebase",
     "redux-firebase",
     "react-redux-firebase",
+    "reactfire",
     "webpack",
     "es6",
     "generator-react",

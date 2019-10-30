@@ -1,4 +1,5 @@
-import { get, pick } from 'lodash'
+import React from 'react'
+import { get } from 'lodash'
 import { isLoaded, isEmpty } from 'react-redux-firebase/lib/helpers'
 import LoadableComponent from 'react-loadable'
 import { mapProps, branch, renderComponent } from 'recompose'
@@ -91,37 +92,6 @@ export function renderWhileEmpty(propNames, component) {
 }
 
 /**
- * HOC that logs props using console.log. Accepts an array list of prop names
- * to log, if none provided all props are logged. **NOTE:** Only props at
- * available to the HOC will be logged.
- * @param {Array} propNames - List of prop names to log. If none provided, all
- * are logged
- * @returns {HigherOrderComponent}
- * @example <caption>Log Single Prop</caption>
- * import { compose } from 'redux'
- * import { connect } from 'react-redux'
- * import firebaseConnect from 'react-redux-firebase/lib/firebaseConnect'
- *
- * const enhance = compose(
- *   withProps(() => ({ projectName: 'test' })),
- *   logProps(['projectName']) // 'test' would be logged to console when SomeComponent is rendered
- * )
- *
- * export default enhance(SomeComponent)
- */
-export function logProps(propNames, logName = '') {
-  return mapProps(ownerProps => {
-    /* eslint-disable no-console */
-    console.log(
-      `${logName} props:`,
-      propNames ? pick(ownerProps, propNames) : ownerProps
-    )
-    /* eslint-enable no-console */
-    return ownerProps
-  })
-}
-
-/**
  * Create component which is loaded async, showing a loading spinner
  * in the meantime.
  * @param {object} opts - Loading options
@@ -133,4 +103,32 @@ export function Loadable(opts) {
     loading: LoadingSpinner,
     ...opts
   })
+}
+
+export class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // You can also log the error to an error reporting service
+    // logErrorToMyService(error, errorInfo);
+    // TODO: Report error to sentry
+    console.log('error:', error, errorInfo) // eslint-disable-line no-console
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>
+    }
+
+    return this.props.children
+  }
 }

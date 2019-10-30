@@ -1,5 +1,9 @@
-// ======================================================
-// Default Redux + Firebase Config (react-redux-firebase & redux-firestore)
+import { initializeMessaging } from 'utils/firebaseMessaging'
+import { setErrorUser } from 'utils/errorHandler'
+
+  // ======================================================
+// Default Redux + Firebase Config used for all environments 
+// (for react-redux-firebase & redux-firestore)
 // Note: Differs from src/config.js which is environment specific config
 // ======================================================
 export const defaultRRFConfig = {
@@ -7,7 +11,6 @@ export const defaultRRFConfig = {
   updateProfileOnLogin: false, // enable/disable updating of profile on login
   presence: 'presence', // list currently online users under "presence" path in RTDB
   sessions: null, // Skip storing of sessions
-  enableLogging: false, // enable/disable Firebase Database Logging
   useFirestoreForProfile: true, // Save profile to Firestore instead of Real Time Database
   useFirestoreForStorageMeta: true, // Metadata associated with storage file uploads goes to Firestore
   onAuthStateChanged: (auth, firebaseInstance, dispatch) => {
@@ -16,8 +19,6 @@ export const defaultRRFConfig = {
       setErrorUser(auth)
       // Initalize messaging with dispatch
       initializeMessaging(dispatch)
-      // Set auth within analytics
-      setAnalyticsUser(auth)
     }
   }
 }

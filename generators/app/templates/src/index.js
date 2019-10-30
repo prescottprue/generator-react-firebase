@@ -24,11 +24,12 @@ initScripts()
 const store = createStore(initialState)
 const routes = require('./routes/index').default(store)<% } %><% if (!includeRedux) { %>
 const routes = createRoutes()<% } %>
-console.log('routes', routes)
-ReactDOM.render(
-  <App <% if (includeRedux) { %>store={store} <% } %>routes={routes} />,
+
+<% if (includeRedux) { %>ReactDOM.render(
+  <App store={store} routes={routes} />,
   document.getElementById('root')
-)
+)<% } %><% if (!includeRedux) { %>
+ReactDOM.render(<App routes={routes} />, document.getElementById('root'))<% } %>
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

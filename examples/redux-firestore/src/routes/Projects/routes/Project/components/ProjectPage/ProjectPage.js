@@ -3,8 +3,8 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useParams } from 'react-router-dom'
+import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './ProjectPage.styles'
@@ -19,9 +19,9 @@ function ProjectPage() {
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 
   // Get projects from redux state
-  const project = useSelector(({ firebase: { data } }) => {
-    return data.projects && data.projects[projectId]
-  })
+  const project = useSelector(({ firebase: { data: { projects } } }) =>
+    projects && projects[projectId]
+  )
 
   // Show loading spinner while project is loading
   if (!isLoaded(project)) {

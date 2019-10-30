@@ -17,24 +17,27 @@ function AccountPage() {
   const classes = useStyles()
   const firebase = useFirebase()
   const { showSuccess, showError } = useNotifications()
-  
+
   // Get profile from redux state
   const profile = useSelector(state => state.firebase.profile)
-  const { isLoaded: profileLoaded, isEmpty: profileEmpty, ...cleanProfile }  = profile
+  const {
+    isLoaded: profileLoaded,
+    isEmpty: profileEmpty,
+    ...cleanProfile
+  } = profile
 
   if (!isLoaded(profile)) {
     return <LoadingSpinner />
   }
 
   function updateAccount(newAccount) {
-    return firebase
-      .updateProfile(newAccount)
+    return firebase.updateProfile(newAccount)
       .then(() => showSuccess('Profile updated successfully'))
       .catch(error => {
-        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-        showError('Error updating profile: ', error.message || error)
-        return Promise.reject(error)
-      })
+      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+      showError('Error updating profile: ', error.message || error)
+      return Promise.reject(error)
+    })
   }
 
   return (

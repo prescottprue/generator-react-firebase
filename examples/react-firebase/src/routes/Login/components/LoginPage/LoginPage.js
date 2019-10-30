@@ -15,12 +15,14 @@ function LoginPage() {
   const firebase = useFirebaseApp()
 
   function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new firebase.auth.GoogleAuthProvider()
     return firebase.auth().signInWithPopup(provider)
   }
 
   function emailLogin(creds) {
-    return firebase.auth().signInWithEmailAndPassword(creds.email, creds.password)
+    return firebase
+      .auth()
+      .signInWithEmailAndPassword(creds.email, creds.password)
   }
 
   return (

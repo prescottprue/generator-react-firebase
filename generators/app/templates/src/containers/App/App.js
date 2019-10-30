@@ -10,10 +10,10 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'<% if (includeRedux && includeFirestore) { %>
 import 'firebase/firestore'<% } %>
-import 'firebase/performance'<% if (includeAnalytics) { %>
-import 'firebase/analytics'<% } %><% if (includeMessaging) { %>
-import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (includeAnalytics) { %>
-import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (includeErrorHandling || includeSentry) { %>
+import 'firebase/performance'<% if (!includeRedux && includeAnalytics) { %>
+import 'firebase/analytics'<% } %><% if (!includeRedux && includeMessaging) { %>
+import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (!includeRedux && includeAnalytics) { %>
+import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (!includeRedux && (includeErrorHandling || includeSentry)) { %>
 import { setErrorUser } from 'utils/errorHandler'<% } %>
 import ThemeSettings from 'theme'<% if (includeRedux) { %>
 import { defaultRRFConfig } from 'defaultConfig'<% } %>
@@ -26,12 +26,22 @@ firebase.initializeApp(config.firebase)<% if (includeAnalytics) { %>
 // Initialize Firebase analytics if measurementId exists
 if (config.firebase.measurementId) {
   firebase.analytics();
-}<% } %><% if (includeRedux) { %>
-
+}<% } %><% if (!includeRedux && (includeMessaging || includeAnalytics || includeSentry || includeErrorHandling)) { %>
+firebase.auth().onAuthStateChanged((auth) => {
+  if (auth) {<% if (includeSentry || includeErrorHandling) { %>
+    // Set auth within error handler
+    setErrorUser(auth)<% } %><% if (includeMessaging) { %>
+    // Initalize messaging
+    initializeMessaging()<% } %><% if (includeAnalytics) { %>
+    // Set auth within analytics
+    setAnalyticsUser(auth)<% } %>
+  }
+})
+<% } %><% if (includeRedux) { %>
 // Combine default and environment specific configs for react-redux-firebase
 const rrfConfig = {
   ...defaultRRFConfig,
-  ...envRfConfig
+  ...(config.reduxFirebase || {})
 }<% } %>
 
 <% if (!includeRedux) { %>function App({ routes }) {
@@ -48,7 +58,7 @@ const rrfConfig = {
       <Provider store={store}>
         <ReactReduxFirebaseProvider
           firebase={firebase}
-          config={config.reduxFirebase}
+          config={rrfConfig}
           dispatch={store.dispatch}<% if (includeRedux && includeFirestore) { %>
           createFirestoreInstance={createFirestoreInstance}<% } %>>
           <Router>{routes}</Router>

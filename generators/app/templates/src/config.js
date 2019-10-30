@@ -13,7 +13,9 @@ export const firebase = {
   databaseURL: 'https://<%= firebaseName %>.firebaseio.com',
   projectId: '<%= firebaseName %>',
   storageBucket: '<%= firebaseName %>.appspot.com'<% if(messagingSenderId) { %>,
-  messagingSenderId: '<%= messagingSenderId %>'<% } %>
+  messagingSenderId: '<%= messagingSenderId %>'<% } %><% if(measurementId) { %>,
+  measurementId: '<%= messagingSenderId %>'<% } %><% if(appId) { %>,
+  appId: '<%= appId %>'<% } %>
 }
 
 // Config to override default reduxFirebase config in store/createStore

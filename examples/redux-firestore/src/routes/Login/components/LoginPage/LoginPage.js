@@ -19,13 +19,12 @@ function LoginPage() {
   function onSubmitFail(formErrs, dispatch, err) {
     return showError(formErrs ? 'Form Invalid' : err.message || 'Error')
   }
-    
-  function googleLogin () {
-    return firebase
-    .login({ provider: 'google', type: 'popup' })
-    .catch(err => showError(err.message))
+
+  function googleLogin() {
+    return firebase.login({ provider: 'google', type: 'popup' })
+      .catch(err => showError(err.message))
   }
-   
+
   function emailLogin(creds) {
     return firebase.login(creds).catch(err => showError(err.message))
   }

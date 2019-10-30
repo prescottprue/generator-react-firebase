@@ -31,9 +31,8 @@ function NavbarWithoutAuth({ children, brandPath }) {
   )
 }
 
-
 NavbarWithoutAuth.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element
 }
 
 export default NavbarWithoutAuth

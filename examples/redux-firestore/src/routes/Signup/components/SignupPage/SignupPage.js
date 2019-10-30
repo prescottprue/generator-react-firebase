@@ -21,20 +21,18 @@ function SignupPage() {
   }
 
   function googleLogin() {
-    return firebase
-    .login({ provider: 'google', type: 'popup' })
+    return firebase.login({ provider: 'google', type: 'popup' })
     .catch(err => showError(err.message))
   }
-   
+
   function emailSignup(creds) {
-    return firebase
-    .createUser(creds, {
+    return firebase.createUser(creds, {
       email: creds.email,
       username: creds.username
     })
     .catch(err => showError(err.message))
   }
-
+  
   return (
     <div className={classes.root}>
       <Paper className={classes.panel}>

@@ -19,11 +19,9 @@ initScripts()
 // ------------------------------------
 
 const routes = createRoutes()
-console.log('routes', routes)
-ReactDOM.render(
-  <App routes={routes} />,
-  document.getElementById('root')
-)
+
+
+ReactDOM.render(<App routes={routes} />, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

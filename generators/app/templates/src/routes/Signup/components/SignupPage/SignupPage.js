@@ -36,12 +36,14 @@ function SignupPage() {
   const firebase = useFirebaseApp()
 
   function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new firebase.auth.GoogleAuthProvider()
     return firebase.auth().signInWithPopup(provider)
   }
 
   function emailSignup(creds) {
-    return firebase.auth().createUserWithEmailAndPassword(creds.email, creds.password)
+    return firebase
+      .auth()
+      .createUserWithEmailAndPassword(creds.email, creds.password)
   }<% } %>
   
   return (

@@ -42,7 +42,12 @@ const featureChoices = [
   },
   {
     answerName: 'includeAnalytics',
-    name: 'Google Analytics (react-ga)',
+    name: 'Firebase Analytics',
+    checked: true
+  },
+  {
+    answerName: 'includeSegment',
+    name: 'Segment.io Analytics',
     checked: true
   },
   {
@@ -111,8 +116,22 @@ const prompts = [
   {
     name: 'messagingSenderId',
     message: 'Firebase messagingSenderId',
-    required: true,
     when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+    store: true
+  },
+  {
+    name: 'measurementId',
+    message: 'Firebase Analytics MeasurementID',
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeAnalytics'),
+    store: true
+  },
+  {
+    name: 'appId',
+    message: 'Firebase App Id',
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeAnalytics') ||
       checkAnswersForFeature(currentAnswers, 'includeMessaging'),
     store: true
   },
@@ -223,6 +242,8 @@ module.exports = class extends Generator {
     this.intialData = {
       version: '0.0.1',
       messagingSenderId: null,
+      measurementId: null,
+      appId: null,
       materialv1: true,
       firebasePublicVapidKey: null,
       includeMessaging: false,

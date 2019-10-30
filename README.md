@@ -72,6 +72,10 @@ npm install -g yo generator-react-firebase
 * [redux-form](redux-form.com) - Form input validation + state
 * [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui) - Material UI components that work nicely with redux-form
 
+*When not opting into redux*
+
+* [reactfire](https://github.com/FirebaseExtended/reactfire)
+
 ## Sub generators
 
 Sub generators are included to help speed up the application building process. You can run a sub-generator by calling `yo react-firebase:<name of sub-generator> <param1>`.
