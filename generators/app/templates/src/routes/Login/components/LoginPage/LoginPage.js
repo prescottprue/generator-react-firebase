@@ -22,7 +22,8 @@ function LoginPage() {
   }
 
   function googleLogin() {
-    return firebase.login({ provider: 'google', type: 'popup' })
+    return firebase
+      .login({ provider: 'google', type: 'popup' })
       .catch(err => showError(err.message))
   }
 

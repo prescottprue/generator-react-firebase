@@ -15,8 +15,8 @@ export function setAnalyticsUser(auth) {
   if (auth && auth.uid) {
     // Only set user if measurementId exists
     if (config.firebase.measurementId) {
+      firebase.analytics().setUserId(auth.uid);
       firebase.analytics().setUserProperties({
-        userId: auth.uid,
         name: auth.displayName,
         email: auth.email,
         avatar: auth.photoURL,

@@ -24,7 +24,7 @@ function SignupPage() {
       .auth()
       .createUserWithEmailAndPassword(creds.email, creds.password)
   }
-  
+
   return (
     <div className={classes.root}>
       <Paper className={classes.panel}>

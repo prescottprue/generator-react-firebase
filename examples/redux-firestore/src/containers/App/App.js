@@ -30,7 +30,7 @@ function App({ routes, store }) {
       <Provider store={store}>
         <ReactReduxFirebaseProvider
           firebase={firebase}
-          config={config.reduxFirebase}
+          config={rrfConfig}
           dispatch={store.dispatch}
           createFirestoreInstance={createFirestoreInstance}>
           <Router>{routes}</Router>

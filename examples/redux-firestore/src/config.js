@@ -13,7 +13,8 @@ export const firebase = {
   databaseURL: 'https://redux-firebasev3.firebaseio.com',
   projectId: 'redux-firebasev3',
   storageBucket: 'redux-firebasev3.appspot.com',
-  messagingSenderId: '823357791673'
+  messagingSenderId: '823357791673',
+  appId: '1:823357791673:web:e53b561c7e36427fe06a68'
 }
 
 // Config to override default reduxFirebase config in store/createStore

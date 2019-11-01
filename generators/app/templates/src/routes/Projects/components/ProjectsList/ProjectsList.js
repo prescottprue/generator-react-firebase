@@ -1,11 +1,20 @@
-import React, { useState } from 'react'<% if (includeRedux) { %>
-import { isLoaded } from 'react-redux-firebase'<% } %>
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux && includeFirestore) { %>
 import { useFirebaseApp, useUser, useFirestoreCollection } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
 import { useFirebaseApp, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
-import { useFirebase, useFirebaseConnect } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
-import { useFirestore, useFirestoreConnect } from 'react-redux-firebase'
+import {
+  useFirebase,
+  useFirebaseConnect,
+  isLoaded,
+  isEmpty
+} from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
+import {
+  useFirestore,
+  useFirestoreConnect,
+  isLoaded,
+  isEmpty
+} from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %><% if (includeRedux) { %>
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
@@ -46,12 +55,19 @@ function useProjectsList() {<% if (includeRedux) { %>
   useFirebaseConnect([
     {
       path: 'projects',
-      queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`, 'limitToLast=10']
+      queryParams: [
+        'orderByChild=createdBy',
+        `equalTo=${auth.uid}`,
+        'limitToLast=10'
+      ]
     }
   ])
 
   // Get projects from redux state
   const projects = useSelector(state => state.firebase.ordered.projects)<% } %><% if (includeRedux && includeFirestore) { %>const firestore = useFirestore()
+
+  // Get auth from redux state
+  const auth = useSelector(state => state.firebase.auth)
 
   useFirestoreConnect([
     {
@@ -80,14 +96,14 @@ function useProjectsList() {<% if (includeRedux) { %>
       .add('projects', {
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        createdAt: firestore.FieldValue.serverTimestamp()
       })<% } %><% if (!includeRedux && includeFirestore) { %>firebase
       .firestore()
       .collection('projects')
       .add({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        createdAt: firestore.FieldValue.serverTimestamp()
       })<% } %><% if (!includeRedux && !includeFirestore) { %>firebase
       .database()
       .ref('projects')
@@ -133,7 +149,8 @@ function ProjectsList({ match }) {
       />
       <div className={classes.tiles}>
         <NewProjectTile onClick={toggleDialog} />
-        {<% if (!includeRedux && includeFirestore) { %>!isEmpty(projects) && projects.docs((projectSnap, ind) => {
+        {<% if (!includeRedux && includeFirestore) { %>!isEmpty(projects) &&
+          projects.docs((projectSnap, ind) => {
             const project = projectSnap.data()
             return (
               <ProjectTile
@@ -152,7 +169,8 @@ function ProjectsList({ match }) {
                 projectId={snapshot.key}
               />
             )
-          })<% } %><% if (includeRedux && !includeFirestore) { %>!isEmpty(projects) && projects.map((project, ind) => {
+          })<% } %><% if (includeRedux && !includeFirestore) { %>!isEmpty(projects) &&
+          projects.map((project, ind) => {
             return (
               <ProjectTile
                 key={`Project-${project.key}-${ind}`}
@@ -160,7 +178,8 @@ function ProjectsList({ match }) {
                 projectId={project.key}
               />
             )
-          })<% } %><% if (includeRedux && includeFirestore) { %>!isEmpty(projects) && projects.map((project, ind) => {
+          })<% } %><% if (includeRedux && includeFirestore) { %>!isEmpty(projects) &&
+          projects.map((project, ind) => {
             return (
               <ProjectTile
                 key={`Project-${project.id}-${ind}`}

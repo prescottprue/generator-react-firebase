@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { useSelector } from 'react-redux'
 import {
-  useFirestore,
-  useFirestoreConnect,
+  useFirebase,
+  useFirebaseConnect,
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectTile from '../ProjectTile'
@@ -18,20 +18,24 @@ const useStyles = makeStyles(styles)
 
 function useProjectsList() {
   const { showSuccess, showError } = useNotifications()
-  const firestore = useFirestore()
+  const firebase = useFirebase()
 
   // Get auth from redux state
   const auth = useSelector(state => state.firebase.auth)
-
-  useFirestoreConnect([
+  // Create listeners based on current users UID
+  useFirebaseConnect([
     {
-      collection: 'projects',
-      where: ['createdBy', '==', auth.uid]
+      path: 'projects',
+      queryParams: [
+        'orderByChild=createdBy',
+        `equalTo=${auth.uid}`,
+        'limitToLast=10'
+      ]
     }
   ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.firestore.ordered.projects)
+  const projects = useSelector(state => state.firebase.ordered.projects)
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
@@ -41,11 +45,11 @@ function useProjectsList() {
     if (!auth.uid) {
       return showError('You must be logged in to create a project')
     }
-    return firestore
-      .add('projects', {
+    return firebase
+      .push('projects', {
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firestore.FieldValue.serverTimestamp()
+        createdAt: firebase.database.ServerValue.TIMESTAMP
       })
       .then(() => {
         toggleDialog()
@@ -88,9 +92,9 @@ function ProjectsList({ match }) {
           projects.map((project, ind) => {
             return (
               <ProjectTile
-                key={`Project-${project.id}-${ind}`}
+                key={`Project-${project.key}-${ind}`}
                 name={project && project.value.name}
-                projectId={project.id}
+                projectId={project.key}
               />
             )
           })}

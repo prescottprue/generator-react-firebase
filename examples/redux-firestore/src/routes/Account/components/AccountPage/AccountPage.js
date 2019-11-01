@@ -31,13 +31,14 @@ function AccountPage() {
   }
 
   function updateAccount(newAccount) {
-    return firebase.updateProfile(newAccount)
+    return firebase
+      .updateProfile(newAccount)
       .then(() => showSuccess('Profile updated successfully'))
       .catch(error => {
-      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-      showError('Error updating profile: ', error.message || error)
-      return Promise.reject(error)
-    })
+        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+        showError('Error updating profile: ', error.message || error)
+        return Promise.reject(error)
+      })
   }
 
   return (

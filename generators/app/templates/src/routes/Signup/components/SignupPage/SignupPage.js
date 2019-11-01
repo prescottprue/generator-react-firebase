@@ -22,16 +22,18 @@ function SignupPage() {
   }
 
   function googleLogin() {
-    return firebase.login({ provider: 'google', type: 'popup' })
-    .catch(err => showError(err.message))
+    return firebase
+      .login({ provider: 'google', type: 'popup' })
+      .catch(err => showError(err.message))
   }
 
   function emailSignup(creds) {
-    return firebase.createUser(creds, {
-      email: creds.email,
-      username: creds.username
-    })
-    .catch(err => showError(err.message))
+    return firebase
+      .createUser(creds, {
+        email: creds.email,
+        username: creds.username
+      })
+      .catch(err => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
   const firebase = useFirebaseApp()
 
@@ -45,7 +47,7 @@ function SignupPage() {
       .auth()
       .createUserWithEmailAndPassword(creds.email, creds.password)
   }<% } %>
-  
+
   return (
     <div className={classes.root}>
       <Paper className={classes.panel}>

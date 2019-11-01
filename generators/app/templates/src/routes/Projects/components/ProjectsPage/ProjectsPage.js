@@ -13,17 +13,15 @@ function ProjectsPage({ match }) {
       {/* Child routes */}
       {renderChildren([ProjectRoute], match)}
       {/* Main Route */}
-      <Route
+      <% if (!includeRedux) { %><Route
         exact
         path={match.path}
         render={() => (
-          <% if (!includeRedux) { %><SuspenseWithPerf fallback={<LoadingSpinner />}>
+          <SuspenseWithPerf fallback={<LoadingSpinner />}>
             <ProjectsList />
-          </SuspenseWithPerf><% } %><% if (includeRedux) { %>
-          <ProjectsList />
-          <% } %>
+          </SuspenseWithPerf>
         )}
-      />
+      /><% } %><% if (includeRedux) { %><Route exact path={match.path} render={() => <ProjectsList />} /><% } %>
     </Switch>
   )
 }

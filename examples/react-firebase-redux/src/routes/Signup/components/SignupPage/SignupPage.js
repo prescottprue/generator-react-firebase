@@ -22,17 +22,17 @@ function SignupPage() {
 
   function googleLogin() {
     return firebase
-    .login({ provider: 'google', type: 'popup' })
-    .catch(err => showError(err.message))
+      .login({ provider: 'google', type: 'popup' })
+      .catch(err => showError(err.message))
   }
-   
+
   function emailSignup(creds) {
     return firebase
-    .createUser(creds, {
-      email: creds.email,
-      username: creds.username
-    })
-    .catch(err => showError(err.message))
+      .createUser(creds, {
+        email: creds.email,
+        username: creds.username
+      })
+      .catch(err => showError(err.message))
   }
 
   return (

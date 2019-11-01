@@ -14,14 +14,18 @@ const useStyles = makeStyles(styles)
 function ProjectPage() {
   const { projectId } = useParams()
   const classes = useStyles()
-  
+
   // Create listener for projects
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 
   // Get projects from redux state
-  const project = useSelector(({ firebase: { data } }) => {
-    return data.projects && data.projects[projectId]
-  })
+  const project = useSelector(
+    ({
+      firebase: {
+        data: { projects }
+      }
+    }) => projects && projects[projectId]
+  )
 
   // Show loading spinner while project is loading
   if (!isLoaded(project)) {

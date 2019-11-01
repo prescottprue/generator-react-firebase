@@ -11,15 +11,7 @@ function ProjectsPage({ match }) {
       {/* Child routes */}
       {renderChildren([ProjectRoute], match)}
       {/* Main Route */}
-      <Route
-        exact
-        path={match.path}
-        render={() => (
-          
-          <ProjectsList />
-          
-        )}
-      />
+      <Route exact path={match.path} render={() => <ProjectsList />} />
     </Switch>
   )
 }

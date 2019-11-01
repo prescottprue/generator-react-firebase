@@ -1,8 +1,8 @@
 import { initializeMessaging } from 'utils/firebaseMessaging'
 import { setErrorUser } from 'utils/errorHandler'
 
-  // ======================================================
-// Default Redux + Firebase Config used for all environments 
+// ======================================================
+// Default Redux + Firebase Config used for all environments
 // (for react-redux-firebase & redux-firestore)
 // Note: Differs from src/config.js which is environment specific config
 // ======================================================

@@ -45,13 +45,17 @@ function AccountPage() {
   }<% } %>
 
   function updateAccount(newAccount) {
-    return firebase.updateProfile(newAccount)<% if (includeRedux) { %>
+    return <% if (includeRedux) { %>firebase
+      .updateProfile(newAccount)
       .then(() => showSuccess('Profile updated successfully'))
-      <% } %>.catch(error => {
-      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console<% if (includeRedux) { %>
-      showError('Error updating profile: ', error.message || error)<% } %>
+      .catch(error => {
+        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+        showError('Error updating profile: ', error.message || error)
+        return Promise.reject(error)
+      })<% } %><% if (!includeRedux) { %>firebase.updateProfile(newAccount).catch(error => {
+      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
       return Promise.reject(error)
-    })
+    })<% } %>
   }
 
   return (

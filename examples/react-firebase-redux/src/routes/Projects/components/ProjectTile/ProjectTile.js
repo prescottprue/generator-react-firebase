@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
+import { useFirebase } from 'react-redux-firebase'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles'
-import { useFirebase } from 'react-redux-firebase'
 import { LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
 import styles from './ProjectTile.styles'
@@ -18,7 +18,7 @@ function ProjectTile({ name, projectId, showDelete }) {
   const history = useHistory()
   const firebase = useFirebase()
   const { showError, showSuccess } = useNotifications()
-  
+
   function goToProject() {
     return history.push(`${LIST_PATH}/${projectId}`)
   }
@@ -33,7 +33,7 @@ function ProjectTile({ name, projectId, showDelete }) {
         return Promise.reject(err)
       })
   }
-  
+
   return (
     <Paper className={classes.root}>
       <div className={classes.top}>
@@ -53,7 +53,7 @@ function ProjectTile({ name, projectId, showDelete }) {
 }
 
 ProjectTile.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string
 }
 
 ProjectTile.defaultProps = {

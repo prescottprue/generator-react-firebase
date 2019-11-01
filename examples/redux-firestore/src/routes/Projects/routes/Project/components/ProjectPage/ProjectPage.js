@@ -19,8 +19,12 @@ function ProjectPage() {
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 
   // Get projects from redux state
-  const project = useSelector(({ firebase: { data: { projects } } }) =>
-    projects && projects[projectId]
+  const project = useSelector(
+    ({
+      firebase: {
+        data: { projects }
+      }
+    }) => projects && projects[projectId]
   )
 
   // Show loading spinner while project is loading

@@ -47,6 +47,4 @@ NewProjectDialog.propTypes = {
   onRequestClose: PropTypes.func.isRequired
 }
 
-
-
 export default NewProjectDialog

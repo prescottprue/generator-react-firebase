@@ -46,9 +46,9 @@ NewProjectDialog.propTypes = {
   handleSubmit: PropTypes.func.isRequired, // from enhancer (reduxForm)
   open: PropTypes.bool.isRequired,
   onRequestClose: PropTypes.func.isRequired
-}<% } %>
+}<% } %><% if (!includeRedux) { %>
 
-<% if (!includeRedux) { %>function NewProjectDialog({ open, onRequestClose, onCreateClick }) {
+function NewProjectDialog({ open, onRequestClose, onCreateClick }) {
   const [name, changeInputValue] = useState(null)
   const [error, changeErrorValue] = useState(null)
   const firebaseApp = useFirebaseApp()

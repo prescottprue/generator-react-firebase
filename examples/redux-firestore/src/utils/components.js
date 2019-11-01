@@ -2,7 +2,7 @@ import React from 'react'
 import { get } from 'lodash'
 import { isLoaded, isEmpty } from 'react-redux-firebase/lib/helpers'
 import LoadableComponent from 'react-loadable'
-import { mapProps, branch, renderComponent } from 'recompose'
+import { branch, renderComponent } from 'recompose'
 import LoadingSpinner from 'components/LoadingSpinner'
 
 /**
