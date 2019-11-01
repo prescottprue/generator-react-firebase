@@ -4,7 +4,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams } from 'react-router-dom'
-import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
+import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './ProjectPage.styles'
@@ -16,12 +16,12 @@ function ProjectPage() {
   const classes = useStyles()
 
   // Create listener for projects
-  useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
+  useFirestoreConnect([{ collection: 'projects', doc: projectId }])
 
   // Get projects from redux state
   const project = useSelector(
     ({
-      firebase: {
+      firestore: {
         data: { projects }
       }
     }) => projects && projects[projectId]
@@ -37,7 +37,7 @@ function ProjectPage() {
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.title} component="h2">
-            {project.name || 'Project'}
+            {(project && project.name) || 'Project'}
           </Typography>
           <Typography className={classes.subtitle}>{projectId}</Typography>
           <div style={{ marginTop: '10rem' }}>

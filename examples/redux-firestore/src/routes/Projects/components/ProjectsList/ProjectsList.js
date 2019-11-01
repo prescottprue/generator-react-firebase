@@ -89,7 +89,7 @@ function ProjectsList({ match }) {
             return (
               <ProjectTile
                 key={`Project-${project.id}-${ind}`}
-                name={project && project.value.name}
+                name={project && project.name}
                 projectId={project.id}
               />
             )

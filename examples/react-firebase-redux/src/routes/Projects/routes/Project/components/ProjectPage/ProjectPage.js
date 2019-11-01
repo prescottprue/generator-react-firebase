@@ -16,7 +16,7 @@ function ProjectPage() {
   const classes = useStyles()
 
   // Create listener for projects
-  useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
+  useFirebaseConnect([{ path: `projects/${projectId}` }])
 
   // Get projects from redux state
   const project = useSelector(
@@ -37,7 +37,7 @@ function ProjectPage() {
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.title} component="h2">
-            {project.name || 'Project'}
+            {(project && project.name) || 'Project'}
           </Typography>
           <Typography className={classes.subtitle}>{projectId}</Typography>
           <div style={{ marginTop: '10rem' }}>
