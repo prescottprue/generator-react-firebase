@@ -1,11 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
-import * as actions from '../actions'
+import useNotifications from '../useNotifications'
 
 const useStyles = makeStyles(() => ({
   buttonRoot: {
@@ -13,8 +12,10 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function Notifications({ allIds, byId, dismissNotification }) {
+function Notifications() {
   const classes = useStyles()
+  const { allIds, byId } = useSelector(({ notifications }) => notifications)
+  const { dismissNotification } = useNotifications()
 
   // Only render if notifications exist
   if (!allIds || !Object.keys(allIds).length) {
@@ -23,31 +24,27 @@ function Notifications({ allIds, byId, dismissNotification }) {
 
   return (
     <div>
-      {allIds.map(id => (
-        <Snackbar
-          key={id}
-          open
-          action={
-            <IconButton
-              onClick={() => dismissNotification(id)}
-              classes={{ root: classes.buttonRoot }}>
-              <CloseIcon />
-            </IconButton>
-          }
-          message={byId[id].message}
-        />
-      ))}
+      {allIds.map(id => {
+        function dismissCurrentNotification() {
+          dismissNotification(id)
+        }
+        return (
+          <Snackbar
+            key={id}
+            open
+            action={
+              <IconButton
+                onClick={dismissCurrentNotification}
+                classes={{ root: classes.buttonRoot }}>
+                <CloseIcon />
+              </IconButton>
+            }
+            message={byId[id].message}
+          />
+        )
+      })}
     </div>
   )
 }
 
-Notifications.propTypes = {
-  allIds: PropTypes.array.isRequired,
-  byId: PropTypes.object.isRequired,
-  dismissNotification: PropTypes.func.isRequired
-}
-
-export default connect(
-  ({ notifications: { allIds, byId } }) => ({ allIds, byId }),
-  actions
-)(Notifications)
+export default Notifications

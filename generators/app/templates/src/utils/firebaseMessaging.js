@@ -1,5 +1,5 @@
-import { get } from 'lodash'
-import firebase from 'firebase/app'
+<% if (includeRedux) { %>import { get } from 'lodash'
+<% } %>import firebase from 'firebase/app'
 import messageActions from 'modules/notification'
 import { publicVapidKey } from '../config'
 import 'firebase/messaging'
@@ -66,10 +66,10 @@ export function requestPermission() {
  * Setup Firebase Cloud Messaging. This  requests permission from the
  * user to show browser notifications. If the user approves or if they have
  * approved in the passed, then a Cloud Messaging Token is written to the
- * user's profile.
- * @param {Function} dispatch - redux action dispatching function
+ * user's profile.<% if (includeRedux) { %>
+ * @param {Function} dispatch - redux action dispatching function<% } %>
  */
-export function initializeMessaging(dispatch) {
+export function initializeMessaging(<% if (includeRedux) { %>dispatch<% } %>) {
   const messaging = firebase.messaging()
   if (!publicVapidKey) {
     /* eslint-disable no-console */
@@ -92,11 +92,13 @@ export function initializeMessaging(dispatch) {
   // - the user clicks on an app notification created by a service worker
   //   `messaging.setBackgroundMessageHandler` handler.
   messaging.onMessage(payload => {
-    const DEFAULT_MESSAGE = 'Message!'
+    <% if (includeRedux) { %>const DEFAULT_MESSAGE = 'Message!'
     // Dispatch showSuccess action
     messageActions.showSuccess(
       get(payload, 'notification.body', DEFAULT_MESSAGE)
-    )(dispatch)
+    )(dispatch)<% } %><% if (!includeRedux) { %>
+    // TODO: Wire up notification
+    console.log('Message', payload)<% } %>
   })
 
   // Request permission to setup browser notifications

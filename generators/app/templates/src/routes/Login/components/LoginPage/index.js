@@ -1,4 +1,4 @@
-import LoginPage from './LoginPage'
-import enhance from './LoginPage.enhancer'
+import LoginPage from './LoginPage'<% if (includeRedux) { %>
+import enhance from './LoginPage.enhancer'<% } %>
 
-export default enhance(LoginPage)
+export default <% if (includeRedux) { %>enhance(LoginPage)<% } %><% if (!includeRedux) { %>LoginPage<% } %>

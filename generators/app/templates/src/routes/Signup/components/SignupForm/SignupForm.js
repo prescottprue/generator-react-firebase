@@ -1,6 +1,7 @@
-import React from 'react'
+import React<% if (!includeRedux) { %>, { useState }<% } %> from 'react'
 import PropTypes from 'prop-types'<% if (includeRedux) { %>
-import { Field } from 'redux-form'<% } %>
+import { Field } from 'redux-form'<% } %><% if (!includeRedux) { %>
+import { useFirebaseApp } from 'reactfire'<% } %>
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'<% if (includeRedux) { %>
 import TextField from 'components/FormTextField'<% } %>
@@ -57,32 +58,50 @@ SignupForm.propTypes = {
 
 export default SignupForm<% } %><% if (!includeRedux) { %>function SignupForm({ handleSubmit }) {
   const classes = useStyles()
+  const firebaseApp = useFirebaseApp()
+  const [username, changeUsernameValue] = useState(null)
+  const [email, changeEmailValue] = useState(null)
+  const [password, changePasswordValue] = useState(null)
+  const [submitting, changeSubmittingValue] = useState(false)
+
+  function signup() {
+    changeSubmittingValue(true)
+    return firebaseApp
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        changeSubmittingValue(false)
+      })
+  }
 
   return (
     <form className={classes.container} onSubmit={handleSubmit}>
       <div>
-        <TextField label='Username' />
-      </div>
-      <div>
         <TextField
-          hintText='someone@email.com'
-          label='Email'
+          floatingLabelText="Username"
+          value={username}
+          onChange={e => changeUsernameValue(e.target.value)}
         />
       </div>
       <div>
         <TextField
-          label='Password'
+          hintText="someone@email.com"
+          floatingLabelText="Email"
+          value={email}
+          onChange={e => changeEmailValue(e.target.value)}
+        />
+      </div>
+      <div>
+        <TextField
+          label="Password"
           type="password"
+          value={password}
+          onChange={e => changePasswordValue(e.target.value)}
         />
       </div>
-      <div className={classes.submit}>
-        <RaisedButton
-          label='Signup'
-          primary
-          type='submit'
-          style={buttonStyle}
-        />
-      </div>
+      <Button color="primary" type="submit" onClick={signup}>
+        {submitting ? 'Saving' : 'Signup'}
+      </Button>
     </form>
   )
 }

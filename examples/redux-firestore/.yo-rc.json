@@ -13,14 +13,14 @@
         "Tests for Firebase Functions (Mocha + Chai)",
         "Tests for React Components (Jest)",
         "Tests for UI (Cypress)",
-        "Google Analytics (react-ga)",
         "Error Tracking (Sentry.io)",
         "Client Side Error Reporting (Stackdriver)"
       ],
       "messagingSenderId": "823357791673",
       "firebasePublicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg",
       "ciProvider": "gitlab",
-      "deployTo": "firebase"
+      "deployTo": "firebase",
+      "appId": "1:823357791673:web:e53b561c7e36427fe06a68"
     }
   }
 }

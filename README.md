@@ -27,10 +27,11 @@ npm install -g yo generator-react-firebase
 ## Getting Started
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
-1. Confirm dependencies are installed: `npm i && npm i --prefix functions`
-1. Start application: `npm start`
+1. Start application: `npm start` or `yarn start`
 
     Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
+
+**Note**: To skip installing dependencies during generation pass the skip install flag (i.e. `--skip-install`)
 
 #### Whats Next
 1. [Deploy](#deployment) your application either [manually through firebase-tools](#manual-deploy) or by [setting up CI Deployment](#ci-deploy)
@@ -70,6 +71,10 @@ npm install -g yo generator-react-firebase
 * [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
 * [redux-form](redux-form.com) - Form input validation + state
 * [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui) - Material UI components that work nicely with redux-form
+
+*When not opting into redux*
+
+* [reactfire](https://github.com/FirebaseExtended/reactfire)
 
 ## Sub generators
 
@@ -233,9 +238,14 @@ A component is best for things that will be reused in multiple places. Our examp
 ```jsx
 import React from 'react'
 import PropTypes from 'prop-types'
-import classes from './Car.scss'
+import { makeStyles } from '@material-ui/core/styles'
+import styles from './Car.styles'
+
+const useStyles = makeStyles(styles)
 
 function Car({ car }) {
+  const classes = useStyles()
+
   return (
     <div className={classes.container}>
       <span>Car Component</span>
@@ -270,7 +280,7 @@ _or_
 ------index.js
 ------CarForm.enhancer.js
 ------CarForm.js
-------CarForm.scss
+------CarForm.styles.js
 ```
 
 */app/components/CarForm.js:*
@@ -278,9 +288,14 @@ _or_
 ```jsx
 import React from 'react'
 import PropTypes from 'prop-types'
-import classes from './Car.scss'
+import { makeStyles } from '@material-ui/core/styles'
+import styles from './Car.styles'
+
+const useStyles = makeStyles(styles)
 
 function CarForm({ car }) {
+  const classes = useStyles()
+
   return (
     <div className={classes.container}>
       <span>CarForm Component</span>
@@ -290,6 +305,33 @@ function CarForm({ car }) {
 }
 
 export default CarForm
+```
+
+
+#### Hook
+
+Generates a custom react hook for a react component. The hook is in it's own file
+
+**command**
+
+`yo react-firebase:hook ProjectTile`
+
+**result**
+
+```
+/app
+--/components
+----/Project
+------index.js
+------Project.hook.js
+```
+
+With a file that looks like:
+
+```js
+export default function useProjectTile() {
+  // Hook logic
+}
 ```
 
 #### Enhancer
@@ -331,7 +373,7 @@ Generates a React component along with a matching component (which has an scss f
 ----------index.js
 ----------Project.enhancer.js // optional
 ----------Project.js
-----------Project.scss
+----------Project.styles.js
 ```
 
 #### Module

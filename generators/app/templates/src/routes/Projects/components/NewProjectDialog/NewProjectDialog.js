@@ -1,5 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React<% if (!includeRedux) { %>, { useState }<% } %> from 'react'
+import PropTypes from 'prop-types'<% if (!includeRedux) { %>
+import { useFirebaseApp } from 'reactfire'<% } %><% if (includeRedux) { %>
+import { makeStyles } from '@material-ui/core/styles'<% } %>
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -7,9 +9,14 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 <% if (!includeRedux) { %>import TextField from '@material-ui/core/TextField'<% } %><% if (includeRedux) { %>import { Field } from 'redux-form'
 import TextField from 'components/FormTextField'
-import { required } from 'utils/form'<% } %>
+import { required } from 'utils/form'<% } %><% if (includeRedux) { %>
+import styles from './NewProjectDialog.styles'
 
-<% if (includeRedux) { %>function NewProjectDialog({ classes, handleSubmit, open, onRequestClose }) {
+const useStyles = makeStyles(styles)
+
+function NewProjectDialog({ handleSubmit, open, onRequestClose }) {
+  const classes = useStyles()
+
   return (
     <Dialog open={open} onClose={onRequestClose}>
       <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
@@ -36,72 +43,66 @@ import { required } from 'utils/form'<% } %>
 }
 
 NewProjectDialog.propTypes = {
-  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
   handleSubmit: PropTypes.func.isRequired, // from enhancer (reduxForm)
   open: PropTypes.bool.isRequired,
   onRequestClose: PropTypes.func.isRequired
+}<% } %><% if (!includeRedux) { %>
+
+function NewProjectDialog({ open, onRequestClose, onCreateClick }) {
+  const [name, changeInputValue] = useState(null)
+  const [error, changeErrorValue] = useState(null)
+  const firebaseApp = useFirebaseApp()
+
+  function handleInputChange(e) {
+    changeInputValue(e.target.value)
+    changeErrorValue(null)
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    changeInputValue(e.target.value)
+    if (!name) {
+      changeErrorValue('Name is required')
+    } else {
+      return firebaseApp
+        .firestore()
+        .collection()
+        .add({ name })
+        .then(() => {
+          onRequestClose()
+        })
+    }
+  }
+
+  return (
+    <Dialog open={open} onClose={onRequestClose}>
+      <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
+      <DialogContent>
+        <TextField
+          hintText="exampleProject"
+          floatingLabelText="Project Name"
+          ref="projectNameField"
+          onChange={handleInputChange}
+          value={name}
+          errorText={error || null}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onRequestClose} color="secondary">
+          Cancel
+        </Button>
+        <Button type="submit" color="primary" onClick={handleSubmit}>
+          Create
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
 }
 
-export default NewProjectDialog<% } %><% if (!includeRedux) { %>export default class NewProjectDialog extends Component {
-  static propTypes = {
-    open: PropTypes.bool,
-    onCreateClick: PropTypes.func.isRequired
-  }
-
-  handleInputChange = (e) => {
-    e.preventDefault()
-    this.setState({
-      name: e.target.value,
-      error: null
-    })
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    if (!this.state.name) {
-      return this.setState({
-        error: 'Name is required'
-      })
-    }
-    if (this.props && this.props.onCreateClick) {
-      this.props.onCreateClick(this.state.name)
-      this.props.onRequestClose()
-    }
-  }
-
-  render () {
-    const { open, onRequestClose } = this.props
-    const { error } = this.state
-
-    return (
-      <Dialog
-        title='New Project'
-        open={open}
-        onRequestClose={onRequestClose}
-        contentClassName={classes.container}
-        actions={[
-          <FlatButton
-            label='Cancel'
-            secondary
-            onTouchTap={onRequestClose}
-          />,
-          <FlatButton
-            label='Create'
-            primary
-            onTouchTap={this.handleSubmit}
-          />
-        ]}
-      >
-        <div className={classes.inputs}>
-          <TextField
-            hintText='exampleProject'
-            floatingLabelText='Project Name'
-            ref='projectNameField'
-            onChange={this.handleInputChange}
-            errorText={error || null}
-          />
-        </div>
-      </Dialog>
-    )
-  }
+NewProjectDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onRequestClose: PropTypes.func,
+  onCreateClick: PropTypes.func
 }<% } %>
+
+export default NewProjectDialog

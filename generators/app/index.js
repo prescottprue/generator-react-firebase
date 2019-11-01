@@ -42,7 +42,12 @@ const featureChoices = [
   },
   {
     answerName: 'includeAnalytics',
-    name: 'Google Analytics (react-ga)',
+    name: 'Firebase Analytics',
+    checked: true
+  },
+  {
+    answerName: 'includeSegment',
+    name: 'Segment.io Analytics',
     checked: true
   },
   {
@@ -111,8 +116,22 @@ const prompts = [
   {
     name: 'messagingSenderId',
     message: 'Firebase messagingSenderId',
-    required: true,
     when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+    store: true
+  },
+  {
+    name: 'measurementId',
+    message: 'Firebase Analytics MeasurementID',
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeAnalytics'),
+    store: true
+  },
+  {
+    name: 'appId',
+    message: 'Firebase App Id',
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeAnalytics') ||
       checkAnswersForFeature(currentAnswers, 'includeMessaging'),
     store: true
   },
@@ -206,9 +225,10 @@ const filesArray = [
   { src: 'v1theme.js', dest: 'src/theme.js' },
   { src: 'src/containers/Navbar/Navbar.styles.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
-  { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/routes/**', dest: 'src/routes' },
-  { src: 'src/static/**', dest: 'src/static', noTemplating: true }
+  { src: 'src/static/**', dest: 'src/static', noTemplating: true },
+  { src: 'src/utils/components.js' },
+  { src: 'src/utils/router.js' }
 ]
 
 module.exports = class extends Generator {
@@ -216,11 +236,14 @@ module.exports = class extends Generator {
     super(args, opts)
 
     this.argument('name', { type: String, required: false })
+    this.argument('skipInstall', { type: Boolean, required: false })
     const appName =
       this.options.name || path.basename(process.cwd()) || 'react-firebase'
     this.intialData = {
       version: '0.0.1',
       messagingSenderId: null,
+      measurementId: null,
+      appId: null,
       materialv1: true,
       firebasePublicVapidKey: null,
       includeMessaging: false,
@@ -293,15 +316,15 @@ module.exports = class extends Generator {
       //   dest: 'build/create-config.js'
       // })
     }
-
+    const ignorePaths = []
     if (this.answers.includeRedux) {
       filesArray.push(
         { src: 'src/store/createStore.js' },
         { src: 'src/store/reducers.js' },
         { src: 'src/store/location.js' },
-        { src: 'src/utils/router.js' },
-        { src: 'src/utils/components.js' },
-        { src: 'src/utils/form.js' }
+        { src: 'src/utils/form.js' },
+        { src: 'src/defaultConfig.js' },
+        { src: 'src/modules/**', dest: 'src/modules' }
       )
 
       // Firestore
@@ -314,6 +337,14 @@ module.exports = class extends Generator {
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push({ src: 'src/utils/firebase.js' })
+      ignorePaths.push('**/NewProjectDialog.enhancer.js')
+      ignorePaths.push('**/AccountForm.enhancer.js')
+      ignorePaths.push('**/AccountPage.enhancer.js')
+      ignorePaths.push('**/ProjectPage.enhancer.js')
+      ignorePaths.push('**/ProjectsPage.enhancer.js')
+      ignorePaths.push('**/SignupForm.enhancer.js')
+      ignorePaths.push('**/SignupPage.enhancer.js')
+      ignorePaths.push('**/LoginPage.enhancer.js')
     }
 
     // Cloud Functions
@@ -379,13 +410,16 @@ module.exports = class extends Generator {
       if (file.noTemplating || file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
           this.templatePath(file.src),
-          this.destinationPath(file.dest || file.src || file)
+          this.destinationPath(file.dest || file.src || file),
+          { globOptions: { ignore: ignorePaths } }
         )
       }
       return this.fs.copyTpl(
         this.templatePath(file.src || file),
         this.destinationPath(file.dest || file.src || file),
-        this.data
+        this.data,
+        {}, // templateOptions    // not here
+        { globOptions: { ignore: ignorePaths } } // < but here
       )
     })
   }
@@ -396,29 +430,31 @@ module.exports = class extends Generator {
     const yarnExists = commandExistsSync('yarn')
     const installCommand = yarnExists ? 'yarnInstall' : 'npmInstall'
     const depManagerName = yarnExists ? 'Yarn' : 'NPM'
-    console.log(`Installing dependencies using ${depManagerName}...`)
-    // Promise chaining used since this.npmInstall.then not a function
-    return Promise.resolve()
-      .then(() => {
-        return this[installCommand]()
-      })
-      .then(() => {
-        console.log(
-          chalk.blue(
-            `Dependencies successfully installed using ${depManagerName}...`
-          )
-        )
-        if (this.answers.includeFunctions) {
+    if (!this.options.skipInstall) {
+      console.log(`Installing dependencies using ${depManagerName}...`)
+      // Promise chaining used since this.npmInstall.then not a function
+      return Promise.resolve()
+        .then(() => {
+          return this[installCommand]()
+        })
+        .then(() => {
           console.log(
             chalk.blue(
-              `Installing functions dependencies using ${depManagerName}...`
+              `Dependencies successfully installed using ${depManagerName}...`
             )
           )
-          /* eslint-enable no-console */
-          return this[installCommand](undefined, {
-            [yarnExists ? 'cwd' : 'prefix']: 'functions'
-          })
-        }
-      })
+          if (this.answers.includeFunctions) {
+            console.log(
+              chalk.blue(
+                `Installing functions dependencies using ${depManagerName}...`
+              )
+            )
+            return this[installCommand](undefined, {
+              [yarnExists ? 'cwd' : 'prefix']: 'functions'
+            })
+          }
+        })
+      /* eslint-enable no-console */
+    }
   }
 }

@@ -1,4 +1,4 @@
-import AccountPage from './AccountPage'
-import enhance from './AccountPage.enhancer'
+import AccountPage from './AccountPage'<% if (includeRedux) { %>
+import enhance from './AccountPage.enhancer'<% } %>
 
-export default enhance(AccountPage)
+export default <% if (includeRedux) { %>enhance(AccountPage)<% } %><% if (!includeRedux) { %>AccountPage<% } %>

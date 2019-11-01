@@ -1,20 +1,38 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
+import { useFirebaseApp } from 'reactfire'
+import { makeStyles } from '@material-ui/core/styles'
 import { LOGIN_PATH } from 'constants/paths'
 import SignupForm from '../SignupForm'
+import styles from './SignupPage.styles'
 
-function SignupPage({ emailSignup, googleLogin, onSubmitFail, classes }) {
+const useStyles = makeStyles(styles)
+
+function SignupPage() {
+  const classes = useStyles()
+  const firebase = useFirebaseApp()
+
+  function googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    return firebase.auth().signInWithPopup(provider)
+  }
+
+  function emailSignup(creds) {
+    return firebase
+      .auth()
+      .createUserWithEmailAndPassword(creds.email, creds.password)
+  }
+
   return (
     <div className={classes.root}>
       <Paper className={classes.panel}>
-        <SignupForm onSubmit={emailSignup} onSubmitFail={onSubmitFail} />
+        <SignupForm onSubmit={emailSignup} />
       </Paper>
       <div className={classes.orLabel}>or</div>
       <div className={classes.providers}>
-        <GoogleButton onClick={googleLogin} />
+        <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
       </div>
       <div className={classes.login}>
         <span className={classes.loginLabel}>Already have an account?</span>
@@ -24,13 +42,6 @@ function SignupPage({ emailSignup, googleLogin, onSubmitFail, classes }) {
       </div>
     </div>
   )
-}
-
-SignupPage.propTypes = {
-  classes: PropTypes.object.isRequired, // from enhancer (withStyles)
-  emailSignup: PropTypes.func.isRequired, // from enhancer (withHandlers)
-  googleLogin: PropTypes.func.isRequired, // from enhancer (withHandlers)
-  onSubmitFail: PropTypes.func.isRequired // from enhancer (reduxForm)
 }
 
 export default SignupPage

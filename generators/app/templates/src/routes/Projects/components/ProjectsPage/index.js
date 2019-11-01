@@ -1,4 +1,4 @@
-import ProjectsPage from './ProjectsPage'
-import enhance from './ProjectsPage.enhancer'
+import ProjectsPage from './ProjectsPage'<% if (includeRedux) { %>
+import enhance from './ProjectsPage.enhancer'<% } %>
 
-export default enhance(ProjectsPage)
+export default <% if (includeRedux) { %>enhance(ProjectsPage)<% } %><% if (!includeRedux) { %>ProjectsPage<% } %>

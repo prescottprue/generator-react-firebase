@@ -1,5 +1,4 @@
 import React from 'react';
-<% if (!includeEnhancer) { %>// <% } %>import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './<%= name %>.styles'
 
@@ -15,9 +14,5 @@ function <%= name %>({ <%= camelName %> }) {
     </div>
   );
 }
-
-<%= name %>.propTypes = {
-  <% if (!includeEnhancer) { %>// <%= camelName %>: PropTypes.object<% } else { %><%= camelName %>: PropTypes.object, // from enhancer (firestoreConnect + connect)<% } %>
-};
 
 export default <%= name %>;
