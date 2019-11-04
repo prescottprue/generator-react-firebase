@@ -7,17 +7,10 @@
   "related": [
     "FirebaseExtended/reactfire",
     "prescottprue/react-redux-firebase",
-    "prescottprue/redux-firestore",
-    "facebook/react",
-    "mui-org/material-ui",
-    "reduxjs/redux",
-    "ReactTraining/react-router",
-    "getsentry/sentry-javascript",
-    "cypress-io/cypress",
-    "facebook/create-react-app"
+    "prescottprue/redux-firestore"
   ],
   "tabs": [
-    "https://github.com/prescottprue/react-redux-firebase",
-    "https://github.com/prescottprue/redux-firestore"
+    { "title": "NPM", "href": "https://npmjs.com/package/generator-react-firebase" },
+    { "title": "API Reference", "href": "https://github.com/prescottprue/generator-react-firebase/blob/master/README.md" }
   ]
 }
