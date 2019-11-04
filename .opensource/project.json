@@ -1,0 +1,23 @@
+{
+  "name": "generator-react-firebase",
+  "platforms": [
+    "Web"
+  ],
+  "content": "README.md",
+  "related": [
+    "FirebaseExtended/reactfire",
+    "prescottprue/react-redux-firebase",
+    "prescottprue/redux-firestore",
+    "facebook/react",
+    "mui-org/material-ui",
+    "reduxjs/redux",
+    "ReactTraining/react-router",
+    "getsentry/sentry-javascript",
+    "cypress-io/cypress",
+    "facebook/create-react-app"
+  ],
+  "tabs": [
+    "https://github.com/prescottprue/react-redux-firebase",
+    "https://github.com/prescottprue/redux-firestore"
+  ]
+}
