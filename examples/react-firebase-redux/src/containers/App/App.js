@@ -18,7 +18,7 @@ const theme = createMuiTheme(ThemeSettings)
 firebase.initializeApp(config.firebase)
 // Initialize Firebase analytics if measurementId exists
 if (config.firebase.measurementId) {
-  firebase.analytics();
+  firebase.analytics()
 }
 // Combine default and environment specific configs for react-redux-firebase
 const rrfConfig = {

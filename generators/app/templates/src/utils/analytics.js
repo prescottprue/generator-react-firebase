@@ -12,8 +12,8 @@ const GOOGLE_EVENT_TYPES_BY_EVENT_NAME = {
   signup: 'sign_up',
   page: 'screen_view',
   search: 'search',
-  exception: 'exception',
-};
+  exception: 'exception'
+}
 
 /**
  * Set User info to analytics context
@@ -25,7 +25,7 @@ export function setAnalyticsUser(auth) {
   if (auth && auth.uid) {
     // Only set user if measurementId exists
     if (config.firebase.measurementId) {
-      firebase.analytics().setUserId(auth.uid);
+      firebase.analytics().setUserId(auth.uid)
       firebase.analytics().setUserProperties({
         name: auth.displayName,
         email: auth.email,
@@ -51,23 +51,28 @@ export function setAnalyticsUser(auth) {
  * @param {Object} eventData - Data associated with the event.
  */
 export function triggerAnalyticsEvent(eventName, eventData) {
-  const eventDataWithVersion = { ...eventData, version };
+  const eventDataWithVersion = { ...eventData, version }
   if (<% if (includeSegment) { %>config.segmentId && <% } %>!window.Cypress) {<% if (includeAnalytics) { %>
     window.analytics.track(eventName, eventDataWithVersion)<% } %>
     const standardizedEventName =
       GOOGLE_EVENT_TYPES_BY_EVENT_NAME[eventName] || eventName
     firebase.analytics().logEvent(standardizedEventName, eventDataWithVersion)
   } else {
-    console.debug('Analytics Event:', { name: eventName, data: eventDataWithVersion }) // eslint-disable-line no-console
+    /* eslint-disable no-console */
+    console.debug('Analytics Event:', {
+      name: eventName,
+      data: eventDataWithVersion
+    })
+    /* eslint-enable no-console */
   }
 }
-
+<% if (includeSegment) { %>
 /**
  * Initialize Analytics libraries if within production environment
  * except Firebase Analytics which are initialized in containers/App.js
  */
 export function init() {
-  <% if (includeSegment) { %>// Only initialize if segmentId exists
+  // Only initialize if segmentId exists
   if (config.segmentId) {
     /* eslint-disable */
     !function(){
@@ -76,5 +81,6 @@ export function init() {
       analytics.page({ version });
     }}();
     /* eslint-enable */
-  }<% } %>
+  }
 }
+<% } %>

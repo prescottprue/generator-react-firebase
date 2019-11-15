@@ -147,7 +147,7 @@ const prompts = [
     name: 'segmentId',
     message: 'Segment ID',
     when: currentAnswers =>
-      checkAnswersForFeature(currentAnswers, 'includeAnalytics')
+      checkAnswersForFeature(currentAnswers, 'includeSegment')
   },
   {
     name: 'sentryDsn',
