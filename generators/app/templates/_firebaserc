@@ -18,7 +18,7 @@
           "messagingSenderId": "<%= messagingSenderId %>"<% } %>
         }<% if(includeSentry) { %>,
         "sentryDsn": "${SENTRY_DSN}"<% } %><% if(includeAnalytics) { %>,
-        "analyticsTrackingId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
+        "segmentId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
         "publicVapidKey": "${STAGE_PUBLIC_VAPID_KEY}"<% } %>
       },
       "prod": {
@@ -32,7 +32,7 @@
           "messagingSenderId": "<%= messagingSenderId %>"<% } %>
         }<% if(includeSentry) { %>,
         "sentryDsn": "${SENTRY_DSN}"<% } %><% if(includeAnalytics) { %>,
-        "analyticsTrackingId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
+        "segmentId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
         "publicVapidKey": "${PROD_PUBLIC_VAPID_KEY}"<% } %>
       }
     }

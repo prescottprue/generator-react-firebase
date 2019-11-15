@@ -25,9 +25,9 @@ export const reduxFirebase = {
   enableLogging: false, // enable/disable Firebase Database Logging
 }<% if (includeAnalytics) { %>
 
-export const analyticsTrackingId = ''<% } %><% if (includeMessaging) { %>
+export const segmentId = '<%= segmentId %>'<% } %><% if (includeMessaging) { %>
 
-export const publicVapidKey = '<%= firebasePublicVapidKey %>' <% } %><% if (includeErrorHandling) { %>
+export const publicVapidKey = '<%= firebasePublicVapidKey %>'<% } %><% if (includeErrorHandling) { %>
 
 export const sentryDsn = '<%= sentryDsn %>'<% } %>
 
@@ -37,5 +37,5 @@ export default {
   reduxFirebase<% if (sentryDsn) { %>,
   sentryDsn <% } %><% if (firebasePublicVapidKey) { %>,
   publicVapidKey<% } %><% if (includeAnalytics) { %>,
-  analyticsTrackingId<% } %>
+  segmentId<% } %>
 }

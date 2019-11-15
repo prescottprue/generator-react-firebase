@@ -9,12 +9,16 @@
       "otherFeatures": [
         "Continuous Integration config",
         "Firebase Functions (with ESNext support)",
-        "Tests for UI (Cypress)"
+        "Tests for UI (Cypress)",
+        "Firebase Analytics",
+        "Segment.io Analytics"
       ],
       "messagingSenderId": "823357791673",
       "firebasePublicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg",
       "ciProvider": "gitlab",
-      "deployTo": "firebase"
+      "deployTo": "firebase",
+      "measurementId": "G-62D5FVVQWZ",
+      "appId": "1:823357791673:web:819546ad651f4513e06a68"
     }
   }
 }

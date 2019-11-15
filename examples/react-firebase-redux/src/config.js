@@ -12,7 +12,9 @@ export const firebase = {
   authDomain: 'redux-firebasev3.firebaseapp.com',
   databaseURL: 'https://redux-firebasev3.firebaseio.com',
   projectId: 'redux-firebasev3',
-  storageBucket: 'redux-firebasev3.appspot.com'
+  storageBucket: 'redux-firebasev3.appspot.com',
+  measurementId: '',
+  appId: '1:823357791673:web:819546ad651f4513e06a68'
 }
 
 // Config to override default reduxFirebase config in store/createStore
@@ -22,8 +24,11 @@ export const reduxFirebase = {
   enableLogging: false, // enable/disable Firebase Database Logging
 }
 
+export const segmentId = ''
+
 export default {
   env,
   firebase,
-  reduxFirebase
+  reduxFirebase,
+  segmentId
 }

@@ -25,7 +25,7 @@ const theme = createMuiTheme(ThemeSettings)
 firebase.initializeApp(config.firebase)<% if (includeAnalytics) { %>
 // Initialize Firebase analytics if measurementId exists
 if (config.firebase.measurementId) {
-  firebase.analytics();
+  firebase.analytics()
 }<% } %><% if (!includeRedux && (includeMessaging || includeAnalytics || includeSentry || includeErrorHandling)) { %>
 firebase.auth().onAuthStateChanged((auth) => {
   if (auth) {<% if (includeSentry || includeErrorHandling) { %>

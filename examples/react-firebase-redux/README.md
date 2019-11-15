@@ -33,10 +33,13 @@
     // Overrides for for react-redux-firebase/redux-firestore config
     export const reduxFirebase = {}
 
+    export const segmentId = '<- Segment ID ->'
+
     export default {
       env,
       firebase,
-      reduxFirebase
+      reduxFirebase,
+      segmentId
     }
     ```
 1. Start Development server: `npm start`
