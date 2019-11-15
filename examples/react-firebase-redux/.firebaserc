@@ -16,7 +16,7 @@
           "projectId": "redux-firebasev3",
           "storageBucket": "redux-firebasev3.appspot.com"
         },
-        "analyticsTrackingId": "${GA_TRACKING_ID}"
+        "segmentId": "${GA_TRACKING_ID}"
       },
       "prod": {
         "env": "production",
@@ -27,7 +27,7 @@
           "projectId": "redux-firebasev3",
           "storageBucket": "redux-firebasev3.appspot.com"
         },
-        "analyticsTrackingId": "${GA_TRACKING_ID}"
+        "segmentId": "${GA_TRACKING_ID}"
       }
     }
   }

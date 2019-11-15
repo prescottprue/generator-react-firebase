@@ -24,13 +24,11 @@ export const reduxFirebase = {
   enableLogging: false, // enable/disable Firebase Database Logging
 }
 
-export const analyticsTrackingId = ''
-
 export const segmentId = ''
 
 export default {
   env,
   firebase,
   reduxFirebase,
-  analyticsTrackingId
+  segmentId
 }

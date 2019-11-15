@@ -37,7 +37,7 @@
     // Overrides for for react-redux-firebase/redux-firestore config
     export const reduxFirebase = {}<% if (includeAnalytics) { %>
 
-    export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'<% } %><% if (firebasePublicVapidKey) { %>
+    export const segmentId = '<- Segment ID ->'<% } %><% if (firebasePublicVapidKey) { %>
 
     export const publicVapidKey = '<- publicVapidKey from Firebase console ->'<% } %><% if (sentryDsn) { %>
 
@@ -49,7 +49,7 @@
       reduxFirebase<% if (sentryDsn) { %>,
       sentryDsn<% } %><% if (firebasePublicVapidKey) { %>,
       publicVapidKey<% } %><% if (includeAnalytics) { %>,
-      analyticsTrackingId<% } %>
+      segmentId<% } %>
     }
     ```
 1. Start Development server: `npm start`

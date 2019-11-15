@@ -33,13 +33,13 @@
     // Overrides for for react-redux-firebase/redux-firestore config
     export const reduxFirebase = {}
 
-    export const analyticsTrackingId = '<- Google Analytics Tracking ID ->'
+    export const segmentId = '<- Segment ID ->'
 
     export default {
       env,
       firebase,
       reduxFirebase,
-      analyticsTrackingId
+      segmentId
     }
     ```
 1. Start Development server: `npm start`
