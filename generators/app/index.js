@@ -144,6 +144,12 @@ const prompts = [
     store: true
   },
   {
+    name: 'segmentId',
+    message: 'Segment ID',
+    when: currentAnswers =>
+      checkAnswersForFeature(currentAnswers, 'includeAnalytics')
+  },
+  {
     name: 'sentryDsn',
     message: 'Sentry DSN',
     when: currentAnswers =>
@@ -253,6 +259,7 @@ module.exports = class extends Generator {
       includeFunctionsTests: false,
       includeFunctions: false,
       sentryDsn: null,
+      segmentId: null,
       ciProvider: null,
       codeClimate: true,
       appPath: this.env.options.appPath,

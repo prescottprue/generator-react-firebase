@@ -15,7 +15,8 @@
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",
           "storageBucket": "redux-firebasev3.appspot.com"
-        }
+        },
+        "analyticsTrackingId": "${GA_TRACKING_ID}"
       },
       "prod": {
         "env": "production",
@@ -25,7 +26,8 @@
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",
           "storageBucket": "redux-firebasev3.appspot.com"
-        }
+        },
+        "analyticsTrackingId": "${GA_TRACKING_ID}"
       }
     }
   }

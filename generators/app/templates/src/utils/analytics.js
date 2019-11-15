@@ -2,8 +2,18 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/analytics'
 import { version } from '../../package.json'
-import * as config from 'config' // eslint-disable-line import/no-unresolved
-import ANALYTICS_EVENT_NAMES from 'constants/analytics'
+import * as config from '../config' // eslint-disable-line import/no-unresolved
+
+/**
+ * From https://firebase.google.com/docs/reference/js/firebase.analytics.html?authuser=0#event-name-string
+ */
+const GOOGLE_EVENT_TYPES_BY_EVENT_NAME = {
+  login: 'login',
+  signup: 'sign_up',
+  page: 'screen_view',
+  search: 'search',
+  exception: 'exception',
+};
 
 /**
  * Set User info to analytics context
@@ -40,13 +50,9 @@ export function setAnalyticsUser(auth) {
  * and Segment<% } %>
  * @param {Object} eventData - Data associated with the event.
  */
-export function triggerAnalyticsEvent(eventNameKey, eventData) {
+export function triggerAnalyticsEvent(eventName, eventData) {
   const eventDataWithVersion = { ...eventData, version };
-  if (<% if (includeSegment) { %>
-    config.segmentId &&
-    window.analytics &&
-    <% } %>!window.Cypress<% if (includeSegment) { %>
-  <% } %>) {<% if (includeSegment) { %>
+  if (<% if (includeSegment) { %>config.segmentId && <% } %>!window.Cypress) {<% if (includeAnalytics) { %>
     window.analytics.track(eventName, eventDataWithVersion)<% } %>
     const standardizedEventName =
       GOOGLE_EVENT_TYPES_BY_EVENT_NAME[eventName] || eventName

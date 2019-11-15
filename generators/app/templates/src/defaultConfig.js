@@ -1,6 +1,6 @@
-<% if (includeMessaging) { %>import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (includeAnalytics) { %>
-import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (includeErrorHandling || includeSentry) { %>
-import { setErrorUser } from 'utils/errorHandler'
+<% if (includeMessaging) { %>import { initializeMessaging } from 'utils/firebaseMessaging'
+<% } %><% if (includeAnalytics) { %>import { setAnalyticsUser } from 'utils/analytics'
+<% } %><% if (includeErrorHandling || includeSentry) { %>import { setErrorUser } from 'utils/errorHandler'<% } %><% if (includeErrorHandling || includeSentry || includeMessaging) { %>
 
 <% } %>// ======================================================
 // Default Redux + Firebase Config used for all environments

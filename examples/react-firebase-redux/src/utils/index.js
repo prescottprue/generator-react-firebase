@@ -1,3 +1,4 @@
+import { init as initAnalytics } from './analytics'
 /**
  * Log a message and return data passed. Useful for logging
  * messages within functional programming flows.
@@ -25,4 +26,5 @@ export function fpLog(message) {
  */
 export function initScripts() {
   // Initialize global scripts here
+  initAnalytics()
 }
