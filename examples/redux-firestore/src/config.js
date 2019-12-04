@@ -17,20 +17,6 @@ export const firebase = {
   appId: '1:823357791673:web:e53b561c7e36427fe06a68'
 }
 
-// Config to override default reduxFirebase config in store/createStore
-// which is not environment specific.
-// For more details, visit http://react-redux-firebase.com/docs/api/enhancer.html
-export const reduxFirebase = {
-  enableLogging: false, // enable/disable Firebase Database Logging
-}
-
 export const publicVapidKey = 'BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg'
 
 export const sentryDsn = ''
-
-export default {
-  env,
-  firebase,
-  reduxFirebase,
-  publicVapidKey
-}

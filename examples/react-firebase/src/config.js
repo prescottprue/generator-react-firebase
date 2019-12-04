@@ -14,16 +14,3 @@ export const firebase = {
   projectId: 'redux-firebasev3',
   storageBucket: 'redux-firebasev3.appspot.com'
 }
-
-// Config to override default reduxFirebase config in store/createStore
-// which is not environment specific.
-// For more details, visit http://react-redux-firebase.com/docs/api/enhancer.html
-export const reduxFirebase = {
-  enableLogging: false, // enable/disable Firebase Database Logging
-}
-
-export default {
-  env,
-  firebase,
-  reduxFirebase
-}

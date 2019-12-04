@@ -326,6 +326,7 @@ describe('generator-react-firebase:app', function() {
             firebaseInstance: 'testing',
             includeFirestore: false,
             otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]],
+            includeCI: 'Y',
             ciProvider: 'githubActions',
             includeRedux: 'N',
             deployTo: 'firebase'
@@ -366,6 +367,7 @@ describe('generator-react-firebase:app', function() {
             firebaseInstance: 'testing',
             includeFirestore: false,
             otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]],
+            includeCI: 'Y',
             ciProvider: 'travis',
             includeRedux: 'N',
             deployTo: 'firebase'

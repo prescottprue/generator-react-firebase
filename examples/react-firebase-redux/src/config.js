@@ -17,18 +17,4 @@ export const firebase = {
   appId: '1:823357791673:web:819546ad651f4513e06a68'
 }
 
-// Config to override default reduxFirebase config in store/createStore
-// which is not environment specific.
-// For more details, visit http://react-redux-firebase.com/docs/api/enhancer.html
-export const reduxFirebase = {
-  enableLogging: false, // enable/disable Firebase Database Logging
-}
-
 export const segmentId = ''
-
-export default {
-  env,
-  firebase,
-  reduxFirebase,
-  segmentId
-}
