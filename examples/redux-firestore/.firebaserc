@@ -10,12 +10,13 @@
       "master": {
         "env": "staging",
         "firebase": {
-          "apiKey": "${STAGE_FIREBASE_API_KEY}",
+          "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
           "authDomain": "redux-firebasev3.firebaseapp.com",
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",
           "storageBucket": "redux-firebasev3.appspot.com",
-          "messagingSenderId": "823357791673"
+          "messagingSenderId": "823357791673",
+          "appId": "1:823357791673:web:e53b561c7e36427fe06a68"
         },
         "sentryDsn": "${SENTRY_DSN}",
         "publicVapidKey": "${STAGE_PUBLIC_VAPID_KEY}"
@@ -23,12 +24,13 @@
       "prod": {
         "env": "production",
         "firebase": {
-          "apiKey": "${PROD_FIREBASE_API_KEY}",
+          "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
           "authDomain": "redux-firebasev3.firebaseapp.com",
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",
           "storageBucket": "redux-firebasev3.appspot.com",
-          "messagingSenderId": "823357791673"
+          "messagingSenderId": "823357791673",
+          "appId": "1:823357791673:web:e53b561c7e36427fe06a68"
         },
         "sentryDsn": "${SENTRY_DSN}",
         "publicVapidKey": "${PROD_PUBLIC_VAPID_KEY}"

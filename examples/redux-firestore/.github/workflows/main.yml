@@ -1,0 +1,114 @@
+name: Verify App
+
+on: [pull_request]
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install Dependencies
+        env:
+          CI: true
+          CYPRESS_INSTALL_BINARY: 0 # Skip install of Cypress (handled in its own job)
+          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
+        run: |
+          yarn install --frozen-lockfile
+          yarn --cwd functions install --frozen-lockfile
+
+      - name: Verify App
+        run: |
+          yarn build:config # Create env specific src/config.js
+          yarn lint:app # Check for lint in app code
+          yarn build # Build app bundles
+
+      - name: Verify Functions
+        run: |
+          yarn lint:functions # Check for lint within functions
+          yarn --cwd functions test:cov # Run unit tests with coverage
+          yarn --cwd functions build
+
+  ui-tests:
+    name: UI Tests
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      # Install is run seperatley from test so that dependencies
+      # are available for other steps like Get Project Info and build test environment config
+      - name: Install Dependencies
+        uses: cypress-io/github-action@v1
+        with:
+          # just perform install
+          runTests: false
+
+      - name: Build Test Environment Config
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          TEST_UID: ${{ secrets.MASTER_TEST_UID }}
+          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REF: ${{ github.ref }}
+        run: |
+          $(npm bin)/cypress-firebase createTestEnvFile $TEST_ENV
+
+      - name: Upload Test Config
+        uses: actions/upload-artifact@master
+        with:
+          name: test-config
+          path: cypress.env.json
+
+      # Download Built app since we are testing locally
+      - name: Download Build Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: build
+
+      # Cypress action manages installing/caching npm dependencies and Cypress binary.
+      # This stage tests a version of the app which is running locally in the
+      # container on port 3001.
+      - name: Cypress Run
+        uses: cypress-io/github-action@v1
+        with:
+          # we have already installed all dependencies above
+          install: false
+          record: true
+          group: 'E2E Tests'
+          start: npm run serve -- --project $FIREBASE_PROJECT
+          wait-on: http://localhost:3000
+          # wait for 3 minutes for the server to respond
+          wait-on-timeout: 180
+        env:
+          CI: true
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REF: ${{ github.ref }}

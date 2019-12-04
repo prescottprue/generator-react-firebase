@@ -10,30 +10,34 @@
       "master": {
         "env": "staging",
         "firebase": {
-          "apiKey": "${STAGE_FIREBASE_API_KEY}",
+          "apiKey": "<%= firebaseKey %>",
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
           "storageBucket": "<%= firebaseName %>.appspot.com"<% if(messagingSenderId) { %>,
-          "messagingSenderId": "<%= messagingSenderId %>"<% } %>
+          "messagingSenderId": "<%= messagingSenderId %>"<% } %><% if(measurementId) { %>,
+          "measurementId": "<%= measurementId %>"<% } %><% if(appId) { %>,
+          "appId": "<%= appId %>"<% } %>
         }<% if(includeSentry) { %>,
-        "sentryDsn": "${SENTRY_DSN}"<% } %><% if(includeAnalytics) { %>,
-        "segmentId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
-        "publicVapidKey": "${STAGE_PUBLIC_VAPID_KEY}"<% } %>
+        "sentryDsn": "<%= sentryDsn %>"<% } %><% if(includeSegment) { %>,
+        "segmentId": "<%= segmentId %>"<% } %><% if(includeMessaging) { %>,
+        "publicVapidKey": "<%= firebasePublicVapidKey %>"<% } %>
       },
       "prod": {
         "env": "production",
         "firebase": {
-          "apiKey": "${PROD_FIREBASE_API_KEY}",
+          "apiKey": "<%= firebaseKey %>",
           "authDomain": "<%= firebaseName %>.firebaseapp.com",
           "databaseURL": "https://<%= firebaseName %>.firebaseio.com",
           "projectId": "<%= firebaseName %>",
           "storageBucket": "<%= firebaseName %>.appspot.com"<% if(messagingSenderId) { %>,
-          "messagingSenderId": "<%= messagingSenderId %>"<% } %>
+          "messagingSenderId": "<%= messagingSenderId %>"<% } %><% if(measurementId) { %>,
+          "measurementId": "<%= measurementId %>"<% } %><% if(appId) { %>,
+          "appId": "<%= appId %>"<% } %>
         }<% if(includeSentry) { %>,
-        "sentryDsn": "${SENTRY_DSN}"<% } %><% if(includeAnalytics) { %>,
-        "segmentId": "${GA_TRACKING_ID}"<% } %><% if(firebasePublicVapidKey) { %>,
-        "publicVapidKey": "${PROD_PUBLIC_VAPID_KEY}"<% } %>
+        "sentryDsn": "<%= sentryDsn %>"<% } %><% if(includeSegment) { %>,
+        "segmentId": "<%= segmentId %>"<% } %><% if(includeMessaging) { %>,
+        "publicVapidKey": "<%= firebasePublicVapidKey %>"<% } %>
       }
     }
   }

@@ -161,6 +161,10 @@ const prompts = [
     when: currentAnswers => checkAnswersForFeature(currentAnswers, 'includeCI'),
     choices: [
       {
+        name: 'Github Actions',
+        value: 'githubActions'
+      },
+      {
         name: 'Gitlab',
         value: 'gitlab'
       },
@@ -264,7 +268,8 @@ module.exports = class extends Generator {
       codeClimate: true,
       appPath: this.env.options.appPath,
       appName,
-      capitalAppName: captialize(appName)
+      capitalAppName: captialize(appName),
+      useYarn: commandExistsSync('yarn')
     }
   }
 
@@ -295,7 +300,9 @@ module.exports = class extends Generator {
   writing() {
     // CI Settings
     if (this.answers.includeCI) {
-      if (this.answers.ciProvider === 'travis') {
+      if (this.answers.ciProvider === 'githubActions') {
+        filesArray.push({ src: '.github/workflows' })
+      } else if (this.answers.ciProvider === 'travis') {
         filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
       } else {
         filesArray.push({ src: 'gitlab-ci.yml', dest: '.gitlab-ci.yml' })

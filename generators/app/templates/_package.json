@@ -38,55 +38,55 @@
   "author": "<%= githubUser %> (https://github.com/<%= githubUser %>)",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.5.2",
+    "@material-ui/core": "^4.7.1",
     "@material-ui/icons": "^4.5.1",<% if (includeSentry) { %>
-    "@sentry/browser": "^5.7.1",<% } %>
-    "firebase": "^7.2.3",
+    "@sentry/browser": "^5.9.1",<% } %>
+    "firebase": "^7.5.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-google-button": "^0.5.3",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-google-button": "^0.6.0",
     "react-loadable": "^5.5.0",<% if (includeRedux) { %>
     "react-redux": "^7.1.1",
-    "react-redux-firebase": "^3.0.2",<% } %>
+    "react-redux-firebase": "^3.0.5",<% } %>
     "react-router-dom": "^5.1.2",<% if (!includeRedux) { %>
     "reactfire": "^2.0.0-alpha.2",<% } %>
     "recompose": "^0.30.0"<% if (includeRedux) { %>,
     "redux": "^4.0.4",
     "redux-auth-wrapper": "^2.1.0",<% } %><% if (includeRedux && includeFirestore) { %>
-    "redux-firestore": "^0.9.0",<% } %><% if (includeRedux) { %>
-    "redux-form": "^8.2.0",
+    "redux-firestore": "^0.11.0",<% } %><% if (includeRedux) { %>
+    "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0"<% } %>
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.0",<% if (includeUiTests) { %>
-    "cypress": "^3.6.0",
-    "cypress-firebase": "0.4.0",<% } %>
-    "eslint": "^6.6.0",
+    "babel-eslint": "^10.0.3",<% if (includeUiTests) { %>
+    "cypress": "^3.7.0",
+    "cypress-firebase": "0.5.0",<% } %>
+    "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.5.0",
-    "eslint-config-react-app": "^5.0.1",
+    "eslint-config-react-app": "^5.0.2",
     "eslint-plugin-babel": "^5.3.0",    
     "eslint-plugin-flowtype": "^4.3.0",<% if (includeUiTests) { %>
     "eslint-plugin-chai-friendly": "^0.5.0",
     "eslint-plugin-cypress": "^2.7.0",<% } %>
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsdoc": "^15.11.0",
+    "eslint-plugin-jsdoc": "^18.4.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-react-hooks": "^2.2.0",<% if (deployTo === 'firebase') { %>
-    "firebase-ci": "^0.6.0",
-    "firebase-tools": "^7.6.2",<% } %>
-    "husky": "^3.0.9",<% if (includeComponentTests) { %>
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",<% if (deployTo === 'firebase') { %>
+    "firebase-ci": "^0.8.0",
+    "firebase-tools": "^7.8.1",<% } %>
+    "husky": "^3.1.0",<% if (includeComponentTests) { %>
     "jest": "^23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",<% } %>
     "node-sass": "^4.12.0",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "react-scripts": "3.2.0"<% if (includeComponentTests) { %>,
-    "react-test-renderer": "^16.11.0"<%} %>
+    "react-test-renderer": "^16.12.0"<%} %>
   },
   "eslintConfig": {
     "extends": "./eslintrc.js"

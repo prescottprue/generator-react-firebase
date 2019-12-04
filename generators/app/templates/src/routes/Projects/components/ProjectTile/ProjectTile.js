@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'<% if (!includeRedux) { %>
-import { useFirebaseApp } from 'reactfire'<% } %><% if (includeRedux) { %>
-import { useFirebase } from 'react-redux-firebase'<% } %>
+import { useFirebaseApp } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
+import { useFirebase } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
+import { useFirestore } from 'react-redux-firebase'<% } %>
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -16,8 +17,10 @@ const useStyles = makeStyles(styles)
 
 function ProjectTile({ name, projectId, showDelete }) {
   const classes = useStyles()
-  const history = useHistory()<% if (includeRedux) { %>
+  const history = useHistory()<% if (includeRedux && !includeFirestore) { %>
   const firebase = useFirebase()
+  const { showError, showSuccess } = useNotifications()<% } %><% if (includeRedux && includeFirestore) { %>
+  const firestore = useFirestore()
   const { showError, showSuccess } = useNotifications()<% } %><% if (!includeRedux) { %>
   const firebase = useFirebaseApp()<% } %>
 
@@ -26,8 +29,15 @@ function ProjectTile({ name, projectId, showDelete }) {
   }
 
   function deleteProject() {
-    <% if (includeRedux) { %>return firebase
+    <% if (includeRedux && !includeFirestore) { %>return firebase
       .remove(`projects/${projectId}`)
+      .then(() => showSuccess('Project deleted successfully'))
+      .catch(err => {
+        console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not delete project')
+        return Promise.reject(err)
+      })<% } %><% if (includeRedux && includeFirestore) { %>return firestore
+      .delete(`projects/${projectId}`)
       .then(() => showSuccess('Project deleted successfully'))
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
@@ -63,6 +73,7 @@ function ProjectTile({ name, projectId, showDelete }) {
 }
 
 ProjectTile.propTypes = {
+  projectId: PropTypes.string.isRequired,
   name: PropTypes.string
 }
 

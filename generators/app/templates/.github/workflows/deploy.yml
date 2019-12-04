@@ -1,0 +1,127 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+      - prod
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10<% if(useYarn) { %>
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install Dependencies
+        env:
+          CI: true
+          CYPRESS_INSTALL_BINARY: 0 # Skip install of Cypress (handled in its own job)
+          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
+        run: |
+          yarn install --frozen-lockfile
+          yarn --cwd functions install --frozen-lockfile
+
+      - name: Verify App
+        run: |
+          yarn build:config # Create env specific src/config.js
+          yarn lint # Check for lint in app code
+          yarn build # Build app bundles
+
+      - name: Verify Functions
+        run: |
+          yarn --cwd functions test:cov # Run unit tests with coverage
+          yarn --cwd functions build<% } %><% if(!useYarn) { %>
+      
+      - name: Dependencies Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+  
+      - name: Install Dependencies
+        env:
+          CI: true
+          CYPRESS_INSTALL_BINARY: 0 # Skip installing of Cypress (handled in its own job)
+          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
+          run: npm ci --loglevel error
+  
+      - name: Verify App
+        run: |
+          npm run build:config # Create env specific src/config.js
+          npm run lint # Check for lint in app code
+          npm run build # Build app bundles
+
+      - name: Verify Functions
+        run: |
+          npm run --prefix functions test:cov # Run unit tests with coverage
+          npm run --prefix functions build<% } %>
+
+      - name: Archive Build Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: build
+
+      - name: Archive Functions Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: functions-build
+          path: functions/dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: build
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: functions-build
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - name: Deploy to Firebase
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          GITHUB_REF: ${{ github.ref }}
+        run: |
+          firebase-ci deploy
+
+      - name: Archive Debug Log
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: firebase-debug
+          path: firebase-debug.log

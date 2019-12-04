@@ -24,7 +24,7 @@ export const reduxFirebase = {
   enableLogging: false, // enable/disable Firebase Database Logging
 }
 
-export const publicVapidKey = 'BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg' 
+export const publicVapidKey = 'BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg'
 
 export const sentryDsn = ''
 
