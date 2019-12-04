@@ -6406,10 +6406,10 @@ firebase-admin@^8.7.0, firebase-admin@^8.8.0:
     "@google-cloud/firestore" "^2.6.0"
     "@google-cloud/storage" "^4.1.2"
 
-firebase-ci@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/firebase-ci/-/firebase-ci-0.8.0.tgz#cf543334965018a7e058db475a0ec0ad1b72be50"
-  integrity sha512-U93mvGA9pvJW6oTS/1YapwbGV1XBwW//A0YaQXlF1/jKBTUz1OJqE4Q1FPt58pjCQ1cqvnziFJ9Wuq2jUo27HA==
+firebase-ci@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/firebase-ci/-/firebase-ci-0.9.0.tgz#7ac579c636df137415b6d2262c2f045d759c5633"
+  integrity sha512-izwHpipQhhgrPMO6pNiLa7s9MBFx+nMy23kzdeOihHkXxtchR/VpbiwbmTg2i3tEG9bQh49qcM4lVWmmj8bI2g==
   dependencies:
     chalk "^3.0.0"
     command-exists "^1.2.8"
