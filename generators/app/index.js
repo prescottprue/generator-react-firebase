@@ -299,7 +299,7 @@ module.exports = class extends Generator {
 
   writing() {
     const ciFilesByProvider = {
-      githubActions: { src: '.github/workflows' },
+      githubActions: { src: '.github/workflows/**', dest: '.github/workflows' },
       travis: { src: '_travis.yml', dest: '.travis.yml' },
       gitlab: { src: 'gitlab-ci.yml', dest: '.gitlab-ci.yml' }
     }
