@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'<% if (includeRedux) { %>
+import React, { useState } from 'react'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
 import { useFirebaseApp } from 'reactfire'<% } %>
 import { useHistory } from 'react-router-dom'
@@ -39,7 +39,7 @@ function AccountMenu() {
   }
 
   return (
-    <Fragment>
+    <>
       <IconButton
         aria-owns={anchorEl ? 'menu-appbar' : null}
         aria-haspopup="true"
@@ -57,7 +57,7 @@ function AccountMenu() {
         <MenuItem onClick={goToAccount}>Account</MenuItem>
         <MenuItem onClick={handleLogout}>Sign Out</MenuItem>
       </Menu>
-    </Fragment>
+    </>
   )
 }
 

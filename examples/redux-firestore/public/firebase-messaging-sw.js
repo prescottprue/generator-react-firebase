@@ -11,7 +11,7 @@ const STAGE_MESSAGING_ID = '' // TODO: Set your staging messaging ID here
 /* eslint-disable prettier/prettier */
 firebase.initializeApp({
   // Use prod id if stage id not defined or running on prod Firebase hosting
-  messagingSenderId: !STAGE_MESSAGING_ID || self.location.hostname.includes('redux-firebasev3')
+  messagingSenderId: !STAGE_MESSAGING_ID || self.location.hostname.includes('redux-firebasev3') // eslint-disable-line no-undef
     ? PROD_MESSAGING_ID
     : STAGE_MESSAGING_ID
 })
@@ -33,7 +33,7 @@ messaging.setBackgroundMessageHandler(function (payload) {
     icon: '/firebase-logo.png'
   }
 
-  return self.registration.showNotification(
+  return self.registration.showNotification( // eslint-disable-line no-undef
     notificationTitle,
     notificationOptions
   )

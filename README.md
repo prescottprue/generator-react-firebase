@@ -43,7 +43,7 @@ npm install -g yo generator-react-firebase
 
 ## Features
 
-* React + React Dom `^16.8.1` (has hooks)
+* React + React Dom `^16.12.0` (has hooks)
 * Material-UI application styling including Navbar
 * Full Authentication with validation (through Email, Google or Github)
 * Async route loading (using [react-loadable][react-loadable-url])
@@ -51,6 +51,7 @@ npm install -g yo generator-react-firebase
 * Firebase Functions Setup with function splitting for faster cold-starts (including support within function sub-generator)
 * Account Management Page
 * Automatic Build/Deploy config for multiple CI Providers including:
+    * Github Actions
     * Gitlab (uses pipelines)
     * Travis
 * Component Testing With Jest

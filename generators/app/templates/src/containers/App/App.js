@@ -37,12 +37,7 @@ firebase.auth().onAuthStateChanged((auth) => {
     setAnalyticsUser(auth)<% } %>
   }
 })
-<% } %><% if (includeRedux) { %>
-// Combine default and environment specific configs for react-redux-firebase
-const rrfConfig = {
-  ...defaultRRFConfig,
-  ...(config.reduxFirebase || {})
-}<% } %>
+<% } %>
 
 <% if (!includeRedux) { %>function App({ routes }) {
   return (
@@ -58,7 +53,7 @@ const rrfConfig = {
       <Provider store={store}>
         <ReactReduxFirebaseProvider
           firebase={firebase}
-          config={rrfConfig}
+          config={defaultRRFConfig}
           dispatch={store.dispatch}<% if (includeRedux && includeFirestore) { %>
           createFirestoreInstance={createFirestoreInstance}<% } %>>
           <Router>{routes}</Router>

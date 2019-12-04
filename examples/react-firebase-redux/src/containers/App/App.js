@@ -20,11 +20,6 @@ firebase.initializeApp(config.firebase)
 if (config.firebase.measurementId) {
   firebase.analytics()
 }
-// Combine default and environment specific configs for react-redux-firebase
-const rrfConfig = {
-  ...defaultRRFConfig,
-  ...(config.reduxFirebase || {})
-}
 
 function App({ routes, store }) {
   return (
@@ -32,7 +27,7 @@ function App({ routes, store }) {
       <Provider store={store}>
         <ReactReduxFirebaseProvider
           firebase={firebase}
-          config={rrfConfig}
+          config={defaultRRFConfig}
           dispatch={store.dispatch}>
           <Router>{routes}</Router>
         </ReactReduxFirebaseProvider>

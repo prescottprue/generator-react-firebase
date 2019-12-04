@@ -16,13 +16,6 @@ export const firebase = {
   messagingSenderId: '<%= messagingSenderId %>'<% } %><% if(measurementId) { %>,
   measurementId: '<%= messagingSenderId %>'<% } %><% if(appId) { %>,
   appId: '<%= appId %>'<% } %>
-}
-
-// Config to override default reduxFirebase config in store/createStore
-// which is not environment specific.
-// For more details, visit http://react-redux-firebase.com/docs/api/enhancer.html
-export const reduxFirebase = {
-  enableLogging: false, // enable/disable Firebase Database Logging
 }<% if (includeAnalytics) { %>
 
 export const segmentId = '<%= segmentId %>'<% } %><% if (includeMessaging) { %>
@@ -30,12 +23,3 @@ export const segmentId = '<%= segmentId %>'<% } %><% if (includeMessaging) { %>
 export const publicVapidKey = '<%= firebasePublicVapidKey %>'<% } %><% if (includeErrorHandling) { %>
 
 export const sentryDsn = '<%= sentryDsn %>'<% } %>
-
-export default {
-  env,
-  firebase,
-  reduxFirebase<% if (sentryDsn) { %>,
-  sentryDsn <% } %><% if (firebasePublicVapidKey) { %>,
-  publicVapidKey<% } %><% if (includeAnalytics) { %>,
-  segmentId<% } %>
-}

@@ -48,7 +48,7 @@ function useProjectsList() {
   return { projects, addProject, newDialogOpen, toggleDialog }
 }
 
-function ProjectsList({ match }) {
+function ProjectsList() {
   const classes = useStyles()
   const {
     projects,
