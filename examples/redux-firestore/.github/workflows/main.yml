@@ -39,12 +39,11 @@ jobs:
       - name: Verify App
         run: |
           yarn build:config # Create env specific src/config.js
-          yarn lint:app # Check for lint in app code
+          yarn lint # Check for lint in app code
           yarn build # Build app bundles
 
       - name: Verify Functions
         run: |
-          yarn lint:functions # Check for lint within functions
           yarn --cwd functions test:cov # Run unit tests with coverage
           yarn --cwd functions build
 

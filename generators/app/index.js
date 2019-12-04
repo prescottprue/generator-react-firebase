@@ -298,14 +298,16 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    const ciFilesByProvider = {
+      githubActions: { src: '.github/workflows' },
+      travis: { src: '_travis.yml', dest: '.travis.yml' },
+      gitlab: { src: 'gitlab-ci.yml', dest: '.gitlab-ci.yml' }
+    }
     // CI Settings
     if (this.answers.includeCI) {
-      if (this.answers.ciProvider === 'githubActions') {
-        filesArray.push({ src: '.github/workflows' })
-      } else if (this.answers.ciProvider === 'travis') {
-        filesArray.push({ src: '_travis.yml', dest: '.travis.yml' })
-      } else {
-        filesArray.push({ src: 'gitlab-ci.yml', dest: '.gitlab-ci.yml' })
+      const ciFilesSettings = ciFilesByProvider[this.answers.ciProvider]
+      if (ciFilesSettings) {
+        filesArray.push(ciFilesSettings)
       }
     }
 

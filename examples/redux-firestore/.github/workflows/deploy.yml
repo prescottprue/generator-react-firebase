@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - next
+      - prod
 
 jobs:
   build:
@@ -43,12 +43,11 @@ jobs:
       - name: Verify App
         run: |
           yarn build:config # Create env specific src/config.js
-          yarn lint:app # Check for lint in app code
+          yarn lint # Check for lint in app code
           yarn build # Build app bundles
 
       - name: Verify Functions
         run: |
-          yarn lint:functions # Check for lint within functions
           yarn --cwd functions test:cov # Run unit tests with coverage
           yarn --cwd functions build
 
@@ -100,55 +99,3 @@ jobs:
         with:
           name: firebase-debug
           path: firebase-debug.log
-
-  ui-tests:
-    name: UI Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10
-
-      - name: Checkout Repo
-        uses: actions/checkout@v1
-
-      # Install is run separatley from test so that dependencies are available
-      # for other steps like build test environment config
-      - name: Install Dependencies
-        uses: cypress-io/github-action@v1
-        with:
-          # just perform install
-          runTests: false
-
-      - name: Build Test Environment Config
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          TEST_UID: ${{ secrets.MASTER_TEST_UID }}
-          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
-          GITHUB_HEAD_REF: ${{ github.head_ref }}
-          GITHUB_REF: ${{ github.ref }}
-        run: |
-          $(npm bin)/cypress-firebase createTestEnvFile $TEST_ENV
-
-      - name: Upload Test Config
-        uses: actions/upload-artifact@master
-        with:
-          name: test-config
-          path: cypress.env.json
-
-      # Cypress action manages installing/caching npm dependencies and Cypress binary.
-      # This step tests a version of the app which was just deployed to hosting
-      - name: Cypress Run
-        uses: cypress-io/github-action@v1
-        with:
-          # we have already installed all dependencies above
-          install: false
-          record: true
-          group: 'E2E Tests'
-        env:
-          CI: true
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          GITHUB_HEAD_REF: ${{ github.head_ref }}

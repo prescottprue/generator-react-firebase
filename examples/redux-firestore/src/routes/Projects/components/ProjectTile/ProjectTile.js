@@ -54,6 +54,7 @@ function ProjectTile({ name, projectId, showDelete }) {
 
 ProjectTile.propTypes = {
   projectId: PropTypes.string.isRequired,
+  showDelete: PropTypes.bool,
   name: PropTypes.string
 }
 
