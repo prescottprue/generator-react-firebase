@@ -8,7 +8,11 @@
       }
     },
     "projects": {
-      ".indexOn": ["createdBy"]
+      ".indexOn": ["createdBy"],
+      "$projectId": {
+        ".read": "data.child('createdBy').val() === auth.uid",
+        ".write": "data.child('createdBy').val() === auth.uid || (!data.exists() && newData.child('createdBy').val() === auth.uid)"
+      }
     }
   }
 }
