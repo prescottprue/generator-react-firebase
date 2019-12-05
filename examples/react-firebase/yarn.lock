@@ -5445,10 +5445,10 @@ find-up@^4.0.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-ci@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/firebase-ci/-/firebase-ci-0.9.0.tgz#7ac579c636df137415b6d2262c2f045d759c5633"
-  integrity sha512-izwHpipQhhgrPMO6pNiLa7s9MBFx+nMy23kzdeOihHkXxtchR/VpbiwbmTg2i3tEG9bQh49qcM4lVWmmj8bI2g==
+firebase-ci@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/firebase-ci/-/firebase-ci-0.9.1.tgz#034c0119a14fb9dc07a5ae6ccf9d0389af63330a"
+  integrity sha512-EeL8dZ8Xr8l1F4CWBguK+ljT+Bgafc3NvgidtzL0/nhK4dU+RVOfuMknByVp3ssUPQQTwvxubYaA1v0MYww3NQ==
   dependencies:
     chalk "^3.0.0"
     command-exists "^1.2.8"
