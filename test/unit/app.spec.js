@@ -27,7 +27,6 @@ const srcFiles = [
   'src/utils/router.js',
   'src/config.js',
   'src/constants/paths.js',
-  'src/constants/formNames.js',
   'src/index.js',
   'src/index.css',
   'src/theme.js',
