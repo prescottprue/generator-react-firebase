@@ -41,6 +41,11 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['./public/firebase-messaging-sw.js'],
+      globals: {
+        self: true
+      }
+    },{
       files: ['./src/**/*.test.js', './src/**/*.spec.js'],
       env: {
         jest: true

@@ -41,6 +41,8 @@
     "@material-ui/icons": "^4.5.1",
     "@sentry/browser": "^5.9.1",
     "firebase": "^7.5.0",
+    "formik": "^2.0.6",
+    "formik-material-ui": "^1.0.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
@@ -55,7 +57,6 @@
     "redux": "^4.0.4",
     "redux-auth-wrapper": "^2.1.0",
     "redux-firestore": "^0.11.0",
-    "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
@@ -77,7 +78,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-standard": "^4.0.1",
-    "firebase-ci": "^0.9.0",
+    "firebase-ci": "^0.9.1",
     "firebase-tools": "^7.8.1",
     "husky": "^3.1.0",
     "jest": "^23.6.0",

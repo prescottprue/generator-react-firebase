@@ -1,4 +1,3 @@
-import AccountForm from './AccountForm'<% if (includeRedux) { %>
-import enhance from './AccountForm.enhancer'<% } %>
+import AccountForm from './AccountForm'
 
-export default <% if (includeRedux) { %>enhance(AccountForm)<% } %><% if (!includeRedux) { %>AccountForm<% } %>
+export default AccountForm

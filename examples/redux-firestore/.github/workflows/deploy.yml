@@ -111,7 +111,7 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GITHUB_REF: ${{ github.ref }}
-        run: $(npm bin)/firebase-ci deploy
+        run: $(npm bin)/firebase-ci deploy -s
 
       - name: Archive Debug Log
         uses: actions/upload-artifact@master

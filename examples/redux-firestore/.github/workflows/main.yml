@@ -50,7 +50,7 @@ jobs:
   ui-tests:
     name: UI Tests
     runs-on: ubuntu-latest
-    needs: build
+    needs: verify
     steps:
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -93,6 +93,8 @@ jobs:
       # Cypress action manages installing/caching npm dependencies and Cypress binary.
       # This stage tests a version of the app which is running locally in the
       # container on port 3001.
+      # TODO: Run emulators so that tests are run against local resources instead of hosted
+      # Firebase instance
       - name: Cypress Run
         uses: cypress-io/github-action@v1
         with:
@@ -100,7 +102,7 @@ jobs:
           install: false
           record: true
           group: 'E2E Tests'
-          start: npm run serve -- --project $FIREBASE_PROJECT
+          start: $(npm bin)/firebase-ci serve
           wait-on: http://localhost:3000
           # wait for 3 minutes for the server to respond
           wait-on-timeout: 180

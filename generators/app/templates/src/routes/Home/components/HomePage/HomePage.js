@@ -86,12 +86,15 @@ function Home() {
                   href={reactRouterUrl}
                   target="_blank"
                   rel="noopener noreferrer">
-                  redux-form
+                  Formik
                 </a>
               </span>
             </div>
           </div>
-          <span>The following routes use redux-form:</span>
+          <span>The following routes use Formik:</span>
+          <Link to={LIST_PATH}>
+            <p>Projects</p>
+          </Link>
           <Link to={ACCOUNT_PATH}>
             <p>Account Page</p>
           </Link>

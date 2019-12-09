@@ -74,10 +74,11 @@ module.exports = class extends Generator {
   }
 
   prompting() {
+    const formikExists = dependencyExists('formik')
     this.log(
-      `${chalk.blue('Generating')} -> redux-form Form: ${chalk.green(
-        this.options.name
-      )}`
+      `${chalk.blue('Generating')} -> ${
+        formikExists ? 'Formik' : 'redux-form'
+      } Form: ${chalk.green(this.options.name)}`
     )
 
     const projectPackageFile = loadProjectPackageFile()
@@ -85,6 +86,7 @@ module.exports = class extends Generator {
       this.answers = Object.assign({}, props, {
         // proptypes included by default if project package file not loaded
         // (i.e. null due to throws: false in loadProjectPackageFile)
+        hasFormik: formikExists || false,
         hasPropTypes:
           !projectPackageFile || dependencyExists('prop-types') || false,
         materialv1: dependencyExists('@material-ui/core'),
@@ -105,14 +107,20 @@ module.exports = class extends Generator {
       ? `${this.options.basePath}/`
       : ''
     const basePath = `src/${basePathOption}components/${name}`
-    const filesArray = [
-      { src: '_index.js', dest: `${basePath}/index.js` },
-      { src: '_main.js', dest: `${basePath}/${name}.js` },
-      {
+    const filesArray = [{ src: '_index.js', dest: `${basePath}/index.js` }]
+
+    if (this.answers.hasFormik) {
+      filesArray.push({ src: '_main.js', dest: `${basePath}/${name}.js` })
+    } else {
+      filesArray.push({
+        src: '_main-redux-form.js',
+        dest: `${basePath}/${name}.js`
+      })
+      filesArray.push({
         src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.enhancer.js`,
         dest: `${basePath}/${name}.enhancer.js`
-      }
-    ]
+      })
+    }
 
     if (this.answers.addStyle) {
       if (this.answers.styleType && this.answers.styleType === 'localized') {

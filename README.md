@@ -70,7 +70,7 @@ npm install -g yo generator-react-firebase
 * [redux](http://redux.js.org/) - Client Side state *optional*
 * [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
 * [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
-* [redux-form](redux-form.com) - Form input validation + state
+* [Formik](https://jaredpalmer.com/formik/) - Form input validation + state
 * [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui) - Material UI components that work nicely with redux-form
 
 *When not opting into redux*
