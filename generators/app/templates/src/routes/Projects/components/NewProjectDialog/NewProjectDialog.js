@@ -24,7 +24,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
   return (
     <Dialog open={open} onClose={onRequestClose}>
       <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
-        <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
+      <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
         {({ errors, isSubmitting }) => (
           <Form className={classes.root}>
             <DialogContent>

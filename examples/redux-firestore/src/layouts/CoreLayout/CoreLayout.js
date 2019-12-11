@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Navbar from 'containers/Navbar'
 import { Notifications } from 'modules/notification'
 import { makeStyles } from '@material-ui/core/styles'
+import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './CoreLayout.styles'
 
 const useStyles = makeStyles(styles)

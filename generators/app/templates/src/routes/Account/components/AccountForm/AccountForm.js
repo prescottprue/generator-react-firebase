@@ -18,33 +18,36 @@ function AccountForm({ account, onSubmit }) {
     onSubmit(values).then(() => {
       setSubmitting(false)
     })
-  }
+  }<% if (includeRedux) { %>
+
+  const { isLoaded, isEmpty, ...cleanAccount } = account<% } %>
 
   return (
-    <Formik initialValues={account} onSubmit={handleSubmit}>
+    <Formik initialValues={<% if (includeRedux) { %>cleanAccount<% } else { %>account<% } %>} onSubmit={handleSubmit}>
       {({ errors, touched, isSubmitting }) => (
         <Form className={classes.root}>
           <div className={classes.fields}>
             <Field
               name="displayName"
               label="Display Name"
+              component={TextField}
               margin="normal"
               fullWidth
-              component={TextField}
             />
             <Field
               type="email"
               name="email"
               validate={validateEmail}
+              component={TextField}
               margin="normal"
               fullWidth
-              component={TextField}
             />
             <Field
               name="avatarUrl"
               label="Avatar Url"
-              fullWidth
               component={TextField}
+              margin="normal"
+              fullWidth
             />
           </div>
           {!!account && !!account.providerData && (

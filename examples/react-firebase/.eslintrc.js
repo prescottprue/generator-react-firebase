@@ -38,5 +38,13 @@ module.exports = {
         useTabs: false
       }
     ]
-  }
+  },
+  overrides: [
+    {
+      files: ['./public/firebase-messaging-sw.js'],
+      globals: {
+        self: true
+      }
+    }
+  ]
 }

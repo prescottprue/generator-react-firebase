@@ -20,11 +20,6 @@ function AccountPage() {
 
   // Get profile from redux state
   const profile = useSelector(state => state.firebase.profile)
-  const {
-    isLoaded: profileLoaded,
-    isEmpty: profileEmpty,
-    ...cleanProfile
-  } = profile
 
   if (!isLoaded(profile)) {
     return <LoadingSpinner />
@@ -52,15 +47,14 @@ function AccountPage() {
             <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
               <img
                 className={classes.avatarCurrent}
-                src={cleanProfile.avatarUrl || defaultUserImageUrl}
+                src={profile.avatarUrl || defaultUserImageUrl}
                 alt=""
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
               <AccountForm
                 onSubmit={updateAccount}
-                account={cleanProfile}
-                initialValues={cleanProfile}
+                account={profile}
               />
             </Grid>
           </Grid>

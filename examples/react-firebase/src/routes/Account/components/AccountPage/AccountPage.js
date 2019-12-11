@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFirebaseApp, useFirestoreDoc, useUser } from 'reactfire'
+import { useFirebaseApp, useDatabaseObject, useUser } from 'reactfire'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -14,23 +14,18 @@ function AccountPage() {
   const classes = useStyles()
   const firebase = useFirebaseApp()
   const auth = useUser()
-  const accountRef = firebase
-    .firestore()
-    .collection('users')
-    .doc(auth.uid)
-  const profileSnap = useFirestoreDoc(accountRef)
-  const profile = profileSnap.data()
-  const {
-    isLoaded: profileLoaded,
-    isEmpty: profileEmpty,
-    ...cleanProfile
-  } = profile
+  const accountRef = firebase.database().ref(`users/${auth.uid}`)
+  const profileSnap = useDatabaseObject(accountRef)
+  const profile = profileSnap.snapshot.val()
 
   function updateAccount(newAccount) {
-    return firebase.updateProfile(newAccount).catch(error => {
-      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-      return Promise.reject(error)
-    })
+    return firebase
+      .updateProfile(newAccount)
+      .then(() => accountRef.update(newAccount))
+      .catch(error => {
+        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+        return Promise.reject(error)
+      })
   }
 
   return (
@@ -44,16 +39,12 @@ function AccountPage() {
             <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
               <img
                 className={classes.avatarCurrent}
-                src={cleanProfile.avatarUrl || defaultUserImageUrl}
+                src={profile.avatarUrl || defaultUserImageUrl}
                 alt=""
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
-              <AccountForm
-                onSubmit={updateAccount}
-                account={cleanProfile}
-                initialValues={cleanProfile}
-              />
+              <AccountForm onSubmit={updateAccount} account={profile} />
             </Grid>
           </Grid>
         </Paper>

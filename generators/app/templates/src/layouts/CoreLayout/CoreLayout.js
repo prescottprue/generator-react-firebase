@@ -4,6 +4,7 @@ import NavbarWithoutAuth from 'containers/Navbar/NavbarWithoutAuth'<% } %>
 import Navbar from 'containers/Navbar'<% if (includeRedux) { %>
 import { Notifications } from 'modules/notification'<% } %>
 import { makeStyles } from '@material-ui/core/styles'
+import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './CoreLayout.styles'
 
 const useStyles = makeStyles(styles)
@@ -16,8 +17,11 @@ function CoreLayout({ children }) {
       <Suspense fallback={<NavbarWithoutAuth />}>
         <Navbar />
       </Suspense><% } %><% if (includeRedux) { %>
-      <Navbar /><% } %>
-      <div className={classes.children}>{children}</div><% if (includeRedux) { %>
+      <Navbar />
+      <div className={classes.children}>{children}</div><% } %><% if (!includeRedux) { %>
+      <Suspense fallback={<LoadingSpinner />}>
+        <div className={classes.children}>{children}</div>
+      </Suspense><% } %><% if (includeRedux) { %>
       <Notifications /><% } %>
     </div>
   )

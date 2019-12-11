@@ -1,57 +1,59 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { useFirebaseApp } from 'reactfire'
+import { Formik, Field, Form } from 'formik'
+import { TextField } from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import { validateEmail } from 'utils/form'
 import styles from './LoginForm.styles'
 
 const useStyles = makeStyles(styles)
 
-function LoginForm({ handleSubmit, error }) {
+function LoginForm({ onSubmit }) {
   const classes = useStyles()
-  const firebaseApp = useFirebaseApp()
-  const [email, changeEmailValue] = useState(null)
-  const [password, changePasswordValue] = useState(null)
-  const [submitting, changeSubmittingValue] = useState(false)
 
-  function login() {
-    changeSubmittingValue(true)
-    return firebaseApp
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        changeSubmittingValue(false)
-      })
+  function handleSubmit(values, { setSubmitting }) {
+    onSubmit(values).then(() => {
+      setSubmitting(false)
+    })
   }
 
   return (
-    <form className={classes.container} onSubmit={handleSubmit}>
-      <div>
-        <TextField
-          hintText="someone@email.com"
-          floatingLabelText="Email"
-          value={email}
-          onChange={e => changeEmailValue(e.target.value)}
-        />
-      </div>
-      <div>
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={e => changePasswordValue(e.target.value)}
-        />
-      </div>
-      <Button color="primary" type="submit" onClick={login}>
-        {submitting ? 'Saving' : 'Login'}
-      </Button>
-    </form>
+    <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit}>
+      {({ touched, isSubmitting }) => (
+        <Form className={classes.root}>
+          <Field
+            type="email"
+            name="email"
+            validate={validateEmail}
+            component={TextField}
+            margin="normal"
+            fullWidth
+          />
+          <Field
+            type="password"
+            name="password"
+            component={TextField}
+            margin="normal"
+            fullWidth
+          />
+          <div className={classes.submit}>
+            <Button
+              color="primary"
+              type="submit"
+              variant="contained"
+              disabled={Object.keys(touched).length === 0 || isSubmitting}>
+              {isSubmitting ? 'Loading' : 'Login'}
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   )
 }
 
 LoginForm.propTypes = {
-  handleSubmit: PropTypes.func
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default LoginForm
