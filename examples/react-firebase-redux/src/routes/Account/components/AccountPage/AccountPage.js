@@ -52,10 +52,7 @@ function AccountPage() {
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
-              <AccountForm
-                onSubmit={updateAccount}
-                account={profile}
-              />
+              <AccountForm onSubmit={updateAccount} account={profile} />
             </Grid>
           </Grid>
         </Paper>
