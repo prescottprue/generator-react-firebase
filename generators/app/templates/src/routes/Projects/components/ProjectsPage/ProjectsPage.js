@@ -17,7 +17,7 @@ function ProjectsPage({ match }) {
         exact
         path={match.path}
         render={() => (
-          <SuspenseWithPerf fallback={<LoadingSpinner />}>
+          <SuspenseWithPerf fallback={<LoadingSpinner />} traceId="load-projects">
             <ProjectsList />
           </SuspenseWithPerf>
         )}

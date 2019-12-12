@@ -1,9 +1,9 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { SuspenseWithPerf } from 'reactfire'
 import NavbarWithoutAuth from 'containers/Navbar/NavbarWithoutAuth'
 import Navbar from 'containers/Navbar'
 import { makeStyles } from '@material-ui/core/styles'
-import LoadingSpinner from 'components/LoadingSpinner'
 import styles from './CoreLayout.styles'
 
 const useStyles = makeStyles(styles)
@@ -13,12 +13,10 @@ function CoreLayout({ children }) {
 
   return (
     <div className={classes.container}>
-      <Suspense fallback={<NavbarWithoutAuth />}>
+      <SuspenseWithPerf fallback={<NavbarWithoutAuth />} traceId="load-navbar">
         <Navbar />
-      </Suspense>
-      <Suspense fallback={<LoadingSpinner />}>
-        <div className={classes.children}>{children}</div>
-      </Suspense>
+      </SuspenseWithPerf>
+      <div className={classes.children}>{children}</div>
     </div>
   )
 }
