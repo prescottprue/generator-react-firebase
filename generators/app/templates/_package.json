@@ -81,7 +81,7 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-standard": "^4.0.1",<% if (deployTo === 'firebase') { %>
     "firebase-ci": "^0.9.1",
-    "firebase-tools": "^7.8.1",<% } %>
+    "firebase-tools": "^7.9.0",<% } %>
     "husky": "^3.1.0",<% if (includeComponentTests) { %>
     "jest": "^23.6.0",
     "jest-pnp-resolver": "1.0.1",

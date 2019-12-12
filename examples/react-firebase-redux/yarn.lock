@@ -6419,10 +6419,10 @@ firebase-tools-extra@0.2.1:
     lodash "^4.17.15"
     yargs "^14.2.0"
 
-firebase-tools@^7.8.1:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.8.1.tgz#16923164e28f3cb554b62d04a8bb58df5ab18ce5"
-  integrity sha512-UqroSS/oo3Q2pCLSf1YHuSJgIawBKTmyRcQMEX46PyxK9t8KDBM1emGOsmtOa8W/mAPtMyHaJ7QN6u64Pp4i4Q==
+firebase-tools@^7.9.0:
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.9.0.tgz#32661980943f5ebbb2d82c126762c468ae0cff9c"
+  integrity sha512-dYxuFflaPAkic2KQyPJ6spox8KzlQRb4Xyk6oVDorBV0YmBIJ3VQhJYbwSZwwDlbCmiPiMXNBM26JUifp09Qfw==
   dependencies:
     "@google-cloud/pubsub" "^1.1.5"
     JSONStream "^1.2.1"
