@@ -1,4 +1,3 @@
-import SignupForm from './SignupForm'<% if (includeRedux) { %>
-import enhance from './SignupForm.enhancer'<% } %>
+import SignupForm from './SignupForm'
 
-export default <% if (includeRedux) { %>enhance(SignupForm)<% } %><% if (!includeRedux) { %>SignupForm<% } %>
+export default SignupForm

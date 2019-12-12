@@ -1,5 +1,6 @@
-import React<% if (!includeRedux) { %>, { Suspense }<% } %> from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'<% if (!includeRedux) { %>
+import { SuspenseWithPerf } from 'reactfire'
 import NavbarWithoutAuth from 'containers/Navbar/NavbarWithoutAuth'<% } %>
 import Navbar from 'containers/Navbar'<% if (includeRedux) { %>
 import { Notifications } from 'modules/notification'<% } %>
@@ -13,9 +14,9 @@ function CoreLayout({ children }) {
 
   return (
     <div className={classes.container}><% if (!includeRedux) { %>
-      <Suspense fallback={<NavbarWithoutAuth />}>
+      <SuspenseWithPerf fallback={<NavbarWithoutAuth />} traceId="load-navbar">
         <Navbar />
-      </Suspense><% } %><% if (includeRedux) { %>
+      </SuspenseWithPerf><% } %><% if (includeRedux) { %>
       <Navbar /><% } %>
       <div className={classes.children}>{children}</div><% if (includeRedux) { %>
       <Notifications /><% } %>

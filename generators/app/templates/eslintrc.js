@@ -38,9 +38,14 @@ module.exports = {
         useTabs: false
       }
     ]
-  }<% if (includeComponentTests) { %>,
+  },
   overrides: [
     {
+      files: ['./public/firebase-messaging-sw.js'],
+      globals: {
+        self: true
+      }
+    }<% if (includeComponentTests) { %>,{
       files: ['./src/**/*.test.js', './src/**/*.spec.js'],
       env: {
         jest: true
@@ -60,6 +65,6 @@ module.exports = {
         'global-require': 0,
         'import/no-dynamic-require': 0
       }
-    }
-  ]<% } %>
+    }<% } %>
+  ]
 }
