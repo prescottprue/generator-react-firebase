@@ -1,5 +1,6 @@
 stages:
   - build
+  - unit_tests
   - deploy_staging
   - build_production
   - deploy_production
@@ -50,6 +51,28 @@ Build:
     - npm run build:config # create env specific src/config.js
     - npm run lint
     - npm run build
+
+## React Components Unit + Snapshot Tests (Jest)
+Component Tests:
+  stage: unit_tests
+  image: node:10
+  when: on_success
+  allow_failure: true
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-tests/
+      - $CI_COMMIT_MESSAGE =~ /skip-unit-tests/
+      - $CI_COMMIT_MESSAGE =~ /skip-component-tests/
+  artifacts:
+    name: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+    expire_in: 2 weeks
+    when: always
+    paths:
+      - coverage
+  dependencies:
+    - Build
+  script:
+    - npm run test
 
 # Deploy Staging Stage
 ## Deploy React App and Firebase Functions

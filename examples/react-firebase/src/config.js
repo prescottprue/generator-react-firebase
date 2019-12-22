@@ -8,9 +8,13 @@ export const env = 'dev'
 
 // Config for firebase
 export const firebase = {
-  apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
-  authDomain: 'redux-firebasev3.firebaseapp.com',
-  databaseURL: 'https://redux-firebasev3.firebaseio.com',
-  projectId: 'redux-firebasev3',
-  storageBucket: 'redux-firebasev3.appspot.com'
+  "projectId": "redux-firebasev3",
+  "appId": "1:823357791673:web:e53b561c7e36427fe06a68",
+  "databaseURL": "https://redux-firebasev3.firebaseio.com",
+  "storageBucket": "redux-firebasev3.appspot.com",
+  "locationId": "us-central",
+  "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
+  "authDomain": "redux-firebasev3.firebaseapp.com",
+  "messagingSenderId": "823357791673",
+  "measurementId": "G-QB2GP30FWW"
 }

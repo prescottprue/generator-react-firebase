@@ -1,14 +1,14 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import use<%= startCaseName %> from './<%= name %>.hook'
-import styles from './<%= name %>.styles'
+import styles from './<%= componentName %>.styles'<% if (addStyle && styleType === 'scss') { %>
+import classes from './<%= componentName %>.scss'<%}%>
 
 const useStyles = makeStyles(styles)
 
-function <%= name %>(<% if (includeEnhancer) { %>{ <%= camelName %> }<% } %>) {
-  const classes = useStyles()
-  <% if (includeHook) { %>const {} = use<%= startCaseName %>()
-  <% } %>
+function <%= componentName %>() {
+  const classes = useStyles()<% if (includeHook) { %>
+  const {} = use<%= startCaseName %>()<% } %>
+
   return (
     <% if (addStyle) { %><div className={classes.root}><% } else { %><div className="<%= name %>"><%}%>
       <span><%= name %> Component</span><% if (includeEnhancer) { %>
@@ -17,4 +17,4 @@ function <%= name %>(<% if (includeEnhancer) { %>{ <%= camelName %> }<% } %>) {
   )
 }
 
-export default <%= name %>
+export default <%= componentName %>

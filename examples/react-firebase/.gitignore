@@ -11,3 +11,5 @@
 build
 src/config.js
 .env
+
+# Tests

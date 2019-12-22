@@ -15,9 +15,7 @@ function AccountPage() {
     <Grid container className={classes.root} justify="center">
       <Grid item xs={10} md={8} lg={6} className={classes.gridItem}>
         <Paper className={classes.pane}>
-          <Typography variant="h4">
-            Account
-          </Typography>
+          <Typography variant="h4">Account</Typography>
           <AccountEditor />
         </Paper>
       </Grid>

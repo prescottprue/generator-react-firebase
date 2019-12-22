@@ -33,7 +33,7 @@ function AccountEditor() {
         return Promise.reject(error)
       })
   }
-  
+
   return (
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
