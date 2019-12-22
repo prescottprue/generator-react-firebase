@@ -29,7 +29,7 @@ function AccountMenu() {
   function handleLogout() {
     closeAccountMenu()
     // redirect to '/' handled by UserIsAuthenticated HOC
-    return firebase.logout()
+    return firebase.auth().signOut()
   }
   function goToAccount() {
     closeAccountMenu()

@@ -17,10 +17,10 @@ function AccountPage() {
     <Grid container className={classes.root} justify="center">
       <Grid item xs={10} md={8} lg={6} className={classes.gridItem}>
         <Paper className={classes.pane}>
-          <Typography variant="h4">
-            Account
-          </Typography>
-          <SuspenseWithPerf fallback={<LoadingSpinner />} traceId="load-account">
+          <Typography variant="h4">Account</Typography>
+          <SuspenseWithPerf
+            fallback={<LoadingSpinner />}
+            traceId="load-account">
             <AccountEditor />
           </SuspenseWithPerf>
         </Paper>

@@ -8,6 +8,8 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
+    "start:dist": "npm run build && firebase serve --only hosting -p 3000",
+    "test": "react-scripts test",
     "build:config": "firebase-ci createConfig",
     "deploy": "firebase-ci deploy -s",
     "lint": "eslint .",
@@ -27,7 +29,7 @@
   "dependencies": {
     "@material-ui/core": "^4.7.1",
     "@material-ui/icons": "^4.5.1",
-    "firebase": "^7.5.0",
+    "firebase": "^7.6.0",
     "formik": "^2.0.6",
     "formik-material-ui": "^1.0.0",
     "history": "^4.10.1",
@@ -43,8 +45,8 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^6.5.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-import": "^2.18.2",
@@ -57,14 +59,29 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-standard": "^4.0.1",
     "firebase-ci": "^0.9.1",
-    "firebase-tools": "^7.9.0",
+    "firebase-tools": "^7.11.0",
     "husky": "^3.1.0",
+    "jest": "^23.6.0",
+    "jest-pnp-resolver": "1.0.1",
+    "jest-resolve": "23.6.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.3.0",
+    "react-test-renderer": "^16.12.0"
   },
   "eslintConfig": {
     "extends": "./eslintrc.js"
   },
-  "browserslist": []
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
