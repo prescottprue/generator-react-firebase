@@ -3,6 +3,7 @@ const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const fs = require('fs')
 const path = require('path')
+const semver = require('semver')
 const get = require('lodash/get')
 const lowerFirst = require('lodash/lowerFirst')
 const startCase = require('lodash/startCase')
@@ -18,6 +19,19 @@ const styleChoices = [
   }
 ]
 
+if (reactVersionHasHooks()) {
+  styleChoices.unshift({
+    name: 'JSS with React Hooks (useStyles)',
+    value: 'hooks'
+  })
+}
+
+function reactVersionHasHooks() {
+  const projectPackageFile = loadProjectPackageFile()
+  const reactVersion = get(projectPackageFile, 'dependencies.react')
+  return semver.satisfies(semver.coerce(reactVersion), '>=16.9.0')
+}
+
 const prompts = [
   {
     type: 'confirm',
@@ -31,6 +45,13 @@ const prompts = [
     name: 'usingFirestore',
     when: ({ includeEnhancer }) => includeEnhancer,
     message: 'Are you using Firestore (if you are not sure answer false)?',
+    default: false
+  },
+  {
+    type: 'confirm',
+    name: 'includeHook',
+    message: 'Do you want to include a custom hook?',
+    when: () => reactVersionHasHooks(),
     default: false
   },
   {
@@ -103,7 +124,8 @@ module.exports = class extends Generator {
         parentSuffix: this.options['without-suffix'] ? '' : 'Page',
         hasPropTypes:
           !projectPackageFile || dependencyExists('prop-types') || false,
-        styleType: props.styleType || 'scss'
+        styleType: props.styleType || 'scss',
+        addStyle: !!props.styleType
       })
     })
   }
@@ -128,7 +150,9 @@ module.exports = class extends Generator {
         dest: `${pageComponentPath}/index.js`
       },
       {
-        src: `component/_main${lintStyleSuffix}.js`,
+        src: `component/_main${lintStyleSuffix}${
+          this.answers.styleType === 'hooks' ? '-hooks' : ''
+        }.js`,
         dest: `${pageComponentPath}/${name}.js`
       }
     ]
@@ -141,7 +165,7 @@ module.exports = class extends Generator {
     }
 
     // Add styles (styles.js if specified and enhancer exists, otherwise scss)
-    if (this.answers.styleType !== 'scss' && this.answers.includeEnhancer) {
+    if (this.answers.styleType !== 'scss') {
       filesArray.push({
         src: `component/_main.styles.js`,
         dest: `${pageComponentPath}/${name}.styles.js`

@@ -27,7 +27,7 @@ firebase.initializeApp(config.firebase)<% if (includeAnalytics) { %>
 if (config.firebase.measurementId) {
   firebase.analytics()
 }<% } %><% if (!includeRedux && (includeMessaging || includeAnalytics || includeSentry || includeErrorHandling)) { %>
-firebase.auth().onAuthStateChanged((auth) => {
+firebase.auth().onAuthStateChanged(auth => {
   if (auth) {<% if (includeSentry || includeErrorHandling) { %>
     // Set auth within error handler
     setErrorUser(auth)<% } %><% if (includeMessaging) { %>
