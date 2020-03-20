@@ -9,7 +9,6 @@
     "test": "mocha -R spec ./test/unit/** && npm run test:clean",
     "test:cov": "nyc --reporter=lcov --reporter=html npm test",
     "test:clean": "rimraf test/tmp",
-    "codecov": "cat coverage/lcov.info | codecov",
     "prepublishOnly": "npm run lint",
     "pre-push": "npm run lint"
   },
