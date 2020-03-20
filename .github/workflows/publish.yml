@@ -63,11 +63,6 @@ jobs:
         run: |
           cat coverage/lcov.info | $(yarn bin)/codecov
 
-      - name: Upload CodeClimate
-        uses: paambaati/codeclimate-action@v2.5.4
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-
       - name: Archive Workspace on Failure
         if: failure()
         run: zip -r workspace-files ./
