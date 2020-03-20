@@ -440,7 +440,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 #### Manual Deploy
 
-1. Run `firebase:login`
+1. Run `firebase login`
 1. Initialize project with `firebase init` then answer:
     * What file should be used for Database Rules?  -> `database.rules.json`
     * What do you want to use as your public directory? -> `build`
