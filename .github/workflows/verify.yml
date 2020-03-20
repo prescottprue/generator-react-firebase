@@ -42,9 +42,12 @@ jobs:
       - name: Run Tests
         run: yarn test:cov
 
-      - name: Upload Test Results
+      - name: Upload Code Coverage (Codecov)
         run: |
-          yarn global add codeclimate-test-reporter codecov
-          cat coverage/lcov.info | codecov
-          codeclimate-test-reporter < coverage/lcov.info
+          cat coverage/lcov.info | $(yarn bin)/codecov
+
+      - name: Upload CodeClimate
+        uses: paambaati/codeclimate-action@v2.5.4
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       
