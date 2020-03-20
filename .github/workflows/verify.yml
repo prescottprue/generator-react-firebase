@@ -32,6 +32,7 @@ jobs:
       - name: Install Dependencies
         env:
           CI: true
+          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
         run: |
           yarn install --frozen-lockfile
 
@@ -46,6 +47,7 @@ jobs:
 
       - name: Upload Test Results
         run: |
-          yarn global add codeclimate-test-reporter
+          yarn global add codeclimate-test-reporter codecov
+          cat coverage/lcov.info | codecov
           codeclimate-test-reporter < coverage/lcov.info
       
