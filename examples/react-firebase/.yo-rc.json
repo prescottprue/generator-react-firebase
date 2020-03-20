@@ -10,7 +10,7 @@
         "Continuous Integration config",
         "Tests for React Components (Jest)"
       ],
-      "ciProvider": "gitlab",
+      "ciProvider": "githubActions",
       "deployTo": "firebase"
     }
   }
