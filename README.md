@@ -5,8 +5,7 @@
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][npm-downloads-image]][npm-url]
 [![Quality][quality-image]][quality-url]
-[![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
+[![Build Status][build-status-image]][build-status-url]
 [![Code Coverage][coverage-image]][coverage-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
@@ -440,7 +439,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 #### Manual Deploy
 
-1. Run `firebase:login`
+1. Run `firebase login`
 1. Initialize project with `firebase init` then answer:
     * What file should be used for Database Rules?  -> `database.rules.json`
     * What do you want to use as your public directory? -> `build`
@@ -619,12 +618,10 @@ MIT © [Prescott Prue](http://prue.io)
 [npm-image]: https://img.shields.io/npm/v/generator-react-firebase.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/generator-react-firebase
 [npm-downloads-image]: https://img.shields.io/npm/dm/generator-react-firebase.svg?style=flat-square
-[quality-image]: http://npm.packagequality.com/shield/generator-react-firebase.svg?style=flat-square
+[quality-image]: https://npm.packagequality.com/shield/generator-react-firebase.svg?style=flat-square
 [quality-url]: https://packagequality.com/#?package=generator-react-firebase
-[travis-image]: https://img.shields.io/travis/prescottprue/generator-react-firebase/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/prescottprue/generator-react-firebase
-[daviddm-image]: https://img.shields.io/david/prescottprue/generator-react-firebase.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/prescottprue/generator-react-firebase
+[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/generator-react-firebase/NPM%20Package%20Publish?style=flat-square
+[build-status-url]: https://github.com/prescottprue/generator-react-firebase/actions
 [coverage-image]: https://img.shields.io/codecov/c/github/prescottprue/generator-react-firebase.svg?style=flat-square
 [coverage-url]: https://codecov.io/gh/prescottprue/generator-react-firebase
 [license-image]: https://img.shields.io/npm/l/generator-react-firebase.svg?style=flat-square

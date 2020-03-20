@@ -1,0 +1,48 @@
+name: Verify
+
+on: [pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [10.x, 12.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      # Setup dependency caching
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+
+      - name: Install Dependencies
+        env:
+          CI: true
+          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: Check Lint
+        run: yarn lint
+
+      - name: Run Tests
+        run: yarn test:cov
+
+      - name: Upload Code Coverage (Codecov)
+        run: |
+          cat coverage/lcov.info | $(yarn bin)/codecov
+      
