@@ -1,16 +1,19 @@
-import LoadableComponent from 'react-loadable'
+import React, { Suspense } from 'react';
 import LoadingSpinner from 'components/LoadingSpinner'
 
 /**
  * Create component which is loaded async, showing a loading spinner
  * in the meantime.
- * @param {object} opts - Loading options
- * @param {Function} opts.loader - Loader function (should return import promise)
+ * @param {object} loadFunc - Loading options
  * @returns {React.Component}
  */
-export function Loadable(opts) {
-  return LoadableComponent({
-    loading: LoadingSpinner,
-    ...opts
-  })
+export function loadable(loadFunc) {
+  const OtherComponent = React.lazy(loadFunc);
+  return function LoadableWrapper(loadableProps) {
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <OtherComponent {...loadableProps} />
+      </Suspense>
+    );
+  };
 }

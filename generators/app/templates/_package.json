@@ -40,21 +40,20 @@
   "dependencies": {
     "@material-ui/core": "^4.7.1",
     "@material-ui/icons": "^4.5.1",<% if (includeSentry) { %>
-    "@sentry/browser": "^5.9.1",<% } %>
-    "firebase": "^7.6.0",
+    "@sentry/browser": "^5.15.0",<% } %>
+    "firebase": "^7.12.0",
     "formik": "^2.0.6",
     "formik-material-ui": "^1.0.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-google-button": "^0.6.0",
-    "react-loadable": "^5.5.0",<% if (includeRedux) { %>
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-google-button": "^0.6.0",<% if (includeRedux) { %>
     "react-redux": "^7.1.1",
-    "react-redux-firebase": "^3.0.5",<% } %>
+    "react-redux-firebase": "^3.1.2",<% } %>
     "react-router-dom": "^5.1.2",<% if (!includeRedux) { %>
-    "reactfire": "^2.0.0-alpha.2",<% } %>
+    "reactfire": "^2.0.2",<% } %>
     "recompose": "^0.30.0"<% if (includeRedux) { %>,
     "redux": "^4.0.4",
     "redux-auth-wrapper": "^2.1.0",<% } %><% if (includeRedux && includeFirestore) { %>
@@ -63,8 +62,8 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",<% if (includeUiTests) { %>
-    "cypress": "^3.8.0",
-    "cypress-firebase": "0.5.0",<% } %>
+    "cypress": "^4.2.0",
+    "cypress-firebase": "^0.11.0",<% } %>
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
@@ -80,11 +79,11 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-standard": "^4.0.1",<% if (deployTo === 'firebase') { %>
-    "firebase-ci": "^0.10.0",
-    "firebase-tools": "^7.11.0",<% } %>
-    "husky": "^3.1.0",
+    "firebase-ci": "^0.12.2",
+    "firebase-tools": "^7.15.1",<% } %>
+    "husky": "^4.2.3",
     "prettier": "^1.19.1",
-    "react-scripts": "3.3.0"<% if (includeComponentTests) { %>,
+    "react-scripts": "3.4.0"<% if (includeComponentTests) { %>,
     "react-test-renderer": "^16.12.0"<%} %>
   },
   "eslintConfig": {

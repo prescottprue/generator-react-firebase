@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 10<% if(useYarn) { %>
+          node-version: 10
 
       - name: Get yarn cache
         id: yarn-cache
@@ -49,31 +49,7 @@ jobs:
       - name: Verify Functions
         run: |
           yarn --cwd functions test:cov # Run unit tests with coverage
-          yarn --cwd functions build<% } %><% if(!useYarn) { %>
-      
-      - name: Dependencies Cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-  
-      - name: Install Dependencies
-        env:
-          CI: true
-          CYPRESS_INSTALL_BINARY: 0 # Skip installing of Cypress (handled in its own job)
-          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
-          run: npm ci --loglevel error
-  
-      - name: Verify App
-        run: |
-          npm run build:config # Create env specific src/config.js
-          npm run lint # Check for lint in app code
-          npm run build # Build app bundles
-
-      - name: Verify Functions
-        run: |
-          npm run --prefix functions test:cov # Run unit tests with coverage
-          npm run --prefix functions build<% } %>
+          yarn --cwd functions build
 
       - name: Archive Build Artifact
         uses: actions/upload-artifact@master
