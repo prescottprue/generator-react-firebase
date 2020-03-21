@@ -1,7 +1,7 @@
 const chalk = require('chalk')
 
 module.exports = {
-  firebaseUrlValidate: function(input) {
+  firebaseUrlValidate: function (input) {
     if (!input) return false
     if (input.match('http') || input.match('firebaseio.com')) {
       return chalk.red('Just include the Firebase name, not the entire URL')

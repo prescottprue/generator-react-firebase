@@ -32,7 +32,7 @@ module.exports = class extends Generator {
       )}`
     )
 
-    return this.prompt(prompts).then(props => {
+    return this.prompt(prompts).then((props) => {
       this.answers = props
     })
   }
@@ -46,7 +46,7 @@ module.exports = class extends Generator {
       { src: '_reducer.js', dest: `${basePath}/reducer.js` }
     ]
 
-    filesArray.forEach(file => {
+    filesArray.forEach((file) => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),

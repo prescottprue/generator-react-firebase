@@ -12,8 +12,22 @@ import * as config from 'config'
 
 const theme = createMuiTheme(ThemeSettings)
 
+if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
+  config.firebase.databaseURL = `http://${
+    process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST
+  }?ns=${config.firebase.projectId}`
+}
+
 // Initialize Firebase instance
 firebase.initializeApp(config.firebase)
+// Enable Firestore emulator if environment variable is set
+if (process.env.REACT_APP_FIRESTORE_EMULATOR_HOST) {
+  const [servicePath, portStr] = process.env.REACT_APP_FIRESTORE_EMULATOR_HOST.split(':')
+  firebase.firestore().settings({
+    servicePath,
+    port: parseInt(portStr, 10)
+  })
+}
 
 function App({ routes }) {
   return (

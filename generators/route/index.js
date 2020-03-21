@@ -119,7 +119,7 @@ module.exports = class extends Generator {
       )}`
     )
     const projectPackageFile = loadProjectPackageFile()
-    return this.prompt(prompts).then(props => {
+    return this.prompt(prompts).then((props) => {
       this.answers = Object.assign({}, props, {
         parentSuffix: this.options['without-suffix'] ? '' : 'Page',
         hasPropTypes:
@@ -179,7 +179,7 @@ module.exports = class extends Generator {
 
     const startCasedName = startCase(this.options.name)
 
-    filesArray.forEach(file => {
+    filesArray.forEach((file) => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),

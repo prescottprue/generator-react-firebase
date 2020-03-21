@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -28,8 +28,6 @@ jobs:
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
 
       - name: Install Dependencies
         env:
@@ -62,7 +60,7 @@ jobs:
           CI: true
           CYPRESS_INSTALL_BINARY: 0 # Skip installing of Cypress (handled in its own job)
           HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
-          run: npm ci --loglevel error
+        run: npm ci
   
       - name: Verify App
         run: |
@@ -91,7 +89,9 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GITHUB_REF: ${{ github.ref }}
-        run: $(npm bin)/firebase-ci deploy -s
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+        run: |
+          $(<% if(useYarn) { %>yarn<% } else { %>npm<% } %> bin)/firebase-ci deploy -s
 
       - name: Archive Debug Log
         uses: actions/upload-artifact@master

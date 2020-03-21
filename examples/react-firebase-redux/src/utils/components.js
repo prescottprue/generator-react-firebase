@@ -1,6 +1,6 @@
 import { get } from 'lodash'
 import { isLoaded, isEmpty } from 'react-redux-firebase/lib/helpers'
-import LoadableComponent from 'react-loadable'
+import React, { Suspense } from 'react'
 import { branch, renderComponent } from 'recompose'
 import LoadingSpinner from 'components/LoadingSpinner'
 
@@ -93,13 +93,16 @@ export function renderWhileEmpty(propNames, component) {
 /**
  * Create component which is loaded async, showing a loading spinner
  * in the meantime.
- * @param {object} opts - Loading options
- * @param {Function} opts.loader - Loader function (should return import promise)
+ * @param {object} loadFunc - Loading options
  * @returns {React.Component}
  */
-export function Loadable(opts) {
-  return LoadableComponent({
-    loading: LoadingSpinner,
-    ...opts
-  })
+export function loadable(loadFunc) {
+  const OtherComponent = React.lazy(loadFunc)
+  return function LoadableWrapper(loadableProps) {
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <OtherComponent {...loadableProps} />
+      </Suspense>
+    )
+  }
 }

@@ -8,7 +8,8 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "start:dist": "npm run build && firebase serve --only hosting -p 3000",<% if (includeComponentTests) { %>
+    "start:dist": "npm run build && firebase emulators:start --only hosting",
+    "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %> REACT_APP_FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> yarn start",<% if (includeComponentTests) { %>
     "test": "react-scripts test",<% } %><% if (deployTo !== 'firebase') { %>
     "create-config": "node build/create-config",<% } else { %>
     "build:config": "firebase-ci createConfig",<% } %><% if (includeUiTests) { %>
@@ -21,19 +22,19 @@
     "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
     "test:ui": "npm run build:testConfig && cypress run",
     "test:ui:open": "npm run build:testConfig && cypress open",
-    "test:ui:stage": "npm run test:ui -- --env envName=stage",
-    "test:ui:open:stage": "npm run test:ui:open -- --env envName=stage",<% } %>
+    "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> yarn test:open",<% } %>
+    "emulators": "firebase emulators:start --only firestore,database",
+    "emulators:all": "firebase emulators:start --only firestore,database,hosting",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
-    "pre-push": "npm run lint"
+    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/<%= githubUser %>/<%= appName %>.git"
   },
   "engines": {
-    "node": ">=8.11.0"
+    "node": ">=10.15.0"
   },
   "author": "<%= githubUser %> (https://github.com/<%= githubUser %>)",
   "license": "MIT",
@@ -64,6 +65,7 @@
     "babel-eslint": "^10.0.3",<% if (includeUiTests) { %>
     "cypress": "^4.2.0",
     "cypress-firebase": "^0.11.0",<% } %>
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
@@ -78,10 +80,12 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
-    "eslint-plugin-standard": "^4.0.1",<% if (deployTo === 'firebase') { %>
+    "eslint-plugin-standard": "^4.0.1",<% if (includeUiTests) { %>
+    "firebase-admin": "^8.10.0",<% } %><% if (deployTo === 'firebase') { %>
     "firebase-ci": "^0.12.2",
     "firebase-tools": "^7.15.1",<% } %>
     "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
     "react-scripts": "3.4.0"<% if (includeComponentTests) { %>,
     "react-test-renderer": "^16.12.0"<%} %>
@@ -99,6 +103,19 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,ts}": [
+      "eslint --fix"
     ]
   }
 }

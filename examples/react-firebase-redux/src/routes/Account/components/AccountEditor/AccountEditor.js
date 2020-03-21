@@ -39,7 +39,7 @@ function AccountEditor() {
       <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
         <img
           className={classes.avatarCurrent}
-          src={profile.avatarUrl || defaultUserImageUrl}
+          src={(profile && profile.avatarUrl) || defaultUserImageUrl}
           alt=""
         />
       </Grid>

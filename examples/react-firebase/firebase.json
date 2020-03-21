@@ -5,6 +5,14 @@
   "storage": {
     "rules": "storage.rules"
   },
+  "emulators": {
+    "database": {
+      "port": 9000
+    },
+    "hosting": {
+      "port": 3000
+    }
+  },
   "hosting": {
     "public": "build",
     "ignore": [

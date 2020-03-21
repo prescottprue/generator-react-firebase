@@ -21,6 +21,12 @@ import * as config from 'config'
 
 const theme = createMuiTheme(ThemeSettings)
 
+if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
+  config.firebase.databaseURL = `http://${
+    process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST
+  }?ns=${config.firebase.projectId}`
+}
+
 // Initialize Firebase instance
 firebase.initializeApp(config.firebase)<% if (includeAnalytics) { %>
 // Initialize Firebase analytics if measurementId exists
@@ -38,6 +44,14 @@ firebase.auth().onAuthStateChanged(auth => {
   }
 })
 <% } %>
+// Enable Firestore emulator if environment variable is set
+if (process.env.REACT_APP_FIRESTORE_EMULATOR_HOST) {
+  const [servicePath, portStr] = process.env.REACT_APP_FIRESTORE_EMULATOR_HOST.split(':')
+  firebase.firestore().settings({
+    servicePath,
+    port: parseInt(portStr, 10)
+  })
+}
 
 <% if (!includeRedux) { %>function App({ routes }) {
   return (

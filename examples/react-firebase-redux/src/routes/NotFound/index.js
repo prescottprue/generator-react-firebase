@@ -1,10 +1,7 @@
-import Loadable from 'react-loadable'
-import LoadingSpinner from 'components/LoadingSpinner'
+import { loadable } from 'utils/components'
 
 export default {
-  component: Loadable({
-    loader: () =>
-      import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage'),
-    loading: LoadingSpinner
-  })
+  component: loadable(() =>
+    import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage')
+  )
 }
