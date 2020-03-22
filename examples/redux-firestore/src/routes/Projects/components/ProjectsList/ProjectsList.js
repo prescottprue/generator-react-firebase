@@ -45,9 +45,7 @@ function useProjectsList() {
       .add('projects', {
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: Date.now()
-        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
-        // createdAt: firestore.FieldValue.serverTimestamp()
+        createdAt: firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
         toggleDialog()

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useFirestore, useUser, useFirestoreCollection } from 'reactfire'
+import { useFirestore, useUser, useFirestoreCollectionData } from 'reactfire'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -14,12 +14,13 @@ function useProjectsList() {
 
   // Create a ref for projects owned by the current user
   const firestore = useFirestore()
+  const { FieldValue } = useFirestore
   const projectsRef = firestore
     .collection('projects')
     .where('createdBy', '==', auth.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const projects = useFirestoreCollection(projectsRef)
+  const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
@@ -31,9 +32,7 @@ function useProjectsList() {
       .add({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: Date.now()
-        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
-        // createdAt: firestore.FieldValue.serverTimestamp()
+        createdAt: FieldValue.serverTimestamp()
       })
       .then(() => {
         toggleDialog()
@@ -66,13 +65,12 @@ function ProjectsList() {
       <div className={classes.tiles}>
         <NewProjectTile onClick={toggleDialog} />
         {projects &&
-          projects.docs((projectSnap, ind) => {
-            const project = projectSnap.data()
+          projects.map((project, ind) => {
             return (
               <ProjectTile
-                key={`Project-${projectSnap.id}-${ind}`}
+                key={`Project-${project.id}-${ind}`}
                 name={project && project.name}
-                projectId={projectSnap.id}
+                projectId={project.id}
               />
             )
           })}
