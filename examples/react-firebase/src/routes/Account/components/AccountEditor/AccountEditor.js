@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFirebaseApp, useDatabaseObject, useUser } from 'reactfire'
+import { useDatabase, useDatabaseObject, useUser } from 'reactfire'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import defaultUserImageUrl from 'static/User.png'
@@ -10,14 +10,14 @@ const useStyles = makeStyles(styles)
 
 function AccountEditor() {
   const classes = useStyles()
-  const firebase = useFirebaseApp()
+  const database = useDatabase()
   const auth = useUser()
-  const accountRef = firebase.database().ref(`users/${auth.uid}`)
+  const accountRef = database.ref(`users/${auth.uid}`)
   const profileSnap = useDatabaseObject(accountRef)
   const profile = profileSnap.snapshot.val()
 
   function updateAccount(newAccount) {
-    return firebase
+    return auth
       .updateProfile(newAccount)
       .then(() => accountRef.update(newAccount))
       .catch(error => {

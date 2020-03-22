@@ -3,7 +3,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { useParams } from 'react-router-dom'
-import { useDatabaseObject, useFirebaseApp } from 'reactfire'
+import { useDatabaseObject, useDatabase } from 'reactfire'
 import styles from './ProjectData.styles'
 
 const useStyles = makeStyles(styles)
@@ -11,8 +11,8 @@ const useStyles = makeStyles(styles)
 function ProjectData() {
   const { projectId } = useParams()
   const classes = useStyles()
-  const firebaseApp = useFirebaseApp()
-  const projectRef = firebaseApp.database().ref(`projects/${projectId}`)
+  const database = useDatabase()
+  const projectRef = database.ref(`projects/${projectId}`)
 
   const projectSnap = useDatabaseObject(projectRef)
   const project = projectSnap.snapshot.val()

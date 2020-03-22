@@ -1,6 +1,6 @@
 import React from 'react'<% if (!includeRedux && includeFirestore) { %>
-import { useFirebaseApp, useFirestoreDoc, useUser } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
-import { useFirebaseApp, useDatabaseObject, useUser } from 'reactfire'<% } %>
+import { useFirestore, useFirestoreDoc, useUser } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
+import { useDatabase, useDatabaseObject, useUser } from 'reactfire'<% } %>
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'<% if (includeRedux) { %>
 import { useSelector } from 'react-redux'
@@ -15,17 +15,14 @@ const useStyles = makeStyles(styles)
 
 function AccountEditor() {
   const classes = useStyles()<% if (!includeRedux && includeFirestore) { %>
-  const firebase = useFirebaseApp()
+  const firestore = useFirestore()
   const auth = useUser()
-  const accountRef = firebase
-    .firestore()
-    .collection('users')
-    .doc(auth.uid)
+  const accountRef = firestore.doc(`users/${auth.uid}`)
   const profileSnap = useFirestoreDoc(accountRef)
   const profile = profileSnap.data()<% } %><% if (!includeRedux && !includeFirestore) { %>
-  const firebase = useFirebaseApp()
+  const database = useDatabase()
   const auth = useUser()
-  const accountRef = firebase.database().ref(`users/${auth.uid}`)
+  const accountRef = database.ref(`users/${auth.uid}`)
   const profileSnap = useDatabaseObject(accountRef)
   const profile = profileSnap.snapshot.val()<% } %><% if (includeRedux) { %>
   const firebase = useFirebase()
@@ -39,20 +36,20 @@ function AccountEditor() {
   }<% } %>
 
   function updateAccount(newAccount) {
-    return <% if (includeRedux) { %>firebase
+    return <% if (includeRedux) { %>firebase.
       .updateProfile(newAccount)
       .then(() => showSuccess('Profile updated successfully'))
       .catch(error => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
         showError('Error updating profile: ', error.message || error)
         return Promise.reject(error)
-      })<% } %><% if (!includeRedux && includeFirestore) { %>firebase
+      })<% } %><% if (!includeRedux && includeFirestore) { %>auth
       .updateProfile(newAccount)
       .then(() => accountRef.set(newAccount, { merge: true }))
       .catch(error => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
         return Promise.reject(error)
-      })<% } %><% if (!includeRedux && !includeFirestore) { %>firebase
+      })<% } %><% if (!includeRedux && !includeFirestore) { %>auth
       .updateProfile(newAccount)
       .then(() => accountRef.update(newAccount))
       .catch(error => {

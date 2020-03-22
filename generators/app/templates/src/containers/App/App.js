@@ -6,11 +6,11 @@ import { Provider } from 'react-redux'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import firebase from 'firebase/app'
+import firebase from 'firebase/app'<% if (includeRedux) { %>
 import 'firebase/auth'
-import 'firebase/database'<% if (includeRedux && includeFirestore) { %>
-import 'firebase/firestore'<% } %>
-import 'firebase/performance'<% if (!includeRedux && includeAnalytics) { %>
+import 'firebase/database'<% } %><% if (includeRedux && includeFirestore) { %>
+import 'firebase/firestore'<% } %><% if (includeRedux) { %>
+import 'firebase/performance'<% } %><% if (!includeRedux && includeAnalytics) { %>
 import 'firebase/analytics'<% } %><% if (!includeRedux && includeMessaging) { %>
 import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (!includeRedux && includeAnalytics) { %>
 import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (!includeRedux && (includeErrorHandling || includeSentry)) { %>

@@ -7,8 +7,8 @@ import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %><% if (includeRedux && includeFirestore) { %>
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %><% if (!includeRedux && includeFirestore) { %>
-import { useFirestoreDoc, useFirebaseApp } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
-import { useDatabaseObject, useFirebaseApp } from 'reactfire'<% } %><% if (includeRedux) { %>
+import { useFirestoreDoc, useFirestore } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
+import { useDatabaseObject, useDatabase } from 'reactfire'<% } %><% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import styles from './ProjectData.styles'
 
@@ -46,16 +46,13 @@ function ProjectData() {
   if (!isLoaded(project)) {
     return <LoadingSpinner />
   }<% } %><% if (!includeRedux && !includeFirestore) { %>
-  const firebaseApp = useFirebaseApp()
-  const projectRef = firebaseApp.database().ref(`projects/${projectId}`)
+  const database = useDatabase()
+  const projectRef = database.ref(`projects/${projectId}`)
 
   const projectSnap = useDatabaseObject(projectRef)
   const project = projectSnap.snapshot.val()<% } %><% if (!includeRedux && includeFirestore) { %>
-  const firebaseApp = useFirebaseApp()
-  const projectRef = firebaseApp
-    .firestore()
-    .collection('projects')
-    .doc(projectId)
+  const firestore = useFirestore()
+  const projectRef = firestore.doc(`projects/${projectId}`)
 
   const projectSnap = useFirestoreDoc(projectRef)
   const project = projectSnap.data()<% } %>

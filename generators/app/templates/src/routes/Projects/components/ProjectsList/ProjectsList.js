@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux && includeFirestore) { %>
-import { useFirebaseApp, useUser, useFirestoreCollection } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
-import { useFirebaseApp, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
+import { useFirestore, useUser, useFirestoreCollection } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
+import { useDatabase, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
 import {
   useFirebase,
@@ -30,18 +30,17 @@ function useProjectsList() {<% if (includeRedux) { %>
   <% } %><% if (!includeRedux) { %>
   // Get current user (loading handled by Suspense in ProjectsList)
   const auth = useUser()
-  const firebase = useFirebaseApp()
 
   <% } %><% if (!includeRedux && includeFirestore) { %>// Create a ref for projects owned by the current user
-  const projectsRef = firebase
-    .firestore()
+  const firestore = useFirestore()
+  const projectsRef = firestore
     .collection('projects')
     .where('createdBy', '==', auth.uid)
   
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useFirestoreCollection(projectsRef)<% } %><% if (!includeRedux && !includeFirestore) { %>// Create a ref for projects owned by the current user
-  const projectsRef = firebase
-    .database()
+  const database = useDatabase()
+  const projectsRef = database
     .ref('projects')
     .orderByChild('createdBy')
     .equalTo(auth.uid)
@@ -96,21 +95,25 @@ function useProjectsList() {<% if (includeRedux) { %>
       .add('projects', {
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firestore.FieldValue.serverTimestamp()
-      })<% } %><% if (!includeRedux && includeFirestore) { %>firebase
-      .firestore()
+        createdAt: Date.now()
+        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
+        // createdAt: firestore.FieldValue.serverTimestamp()
+      })<% } %><% if (!includeRedux && includeFirestore) { %>firestore
       .collection('projects')
       .add({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firestore.FieldValue.serverTimestamp()
-      })<% } %><% if (!includeRedux && !includeFirestore) { %>firebase
-      .database()
+        createdAt: Date.now()
+        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
+        // createdAt: firestore.FieldValue.serverTimestamp()
+      })<% } %><% if (!includeRedux && !includeFirestore) { %>database
       .ref('projects')
       .push({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+        createdAt: Date.now()
+        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
+        // createdAt: database.ServerValue.TIMESTAMP
       })<% } %>
       .then(() => {
         toggleDialog()<% if (includeRedux) { %>

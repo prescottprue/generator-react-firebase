@@ -29,8 +29,8 @@
   "author": "prescottprue (https://github.com/prescottprue)",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.7.1",
-    "@material-ui/icons": "^4.5.1",
+    "@material-ui/core": "^4.9.7",
+    "@material-ui/icons": "^4.9.1",
     "firebase": "^7.12.0",
     "formik": "^2.0.6",
     "formik-material-ui": "^1.0.0",
@@ -64,7 +64,7 @@
     "firebase-tools": "^7.15.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.0",
     "react-scripts": "3.4.0",
     "react-test-renderer": "^16.12.0"
   },

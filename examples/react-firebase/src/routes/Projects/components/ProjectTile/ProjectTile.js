@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
-import { useFirebaseApp } from 'reactfire'
+import { useDatabase } from 'reactfire'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -15,18 +15,16 @@ const useStyles = makeStyles(styles)
 function ProjectTile({ name, projectId, showDelete }) {
   const classes = useStyles()
   const history = useHistory()
-  const firebase = useFirebaseApp()
+  const database = useDatabase()
 
   function goToProject() {
     return history.push(`${LIST_PATH}/${projectId}`)
   }
 
   function deleteProject() {
-    return firebase
-      .firestore()
-      .collection('projects')
-      .doc(projectId)
-      .delete()
+    return database
+      .ref(`projects/${projectId}`)
+      .remove()
       .catch(err => {
         console.error('Error:', err) // eslint-disable-line no-console
         return Promise.reject(err)

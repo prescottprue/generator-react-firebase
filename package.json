@@ -8,16 +8,14 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha -R spec ./test/unit/** && npm run test:clean",
     "test:cov": "nyc --reporter=lcov --reporter=html npm test",
-    "test:clean": "rimraf test/tmp",
-    "prepublishOnly": "npm run lint",
-    "pre-push": "npm run lint"
+    "test:clean": "rimraf test/tmp"
   },
   "dependencies": {
     "chalk": "^3.0.0",
     "command-exists": "^1.2.8",
     "lodash": "^4.17.15",
-    "semver": "^6.3.0",
-    "yeoman-generator": "^4.2.0",
+    "semver": "^7.1.3",
+    "yeoman-generator": "^4.7.2",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
@@ -42,6 +40,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
     "mocha": "^6.2.2",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
@@ -77,5 +76,18 @@
   ],
   "files": [
     "generators"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,ts}": [
+      "eslint --fix"
+    ]
+  }
 }
