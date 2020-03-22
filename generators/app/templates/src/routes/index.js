@@ -1,5 +1,8 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'<% if (!includeRedux) { %>
+import { SuspenseWithPerf } from 'reactfire'
+import LoadingSpinner from 'components/LoadingSpinner'
+import { PrivateRoute } from 'utils/router'<% } %>
 import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import LoginRoute from './Login'
@@ -11,7 +14,26 @@ import NotFoundRoute from './NotFound'
 export default function createRoutes(store) {
   return (
     <CoreLayout>
-      <Switch>
+      <% if (!includeRedux) { %><SuspenseWithPerf fallback={<LoadingSpinner />} traceId="router-wait">
+        <Switch>
+          <Route exact path={Home.path} component={() => <Home.component />} />
+          {/* Build Route components from routeSettings */
+          [
+            AccountRoute,
+            ProjectsRoute,
+            SignupRoute,
+            LoginRoute
+            /* Add More Routes Here */
+          ].map((settings, index) =>
+            settings.authRequired ? (
+              <PrivateRoute key={`Route-${settings.path}`} {...settings} />
+            ) : (
+              <Route key={`Route-${settings.path}`} {...settings} />
+            )
+          )}
+          <Route component={NotFoundRoute.component} />
+        </Switch>
+      </SuspenseWithPerf><% } %><% if (includeRedux) { %><Switch>
         <Route exact path={Home.path} component={() => <Home.component />} />
         {/* Build Route components from routeSettings */
         [
@@ -21,10 +43,10 @@ export default function createRoutes(store) {
           LoginRoute
           /* Add More Routes Here */
         ].map((settings, index) => (
-          <Route key={`Route-${index}`} {...settings} />
+          <Route key={`Route-${settings.path}`} {...settings} />
         ))}
         <Route component={NotFoundRoute.component} />
-      </Switch>
+      </Switch><% } %>
     </CoreLayout>
   )
 }

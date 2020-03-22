@@ -1,10 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import firebase from 'firebase/app' // imported for auth provider
 import { useAuth } from 'reactfire'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import GoogleButton from 'react-google-button'
-import { SIGNUP_PATH } from 'constants/paths'
+import { SIGNUP_PATH, LIST_PATH } from 'constants/paths'
 import LoginForm from '../LoginForm'
 import styles from './LoginPage.styles'
 
@@ -13,9 +14,16 @@ const useStyles = makeStyles(styles)
 function LoginPage() {
   const classes = useStyles()
   const auth = useAuth()
+  const history = useHistory()
+
+  auth.onAuthStateChanged((auth) => {
+    if (auth) {
+      history.replace(LIST_PATH)
+    }
+  })
 
   function googleLogin() {
-    const provider = new auth.GoogleAuthProvider()
+    const provider = new firebase.auth.GoogleAuthProvider()
     return auth.signInWithPopup(provider)
   }
 

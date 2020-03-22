@@ -23,8 +23,8 @@ function SignupForm({ onSubmit }) {
       {({ touched, isSubmitting }) => (
         <Form className={classes.root}>
           <Field
-            type="username"
             name="username"
+            placeholder="username"
             component={TextField}
             margin="normal"
             fullWidth
@@ -32,6 +32,7 @@ function SignupForm({ onSubmit }) {
           <Field
             type="email"
             name="email"
+            placeholder="email"
             validate={validateEmail}
             component={TextField}
             margin="normal"
@@ -40,6 +41,7 @@ function SignupForm({ onSubmit }) {
           <Field
             type="password"
             name="password"
+            placeholder="password"
             component={TextField}
             margin="normal"
             fullWidth

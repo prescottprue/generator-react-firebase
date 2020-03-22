@@ -25,6 +25,7 @@ function LoginForm({ onSubmit }) {
           <Field
             type="email"
             name="email"
+            placeholder="email"
             validate={validateEmail}
             component={TextField}
             margin="normal"
@@ -33,6 +34,7 @@ function LoginForm({ onSubmit }) {
           <Field
             type="password"
             name="password"
+            placeholder="password"
             component={TextField}
             margin="normal"
             fullWidth

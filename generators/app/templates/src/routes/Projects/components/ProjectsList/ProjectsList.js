@@ -37,7 +37,7 @@ function useProjectsList() {<% if (includeRedux) { %>
 
   const projectsRef = firestore
     .collection('projects')
-    .where('createdBy', '==', auth.uid)
+    .where('createdBy', '==', auth && auth.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })<% } %><% if (!includeRedux && !includeFirestore) { %>// Create a ref for projects owned by the current user
@@ -45,7 +45,7 @@ function useProjectsList() {<% if (includeRedux) { %>
   const projectsRef = database
     .ref('projects')
     .orderByChild('createdBy')
-    .equalTo(auth.uid)
+    .equalTo(auth && auth.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useDatabaseList(projectsRef)<% } %><% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()
