@@ -34,6 +34,22 @@ function useProjectsList() {<% if (includeRedux) { %>
   <% } %><% if (!includeRedux && includeFirestore) { %>// Create a ref for projects owned by the current user
   const firestore = useFirestore()
   const { FieldValue } = useFirestore
+
+  // TODO: Move this to top level once supported by reactfire. See
+  // https://github.com/FirebaseExtended/reactfire/issues/235 for more details
+  // Enable Firestore emulator if environment variable is set
+  if (process.env.REACT_APP_FIRESTORE_EMULATOR_HOST) {
+    /* eslint-disable no-console */
+    console.debug(
+      `Firestore emulator enabled: ${process.env.REACT_APP_FIRESTORE_EMULATOR_HOST}`
+    )
+    /* eslint-enable no-console */
+    firestore.settings({
+      host: process.env.REACT_APP_FIRESTORE_EMULATOR_HOST,
+      ssl: false
+    })
+  }
+
   const projectsRef = firestore
     .collection('projects')
     .where('createdBy', '==', auth.uid)

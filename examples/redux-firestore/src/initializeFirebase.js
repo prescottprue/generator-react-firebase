@@ -11,6 +11,7 @@ export default function initializeFirebase() {
   // Enable Real Time Database emulator if environment variable is set
   if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
     firebaseConfig.databaseURL = `http://${process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST}?ns=${firebaseConfig.projectId}`
+    console.debug(`RTDB emulator enabled: ${firebaseConfig.databaseURL}`) // eslint-disable-line no-console
   }
 
   // Initialize Firebase instance
@@ -18,13 +19,14 @@ export default function initializeFirebase() {
 
   // Enable Firestore emulator if environment variable is set
   if (process.env.REACT_APP_FIRESTORE_EMULATOR_HOST) {
-    const [
-      servicePath,
-      portStr
-    ] = process.env.REACT_APP_FIRESTORE_EMULATOR_HOST.split(':')
+    /* eslint-disable no-console */
+    console.debug(
+      `Firestore emulator enabled: ${process.env.REACT_APP_FIRESTORE_EMULATOR_HOST}`
+    )
+    /* eslint-enable no-console */
     firebase.firestore().settings({
-      servicePath,
-      port: parseInt(portStr, 10)
+      host: process.env.REACT_APP_FIRESTORE_EMULATOR_HOST,
+      ssl: false
     })
   }
 }
