@@ -1,11 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'<% if (includeRedux) { %>
+import { Link<% if (!includeRedux) { %>, useHistory<% } %> } from 'react-router-dom'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
+import firebase from 'firebase/app' // imported for auth provider
 import { useAuth } from 'reactfire'<% } %>
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import GoogleButton from 'react-google-button'
-import { SIGNUP_PATH } from 'constants/paths'<% if (includeRedux) { %>
+import { SIGNUP_PATH<% if (!includeRedux) { %>, LIST_PATH<% } %> } from 'constants/paths'<% if (includeRedux) { %>
 import { useNotifications } from 'modules/notification'<% } %>
 import LoginForm from '../LoginForm'
 import styles from './LoginPage.styles'
@@ -31,9 +32,16 @@ function LoginPage() {
     return firebase.login(creds).catch((err) => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
   const auth = useAuth()
+  const history = useHistory();
+
+  auth.onAuthStateChanged((auth) => {
+    if (auth) {
+      history.replace(LIST_PATH)
+    }
+  })
 
   function googleLogin() {
-    const provider = new auth.GoogleAuthProvider()
+    const provider = new firebase.auth.GoogleAuthProvider()
     return auth.signInWithPopup(provider)
   }
 

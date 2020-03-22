@@ -18,7 +18,7 @@ function useProjectsList() {
 
   const projectsRef = firestore
     .collection('projects')
-    .where('createdBy', '==', auth.uid)
+    .where('createdBy', '==', auth && auth.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })

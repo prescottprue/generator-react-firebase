@@ -12,35 +12,47 @@ import LoadingSpinner from 'components/LoadingSpinner'
  * @returns {Array} List of routes
  */
 export function renderChildren(routes, match, parentProps) {
-  return routes.map((route) => (
-    <Route
-      key={`${match.url}-${route.path}`}
-      path={`${match.url}/${route.path}`}
-      render={(props) =>
-        route.authRequired ? (
-          <AuthCheck
-            fallback={
-              <Redirect
-                to={{
-                  pathname: LOGIN_PATH,
-                  state: { from: props.location }
-                }}
-              />
-            }>
-            <route.component {...parentProps} {...props} />
-          </AuthCheck>
-        ) : (
-          <route.component {...parentProps} {...props} />
-        )
+  return routes.map((route) => {
+    const RouteComponent = route.authRequired ? PrivateRoute : Route
+    return (
+      <RouteComponent
+        key={`${match.url}-${route.path}`}
+        path={`${match.url}/${route.path}`}
+        render={(props) => <route.component {...parentProps} {...props} />}
+      />
+    )
+  })
+}
+
+/**
+ * A wrapper for <Route> that redirects to the login
+ * @param {Object} props - Route props
+ * @param {string} props.path - Path of route
+ * @param {React.Component} props.component - Path of route
+ * @returns {React.Component}
+ */
+export function PrivateRoute({ children, path, ...rest }) {
+  return (
+    <AuthCheck
+      key={path}
+      fallback={
+        <Redirect
+          to={{
+            pathname: LOGIN_PATH,
+            state: { from: path }
+          }}
+        />
       }
-    />
-  ))
+    >
+      <Route key={`Route-${path}`} path={path} {...rest} />
+    </AuthCheck>
+  );
 }
 
 /**
  * Create component which is loaded async, showing a loading spinner
  * in the meantime.
- * @param {object} loadFunc - Loading options
+ * @param {Function} loadFunc - Loading options
  * @returns {React.Component}
  */
 export function loadable(loadFunc) {

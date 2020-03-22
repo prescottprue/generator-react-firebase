@@ -24,6 +24,7 @@ npm install -g yo generator-react-firebase
     1. Enable Google and/or Email Sign In Methods in the Authentication tab (required to enable login/signup within your application)
 
 ## Getting Started
+
 1. Create a project folder and enter it: `mkdir myProject && cd myProject`
 1. Generate project: `yo react-firebase` (project will be named after current folder)
 1. Start application: `npm start` or `yarn start`
@@ -33,6 +34,7 @@ npm install -g yo generator-react-firebase
 **Note**: To skip installing dependencies during generation pass the skip install flag (i.e. `--skip-install`)
 
 #### Whats Next
+
 1. [Deploy](#deployment) your application either [manually through firebase-tools](#manual-deploy) or by [setting up CI Deployment](#ci-deploy)
 1. Enable APIs for features which were opted into:
     * [Firebase Cloud Messaging API](https://console.cloud.google.com/apis/api/fcm.googleapis.com/overview)
@@ -45,16 +47,16 @@ npm install -g yo generator-react-firebase
 * React + React Dom `^16.13.0` (has hooks)
 * Material-UI application styling including Navbar
 * Full Authentication with validation (through Email, Google or Github)
-* Async route loading (using [react-loadable][react-loadable-url])
+* Async route loading (using `React.lazy` and `React.Suspense`)
 * Route protection (only view certain pages when logged in)
 * Firebase Functions Setup with function splitting for faster cold-starts (including support within function sub-generator)
-* Account Management Page
 * Automatic Build/Deploy config for multiple CI Providers including:
     * Github Actions
     * Gitlab (uses pipelines)
     * Travis
 * Component Testing With Jest
 * UI Testing with Cypress
+* Account Management Page
 
 ## Uses
 
@@ -62,7 +64,6 @@ npm install -g yo generator-react-firebase
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
 * [material-ui](https://material-ui.com) - Google Material Styling React Components
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
-* [react-loadable](https://github.com/jamiebuilds/react-loadable) - HOC for async route/component chunk loading
 
 *When opting into redux*
 
@@ -451,7 +452,6 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 **NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
 
-
 ## Examples
 
 Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
@@ -474,8 +474,8 @@ For full projects built out using this as a starting place, check the next secti
 
 ## FAQ
 
-1. Why node `8` instead of a newer version?
-  [Cloud Functions runtime is still on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
+1. Why node `10` instead of a newer version?
+  [Cloud Functions runtime is still on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
 1. How do I deploy my application?
   The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
@@ -484,12 +484,6 @@ For full projects built out using this as a starting place, check the next secti
     1. Use the route sub-generator to add the route: `yo react-firebase:route MyRoute`
     1. Add a `path` of the new route to `constants/paths` (i.e. `MYROUTE_PATH`)
     1. Add the route to the list of routes in `src/routes/index.js`
-
-1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
-    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
-    * components remain "dumb" by only receiving props which makes them more portable
-    * smaller files which are easier to parse
-    * functional components can be helpful (along with other tools) when attempting to optimize things
 
 1. Where are the settings for changing how my project deploys through Continious integration?  
 
