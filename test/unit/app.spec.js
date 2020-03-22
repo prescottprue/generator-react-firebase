@@ -14,7 +14,6 @@ const srcFiles = [
   'src/containers/Navbar/Navbar.js',
   'src/containers/Navbar/Navbar.styles.js',
   'src/layouts/CoreLayout/CoreLayout.js',
-  'src/layouts/CoreLayout/CoreLayout.styles.js',
   'src/layouts/CoreLayout/index.js',
   'src/modules/notification/components/Notifications.js',
   'src/modules/notification/useNotifications.js',
