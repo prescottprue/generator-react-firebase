@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import GoogleButton from 'react-google-button'<% if (includeRedux) { %>
+import { Link } from 'react-router-dom'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
-import { useFirebaseApp } from 'reactfire'<% } %>
+import { useAuth } from 'reactfire'<% } %>
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
+import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH } from 'constants/paths'<% if (includeRedux) { %>
 import { useNotifications } from 'modules/notification'<% } %>
 import LoginForm from '../LoginForm'
@@ -24,23 +24,21 @@ function LoginPage() {
   function googleLogin() {
     return firebase
       .login({ provider: 'google', type: 'popup' })
-      .catch(err => showError(err.message))
+      .catch((err) => showError(err.message))
   }
 
   function emailLogin(creds) {
-    return firebase.login(creds).catch(err => showError(err.message))
+    return firebase.login(creds).catch((err) => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
-  const firebase = useFirebaseApp()
+  const auth = useAuth()
 
   function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    return firebase.auth().signInWithPopup(provider)
+    const provider = new auth.GoogleAuthProvider()
+    return auth.signInWithPopup(provider)
   }
 
   function emailLogin(creds) {
-    return firebase
-      .auth()
-      .signInWithEmailAndPassword(creds.email, creds.password)
+    return auth.signInWithEmailAndPassword(creds.email, creds.password)
   }<% } %>
 
   return (

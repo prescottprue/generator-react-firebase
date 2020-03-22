@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
   root: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),

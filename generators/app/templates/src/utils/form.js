@@ -7,7 +7,7 @@
  * <Field
  *   name="password"
  *   component={TextField}
- *   <% if (!materialv1) { %>floatingLabelText="Password"<% } %><% if (materialv1) { %>label="Password"<% } %>
+ *   label="Password"
  *   type="password"
  *   validate={required}
  * />
@@ -25,7 +25,7 @@ export function required(value) {
  * <Field
  *   name="email"
  *   component={TextField}
- *   <% if (!materialv1) { %>floatingLabelText="Email"<% } %><% if (materialv1) { %>label="Email"<% } %>
+ *   label="Email"
  *   validate={validateEmail}
  * />
  */

@@ -1,6 +1,6 @@
 # <%= appName %>
-<% if (includeCI && ciProvider == 'travis') { %>
-[![Build Status][travis-image]][travis-url]
+<% if (includeCI && ciProvider == 'githubActions') { %>
+[![Build Status][build-status-image]][build-status-url]<% } %><% if (includeCI && ciProvider == 'travis') { %>
 [![Dependency Status][daviddm-image]][daviddm-url]<% } %><% if (codeClimate && includeComponentTests) { %>
 [![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]<% } %>
@@ -22,12 +22,12 @@
 
 ## Requirements
 
-* node `^8`
-* npm `^3.0.0`
+* node `^10.15.0`
+* npm `^6.0.0`
 
 ## Getting Started
 
-1. Install app and functions dependencies: `npm i && npm i --prefix functions` or `yarn install && yarn install --cwd functions`
+1. Install app and functions dependencies: <% if (useYarn) { %>`npm i && npm i --prefix functions`<% } else { %>`yarn install && yarn install --cwd functions`<% } %>
 1. Create `src/config.js` file that looks like so if it does not already exist:
     ```js
     const firebase = {
@@ -52,19 +52,23 @@
       segmentId<% } %>
     }
     ```
-1. Start Development server: `npm start`
+1. Start Development server: `<% if (useYarn) { %>npm<% } else { %>yarn<% } %> start`
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
-|`npm run <script>`    |Description|
+|`<% if (useYarn) { %>npm<% } else { %>yarn<% } %> run <script>`    |Description|
 |-------------------|-----------|
 |`start`            |Serves your app at `localhost:3000` with automatic refreshing and hot module replacement|
-|`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using `firebase serve`|
+|`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator|
+|`start:emulate`    |Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)|
 |`build`            |Builds the application to `./dist`|<% if (includeComponentTests) { %>
+|`emulators`        |Starts database emulators for use with `start:emulate`|<% if (includeUiTests) { %>
+|`emulators:all`    |Starts database and hosting emulators (used in verify workflow by Cypress)|<% } %>
 |`test`             |Runs unit tests with Jest. See [testing](#testing)|
 |`test:watch`       |Runs `test` in watch mode to re-run tests when changed|<% } %><% if (includeUiTests) { %>
 |`test:ui`          |Runs ui tests with Cypress. See [testing](#testing)|
-|`test:ui:open`     |Opens ui tests runner (Cypress Dashboard). See [testing](#testing)|<% } %>
+|`test:ui:open`     |Opens ui tests runner (Cypress Dashboard). See [testing](#testing)|
+|`test:ui:emulate`     |Same as `test:ui:open` but with tests pointed at emulators|<% } %>
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
@@ -152,21 +156,18 @@ export default {
 
 ### Async Routes
 
-Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `react-loadable`:
+Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `loadable` function which uses `React.lazy` and `React.Suspense`:
 
 *src/routes/NotFound/index.js*
 
 ```js
-import Loadable from 'react-loadable'
-import LoadingSpinner from 'components/LoadingSpinner'
+import loadable from 'utils/components'
 
 // Async route definition
 export default {
-  component: Loadable({
-    loader: () =>
-      import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage'),
-    loading: LoadingSpinner
-  })
+  component: loadable(() =>
+    import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage')
+  )
 }
 ```
 
@@ -176,30 +177,36 @@ More about how routing works is available in [the react-router-dom docs](https:/
 <% if (includeComponentTests || includeUiTests) { %>
 ## Testing
 <% } %><% if (includeComponentTests) { %>
-#### Component Tests
+### Component Tests
 
 To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `src`. Jest will automatically find these files and generate snapshots to the `__snapshots` folder.<% } %><% if (includeUiTests) { %>
 
-#### UI Tests
+### UI Tests
 
-Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
+Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests:
 
-    * Run using Cypress run: `npm run test:ui`
-    * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
+  * Run using Cypress run: `npm run test:ui`
+  * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
 
-## Deployment
+To run tests against emulators:
+  
+  1. Start database emulators: `npm run emulate`
+  1. Start React app pointed at emulators: `npm run start:emulate`
+  1. Open Cypress test runner with test utils pointed at emulators: `npm run test:ui:emulate`
+
+<% } %>## Deployment
+
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
-<% if (deployTo === 'firebase') { %>
-1. Install Firebase Command Line Tool: `npm i -g firebase-tools`<% } %><% if (includeCI) { %>
+<% if (deployTo === 'firebase') { %>Before starting make sure to install Firebase Command Line Tool: `npm i -g firebase-tools`<% } %><% if (includeCI) { %>
 
 #### CI Deploy (recommended)
 
-**Note**: Config for this is located within<% } %><% if (ciProvider == 'travis') { %>`.travis.yml`<% } %><% if (ciProvider == 'travis') { %>`.gitlab-ci.yml`<% } %>
+**Note**: Config for this is located within<% } %><% if (ciProvider == 'travis') { %>`.travis.yml`<% } %><% if (ciProvider == 'gitlab') { %>`.gitlab-ci.yml`<% } %>
 <% if (includeCI) { %>`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
-1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
-1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
+1. Login: `firebase login:ci` to generate an authentication token (will be used to give CI rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within CI environment
 1. Run a build on CI
 
 If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
@@ -218,7 +225,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.<% } %><% if (deployTo === 's3') { %>
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.<% if (deployTo === 's3') { %>
 Selecting AWS S3 from the deploy options when running the generator adds deploy configs in <% if (ciProvider == 'travis') { %>`travis.yml`<% } %><% if (ciProvider == 'travis') { %>`gitlab-ci.yml`<% } %>.
 
 1. Get your AWS Key and Secret from the AWS Console Credentials page
@@ -241,20 +248,15 @@ To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.or
 
 ## FAQ
 
-1. Why node `8` instead of a newer version?
+1. Why node `10` instead of a newer version?
 
-  [Cloud Functions runtime runs on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version.
+  [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
-    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
-    * components remain "dumb" by only receiving props which makes them more portable
-    * smaller files which are easier to parse
-    * functional components can be helpful (along with other tools) when attempting to optimize things
-
-<% if (includeCI && ciProvider == 'travis') { %>[travis-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
+<% if (includeCI && ciProvider == 'travis') { %>[build-status-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
+[build-status-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
 [daviddm-image]: https://img.shields.io/david/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/<%= githubUser %>/<%= appName %><% } %>
+[daviddm-url]: https://david-dm.org/<%= githubUser %>/<%= appName %><% } %><% if (includeCI && ciProvider == 'githubActions') { %>[build-status-image]: https://img.shields.io/github/workflow/status/<%= githubUser %>/<%= appName %>/Verify?style=flat-square
+[build-status-url]: https://github.com/<%= githubUser %>/<%= appName %>/actions<% } %>
 <% if (codeClimate) { %>[climate-image]: https://img.shields.io/codeclimate/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %>
 [coverage-image]: https://img.shields.io/codeclimate/coverage/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square

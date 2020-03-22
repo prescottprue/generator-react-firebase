@@ -16,7 +16,7 @@ function Navbar() {
   const classes = useStyles()<% if (includeRedux) { %>
 
   // Get auth from redux state
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useSelector(({ firebase }) => firebase.auth)
   const authExists = isLoaded(auth) && !isEmpty(auth)<% } %><% if (!includeRedux) { %>
   const auth = useUser()
   const authExists = !!auth && !!auth.uid<% } %>

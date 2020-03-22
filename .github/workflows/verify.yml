@@ -12,9 +12,9 @@ jobs:
         node-version: [10.x, 12.x]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -33,8 +33,7 @@ jobs:
         env:
           CI: true
           HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
-        run: |
-          yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Check Lint
         run: yarn lint
@@ -43,6 +42,5 @@ jobs:
         run: yarn test:cov
 
       - name: Upload Code Coverage (Codecov)
-        run: |
-          cat coverage/lcov.info | $(yarn bin)/codecov
+        run: cat coverage/lcov.info | $(yarn bin)/codecov
       

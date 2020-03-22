@@ -1,5 +1,6 @@
 # react-firebase-redux
 
+[![Build Status][build-status-image]][build-status-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -18,12 +19,12 @@
 
 ## Requirements
 
-* node `^8`
-* npm `^3.0.0`
+* node `^10.15.0`
+* npm `^6.0.0`
 
 ## Getting Started
 
-1. Install app and functions dependencies: `npm i && npm i --prefix functions` or `yarn install && yarn install --cwd functions`
+1. Install app and functions dependencies: `npm i && npm i --prefix functions`
 1. Create `src/config.js` file that looks like so if it does not already exist:
     ```js
     const firebase = {
@@ -49,10 +50,12 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 |`npm run <script>`    |Description|
 |-------------------|-----------|
 |`start`            |Serves your app at `localhost:3000` with automatic refreshing and hot module replacement|
-|`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using `firebase serve`|
+|`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator|
+|`start:emulate`    |Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)|
 |`build`            |Builds the application to `./dist`|
 |`test:ui`          |Runs ui tests with Cypress. See [testing](#testing)|
 |`test:ui:open`     |Opens ui tests runner (Cypress Dashboard). See [testing](#testing)|
+|`test:ui:emulate`     |Same as `test:ui:open` but with tests pointed at emulators|
 |`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
 |`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
 
@@ -140,21 +143,18 @@ export default {
 
 ### Async Routes
 
-Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `react-loadable`:
+Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `loadable` function which uses `React.lazy` and `React.Suspense`:
 
 *src/routes/NotFound/index.js*
 
 ```js
-import Loadable from 'react-loadable'
-import LoadingSpinner from 'components/LoadingSpinner'
+import loadable from 'utils/components'
 
 // Async route definition
 export default {
-  component: Loadable({
-    loader: () =>
-      import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage'),
-    loading: LoadingSpinner
-  })
+  component: loadable(() =>
+    import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage')
+  )
 }
 ```
 
@@ -165,26 +165,32 @@ More about how routing works is available in [the react-router-dom docs](https:/
 ## Testing
 
 
-#### UI Tests
+### UI Tests
 
-Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
+Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests:
 
-    * Run using Cypress run: `npm run test:ui`
-    * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
+  * Run using Cypress run: `npm run test:ui`
+  * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
+
+To run tests against emulators:
+  
+  1. Start database emulators: `npm run emulate`
+  1. Start React app pointed at emulators: `npm run start:emulate`
+  1. Open Cypress test runner with test utils pointed at emulators: `npm run test:ui:emulate`
 
 ## Deployment
+
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
-
-1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
+Before starting make sure to install Firebase Command Line Tool: `npm i -g firebase-tools`
 
 #### CI Deploy (recommended)
 
 **Note**: Config for this is located within
 `firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
-1. Login: `firebase login:ci` to generate an authentication token (will be used to give Travis-CI rights to deploy on your behalf)
-1. Set `FIREBASE_TOKEN` environment variable within Travis-CI environment
+1. Login: `firebase login:ci` to generate an authentication token (will be used to give CI rights to deploy on your behalf)
+1. Set `FIREBASE_TOKEN` environment variable within CI environment
 1. Run a build on CI
 
 If you would like to deploy to different Firebase instances for different branches (i.e. `prod`), change `ci` settings within `.firebaserc`.
@@ -207,17 +213,12 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 ## FAQ
 
-1. Why node `8` instead of a newer version?
+1. Why node `10` instead of a newer version?
 
-  [Cloud Functions runtime runs on `8`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the travis build version.
+  [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-1. Why `enhancers` over `containers`? - For many reasons, here are just a few:
-    * separates concerns to have action/business logic move to enhancers (easier for future modularization + optimization)
-    * components remain "dumb" by only receiving props which makes them more portable
-    * smaller files which are easier to parse
-    * functional components can be helpful (along with other tools) when attempting to optimize things
-
-
+[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firebase-redux/Verify?style=flat-square
+[build-status-url]: https://github.com/prescottprue/react-firebase-redux/actions
 [climate-image]: https://img.shields.io/codeclimate/github/prescottprue/react-firebase-redux.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/prescottprue/react-firebase-redux
 [coverage-image]: https://img.shields.io/codeclimate/coverage/github/prescottprue/react-firebase-redux.svg?style=flat-square

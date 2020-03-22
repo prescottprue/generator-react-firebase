@@ -1,12 +1,12 @@
-import React from 'react'<% if (!includeRedux) { %>
+import React, { Suspense } from 'react'<% if (!includeRedux) { %>
 import { Route, Redirect } from 'react-router-dom'
 import { AuthCheck } from 'reactfire'
 import { LOGIN_PATH } from 'constants/paths'<% } %><% if (includeRedux) { %>
 import { Route } from 'react-router-dom'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
-import { createBrowserHistory } from 'history'
-import LoadingSpinner from 'components/LoadingSpinner'
+import { createBrowserHistory } from 'history'<% } %>
+import LoadingSpinner from 'components/LoadingSpinner'<% if (includeRedux) { %>
 import { LIST_PATH } from 'constants/paths'
 
 const locationHelper = locationHelperBuilder({})
@@ -30,7 +30,7 @@ export const UserIsAuthenticated = connectedRouterRedirect({
     !auth.isEmpty && !!auth.uid,
   authenticatingSelector: ({ firebase: { auth, isInitializing } }) =>
     !auth.isLoaded || isInitializing,
-  redirectAction: newLoc => dispatch => {
+  redirectAction: (newLoc) => (dispatch) => {
     // Use push, replace, and go to navigate around.
     history.push(newLoc)
     dispatch({
@@ -58,7 +58,7 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
     !auth.isLoaded || isInitializing,
   redirectPath: (state, ownProps) =>
     locationHelper.getRedirectQueryParam(ownProps) || LIST_PATH,
-  redirectAction: newLoc => dispatch => {
+  redirectAction: (newLoc) => (dispatch) => {
     // Use push, replace, and go to navigate around.
     history.push(newLoc)
     dispatch({
@@ -76,11 +76,11 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
  * @returns {Array} List of routes
  */
 export function renderChildren(routes, match, parentProps) {
-  return routes.map(route => (
+  return routes.map((route) => (
     <Route
       key={`${match.url}-${route.path}`}
       path={`${match.url}/${route.path}`}
-      render={props => <route.component {...parentProps} {...props} />}
+      render={(props) => <route.component {...parentProps} {...props} />}
     />
   ))
 }<% } else { %>
@@ -93,11 +93,11 @@ export function renderChildren(routes, match, parentProps) {
  * @returns {Array} List of routes
  */
 export function renderChildren(routes, match, parentProps) {
-  return routes.map(route => (
+  return routes.map((route) => (
     <Route
       key={`${match.url}-${route.path}`}
       path={`${match.url}/${route.path}`}
-      render={props =>
+      render={(props) =>
         route.authRequired ? (
           <AuthCheck
             fallback={
@@ -117,3 +117,20 @@ export function renderChildren(routes, match, parentProps) {
     />
   ))
 }<% } %>
+
+/**
+ * Create component which is loaded async, showing a loading spinner
+ * in the meantime.
+ * @param {object} loadFunc - Loading options
+ * @returns {React.Component}
+ */
+export function loadable(loadFunc) {
+  const OtherComponent = React.lazy(loadFunc)
+  return function LoadableWrapper(loadableProps) {
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <OtherComponent {...loadableProps} />
+      </Suspense>
+    )
+  }
+}

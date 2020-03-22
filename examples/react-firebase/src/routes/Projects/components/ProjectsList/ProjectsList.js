@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useFirebaseApp, useUser, useDatabaseList } from 'reactfire'
+import { useDatabase, useUser, useDatabaseList } from 'reactfire'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -11,11 +11,10 @@ const useStyles = makeStyles(styles)
 function useProjectsList() {
   // Get current user (loading handled by Suspense in ProjectsList)
   const auth = useUser()
-  const firebase = useFirebaseApp()
 
   // Create a ref for projects owned by the current user
-  const projectsRef = firebase
-    .database()
+  const database = useDatabase()
+  const projectsRef = database
     .ref('projects')
     .orderByChild('createdBy')
     .equalTo(auth.uid)
@@ -28,18 +27,19 @@ function useProjectsList() {
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
   function addProject(newInstance) {
-    return firebase
-      .database()
+    return database
       .ref('projects')
       .push({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+        createdAt: Date.now()
+        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
+        // createdAt: database.ServerValue.TIMESTAMP
       })
       .then(() => {
         toggleDialog()
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         return Promise.reject(err)
       })

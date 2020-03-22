@@ -92,7 +92,7 @@ function buildPrompts(generatorContext) {
       message: 'What type of function trigger?',
       // Only prompt if type was not passed
       when: () => !generatorContext.triggerFlag,
-      choices: functionTypeOptions.map(typeOption => {
+      choices: functionTypeOptions.map((typeOption) => {
         if (
           typeOption === HTTPS_FUNCTION_TYPE ||
           typeOption === RTDB_FUNCTION_TYPE
@@ -108,7 +108,7 @@ function buildPrompts(generatorContext) {
     }
   ]
     .concat(
-      Object.keys(choicesByTriggerType).map(key =>
+      Object.keys(choicesByTriggerType).map((key) =>
         buildEventTypePrompt(key, generatorContext)
       )
     )
@@ -147,7 +147,7 @@ module.exports = class extends Generator {
       desc: 'The function name'
     })
     // Adds support for a flags
-    functionTypeOptions.forEach(functionType => {
+    functionTypeOptions.forEach((functionType) => {
       this.option(functionType)
     })
     this.option('test', { type: Boolean })
@@ -156,11 +156,11 @@ module.exports = class extends Generator {
   prompting() {
     // Convert function type option to trigger type if passed in flag
     this.triggerFlag = functionTypeOptions.find(
-      optionName => !!this.options[optionName]
+      (optionName) => !!this.options[optionName]
     )
     const projectPackageFile = loadProjectPackageFile()
     const prompts = buildPrompts(this)
-    return this.prompt(prompts).then(props => {
+    return this.prompt(prompts).then((props) => {
       this.answers = Object.assign({}, props, this.answers, {
         airbnbLinting:
           !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') ||
@@ -217,7 +217,7 @@ module.exports = class extends Generator {
       })
     }
 
-    filesArray.forEach(file => {
+    filesArray.forEach((file) => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),

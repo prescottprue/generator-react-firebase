@@ -21,7 +21,7 @@ function useProjectsList() {
   const firebase = useFirebase()
 
   // Get auth from redux state
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useSelector(({ firebase: { auth } }) => auth)
   // Create listeners based on current users UID
   useFirebaseConnect([
     {
@@ -35,7 +35,7 @@ function useProjectsList() {
   ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.firebase.ordered.projects)
+  const projects = useSelector(({ firebase: { ordered } }) => ordered.projects)
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
@@ -55,7 +55,7 @@ function useProjectsList() {
         toggleDialog()
         showSuccess('Project added successfully')
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         showError(err.message || 'Could not add project')
         return Promise.reject(err)

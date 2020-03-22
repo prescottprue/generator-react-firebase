@@ -30,9 +30,7 @@ describe('Projects Page', () => {
   describe('Delete Project', () => {
     it('allows project to be deleted by project owner', () => {
       // click on the more button
-      cy.get(createSelector('project-tile-more'))
-        .first()
-        .click()
+      cy.get(createSelector('project-tile-more')).first().click()
       cy.get(createSelector('project-tile-delete')).click()
       // Confirm that new project is not available
       cy.get(createSelector('new-project-name')).should('not.exist')

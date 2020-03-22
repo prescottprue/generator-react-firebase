@@ -27,7 +27,7 @@ function ProjectTile({ name, projectId, showDelete }) {
     return firebase
       .remove(`projects/${projectId}`)
       .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         showError(err.message || 'Could not delete project')
         return Promise.reject(err)

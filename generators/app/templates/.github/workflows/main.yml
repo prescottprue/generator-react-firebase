@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -24,8 +24,6 @@ jobs:
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
 
       - name: Install Dependencies
         env:
@@ -96,7 +94,7 @@ jobs:
           node-version: 10
 
       - name: Checkout Repo
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       # Install is run seperatley from test so that dependencies
       # are available for other steps like Get Project Info and build test environment config
@@ -106,7 +104,26 @@ jobs:
           # just perform install
           runTests: false
 
-      - name: Build Test Environment Config
+      - name: Get Library Versions For Binary Caching
+        id: dep-versions
+        run: |
+          echo "::set-output name=firebase-tools::$(yarn info firebase-tools version --silent)"
+          echo "::set-output name=firebase-tools::$(yarn info cypress version --silent)"
+
+      - name: Cache Firebase Emulator Binaries
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/firebase/emulators
+          key: ${{ runner.os }}-firebase-${{ steps.dep-versions.outputs.firebase-tools }}
+
+      - name: Cache Cypress Binary
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ steps.dep-versions.outputs.cypress }}
+
+      - name: Set Test Environment Settings
+        id: emulator-settings
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           TEST_UID: ${{ secrets.MASTER_TEST_UID }}
@@ -116,17 +133,12 @@ jobs:
         run: |
           $(npm bin)/cypress-firebase createTestEnvFile $TEST_ENV
 
-      - name: Upload Test Config
-        uses: actions/upload-artifact@master
-        with:
-          name: test-config
-          path: cypress.env.json
-
       # Download Built app since we are testing locally
       - name: Download Build Artifact
         uses: actions/download-artifact@master
         with:
           name: build
+          path: build
 
       # Cypress action manages installing/caching npm dependencies and Cypress binary.
       # This stage tests a version of the app which is running locally in the
@@ -140,7 +152,7 @@ jobs:
           install: false
           record: true
           group: 'E2E Tests'
-          start: $(npm bin)/firebase-ci serve
+          start: <% if(useYarn) { %>yarn<% } else { %>npm<% } %> emulate
           wait-on: http://localhost:3000
           # wait for 3 minutes for the server to respond
           wait-on-timeout: 180

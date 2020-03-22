@@ -14,7 +14,7 @@
  * // => 'After Map' ['test']
  */
 export function fpLog(message) {
-  return existing => {
+  return (existing) => {
     console.log(message, existing) // eslint-disable-line no-console
     return existing
   }

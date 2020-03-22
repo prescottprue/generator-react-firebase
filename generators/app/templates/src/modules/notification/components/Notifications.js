@@ -24,7 +24,7 @@ function Notifications() {
 
   return (
     <div>
-      {allIds.map(id => {
+      {allIds.map((id) => {
         function dismissCurrentNotification() {
           dismissNotification(id)
         }

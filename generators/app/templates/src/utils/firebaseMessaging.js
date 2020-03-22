@@ -1,6 +1,6 @@
 <% if (includeRedux) { %>import { get } from 'lodash'
-<% } %>import firebase from 'firebase/app'
-import messageActions from 'modules/notification'
+<% } %>import firebase from 'firebase/app'<% if (includeRedux) { %>
+import messageActions from 'modules/notification'<% } %>
 import { publicVapidKey } from '../config'
 import 'firebase/messaging'
 
@@ -24,40 +24,28 @@ function updateUserProfileWithToken(messagingToken) {
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       }
     })
-}
-
-/**
- * Get messaging token from Firebase messaging
- */
-function getMessagingToken() {
-  return firebase
-    .messaging()
-    .getToken()
-    .catch(err => {
-      console.error('Unable to retrieve refreshed token ', err) // eslint-disable-line no-console
+    .catch((err) => {
+      /* eslint-disable no-console */
+      console.error(
+        'Error updating user profile with messaging token:',
+        err.message
+      )
+      /* eslint-enable no-console */
       return Promise.reject(err)
     })
 }
 
 /**
- * Get Cloud Messaging Token and write it to the currently logged
- * in user's profile
+ * Get Cloud Messaging Token from Firebase messaging
+ * and write it to the currently logged in user's profile
  */
 function getTokenAndWriteToProfile() {
-  return getMessagingToken().then(updateUserProfileWithToken)
-}
-
-/**
- * Request permission from the user to display display
- * browser notifications
- */
-export function requestPermission() {
   return firebase
     .messaging()
-    .requestPermission()
-    .then(getTokenAndWriteToProfile)
-    .catch(err => {
-      console.error('Unable to get permission to notify: ', err) // eslint-disable-line no-console
+    .getToken()
+    .then(updateUserProfileWithToken)
+    .catch((err) => {
+      console.error('Unable to get token and write to profile', err) // eslint-disable-line no-console
       return Promise.reject(err)
     })
 }
@@ -91,16 +79,22 @@ export function initializeMessaging(<% if (includeRedux) { %>dispatch<% } %>) {
   // - a message is received while the app has focus
   // - the user clicks on an app notification created by a service worker
   //   `messaging.setBackgroundMessageHandler` handler.
-  messaging.onMessage(payload => {
+  messaging.onMessage((payload) => {
     <% if (includeRedux) { %>const DEFAULT_MESSAGE = 'Message!'
     // Dispatch showSuccess action
     messageActions.showSuccess(
       get(payload, 'notification.body', DEFAULT_MESSAGE)
-    )(dispatch)<% } %><% if (!includeRedux) { %>
-    // TODO: Wire up notification
-    console.log('Message', payload)<% } %>
+    )(dispatch)<% } %><% if (!includeRedux) { %>// TODO: Wire up notification
+    console.log('Message', payload) // eslint-disable-line no-console<% } %>
   })
 
   // Request permission to setup browser notifications
-  requestPermission()
+  firebase
+    .messaging()
+    .requestPermission()
+    .then(getTokenAndWriteToProfile)
+    .catch((err) => {
+      console.error('Unable to get permission to notify: ', err) // eslint-disable-line no-console
+      return Promise.reject(err)
+    })
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'<% if (!includeRedux) { %>
-import { useFirebaseApp } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
+import { useHistory } from 'react-router-dom'<% if (!includeRedux && includeFirestore) { %>
+import { useFirestore } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
+import { useDatabase } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { useFirestore } from 'react-redux-firebase'<% } %>
 import Paper from '@material-ui/core/Paper'
@@ -21,8 +22,9 @@ function ProjectTile({ name, projectId, showDelete }) {
   const firebase = useFirebase()
   const { showError, showSuccess } = useNotifications()<% } %><% if (includeRedux && includeFirestore) { %>
   const firestore = useFirestore()
-  const { showError, showSuccess } = useNotifications()<% } %><% if (!includeRedux) { %>
-  const firebase = useFirebaseApp()<% } %>
+  const { showError, showSuccess } = useNotifications()<% } %><% if (!includeRedux && includeFirestore) { %>
+  const firestore = useFirestore()<% } %><% if (!includeRedux && !includeFirestore) { %>
+  const database = useDatabase()<% } %>
 
   function goToProject() {
     return history.push(`${LIST_PATH}/${projectId}`)
@@ -32,23 +34,27 @@ function ProjectTile({ name, projectId, showDelete }) {
     <% if (includeRedux && !includeFirestore) { %>return firebase
       .remove(`projects/${projectId}`)
       .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         showError(err.message || 'Could not delete project')
         return Promise.reject(err)
       })<% } %><% if (includeRedux && includeFirestore) { %>return firestore
       .delete(`projects/${projectId}`)
       .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         showError(err.message || 'Could not delete project')
         return Promise.reject(err)
-      })<% } %><% if (!includeRedux) { %>return firebase
-      .firestore()
-      .collection('projects')
-      .doc(projectId)
+      })<% } %><% if (!includeRedux && includeFirestore) { %>return firestore
+      .doc(`projects/${projectId}`)
       .delete()
-      .catch(err => {
+      .catch((err) => {
+        console.error('Error:', err) // eslint-disable-line no-console
+        return Promise.reject(err)
+      })<% } %><% if (!includeRedux && !includeFirestore) { %>return database
+      .ref(`projects/${projectId}`)
+      .remove()
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         return Promise.reject(err)
       })<% } %>

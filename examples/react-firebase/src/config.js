@@ -8,13 +8,13 @@ export const env = 'dev'
 
 // Config for firebase
 export const firebase = {
-  "projectId": "redux-firebasev3",
-  "appId": "1:823357791673:web:e53b561c7e36427fe06a68",
-  "databaseURL": "https://redux-firebasev3.firebaseio.com",
-  "storageBucket": "redux-firebasev3.appspot.com",
-  "locationId": "us-central",
-  "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
-  "authDomain": "redux-firebasev3.firebaseapp.com",
-  "messagingSenderId": "823357791673",
-  "measurementId": "G-QB2GP30FWW"
+  apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
+  authDomain: 'redux-firebasev3.firebaseapp.com',
+  databaseURL: 'https://redux-firebasev3.firebaseio.com',
+  projectId: 'redux-firebasev3',
+  storageBucket: 'redux-firebasev3.appspot.com',
+  messagingSenderId: '823357791673',
+  appId: '1:823357791673:web:e53b561c7e36427fe06a68'
 }
+
+export const publicVapidKey = 'BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg'

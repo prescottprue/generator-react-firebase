@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux && includeFirestore) { %>
-import { useFirebaseApp, useUser, useFirestoreCollection } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
-import { useFirebaseApp, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
+import { useFirestore, useUser, useFirestoreCollectionData } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
+import { useDatabase, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
 import {
   useFirebase,
@@ -30,18 +30,34 @@ function useProjectsList() {<% if (includeRedux) { %>
   <% } %><% if (!includeRedux) { %>
   // Get current user (loading handled by Suspense in ProjectsList)
   const auth = useUser()
-  const firebase = useFirebaseApp()
 
   <% } %><% if (!includeRedux && includeFirestore) { %>// Create a ref for projects owned by the current user
-  const projectsRef = firebase
-    .firestore()
+  const firestore = useFirestore()
+  const { FieldValue } = useFirestore
+
+  // TODO: Move this to top level once supported by reactfire. See
+  // https://github.com/FirebaseExtended/reactfire/issues/235 for more details
+  // Enable Firestore emulator if environment variable is set
+  if (process.env.REACT_APP_FIRESTORE_EMULATOR_HOST) {
+    /* eslint-disable no-console */
+    console.debug(
+      `Firestore emulator enabled: ${process.env.REACT_APP_FIRESTORE_EMULATOR_HOST}`
+    )
+    /* eslint-enable no-console */
+    firestore.settings({
+      host: process.env.REACT_APP_FIRESTORE_EMULATOR_HOST,
+      ssl: false
+    })
+  }
+
+  const projectsRef = firestore
     .collection('projects')
     .where('createdBy', '==', auth.uid)
-  
+
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const projects = useFirestoreCollection(projectsRef)<% } %><% if (!includeRedux && !includeFirestore) { %>// Create a ref for projects owned by the current user
-  const projectsRef = firebase
-    .database()
+  const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })<% } %><% if (!includeRedux && !includeFirestore) { %>// Create a ref for projects owned by the current user
+  const database = useDatabase()
+  const projectsRef = database
     .ref('projects')
     .orderByChild('createdBy')
     .equalTo(auth.uid)
@@ -50,7 +66,7 @@ function useProjectsList() {<% if (includeRedux) { %>
   const projects = useDatabaseList(projectsRef)<% } %><% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()
 
   // Get auth from redux state
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useSelector(({ firebase: { auth } }) => auth)
   // Create listeners based on current users UID
   useFirebaseConnect([
     {
@@ -64,10 +80,10 @@ function useProjectsList() {<% if (includeRedux) { %>
   ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.firebase.ordered.projects)<% } %><% if (includeRedux && includeFirestore) { %>const firestore = useFirestore()
+  const projects = useSelector(({ firebase: { ordered } }) => ordered.projects)<% } %><% if (includeRedux && includeFirestore) { %>const firestore = useFirestore()
 
   // Get auth from redux state
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useSelector(({ firebase: { auth } }) => auth)
 
   useFirestoreConnect([
     {
@@ -77,7 +93,7 @@ function useProjectsList() {<% if (includeRedux) { %>
   ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.firestore.ordered.projects)<% } %>
+  const projects = useSelector(({ firestore: { ordered } }) => ordered.projects)<% } %>
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
@@ -97,26 +113,26 @@ function useProjectsList() {<% if (includeRedux) { %>
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firestore.FieldValue.serverTimestamp()
-      })<% } %><% if (!includeRedux && includeFirestore) { %>firebase
-      .firestore()
+      })<% } %><% if (!includeRedux && includeFirestore) { %>firestore
       .collection('projects')
       .add({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firestore.FieldValue.serverTimestamp()
-      })<% } %><% if (!includeRedux && !includeFirestore) { %>firebase
-      .database()
+        createdAt: FieldValue.serverTimestamp()
+      })<% } %><% if (!includeRedux && !includeFirestore) { %>database
       .ref('projects')
       .push({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+        createdAt: Date.now()
+        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
+        // createdAt: database.ServerValue.TIMESTAMP
       })<% } %>
       .then(() => {
         toggleDialog()<% if (includeRedux) { %>
         showSuccess('Project added successfully')<% } %>
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console<% if (includeRedux) { %>
         showError(err.message || 'Could not add project')<% } %>
         return Promise.reject(err)
@@ -149,14 +165,13 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         <NewProjectTile onClick={toggleDialog} />
-        {<% if (!includeRedux && includeFirestore) { %>!isEmpty(projects) &&
-          projects.docs((projectSnap, ind) => {
-            const project = projectSnap.data()
+        {<% if (!includeRedux && includeFirestore) { %>projects &&
+          projects.map((project, ind) => {
             return (
               <ProjectTile
-                key={`Project-${projectSnap.id}-${ind}`}
+                key={`Project-${project.id}-${ind}`}
                 name={project && project.name}
-                projectId={projectSnap.id}
+                projectId={project.id}
               />
             )
           })<% } %><% if (!includeRedux && !includeFirestore) { %>projects &&

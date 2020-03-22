@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Check package version
         uses: technote-space/package-version-check-action@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Setup Node
+      - name: Use Node 12
         uses: actions/setup-node@v1
         with:
           node-version: 12
@@ -34,8 +34,10 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: |
-          yarn install --frozen-lockfile
+        env:
+          CI: true
+          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
+        run: yarn install --frozen-lockfile
 
       - name: Check Lint
         run: yarn lint
@@ -60,8 +62,7 @@ jobs:
       #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload Code Coverage (Codecov)
-        run: |
-          cat coverage/lcov.info | $(yarn bin)/codecov
+        run: cat coverage/lcov.info | $(yarn bin)/codecov
 
       - name: Archive Workspace on Failure
         if: failure()

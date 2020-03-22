@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
   avatarCurrent: {
     width: '100%',
     maxWidth: '13rem',

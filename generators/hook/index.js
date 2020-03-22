@@ -40,7 +40,7 @@ module.exports = class extends Generator {
       }
     ]
 
-    filesArray.forEach(file => {
+    filesArray.forEach((file) => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),

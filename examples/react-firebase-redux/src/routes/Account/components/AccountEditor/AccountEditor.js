@@ -17,7 +17,7 @@ function AccountEditor() {
   const { showSuccess, showError } = useNotifications()
 
   // Get profile from redux state
-  const profile = useSelector(state => state.firebase.profile)
+  const profile = useSelector(({ firebase }) => firebase.profile)
 
   if (!isLoaded(profile)) {
     return <LoadingSpinner />
@@ -27,7 +27,7 @@ function AccountEditor() {
     return firebase
       .updateProfile(newAccount)
       .then(() => showSuccess('Profile updated successfully'))
-      .catch(error => {
+      .catch((error) => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
         showError('Error updating profile: ', error.message || error)
         return Promise.reject(error)
@@ -39,7 +39,7 @@ function AccountEditor() {
       <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
         <img
           className={classes.avatarCurrent}
-          src={profile.avatarUrl || defaultUserImageUrl}
+          src={(profile && profile.avatarUrl) || defaultUserImageUrl}
           alt=""
         />
       </Grid>

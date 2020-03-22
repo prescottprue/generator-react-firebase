@@ -110,7 +110,7 @@ module.exports = class extends Generator {
       )}`
     )
     const projectPackageFile = loadProjectPackageFile()
-    return this.prompt(prompts).then(props => {
+    return this.prompt(prompts).then((props) => {
       this.answers = Object.assign({}, props, {
         // proptypes included by default if project package file not loaded
         // (i.e. null due to throws: false in loadProjectPackageFile)
@@ -175,7 +175,7 @@ module.exports = class extends Generator {
       })
     }
 
-    filesArray.forEach(file => {
+    filesArray.forEach((file) => {
       this.fs.copyTpl(
         this.templatePath(file.src),
         this.destinationPath(file.dest),

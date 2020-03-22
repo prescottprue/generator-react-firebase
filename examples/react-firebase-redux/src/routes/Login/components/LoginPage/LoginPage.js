@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import GoogleButton from 'react-google-button'
 import { useFirebase } from 'react-redux-firebase'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
+import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
 import LoginForm from '../LoginForm'
@@ -23,11 +23,11 @@ function LoginPage() {
   function googleLogin() {
     return firebase
       .login({ provider: 'google', type: 'popup' })
-      .catch(err => showError(err.message))
+      .catch((err) => showError(err.message))
   }
 
   function emailLogin(creds) {
-    return firebase.login(creds).catch(err => showError(err.message))
+    return firebase.login(creds).catch((err) => showError(err.message))
   }
 
   return (

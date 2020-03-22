@@ -3,51 +3,36 @@ import PropTypes from 'prop-types'<% if (!includeRedux) { %>
 import { FirebaseAppProvider } from 'reactfire'<% } %>
 import { BrowserRouter as Router } from 'react-router-dom'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
+import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/database'<% if (includeRedux && includeFirestore) { %>
-import 'firebase/firestore'<% } %>
-import 'firebase/performance'<% if (!includeRedux && includeAnalytics) { %>
-import 'firebase/analytics'<% } %><% if (!includeRedux && includeMessaging) { %>
-import { initializeMessaging } from 'utils/firebaseMessaging'<% } %><% if (!includeRedux && includeAnalytics) { %>
-import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (!includeRedux && (includeErrorHandling || includeSentry)) { %>
-import { setErrorUser } from 'utils/errorHandler'<% } %>
-import ThemeSettings from 'theme'<% if (includeRedux) { %>
-import { defaultRRFConfig } from 'defaultConfig'<% } %>
-import * as config from 'config'
+import ThemeSettings from '../../theme'<% if (includeRedux) { %>
+import { defaultRRFConfig } from '../../defaultConfig'<% } %><% if (!includeRedux) { %>
+import * as config from '../../config'<% } %><% if (includeRedux) { %>
+import initializeFirebase from '../../initializeFirebase'<% } %>
 
 const theme = createMuiTheme(ThemeSettings)
 
-// Initialize Firebase instance
-firebase.initializeApp(config.firebase)<% if (includeAnalytics) { %>
-// Initialize Firebase analytics if measurementId exists
-if (config.firebase.measurementId) {
-  firebase.analytics()
-}<% } %><% if (!includeRedux && (includeMessaging || includeAnalytics || includeSentry || includeErrorHandling)) { %>
-firebase.auth().onAuthStateChanged(auth => {
-  if (auth) {<% if (includeSentry || includeErrorHandling) { %>
-    // Set auth within error handler
-    setErrorUser(auth)<% } %><% if (includeMessaging) { %>
-    // Initalize messaging
-    initializeMessaging()<% } %><% if (includeAnalytics) { %>
-    // Set auth within analytics
-    setAnalyticsUser(auth)<% } %>
-  }
-})
-<% } %>
+<% if (includeRedux) { %>initializeFirebase()
+<% } %><% if (!includeRedux) { %>const { firebase: firebaseConfig } = config
 
-<% if (!includeRedux) { %>function App({ routes }) {
+// Enable Real Time Database emulator if environment variable is set
+if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
+  firebaseConfig.databaseURL = `http://${process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST}?ns=${firebaseConfig.projectId}`
+  console.debug(`RTDB emulator enabled: ${firebaseConfig.databaseURL}`) // eslint-disable-line no-console
+}
+
+function App({ routes }) {
   return (
     <MuiThemeProvider theme={theme}>
-      <FirebaseAppProvider firebaseConfig={config.firebase} initPerformance>
+      <FirebaseAppProvider firebaseConfig={firebaseConfig} initPerformance>
         <Router>{routes}</Router>
       </FirebaseAppProvider>
     </MuiThemeProvider>
   )
-}<% } else { %>function App({ routes, store }) {
+}<% } else { %>
+function App({ routes, store }) {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>

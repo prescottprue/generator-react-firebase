@@ -4,6 +4,17 @@
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "emulators": {
+    <% if (includeFirestore) { %>"firestore": {
+      "port": 8080
+    },
+    <% } %>"database": {
+      "port": 9000
+    },
+    "hosting": {
+      "port": 3000
+    }
   }<% if (includeFirestore) { %>,
   "firestore": {
     "rules": "firestore.rules",

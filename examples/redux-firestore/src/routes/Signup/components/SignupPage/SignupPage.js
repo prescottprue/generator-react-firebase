@@ -23,7 +23,7 @@ function SignupPage() {
   function googleLogin() {
     return firebase
       .login({ provider: 'google', type: 'popup' })
-      .catch(err => showError(err.message))
+      .catch((err) => showError(err.message))
   }
 
   function emailSignup(creds) {
@@ -32,7 +32,7 @@ function SignupPage() {
         email: creds.email,
         username: creds.username
       })
-      .catch(err => showError(err.message))
+      .catch((err) => showError(err.message))
   }
 
   return (
