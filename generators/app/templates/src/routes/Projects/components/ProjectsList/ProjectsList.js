@@ -49,7 +49,7 @@ function useProjectsList() {<% if (includeRedux) { %>
   const projects = useDatabaseList(projectsRef)<% } %><% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()
 
   // Get auth from redux state
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useSelector(({ firebase: { auth } }) => auth)
   // Create listeners based on current users UID
   useFirebaseConnect([
     {
@@ -63,10 +63,10 @@ function useProjectsList() {<% if (includeRedux) { %>
   ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.firebase.ordered.projects)<% } %><% if (includeRedux && includeFirestore) { %>const firestore = useFirestore()
+  const projects = useSelector(({ firebase: { ordered } }) => ordered.projects)<% } %><% if (includeRedux && includeFirestore) { %>const firestore = useFirestore()
 
   // Get auth from redux state
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useSelector(({ firebase: { auth } }) => auth)
 
   useFirestoreConnect([
     {
@@ -76,7 +76,7 @@ function useProjectsList() {<% if (includeRedux) { %>
   ])
 
   // Get projects from redux state
-  const projects = useSelector(state => state.firestore.ordered.projects)<% } %>
+  const projects = useSelector(({ firestore: { ordered } }) => ordered.projects)<% } %>
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
@@ -119,7 +119,7 @@ function useProjectsList() {<% if (includeRedux) { %>
         toggleDialog()<% if (includeRedux) { %>
         showSuccess('Project added successfully')<% } %>
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console<% if (includeRedux) { %>
         showError(err.message || 'Could not add project')<% } %>
         return Promise.reject(err)

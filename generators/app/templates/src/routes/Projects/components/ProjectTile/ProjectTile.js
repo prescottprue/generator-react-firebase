@@ -34,27 +34,27 @@ function ProjectTile({ name, projectId, showDelete }) {
     <% if (includeRedux && !includeFirestore) { %>return firebase
       .remove(`projects/${projectId}`)
       .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         showError(err.message || 'Could not delete project')
         return Promise.reject(err)
       })<% } %><% if (includeRedux && includeFirestore) { %>return firestore
       .delete(`projects/${projectId}`)
       .then(() => showSuccess('Project deleted successfully'))
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         showError(err.message || 'Could not delete project')
         return Promise.reject(err)
       })<% } %><% if (!includeRedux && includeFirestore) { %>return firestore
       .doc(`projects/${projectId}`)
       .delete()
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         return Promise.reject(err)
       })<% } %><% if (!includeRedux && !includeFirestore) { %>return database
       .ref(`projects/${projectId}`)
       .remove()
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         return Promise.reject(err)
       })<% } %>

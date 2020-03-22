@@ -19,8 +19,8 @@ function AccountEditor() {
   function updateAccount(newAccount) {
     return auth
       .updateProfile(newAccount)
-      .then(() => accountRef.update(newAccount))
-      .catch(error => {
+      .then(() => accountRef.set(newAccount, { merge: true }))
+      .catch((error) => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
         return Promise.reject(error)
       })

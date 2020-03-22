@@ -25,7 +25,7 @@ function ProjectTile({ name, projectId, showDelete }) {
     return database
       .ref(`projects/${projectId}`)
       .remove()
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         return Promise.reject(err)
       })

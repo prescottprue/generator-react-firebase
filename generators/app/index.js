@@ -17,7 +17,7 @@ const featureChoices = [
   {
     answerName: 'includeMessaging',
     name: 'Firebase Cloud Messaging',
-    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
+    when: currentAnswers => !!currentAnswers.messagingSenderId,
     checked: true
   },
   {
@@ -65,7 +65,7 @@ const featureChoices = [
 function checkAnswersForFeature(currentAnswers, featureName) {
   const { otherFeatures } = currentAnswers
   const matchingFeature = featureChoices.find(
-    (choice) => choice.answerName === featureName
+    choice => choice.answerName === featureName
   )
   return otherFeatures.includes(matchingFeature.name)
 }
@@ -116,28 +116,28 @@ const prompts = [
   {
     name: 'messagingSenderId',
     message: 'Firebase messagingSenderId',
-    when: (currentAnswers) =>
+    when: currentAnswers =>
       checkAnswersForFeature(currentAnswers, 'includeMessaging'),
     store: true
   },
   {
     name: 'measurementId',
     message: 'Firebase Analytics MeasurementID',
-    when: (currentAnswers) =>
+    when: currentAnswers =>
       checkAnswersForFeature(currentAnswers, 'includeAnalytics'),
     store: true
   },
   {
     name: 'appId',
     message: 'Firebase App Id',
-    when: (currentAnswers) =>
+    when: currentAnswers =>
       checkAnswersForFeature(currentAnswers, 'includeAnalytics') ||
       checkAnswersForFeature(currentAnswers, 'includeMessaging'),
     store: true
   },
   {
     name: 'firebasePublicVapidKey',
-    when: (currentAnswers) => !!currentAnswers.messagingSenderId,
+    when: currentAnswers => !!currentAnswers.messagingSenderId,
     message:
       'Firebase Messaging Public Vapid Key (Firebase Console > Messaging > Web Push Certs)',
     required: true,
@@ -146,20 +146,19 @@ const prompts = [
   {
     name: 'segmentId',
     message: 'Segment ID',
-    when: (currentAnswers) =>
+    when: currentAnswers =>
       checkAnswersForFeature(currentAnswers, 'includeSegment')
   },
   {
     name: 'sentryDsn',
     message: 'Sentry DSN',
-    when: (currentAnswers) =>
+    when: currentAnswers =>
       checkAnswersForFeature(currentAnswers, 'includeSentry')
   },
   {
     type: 'list',
     name: 'ciProvider',
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeCI'),
+    when: currentAnswers => checkAnswersForFeature(currentAnswers, 'includeCI'),
     choices: [
       {
         name: 'Github Actions',
@@ -238,8 +237,8 @@ const filesArray = [
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
-  { src: 'src/utils/components.js' },
-  { src: 'src/utils/router.js' }
+  { src: 'src/utils/router.js' },
+  { src: 'src/utils/form.js' }
 ]
 
 module.exports = class extends Generator {
@@ -283,13 +282,13 @@ module.exports = class extends Generator {
       )
     )
 
-    return this.prompt(prompts).then((props) => {
+    return this.prompt(prompts).then(props => {
       this.answers = props
       // Map features array to answerNames
       if (props.otherFeatures) {
-        featureChoices.forEach((choice) => {
+        featureChoices.forEach(choice => {
           const matching = props.otherFeatures.find(
-            (feature) => choice.name === feature
+            feature => choice.name === feature
           )
           this.answers[choice.answerName] = !!matching
         })
@@ -339,9 +338,10 @@ module.exports = class extends Generator {
         { src: 'src/store/createStore.js' },
         { src: 'src/store/reducers.js' },
         { src: 'src/store/location.js' },
-        { src: 'src/utils/form.js' },
         { src: 'src/defaultConfig.js' },
-        { src: 'src/modules/**', dest: 'src/modules' }
+        { src: 'src/modules/**', dest: 'src/modules' },
+        { src: 'src/utils/components.js' },
+        { src: 'src/initializeFirebase.js' }
       )
 
       // Firestore
@@ -423,7 +423,7 @@ module.exports = class extends Generator {
       )
     }
 
-    filesArray.forEach((file) => {
+    filesArray.forEach(file => {
       if (file.noTemplating || file.src.indexOf('.png') !== -1) {
         return this.fs.copy(
           this.templatePath(file.src),

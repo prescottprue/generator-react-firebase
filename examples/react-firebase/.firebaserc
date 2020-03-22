@@ -13,8 +13,11 @@
           "authDomain": "redux-firebasev3.firebaseapp.com",
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",
-          "storageBucket": "redux-firebasev3.appspot.com"
-        }
+          "storageBucket": "redux-firebasev3.appspot.com",
+          "messagingSenderId": "823357791673",
+          "appId": "1:823357791673:web:e53b561c7e36427fe06a68"
+        },
+        "publicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg"
       },
       "prod": {
         "env": "production",
@@ -23,8 +26,11 @@
           "authDomain": "redux-firebasev3.firebaseapp.com",
           "databaseURL": "https://redux-firebasev3.firebaseio.com",
           "projectId": "redux-firebasev3",
-          "storageBucket": "redux-firebasev3.appspot.com"
-        }
+          "storageBucket": "redux-firebasev3.appspot.com",
+          "messagingSenderId": "823357791673",
+          "appId": "1:823357791673:web:e53b561c7e36427fe06a68"
+        },
+        "publicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg"
       }
     }
   }

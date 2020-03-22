@@ -39,7 +39,7 @@ function useProjectsList() {
       .then(() => {
         toggleDialog()
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
         return Promise.reject(err)
       })

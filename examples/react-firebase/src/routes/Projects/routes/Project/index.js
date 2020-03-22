@@ -1,4 +1,4 @@
-import { loadable } from 'utils/components'
+import { loadable } from 'utils/router'
 
 export default {
   path: ':projectId',

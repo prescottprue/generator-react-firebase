@@ -41,7 +41,7 @@
      env,
      firebase,
      reduxFirebase,
-     segmentId
+     segmentId,
    };
    ```
 
@@ -139,7 +139,7 @@ import HomePage from "./components/HomePage";
 // Sync route definition
 export default {
   path: "/",
-  component: HomePage
+  component: HomePage,
 };
 ```
 
@@ -156,7 +156,7 @@ import loadable from "utils/components";
 export default {
   component: loadable(() =>
     import(/* webpackChunkName: 'NotFound' */ "./components/NotFoundPage")
-  )
+  ),
 };
 ```
 

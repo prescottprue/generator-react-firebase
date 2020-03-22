@@ -1,7 +1,6 @@
 import React from 'react'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 import { useParams } from 'react-router-dom'<% if (includeRedux && !includeFirestore) { %>
 import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %><% if (includeRedux && includeFirestore) { %>
@@ -10,13 +9,9 @@ import { useSelector } from 'react-redux'<% } %><% if (!includeRedux && includeF
 import { useFirestoreDoc, useFirestore } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
 import { useDatabaseObject, useDatabase } from 'reactfire'<% } %><% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
-import styles from './ProjectData.styles'
-
-const useStyles = makeStyles(styles)
 
 function ProjectData() {
-  const { projectId } = useParams()
-  const classes = useStyles()<% if (includeRedux && !includeFirestore) { %>
+  const { projectId } = useParams()<% if (includeRedux && !includeFirestore) { %>
 
   // Create listener for projects
   useFirebaseConnect([{ path: `projects/${projectId}` }])
@@ -59,10 +54,10 @@ function ProjectData() {
 
   return (
     <CardContent>
-      <Typography className={classes.title} component="h2">
+      <Typography component="h2">
         {(project && project.name) || 'Project'}
       </Typography>
-      <Typography className={classes.subtitle}>{projectId}</Typography>
+      <Typography>{projectId}</Typography>
       <div style={{ marginTop: '4rem' }}>
         <pre>{JSON.stringify(project, null, 2)}</pre>
       </div>

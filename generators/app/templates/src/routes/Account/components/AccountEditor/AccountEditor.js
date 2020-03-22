@@ -29,30 +29,24 @@ function AccountEditor() {
   const { showSuccess, showError } = useNotifications()
 
   // Get profile from redux state
-  const profile = useSelector(state => state.firebase.profile)
+  const profile = useSelector(({ firebase }) => firebase.profile)
 
   if (!isLoaded(profile)) {
     return <LoadingSpinner />
   }<% } %>
 
   function updateAccount(newAccount) {
-    return <% if (includeRedux) { %>firebase.
+    return <% if (includeRedux) { %>firebase
       .updateProfile(newAccount)
       .then(() => showSuccess('Profile updated successfully'))
-      .catch(error => {
+      .catch((error) => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
         showError('Error updating profile: ', error.message || error)
         return Promise.reject(error)
-      })<% } %><% if (!includeRedux && includeFirestore) { %>auth
+      })<% } %><% if (!includeRedux) { %>auth
       .updateProfile(newAccount)
       .then(() => accountRef.set(newAccount, { merge: true }))
-      .catch(error => {
-        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-        return Promise.reject(error)
-      })<% } %><% if (!includeRedux && !includeFirestore) { %>auth
-      .updateProfile(newAccount)
-      .then(() => accountRef.update(newAccount))
-      .catch(error => {
+      .catch((error) => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
         return Promise.reject(error)
       })<% } %>

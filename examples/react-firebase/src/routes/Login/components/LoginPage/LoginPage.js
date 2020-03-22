@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import GoogleButton from 'react-google-button'
-import { useFirebaseApp } from 'reactfire'
+import { useAuth } from 'reactfire'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
+import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH } from 'constants/paths'
 import LoginForm from '../LoginForm'
 import styles from './LoginPage.styles'
@@ -12,17 +12,15 @@ const useStyles = makeStyles(styles)
 
 function LoginPage() {
   const classes = useStyles()
-  const firebase = useFirebaseApp()
+  const auth = useAuth()
 
   function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    return firebase.auth().signInWithPopup(provider)
+    const provider = new auth.GoogleAuthProvider()
+    return auth.signInWithPopup(provider)
   }
 
   function emailLogin(creds) {
-    return firebase
-      .auth()
-      .signInWithEmailAndPassword(creds.email, creds.password)
+    return auth.signInWithEmailAndPassword(creds.email, creds.password)
   }
 
   return (

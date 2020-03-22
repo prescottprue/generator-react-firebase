@@ -1,4 +1,4 @@
-import { loadable } from 'utils/components'
+import { loadable } from 'utils/router'
 import { SIGNUP_PATH as path } from 'constants/paths'
 
 export default {

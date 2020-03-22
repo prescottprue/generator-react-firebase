@@ -36,10 +36,13 @@
     // Overrides for for react-redux-firebase/redux-firestore config
     export const reduxFirebase = {}
 
+    export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
+
     export default {
       env,
       firebase,
-      reduxFirebase
+      reduxFirebase,
+      publicVapidKey
     }
     ```
 1. Start Development server: `npm start`

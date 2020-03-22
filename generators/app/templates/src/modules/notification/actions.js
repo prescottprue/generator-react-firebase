@@ -20,7 +20,7 @@ export function showNotification(notif) {
   if (!payload.id) {
     payload.id = Date.now()
   }
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: NOTIFICATION_SHOW, payload })
 
     setTimeout(() => {
