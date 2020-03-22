@@ -64,14 +64,14 @@ npm install -g yo generator-react-firebase
 * [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
 * [material-ui](https://material-ui.com) - Google Material Styling React Components
 * [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
+* [react-hook-form](https://react-hook-form.com/) - Form input validation + state
+* [react-scripts](https://www.npmjs.com/package/react-scripts) - Build + Dev tooling from [create-react-app](https://github.com/facebook/create-react-app#readme)
 
 *When opting into redux*
 
-* [redux](http://redux.js.org/) - Client Side state *optional*
+* [redux](http://redux.js.org/) - Client Side state
 * [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
 * [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
-* [Formik](https://jaredpalmer.com/formik/) - Form input validation + state
-* [redux-form-material-ui](https://github.com/erikras/redux-form-material-ui) - Material UI components that work nicely with redux-form
 
 *When not opting into redux*
 

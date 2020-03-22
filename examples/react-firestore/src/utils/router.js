@@ -52,7 +52,10 @@ export function PrivateRoute({ children, path, ...rest }) {
 PrivateRoute.propTypes = {
   children: PropTypes.element,
   path: PropTypes.string.isRequired,
-  component: PropTypes.element
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+  ])
 }
 
 /**
