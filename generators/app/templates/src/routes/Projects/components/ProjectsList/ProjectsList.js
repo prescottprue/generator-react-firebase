@@ -36,7 +36,7 @@ function useProjectsList() {<% if (includeRedux) { %>
   const projectsRef = firestore
     .collection('projects')
     .where('createdBy', '==', auth.uid)
-  
+
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useFirestoreCollection(projectsRef)<% } %><% if (!includeRedux && !includeFirestore) { %>// Create a ref for projects owned by the current user
   const database = useDatabase()
@@ -152,7 +152,7 @@ function ProjectsList() {
       />
       <div className={classes.tiles}>
         <NewProjectTile onClick={toggleDialog} />
-        {<% if (!includeRedux && includeFirestore) { %>!isEmpty(projects) &&
+        {<% if (!includeRedux && includeFirestore) { %>projects &&
           projects.docs((projectSnap, ind) => {
             const project = projectSnap.data()
             return (

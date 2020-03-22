@@ -61,7 +61,7 @@ export function setErrorUser(auth) {
       errorHandler.setUser(auth.uid)
     }<% if (includeSentry) { %>
     // Set user within Sentry
-    Sentry.configureScope(scope => {
+    Sentry.configureScope((scope) => {
       scope.setUser({
         id: auth.uid,
         email: auth.email || 'none'

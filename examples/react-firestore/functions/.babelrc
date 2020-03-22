@@ -1,0 +1,22 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "node": "10"
+      }
+    }]
+  ],
+  "plugins": [
+    "lodash",
+    ["module-resolver", {
+      "root": ["./src"]
+    }]
+  ],
+  "env": {
+    "production": {
+      "comments": false,
+      "minified": true,
+      "sourceMaps": "inline"
+    }
+  }
+}

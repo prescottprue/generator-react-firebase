@@ -69,5 +69,3 @@ export function init() {
     initGA()
   }
 }
-
-export default { initGA, triggerAnalyticsEvent, trackRouteUpdate }

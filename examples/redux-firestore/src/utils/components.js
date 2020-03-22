@@ -1,6 +1,5 @@
 import { get } from 'lodash'
 import { isLoaded, isEmpty } from 'react-redux-firebase/lib/helpers'
-import LoadableComponent from 'react-loadable'
 import { branch, renderComponent } from 'recompose'
 import LoadingSpinner from 'components/LoadingSpinner'
 
@@ -42,8 +41,8 @@ export function spinnerWhileLoading(propNames) {
     console.error(missingPropNamesErrMsg) // eslint-disable-line no-console
     throw new Error(missingPropNamesErrMsg)
   }
-  return spinnerWhile(props =>
-    propNames.some(name => !isLoaded(get(props, name)))
+  return spinnerWhile((props) =>
+    propNames.some((name) => !isLoaded(get(props, name)))
   )
 }
 
@@ -77,8 +76,8 @@ export function renderWhileEmpty(propNames, component) {
   }
   return renderWhile(
     // Any of the listed prop name correspond to empty props (supporting dot path names)
-    props =>
-      propNames.some(propNames, name => {
+    (props) =>
+      propNames.some(propNames, (name) => {
         const propValue = get(props, name)
         return (
           isLoaded(propValue) &&
@@ -88,18 +87,4 @@ export function renderWhileEmpty(propNames, component) {
       }),
     component
   )
-}
-
-/**
- * Create component which is loaded async, showing a loading spinner
- * in the meantime.
- * @param {object} opts - Loading options
- * @param {Function} opts.loader - Loader function (should return import promise)
- * @returns {React.Component}
- */
-export function Loadable(opts) {
-  return LoadableComponent({
-    loading: LoadingSpinner,
-    ...opts
-  })
 }
