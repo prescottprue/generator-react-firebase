@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'<% if (!includeRedux) { %>
+import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { AuthCheck } from 'reactfire'
 import { LOGIN_PATH } from 'constants/paths'<% } %><% if (includeRedux) { %>
@@ -123,11 +124,16 @@ export function PrivateRoute({ children, path, ...rest }) {
             state: { from: path }
           }}
         />
-      }
-    >
+      }>
       <Route key={`Route-${path}`} path={path} {...rest} />
     </AuthCheck>
-  );
+  )
+}
+
+PrivateRoute.propTypes = {
+  children: PropTypes.element,
+  path: PropTypes.string.isRequired,
+  component: PropTypes.element
 }<% } %>
 
 /**

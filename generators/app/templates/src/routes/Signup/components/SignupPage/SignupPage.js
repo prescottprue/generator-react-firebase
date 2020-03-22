@@ -37,7 +37,7 @@ function SignupPage() {
       .catch((err) => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
   const auth = useAuth()
-  const history = useHistory();
+  const history = useHistory()
 
   auth.onAuthStateChanged((auth) => {
     if (auth) {

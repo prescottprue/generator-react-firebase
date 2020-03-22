@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles)
 function LoginPage() {
   const classes = useStyles()
   const auth = useAuth()
-  const history = useHistory();
+  const history = useHistory()
 
   auth.onAuthStateChanged((auth) => {
     if (auth) {

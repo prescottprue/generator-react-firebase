@@ -25,9 +25,11 @@ export default function createRoutes(store) {
             LoginRoute
             /* Add More Routes Here */
           ].map((settings, index) =>
-            settings.authRequired
-              ? <PrivateRoute key={`Route-${settings.path}`} {...settings} />
-              : <Route key={`Route-${settings.path}`} {...settings} />
+            settings.authRequired ? (
+              <PrivateRoute key={`Route-${settings.path}`} {...settings} />
+            ) : (
+              <Route key={`Route-${settings.path}`} {...settings} />
+            )
           )}
           <Route component={NotFoundRoute.component} />
         </Switch>
