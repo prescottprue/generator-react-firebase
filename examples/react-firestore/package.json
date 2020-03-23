@@ -56,7 +56,7 @@
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "cypress": "^4.2.0",
-    "cypress-firebase": "next",
+    "cypress-firebase": "1.0.0-beta",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-standard": "^14.1.0",
