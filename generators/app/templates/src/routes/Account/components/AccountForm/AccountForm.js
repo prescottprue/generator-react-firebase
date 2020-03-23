@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Formik, Field, Form } from 'formik'
-import { TextField } from 'formik-material-ui'
+import { useForm } from 'react-hook-form'
+import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -13,59 +13,62 @@ const useStyles = makeStyles(styles)
 
 function AccountForm({ account, onSubmit }) {
   const classes = useStyles()
-
-  function handleSubmit(values, { setSubmitting }) {
-    onSubmit(values).then(() => {
-      setSubmitting(false)
-    })
-  }<% if (includeRedux) { %>
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState: { isSubmitting, touched, isValid }
+  } = useForm({
+    mode: 'onBlur',
+    nativeValidation: false
+  })<% if (includeRedux) { %>
 
   const { isLoaded, isEmpty, ...cleanAccount } = account<% } %>
 
   return (
-    <Formik initialValues={<% if (includeRedux) { %>cleanAccount<% } else { %>account<% } %>} onSubmit={handleSubmit}>
-      {({ errors, touched, isSubmitting }) => (
-        <Form className={classes.root}>
-          <div className={classes.fields}>
-            <Field
-              name="displayName"
-              label="Display Name"
-              component={TextField}
-              margin="normal"
-              fullWidth
-            />
-            <Field
-              type="email"
-              name="email"
-              validate={validateEmail}
-              component={TextField}
-              margin="normal"
-              fullWidth
-            />
-            <Field
-              name="avatarUrl"
-              label="Avatar Url"
-              component={TextField}
-              margin="normal"
-              fullWidth
-            />
-          </div>
-          {!!account && !!account.providerData && (
-            <div>
-              <Typography variant="h6">Linked Accounts</Typography>
-              <ProviderDataForm providerData={account.providerData} />
-            </div>
-          )}
-          <Button
-            color="primary"
-            type="submit"
-            variant="contained"
-            disabled={Object.keys(touched).length === 0 || isSubmitting}>
-            {isSubmitting ? 'Saving' : 'Save'}
-          </Button>
-        </Form>
+    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+      <div className={classes.fields}>
+        <TextField
+          name="displayName"
+          label="Display Name"
+          margin="normal"
+          fullWidth
+        />
+        <TextField
+          type="email"
+          name="email"
+          placeholder="email"
+          margin="normal"
+          fullWidth
+          inputRef={register({
+            required: true,
+            validate: validateEmail
+          })}
+          error={!!errors.email}
+          helperText={errors.email && 'Email must be valid'}
+        />
+        <TextField
+          name="avatarUrl"
+          label="Avatar Url"
+          inputRef={register}
+          margin="normal"
+          fullWidth
+        />
+      </div>
+      {!!account && !!account.providerData && (
+        <div>
+          <Typography variant="h6">Linked Accounts</Typography>
+          <ProviderDataForm providerData={account.providerData} />
+        </div>
       )}
-    </Formik>
+      <Button
+        color="primary"
+        type="submit"
+        variant="contained"
+        disabled={Object.keys(touched).length === 0 || isSubmitting || !isValid}>
+        {isSubmitting ? 'Saving' : 'Save'}
+      </Button>
+    </form>
   )
 }
 

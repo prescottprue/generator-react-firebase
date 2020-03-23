@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Formik, Field, Form } from 'formik'
-import { TextField } from 'formik-material-ui'
+import { useForm } from 'react-hook-form'
+import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -14,39 +14,42 @@ const useStyles = makeStyles(styles)
 
 function NewProjectDialog({ onSubmit, open, onRequestClose }) {
   const classes = useStyles()
-
-  function handleSubmit(values, { setSubmitting }) {
-    return onSubmit(values).then(() => {
-      setSubmitting(false)
-    })
-  }
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState: { isSubmitting, isValid }
+  } = useForm({ mode: 'onChange' })
 
   return (
     <Dialog open={open} onClose={onRequestClose}>
       <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
-      <Formik initialValues={{ name: '' }} onSubmit={handleSubmit}>
-        {({ errors, isSubmitting }) => (
-          <Form className={classes.root}>
-            <DialogContent>
-              <Field
-                name="name"
-                label="Project Name"
-                component={TextField}
-                margin="normal"
-                fullWidth
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={onRequestClose} color="secondary">
-                Cancel
-              </Button>
-              <Button type="submit" color="primary" disabled={isSubmitting}>
-                {isSubmitting ? 'Creating...' : 'Create'}
-              </Button>
-            </DialogActions>
-          </Form>
-        )}
-      </Formik>
+      <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent>
+          <TextField
+            error={!!errors.name}
+            helperText={errors.name && 'Name is required'}
+            name="name"
+            label="Project Name"
+            inputRef={register({
+              required: true
+            })}
+            margin="normal"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onRequestClose} color="secondary">
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            color="primary"
+            disabled={isSubmitting || !isValid}>
+            {isSubmitting ? 'Creating...' : 'Create'}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 }
