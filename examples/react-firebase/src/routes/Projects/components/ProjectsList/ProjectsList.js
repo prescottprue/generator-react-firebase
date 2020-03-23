@@ -17,7 +17,7 @@ function useProjectsList() {
   const projectsRef = database
     .ref('projects')
     .orderByChild('createdBy')
-    .equalTo(auth.uid)
+    .equalTo(auth && auth.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useDatabaseList(projectsRef)

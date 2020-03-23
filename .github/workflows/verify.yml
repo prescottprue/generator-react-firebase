@@ -5,10 +5,9 @@ on: [pull_request]
 jobs:
   build:
     name: Build
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
         node-version: [10.x, 12.x]
     steps:
       - name: Checkout code
