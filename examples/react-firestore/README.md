@@ -190,6 +190,12 @@ To run tests against emulators:
   1. Start React app pointed at emulators: `npm run start:emulate`
   1. Open Cypress test runner with test utils pointed at emulators: `npm run test:ui:emulate`
 
+To Run tests in CI add the following environment variables within your CI provider:
+
+* `SERVICE_ACCOUNT` - Used to create custom auth tokens for test user login
+* `FIREBASE_APP_NAME` - name of Firebase app (used to load SDK config)
+* `TEST_UID` - UID of the user used for testing
+
 ## Deployment
 
 Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.

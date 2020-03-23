@@ -85,7 +85,7 @@ export function renderChildren(routes, match, parentProps) {
 /**
  * Create component which is loaded async, showing a loading spinner
  * in the meantime.
- * @param {object} loadFunc - Loading options
+ * @param {Function} loadFunc - Loading options
  * @returns {React.Component}
  */
 export function loadable(loadFunc) {

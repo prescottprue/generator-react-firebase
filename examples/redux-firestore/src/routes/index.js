@@ -21,7 +21,7 @@ export default function createRoutes(store) {
           LoginRoute
           /* Add More Routes Here */
         ].map((settings, index) => (
-          <Route key={`Route-${index}`} {...settings} />
+          <Route key={`Route-${settings.path}`} {...settings} />
         ))}
         <Route component={NotFoundRoute.component} />
       </Switch>

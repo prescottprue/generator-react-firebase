@@ -17,13 +17,11 @@ function AccountForm({ account, onSubmit }) {
     register,
     handleSubmit,
     errors,
-    formState: { isSubmitting, touched, isValid }
+    formState: { isSubmitting, isValid }
   } = useForm({
     mode: 'onBlur',
     nativeValidation: false
-  })<% if (includeRedux) { %>
-
-  const { isLoaded, isEmpty, ...cleanAccount } = account<% } %>
+  })
 
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
@@ -65,7 +63,7 @@ function AccountForm({ account, onSubmit }) {
         color="primary"
         type="submit"
         variant="contained"
-        disabled={Object.keys(touched).length === 0 || isSubmitting || !isValid}>
+        disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Saving' : 'Save'}
       </Button>
     </form>

@@ -15,7 +15,7 @@ function LoginForm({ onSubmit }) {
     register,
     handleSubmit,
     errors,
-    formState: { isSubmitting, touched, isValid }
+    formState: { isSubmitting, isValid }
   } = useForm({
     mode: 'onBlur',
     nativeValidation: false
@@ -43,7 +43,7 @@ function LoginForm({ onSubmit }) {
         margin="normal"
         fullWidth
         inputRef={register({
-          required: true,
+          required: true
         })}
         error={!!errors.password}
         helperText={errors.password && 'Password is required'}
@@ -53,7 +53,7 @@ function LoginForm({ onSubmit }) {
           color="primary"
           type="submit"
           variant="contained"
-          disabled={Object.keys(touched).length === 0 || isSubmitting || !isValid}>
+          disabled={isSubmitting || !isValid}>
           {isSubmitting ? 'Loading' : 'Login'}
         </Button>
       </div>
