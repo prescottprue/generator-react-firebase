@@ -19,8 +19,9 @@ function AccountForm({ account, onSubmit }) {
     errors,
     formState: { isSubmitting, isValid }
   } = useForm({
-    mode: 'onBlur',
-    nativeValidation: false
+    mode: 'onChange',
+    nativeValidation: false,
+    defaultValues: account
   })
 
   return (

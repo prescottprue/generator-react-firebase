@@ -17,7 +17,7 @@ function LoginForm({ onSubmit }) {
     errors,
     formState: { isSubmitting, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     nativeValidation: false
   })
 
