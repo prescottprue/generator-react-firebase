@@ -9,7 +9,6 @@ import {
 } from 'constants/paths'
 import styles from './HomePage.styles'
 
-const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 
 const useStyles = makeStyles(styles)
@@ -38,7 +37,7 @@ function Home() {
               </span>
               <span> and </span>
               <a
-                href={authWrapperUrl}
+                href="https://github.com/mjrussell/redux-auth-wrapper"
                 target="_blank"
                 rel="noopener noreferrer">
                 redux-auth-wrapper

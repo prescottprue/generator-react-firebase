@@ -74,10 +74,10 @@ module.exports = class extends Generator {
   }
 
   prompting() {
-    const formikExists = dependencyExists('formik')
+    const reduxFormExists = dependencyExists('redux-form')
     this.log(
       `${chalk.blue('Generating')} -> ${
-        formikExists ? 'Formik' : 'redux-form'
+        reduxFormExists ? 'react-hook-form' : 'redux-form'
       } Form: ${chalk.green(this.options.name)}`
     )
 
@@ -86,7 +86,7 @@ module.exports = class extends Generator {
       this.answers = Object.assign({}, props, {
         // proptypes included by default if project package file not loaded
         // (i.e. null due to throws: false in loadProjectPackageFile)
-        hasFormik: formikExists || false,
+        reduxFormExists: reduxFormExists || false,
         hasPropTypes:
           !projectPackageFile || dependencyExists('prop-types') || false,
         materialv1: dependencyExists('@material-ui/core'),
@@ -109,9 +109,7 @@ module.exports = class extends Generator {
     const basePath = `src/${basePathOption}components/${name}`
     const filesArray = [{ src: '_index.js', dest: `${basePath}/index.js` }]
 
-    if (this.answers.hasFormik) {
-      filesArray.push({ src: '_main.js', dest: `${basePath}/${name}.js` })
-    } else {
+    if (this.answers.reduxFormExists) {
       filesArray.push({
         src: '_main-redux-form.js',
         dest: `${basePath}/${name}.js`
@@ -120,6 +118,8 @@ module.exports = class extends Generator {
         src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.enhancer.js`,
         dest: `${basePath}/${name}.enhancer.js`
       })
+    } else {
+      filesArray.push({ src: '_main.js', dest: `${basePath}/${name}.js` })
     }
 
     if (this.answers.addStyle) {

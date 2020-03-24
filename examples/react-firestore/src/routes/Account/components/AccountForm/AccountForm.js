@@ -19,7 +19,7 @@ function AccountForm({ account, onSubmit }) {
     errors,
     formState: { isSubmitting, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     nativeValidation: false,
     defaultValues: account
   })

@@ -3,6 +3,8 @@ export default (theme) => ({
     ...theme.flexColumnCenter
   },
   section: {
-    ...theme.flexColumnCenter
+    ...theme.flexColumnCenter,
+    padding: theme.spacing(2),
+    textAlign: 'center',
   }
 })

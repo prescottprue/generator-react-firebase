@@ -1,4 +1,4 @@
-import <%= name %> from './<%= name %>'<% if (!hasFormik) { %>
+import <%= name %> from './<%= name %>'<% if (reduxFormExists) { %>
 import enhance from './<%= name %>.enhancer'<% } %>
   
-export default <% if (!hasFormik) { %>enhance(<%= name %>)<% } else  { %><%= name %><% } %>
+export default <% if (reduxFormExists) { %>enhance(<%= name %>)<% } else  { %><%= name %><% } %>

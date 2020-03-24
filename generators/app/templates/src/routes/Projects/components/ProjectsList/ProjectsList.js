@@ -33,11 +33,12 @@ function useProjectsList() {<% if (includeRedux) { %>
 
   <% } %><% if (!includeRedux && includeFirestore) { %>// Create a ref for projects owned by the current user
   const firestore = useFirestore()
-  const { FieldValue } = useFirestore
+  const { FieldValue, FieldPath } = useFirestore
 
   const projectsRef = firestore
     .collection('projects')
     .where('createdBy', '==', auth && auth.uid)
+    .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })<% } %><% if (!includeRedux && !includeFirestore) { %>// Create a ref for projects owned by the current user

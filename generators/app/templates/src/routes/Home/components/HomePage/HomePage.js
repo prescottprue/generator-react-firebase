@@ -1,16 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  ACCOUNT_PATH,
-  LIST_PATH,
-  LOGIN_PATH,
-  SIGNUP_PATH
-} from 'constants/paths'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import { ACCOUNT_PATH, LIST_PATH } from 'constants/paths'
 import styles from './HomePage.styles'
 
-const authWrapperUrl = 'https://github.com/mjrussell/redux-auth-wrapper'
-const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
+const reactRouterUrl = 'https://github.com/ReactTraining/react-router'<% if (!includeRedux) { %>
+const reactfireUrl = 'https://github.com/FirebaseExtended/reactfire'<% } %>
 
 const useStyles = makeStyles(styles)
 
@@ -19,14 +17,18 @@ function Home() {
 
   return (
     <div className={classes.root}>
-      <div className="flex-row-center">
-        <h2>Home Route</h2>
-      </div>
-      <div className="flex-row-center">
-        <div className={classes.section}>
-          <h3>Routing</h3>
-          <span>
-            Redirecting and route protection done using:
+      <Typography variant="h3" component="h3" gutterBottom>
+        Home Page
+      </Typography>
+      <Paper>
+        <Grid container justify="center">
+          <Grid item xs className={classes.section}>
+            <Typography variant="h6" gutterBottom>
+              Routing
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              Redirecting and route protection done using:
+            </Typography>
             <div>
               <span>
                 <a
@@ -36,70 +38,75 @@ function Home() {
                   react-router
                 </a>
               </span>
-              <span> and </span>
+              <span> and </span><% if (includeRedux) { %>
               <a
-                href={authWrapperUrl}
+                href="https://github.com/mjrussell/redux-auth-wrapper"
                 target="_blank"
                 rel="noopener noreferrer">
                 redux-auth-wrapper
-              </a>
+              </a><% } %><% if (!includeRedux) { %>
+              <pre>
+                <a
+                  href={`${reactfireUrl}/blob/master/docs/reference.md#AuthCheck`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  AuthCheck
+                </a>
+              </pre>
+              from
+              <a
+                href={reactfireUrl}
+                target="_blank"
+                rel="noopener noreferrer">
+                reactfire
+              </a><% } %>
             </div>
-          </span>
-        </div>
-        <div className={classes.section}>
-          <h4>Logged Out</h4>
-          <span>
-            User is redirected to <pre>/login</pre> if not authenticated and
-            trying to vist:
-          </span>
-          <ul>
-            <li>
-              <Link to={LIST_PATH}>Projects</Link>
-            </li>
-            <li>
-              <Link to={ACCOUNT_PATH}>Account</Link>
-            </li>
-          </ul>
-        </div>
-        <div className={classes.section}>
-          <h4>Logged In</h4>
-          <span>
-            User is redirected to <pre>/projects</pre> if authenticated and
-            trying to vist:
-          </span>
-          <ul>
-            <li>
-              <Link to={LOGIN_PATH}>Login</Link>
-            </li>
-            <li>
-              <Link to={SIGNUP_PATH}>Signup</Link>
-            </li>
-          </ul>
-        </div>
-        <div className={classes.section}>
-          <div>
-            <h4>Forms</h4>
-            <span>Redirecting and route protection done using:</span>
+          </Grid>
+          <Grid item xs className={classes.section}>
+            <Typography variant="h6" gutterBottom>
+              Auth
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              User is redirected to <pre>/login</pre> if not authenticated and
+              trying to vist:
+            </Typography>
+            <ul>
+              <li>
+                <Link to={LIST_PATH}>Projects</Link>
+              </li>
+              <li>
+                <Link to={ACCOUNT_PATH}>Account</Link>
+              </li>
+            </ul>
+          </Grid>
+          <Grid item xs className={classes.section}>
+            <Typography variant="h6" gutterBottom>
+              Forms
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              User is redirected to <pre>/login</pre> if not authenticated and
+              trying to vist:
+            </Typography>
             <div>
               <span>
                 <a
-                  href={reactRouterUrl}
+                  href="https://react-hook-form.com/"
                   target="_blank"
                   rel="noopener noreferrer">
-                  Formik
+                  react-hook-form
                 </a>
               </span>
             </div>
-          </div>
-          <span>The following routes use Formik:</span>
-          <Link to={LIST_PATH}>
-            <p>Projects</p>
-          </Link>
-          <Link to={ACCOUNT_PATH}>
-            <p>Account Page</p>
-          </Link>
-        </div>
-      </div>
+            <span>The following routes use react-hook-form:</span>
+            <Link to={LIST_PATH}>
+              <p>Projects</p>
+            </Link>
+            <Link to={ACCOUNT_PATH}>
+              <p>Account Page</p>
+            </Link>
+          </Grid>
+        </Grid>
+      </Paper>
     </div>
   )
 }
