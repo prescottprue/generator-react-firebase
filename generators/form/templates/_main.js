@@ -43,7 +43,7 @@ function <%= name %>({ onSubmit }) {
         disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Saving...' : 'Save'}
       </Button><% } %>
-    </form<%>
+    </form>
   )
 }
 
