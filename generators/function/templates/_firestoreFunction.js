@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %>
 import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
-import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
 
 const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
 
@@ -24,11 +23,11 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
   // Create Firestore Collection Reference for the response
   const collectionRef = admin.firestore().collection(`${eventName}_responses`)<% if (airbnbLinting) { %>;<% } %>
 
-  // Write data to Firestore
-  const [writeErr] = await to(collectionRef.add({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
-
-  // Handle errors writing data to Firestore
-  if (writeErr) {
+  try {
+    // Write data to Firestore
+    await collectionRef.add({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
+  } catch(writeErr) {
+    // Handle errors writing data to RTDB
     console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
     throw writeErr<% if (airbnbLinting) { %>;<% } %>
   }
@@ -44,11 +43,11 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
   // Create Firestore Collection Reference for the response
   const collectionRef = admin.firestore().collection(`${eventName}_responses`)<% if (airbnbLinting) { %>;<% } %>
 
-  // Write data to Firestore
-  const [writeErr] = await to(collectionRef.add({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
-
-  // Handle errors writing data to Firestore
-  if (writeErr) {
+  try {
+    // Write data to Firestore
+    await collectionRef.add({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
+  } catch(writeErr) {
+    // Handle errors writing data to RTDB
     console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
     throw writeErr<% if (airbnbLinting) { %>;<% } %>
   }
@@ -63,15 +62,12 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
   // Create Firestore Collection Reference for the response
   const collectionRef = admin.firestore().collection(`${eventName}_responses`)<% if (airbnbLinting) { %>;<% } %>
 
-  // Write data to Firestore
-  const [writeErr] = await to(collectionRef.add({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
-
-  // Handle errors writing data to Firestore
-  if (writeErr) {
-    console.error(
-      `Error writing response for id: "${docId}": ${writeErr.message || ''}`,
-      writeErr
-    )<% if (airbnbLinting) { %>;<% } %>
+  try {
+    // Write data to Firestore
+    await collectionRef.add({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
+  } catch(writeErr) {
+    // Handle errors writing data to RTDB
+    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
     throw writeErr<% if (airbnbLinting) { %>;<% } %>
   }
 

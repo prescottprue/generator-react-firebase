@@ -31,7 +31,7 @@ describe('<%= camelName %> Auth Cloud Function', () => {
     adminInitStub.restore();
   });
 
-  it('invokes successfully', () => {
+  <% if (jestTesting) { %>test<% } else { %>it<% } %>('invokes successfully', () => {
     // Invoke auth function with fake request + response objects
     return myFunctions.<%= camelName %>({});
   });

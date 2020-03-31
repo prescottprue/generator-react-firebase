@@ -31,7 +31,7 @@ describe('<%= camelName %> PubSub Cloud Function', () => {
     adminInitStub.restore()
   })
 
-  it('responds with hello message when sent an empty request', done => {
+  <% if (jestTesting) { %>test<% } else { %>it<% } %>('responds with hello message when sent an empty request', done => {
     const req = {}
     // Parameters of request can also be stubbed
     // const req = { query: { text: 'input' } }

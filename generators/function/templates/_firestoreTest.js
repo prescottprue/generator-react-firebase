@@ -1,131 +1,52 @@
-<% if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>import * as admin from 'firebase-admin'
+import * as firebaseTesting from '@firebase/testing'
+import <%= eventType %>Original from './index'
+
+const adminApp = firebaseTesting.initializeAdminApp({
+  projectId: process.env.GCLOUD_PROJECT,
+  databaseName: process.env.GCLOUD_PROJECT,
+})
+
+const eventPath = 'users'
+
+const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped)
 
 describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
-  let adminInitStub
-  let <%= camelName %>
-
-  before(() => {
-    adminInitStub = sinon.stub(admin, 'initializeApp')
-    /* eslint-disable global-require */
-    <%= camelName %> = functionsTest.wrap(
-      require(`${__dirname}/../../index`).<%= camelName %>
-    )
-    /* eslint-enable global-require */
-  })
-
-  after(() => {
-    // Restoring stubs to the original methods
-    functionsTest.cleanup()
-    adminInitStub.restore()
-  })
-
-  it('handles event', async () => {
-    // const fakeEvent = functionsTest.firestore.makeDocumentSnapshot({foo: 'bar'}, 'document/path');
-    const fakeEvent = functionsTest.firestore.exampleDocumentSnapshot()
-    const fakeContext = { params: {} }
-    const res = await <%= camelName %>(fakeEvent, fakeContext)
-    expect(res).to.be.null
-  })
-})<% } else if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
-  let <%= camelName %>
-
-  before(() => {
-    /* eslint-disable global-require */
-    <%= camelName %> = functionsTest.wrap(
-      require(`${__dirname}/../../index`).<%= camelName %>
-    )
-    /* eslint-enable global-require */
-  })
-
-  after(() => {
-    // Restoring stubs to the original methods
-    functionsTest.cleanup()
-  })
-
-  it('returns null if display name is not changed', async () => {
-    // const fakeEvent = functionsTest.firestore.makeDocumentSnapshot({foo: 'bar'}, 'document/path');
-    const fakeEvent = functionsTest.firestore.exampleDocumentSnapshotChange();
-    const fakeContext = { params: {} }
-    const res = await <%= camelName %>(fakeEvent, fakeContext)
-    expect(res).to.be.null
-  })
-})<% } else { %>import firebasemock from 'firebase-mock'
-
-describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
-  let myFunctions
-  let configStub
-  let adminInitStub
-  let functions
-  let mockauth
-  let mockdatabase
-  let mockfirestore
-
-  before(() => {
-    let mocksdk = firebasemock.MockFirebaseSdk(
-      function() {
-        return mockdatabase
-      },
-      function() {
-        return mockauth
-      },
-      function() {
-        return mockfirestore
-      }
-    )
-
-    let mockapp = mocksdk.initializeApp()
-    process.env.GCLOUD_PROJECT = 'FakeProjectId'
-    mockdatabase = new firebasemock.MockFirebase()
-    mockauth = new firebasemock.MockFirebase()
-    mockfirestore = new firebasemock.MockFirestore()
-    adminInitStub = sinon.stub(mocksdk, 'initializeApp')
-
-    // Stub functions.config()
-    /* eslint-disable global-require */
-    functions = require('firebase-functions')
-    configStub = sinon.stub(functions, 'config').returns({
-      firebase: {
-        databaseURL: 'https://not-a-project.firebaseio.com',
-        storageBucket: 'not-a-project.appspot.com',
-        projectId: 'not-a-project.appspot',
-        messagingSenderId: '823357791673'
-      }
+  beforeEach(async () => {
+    // Clean database before each test
+    await firebaseTesting.clearFirestoreData({
+      projectId: process.env.GCLOUD_PROJECT,
     })
-
-    myFunctions = require(`${__dirname}/../../index`)
-    /* eslint-enable global-require */
-
-    // Set mocks to autoflush (makes restore/flush not nessesary)
-    mockdatabase.autoFlush()
-    mockauth.autoFlush()
-    mockfirestore.autoFlush()
   })
 
-  after(() => {
+  after(async () => {
     // Restoring stubs to the original methods
-    configStub.restore()
-    adminInitStub.restore()
+    functionsTest.cleanup()
+    // Cleanup all apps (keeps active listeners from preventing JS from exiting)
+    await Promise.all(firebaseTesting.apps().map((app) => app.delete()))
   })
 
-  it('returns null if display name is not changed', async () => {
-    const fakeEvent = {
-      data: new firebasemock.DeltaDocumentSnapshot(
-        mockapp,
-        {
-          displayName: 'bob',
-          createdTime: new Date() + 50
-        },
-        {
-          displayName: 'bob',
-          createdTime: new Date()
-        },
-        'users/123'
-      ),
-      params: {
-        userId: '123ABC'
-      }
+  <% if (jestTesting) { %>test<% } else { %>it<% } %>('handles event', async () => {
+    const eventData = { some: 'value' }<% if (eventType === 'onWrite') { %>
+    const beforeData = { another: 'thing' }
+    // Build create change event
+    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(beforeData, 'document/path');
+    const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
+      eventData,
+      eventPath
+    )
+    const changeEvent = { before: beforeSnap, after: afterSnap }
+    const fakeContext = {
+      params: {},
     }
-    const res = await myFunctions.<%= camelName %>(fakeEvent)
-    expect(res).to.be.null
+    await <%= camelName %>({ after: snap }, fakeContext)<% } else { %>
+    // Build onCreate
+    const snap = functionsTest.firestore.makeDocumentSnapshot(eventData, eventPath)
+    const fakeContext = {
+      params: {},
+    }
+    await <%= camelName %>(snap, fakeContext)<% } %>
+    // TODO: Switch this to a real assertion which confirms functionality
+    const result = await adminApp.firestore().doc('some/path').get()
+    expect(result).<% if (jestTesting) { %>toEqual(null)<% } else { %>to.be.null<% } %>``
   })
-})<% } %>
+})

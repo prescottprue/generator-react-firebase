@@ -26,7 +26,7 @@ const featureChoices = [
     checked: true
   },
   {
-    name: 'Tests for Firebase Functions (Mocha + Chai)',
+    name: 'Tests for Firebase Functions (Mocha/Chai or Jest)',
     answerName: 'includeFunctionsTests',
     checked: true
   },
@@ -111,6 +111,25 @@ const prompts = [
     message: 'Other Features To Include:',
     name: 'otherFeatures',
     choices: featureChoices,
+    store: true
+  },
+  {
+    type: 'list',
+    name: 'functionsTestTool',
+    when: (currentAnswers) =>
+      checkAnswersForFeature(currentAnswers, 'includeFunctions'),
+    choices: [
+      {
+        name: 'Jest',
+        value: 'jest'
+      },
+      {
+        name: 'Mocha/Chai',
+        value: 'mocha'
+      }
+    ],
+    message: 'What tool would you like to use for testing cloud functions?',
+    default: 0,
     store: true
   },
   {
@@ -203,7 +222,7 @@ const prompts = [
     type: 'confirm',
     name: 'useYarn',
     message: 'Use Yarn?',
-    // Only offer if using versions of node/npm that benift from yarn (adds lock file when not there before)
+    // Only offer if using versions of node/npm that benefit from yarn (adds lock file when not there before)
     when: () =>
       semver.satisfies(process.version, '<=6.0.0') && commandExistsSync('yarn'),
     default: false
@@ -263,6 +282,7 @@ module.exports = class extends Generator {
       includeComponentTests: false,
       includeFunctionsTests: false,
       includeFunctions: false,
+      functionsTestTool: false,
       sentryDsn: null,
       segmentId: null,
       ciProvider: null,

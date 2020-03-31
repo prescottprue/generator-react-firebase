@@ -21,7 +21,7 @@ function Home() {
         Home Page
       </Typography>
       <Paper>
-        <Grid container  justify="center">
+        <Grid container justify="center">
           <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>
               Routing
@@ -56,7 +56,7 @@ function Home() {
               </a>
             </div>
           </Grid>
-          <Grid item xs>
+          <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>
               Auth
             </Typography>
@@ -73,7 +73,7 @@ function Home() {
               </li>
             </ul>
           </Grid>
-          <Grid item xs>
+          <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>
               Forms
             </Typography>
