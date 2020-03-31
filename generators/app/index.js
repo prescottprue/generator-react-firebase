@@ -400,8 +400,12 @@ module.exports = class extends Generator {
 
     // Cloud Functions Tests
     if (this.answers.includeFunctionsTests) {
+      const testConfigFile =
+        this.answers.functionsTestTool === 'jest'
+          ? 'jest.config.js'
+          : '.mocharc.js'
       filesArray.push(
-        { src: 'functions/mocha.opts' },
+        { src: `functions/${testConfigFile}` },
         { src: 'functions/scripts/testSetup.js' },
         { src: 'functionsTests', dest: 'functions/src' }
       )

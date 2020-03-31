@@ -20,6 +20,7 @@ module.exports = {
       },
       globals: {
         functionsTest: true,
+        projectId: true,
         expect: true,
         sinon: true
       },
