@@ -45,7 +45,8 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
           <Button
             type="submit"
             color="primary"
-            disabled={isSubmitting || !isValid}>
+            disabled={isSubmitting || !isValid}
+            data-test="new-project-create-button">
             {isSubmitting ? 'Creating...' : 'Create'}
           </Button>
         </DialogActions>

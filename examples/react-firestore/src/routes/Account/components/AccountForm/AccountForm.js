@@ -31,6 +31,7 @@ function AccountForm({ account, onSubmit }) {
           name="displayName"
           label="Display Name"
           margin="normal"
+          inputRef={register}
           fullWidth
         />
         <TextField
