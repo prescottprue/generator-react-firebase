@@ -15,13 +15,15 @@ module.exports = {
   overrides: [
     {
       files: ['src/**/*.spec.js'],
-      env: {
-        mocha: true
+      env: {<% if(functionsTestTool === 'mocha') { %>
+        mocha: true<% } %><% if(functionsTestTool === 'jest') { %>
+        jest: true<% } %>
       },
       globals: {
         functionsTest: true,
+        projectId: true,<% if(functionsTestTool === 'mocha') { %>
         expect: true,
-        sinon: true
+        sinon: true<% } %>
       },
       rules: {
         'no-console': 0,

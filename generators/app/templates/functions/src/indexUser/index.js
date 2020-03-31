@@ -1,22 +1,12 @@
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
-import { to } from '../utils/async'<% if (!includeRedux || (includeRedux && !includeFirestore)) { %>
-
-/**
- * Function to index user data into a public collection for easy access.
- * Triggered by updates to profile within "users/${userId}" path. Writes data
- * to users_public path.
- * @type {functions.CloudFunction}
- */
-export default functions.database
-  .ref('/users/{userId}/displayName')
-  .onWrite(indexUser)
+import { to } from '../utils/async'<% if (!includeFirestore) { %>
 
 /**
  * Index user's by placing their displayName into the users_public collection
  * @param {functions.Change} change - Database event from function being
- * @param {admin.firestore.DataSnapshot} change.before - Snapshot of data before change
- * @param {admin.firestore.DataSnapshot} change.after - Snapshot of data after change
+ * @param {admin.database.DataSnapshot} change.before - Snapshot of data before change
+ * @param {admin.database.DataSnapshot} change.after - Snapshot of data after change
  * @param {functions.EventContext} context - Function context which includes
  * data about the event. More info in docs:
  * https://firebase.google.com/docs/reference/functions/functions.EventContext
@@ -69,16 +59,17 @@ async function indexUser(change, context) {
   console.log(`Successfully indexed user with userId: ${userId}`)
 
   return null
-}<% } %><% if (includeRedux && includeFirestore) { %>
+}
 
 /**
- * Function to index displayName. Triggered by updates to profiles within the
- * users collection. Writes data to "users_public" collection.
+ * Function to index user data into a public collection for easy access.
+ * Triggered by updates to profile within "users/${userId}" path. Writes data
+ * to users_public path.
  * @type {functions.CloudFunction}
  */
-export default functions.firestore
-  .document('/users/{userId}')
-  .onWrite(indexUser)
+export default functions.database
+  .ref('/users/{userId}/displayName')
+  .onWrite(indexUser)<% } %><% if (includeFirestore) { %>
 
 /**
  * Index user's by placing their displayName into the users_public collection
@@ -119,7 +110,7 @@ async function indexUser(change, context) {
   const newData = change.after.data()
 
   // Check to see if displayName has changed
-  if (previousData.displayName === newData.displayName) {
+  if (previousData && previousData.displayName === newData.displayName) {
     console.log(
       `displayName parameter did not change for user with id: ${userId}, no need to update index. Exiting...`
     )
@@ -146,4 +137,13 @@ async function indexUser(change, context) {
   }
 
   return newData
-}<% } %>
+}
+
+/**
+ * Function to index displayName. Triggered by updates to profiles within the
+ * users collection. Writes data to "users_public" collection.
+ * @type {functions.CloudFunction}
+ */
+export default functions.firestore
+  .document('/users/{userId}')
+  .onWrite(indexUser)<% } %>

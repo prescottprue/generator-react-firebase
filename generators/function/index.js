@@ -22,22 +22,41 @@ function loadProjectPackageFile() {
   }
 }
 
-function getFbToolsVersion() {
-  const functionsPkgPath = process.cwd() + '/functions/package.json'
+function loadFunctionsPackageFile() {
+  // TODO: Add support for functions.source setting in firebase.json
+  const packagePath = `${process.cwd()}/functions/package.json`
   // If functions package file does not exist, default to not functions v1.0.0
-  if (!fs.existsSync(functionsPkgPath)) {
+  if (!fs.existsSync(packagePath)) {
+    return null
+  }
+  // Load package file handling errors
+  try {
+    return require(packagePath)
+  } catch (err) {
+    return null
+  }
+}
+
+function jestExists() {
+  const pkgFile = loadFunctionsPackageFile()
+  return !!get(pkgFile, 'devDependencies.jest')
+}
+
+function getFirebaseFunctionsVersion() {
+  const pkgFile = loadFunctionsPackageFile()
+  // If functions package file does not exist, default to not functions v1.0.0
+  if (!pkgFile) {
     return '0.0.0'
   }
   // Load package file handling errors
   try {
-    const pkgFile = require(functionsPkgPath)
     return semver.coerce(get(pkgFile, 'dependencies.firebase-functions'))
   } catch (err) {
     return '0.0.0'
   }
 }
 
-const functionsVersion = getFbToolsVersion()
+const functionsVersion = getFirebaseFunctionsVersion()
 const functionsV1 = semver.satisfies(functionsVersion, '>=1.x.x')
 
 const HTTPS_FUNCTION_TYPE = 'https'
@@ -151,6 +170,7 @@ module.exports = class extends Generator {
       this.option(functionType)
     })
     this.option('test', { type: Boolean })
+    this.option('jest', { type: Boolean })
   }
 
   prompting() {
@@ -164,7 +184,12 @@ module.exports = class extends Generator {
       this.answers = Object.assign({}, props, this.answers, {
         airbnbLinting:
           !!get(projectPackageFile, 'devDependencies.eslint-config-airbnb') ||
-          false
+          !!get(
+            projectPackageFile,
+            'devDependencies.eslint-config-airbnb-base'
+          ) ||
+          false,
+        jestTesting: this.options.jest || jestExists()
       })
 
       this.answers.functionsV1 = functionsV1
@@ -208,7 +233,7 @@ module.exports = class extends Generator {
       }
     ]
 
-    if (this.options.test || this.answers.includeTests) {
+    if (this.options.test || this.answers.includeTests || this.options.jest) {
       filesArray.push({
         src: `_${triggerType}Test${
           this.answers.airbnbLinting ? '-airbnb' : ''

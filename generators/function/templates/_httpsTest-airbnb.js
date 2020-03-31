@@ -33,7 +33,7 @@ describe('<%= camelName %> HTTPS Callable Cloud Function', () => {
     adminInitStub.restore();
   });
 
-  it('responds with hello message when sent an empty request', async () => {
+  <% if (jestTesting) { %>test<% } else { %>it<% } %>('responds with hello message when sent an empty request', async () => {
     const data = {};
     const context = {};
     // Invoke request handler with fake data + context objects
@@ -76,7 +76,7 @@ describe('<%= camelName %> HTTPS Callable Cloud Function', () => {
     adminInitStub.restore();
   });
 
-  it('responds with hello message when sent an empty request', (done) => {
+  <% if (jestTesting) { %>test<% } else { %>it<% } %>('responds with hello message when sent an empty request', (done) => {
     const req = {};
     // A fake response object, with a stubbed end function which asserts that
     // it is called with a hello message

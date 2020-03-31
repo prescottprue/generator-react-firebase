@@ -21,7 +21,7 @@ function Home() {
         Home Page
       </Typography>
       <Paper>
-        <Grid container  justify="center">
+        <Grid container justify="center">
           <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>
               Routing
@@ -48,15 +48,12 @@ function Home() {
                 </a>
               </pre>
               from
-              <a
-                href={reactfireUrl}
-                target="_blank"
-                rel="noopener noreferrer">
+              <a href={reactfireUrl} target="_blank" rel="noopener noreferrer">
                 reactfire
               </a>
             </div>
           </Grid>
-          <Grid item xs>
+          <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>
               Auth
             </Typography>
@@ -73,7 +70,7 @@ function Home() {
               </li>
             </ul>
           </Grid>
-          <Grid item xs>
+          <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>
               Forms
             </Typography>

@@ -31,6 +31,7 @@ function AccountForm({ account, onSubmit }) {
           name="displayName"
           label="Display Name"
           margin="normal"
+          inputRef={register}
           fullWidth
         />
         <TextField
@@ -49,8 +50,8 @@ function AccountForm({ account, onSubmit }) {
         <TextField
           name="avatarUrl"
           label="Avatar Url"
-          inputRef={register}
           margin="normal"
+          inputRef={register}
           fullWidth
         />
       </div>

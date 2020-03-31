@@ -31,7 +31,7 @@ describe('<%= camelName %> Storage Cloud Function', () => {
     adminInitStub.restore()
   })
 
-  it('invokes successfully', () => {
+  <% if (jestTesting) { %>test<% } else { %>it<% } %>('invokes successfully', () => {
     // Invoke storage function with fake request + response objects
     const fakeObject = {}
     return myFunctions.<%= camelName %>(fakeObject)

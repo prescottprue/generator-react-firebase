@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %>
 import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
-import { to } from 'utils/async'<% if (airbnbLinting) { %>;<% } %>
 
 const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
 
@@ -17,19 +16,24 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
  * @returns {Promise} Resolves after handling event
  */
 <% if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>async function <%= camelName %>Event(change, context) {
-  // const { params, auth, timestamp } = context
+  const { params, timestamp } = context
   const { before, after } = change<% if (airbnbLinting) { %>;<% } %>
 
-  console.log('<%= camelName %> <%= eventType %> event:', { before: before.val(), after: after.val() })<% if (airbnbLinting) { %>;<% } %>
+  console.log('<%= camelName %> <%= eventType %> event:', {
+    before: before.val(),
+    after: after.val(),
+    params,
+    timestamp
+  })<% if (airbnbLinting) { %>;<% } %>
 
   // Create RTDB for response
   const ref = admin.database().ref(`responses/${eventName}`).push()<% if (airbnbLinting) { %>;<% } %>
 
-  // Write data to RTDB
-  const [writeErr] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
-
-  // Handle errors writing data to RTDB
-  if (writeErr) {
+  try {
+    // Write data to RTDB
+    await ref.set({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
+  } catch(writeErr) {
+    // Handle errors writing data to RTDB
     console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
     throw writeErr<% if (airbnbLinting) { %>;<% } %>
   }
@@ -44,11 +48,11 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
   // Create RTDB for response
   const ref = admin.database().ref(`responses/${eventName}/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
 
-  // Write data to RTDB
-  const [writeErr] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
-
-  // Handle errors writing data to RTDB
-  if (writeErr) {
+  try {
+    // Write data to RTDB
+    await ref.set({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
+  } catch(writeErr) {
+    // Handle errors writing data to RTDB
     console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
     throw writeErr<% if (airbnbLinting) { %>;<% } %>
   }
@@ -63,15 +67,12 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
   // Create RTDB for response
   const ref = admin.database().ref(`responses/${eventName}/${pushId}`)<% if (airbnbLinting) { %>;<% } %>
 
-  // Write data to RTDB
-  const [writeErr] = await to(ref.set({ hello: 'world' }))<% if (airbnbLinting) { %>;<% } %>
-
-  // Handle errors writing data to RTDB
-  if (writeErr) {
-    console.error(
-      `Error writing response: ${writeErr.message || ''}`,
-      writeErr
-    )<% if (airbnbLinting) { %>;<% } %>
+  try {
+    // Write data to RTDB
+    await ref.set({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
+  } catch(writeErr) {
+    // Handle errors writing data to RTDB
+    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
     throw writeErr<% if (airbnbLinting) { %>;<% } %>
   }
 
@@ -83,8 +84,7 @@ const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
  * <% if (eventType === 'onCreate') { %>Cloud Function that is called every time new data is created in Firebase Realtime Database.
  *<% } else if (eventType === 'onWrite') { %>Cloud Function that is called every time a Firebase Realtime Database write of any kind (creation, update, or delete) occurs.
  *<% } else if (eventType === 'onUpdate') { %>Cloud Function that is called every time data is updated in Firebase Realtime Database.
- *<% } else if (eventType === 'onDelete') { %>Cloud Function that is called every time data is deleted from Firebase Realtime Database.
- *<% } %>
+ *<% } else if (eventType === 'onDelete') { %>Cloud Function that is called every time data is deleted from Firebase Realtime Database.<% } %>
  * Trigger: `RTDB - <%= eventType %> - <% if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>'/requests/<%= camelName %>/{pushId}'<% } else {%>'/<%= camelName %>/{pushId}'<% } %>`
  * @name <%= camelName %>
  * @type {functions.CloudFunction}

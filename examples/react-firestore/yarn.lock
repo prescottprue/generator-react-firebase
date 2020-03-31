@@ -978,17 +978,17 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
   integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
 
-"@firebase/analytics-types@0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@firebase/analytics-types/-/analytics-types-0.2.8.tgz#f451b2a30f6c73af7e4c59a80e9bdc059d2486eb"
-  integrity sha512-7djG+mVLubSFy5ZEf8Gyn7XzrsLvpXCRj+vj6ta3KtwF2iCsOG4HvGv1TiU+sNwR017cAm2F0qmaAMac90Qq0g==
+"@firebase/analytics-types@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@firebase/analytics-types/-/analytics-types-0.3.0.tgz#33c3f695313b561d48d18d663a20f20362d3ee7c"
+  integrity sha512-0AJ6xn53Qn0D/YOVHHvlWFfnzzRSdd98Lr8Oqe1PJ2HPIN+o7qf03YmOG7fLpR1uplcWd+7vGKmxUrN3jKUBwg==
 
-"@firebase/analytics@0.2.18":
-  version "0.2.18"
-  resolved "https://registry.yarnpkg.com/@firebase/analytics/-/analytics-0.2.18.tgz#c6b8b3c5684237b0d8b08a8047cb18e18a671a54"
-  integrity sha512-sw8TO7YYRnrcqQGYWjWHw6PTNpwWPSZzMaFgLp5oJKsKM7CoOz5K/fxEIfZIF36Zzf0Xky3oU8msek/Zjc5Phg==
+"@firebase/analytics@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@firebase/analytics/-/analytics-0.3.0.tgz#943e73e792ba3f282df4d47aff5a1603b93b37a5"
+  integrity sha512-EEHuK+OcWH6UxufRLVU3lAJ4rmm7aVHmcgkhE9ZQJQy5c+w7QTLvVpGqtrpqD+cYyIBJkFBKJB8NziVyqKwQHw==
   dependencies:
-    "@firebase/analytics-types" "0.2.8"
+    "@firebase/analytics-types" "0.3.0"
     "@firebase/component" "0.1.8"
     "@firebase/installations" "0.4.6"
     "@firebase/logger" "0.2.0"
@@ -1063,10 +1063,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-1.10.1.tgz#bf018f9c495f470592de745389474dc1c2960d3f"
   integrity sha512-vyKdm+AYUFT8XeUX62IOqaqPFCs/mAMoSEsqIz9HnSVsqCw/IocNjtjSa+3M80kRw4V8fI7JI+Xz6Wg5VJXLqA==
 
-"@firebase/firestore@1.12.2":
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.12.2.tgz#2688c9ef726eed8078bd92414c00b052ae167e03"
-  integrity sha512-Obv+jqyAvYEBZHXSQs5EI0q5R8wylVz/GHHMWtkxAWpXvZjpTYZuKcvxJ9Ugi9SwhgvxbdmmnrI/4FwjQjYi7Q==
+"@firebase/firestore@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.13.0.tgz#2638f25b2a3d19cb891a6b334a0dc14aefef5a34"
+  integrity sha512-GctO+sxLqOnY8SkBN5Z5p1nUYRX+yWSc9Kcx9nIPbUZ0WqBM5BaSlBHZHTFtjmJxS+0j/Y8Mu7c6qm6q5rVnjA==
   dependencies:
     "@firebase/component" "0.1.8"
     "@firebase/firestore-types" "1.10.1"
@@ -1494,10 +1494,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@material-ui/core@^4.9.7":
-  version "4.9.7"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.9.7.tgz#0c1caf123278770f34c5d8e9ecd9e1314f87a621"
-  integrity sha512-RTRibZgq572GHEskMAG4sP+bt3P3XyIkv3pOTR8grZAW2rSUd6JoGZLRM4S2HkuO7wS7cAU5SpU2s1EsmTgWog==
+"@material-ui/core@^4.9.8":
+  version "4.9.8"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.9.8.tgz#21c37a9aadf4ff8a2719b8cfcad0ae9e6ca53791"
+  integrity sha512-4cslpG6oLoPWUfwPkX+hvbak4hAGiOfgXOu/UIYeeMrtsTEebC0Mirjoby7zhS4ny86YI3rXEFW6EZDmlj5n5w==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/styles" "^4.9.6"
@@ -4410,10 +4410,10 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-cypress-firebase@1.0.0-beta.3:
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/cypress-firebase/-/cypress-firebase-1.0.0-beta.3.tgz#13f3d4de474d08f8c98532a938610ec2752a31c4"
-  integrity sha512-wo4Rh6nGtxoQE/pdXoF0ZWIwfVV/ZBh4JJLfy+pAyUDQDkPd7Tvlm3F9jLGWhGQtSoLVk6lCHE6m9i4sAiTQTA==
+cypress-firebase@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cypress-firebase/-/cypress-firebase-1.0.0.tgz#9ec64bd2dd0aef100d806361a75092ca90e7f09a"
+  integrity sha512-ENHGX/PkFioO4dLcaS4ml+caCCy9ozO53j3hH4koD8IvevEA3+9n+fZzIpyr1Oqe9vHVluwVlAT3jmJ4H2appg==
 
 cypress@^4.2.0:
   version "4.2.0"
@@ -6022,17 +6022,17 @@ firebase-tools@^7.15.1:
     uuid "^3.0.0"
     winston "^1.0.1"
 
-firebase@^7.12.0:
-  version "7.12.0"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.12.0.tgz#aafaa51f0b081e356c2df670e39f8bd7c2f7d774"
-  integrity sha512-OXOOYE1RATpkBPEbiwW4qlz/raXkpAEqtxXeRKDIqJcSuzK2oyBVj5zrME1sqk77e0gjIlpbvpV0Vm36cFgpYg==
+firebase@^7.13.1:
+  version "7.13.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.13.1.tgz#f9c05ef60341cf8f7796ad7b8f3181b31be6dcf5"
+  integrity sha512-v4Z7Wioy/7LMC8RJn1jNlOaUqLK7bUEva+Uf+qrbtFd7hM2rWLW+0IqHZBwPrQ5tI604uHj7IlhqAZEjm38AMw==
   dependencies:
-    "@firebase/analytics" "0.2.18"
+    "@firebase/analytics" "0.3.0"
     "@firebase/app" "0.6.0"
     "@firebase/app-types" "0.6.0"
     "@firebase/auth" "0.14.1"
     "@firebase/database" "0.5.24"
-    "@firebase/firestore" "1.12.2"
+    "@firebase/firestore" "1.13.0"
     "@firebase/functions" "0.4.38"
     "@firebase/installations" "0.4.6"
     "@firebase/messaging" "0.6.10"
@@ -11228,10 +11228,10 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.1.tgz#3f00ac71263be34684b2b2c8d7e7f63737592dac"
-  integrity sha512-piXGBcY1zoFOG0MvHpNE5reAGseLmaCRifQ/fmfF49BcYkInEs/naD/unxGNAeOKFA5+JxVrPyMvMlpzcd20UA==
+prettier@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.2.tgz#1ba8f3eb92231e769b7fcd7cb73ae1b6b74ade08"
+  integrity sha512-5xJQIPT8BraI7ZnaDwSbu5zLrB6vvi8hVV58yHQ+QK64qrY40dULy0HSRlQ2/2IdzeBpjhDkqdcFBnFeDEMVdg==
 
 pretty-bytes@5.3.0, pretty-bytes@^5.1.0:
   version "5.3.0"
@@ -11587,10 +11587,10 @@ react-google-button@^0.7.0:
   dependencies:
     prop-types "^15.7.2"
 
-react-hook-form@^5.1.3:
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-5.1.3.tgz#24610e11878c6bd143569ce203320f7367893e75"
-  integrity sha512-6+6wSge72A2Y7WGqMke4afOz0uDJ3gOPSysmYKkjJszSbmw8X8at7tJPzifnZ+cwLDR88b4on/D+jfH5azWbIw==
+react-hook-form@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-5.2.0.tgz#b5b654516ee03d55d78b7b9e194c7f4632885426"
+  integrity sha512-EqGCSl3DxSUBtL/9lFvrFQLJ7ICdVKrfjcMHay2SvmU4trR8aqrd7YuiLSojBKmZBRdBnCcxG+LzLWF9z474NA==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   version "16.13.1"
@@ -11715,10 +11715,10 @@ react@^16.13.0:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
-reactfire@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/reactfire/-/reactfire-2.0.2.tgz#a1597f441e13462fae05bfacad887d30a769a5c6"
-  integrity sha512-i7NmwF2yyPSuAFzPtk3n5uFXYPkZDTwla8WrNHx3PsQB2qkEL308viAb51nWqLpRGvAe+dj0v5yWCglcw1Qy5A==
+reactfire@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/reactfire/-/reactfire-2.0.3.tgz#5e791d786768d0134dc416ac912a5134c00d90ff"
+  integrity sha512-9QH2iUUPo5QUe8NJtKotBCztxDB7vGWfa7ldsWc9XswZ24YfDcLDZRdjjzb44BLqjqopNxK1ysrsQ08fuDS21w==
   dependencies:
     rxfire "^3.6.3"
     rxjs "^6.4.0"
