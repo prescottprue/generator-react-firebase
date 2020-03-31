@@ -9,7 +9,7 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "start:dist": "npm run build && firebase emulators:start --only hosting",
-    "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %> REACT_APP_FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> yarn start",<% if (includeComponentTests) { %>
+    "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %> REACT_APP_FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run start",<% if (includeComponentTests) { %>
     "test": "react-scripts test",<% } %><% if (deployTo !== 'firebase') { %>
     "create-config": "node build/create-config",<% } else { %>
     "build:config": "firebase-ci createConfig",<% } %><% if (includeUiTests) { %>
@@ -22,7 +22,7 @@
     "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
     "test:ui": "npm run build:testConfig && cypress run",
     "test:ui:open": "npm run build:testConfig && cypress open",
-    "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> yarn test:open",<% } %>
+    "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run test:open",<% } %>
     "emulators": "firebase emulators:start --only firestore,database",
     "emulators:all": "firebase emulators:start --only firestore,database,hosting",
     "lint": "eslint .",
