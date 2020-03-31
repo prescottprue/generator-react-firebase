@@ -10,7 +10,7 @@ const context = {
 
 const adminApp = firebaseTesting.initializeAdminApp({
   projectId: process.env.GCLOUD_PROJECT,
-  databaseName: process.env.GCLOUD_PROJECT,
+  databaseName: process.env.GCLOUD_PROJECT
 })
 
 const indexUser = functionsTest.wrap(indexUserOriginal)
@@ -20,7 +20,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
   beforeEach(async () => {
     // Clean database before each test
     await firebaseTesting.clearFirestoreData({
-      projectId: process.env.GCLOUD_PROJECT,
+      projectId: process.env.GCLOUD_PROJECT
     })
   })
 
@@ -87,12 +87,12 @@ const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PATH = `${USERS_COLLECTION}/${USER_UID}`
 const context = {
-  params: { userId: USER_UID },
+  params: { userId: USER_UID }
 }
 
 const adminApp = firebaseTesting.initializeAdminApp({
   projectId: process.env.GCLOUD_PROJECT,
-  databaseName: process.env.GCLOUD_PROJECT,
+  databaseName: process.env.GCLOUD_PROJECT
 })
 
 const indexUser = functionsTest.wrap(indexUserOriginal)
@@ -102,7 +102,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
   beforeEach(async () => {
     // Clean database before each test
     await firebaseTesting.clearFirestoreData({
-      projectId: process.env.GCLOUD_PROJECT,
+      projectId: process.env.GCLOUD_PROJECT
     })
   })
 
@@ -165,12 +165,12 @@ const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PATH = `${USERS_COLLECTION}/${USER_UID}`
 const context = {
-  params: { userId: USER_UID },
+  params: { userId: USER_UID }
 }
 
 const adminApp = firebaseTesting.initializeAdminApp({
   projectId: process.env.GCLOUD_PROJECT,
-  databaseName: process.env.GCLOUD_PROJECT,
+  databaseName: process.env.GCLOUD_PROJECT
 })
 
 const indexUser = functionsTest.wrap(indexUserOriginal)
@@ -180,7 +180,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
   beforeEach(async () => {
     // Clean database before each test
     await firebaseTesting.clearFirestoreData({
-      projectId: process.env.GCLOUD_PROJECT,
+      projectId: process.env.GCLOUD_PROJECT
     })
     // Cleanup all apps (keeps active listeners from preventing JS from exiting)
     await Promise.all(firebase.apps().map((app) => app.delete()))
@@ -244,12 +244,12 @@ const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PATH = `${USERS_COLLECTION}/${USER_UID}`
 const context = {
-  params: { userId: USER_UID },
+  params: { userId: USER_UID }
 }
 
 const adminApp = firebaseTesting.initializeAdminApp({
   projectId: process.env.GCLOUD_PROJECT,
-  databaseName: process.env.GCLOUD_PROJECT,
+  databaseName: process.env.GCLOUD_PROJECT
 })
 
 const indexUser = functionsTest.wrap(indexUserOriginal)

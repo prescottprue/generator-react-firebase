@@ -8,13 +8,7 @@
     "node": "10"
   },
   "scripts": {
-    <% if(includeFunctionsTests) { %>"test": "firebase emulators:exec --only firestore,database \"npm run test:base\"",
-    "test:cov": "firebase emulators:exec --only firestore,database \"npm run test:cov:base\"",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
-    "test:base": "cross-env GCLOUD_PROJECT=unit-test-project FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') mocha ./src/**/*.spec.js --opts ./mocha.opts",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
-    "test:base": "env GCLOUD_PROJECT=unit-test-project env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') jest ./src/**/*.spec.js --config jest.config.js",<% } %><% if(includeFunctionsTests) { %>
-    "test:cov:base": "nyc --reporter=lcov npm run test:base",
-    "test:watch": "npm test -- --watch",
-    <% } %>"lint": "eslint -c .eslintrc.js .",
+    "lint": "eslint -c .eslintrc.js .",
     "lint:fix": "npm run lint -- --fix",    
     "clean": "rimraf dist etc",
     "build": "npm run clean && babel src -d --out-dir dist",
@@ -24,7 +18,15 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "npm run build && firebase functions:log"
+    "logs": "npm run build && firebase functions:log",
+    "emulators": "firebase emulators:start --only database,firestore"<% if(includeFunctionsTests) { %>,
+    "test": "firebase emulators:exec --only firestore,database \"npm run test:base\"",
+    "test:cov": "firebase emulators:exec --only firestore,database \"npm run test:cov:base\"",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "test:base": "cross-env GCLOUD_PROJECT=unit-test-project FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') mocha ./src/**/*.spec.js --opts ./mocha.opts",
+    "test:cov:base": "rimraf coverage && yarn test:base --coverage",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
+    "test:base": "cross-env GCLOUD_PROJECT=unit-test-project env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') jest ./src/**/*.spec.js --config jest.config.js",
+    "test:cov:base": "nyc --reporter=lcov npm run test:base",<% } %><% if(includeFunctionsTests) { %>
+    "test:watch": "npm test -- --watch"<% } %>
   },
   "dependencies": {
     "firebase-admin": "^8.10.0",
@@ -33,7 +35,7 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.4",
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",<% if(includeFunctionsTests) { %>
     "@babel/register": "^7.9.0",

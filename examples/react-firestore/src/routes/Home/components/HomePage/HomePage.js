@@ -48,10 +48,7 @@ function Home() {
                 </a>
               </pre>
               from
-              <a
-                href={reactfireUrl}
-                target="_blank"
-                rel="noopener noreferrer">
+              <a href={reactfireUrl} target="_blank" rel="noopener noreferrer">
                 reactfire
               </a>
             </div>
