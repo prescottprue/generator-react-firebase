@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
+import { NotificationsProvider } from 'components/notification'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import ThemeSettings from '../../theme'<% if (includeRedux) { %>
 import { defaultRRFConfig } from '../../defaultConfig'<% } %><% if (!includeRedux) { %>
@@ -27,7 +28,9 @@ function App({ routes }) {
   return (
     <MuiThemeProvider theme={theme}>
       <FirebaseAppProvider firebaseConfig={firebaseConfig} initPerformance>
-        <Router>{routes}</Router>
+        <NotificationsProvider>
+          <Router>{routes}</Router>
+        </NotificationsProvider>
       </FirebaseAppProvider>
     </MuiThemeProvider>
   )
@@ -36,13 +39,15 @@ function App({ routes, store }) {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <ReactReduxFirebaseProvider
-          firebase={firebase}
-          config={defaultRRFConfig}
-          dispatch={store.dispatch}<% if (includeRedux && includeFirestore) { %>
-          createFirestoreInstance={createFirestoreInstance}<% } %>>
-          <Router>{routes}</Router>
-        </ReactReduxFirebaseProvider>
+        <NotificationsProvider>
+          <ReactReduxFirebaseProvider
+            firebase={firebase}
+            config={defaultRRFConfig}
+            dispatch={store.dispatch}<% if (includeRedux && includeFirestore) { %>
+            createFirestoreInstance={createFirestoreInstance}<% } %>>
+            <Router>{routes}</Router>
+          </ReactReduxFirebaseProvider>
+        </NotificationsProvider>
       </Provider>
     </MuiThemeProvider>
   )

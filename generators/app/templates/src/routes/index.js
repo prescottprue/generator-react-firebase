@@ -11,7 +11,7 @@ import ProjectsRoute from './Projects'
 import AccountRoute from './Account'
 import NotFoundRoute from './NotFound'
 
-export default function createRoutes(store) {
+export default function createRoutes() {
   return (
     <CoreLayout>
       <% if (!includeRedux) { %><SuspenseWithPerf fallback={<LoadingSpinner />} traceId="router-wait">
@@ -24,7 +24,7 @@ export default function createRoutes(store) {
             SignupRoute,
             LoginRoute
             /* Add More Routes Here */
-          ].map((settings, index) =>
+          ].map((settings) =>
             settings.authRequired ? (
               <PrivateRoute key={`Route-${settings.path}`} {...settings} />
             ) : (
@@ -42,7 +42,7 @@ export default function createRoutes(store) {
           SignupRoute,
           LoginRoute
           /* Add More Routes Here */
-        ].map((settings, index) => (
+        ].map((settings) => (
           <Route key={`Route-${settings.path}`} {...settings} />
         ))}
         <Route component={NotFoundRoute.component} />

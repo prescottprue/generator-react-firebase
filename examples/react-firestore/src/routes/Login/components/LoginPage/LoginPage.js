@@ -15,20 +15,25 @@ function LoginPage() {
   const classes = useStyles()
   const auth = useAuth()
   const history = useHistory()
+  const [isLoading, changeLoadingState] = useState(false)
 
   auth.onAuthStateChanged((auth) => {
     if (auth) {
+      changeLoadingState(false)
       history.replace(LIST_PATH)
     }
   })
 
   function googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
-    return auth.signInWithPopup(provider)
+    changeLoadingState(true)
+    return auth.signInWithPopup(provider).catch((err) => showError(err.message))
   }
 
   function emailLogin(creds) {
-    return auth.signInWithEmailAndPassword(creds.email, creds.password)
+    return auth
+      .signInWithEmailAndPassword(creds.email, creds.password)
+      .catch((err) => showError(err.message))
   }
 
   return (
@@ -38,7 +43,11 @@ function LoginPage() {
       </Paper>
       <div className={classes.orLabel}>or</div>
       <div className={classes.providers}>
-        <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
+      {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
+        )}
       </div>
       <div className={classes.signup}>
         <span className={classes.signupLabel}>Need an account?</span>

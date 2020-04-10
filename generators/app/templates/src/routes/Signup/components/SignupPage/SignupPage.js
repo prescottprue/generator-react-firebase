@@ -39,8 +39,8 @@ function SignupPage() {
   const auth = useAuth()
   const history = useHistory()
 
-  auth.onAuthStateChanged((auth) => {
-    if (auth) {
+  auth.onAuthStateChanged((authState) => {
+    if (authState) {
       history.replace(LIST_PATH)
     }
   })

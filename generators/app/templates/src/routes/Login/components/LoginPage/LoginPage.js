@@ -7,7 +7,8 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH<% if (!includeRedux) { %>, LIST_PATH<% } %> } from 'constants/paths'<% if (includeRedux) { %>
-import { useNotifications } from 'modules/notification'<% } %>
+import { useNotifications } from 'modules/notification'<% } %><% if (!includeRedux) { %>
+import useNotifications from 'modules/notification/useNotifications'<% } %>
 import LoginForm from '../LoginForm'
 import styles from './LoginPage.styles'
 
@@ -33,20 +34,25 @@ function LoginPage() {
   }<% } %><% if (!includeRedux) { %>
   const auth = useAuth()
   const history = useHistory()
+  const { showError } = useNotifications()
+  const [isLoading, changeLoadingState] = useState(false)
 
   auth.onAuthStateChanged((auth) => {
     if (auth) {
+      changeLoadingState(true)
       history.replace(LIST_PATH)
     }
   })
 
   function googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
-    return auth.signInWithPopup(provider)
+    return auth.signInWithPopup(provider).catch((err) => showError(err.message))
   }
 
   function emailLogin(creds) {
-    return auth.signInWithEmailAndPassword(creds.email, creds.password)
+    return auth
+      .signInWithEmailAndPassword(creds.email, creds.password)
+      .catch((err) => showError(err.message))
   }<% } %>
 
   return (
