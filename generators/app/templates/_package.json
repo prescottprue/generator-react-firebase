@@ -12,16 +12,15 @@
     "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %> REACT_APP_FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run start",<% if (includeComponentTests) { %>
     "test": "react-scripts test",<% } %><% if (deployTo !== 'firebase') { %>
     "create-config": "node build/create-config",<% } else { %>
-    "build:config": "firebase-ci createConfig",<% } %><% if (includeUiTests) { %>
-    "build:testConfig": "cypress-firebase createTestEnvFile",<% } %><% if (deployTo === 'firebase') { %>
+    "build:config": "firebase-ci createConfig",<% } %><% if (deployTo === 'firebase') { %>
     "deploy": "firebase-ci deploy -s",<% } %><% if (includeFunctions) { %>
     "functions:start": "npm run start --prefix functions",
     "functions:serve": "npm run serve --prefix functions",
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",<% } %><% if (includeFunctionsTests) { %>
     "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
-    "test:ui": "npm run build:testConfig && cypress run",
-    "test:ui:open": "npm run build:testConfig && cypress open",
+    "test:ui": "cypress run",
+    "test:ui:open": "cypress open",
     "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run test:open",<% } %>
     "emulators": "firebase emulators:start --only firestore,database",
     "emulators:all": "firebase emulators:start --only firestore,database,hosting",
