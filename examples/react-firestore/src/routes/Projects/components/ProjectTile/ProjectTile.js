@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
+import { useNotifications } from 'modules/notification'
 import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
@@ -15,6 +16,7 @@ const useStyles = makeStyles(styles)
 function ProjectTile({ name, projectId, showDelete }) {
   const classes = useStyles()
   const history = useHistory()
+  const { showError, showSuccess } = useNotifications()
   const firestore = useFirestore()
 
   function goToProject() {
@@ -25,8 +27,10 @@ function ProjectTile({ name, projectId, showDelete }) {
     return firestore
       .doc(`projects/${projectId}`)
       .delete()
+      .then(() => showSuccess('Project deleted successfully'))
       .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not delete project')
         return Promise.reject(err)
       })
   }

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, useRouteMatch } from 'react-router-dom'
 import { AuthCheck } from 'reactfire'
 import { LOGIN_PATH } from 'constants/paths'
 import LoadingSpinner from 'components/LoadingSpinner'
@@ -12,8 +12,9 @@ import LoadingSpinner from 'components/LoadingSpinner'
  * @param {Object} parentProps - Props to pass to children from parent
  * @returns {Array} List of routes
  */
-export function renderChildren(routes, match, parentProps) {
+export function renderChildren(routes, parentProps) {
   return routes.map((route) => {
+    const match = useRouteMatch()
     const RouteComponent = route.authRequired ? PrivateRoute : Route
     return (
       <RouteComponent

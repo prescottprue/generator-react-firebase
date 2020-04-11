@@ -22,7 +22,7 @@ function AccountMenu() {
   const firebase = useFirebase()<% } %><% if (!includeRedux) { %>
   const firebase = useFirebaseApp()<% } %>
 
-  function closeAccountMenu(e) {
+  function closeAccountMenu() {
     setMenu(null)
   }
   function handleMenu(e) {

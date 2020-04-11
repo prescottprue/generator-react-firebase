@@ -1,17 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Route, Switch } from 'react-router-dom'<% if (!includeRedux) { %>
+import { Route, Switch, useRouteMatch } from 'react-router-dom'<% if (!includeRedux) { %>
 import { SuspenseWithPerf } from 'reactfire'<% } %>
 import ProjectRoute from 'routes/Projects/routes/Project'<% if (!includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import { renderChildren } from 'utils/router'
 import ProjectsList from '../ProjectsList'
 
-function ProjectsPage({ match }) {
+function ProjectsPage() {
+  const match = useRouteMatch()
   return (
     <Switch>
       {/* Child routes */}
-      {renderChildren([ProjectRoute], match)}
+      {renderChildren([ProjectRoute])}
       {/* Main Route */}
       <% if (!includeRedux) { %><Route
         exact
@@ -23,13 +23,9 @@ function ProjectsPage({ match }) {
             <ProjectsList />
           </SuspenseWithPerf>
         )}
-      /><% } %><% if (includeRedux) { %><Route exact path={match.path} render={() => <ProjectsList />} /><% } %>
+      /><% } %><% if (includeRedux) { %><Route exact path={match.path} render={ProjectsList} /><% } %>
     </Switch>
   )
-}
-
-ProjectsPage.propTypes = {
-  match: PropTypes.object.isRequired // from enhancer (withRouter)
 }
 
 export default ProjectsPage

@@ -3,7 +3,6 @@
 dist/**
 build/**
 src/index.html
-blueprints/**
 src/config.js<% if (includeFunctions) { %>
 functions/dist/**<% } %><% if (includeFunctionsTests) { %>
 functions/test/mocha.opts

@@ -2,6 +2,7 @@ import React from 'react'
 import { useDatabase, useDatabaseObject, useUser } from 'reactfire'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
+import { useNotifications } from 'modules/notification'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 import styles from './AccountEditor.styles'
@@ -10,6 +11,7 @@ const useStyles = makeStyles(styles)
 
 function AccountEditor() {
   const classes = useStyles()
+  const { showSuccess, showError } = useNotifications()
   const database = useDatabase()
   const auth = useUser()
   const accountRef = database.ref(`users/${auth.uid}`)
@@ -20,8 +22,10 @@ function AccountEditor() {
     return auth
       .updateProfile(newAccount)
       .then(() => accountRef.set(newAccount, { merge: true }))
+      .then(() => showSuccess('Profile updated successfully'))
       .catch((error) => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+        showError('Error updating profile: ', error.message || error)
         return Promise.reject(error)
       })
   }

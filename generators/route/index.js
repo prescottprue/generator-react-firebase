@@ -32,6 +32,12 @@ function reactVersionHasHooks() {
   return semver.satisfies(semver.coerce(reactVersion), '>=16.9.0')
 }
 
+function isOldReact() {
+  const projectPackageFile = loadProjectPackageFile()
+  const reactVersion = get(projectPackageFile, 'dependencies.react')
+  return semver.satisfies(semver.coerce(reactVersion), '<16.0.0')
+}
+
 const prompts = [
   {
     type: 'confirm',
@@ -87,6 +93,9 @@ function dependencyExists(depName, opts = {}) {
 }
 
 function getIndexFileName(answers) {
+  if (isOldReact()) {
+    return '_index-old.js'
+  }
   if (dependencyExists('react-loadable')) {
     return '_index-loadable.js'
   }
