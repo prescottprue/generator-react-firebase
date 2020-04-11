@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDatabase, useUser, useDatabaseList } from 'reactfire'
+import { useNotifications } from 'modules/notification'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -9,9 +10,9 @@ import styles from './ProjectsList.styles'
 const useStyles = makeStyles(styles)
 
 function useProjectsList() {
+  const { showSuccess, showError } = useNotifications()
   // Get current user (loading handled by Suspense in ProjectsList)
   const auth = useUser()
-
   // Create a ref for projects owned by the current user
   const database = useDatabase()
   const projectsRef = database
@@ -38,9 +39,11 @@ function useProjectsList() {
       })
       .then(() => {
         toggleDialog()
+        showSuccess('Project added successfully')
       })
       .catch((err) => {
         console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not add project')
         return Promise.reject(err)
       })
   }

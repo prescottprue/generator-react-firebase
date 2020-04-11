@@ -35,11 +35,9 @@ function LoginPage() {
   const auth = useAuth()
   const history = useHistory()
   const { showError } = useNotifications()
-  const [isLoading, changeLoadingState] = useState(false)
 
   auth.onAuthStateChanged((auth) => {
     if (auth) {
-      changeLoadingState(true)
       history.replace(LIST_PATH)
     }
   })

@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH, LIST_PATH } from 'constants/paths'
+import useNotifications from 'modules/notification/useNotifications'
 import LoginForm from '../LoginForm'
 import styles from './LoginPage.styles'
 
@@ -15,18 +16,16 @@ function LoginPage() {
   const classes = useStyles()
   const auth = useAuth()
   const history = useHistory()
-  const [isLoading, changeLoadingState] = useState(false)
+  const { showError } = useNotifications()
 
   auth.onAuthStateChanged((auth) => {
     if (auth) {
-      changeLoadingState(false)
       history.replace(LIST_PATH)
     }
   })
 
   function googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
-    changeLoadingState(true)
     return auth.signInWithPopup(provider).catch((err) => showError(err.message))
   }
 
@@ -43,11 +42,7 @@ function LoginPage() {
       </Paper>
       <div className={classes.orLabel}>or</div>
       <div className={classes.providers}>
-      {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
-        )}
+        <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
       </div>
       <div className={classes.signup}>
         <span className={classes.signupLabel}>Need an account?</span>

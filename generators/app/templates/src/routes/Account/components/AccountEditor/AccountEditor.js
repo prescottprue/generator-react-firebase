@@ -5,8 +5,8 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'<% if (includeRedux) { %>
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
-import LoadingSpinner from 'components/LoadingSpinner'
-import { useNotifications } from 'modules/notification'<% } %>
+import LoadingSpinner from 'components/LoadingSpinner'<% } %>
+import { useNotifications } from 'modules/notification'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 import styles from './AccountEditor.styles'
@@ -14,7 +14,8 @@ import styles from './AccountEditor.styles'
 const useStyles = makeStyles(styles)
 
 function AccountEditor() {
-  const classes = useStyles()<% if (!includeRedux && includeFirestore) { %>
+  const classes = useStyles()
+  const { showSuccess, showError } = useNotifications()<% if (!includeRedux && includeFirestore) { %>
   const firestore = useFirestore()
   const auth = useUser()
   const accountRef = firestore.doc(`users/${auth.uid}`)
@@ -26,7 +27,6 @@ function AccountEditor() {
   const profileSnap = useDatabaseObject(accountRef)
   const profile = profileSnap.snapshot.val()<% } %><% if (includeRedux) { %>
   const firebase = useFirebase()
-  const { showSuccess, showError } = useNotifications()
 
   // Get profile from redux state
   const profile = useSelector(({ firebase }) => firebase.profile)
@@ -46,8 +46,10 @@ function AccountEditor() {
       })<% } %><% if (!includeRedux) { %>auth
       .updateProfile(newAccount)
       .then(() => accountRef.set(newAccount, { merge: true }))
+      .then(() => showSuccess('Profile updated successfully'))
       .catch((error) => {
         console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+        showError('Error updating profile: ', error.message || error)
         return Promise.reject(error)
       })<% } %>
   }

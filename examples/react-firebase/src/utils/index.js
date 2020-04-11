@@ -1,5 +1,3 @@
-
-
 /**
  * Initialize global scripts including analytics and error handling
  */

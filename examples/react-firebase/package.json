@@ -9,7 +9,7 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "start:dist": "npm run build && firebase emulators:start --only hosting",
-    "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\" yarn start",
+    "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\" npm run start",
     "test": "react-scripts test",
     "build:config": "firebase-ci createConfig",
     "deploy": "firebase-ci deploy -s",
@@ -29,18 +29,18 @@
   "author": "prescottprue (https://github.com/prescottprue)",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.9.7",
+    "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
-    "firebase": "^7.12.0",
+    "firebase": "^7.13.1",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-google-button": "^0.7.0",
-    "react-hook-form": "^5.1.3",
+    "react-hook-form": "^5.2.0",
     "react-router-dom": "^5.1.2",
-    "reactfire": "^2.0.2"
+    "reactfire": "^2.0.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
@@ -62,7 +62,7 @@
     "firebase-tools": "^7.15.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
-    "prettier": "^2.0.0",
+    "prettier": "^2.0.2",
     "react-scripts": "^3.4.0",
     "react-test-renderer": "^16.13.1"
   },
@@ -93,5 +93,8 @@
     "*.{js,ts}": [
       "eslint --fix"
     ]
+  },
+  "config": {
+    "port": 3000
   }
 }

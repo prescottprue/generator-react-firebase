@@ -17,7 +17,7 @@ function SignupForm({ onSubmit }) {
     errors,
     formState: { isSubmitting, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     nativeValidation: false
   })
 
@@ -50,7 +50,7 @@ function SignupForm({ onSubmit }) {
         margin="normal"
         fullWidth
         inputRef={register({
-          required: true,
+          required: true
         })}
         error={!!errors.password}
         helperText={errors.password && 'Password is required'}

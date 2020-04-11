@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'<% if (!includeRedux) { %>
 import { SuspenseWithPerf } from 'reactfire'
 import NavbarWithoutAuth from 'containers/Navbar/NavbarWithoutAuth'<% } %>
-import Navbar from 'containers/Navbar'<% if (includeRedux) { %>
-import { Notifications } from 'modules/notification'<% } %>
+import Navbar from 'containers/Navbar'
+import { Notifications } from 'modules/notification'
 
 function CoreLayout({ children }) {
   return (
@@ -12,8 +12,8 @@ function CoreLayout({ children }) {
         <Navbar />
       </SuspenseWithPerf><% } %><% if (includeRedux) { %>
       <Navbar /><% } %>
-      {children}<% if (includeRedux) { %>
-      <Notifications /><% } %>
+      {children}
+      <Notifications />
     </div>
   )
 }

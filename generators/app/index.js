@@ -257,6 +257,7 @@ const filesArray = [
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
+  { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/utils/router.js' },
   { src: 'src/utils/form.js' }
 ]
@@ -360,7 +361,6 @@ module.exports = class extends Generator {
         { src: 'src/store/reducers.js' },
         { src: 'src/store/location.js' },
         { src: 'src/defaultConfig.js' },
-        { src: 'src/modules/**', dest: 'src/modules' },
         { src: 'src/utils/components.js' },
         { src: 'src/initializeFirebase.js' }
       )

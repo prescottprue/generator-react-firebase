@@ -1,7 +1,7 @@
 <% if (includeSegment) { %>import { init as initAnalytics } from './analytics'<% } %><% if (includeSegment && includeErrorHandling) { %>
-<% } %><% if (includeErrorHandling) { %>import { init as initErrorHandling } from './errorHandler'<% } %>
+<% } %><% if (includeErrorHandling) { %>import { init as initErrorHandling } from './errorHandler'<% } %><% if (includeSegment || includeErrorHandling) { %>
 
-/**
+<% } %>/**
  * Initialize global scripts including analytics and error handling
  */
 export function initScripts() {

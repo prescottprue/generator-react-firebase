@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
-import { NotificationsProvider } from 'components/notification'
+import NotificationsProvider from 'modules/notification/NotificationsProvider'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import ThemeSettings from '../../theme'<% if (includeRedux) { %>
 import { defaultRRFConfig } from '../../defaultConfig'<% } %><% if (!includeRedux) { %>

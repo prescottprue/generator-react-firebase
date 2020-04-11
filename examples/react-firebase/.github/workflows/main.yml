@@ -34,6 +34,12 @@ jobs:
           yarn install --frozen-lockfile
           yarn --cwd functions install --frozen-lockfile
 
+      - name: Set Environment Settings
+        run: |
+          echo "Setting emulator settings to environment..."
+          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.database.port)"
+          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.firestore.port)"
+
       - name: Verify App
         run: |
           yarn build:config # Create env specific src/config.js

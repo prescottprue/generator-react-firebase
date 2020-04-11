@@ -15,8 +15,8 @@ import {
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'<% } %><% if (includeRedux) { %>
-import { useNotifications } from 'modules/notification'
+import { useSelector } from 'react-redux'<% } %>
+import { useNotifications } from 'modules/notification'<% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
@@ -25,13 +25,11 @@ import styles from './ProjectsList.styles'
 
 const useStyles = makeStyles(styles)
 
-function useProjectsList() {<% if (includeRedux) { %>
-  const { showSuccess, showError } = useNotifications()
-  <% } %><% if (!includeRedux) { %>
+function useProjectsList() {
+  const { showSuccess, showError } = useNotifications()<% if (!includeRedux) { %>
   // Get current user (loading handled by Suspense in ProjectsList)
-  const auth = useUser()
-
-  <% } %><% if (!includeRedux && includeFirestore) { %>// Create a ref for projects owned by the current user
+  const auth = useUser()<% } %><% if (!includeRedux && includeFirestore) { %>
+  // Create a ref for projects owned by the current user
   const firestore = useFirestore()
   const { FieldValue, FieldPath } = useFirestore
 
@@ -41,7 +39,8 @@ function useProjectsList() {<% if (includeRedux) { %>
     .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })<% } %><% if (!includeRedux && !includeFirestore) { %>// Create a ref for projects owned by the current user
+  const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })<% } %><% if (!includeRedux && !includeFirestore) { %>
+  // Create a ref for projects owned by the current user
   const database = useDatabase()
   const projectsRef = database
     .ref('projects')
@@ -115,12 +114,12 @@ function useProjectsList() {<% if (includeRedux) { %>
         // createdAt: database.ServerValue.TIMESTAMP
       })<% } %>
       .then(() => {
-        toggleDialog()<% if (includeRedux) { %>
-        showSuccess('Project added successfully')<% } %>
+        toggleDialog()
+        showSuccess('Project added successfully')
       })
       .catch((err) => {
-        console.error('Error:', err) // eslint-disable-line no-console<% if (includeRedux) { %>
-        showError(err.message || 'Could not add project')<% } %>
+        console.error('Error:', err) // eslint-disable-line no-console
+        showError(err.message || 'Could not add project')
         return Promise.reject(err)
       })
   }
