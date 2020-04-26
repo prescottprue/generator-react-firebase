@@ -17,13 +17,12 @@ function AccountForm({ account, onSubmit }) {
     register,
     handleSubmit,
     errors,
-    formState: { isSubmitting, touched, isValid }
+    formState: { isSubmitting, isValid }
   } = useForm({
-    mode: 'onBlur',
-    nativeValidation: false
+    mode: 'onChange',
+    nativeValidation: false,
+    defaultValues: account
   })
-
-  const { isLoaded, isEmpty, ...cleanAccount } = account
 
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
@@ -32,6 +31,7 @@ function AccountForm({ account, onSubmit }) {
           name="displayName"
           label="Display Name"
           margin="normal"
+          inputRef={register}
           fullWidth
         />
         <TextField
@@ -50,8 +50,8 @@ function AccountForm({ account, onSubmit }) {
         <TextField
           name="avatarUrl"
           label="Avatar Url"
-          inputRef={register}
           margin="normal"
+          inputRef={register}
           fullWidth
         />
       </div>
@@ -65,7 +65,7 @@ function AccountForm({ account, onSubmit }) {
         color="primary"
         type="submit"
         variant="contained"
-        disabled={Object.keys(touched).length === 0 || isSubmitting || !isValid}>
+        disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Saving' : 'Save'}
       </Button>
     </form>

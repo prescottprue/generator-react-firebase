@@ -18,7 +18,8 @@
       "ciProvider": "githubActions",
       "deployTo": "firebase",
       "measurementId": "G-62D5FVVQWZ",
-      "appId": "1:823357791673:web:819546ad651f4513e06a68"
+      "appId": "1:823357791673:web:819546ad651f4513e06a68",
+      "functionsTestTool": "jest"
     }
   }
 }

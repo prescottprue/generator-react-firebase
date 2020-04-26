@@ -1,5 +1,6 @@
 # redux-firestore
 
+
 [![Build Status][build-status-image]][build-status-url]
 [![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]
@@ -32,19 +33,19 @@
    ```js
    const firebase = {
      // Config from Firebase console
-   };
+   }
 
    // Overrides for for react-redux-firebase/redux-firestore config
-   export const reduxFirebase = {};
+   export const reduxFirebase = {}
 
-   export const publicVapidKey = "<- publicVapidKey from Firebase console ->";
+   export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
 
    export default {
      env,
      firebase,
      reduxFirebase,
-     publicVapidKey,
-   };
+     publicVapidKey
+   }
    ```
 
 1. Start Development server: `npm start`
@@ -52,20 +53,20 @@
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
 | `npm run <script>` | Description                                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| `start`            | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
-| `start:dist`       | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
-| `start:emulate`    | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`            | Builds the application to `./dist`                                                                                      |  |
-| `emulators`        | Starts database emulators for use with `start:emulate`                                                                  |  |
-| `emulators:all`    | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |  |
-| `test`             | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`       | Runs `test` in watch mode to re-run tests when changed                                                                  |  |
-| `test:ui`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
-| `test:ui:open`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`  | Same as `test:ui:open` but with tests pointed at emulators                                                              |  |
-| `lint`             | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
-| `lint:fix`         | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `start`                                                         | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
+| `start:dist`                                                    | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
+| `start:emulate`                                                 | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
+| `build`                                                         | Builds the application to `./dist`                                                                                      |  |
+| `emulators`                                                     | Starts database emulators for use with `start:emulate`                                                                  |  |
+| `emulators:all`                                                 | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |  |
+| `test`                                                          | Runs unit tests with Jest. See [testing](#testing)                                                                      |
+| `test:watch`                                                    | Runs `test` in watch mode to re-run tests when changed                                                                  |  |
+| `test:ui`                                                       | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
+| `test:ui:open`                                                  | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
+| `test:ui:emulate`                                               | Same as `test:ui:open` but with tests pointed at emulators                                                              |  |
+| `lint`                                                          | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
+| `lint:fix`                                                      | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
@@ -164,7 +165,10 @@ With this setting, the name of the file (called a "chunk") is defined as part of
 
 More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
 
+
 ## Testing
+
+
 
 ### Component Tests
 

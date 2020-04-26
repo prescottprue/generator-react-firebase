@@ -20,7 +20,7 @@ function AccountMenu() {
   const history = useHistory()
   const firebase = useFirebase()
 
-  function closeAccountMenu(e) {
+  function closeAccountMenu() {
     setMenu(null)
   }
   function handleMenu(e) {

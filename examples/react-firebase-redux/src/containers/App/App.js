@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import NotificationsProvider from 'modules/notification/NotificationsProvider'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import ThemeSettings from '../../theme'
 import { defaultRRFConfig } from '../../defaultConfig'
@@ -17,12 +18,14 @@ function App({ routes, store }) {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <ReactReduxFirebaseProvider
-          firebase={firebase}
-          config={defaultRRFConfig}
-          dispatch={store.dispatch}>
-          <Router>{routes}</Router>
-        </ReactReduxFirebaseProvider>
+        <NotificationsProvider>
+          <ReactReduxFirebaseProvider
+            firebase={firebase}
+            config={defaultRRFConfig}
+            dispatch={store.dispatch}>
+            <Router>{routes}</Router>
+          </ReactReduxFirebaseProvider>
+        </NotificationsProvider>
       </Provider>
     </MuiThemeProvider>
   )

@@ -1,4 +1,3 @@
-
 /**
  * Returns error message if value is not a valid email, otherwise returns
  * undefined
