@@ -13,8 +13,8 @@ const useStyles = makeStyles(styles)
 
 function AccountEditor() {
   const classes = useStyles()
-  const firebase = useFirebase()
   const { showSuccess, showError } = useNotifications()
+  const firebase = useFirebase()
 
   // Get profile from redux state
   const profile = useSelector(({ firebase }) => firebase.profile)

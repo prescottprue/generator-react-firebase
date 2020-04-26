@@ -3,15 +3,6 @@ import * as functions from 'firebase-functions'
 import { to } from '../utils/async'
 
 /**
- * Function to index displayName. Triggered by updates to profiles within the
- * users collection. Writes data to "users_public" collection.
- * @type {functions.CloudFunction}
- */
-export default functions.firestore
-  .document('/users/{userId}')
-  .onWrite(indexUser)
-
-/**
  * Index user's by placing their displayName into the users_public collection
  * @param {functions.Change} change - Database event from function being
  * @param {admin.firestore.DataSnapshot} change.before - Snapshot of data before change
@@ -50,7 +41,7 @@ async function indexUser(change, context) {
   const newData = change.after.data()
 
   // Check to see if displayName has changed
-  if (previousData.displayName === newData.displayName) {
+  if (previousData && previousData.displayName === newData.displayName) {
     console.log(
       `displayName parameter did not change for user with id: ${userId}, no need to update index. Exiting...`
     )
@@ -78,3 +69,12 @@ async function indexUser(change, context) {
 
   return newData
 }
+
+/**
+ * Function to index displayName. Triggered by updates to profiles within the
+ * users collection. Writes data to "users_public" collection.
+ * @type {functions.CloudFunction}
+ */
+export default functions.firestore
+  .document('/users/{userId}')
+  .onWrite(indexUser)

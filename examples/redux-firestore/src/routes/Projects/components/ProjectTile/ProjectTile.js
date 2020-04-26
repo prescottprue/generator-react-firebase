@@ -8,7 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles'
 import { LIST_PATH } from 'constants/paths'
-import useNotifications from 'modules/notification/useNotifications'
+import { useNotifications } from 'modules/notification'
 import styles from './ProjectTile.styles'
 
 const useStyles = makeStyles(styles)
@@ -16,8 +16,8 @@ const useStyles = makeStyles(styles)
 function ProjectTile({ name, projectId, showDelete }) {
   const classes = useStyles()
   const history = useHistory()
-  const firestore = useFirestore()
   const { showError, showSuccess } = useNotifications()
+  const firestore = useFirestore()
 
   function goToProject() {
     return history.push(`${LIST_PATH}/${projectId}`)

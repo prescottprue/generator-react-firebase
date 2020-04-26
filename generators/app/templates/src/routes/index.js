@@ -17,34 +17,38 @@ export default function createRoutes() {
       <% if (!includeRedux) { %><SuspenseWithPerf fallback={<LoadingSpinner />} traceId="router-wait">
         <Switch>
           <Route exact path={Home.path} component={() => <Home.component />} />
-          {/* Build Route components from routeSettings */
+          {
+            /* Build Route components from routeSettings */
+            [
+              AccountRoute,
+              ProjectsRoute,
+              SignupRoute,
+              LoginRoute
+              /* Add More Routes Here */
+            ].map((settings) =>
+              settings.authRequired ? (
+                <PrivateRoute key={`Route-${settings.path}`} {...settings} />
+              ) : (
+                <Route key={`Route-${settings.path}`} {...settings} />
+              )
+            )
+          }
+          <Route component={NotFoundRoute.component} />
+        </Switch>
+      </SuspenseWithPerf><% } %><% if (includeRedux) { %><Switch>
+        <Route exact path={Home.path} component={() => <Home.component />} />
+        {
+          /* Build Route components from routeSettings */
           [
             AccountRoute,
             ProjectsRoute,
             SignupRoute,
             LoginRoute
             /* Add More Routes Here */
-          ].map((settings) =>
-            settings.authRequired ? (
-              <PrivateRoute key={`Route-${settings.path}`} {...settings} />
-            ) : (
-              <Route key={`Route-${settings.path}`} {...settings} />
-            )
-          )}
-          <Route component={NotFoundRoute.component} />
-        </Switch>
-      </SuspenseWithPerf><% } %><% if (includeRedux) { %><Switch>
-        <Route exact path={Home.path} component={() => <Home.component />} />
-        {/* Build Route components from routeSettings */
-        [
-          AccountRoute,
-          ProjectsRoute,
-          SignupRoute,
-          LoginRoute
-          /* Add More Routes Here */
-        ].map((settings) => (
-          <Route key={`Route-${settings.path}`} {...settings} />
-        ))}
+          ].map((settings) => (
+            <Route key={`Route-${settings.path}`} {...settings} />
+          ))
+        }
         <Route component={NotFoundRoute.component} />
       </Switch><% } %>
     </CoreLayout>

@@ -5,7 +5,9 @@ import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
+import NotificationsProvider from 'modules/notification/NotificationsProvider'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import SetupMessaging from 'components/SetupMessaging'
 import ThemeSettings from '../../theme'
 import { defaultRRFConfig } from '../../defaultConfig'
 import initializeFirebase from '../../initializeFirebase'
@@ -18,13 +20,18 @@ function App({ routes, store }) {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <ReactReduxFirebaseProvider
-          firebase={firebase}
-          config={defaultRRFConfig}
-          dispatch={store.dispatch}
-          createFirestoreInstance={createFirestoreInstance}>
-          <Router>{routes}</Router>
-        </ReactReduxFirebaseProvider>
+        <NotificationsProvider>
+          <ReactReduxFirebaseProvider
+            firebase={firebase}
+            config={defaultRRFConfig}
+            dispatch={store.dispatch}
+            createFirestoreInstance={createFirestoreInstance}>
+            <>
+              <Router>{routes}</Router>
+              <SetupMessaging />
+            </>
+          </ReactReduxFirebaseProvider>
+        </NotificationsProvider>
       </Provider>
     </MuiThemeProvider>
   )

@@ -10,7 +10,7 @@ let errorHandler // eslint-disable-line import/no-mutable-exports
 function initStackdriverErrorReporter() {
   if (typeof window.StackdriverErrorReporter === 'function') {
     window.addEventListener('DOMContentLoaded', () => {
-      const errorHandler = new window.StackdriverErrorReporter()
+      errorHandler = new window.StackdriverErrorReporter()
       errorHandler.start({
         key: firebase.apiKey,
         projectId: firebase.projectId,
