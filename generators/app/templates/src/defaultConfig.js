@@ -1,5 +1,4 @@
-<% if (includeMessaging) { %>import { initializeMessaging } from 'utils/firebaseMessaging'
-<% } %><% if (includeAnalytics) { %>import { setAnalyticsUser } from 'utils/analytics'
+<% if (includeAnalytics) { %>import { setAnalyticsUser } from 'utils/analytics'
 <% } %><% if (includeErrorHandling || includeSentry) { %>import { setErrorUser } from 'utils/errorHandler'<% } %><% if (includeErrorHandling || includeSentry || includeMessaging) { %>
 
 <% } %>// ======================================================
@@ -17,9 +16,7 @@ export const defaultRRFConfig = {
   <% if (includeMessaging || includeAnalytics || includeSentry || includeErrorHandling) { %>onAuthStateChanged: (auth, firebaseInstance, dispatch) => {
     if (auth) {<% if (includeSentry || includeErrorHandling) { %>
       // Set auth within error handler
-      setErrorUser(auth)<% } %><% if (includeMessaging) { %>
-      // Initalize messaging with dispatch
-      initializeMessaging(dispatch)<% } %><% if (includeAnalytics) { %>
+      setErrorUser(auth)<% } %><% if (includeAnalytics) { %>
       // Set auth within analytics
       setAnalyticsUser(auth)<% } %>
     }

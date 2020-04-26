@@ -1,7 +1,8 @@
-import { without, omit } from 'lodash'
+<% if(includeRedux) { %>import { combineReducers } from 'redux'
+<% } %>import { without, omit } from 'lodash'
 import { NOTIFICATION_SHOW, NOTIFICATION_DISMISS } from './actionTypes'
 
-function combineReducers(reducers) {
+<% if(!includeRedux) { %>function combineReducers(reducers) {
   // First get an array with all the keys of the reducers (the reducer names)
   const reducerKeys = Object.keys(reducers)
 
@@ -28,7 +29,7 @@ function combineReducers(reducers) {
   }
 }
 
-function notification(state = {}, action) {
+<% } %>function notification(state = {}, action) {
   switch (action.type) {
     case NOTIFICATION_SHOW:
       return action.payload

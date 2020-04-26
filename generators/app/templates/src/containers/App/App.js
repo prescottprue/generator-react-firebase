@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'<% if (!includeRedux) { %>
-import { FirebaseAppProvider } from 'reactfire'<% } %>
+import { FirebaseAppProvider<% if (includeMessaging) { %>, SuspenseWithPerf<% } %> } from 'reactfire'<% } %>
 import { BrowserRouter as Router } from 'react-router-dom'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'<% if (includeMessaging) { %>
+import SetupMessaging from 'components/SetupMessaging'<% } %>
 import ThemeSettings from '../../theme'<% if (includeRedux) { %>
 import { defaultRRFConfig } from '../../defaultConfig'<% } %><% if (!includeRedux) { %>
 import * as config from '../../config'<% } %><% if (includeRedux) { %>
@@ -28,8 +29,14 @@ function App({ routes }) {
   return (
     <MuiThemeProvider theme={theme}>
       <FirebaseAppProvider firebaseConfig={firebaseConfig} initPerformance>
-        <NotificationsProvider>
-          <Router>{routes}</Router>
+        <NotificationsProvider><% if (includeMessaging) { %>
+          <>
+            <Router>{routes}</Router>
+            <SuspenseWithPerf traceId="load-messaging">
+              <SetupMessaging />
+            </SuspenseWithPerf>
+          </><% } %><% if (!includeMessaging) { %>
+          <Router>{routes}</Router><% } %>
         </NotificationsProvider>
       </FirebaseAppProvider>
     </MuiThemeProvider>
@@ -44,8 +51,12 @@ function App({ routes, store }) {
             firebase={firebase}
             config={defaultRRFConfig}
             dispatch={store.dispatch}<% if (includeRedux && includeFirestore) { %>
-            createFirestoreInstance={createFirestoreInstance}<% } %>>
-            <Router>{routes}</Router>
+            createFirestoreInstance={createFirestoreInstance}<% } %>><% if (includeMessaging) { %>
+            <>
+              <Router>{routes}</Router>
+              <SetupMessaging />
+            </><% } %><% if (!includeMessaging) { %>
+            <Router>{routes}</Router><% } %>
           </ReactReduxFirebaseProvider>
         </NotificationsProvider>
       </Provider>

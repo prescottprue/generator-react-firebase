@@ -1,64 +1,96 @@
-import * as admin from 'firebase-admin'
+import * as firebaseTesting from '@firebase/testing'
+import indexUserOriginal from './index'
 
-describe('indexUser RTDB Cloud Function (onWrite)', () => {
-  let adminInitStub
-  let indexUser
-  let updateStub
-  let setStub
-  let deleteStub
-  let docStub
-  let collectionStub
+const USER_UID = '123ABC'
+const USERS_COLLECTION = 'users'
+const USER_PATH = `${USERS_COLLECTION}/${USER_UID}`
+const USER_PUBLIC_PATH = `users_public/${USER_UID}`
+const context = {
+  params: { userId: USER_UID }
+}
 
-  beforeEach(() => {
-    updateStub = sinon.stub().returns(Promise.resolve({}))
-    setStub = sinon.stub().returns(Promise.resolve({}))
-    deleteStub = sinon.stub().returns(Promise.resolve({}))
-    docStub = sinon
-      .stub()
-      .returns({ set: setStub, update: updateStub, delete: deleteStub })
-    collectionStub = sinon
-      .stub()
-      .returns({ add: sinon.stub().returns(Promise.resolve({})), doc: docStub })
-    // Apply stubs as admin.firestore()
-    const firestoreStub = sinon
-      .stub()
-      .returns({ doc: docStub, collection: collectionStub })
-    sinon.stub(admin, 'firestore').get(() => firestoreStub)
-    /* eslint-disable global-require */
-    adminInitStub = sinon.stub(admin, 'initializeApp')
-    // Set GCLOUD_PROJECT to env
-    process.env.GCLOUD_PROJECT = 'test'
-    indexUser = functionsTest.wrap(
-      require(`${__dirname}/../../index`).indexUser
-    )
-    /* eslint-enable global-require */
+const adminApp = firebaseTesting.initializeAdminApp({
+  projectId,
+  databaseName: projectId
+})
+
+const indexUser = functionsTest.wrap(indexUserOriginal)
+const userFirestoreRef = adminApp.firestore().doc(USER_PUBLIC_PATH)
+
+describe('indexUser Firestore Cloud Function (onWrite)', () => {
+  beforeEach(async () => {
+    // Clean database before each test
+    await firebaseTesting.clearFirestoreData({ projectId })
   })
 
-  afterEach(() => {
-    adminInitStub.restore()
+  after(async () => {
     functionsTest.cleanup()
-    process.env.GCLOUD_PROJECT = undefined
+    // Cleanup all apps (keeps active listeners from preventing JS from exiting)
+    await Promise.all(firebaseTesting.apps().map((app) => app.delete()))
   })
 
-  it('removes user when user profile is being deleted', async () => {
-    const res = await indexUser({ after: { exists: false } })
-    expect(res).to.equal(null)
+  it('adds user to Firestore on create event', async () => {
+    const userData = { displayName: 'some' }
+    // Build a Firestore create event object on users path
+    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(
+      null,
+      USER_PATH
+    )
+    const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
+      userData,
+      USER_PATH
+    )
+    const changeEvent = { before: beforeSnap, after: afterSnap }
+    // Calling wrapped function with fake snap and context
+    await indexUser(changeEvent, context)
+    // Load data to confirm user has been deleted
+    const newUserRes = await userFirestoreRef.get()
+    expect(newUserRes.data()).to.have.property(
+      'displayName',
+      userData.displayName
+    )
   })
 
-  it('exits with null if display name did not change', async () => {
-    const res = await indexUser({
-      after: { exists: true, data: () => ({ displayName: 'asdf' }) },
-      before: { exists: true, data: () => ({ displayName: 'asdf' }) }
-    })
-    expect(res).to.be.null
+  it('updates existing user in Firestore on update event', async () => {
+    const initialUserData = { displayName: 'initial' }
+    const userData = { displayName: 'afterchange' }
+    // Create update snapshot on users collection document with user's id
+    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(
+      initialUserData,
+      USER_PATH
+    )
+    const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
+      userData,
+      USER_PATH
+    )
+    const changeEvent = { before: beforeSnap, after: afterSnap }
+    // Calling wrapped function with fake snap and context
+    await indexUser(changeEvent, context)
+    // Load data to confirm user has been deleted
+    const newUserRes = await userFirestoreRef.get()
+    expect(newUserRes.data()).to.have.property(
+      'displayName',
+      userData.displayName
+    )
   })
 
-  it('updates profile with new displayName if changed', async () => {
-    const afterData = { displayName: 'fdas' }
-    const res = await indexUser({
-      after: { exists: true, data: () => afterData },
-      before: { exists: true, data: () => ({ displayName: 'asdf' }) }
-    })
-    expect(res).to.equal(afterData)
+  it('removes user from Firestore on delete event', async () => {
+    const userData = { some: 'data' }
+    // Build a Firestore create event object on users path
+    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(
+      userData,
+      USER_PATH
+    )
+    const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
+      null,
+      USER_PATH
+    )
+    const changeEvent = { before: beforeSnap, after: afterSnap }
+    // Calling wrapped function with fake snap and context
+    await indexUser(changeEvent, context)
+    // Load data to confirm user has been deleted
+    const newUserRes = await userFirestoreRef.get()
+    expect(newUserRes.exists).to.be.false
+    expect(newUserRes.data()).to.be.undefined
   })
 })

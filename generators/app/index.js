@@ -249,7 +249,7 @@ const filesArray = [
   { src: 'src/index.js' },
   { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
-  { src: 'src/components/**', dest: 'src/components' },
+  { src: 'src/components/LoadingSpinner/**' },
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/utils/index.js' },
   { src: 'v1theme.js', dest: 'src/theme.js' },
@@ -432,8 +432,11 @@ module.exports = class extends Generator {
 
     if (this.answers.includeMessaging) {
       filesArray.push(
-        { src: 'src/utils/firebaseMessaging.js' },
-        { src: 'public/firebase-messaging-sw.js' }
+        { src: 'public/firebase-messaging-sw.js' },
+        {
+          src: 'src/components/SetupMessaging/**',
+          dest: 'src/components/SetupMessaging'
+        }
       )
     }
 
