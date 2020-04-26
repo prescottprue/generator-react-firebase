@@ -7,6 +7,9 @@ const srcFiles = [
   'src/components/LoadingSpinner/index.js',
   'src/components/LoadingSpinner/LoadingSpinner.js',
   'src/components/LoadingSpinner/LoadingSpinner.styles.js',
+  // 'src/components/SetupMessaging/index.js',
+  // 'src/components/SetupMessaging/SetupMessaging.js',
+  // 'src/components/SetupMessaging/useSetupMessaging.js',
   'src/containers/App/App.js',
   'src/containers/App/index.js',
   'src/containers/Navbar/AccountMenu.js',
@@ -30,7 +33,11 @@ const srcFiles = [
   'src/index.js',
   'src/index.css',
   'src/theme.js',
-  'public/index.html'
+  'public/index.html',
+  '.github/ISSUE_TEMPLATE/bug_report.md',
+  '.github/ISSUE_TEMPLATE/feature_request.md',
+  '.github/CONTRIBUTING.md',
+  '.github/PULL_REQUEST_TEMPLATE.md',
 ]
 
 const reduxFiles = ['src/store/createStore.js', 'src/store/reducers.js']

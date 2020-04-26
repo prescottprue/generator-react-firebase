@@ -262,7 +262,10 @@ const filesArray = [
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/utils/router.js' },
-  { src: 'src/utils/form.js' }
+  { src: 'src/utils/form.js' },
+  { src: '.github/ISSUE_TEMPLATE/**', dest: '.github/ISSUE_TEMPLATE' },
+  { src: '.github/CONTRIBUTING.md' },
+  { src: '.github/PULL_REQUEST_TEMPLATE.md' }
 ]
 
 module.exports = class extends Generator {
