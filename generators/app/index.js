@@ -4,7 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const semver = require('semver')
 const path = require('path')
-const captialize = require('lodash/capitalize')
+const capitalize = require('lodash/capitalize')
 const commandExistsSync = require('command-exists').sync
 const utils = require('./utils')
 
@@ -249,7 +249,10 @@ const filesArray = [
   { src: 'src/index.js' },
   { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
-  { src: 'src/components/LoadingSpinner/**' },
+  {
+    src: 'src/components/LoadingSpinner',
+    dest: 'src/components/LoadingSpinner'
+  },
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/utils/index.js' },
   { src: 'v1theme.js', dest: 'src/theme.js' },
@@ -290,7 +293,7 @@ module.exports = class extends Generator {
       codeClimate: true,
       appPath: this.env.options.appPath,
       appName,
-      capitalAppName: captialize(appName),
+      capitalAppName: capitalize(appName),
       useYarn: commandExistsSync('yarn')
     }
   }
