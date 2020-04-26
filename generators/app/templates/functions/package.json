@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.js .",
-    "lint:fix": "npm run lint -- --fix",    
+    "lint:fix": "npm run lint -- --fix",
     "clean": "rimraf dist etc",
     "build": "npm run clean && babel src -d --out-dir dist",
     "build:prod": "cross-env BABEL_ENV=production npm run build",
@@ -29,8 +29,8 @@
     "test:watch": "npm test -- --watch"<% } %>
   },
   "dependencies": {
-    "firebase-admin": "^8.10.0",
-    "firebase-functions": "^3.5.0",
+    "firebase-admin": "^8.11.0",
+    "firebase-functions": "^3.6.1",
     "glob": "^7.1.6",
     "lodash": "^4.17.15"
   },

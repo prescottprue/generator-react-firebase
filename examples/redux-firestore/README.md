@@ -56,14 +56,14 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 | `start`            | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
 | `start:dist`       | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
 | `start:emulate`    | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`            | Builds the application to `./dist`                                                                                      |
-| `emulators`        | Starts database emulators for use with `start:emulate`                                                                  |
-| `emulators:all`    | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |
+| `build`            | Builds the application to `./dist`                                                                                      |  |
+| `emulators`        | Starts database emulators for use with `start:emulate`                                                                  |  |
+| `emulators:all`    | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |  |
 | `test`             | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`       | Runs `test` in watch mode to re-run tests when changed                                                                  |
+| `test:watch`       | Runs `test` in watch mode to re-run tests when changed                                                                  |  |
 | `test:ui`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
 | `test:ui:open`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`  | Same as `test:ui:open` but with tests pointed at emulators                                                              |
+| `test:ui:emulate`  | Same as `test:ui:open` but with tests pointed at emulators                                                              |  |
 | `lint`             | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
 | `lint:fix`         | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
@@ -85,26 +85,19 @@ The application structure presented in this boilerplate is **fractal**, where fu
 
 ```
 ├── public                   # All build-related configuration
-│   ├── index.html           # Main HTML page container for app
-│   ├── scripts              # Scripts used within the building process
-│   │  └── compile.js        # Custom Compiler that calls Webpack compiler
-│   │  └── start.js          # Starts the custom compiler
+│   └── index.html           # Main HTML page container for app
 ├── src                      # Application source code
-│   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
 │   ├── components           # Global Reusable Presentational Components
 │   ├── constants            # Project constants such as firebase paths and form names
-│   │  ├── formNames.js      # Names of redux forms
 │   │  └── paths.js          # Paths for application routes
-│   ├── containers           # Global Reusable Container Components (connected to redux state)
+│   ├── containers           # Global Reusable Container Components
 │   ├── layouts              # Components that dictate major page structure
-│   │   └── CoreLayout       # Global application layout in which to render routes
+│   │   └── CoreLayout       # Global application layout in which routes are rendered
 │   ├── routes               # Main route definitions and async split points
 │   │   ├── index.js         # Bootstrap main application routes
 │   │   └── Home             # Fractal route
 │   │       ├── index.js     # Route definitions and async split points
-│   │       ├── assets       # Assets required to render components
 │   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
-│   │       ├── modules      # Collections of reducers/constants/actions
 │   │       └── routes/**    # Fractal sub-routes (** optional)
 │   ├── static               # Static assets
 │   ├── store                # Redux-specific pieces
@@ -113,7 +106,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── styles               # Application-wide styles (generally settings)
 │   └── utils                # General Utilities (used throughout application)
 │   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js          # For forms (often used in enhancers that use redux-form)
+│   │   ├── form.js          # For forms
 │   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
 ├── tests                    # Unit tests
 ├── .env.local               # Environment settings for when running locally
@@ -122,7 +115,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── .firebaserc              # Firebase Project configuration settings (including ci settings)
 ├── database.rules.json      # Rules for Firebase Real Time Database
 ├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
-├── firestore.indexes.json   # Indexs for Cloud Firestore
+├── firestore.indexes.json   # Indexes for Cloud Firestore
 ├── firestore.rules          # Rules for Cloud Firestore
 └── storage.rules            # Rules for Cloud Storage For Firebase
 ```
@@ -160,6 +153,7 @@ import loadable from "utils/components";
 
 // Async route definition
 export default {
+  path: "*",
   component: loadable(() =>
     import(/* webpackChunkName: 'NotFound' */ "./components/NotFoundPage")
   ),

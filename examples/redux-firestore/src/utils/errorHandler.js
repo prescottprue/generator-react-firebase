@@ -40,7 +40,7 @@ function initSentry() {
  * initialized if in production environment.
  */
 export function init() {
-  if (environment !== 'dev') {
+  if (!window.location.hostname.includes('localhost')) {
     initStackdriverErrorReporter()
     initSentry()
   } else {
