@@ -62,7 +62,11 @@ jobs:
       #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload Code Coverage (Codecov)
-        run: cat coverage/lcov.info | $(yarn bin)/codecov
+        if: success()
+        env:
+          CI: true
+          CODE_COV: ${{ secrets.CODE_COV }}
+        run: bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
 
       - name: Archive Workspace on Failure
         if: failure()

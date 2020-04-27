@@ -41,6 +41,9 @@ jobs:
         run: yarn test:cov
 
       - name: Upload Code Coverage (Codecov)
+        env:
+          CI: true
+          CODE_COV: ${{ secrets.CODE_COV }}
         run: |
           bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
       
