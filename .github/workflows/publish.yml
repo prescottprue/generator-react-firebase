@@ -13,39 +13,49 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check package version
-        uses: technote-space/package-version-check-action@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Check version changes
+        uses: EndBug/version-check@v1
+        id: check
+
+      - name: Version update detected
+        if: steps.check.outputs.changed == 'true'
+        run: 'echo "Version change found! New version: ${{ steps.check.outputs.version }} (${{ steps.check.outputs.type }})"'
 
       - name: Use Node 12
+        if: steps.check.outputs.changed == 'true'
         uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
 
       - name: Get yarn cache
+        if: steps.check.outputs.changed == 'true'
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - uses: actions/cache@v1
+        if: steps.check.outputs.changed == 'true'
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
+        if: steps.check.outputs.changed == 'true'
         env:
           CI: true
           HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
         run: yarn install --frozen-lockfile
 
       - name: Check Lint
+        if: steps.check.outputs.changed == 'true'
         run: yarn lint
 
       - name: Run Tests
+        if: steps.check.outputs.changed == 'true'
         run: yarn test:cov
 
       - name: Publish
+        if: steps.check.outputs.changed == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_REF: ${{ github.ref }}
@@ -62,7 +72,7 @@ jobs:
       #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload Code Coverage (Codecov)
-        if: success()
+        if: steps.check.outputs.changed == 'true' && success()
         env:
           CI: true
           CODE_COV: ${{ secrets.CODE_COV }}
