@@ -27,9 +27,7 @@ export default function initializeFirebase() {
   firebase.auth().onAuthStateChanged(auth => {
     if (auth) {<% if (includeSentry || includeErrorHandling) { %>
       // Set auth within error handler
-      setErrorUser(auth)<% } %><% if (includeMessaging) { %>
-      // Initalize messaging
-      initializeMessaging()<% } %><% if (includeAnalytics) { %>
+      setErrorUser(auth)<% } %><% if (includeAnalytics) { %>
       // Set auth within analytics
       setAnalyticsUser(auth)<% } %>
     }

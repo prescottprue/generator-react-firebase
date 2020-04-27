@@ -14,6 +14,7 @@ export const NotificationsContext = React.createContext({
   byId: {},
   showError: () => {},
   showMessage: () => {},
+  showSuccess: () => {},
   dismissNotification: () => {},
   clearNotifications: () => {}
 })

@@ -1,5 +1,5 @@
 import * as firebaseTesting from '@firebase/testing'
-import <%= eventType %>Original from './index'
+import <%= camelName %>Original from './index'
 
 const adminApp = firebaseTesting.initializeAdminApp({
   projectId: process.env.GCLOUD_PROJECT,
@@ -8,7 +8,7 @@ const adminApp = firebaseTesting.initializeAdminApp({
 
 const eventPath = 'users'
 
-const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped)
+const <%= camelName %> = functionsTest.wrap(<%= camelName %>Original)
 
 describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
   beforeEach(async () => {

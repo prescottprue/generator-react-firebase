@@ -10,7 +10,7 @@ let errorHandler // eslint-disable-line import/no-mutable-exports
 function initStackdriverErrorReporter() {
   if (typeof window.StackdriverErrorReporter === 'function') {
     window.addEventListener('DOMContentLoaded', () => {
-      const errorHandler = new window.StackdriverErrorReporter()
+      errorHandler = new window.StackdriverErrorReporter()
       errorHandler.start({
         key: firebase.apiKey,
         projectId: firebase.projectId,
@@ -40,7 +40,7 @@ function initSentry() {
  * initialized if in production environment.
  */
 export function init() {
-  if (environment !== 'dev') {
+  if (!window.location.hostname.includes('localhost')) {
     initStackdriverErrorReporter()
     initSentry()
   } else {

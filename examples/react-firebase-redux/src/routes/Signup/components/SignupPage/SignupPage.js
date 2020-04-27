@@ -13,8 +13,8 @@ const useStyles = makeStyles(styles)
 
 function SignupPage() {
   const classes = useStyles()
-  const firebase = useFirebase()
   const { showError } = useNotifications()
+  const firebase = useFirebase()
 
   function onSubmitFail(formErrs, dispatch, err) {
     showError(formErrs ? 'Form Invalid' : err.message || 'Error')

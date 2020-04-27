@@ -3,6 +3,7 @@ import { useFirestore, useFirestoreDoc, useUser } from 'reactfire'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import { useNotifications } from 'modules/notification'
+import { USERS_COLLECTION } from 'constants/firebasePaths'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 import styles from './AccountEditor.styles'
@@ -14,7 +15,7 @@ function AccountEditor() {
   const { showSuccess, showError } = useNotifications()
   const firestore = useFirestore()
   const auth = useUser()
-  const accountRef = firestore.doc(`users/${auth.uid}`)
+  const accountRef = firestore.doc(`${USERS_COLLECTION}/${auth.uid}`)
   const profileSnap = useFirestoreDoc(accountRef)
   const profile = profileSnap.data()
 

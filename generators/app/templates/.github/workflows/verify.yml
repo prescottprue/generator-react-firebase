@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-app-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
         env:
@@ -79,7 +79,7 @@ jobs:
       - name: Verify Functions
         run: |
           npm run --prefix functions test:cov # Run unit tests with coverage
-          npm run --prefix functions build
+          npm run --prefix functions build<% } %>
 
       - name: Archive Build Artifact
         uses: actions/upload-artifact@master
@@ -91,7 +91,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: functions-build
-          path: functions/dist<% } %><% if(includeUiTests) { %>
+          path: functions/dist<% if(includeUiTests) { %>
 
   ui-tests:
     name: UI Tests
@@ -107,22 +107,37 @@ jobs:
           node-version: 10
 
       - name: Get Library Versions For Binary Caching
-        id: dep-versions
+        id: cache-settings
         run: |
+          echo "::set-output name=dir::$(yarn cache dir)"
           echo "::set-output name=firebase-tools::$(yarn info firebase-tools version --silent)"
-          echo "::set-output name=firebase-tools::$(yarn info cypress version --silent)"
+          echo "::set-output name=cypress::$(yarn info cypress version --silent)"
 
       - name: Cache Firebase Emulator Binaries
         uses: actions/cache@v1
         with:
           path: ~/.cache/firebase/emulators
-          key: ${{ runner.os }}-firebase-${{ steps.dep-versions.outputs.firebase-tools }}
+          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache Cypress Binary
         uses: actions/cache@v1
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ steps.dep-versions.outputs.cypress }}
+          key: ${{ runner.os }}-cypress-${{ steps.cache-settings.outputs.cypress }}
+
+      - name: Cache App Dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.cache-settings.outputs.dir }}
+          key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
+
+      - name: Install Dependencies
+        env:
+          CI: true
+          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
+        run: |
+          <% if(useYarn) { %>yarn install --frozen-lockfile<% } else { %>npm ci<% } %>
+          $(<% if(useYarn) { %>yarn<% } else { %>npm<% } %> bin)/cypress verify
 
       - name: Set Test Environment Settings
         env:
@@ -181,7 +196,7 @@ jobs:
         with:
           record: true
           group: 'E2E Tests'
-          start: <% if(useYarn) { %>yarn<% } else { %>npm<% } %> emulate --project $GCLOUD_PROJECT
+          start: <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> emulate --project $GCLOUD_PROJECT
           wait-on: http://localhost:3000
           # wait for 3 minutes for the server to respond
           wait-on-timeout: 180

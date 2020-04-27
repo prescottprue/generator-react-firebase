@@ -3,6 +3,7 @@ import { useDatabase, useDatabaseObject, useUser } from 'reactfire'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import { useNotifications } from 'modules/notification'
+import { USERS_COLLECTION } from 'constants/firebasePaths'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 import styles from './AccountEditor.styles'
@@ -14,7 +15,7 @@ function AccountEditor() {
   const { showSuccess, showError } = useNotifications()
   const database = useDatabase()
   const auth = useUser()
-  const accountRef = database.ref(`users/${auth.uid}`)
+  const accountRef = database.ref(`${USERS_COLLECTION}/${auth.uid}`)
   const profileSnap = useDatabaseObject(accountRef)
   const profile = profileSnap.snapshot.val()
 

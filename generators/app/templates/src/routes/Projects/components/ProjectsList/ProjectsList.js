@@ -26,8 +26,8 @@ import styles from './ProjectsList.styles'
 const useStyles = makeStyles(styles)
 
 function useProjectsList() {
-  const { showSuccess, showError } = useNotifications()<% if (!includeRedux) { %>
-  // Get current user (loading handled by Suspense in ProjectsList)
+  const { showSuccess, showError } = useNotifications()
+  <% if (!includeRedux) { %>// Get current user (loading handled by Suspense in ProjectsList)
   const auth = useUser()<% } %><% if (!includeRedux && includeFirestore) { %>
   // Create a ref for projects owned by the current user
   const firestore = useFirestore()

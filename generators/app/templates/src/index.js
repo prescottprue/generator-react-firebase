@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { initScripts } from './utils'<% if (includeRedux) { %>
 import createStore from './store/createStore'<% } %>
 import { version } from '../package.json'
-import { env } from './config'
 import App from './containers/App'<% if (!includeRedux) { %>
 import createRoutes from './routes'<% } %>
 import './index.css'
@@ -13,7 +12,6 @@ import './index.css'
 // Window Variables
 // ------------------------------------
 window.version = version
-window.env = env
 initScripts()
 
 // Store Initialization

@@ -4,7 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const semver = require('semver')
 const path = require('path')
-const captialize = require('lodash/capitalize')
+const capitalize = require('lodash/capitalize')
 const commandExistsSync = require('command-exists').sync
 const utils = require('./utils')
 
@@ -249,7 +249,10 @@ const filesArray = [
   { src: 'src/index.js' },
   { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
-  { src: 'src/components/**', dest: 'src/components' },
+  {
+    src: 'src/components/LoadingSpinner',
+    dest: 'src/components/LoadingSpinner'
+  },
   { src: 'src/containers/**', dest: 'src/containers' },
   { src: 'src/utils/index.js' },
   { src: 'v1theme.js', dest: 'src/theme.js' },
@@ -259,7 +262,10 @@ const filesArray = [
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/modules/**', dest: 'src/modules' },
   { src: 'src/utils/router.js' },
-  { src: 'src/utils/form.js' }
+  { src: 'src/utils/form.js' },
+  { src: '.github/ISSUE_TEMPLATE/**', dest: '.github/ISSUE_TEMPLATE' },
+  { src: '.github/CONTRIBUTING.md' },
+  { src: '.github/PULL_REQUEST_TEMPLATE.md' }
 ]
 
 module.exports = class extends Generator {
@@ -290,7 +296,7 @@ module.exports = class extends Generator {
       codeClimate: true,
       appPath: this.env.options.appPath,
       appName,
-      capitalAppName: captialize(appName),
+      capitalAppName: capitalize(appName),
       useYarn: commandExistsSync('yarn')
     }
   }
@@ -432,8 +438,11 @@ module.exports = class extends Generator {
 
     if (this.answers.includeMessaging) {
       filesArray.push(
-        { src: 'src/utils/firebaseMessaging.js' },
-        { src: 'public/firebase-messaging-sw.js' }
+        { src: 'public/firebase-messaging-sw.js' },
+        {
+          src: 'src/components/SetupMessaging/**',
+          dest: 'src/components/SetupMessaging'
+        }
       )
     }
 

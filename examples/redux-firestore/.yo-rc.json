@@ -10,7 +10,7 @@
         "Continuous Integration config",
         "Firebase Cloud Messaging",
         "Firebase Functions (with ESNext support)",
-        "Tests for Firebase Functions (Mocha + Chai)",
+        "Tests for Firebase Functions (Mocha/Chai or Jest)",
         "Tests for React Components (Jest)",
         "Tests for UI (Cypress)",
         "Error Tracking (Sentry.io)",
@@ -20,7 +20,8 @@
       "firebasePublicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg",
       "ciProvider": "githubActions",
       "deployTo": "firebase",
-      "appId": "1:823357791673:web:e53b561c7e36427fe06a68"
+      "appId": "1:823357791673:web:e53b561c7e36427fe06a68",
+      "functionsTestTool": "mocha"
     }
   }
 }

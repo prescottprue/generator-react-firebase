@@ -30,7 +30,11 @@ const srcFiles = [
   'src/index.js',
   'src/index.css',
   'src/theme.js',
-  'public/index.html'
+  'public/index.html',
+  '.github/ISSUE_TEMPLATE/bug_report.md',
+  '.github/ISSUE_TEMPLATE/feature_request.md',
+  '.github/CONTRIBUTING.md',
+  '.github/PULL_REQUEST_TEMPLATE.md',
 ]
 
 const reduxFiles = ['src/store/createStore.js', 'src/store/reducers.js']
@@ -54,6 +58,12 @@ const defaultOtherFeatures = [
   'Continuous Integration config',
   'Firebase Cloud Messaging',
   'Firebase Functions (with Babel setup)',
+]
+
+const messagingFiles = [
+  'src/components/SetupMessaging/index.js',
+  'src/components/SetupMessaging/SetupMessaging.js',
+  'src/components/SetupMessaging/useSetupMessaging.js',
 ]
 
 describe('generator-react-firebase:app', function() {
@@ -100,7 +110,7 @@ describe('generator-react-firebase:app', function() {
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles)
+          checkForEachFile(projectFiles.concat(messagingFiles))
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
@@ -129,7 +139,7 @@ describe('generator-react-firebase:app', function() {
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles)
+          checkForEachFile(projectFiles.concat(messagingFiles))
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')

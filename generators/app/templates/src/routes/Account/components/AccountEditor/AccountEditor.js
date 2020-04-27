@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles'<% if (includeRedux) { %>
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
-import { useNotifications } from 'modules/notification'
+import { useNotifications } from 'modules/notification'<% if (!includeRedux) { %>
+import { USERS_COLLECTION } from 'constants/firebasePaths'<% } %>
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
 import styles from './AccountEditor.styles'
@@ -18,12 +19,12 @@ function AccountEditor() {
   const { showSuccess, showError } = useNotifications()<% if (!includeRedux && includeFirestore) { %>
   const firestore = useFirestore()
   const auth = useUser()
-  const accountRef = firestore.doc(`users/${auth.uid}`)
+  const accountRef = firestore.doc(`${USERS_COLLECTION}/${auth.uid}`)
   const profileSnap = useFirestoreDoc(accountRef)
   const profile = profileSnap.data()<% } %><% if (!includeRedux && !includeFirestore) { %>
   const database = useDatabase()
   const auth = useUser()
-  const accountRef = database.ref(`users/${auth.uid}`)
+  const accountRef = database.ref(`${USERS_COLLECTION}/${auth.uid}`)
   const profileSnap = useDatabaseObject(accountRef)
   const profile = profileSnap.snapshot.val()<% } %><% if (includeRedux) { %>
   const firebase = useFirebase()

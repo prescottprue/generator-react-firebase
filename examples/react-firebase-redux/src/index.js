@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { initScripts } from './utils'
 import createStore from './store/createStore'
 import { version } from '../package.json'
-import { env } from './config'
 import App from './containers/App'
 import './index.css'
 
@@ -12,7 +11,6 @@ import './index.css'
 // Window Variables
 // ------------------------------------
 window.version = version
-window.env = env
 initScripts()
 
 // Store Initialization

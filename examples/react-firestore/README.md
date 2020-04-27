@@ -1,5 +1,6 @@
 # react-firestore
 
+
 [![Build Status][build-status-image]][build-status-url]
 [![Code Coverage][coverage-image]][coverage-url]
 [![Code Climate][climate-image]][climate-url]
@@ -13,7 +14,7 @@
 1. [Getting Started](#getting-started)
 1. [Application Structure](#application-structure)
 1. [Development](#development)
-    1. [Routing](#routing)
+   1. [Routing](#routing)
 1. [Testing](#testing)
 1. [Configuration](#configuration)
 1. [Production](#production)
@@ -21,52 +22,54 @@
 
 ## Requirements
 
-* node `^10.15.0`
-* npm `^6.0.0`
+- node `^10.15.0`
+- npm `^6.0.0`
 
 ## Getting Started
 
 1. Install app and functions dependencies: `npm i && npm i --prefix functions`
 1. Create `src/config.js` file that looks like so if it does not already exist:
-    ```js
-    const firebase = {
-      // Config from Firebase console
-    }
 
-    // Overrides for for react-redux-firebase/redux-firestore config
-    export const reduxFirebase = {}
+   ```js
+   const firebase = {
+     // Config from Firebase console
+   }
 
-    export const segmentId = '<- Segment ID ->'
+   // Overrides for for react-redux-firebase/redux-firestore config
+   export const reduxFirebase = {}
 
-    export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
+   export const segmentId = '<- Segment ID ->'
 
-    export default {
-      env,
-      firebase,
-      reduxFirebase,
-      publicVapidKey,
-      segmentId
-    }
-    ```
+   export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
+
+   export default {
+     env,
+     firebase,
+     reduxFirebase,
+     publicVapidKey,
+     segmentId
+   }
+   ```
+
 1. Start Development server: `npm start`
 
 While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
 
-|`npm run <script>`    |Description|
-|-------------------|-----------|
-|`start`            |Serves your app at `localhost:3000` with automatic refreshing and hot module replacement|
-|`start:dist`       |Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator|
-|`start:emulate`    |Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)|
-|`build`            |Builds the application to `./dist`|
-|`emulators`        |Starts database emulators for use with `start:emulate`|
-|`emulators:all`    |Starts database and hosting emulators (used in verify workflow by Cypress)|
-|`test`             |Runs unit tests with Jest. See [testing](#testing)|
-|`test:watch`       |Runs `test` in watch mode to re-run tests when changed|
-|`test:ui`          |Runs ui tests with Cypress. See [testing](#testing)|
-|`test:ui:open`     |Opens ui tests runner (Cypress Dashboard). See [testing](#testing)|
-|`test:ui:emulate`     |Same as `test:ui:open` but with tests pointed at emulators|
-|`lint`             |[Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors|
-|`lint:fix`         |Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix)|
+| `npm run <script>` | Description                                                                                                             |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `start`                                                         | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
+| `start:dist`                                                    | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
+| `start:emulate`                                                 | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
+| `build`                                                         | Builds the application to `./dist`                                                                                      |  |
+| `emulators`                                                     | Starts database emulators for use with `start:emulate`                                                                  |  |
+| `emulators:all`                                                 | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |  |
+| `test`                                                          | Runs unit tests with Jest. See [testing](#testing)                                                                      |
+| `test:watch`                                                    | Runs `test` in watch mode to re-run tests when changed                                                                  |  |
+| `test:ui`                                                       | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
+| `test:ui:open`                                                  | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
+| `test:ui:emulate`                                               | Same as `test:ui:open` but with tests pointed at emulators                                                              |  |
+| `lint`                                                          | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
+| `lint:fix`                                                      | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
@@ -74,9 +77,9 @@ While developing, you will probably rely mostly on `npm start`; however, there a
 
 There are multiple configuration files:
 
-* Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
-* Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
-* Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
+- Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
+- Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+- Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
 
@@ -86,26 +89,19 @@ The application structure presented in this boilerplate is **fractal**, where fu
 
 ```
 ├── public                   # All build-related configuration
-│   ├── index.html           # Main HTML page container for app
-│   ├── scripts              # Scripts used within the building process
-│   │  └── compile.js        # Custom Compiler that calls Webpack compiler
-│   │  └── start.js          # Starts the custom compiler
+│   └── index.html           # Main HTML page container for app
 ├── src                      # Application source code
-│   ├── config.js            # Environment specific config file with settings from Firebase (created by CI)
 │   ├── components           # Global Reusable Presentational Components
 │   ├── constants            # Project constants such as firebase paths and form names
-│   │  ├── formNames.js      # Names of redux forms
 │   │  └── paths.js          # Paths for application routes
-│   ├── containers           # Global Reusable Container Components (connected to redux state)
+│   ├── containers           # Global Reusable Container Components
 │   ├── layouts              # Components that dictate major page structure
-│   │   └── CoreLayout       # Global application layout in which to render routes
+│   │   └── CoreLayout       # Global application layout in which routes are rendered
 │   ├── routes               # Main route definitions and async split points
 │   │   ├── index.js         # Bootstrap main application routes
 │   │   └── Home             # Fractal route
 │   │       ├── index.js     # Route definitions and async split points
-│   │       ├── assets       # Assets required to render components
 │   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
-│   │       ├── modules      # Collections of reducers/constants/actions
 │   │       └── routes/**    # Fractal sub-routes (** optional)
 │   ├── static               # Static assets
 │   ├── store                # Redux-specific pieces
@@ -114,7 +110,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── styles               # Application-wide styles (generally settings)
 │   └── utils                # General Utilities (used throughout application)
 │   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js          # For forms (often used in enhancers that use redux-form)
+│   │   ├── form.js          # For forms
 │   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
 ├── tests                    # Unit tests
 ├── .env.local               # Environment settings for when running locally
@@ -123,7 +119,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── .firebaserc              # Firebase Project configuration settings (including ci settings)
 ├── database.rules.json      # Rules for Firebase Real Time Database
 ├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
-├── firestore.indexes.json   # Indexs for Cloud Firestore
+├── firestore.indexes.json   # Indexes for Cloud Firestore
 ├── firestore.rules          # Rules for Cloud Firestore
 └── storage.rules            # Rules for Cloud Storage For Firebase
 ```
@@ -138,40 +134,44 @@ There are two types of routes definitions:
 
 The most simple way to define a route is a simple object with `path` and `component`:
 
-*src/routes/Home/index.js*
+_src/routes/Home/index.js_
 
 ```js
-import HomePage from './components/HomePage'
+import HomePage from "./components/HomePage";
 
 // Sync route definition
 export default {
-  path: '/',
-  component: HomePage
-}
+  path: "/",
+  component: HomePage,
+};
 ```
 
 ### Async Routes
 
 Routes can also be seperated into their own bundles which are only loaded when visiting that route, which helps decrease the size of your main application bundle. Routes that are loaded asynchronously are defined using `loadable` function which uses `React.lazy` and `React.Suspense`:
 
-*src/routes/NotFound/index.js*
+_src/routes/NotFound/index.js_
 
 ```js
-import loadable from 'utils/components'
+import loadable from "utils/components";
 
 // Async route definition
 export default {
+  path: "*",
   component: loadable(() =>
-    import(/* webpackChunkName: 'NotFound' */ './components/NotFoundPage')
-  )
-}
+    import(/* webpackChunkName: 'NotFound' */ "./components/NotFoundPage")
+  ),
+};
 ```
 
 With this setting, the name of the file (called a "chunk") is defined as part of the code as well as a loading spinner showing while the bundle file is loading.
 
 More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
 
+
 ## Testing
+
+
 
 ### Component Tests
 
@@ -181,20 +181,20 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 
 Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests:
 
-  * Run using Cypress run: `npm run test:ui`
-  * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
+- Run using Cypress run: `npm run test:ui`
+- Open Test Runner UI (`cypress open`): `npm run test:ui:open`
 
 To run tests against emulators:
-  
-  1. Start database emulators: `npm run emulate`
-  1. Start React app pointed at emulators: `npm run start:emulate`
-  1. Open Cypress test runner with test utils pointed at emulators: `npm run test:ui:emulate`
+
+1. Start database emulators: `npm run emulate`
+1. Start React app pointed at emulators: `npm run start:emulate`
+1. Open Cypress test runner with test utils pointed at emulators: `npm run test:ui:emulate`
 
 To Run tests in CI add the following environment variables within your CI provider:
 
-* `SERVICE_ACCOUNT` - Used to create custom auth tokens for test user login
-* `FIREBASE_APP_NAME` - name of Firebase app (used to load SDK config)
-* `TEST_UID` - UID of the user used for testing
+- `SERVICE_ACCOUNT` - Used to create custom auth tokens for test user login
+- `FIREBASE_APP_NAME` - name of Firebase app (used to load SDK config)
+- `TEST_UID` - UID of the user used for testing
 
 ## Deployment
 
@@ -219,10 +219,10 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 1. Run `firebase:login`
 1. Initialize project with `firebase init` then answer:
-    * What file should be used for Database Rules?  -> `database.rules.json`
-    * What do you want to use as your public directory? -> `build`
-    * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
-    * What Firebase project do you want to associate as default?  -> **your Firebase project name**
+   - What file should be used for Database Rules? -> `database.rules.json`
+   - What do you want to use as your public directory? -> `build`
+   - Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
+   - What Firebase project do you want to associate as default? -> **your Firebase project name**
 1. Build Project: `npm run build`
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
@@ -233,7 +233,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 1. Why node `10` instead of a newer version?
 
-  [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
+[Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
 [build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Verify?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firestore/actions
