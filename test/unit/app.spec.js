@@ -7,9 +7,6 @@ const srcFiles = [
   'src/components/LoadingSpinner/index.js',
   'src/components/LoadingSpinner/LoadingSpinner.js',
   'src/components/LoadingSpinner/LoadingSpinner.styles.js',
-  // 'src/components/SetupMessaging/index.js',
-  // 'src/components/SetupMessaging/SetupMessaging.js',
-  // 'src/components/SetupMessaging/useSetupMessaging.js',
   'src/containers/App/App.js',
   'src/containers/App/index.js',
   'src/containers/Navbar/AccountMenu.js',
@@ -63,6 +60,12 @@ const defaultOtherFeatures = [
   'Firebase Functions (with Babel setup)',
 ]
 
+const messagingFiles = [
+  'src/components/SetupMessaging/index.js',
+  'src/components/SetupMessaging/SetupMessaging.js',
+  'src/components/SetupMessaging/useSetupMessaging.js',
+]
+
 describe('generator-react-firebase:app', function() {
   this.timeout(15000)
   describe('firebaseName', () => {
@@ -107,7 +110,7 @@ describe('generator-react-firebase:app', function() {
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles)
+          checkForEachFile(projectFiles.concat(messagingFiles))
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
@@ -136,7 +139,7 @@ describe('generator-react-firebase:app', function() {
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles)
+          checkForEachFile(projectFiles.concat(messagingFiles))
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
