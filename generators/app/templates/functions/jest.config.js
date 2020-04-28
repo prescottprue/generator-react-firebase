@@ -4,5 +4,5 @@ module.exports = {
   testEnvironment: 'node',
   setupFilesAfterEnv: ['./scripts/testSetup.js'],
   coverageReporters: ['lcov', 'text'],
-  collectCoverageFrom: ['./src/**/*.js'],
-};
+  collectCoverageFrom: ['./src/**/*.js']
+}

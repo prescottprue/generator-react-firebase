@@ -19,8 +19,8 @@ global.projectId = projectId
 <% if (functionsTestTool === 'mocha') { %>global.chai = chai
 global.sinon = sinon
 global.expect = chai.expect
-global.assert = chai.assert<% } %>
-
+global.assert = chai.assert
+<% } %>
 // Initialize admin SDK with emulator settings for RTDB
 admin.initializeApp({
   projectId,
