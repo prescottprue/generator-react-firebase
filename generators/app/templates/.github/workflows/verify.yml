@@ -48,8 +48,8 @@ jobs:
 
       - name: Verify Functions
         run: |
-          yarn --cwd functions test:cov # Run unit tests with coverage
-          yarn --cwd functions build<% } %><% if(!useYarn) { %>
+          <% if(includeFunctionsTests) { %>yarn --cwd functions test:cov # Run unit tests with coverage
+          <% } %>yarn --cwd functions build<% } %><% if(!useYarn) { %>
       
       - name: Dependencies Cache
         uses: actions/cache@v1
@@ -78,8 +78,8 @@ jobs:
 
       - name: Verify Functions
         run: |
-          npm run --prefix functions test:cov # Run unit tests with coverage
-          npm run --prefix functions build<% } %>
+          <% if(includeFunctionsTests) { %>npm run --prefix functions test:cov # Run unit tests with coverage
+          <% } %>npm run --prefix functions build<% } %>
 
       - name: Archive Build Artifact
         uses: actions/upload-artifact@master
