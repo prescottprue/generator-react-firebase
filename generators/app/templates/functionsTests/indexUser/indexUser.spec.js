@@ -191,7 +191,7 @@ const indexUser = functionsTest.wrap(indexUserOriginal)
 const userPublicRef = adminApp.database().ref(USER_PUBLIC_PATH)
 
 describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
-  after(async () => {
+  afterAll(async () => {
     functionsTest.cleanup()
     // Cleanup all apps (keeps active listeners from preventing JS from exiting)
     await Promise.all(firebaseTesting.apps().map((app) => app.delete()))
@@ -282,8 +282,8 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
     // Clean database before each test
     await firebaseTesting.clearFirestoreData({ projectId })
   })
-  
-  after(async () => {
+
+  afterAll(async () => {
     functionsTest.cleanup()
     // Cleanup all apps (keeps active listeners from preventing JS from exiting)
     await Promise.all(firebaseTesting.apps().map((app) => app.delete()))
@@ -337,7 +337,10 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
   test('removes user from Firestore on delete event', async () => {
     const userData = { displayName: 'afterchange' }
     // Build a Firstore delete event object on user's path
-    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(userData, USER_PATH);
+    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(
+      userData,
+      USER_PATH
+    )
     const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
       null,
       USER_PATH
