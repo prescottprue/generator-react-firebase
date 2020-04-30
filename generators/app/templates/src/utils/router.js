@@ -1,4 +1,5 @@
-import React, { Suspense } from 'react'<% if (!includeRedux) { %>
+import React, { Suspense } from 'react'<% if (includeRedux) { %>
+import { useRouteMatch } from 'react-router-dom'<% } %><% if (!includeRedux) { %>
 import PropTypes from 'prop-types'
 import { Route, Redirect, useRouteMatch } from 'react-router-dom'
 import { AuthCheck } from 'reactfire'
@@ -76,14 +77,17 @@ export const UserIsNotAuthenticated = connectedRouterRedirect({
  * @param {Object} parentProps - Props to pass to children from parent
  * @returns {Array} List of routes
  */
-export function renderChildren(routes, match, parentProps) {
-  return routes.map((route) => (
-    <Route
-      key={`${match.url}-${route.path}`}
-      path={`${match.url}/${route.path}`}
-      render={(props) => <route.component {...parentProps} {...props} />}
-    />
-  ))
+export function renderChildren(routes, parentProps) {
+  return routes.map((route) => {
+    const match = useRouteMatch()
+    return (
+      <Route
+        key={`${match.url}-${route.path}`}
+        path={`${match.url}/${route.path}`}
+        render={(props) => <route.component {...parentProps} {...props} />}
+      />
+    )
+  })
 }<% } else { %>
 
 /**
