@@ -13,7 +13,7 @@ export const firebase = {
   databaseURL: 'https://redux-firebasev3.firebaseio.com',
   projectId: 'redux-firebasev3',
   storageBucket: 'redux-firebasev3.appspot.com',
-  measurementId: '',
+  measurementId: 'G-62D5FVVQWZ',
   appId: '1:823357791673:web:819546ad651f4513e06a68'
 }
 

@@ -23,5 +23,4 @@ functions/.nyc_output<% } %><% if (includeComponentTests || includeUiTests) { %>
 cypress/videos
 cypress/screenshots
 cypress.env.json
-cypress/config.json
 serviceAccount.json<% } %>
