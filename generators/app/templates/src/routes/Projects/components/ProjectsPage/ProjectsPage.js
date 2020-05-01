@@ -23,7 +23,7 @@ function ProjectsPage() {
             <ProjectsList />
           </SuspenseWithPerf>
         )}
-      /><% } %><% if (includeRedux) { %><Route exact path={match.path} render={ProjectsList} /><% } %>
+      /><% } %><% if (includeRedux) { %><Route exact path={match.path} render={() => <ProjectsList />} /><% } %>
     </Switch>
   )
 }

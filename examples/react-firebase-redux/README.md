@@ -206,11 +206,11 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
    - What do you want to use as your public directory? -> `build`
    - Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
    - What Firebase project do you want to associate as default? -> **your Firebase project name**
-1. Build Project: `npm run build`
+1. Build Project: `yarn build`
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `yarn build` first.
 
 ## FAQ
 
@@ -218,7 +218,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firebase-redux/Verify?style=flat-square
+[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firebase-redux/Verify%20App?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firebase-redux/actions
 [climate-image]: https://img.shields.io/codeclimate/github/prescottprue/react-firebase-redux.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/prescottprue/react-firebase-redux
