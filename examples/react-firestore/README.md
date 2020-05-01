@@ -51,25 +51,25 @@
    }
    ```
 
-1. Start Development server: `npm start`
+1. Start Development server: `yarn start`
 
-While developing, you will probably rely mostly on `npm start`; however, there are additional scripts at your disposal:
+While developing, you will probably rely mostly on `yarn start`; however, there are additional scripts at your disposal:
 
-| `npm run <script>` | Description                                                                                                             |
-| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `start`                                                         | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
-| `start:dist`                                                    | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
-| `start:emulate`                                                 | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`                                                         | Builds the application to `./dist`                                                                                      |  |
-| `emulators`                                                     | Starts database emulators for use with `start:emulate`                                                                  |  |
-| `emulators:all`                                                 | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |  |
-| `test`                                                          | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`                                                    | Runs `test` in watch mode to re-run tests when changed                                                                  |  |
-| `test:ui`                                                       | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
-| `test:ui:open`                                                  | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`                                               | Same as `test:ui:open` but with tests pointed at emulators                                                              |  |
-| `lint`                                                          | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
-| `lint:fix`                                                      | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
+| `yarn <script>`    | Description                                                                                                             |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| `start`            | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
+| `start:dist`       | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
+| `start:emulate`    | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
+| `build`            | Builds the application to `./dist`                                                                                      | 
+| `emulators`        | Starts database emulators for use with `start:emulate`                                                                  | 
+| `emulators:all`    | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | 
+| `test`             | Runs unit tests with Jest. See [testing](#testing)                                                                      |
+| `test:watch`       | Runs `test` in watch mode to re-run tests when changed                                                                  | 
+| `test:ui`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
+| `test:ui:open`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
+| `test:ui:emulate`  | Same as `test:ui:open` but with tests pointed at emulators                                                              | 
+| `lint`             | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
+| `lint:fix`         | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
@@ -103,7 +103,6 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │       ├── index.js     # Route definitions and async split points
 │   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
 │   │       └── routes/**    # Fractal sub-routes (** optional)
-│   ├── static               # Static assets
 │   ├── store                # Redux-specific pieces
 │   │   ├── createStore.js   # Create and instrument redux store
 │   │   └── reducers.js      # Reducer registry and injection
@@ -168,10 +167,7 @@ With this setting, the name of the file (called a "chunk") is defined as part of
 
 More about how routing works is available in [the react-router-dom docs](https://reacttraining.com/react-router/web/guides/quick-start).
 
-
 ## Testing
-
-
 
 ### Component Tests
 
@@ -181,14 +177,14 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 
 Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests:
 
-- Run using Cypress run: `npm run test:ui`
+- Run using Cypress run: `yarn test:ui`
 - Open Test Runner UI (`cypress open`): `npm run test:ui:open`
 
 To run tests against emulators:
 
-1. Start database emulators: `npm run emulate`
-1. Start React app pointed at emulators: `npm run start:emulate`
-1. Open Cypress test runner with test utils pointed at emulators: `npm run test:ui:emulate`
+1. Start database emulators: `yarn emulate`
+1. Start React app pointed at emulators: `yarn start:emulate`
+1. Open Cypress test runner with test utils pointed at emulators: `yarn test:ui:emulate`
 
 To Run tests in CI add the following environment variables within your CI provider:
 
@@ -198,7 +194,7 @@ To Run tests in CI add the following environment variables within your CI provid
 
 ## Deployment
 
-Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
+Build code before deployment by running `yarn build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
 Before starting make sure to install Firebase Command Line Tool: `npm i -g firebase-tools`
 
@@ -223,11 +219,11 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
    - What do you want to use as your public directory? -> `build`
    - Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
    - What Firebase project do you want to associate as default? -> **your Firebase project name**
-1. Build Project: `npm run build`
+1. Build Project: `yarn build`
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `npm run build` first.
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `yarn build` first.
 
 ## FAQ
 
@@ -235,7 +231,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Verify?style=flat-square
+[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Verify%20App?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firestore/actions
 [climate-image]: https://img.shields.io/codeclimate/github/prescottprue/react-firestore.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/prescottprue/react-firestore

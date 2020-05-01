@@ -9,12 +9,13 @@ import { useSelector } from 'react-redux'<% } %><% if (!includeRedux && includeF
 import { useFirestoreDoc, useFirestore } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
 import { useDatabaseObject, useDatabase } from 'reactfire'<% } %><% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 
 function ProjectData() {
   const { projectId } = useParams()<% if (includeRedux && !includeFirestore) { %>
 
   // Create listener for projects
-  useFirebaseConnect([{ path: `projects/${projectId}` }])
+  useFirebaseConnect([{ path: `${PROJECTS_COLLECTION}/${projectId}` }])
 
   // Get projects from redux state
   const project = useSelector(
@@ -26,7 +27,7 @@ function ProjectData() {
   )<% } %><% if (includeRedux && includeFirestore) { %>
 
   // Create listener for projects
-  useFirestoreConnect([{ collection: 'projects', doc: projectId }])
+  useFirestoreConnect([{ collection: PROJECTS_COLLECTION, doc: projectId }])
 
   // Get projects from redux state
   const project = useSelector(
@@ -42,12 +43,12 @@ function ProjectData() {
     return <LoadingSpinner />
   }<% } %><% if (!includeRedux && !includeFirestore) { %>
   const database = useDatabase()
-  const projectRef = database.ref(`projects/${projectId}`)
+  const projectRef = database.ref(`${PROJECTS_COLLECTION}/${projectId}`)
 
   const projectSnap = useDatabaseObject(projectRef)
   const project = projectSnap.snapshot.val()<% } %><% if (!includeRedux && includeFirestore) { %>
   const firestore = useFirestore()
-  const projectRef = firestore.doc(`projects/${projectId}`)
+  const projectRef = firestore.doc(`${PROJECTS_COLLECTION}/${projectId}`)
 
   const projectSnap = useFirestoreDoc(projectRef)
   const project = projectSnap.data()<% } %>

@@ -3,11 +3,12 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
 import { useFirestoreDoc, useFirestore } from 'reactfire'
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 
 function ProjectData() {
   const { projectId } = useParams()
   const firestore = useFirestore()
-  const projectRef = firestore.doc(`projects/${projectId}`)
+  const projectRef = firestore.doc(`${PROJECTS_COLLECTION}/${projectId}`)
 
   const projectSnap = useFirestoreDoc(projectRef)
   const project = projectSnap.data()
