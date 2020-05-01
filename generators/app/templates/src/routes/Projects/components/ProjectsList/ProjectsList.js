@@ -18,6 +18,7 @@ import {
 import { useSelector } from 'react-redux'<% } %>
 import { useNotifications } from 'modules/notification'<% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -34,8 +35,8 @@ function useProjectsList() {
   const { FieldValue, FieldPath } = useFirestore
 
   const projectsRef = firestore
-    .collection('projects')
-    .where('createdBy', '==', auth && auth.uid)
+    .collection(PROJECTS_COLLECTION)
+    .where('createdBy', '==', auth?.uid)
     .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
@@ -43,9 +44,9 @@ function useProjectsList() {
   // Create a ref for projects owned by the current user
   const database = useDatabase()
   const projectsRef = database
-    .ref('projects')
+    .ref(PROJECTS_COLLECTION)
     .orderByChild('createdBy')
-    .equalTo(auth && auth.uid)
+    .equalTo(auth?.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useDatabaseList(projectsRef)<% } %><% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()
@@ -55,7 +56,7 @@ function useProjectsList() {
   // Create listeners based on current users UID
   useFirebaseConnect([
     {
-      path: 'projects',
+      path: PROJECTS_COLLECTION,
       queryParams: [
         'orderByChild=createdBy',
         `equalTo=${auth.uid}`,
@@ -72,7 +73,7 @@ function useProjectsList() {
 
   useFirestoreConnect([
     {
-      collection: 'projects',
+      collection: PROJECTS_COLLECTION,
       where: ['createdBy', '==', auth.uid]
     }
   ])
@@ -89,23 +90,23 @@ function useProjectsList() {
       return showError('You must be logged in to create a project')
     }<% } %>
     return <% if (includeRedux && !includeFirestore) { %>firebase
-      .push('projects', {
+      .push(PROJECTS_COLLECTION, {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.database.ServerValue.TIMESTAMP
       })<% } %><% if (includeRedux && includeFirestore) { %>firestore
-      .add('projects', {
+      .add(PROJECTS_COLLECTION, {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firestore.FieldValue.serverTimestamp()
       })<% } %><% if (!includeRedux && includeFirestore) { %>firestore
-      .collection('projects')
+      .collection(PROJECTS_COLLECTION)
       .add({
         ...newInstance,
         createdBy: auth.uid,
         createdAt: FieldValue.serverTimestamp()
       })<% } %><% if (!includeRedux && !includeFirestore) { %>database
-      .ref('projects')
+      .ref(PROJECTS_COLLECTION)
       .push({
         ...newInstance,
         createdBy: auth.uid,

@@ -370,14 +370,6 @@ module.exports = class extends Generator {
         { src: 'src/utils/components.js' },
         { src: 'src/initializeFirebase.js' }
       )
-
-      // Firestore
-      if (this.answers.includeFirestore) {
-        filesArray.push(
-          { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
-          { src: 'firestore.rules', dest: 'firestore.rules' }
-        )
-      }
     } else {
       // Handle files that do not do internal string templateing well
       filesArray.push({ src: 'src/utils/firebase.js' })
@@ -390,7 +382,13 @@ module.exports = class extends Generator {
       ignorePaths.push('**/SignupPage.enhancer.js')
       ignorePaths.push('**/LoginPage.enhancer.js')
     }
-
+    // Firestore
+    if (this.answers.includeFirestore) {
+      filesArray.push(
+        { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
+        { src: 'firestore.rules', dest: 'firestore.rules' }
+      )
+    }
     // Cloud Functions
     if (this.answers.includeFunctions) {
       filesArray.push(

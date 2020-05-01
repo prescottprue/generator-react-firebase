@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link<% if (!includeRedux) { %>, useHistory<% } %> } from 'react-router-dom'<% if (includeRedux) { %>
+import { Link } from 'react-router-dom'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
 import firebase from 'firebase/app' // imported for auth provider
 import { useAuth } from 'reactfire'<% } %>
@@ -33,23 +33,26 @@ function LoginPage() {
     return firebase.login(creds).catch((err) => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
   const auth = useAuth()
-  const history = useHistory()
   const { showError } = useNotifications()
-
-  auth.onAuthStateChanged((auth) => {
-    if (auth) {
-      history.replace(LIST_PATH)
-    }
-  })
 
   function googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
-    return auth.signInWithPopup(provider).catch((err) => showError(err.message))
+    return auth
+      .signInWithPopup(provider)
+      .then((result) => {
+        // NOTE: window.location used since history.push/replace does not always work
+        window.location = LIST_PATH
+      })
+      .catch((err) => showError(err.message))
   }
 
   function emailLogin(creds) {
     return auth
       .signInWithEmailAndPassword(creds.email, creds.password)
+      .then((result) => {
+        // NOTE: window.location used since history.push/replace does not always work
+        window.location = LIST_PATH
+      })
       .catch((err) => showError(err.message))
   }<% } %>
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useFirestore, useUser, useFirestoreCollectionData } from 'reactfire'
 import { useNotifications } from 'modules/notification'
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -18,8 +19,8 @@ function useProjectsList() {
   const { FieldValue, FieldPath } = useFirestore
 
   const projectsRef = firestore
-    .collection('projects')
-    .where('createdBy', '==', auth && auth.uid)
+    .collection(PROJECTS_COLLECTION)
+    .where('createdBy', '==', auth?.uid)
     .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
@@ -31,7 +32,7 @@ function useProjectsList() {
 
   function addProject(newInstance) {
     return firestore
-      .collection('projects')
+      .collection(PROJECTS_COLLECTION)
       .add({
         ...newInstance,
         createdBy: auth.uid,

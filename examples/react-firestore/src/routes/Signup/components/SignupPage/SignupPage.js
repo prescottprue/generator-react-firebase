@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
 import firebase from 'firebase/app' // imported for auth provider
@@ -16,22 +16,25 @@ function SignupPage() {
   const classes = useStyles()
   const { showError } = useNotifications()
   const auth = useAuth()
-  const history = useHistory()
-
-  auth.onAuthStateChanged((authState) => {
-    if (authState) {
-      history.replace(LIST_PATH)
-    }
-  })
 
   function googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
-    return auth.signInWithPopup(provider).catch((err) => showError(err.message))
+    return auth
+      .signInWithPopup(provider)
+      .then((result) => {
+        // NOTE: window.location used since history.push/replace does not always work
+        window.location = LIST_PATH
+      })
+      .catch((err) => showError(err.message))
   }
 
   function emailSignup(creds) {
     return auth
       .createUserWithEmailAndPassword(creds.email, creds.password)
+      .then((result) => {
+        // NOTE: window.location used since history.push/replace does not always work
+        window.location = LIST_PATH
+      })
       .catch((err) => showError(err.message))
   }
 
