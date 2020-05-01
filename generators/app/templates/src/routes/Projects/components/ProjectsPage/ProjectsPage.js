@@ -1,9 +1,8 @@
 import React from 'react'
-import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom'<% if (!includeRedux) { %>
-import { SuspenseWithPerf, AuthCheck } from 'reactfire'<% } %>
+import { Route, Switch, useRouteMatch } from 'react-router-dom'<% if (!includeRedux) { %>
+import { SuspenseWithPerf } from 'reactfire'<% } %>
 import ProjectRoute from 'routes/Projects/routes/Project'<% if (!includeRedux) { %>
-import LoadingSpinner from 'components/LoadingSpinner'
-import { LOGIN_PATH, LIST_PATH } from 'constants/paths'<% } %>
+import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import { renderChildren } from 'utils/router'
 import ProjectsList from '../ProjectsList'
 
@@ -21,17 +20,7 @@ function ProjectsPage() {
           <SuspenseWithPerf
             fallback={<LoadingSpinner />}
             traceId="load-projects">
-            <AuthCheck
-              fallback={
-                <Redirect
-                  to={{
-                    pathname: LOGIN_PATH,
-                    state: { from: LIST_PATH }
-                  }}
-                />
-              }>
-              <ProjectsList />
-            </AuthCheck>
+            <ProjectsList />
           </SuspenseWithPerf>
         )}
       /><% } %><% if (includeRedux) { %><Route exact path={match.path} render={() => <ProjectsList />} /><% } %>

@@ -1,9 +1,8 @@
 import React from 'react'
-import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom'
-import { SuspenseWithPerf, AuthCheck } from 'reactfire'
+import { Route, Switch, useRouteMatch } from 'react-router-dom'
+import { SuspenseWithPerf } from 'reactfire'
 import ProjectRoute from 'routes/Projects/routes/Project'
 import LoadingSpinner from 'components/LoadingSpinner'
-import { LOGIN_PATH, LIST_PATH } from 'constants/paths'
 import { renderChildren } from 'utils/router'
 import ProjectsList from '../ProjectsList'
 
@@ -21,17 +20,7 @@ function ProjectsPage() {
           <SuspenseWithPerf
             fallback={<LoadingSpinner />}
             traceId="load-projects">
-            <AuthCheck
-              fallback={
-                <Redirect
-                  to={{
-                    pathname: LOGIN_PATH,
-                    state: { from: LIST_PATH }
-                  }}
-                />
-              }>
-              <ProjectsList />
-            </AuthCheck>
+            <ProjectsList />
           </SuspenseWithPerf>
         )}
       />
