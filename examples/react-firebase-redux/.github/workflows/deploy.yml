@@ -46,7 +46,6 @@ jobs:
 
       - name: Verify Functions
         run: |
-          yarn --cwd functions test:cov # Run unit tests with coverage
           yarn --cwd functions build
 
       - name: Archive Build Artifact

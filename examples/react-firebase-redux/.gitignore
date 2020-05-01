@@ -21,5 +21,4 @@ functions/.runtimeconfig.json
 cypress/videos
 cypress/screenshots
 cypress.env.json
-cypress/config.json
 serviceAccount.json

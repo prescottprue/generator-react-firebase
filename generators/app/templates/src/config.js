@@ -14,7 +14,7 @@ export const firebase = {
   projectId: '<%= firebaseName %>',
   storageBucket: '<%= firebaseName %>.appspot.com'<% if(messagingSenderId) { %>,
   messagingSenderId: '<%= messagingSenderId %>'<% } %><% if(measurementId) { %>,
-  measurementId: '<%= messagingSenderId %>'<% } %><% if(appId) { %>,
+  measurementId: '<%= measurementId %>'<% } %><% if(appId) { %>,
   appId: '<%= appId %>'<% } %>
 }<% if (includeAnalytics) { %>
 
