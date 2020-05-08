@@ -65,9 +65,9 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 | `emulators:all`    | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | 
 | `test`             | Runs unit tests with Jest. See [testing](#testing)                                                                      |
 | `test:watch`       | Runs `test` in watch mode to re-run tests when changed                                                                  | 
-| `test:ui`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
-| `test:ui:open`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`  | Same as `test:ui:open` but with tests pointed at emulators                                                              | 
+| `test:ui:run`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
+| `test:ui`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
+| `test:ui:emulate`  | Same as `test:ui` but with tests pointed at emulators                                                              | 
 | `lint`             | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
 | `lint:fix`         | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
@@ -175,14 +175,25 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 
 ### UI Tests
 
-Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests:
+Cypress is used to write and run UI tests which live in the `cypress` folder. [`cypress-firebase`](https://github.com/prescottprue/cypress-firebase) is used to generate a custom auth token for the test user and to communicate with Firebase databases with admin privileges.
 
-- Run using Cypress run: `yarn test:ui`
-- Open Test Runner UI (`cypress open`): `npm run test:ui:open`
+#### Tests Setup
+1. Visit the [Firebase Console](https://console.firebase.google.com/)
+1. Select your project
+1. Navigate to Project Settings (gear icon button at the top left of the page).
+1. Navigate to "Service Accounts" tab
+1. Click "Generate New Private Key"
+1. Save the service account file to the root of the repo under `serviceAccount.json`
+
+#### Running Tests
+The following npm scripts can be used to run tests:
+
+- Run using Cypress run: `yarn test:ui:run`
+- Open Test Runner UI (`cypress open`): `yarn test:ui`
 
 To run tests against emulators:
 
-1. Start database emulators: `yarn emulate`
+1. Start database emulators: `yarn emulators`
 1. Start React app pointed at emulators: `yarn start:emulate`
 1. Open Cypress test runner with test utils pointed at emulators: `yarn test:ui:emulate`
 
