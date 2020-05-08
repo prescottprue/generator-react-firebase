@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Dependencies
         env:
-          CI: true
+          CI: 1
           CYPRESS_INSTALL_BINARY: 0 # Skip install of Cypress (handled in its own job)
           HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
         run: |
@@ -52,16 +52,10 @@ jobs:
           yarn --cwd functions build
 
       - name: Archive Build Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: build
           path: build
-
-      - name: Archive Functions Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: functions-build
-          path: functions/dist
 
   ui-tests:
     name: UI Tests
@@ -153,7 +147,7 @@ jobs:
 
       # Download Built app since we are testing locally
       - name: Download Build Artifact
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v2
         with:
           name: build
           path: build
@@ -165,9 +159,8 @@ jobs:
         uses: cypress-io/github-action@v1
         with:
           record: true
-          group: 'E2E Tests'
           start: yarn emulate --project $GCLOUD_PROJECT
-          wait-on: http://localhost:3000
+          wait-on: ${{ env.CYPRESS_BASE_URL }}
           # wait for 3 minutes for the server to respond
           wait-on-timeout: 180
         env:
