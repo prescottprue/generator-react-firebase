@@ -22,7 +22,7 @@
     "emulators": "firebase emulators:start --only database,firestore",
     "test": "firebase emulators:exec --only firestore,database \"npm run test:base\"",
     "test:cov": "firebase emulators:exec --only firestore,database \"npm run test:cov:base\"",
-    "test:base": "cross-env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') jest ./src/**/*.spec.js --config jest.config.js",
+    "test:base": "cross-env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') mocha ./src/**/*.spec.js",
     "test:cov:base": "nyc --reporter=lcov npm run test:base",
     "test:watch": "npm test -- --watch"
   },

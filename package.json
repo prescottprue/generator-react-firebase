@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "5.7.1",
+  "version": "5.7.2",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
@@ -65,8 +65,6 @@
     "redux-firebase",
     "react-redux-firebase",
     "reactfire",
-    "webpack",
-    "es6",
     "generator-react",
     "generator-redux",
     "yeoman-generator",
