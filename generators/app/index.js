@@ -96,7 +96,7 @@ const prompts = [
     type: 'confirm',
     name: 'includeRedux',
     message: 'Include redux for local state-management?',
-    default: true,
+    default: false,
     store: true
   },
   {
@@ -388,6 +388,12 @@ module.exports = class extends Generator {
         { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
         { src: 'firestore.rules', dest: 'firestore.rules' }
       )
+      if (!this.answers.includeRedux) {
+        filesArray.push({
+          src: 'src/components/SetupFirestore',
+          dest: 'src/components/SetupFirestore'
+        })
+      }
     }
     // Cloud Functions
     if (this.answers.includeFunctions) {

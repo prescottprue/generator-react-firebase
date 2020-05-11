@@ -18,8 +18,8 @@
     "functions:watch": "npm run watch --prefix functions",
     "functions:build": "npm run build --prefix functions",<% } %><% if (includeFunctionsTests) { %>
     "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
-    "test:ui:run": "cypress run",
-    "test:ui": "cypress open",
+    "test:ui:run": "env-cmd -f .env.local cypress run",
+    "test:ui": "env-cmd -f .env.local cypress open",
     "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run test:ui",<% } %>
     "emulators": "firebase emulators:start --only firestore,database",
     "emulators:all": "firebase emulators:start --only firestore,database,hosting",
@@ -63,7 +63,7 @@
     "cross-env": "^7.0.2",<% if (includeUiTests) { %>
     "cypress": "^4.5.0",
     "cypress-firebase": "^1.1.0",<% } %>
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-standard-react": "^9.2.0",<% if (includeUiTests) { %>
