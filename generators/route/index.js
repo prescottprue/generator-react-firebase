@@ -186,7 +186,7 @@ module.exports = class extends Generator {
       })
     }
 
-    const startCasedName = startCase(this.options.name)
+    const startCaseName = startCase(this.options.name)
 
     filesArray.forEach((file) => {
       this.fs.copyTpl(
@@ -196,9 +196,9 @@ module.exports = class extends Generator {
           name: nameAnswer,
           componentName: name,
           airbnbLinting: this.answers.airbnbLinting,
-          startCasedName,
-          camelName: lowerFirst(startCasedName.replace(/ /g, '')),
-          pathName: startCasedName.toUpperCase().replace(/ /g, '_')
+          startCaseName,
+          camelName: lowerFirst(startCaseName.replace(/ /g, '')),
+          pathName: startCaseName.toUpperCase().replace(/ /g, '_')
         })
       )
     })
