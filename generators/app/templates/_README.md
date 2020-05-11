@@ -204,7 +204,6 @@ To run tests against emulators:
 To Run tests in CI add the following environment variables within your CI provider:
 
 - `SERVICE_ACCOUNT` - Used to create custom auth tokens for test user login
-- `FIREBASE_APP_NAME` - name of Firebase app (used to load SDK config)
 - `TEST_UID` - UID of the user used for testing
 
 <% } %>## Deployment
