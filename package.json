@@ -13,6 +13,7 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "command-exists": "^1.2.9",
+    "glob": "^7.1.6",
     "lodash": "^4.17.15",
     "semver": "^7.3.2",
     "yeoman-generator": "^4.10.1",

@@ -1,16 +1,17 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import styles from './<%= name %>.styles'
+import React from 'react';<% if (addStyle) { %>
+import { makeStyles } from '@material-ui/core/styles';<% } %>
+// import use<%= startCaseName %> from './<%= name %>';<% if (addStyle) { %>
+import styles from './<%= name %>.styles';
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles(styles);<% } %>
 
-function <%= name %>({ <%= camelName %> }) {
+function <%= name %>() {
   const classes = useStyles();
+  // const { } = use<%= startCaseName %>();
 
   return (
     <div className={classes.root}>
-      <span><%= name %> Component</span><% if (includeEnhancer) { %>
-      <pre>{JSON.stringify(<%= camelName %>, null, 2)}</pre><% } %>
+      <span><%= name %> Component</span>
     </div>
   );
 }
