@@ -29,30 +29,30 @@
 ## Getting Started
 
 1. Install app and functions dependencies: <% if (useYarn) { %>`npm i && npm i --prefix functions`<% } else { %>`yarn install && yarn install --cwd functions`<% } %>
-1. Create `src/config.js` file that looks like so if it does not already exist:
+1. Create `.env.local` file that looks like so if it does not already exist:
 
-   ```js
-   const firebase = {
-     // Config from Firebase console
-   }
+   ```shell
+    # Needed to skip warnings from jest@beta in package.json
+    SKIP_PREFLIGHT_CHECK=true
 
-   // Overrides for for react-redux-firebase/redux-firestore config
-   export const reduxFirebase = {}<% if (includeAnalytics) { %>
+    FIREBASE_PROJECT_ID="<%= firebaseProjectId %>"
+    FIREBASE_API_KEY="<%= firebaseKey %>"
 
-   export const segmentId = '<- Segment ID ->'<% } %><% if (firebasePublicVapidKey) { %>
+    # App environment
+    REACT_APP_FIREBASE_API_KEY=$FIREBASE_API_KEY
+    REACT_APP_FIREBASE_AUTH_DOMAIN="<%= firebaseProjectId %>.firebaseapp.com"
+    REACT_APP_FIREBASE_DATABASE_URL="https://<%= firebaseProjectId %>.firebaseio.com"
+    REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+    REACT_APP_FIREBASE_STORAGE_BUCKET="<%= firebaseProjectId %>.appspot.com"<% if(messagingSenderId) { %>
+    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="<%= messagingSenderId %>"<% } %><% if(includeAnalytics && measurementId) { %>
+    REACT_APP_FIREBASE_MEASUREMENT_ID="<%= measurementId %>"<% } %><% if(appId) { %>
+    REACT_APP_FIREBASE_APP_ID="<%= appId %>"<% } %><% if (includeMessaging) { %>
+    REACT_APP_PUBLIC_VAPID_KEY="<%= firebasePublicVapidKey %>"<% } %><% if (includeSentry) { %>
+    REACT_APP_SENTRY_DSN="<%= sentryDsn %>"<% } %><% if (includeUiTests) { %>
 
-   export const publicVapidKey = '<- publicVapidKey from Firebase console ->'<% } %><% if (sentryDsn) { %>
-
-   export const sentryDsn = '<- DSN From Sentry.io ->'<% } %>
-
-   export default {
-     env,
-     firebase,
-     reduxFirebase<% if (sentryDsn) { %>,
-     sentryDsn<% } %><% if (firebasePublicVapidKey) { %>,
-     publicVapidKey<% } %><% if (includeAnalytics) { %>,
-     segmentId<% } %>
-   }
+    # Cypress Environment
+    CYPRESS_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+    CYPRESS_FIREBASE_API_KEY=$FIREBASE_API_KEY<% } %>
    ```
 
 1. Start Development server: `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> start`
@@ -81,8 +81,8 @@ While developing, you will probably rely mostly on `<% if (useYarn) { %>yarn<% }
 
 There are multiple configuration files:
 
-- Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
-- Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+- Firebase Project Configuration - `.firebaserc`
+- Project Configuration - `.env.local`
 - Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
@@ -92,39 +92,43 @@ More details in the [Application Structure Section](#application-structure)
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications.
 
 ```
-├── public                   # All build-related configuration
-│   └── index.html           # Main HTML page container for app
-├── src                      # Application source code
-│   ├── components           # Global Reusable Presentational Components
-│   ├── constants            # Project constants such as firebase paths and form names
-│   │  └── paths.js          # Paths for application routes
-│   ├── containers           # Global Reusable Container Components
-│   ├── layouts              # Components that dictate major page structure
-│   │   └── CoreLayout       # Global application layout in which routes are rendered
-│   ├── routes               # Main route definitions and async split points
-│   │   ├── index.js         # Bootstrap main application routes
-│   │   └── Home             # Fractal route
-│   │       ├── index.js     # Route definitions and async split points
-│   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
-│   │       └── routes/**    # Fractal sub-routes (** optional)
-│   ├── store                # Redux-specific pieces
-│   │   ├── createStore.js   # Create and instrument redux store
-│   │   └── reducers.js      # Reducer registry and injection
-│   ├── styles               # Application-wide styles (generally settings)
-│   └── utils                # General Utilities (used throughout application)
-│   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js          # For forms
-│   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
-├── tests                    # Unit tests
-├── .env.local               # Environment settings for when running locally
-├── .eslintignore            # ESLint ignore file
-├── .eslintrc.js             # ESLint configuration
-├── .firebaserc              # Firebase Project configuration settings (including ci settings)
-├── database.rules.json      # Rules for Firebase Real Time Database
-├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
-├── firestore.indexes.json   # Indexes for Cloud Firestore
-├── firestore.rules          # Rules for Cloud Firestore
-└── storage.rules            # Rules for Cloud Storage For Firebase
+├── .github                      # All Github configuration
+│   ├── workflows                # Github Actions CI Workflows
+│   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
+│   │  └── verify.yml            # Paths for application routes
+│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
+├── public                       # All build-related configuration
+│   └── index.html               # Main HTML page container for app
+├── src                          # Application source code
+│   ├── components               # Global Reusable Presentational Components
+│   ├── constants                # Project constants such as firebase paths and form names
+│   │  ├── firebasePaths.js      # Paths within Firebase (i.e. Collections + Sub-Collections)
+│   │  └── paths.js              # Paths for application routes
+│   ├── containers               # Global Reusable Container Components
+│   ├── layouts                  # Components that dictate major page structure
+│   │   └── CoreLayout           # Global application layout in which routes are rendered
+│   ├── routes                   # Main route definitions and async split points
+│   │   ├── index.js             # Bootstrap main application routes
+│   │   └── Home                 # Fractal route
+│   │       ├── index.js         # Route definitions and async split points
+│   │       ├── components       # Presentational React Components
+│   │       └── routes/**        # Fractal sub-routes (** optional)<% if (includeRedux) { %>
+│   ├── store                    # Redux-specific pieces
+│   │   ├── createStore.js       # Create and instrument redux store
+│   │   └── reducers.js          # Reducer registry and injection<% } %>
+│   └── utils                    # General Utilities (used throughout application)
+│   │   ├── components.js        # Utilities for building/implementing react components
+│   │   ├── form.js              # For forms
+│   │   └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
+├── .env.local                   # Environment settings for when running locally
+├── .eslintignore                # ESLint ignore file
+├── .eslintrc.js                 # ESLint configuration
+├── .firebaserc                  # Firebase Project configuration settings (including ci settings)
+├── database.rules.json          # Rules for Firebase Real Time Database
+├── firebase.json                # Firebase Service settings (Hosting, Functions, etc)
+├── firestore.indexes.json       # Indexes for Cloud Firestore
+├── firestore.rules              # Rules for Cloud Firestore
+└── storage.rules                # Rules for Cloud Storage For Firebase
 ```
 
 ## Routing
@@ -210,7 +214,7 @@ To Run tests in CI add the following environment variables within your CI provid
 
 Build code before deployment by running `<% if (useYarn) { %>yarn<% } else { %>npm run<% } %> build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
-<% if (deployTo === 'firebase') { %>Before starting make sure to install Firebase Command Line Tool: `npm i -g firebase-tools`<% } %><% if (includeCI) { %>
+Before starting make sure to install Firebase Command Line Tool: `npm i -g firebase-tools`<% if (includeCI) { %>
 
 #### CI Deploy (recommended)
 
@@ -237,28 +241,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> build` first.<% if (deployTo === 's3') { %>
-Selecting AWS S3 from the deploy options when running the generator adds deploy configs in <% if (ciProvider == 'travis') { %>`travis.yml`<% } %><% if (ciProvider == 'travis') { %>`gitlab-ci.yml`<% } %>.
-
-1. Get your AWS Key and Secret from the AWS Console Credentials page
-2. Set the following environment vars within the Travis-CI repo settings page:
-   - AWS_KEY - Your AWS key
-   - AWS_SECRET - Your AWS secret
-   - BUCKET - Your S3 Bucket<% } %><% if (deployTo === 'heroku') { %>
-
-Selecting [Heroku](http://heroku.com) from the deploy options when running the generator adds a `Procfile` as well as deploy configs in `.travis.yml` for out of the box deployment.
-
-To deploy to [Heroku](http://heroku.com) through [Travis-CI](http://travis-ci.org):
-
-1. Select yes to question `Would to include config for Travis CI?` when generating
-1. Select `Heroku` under deploy options
-1. Enable Repo on Travis-CI Account
-1. Get API Key from Heroku Dashboard
-1. Create a new App (this name will be used in travis env var)
-1. Set the following environment vars within the Travis-CI repo settings page:
-
-- `HEROKU_KEY` - Your Heroku API key
-- `HEROKU_APP` - Your Heroku App name<% } %>
+**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> build` first.
 
 ## FAQ
 

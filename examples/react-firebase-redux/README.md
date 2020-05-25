@@ -26,24 +26,30 @@
 ## Getting Started
 
 1. Install app and functions dependencies: `npm i && npm i --prefix functions`
-1. Create `src/config.js` file that looks like so if it does not already exist:
+1. Create `.env.local` file that looks like so if it does not already exist:
 
-   ```js
-   const firebase = {
-     // Config from Firebase console
-   }
+   ```shell
+    # Needed to skip warnings from jest@beta in package.json
+    SKIP_PREFLIGHT_CHECK=true
 
-   // Overrides for for react-redux-firebase/redux-firestore config
-   export const reduxFirebase = {}
+    FIREBASE_PROJECT_ID="<%= firebaseProjectId %>"
+    FIREBASE_API_KEY="<%= firebaseKey %>"
 
-   export const segmentId = '<- Segment ID ->'
+    # App environment
+    REACT_APP_FIREBASE_API_KEY=$FIREBASE_API_KEY
+    REACT_APP_FIREBASE_AUTH_DOMAIN="<%= firebaseProjectId %>.firebaseapp.com"
+    REACT_APP_FIREBASE_DATABASE_URL="https://<%= firebaseProjectId %>.firebaseio.com"
+    REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+    REACT_APP_FIREBASE_STORAGE_BUCKET="<%= firebaseProjectId %>.appspot.com"<% if(messagingSenderId) { %>
+    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="<%= messagingSenderId %>"<% } %><% if(includeAnalytics && measurementId) { %>
+    REACT_APP_FIREBASE_MEASUREMENT_ID="<%= measurementId %>"<% } %><% if(appId) { %>
+    REACT_APP_FIREBASE_APP_ID="<%= appId %>"<% } %><% if (includeMessaging) { %>
+    REACT_APP_PUBLIC_VAPID_KEY="<%= firebasePublicVapidKey %>"<% } %><% if (includeSentry) { %>
+    REACT_APP_SENTRY_DSN="<%= sentryDsn %>"<% } %><% if (includeUiTests) { %>
 
-   export default {
-     env,
-     firebase,
-     reduxFirebase,
-     segmentId
-   }
+    # Cypress Environment
+    CYPRESS_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+    CYPRESS_FIREBASE_API_KEY=$FIREBASE_API_KEY<% } %>
    ```
 
 1. Start Development server: `yarn start`

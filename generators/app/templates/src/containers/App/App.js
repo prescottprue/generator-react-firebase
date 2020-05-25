@@ -17,15 +17,15 @@ import initializeFirebase from '../../initializeFirebase'<% } %>
 const theme = createMuiTheme(ThemeSettings)
 
 <% if (includeRedux) { %>initializeFirebase()
-<% } %><% if (!includeRedux) { %>const firebase = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET<% if(messagingSenderId) { %>,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID'<% } %><% if(measurementId) { %>,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID'<% } %><% if(appId) { %>,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID<% } %>
+<% } %><% if (!includeRedux) { %>const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_apiKey,
+  authDomain: process.env.REACT_APP_FIREBASE_authDomain,
+  databaseURL: process.env.REACT_APP_FIREBASE_databaseURL,
+  projectId: process.env.REACT_APP_FIREBASE_projectId,
+  storageBucket: process.env.REACT_APP_FIREBASE_storageBucket<% if(messagingSenderId) { %>,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_messagingSenderId<% } %><% if(measurementId) { %>,
+  measurementId: process.env.REACT_APP_FIREBASE_measurementId'<% } %><% if(appId) { %>,
+  appId: process.env.REACT_APP_FIREBASE_appId<% } %>
 }
 
 // Enable Real Time Database emulator if environment variable is set

@@ -6,18 +6,18 @@ import 'firebase/firestore'
 import { attachCustomCommands } from 'cypress-firebase'
 
 const projectId =
-  Cypress.env('FB_projectId') || Cypress.env('FIREBASE_PROJECT_ID')
-const env = Cypress.env('env') || 'stage'
+  Cypress.env('FIREBASE_projectId') || Cypress.env('FIREBASE_PROJECT_ID')
 const apiKey =
-  Cypress.env('FB_apiKey') ||
-  Cypress.env(`${env.toUpperCase()}_FIREBASE_API_KEY`) ||
-  Cypress.env('FIREBASE_API_KEY')
+  Cypress.env('FIREBASE_apiKey') || // from CI environment (loaded through firebase-tools)
+  Cypress.env('FIREBASE_API_KEY') // from local environment
 
 const fbConfig = {
   apiKey,
   authDomain: `${projectId}.firebaseapp.com`,
   databaseURL:
-    Cypress.env('FB_databaseURL') || `https://${projectId}.firebaseio.com`,
+    Cypress.env('FIREBASE_databaseURL') || // from CI environment (loaded through firebase-tools)
+    Cypress.env('FIREBASE_DATABASE_URL') || // from local environment
+    `https://${projectId}.firebaseio.com`,
   projectId: `${projectId}`,
   storageBucket: `${projectId}.appspot.com`
 }

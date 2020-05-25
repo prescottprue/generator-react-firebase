@@ -18,14 +18,14 @@ jobs:
       - name: Get Library Versions For Binary Caching
         id: cache-settings
         run: |
-          echo "::set-output name=dir::$(yarn cache dir)"
+          echo "::set-output name=dir::$(yarn cache dir)"<% if(includeFunctionsTests) { %>
           echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
         uses: actions/cache@v1
         with:
           path: ~/.cache/firebase/emulators
-          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
+          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}<% } %>
 
       - name: Cache App Dependencies
         uses: actions/cache@v1
@@ -41,23 +41,61 @@ jobs:
           yarn install --frozen-lockfile
           yarn --cwd functions install --frozen-lockfile
 
-      - name: Set Environment Settings
+      - name: Set App Environment Settings
+        env:
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REF: ${{ github.ref }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
+          set -o pipefail
+
+          gitBranch=${GITHUB_REF##*/}
+
+          # Find the config associated to the firebase project in .firebaserc (falling back to default)
+          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$projectAlias" '.projects[$alias] // .projects.default')
+
+          echo Setting configuration from the \"$gcloudProject\" Firebase project...
+
+          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+
           echo "Setting emulator settings to environment..."
-          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.database.port)"
-          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.firestore.port)"
+          databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
+          emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
+
+          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
+          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
+          echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
+
+          # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
+          firebaseConfig=$(npx firebase --project $GCLOUD_PROJECT apps:sdkconfig WEB \
+            $(npx firebase --project $GCLOUD_PROJECT apps:list WEB | grep $FIREBASE_APP_NAME | awk '{ print $4}') | \
+              tr '\n' ' ' | \
+              sed 's/.*initializeApp(//g' | \
+              sed 's/);//g' | \
+              jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
+              sed 's/:"/:/g; s/^/echo \"::set-env name=REACT_APP_FIREBASE_/g' \
+          )
+
+          # Loop through each line of config and evaluate to export env vars
+          while IFS= read -r line; do
+            echo Evaluating: $line
+            eval $line
+          done <<< "$firebaseConfig"
 
       - name: Verify App
         run: |
-          yarn build:config # Create env specific src/config.js
           yarn lint # Check for lint in app code
           yarn build # Build app bundles
 
       - name: Verify Functions
         run: |
           <% if(includeFunctionsTests) { %>yarn --cwd functions test:cov # Run unit tests with coverage
-          <% } %>yarn --cwd functions build<% } %><% if(!useYarn) { %>
-      
+          <% } %>yarn --cwd functions build<% } %><% if(includeFunctionsTests) { %>
+
+      - name: Upload Test Coverage For Functions
+        run: |
+          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %><% if(!useYarn) { %>
+
       - name: Dependencies Cache
         uses: actions/cache@v1
         with:
@@ -72,23 +110,61 @@ jobs:
             npm ci --loglevel error
             npm --prefix functions ci --loglevel error
 
-      - name: Set Environment Settings
+      - name: Set App Environment Settings
+        env:
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REF: ${{ github.ref }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
+          set -o pipefail
+
+          gitBranch=${GITHUB_REF##*/}
+
+          # Find the config associated to the firebase project in .firebaserc (falling back to default)
+          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$projectAlias" '.projects[$alias] // .projects.default')
+
+          echo Setting configuration from the \"$gcloudProject\" Firebase project...
+
+          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+
           echo "Setting emulator settings to environment..."
-          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.database.port)"
-          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.firestore.port)"
+          databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
+          emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
+
+          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
+          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
+          echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
+
+          # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
+          firebaseConfig=$(npx firebase --project $GCLOUD_PROJECT apps:sdkconfig WEB \
+            $(npx firebase --project $GCLOUD_PROJECT apps:list WEB | grep $FIREBASE_APP_NAME | awk '{ print $4}') | \
+              tr '\n' ' ' | \
+              sed 's/.*initializeApp(//g' | \
+              sed 's/);//g' | \
+              jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
+              sed 's/:"/:/g; s/^/echo \"::set-env name=REACT_APP_FIREBASE_/g' \
+          )
+
+          # Loop through each line of config and evaluate to export env vars
+          while IFS= read -r line; do
+            echo Evaluating: $line
+            eval $line
+          done <<< "$firebaseConfig"
 
       - name: Verify App
         run: |
-          npm run build:config # Create env specific src/config.js
           npm run lint # Check for lint in app code
           npm run build # Build app bundles
 
       - name: Verify Functions
         run: |
           <% if(includeFunctionsTests) { %>npm run --prefix functions test:cov # Run unit tests with coverage
-          <% } %>npm run --prefix functions build<% } %>
+          <% } %>npm run --prefix functions build<% } %><% if(includeFunctionsTests) { %>
 
+      - name: Upload Test Coverage For Functions
+        run: |
+          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %>
+  
       - name: Archive Build Artifact
         uses: actions/upload-artifact@v2
         with:
@@ -196,10 +272,10 @@ jobs:
         uses: cypress-io/github-action@v1
         with:
           record: true
-          start: <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> emulate --project $GCLOUD_PROJECT
+          start: <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> emulators:hosting<% if(!useYarn) { %> --<% } %> --project ${{ env.GCLOUD_PROJECT }}
           wait-on: ${{ env.CYPRESS_BASE_URL }}
-          # wait for 3 minutes for the server to respond
-          wait-on-timeout: 180
+          # wait for 2 minutes for the server to respond
+          wait-on-timeout: 120
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}

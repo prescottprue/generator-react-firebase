@@ -9,7 +9,7 @@ const STAGE_MESSAGING_ID = '' // TODO: Set your staging messaging ID here
 /* eslint-disable prettier/prettier */
 firebase.initializeApp({
   // Use prod id if stage id not defined or running on prod Firebase hosting
-  messagingSenderId: !STAGE_MESSAGING_ID || self.location.hostname.includes('<%= firebaseName %>') // eslint-disable-line no-undef
+  messagingSenderId: !STAGE_MESSAGING_ID || self.location.hostname.includes('<%= firebaseProjectId %>') // eslint-disable-line no-undef
     ? PROD_MESSAGING_ID
     : STAGE_MESSAGING_ID
 })

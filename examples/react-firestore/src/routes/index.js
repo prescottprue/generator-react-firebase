@@ -1,8 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { SuspenseWithPerf } from 'reactfire'
-import LoadingSpinner from 'components/LoadingSpinner'
-import { PrivateRoute } from 'utils/router'
+import LoadingSpinner from '../components/LoadingSpinner'
+import { PrivateRoute } from '../utils/router'
+import SetupAnalytics from '../components/SetupAnalytics'
 import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import LoginRoute from './Login'
@@ -34,6 +35,9 @@ export default function createRoutes() {
             )
           }
           <Route component={NotFoundRoute.component} />
+          <SuspenseWithPerf traceId="analytics-setup">
+            <SetupAnalytics />
+          </SuspenseWithPerf>
         </Switch>
       </SuspenseWithPerf>
     </CoreLayout>

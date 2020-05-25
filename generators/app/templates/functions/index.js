@@ -2,6 +2,7 @@ const glob = require('glob')
 const path = require('path')
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
+require('source-map-support/register');
 
 // Initialize Firebase so it is available within functions
 try {
@@ -20,10 +21,8 @@ if (process.env.NODE_ENV !== 'test') {
   admin.firestore().settings({ timestampsInSnapshots: true })
 }
 
-const codeFolder = process.env.NODE_ENV === 'test' ? './src' : './dist'
-
 // Load all folders within dist directory (mirrors layout of src)
-const files = glob.sync(codeFolder + '/**/index.js', {
+const files = glob.sync('./dist/**/index.js', {
   cwd: __dirname,
   ignore: [
     './node_modules/**',

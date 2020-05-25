@@ -2,7 +2,7 @@
   "generator-react-firebase": {
     "promptValues": {
       "githubUser": "prescottprue",
-      "firebaseName": "redux-firebasev3",
+      "firebaseProjectId": "redux-firebasev3",
       "firebaseKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
       "includeRedux": true,
       "includeFirestore": true,
@@ -19,7 +19,6 @@
       "messagingSenderId": "823357791673",
       "firebasePublicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg",
       "ciProvider": "githubActions",
-      "deployTo": "firebase",
       "appId": "1:823357791673:web:e53b561c7e36427fe06a68",
       "functionsTestTool": "mocha"
     }

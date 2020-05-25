@@ -1,7 +1,6 @@
 <% if (!includeRedux) { %>import { useMessaging, useUser, useFirestore } from 'reactfire'
 <% } %><% if (includeRedux) { %>import firebase from 'firebase/app'
 import 'firebase/messaging'<% } %>
-import { publicVapidKey } from '../../config'
 import { useNotifications } from 'modules/notification'
 import { USERS_COLLECTION } from 'constants/firebasePaths'
 

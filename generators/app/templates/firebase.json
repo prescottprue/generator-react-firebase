@@ -19,7 +19,7 @@
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
-  }<% } %><% if (deployTo === 'firebase') { %>,
+  }<% } %>,
   "hosting": {
     "public": "build",
     "ignore": [
@@ -35,9 +35,11 @@
         "destination": "/index.html"
       }
     ]
-  }<% } %><% if (includeFunctions) { %>,
+  }<% if (includeFunctions) { %>,
   "functions": {
-    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build:prod"],
+    "predeploy": [
+      "if [ \"${CI}\" = \"true\" ]; then echo Skipping functions build since environment is CI; else npm --prefix \"$RESOURCE_DIR\" run build; fi"
+    ],
     "ignore": [
       "**/.*",
       "**/*.spec.js",

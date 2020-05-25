@@ -28,27 +28,30 @@
 ## Getting Started
 
 1. Install app and functions dependencies: `npm i && npm i --prefix functions`
-1. Create `src/config.js` file that looks like so if it does not already exist:
+1. Create `.env.local` file that looks like so if it does not already exist:
 
-   ```js
-   const firebase = {
-     // Config from Firebase console
-   }
+   ```shell
+    # Needed to skip warnings from jest@beta in package.json
+    SKIP_PREFLIGHT_CHECK=true
 
-   // Overrides for for react-redux-firebase/redux-firestore config
-   export const reduxFirebase = {}
+    FIREBASE_PROJECT_ID="redux-firebasev3"
+    FIREBASE_API_KEY="AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots"
 
-   export const segmentId = '<- Segment ID ->'
+    # App environment
+    REACT_APP_FIREBASE_API_KEY=$FIREBASE_API_KEY
+    REACT_APP_FIREBASE_AUTH_DOMAIN="redux-firebasev3.firebaseapp.com"
+    REACT_APP_FIREBASE_DATABASE_URL="https://redux-firebasev3.firebaseio.com"
+    REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+    REACT_APP_FIREBASE_STORAGE_BUCKET="redux-firebasev3.appspot.com"
+    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="823357791673"
+    REACT_APP_FIREBASE_MEASUREMENT_ID="G-62D5FVVQWZ"
+    REACT_APP_FIREBASE_APP_ID="1:823357791673:web:e53b561c7e36427fe06a68"
+    REACT_APP_PUBLIC_VAPID_KEY="BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg"
+    REACT_APP_SENTRY_DSN=""
 
-   export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
-
-   export default {
-     env,
-     firebase,
-     reduxFirebase,
-     publicVapidKey,
-     segmentId
-   }
+    # Cypress Environment
+    CYPRESS_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+    CYPRESS_FIREBASE_API_KEY=$FIREBASE_API_KEY
    ```
 
 1. Start Development server: `yarn start`
@@ -77,8 +80,8 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 
 There are multiple configuration files:
 
-- Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
-- Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+- Firebase Project Configuration - `.firebaserc`
+- Project Configuration - `.env.local`
 - Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
@@ -88,39 +91,40 @@ More details in the [Application Structure Section](#application-structure)
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications.
 
 ```
-├── public                   # All build-related configuration
-│   └── index.html           # Main HTML page container for app
-├── src                      # Application source code
-│   ├── components           # Global Reusable Presentational Components
-│   ├── constants            # Project constants such as firebase paths and form names
-│   │  └── paths.js          # Paths for application routes
-│   ├── containers           # Global Reusable Container Components
-│   ├── layouts              # Components that dictate major page structure
-│   │   └── CoreLayout       # Global application layout in which routes are rendered
-│   ├── routes               # Main route definitions and async split points
-│   │   ├── index.js         # Bootstrap main application routes
-│   │   └── Home             # Fractal route
-│   │       ├── index.js     # Route definitions and async split points
-│   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
-│   │       └── routes/**    # Fractal sub-routes (** optional)
-│   ├── store                # Redux-specific pieces
-│   │   ├── createStore.js   # Create and instrument redux store
-│   │   └── reducers.js      # Reducer registry and injection
-│   ├── styles               # Application-wide styles (generally settings)
-│   └── utils                # General Utilities (used throughout application)
-│   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js          # For forms
-│   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
-├── tests                    # Unit tests
-├── .env.local               # Environment settings for when running locally
-├── .eslintignore            # ESLint ignore file
-├── .eslintrc.js             # ESLint configuration
-├── .firebaserc              # Firebase Project configuration settings (including ci settings)
-├── database.rules.json      # Rules for Firebase Real Time Database
-├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
-├── firestore.indexes.json   # Indexes for Cloud Firestore
-├── firestore.rules          # Rules for Cloud Firestore
-└── storage.rules            # Rules for Cloud Storage For Firebase
+├── .github                      # All Github configuration
+│   ├── workflows                # Github Actions CI Workflows
+│   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
+│   │  └── verify.yml            # Paths for application routes
+│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
+├── public                       # All build-related configuration
+│   └── index.html               # Main HTML page container for app
+├── src                          # Application source code
+│   ├── components               # Global Reusable Presentational Components
+│   ├── constants                # Project constants such as firebase paths and form names
+│   │  ├── firebasePaths.js      # Paths within Firebase (i.e. Collections + Sub-Collections)
+│   │  └── paths.js              # Paths for application routes
+│   ├── containers               # Global Reusable Container Components
+│   ├── layouts                  # Components that dictate major page structure
+│   │   └── CoreLayout           # Global application layout in which routes are rendered
+│   ├── routes                   # Main route definitions and async split points
+│   │   ├── index.js             # Bootstrap main application routes
+│   │   └── Home                 # Fractal route
+│   │       ├── index.js         # Route definitions and async split points
+│   │       ├── components       # Presentational React Components
+│   │       └── routes/**        # Fractal sub-routes (** optional)
+│   └── utils                    # General Utilities (used throughout application)
+│   │   ├── components.js        # Utilities for building/implementing react components
+│   │   ├── form.js              # For forms
+│   │   └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
+├── .env.local                   # Environment settings for when running locally
+├── .eslintignore                # ESLint ignore file
+├── .eslintrc.js                 # ESLint configuration
+├── .firebaserc                  # Firebase Project configuration settings (including ci settings)
+├── database.rules.json          # Rules for Firebase Real Time Database
+├── firebase.json                # Firebase Service settings (Hosting, Functions, etc)
+├── firestore.indexes.json       # Indexes for Cloud Firestore
+├── firestore.rules              # Rules for Cloud Firestore
+└── storage.rules                # Rules for Cloud Storage For Firebase
 ```
 
 ## Routing
@@ -200,7 +204,6 @@ To run tests against emulators:
 To Run tests in CI add the following environment variables within your CI provider:
 
 - `SERVICE_ACCOUNT` - Used to create custom auth tokens for test user login
-- `FIREBASE_APP_NAME` - name of Firebase app (used to load SDK config)
 - `TEST_UID` - UID of the user used for testing
 
 ## Deployment

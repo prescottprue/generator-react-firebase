@@ -4,6 +4,9 @@
       "targets": {
         "node": "10"
       }
+    }],
+    ["minify", {
+      "keepFnName": true
     }]
   ],
   "plugins": [
