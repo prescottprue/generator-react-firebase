@@ -2,7 +2,8 @@ import { useEffect } from 'react'<% if (!includeRedux) { %>
 import { useAnalytics, useUser } from 'reactfire'
 import { useLocation } from 'react-router-dom'<% } %><% if (includeRedux) { %>
 import firebase from 'firebase/app'
-import 'firebase/messaging'<% } %>
+import 'firebase/messaging'<% } %><% if (includeErrorHandling) { %>
+import { setErrorUser } from 'utils/errorHandler'<% } %>
 import { version } from '../../../package.json'
 
 function SetupAnalytics() {<% if (!includeRedux) { %>
@@ -27,7 +28,8 @@ function SetupAnalytics() {<% if (!includeRedux) { %>
         email: user.email,
         avatar: user.photoURL,
         version
-      })
+      })<% if (includeErrorHandling) { %>
+      setErrorUser(user)<% } %>
     }
   }, [user?.uid]) // eslint-disable-line react-hooks/exhaustive-deps
 

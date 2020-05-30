@@ -2,7 +2,7 @@ const glob = require('glob')
 const path = require('path')
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
-require('source-map-support/register');
+require('source-map-support/register')
 
 // Initialize Firebase so it is available within functions
 try {
@@ -24,11 +24,7 @@ if (process.env.NODE_ENV !== 'test') {
 // Load all folders within dist directory (mirrors layout of src)
 const files = glob.sync('./dist/**/index.js', {
   cwd: __dirname,
-  ignore: [
-    './node_modules/**',
-    codeFolder + '/utils/**',
-    codeFolder + '/constants'
-  ]
+  ignore: ['./node_modules/**', './dist/utils/**', './dist/constants/**']
 })
 
 // Loop over all folders found within dist loading only the relevant function

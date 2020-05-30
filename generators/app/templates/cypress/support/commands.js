@@ -5,11 +5,8 @@ import 'firebase/storage'
 import 'firebase/firestore'
 import { attachCustomCommands } from 'cypress-firebase'
 
-const projectId =
-  Cypress.env('FIREBASE_projectId') || Cypress.env('FIREBASE_PROJECT_ID')
-const apiKey =
-  Cypress.env('FIREBASE_apiKey') || // from CI environment (loaded through firebase-tools)
-  Cypress.env('FIREBASE_API_KEY') // from local environment
+const projectId = Cypress.env('FIREBASE_projectId')
+const apiKey = Cypress.env('FIREBASE_apiKey')
 
 const fbConfig = {
   apiKey,

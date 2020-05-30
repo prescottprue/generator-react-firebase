@@ -9,37 +9,34 @@
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.js .",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> lint <% if(!useYarn) { %>-- <% } %>--fix",
     "clean": "rimraf dist etc",
-    "build": "npm run clean && babel src -d --out-dir dist",
-    "watch": "npm run build -- --watch",
-    "serve": "npm run build && firebase serve --only functions",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "npm run build && firebase functions:log",
-    "emulators": "firebase emulators:start --only database,firestore"<% if(includeFunctionsTests) { %>,
-    "test": "firebase emulators:exec --only firestore,database \"npm run test:base\"",
-    "test:cov": "firebase emulators:exec --only firestore,database \"npm run test:cov:base\"",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
+    "build": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> clean && babel src -d --out-dir dist",
+    "watch": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> build <% if(!useYarn) { %>-- <% } %>--watch",
+    "shell": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> build && firebase functions:shell",
+    "start": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> shell",
+    "deploy": "firebase deploy --only functions"<% if(includeFunctionsTests) { %>,
+    "test": "<% if(useYarn) { %>yarn --cwd<% } else { %>npm run --prefix<% } %> .. functions:test",
+    "test:cov": "<% if(useYarn) { %>yarn --cwd<% } else { %>npm run --prefix<% } %> .. functions:test:cov",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
     "test:base": "cross-env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') jest ./src/**/*.spec.js --config jest.config.js",
-    "test:cov:base": "rimraf coverage && npm run test:base --coverage",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "test:cov:base": "rimraf coverage && <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> test:base --coverage"<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "test:base": "cross-env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') mocha ./src/**/*.spec.js",
-    "test:cov:base": "nyc --reporter=lcov npm run test:base",<% } %><% if(includeFunctionsTests) { %>
-    "test:watch": "npm test -- --watch"<% } %>
+    "test:cov:base": "nyc --reporter=lcov <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> test:base"<% } %><% if(includeFunctionsTests) { %>,
+    "test:watch": "<% if(useYarn) { %>yarn<% } else { %>npm<% } %> test <% if(!useYarn) { %>-- <% } %>--watch"<% } %>
   },
   "dependencies": {
-    "firebase-admin": "^8.11.0",
-    "firebase-functions": "^3.6.1",
+    "firebase-admin": "^8.12.1",
+    "firebase-functions": "^3.6.2",
     "glob": "^7.1.6",
     "lodash": "^4.17.15",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",<% if(includeFunctionsTests) { %>
-    "@babel/register": "^7.9.0",
-    "@firebase/testing": "^0.19.2",<% } %>
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",<% if(includeFunctionsTests) { %>
+    "@babel/register": "^7.10.1",
+    "@firebase/testing": "^0.19.6",<% } %>
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-module-resolver": "^4.0.0",<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "chai": "^4.2.0",<% } %>

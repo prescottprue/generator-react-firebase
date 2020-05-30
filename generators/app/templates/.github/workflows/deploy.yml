@@ -7,8 +7,8 @@ on:
       - prod
 
 jobs:
-  build:
-    name: Build
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -53,18 +53,28 @@ jobs:
         run: |
           set -o pipefail
 
+          # Throw a clear error if FIREBASE_TOKEN secret is not set
+          if [ -z "$FIREBASE_TOKEN" ];
+            then
+              errMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              echo "::error ::$errMsg"
+              exit 1
+          fi
+
+          # Get branch name from github ref (i.e. refs/heads/master -> master)
           gitBranch=${GITHUB_REF##*/}
 
           # Find the config associated to the firebase project in .firebaserc (falling back to default)
           gcloudProject=$(cat .firebaserc | jq -r --arg alias "$projectAlias" '.projects[$alias] // .projects.default')
+          appName=<%= appName %>
 
-          echo Setting configuration from the \"$gcloudProject\" Firebase project...
+          echo Setting configuration from the \"$gcloudProject\" Firebase Project and \"$appName\" App...
 
           echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
 
           # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
-          firebaseConfig=$(npx firebase --project $GCLOUD_PROJECT apps:sdkconfig WEB \
-            $(npx firebase --project $GCLOUD_PROJECT apps:list WEB | grep $FIREBASE_APP_NAME | awk '{ print $4}') | \
+          firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
+            $(npx firebase --project $gcloudProject apps:list WEB | grep $appName | awk '{ print $4}') | \
               tr '\n' ' ' | \
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \
@@ -85,8 +95,8 @@ jobs:
 
       - name: Verify Functions
         run: |
-          <% if(includeFunctionsTests) { %>yarn --cwd functions test:cov # Run unit tests with coverage
-          <% } %>yarn --cwd functions build<% } %><% if(includeFunctionsTests) { %>
+          <% if(includeFunctionsTests) { %>yarn functions:test:cov # Run unit tests with coverage
+          <% } %>yarn functions:build<% } %><% if(includeFunctionsTests) { %>
 
       - name: Upload Test Coverage For Functions
         run: |
@@ -114,18 +124,28 @@ jobs:
         run: |
           set -o pipefail
 
+          # Throw a clear error if FIREBASE_TOKEN secret is not set
+          if [ -z "$FIREBASE_TOKEN" ];
+            then
+              errMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              echo "::error ::$errMsg"
+              exit 1
+          fi
+
+          # Get branch name from github ref (i.e. refs/heads/master -> master)
           gitBranch=${GITHUB_REF##*/}
 
           # Find the config associated to the firebase project in .firebaserc (falling back to default)
           gcloudProject=$(cat .firebaserc | jq -r --arg alias "$projectAlias" '.projects[$alias] // .projects.default')
+          appName=<%= appName %>
 
-          echo Setting configuration from the \"$gcloudProject\" Firebase project...
+          echo Setting configuration from the \"$gcloudProject\" Firebase Project and \"$appName\" App...
 
           echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
 
           # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
-          firebaseConfig=$(npx firebase --project $GCLOUD_PROJECT apps:sdkconfig WEB \
-            $(npx firebase --project $GCLOUD_PROJECT apps:list WEB | grep $FIREBASE_APP_NAME | awk '{ print $4}') | \
+          firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
+            $(npx firebase --project $gcloudProject apps:list WEB | grep $appName | awk '{ print $4}') | \
               tr '\n' ' ' | \
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \
@@ -146,8 +166,8 @@ jobs:
 
       - name: Verify Functions
         run: |
-          <% if(includeFunctionsTests) { %>npm run --prefix functions test:cov # Run unit tests with coverage
-          <% } %>npm run --prefix functions build<% } %>
+          <% if(includeFunctionsTests) { %>npm run functions:test:cov # Run unit tests with coverage
+          <% } %>npm run functions build<% } %>
 
       # Archive build in case it needs to be downloaded later for debugging
       - name: Archive Build Artifact

@@ -14,6 +14,12 @@
     },
     "hosting": {
       "port": 3000
+    },<% if (includeFunctions) { %>
+    "functions": {
+      "port": 5001
+    },<% } %>
+    "pubsub": {
+      "port": 8085
     }
   }<% if (includeFirestore) { %>,
   "firestore": {
@@ -43,11 +49,12 @@
     "ignore": [
       "**/.*",
       "**/*.spec.js",
-      "**/node_modules/**",
-      "mocha.opts",
-      "coverage/**",
-      "src",
-      "scripts/**",
+      "**/node_modules/**",<% if (includeFunctionsTests && functionsTestTool === 'jest') { %>
+      "jest.config.js",<% } %><% if (includeFunctionsTests && functionsTestTool !== 'jest') { %>
+      ".mocharc.js",<% } %><% if (includeFunctionsTests) { %>
+      "coverage/**",<% } %>
+      "src",<% if (includeFunctionsTests) { %>
+      "scripts/**",<% } %>
       "jsconfig.json"
     ]
   }<% } %>

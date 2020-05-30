@@ -11,11 +11,11 @@
     "start:dist": "npm run build && firebase emulators:start --only hosting",
     "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %> REACT_APP_FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run start",<% if (includeComponentTests) { %>
     "test": "react-scripts test",<% } %><% if (includeFunctions) { %>
-    "functions:start": "npm run start --prefix functions",
-    "functions:serve": "npm run serve --prefix functions",
-    "functions:watch": "npm run watch --prefix functions",
-    "functions:build": "npm run build --prefix functions",<% } %><% if (includeFunctionsTests) { %>
-    "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
+    "functions:start": "<% if(useYarn) { %>yarn --cwd functions start<% } else { %>npm run start --prefix functions<% } %>",
+    "functions:watch": "<% if(useYarn) { %>yarn --cwd functions watch<% } else { %>npm run watch --prefix functions<% } %>",
+    "functions:build": "<% if(useYarn) { %>yarn --cwd functions build<% } else { %>npm run build --prefix functions<% } %>",<% } %><% if (includeFunctionsTests) { %>
+    "functions:test": "firebase emulators:exec --only firestore,database,pubsub \"<% if(useYarn) { %>yarn --cwd<% } else { %>npm run --prefix<% } %> functions test:base\"",
+    "functions:test:cov": "firebase emulators:exec --only firestore,database,pubsub \"<% if(useYarn) { %>yarn --cwd<% } else { %>npm run --prefix<% } %> functions test:cov:base\"",<% } %><% if (includeUiTests) { %>
     "test:ui:run": "env-cmd -f .env.local cypress run",
     "test:ui": "env-cmd -f .env.local cypress open",
     "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run test:ui",<% } %>
@@ -55,14 +55,15 @@
     "redux": "^4.0.4",
     "redux-auth-wrapper": "^2.1.0",<% } %><% if (includeRedux && includeFirestore) { %>
     "redux-firestore": "^0.11.0",<% } %><% if (includeRedux) { %>
-    "redux-thunk": "^2.3.0"<% } %>
+    "redux-thunk": "^2.3.0"<% } %><% if (includeErrorHandling) { %>,
+    "stackdriver-errors-js": "^0.8.0"<% } %>
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",<% if (includeUiTests) { %>
-    "cypress": "^4.6.0",
-    "cypress-firebase": "^1.1.0",<% } %>
-    "eslint": "^7.0.0",
+    "cypress": "^4.7.0",
+    "cypress-firebase": "^1.2.0",<% } %>
+    "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-standard-react": "^9.2.0",<% if (includeUiTests) { %>
@@ -79,7 +80,7 @@
     "eslint-plugin-standard": "^4.0.1",<% if (includeUiTests) { %>
     "firebase-admin": "^8.12.0",<% } %>
     "firebase-ci": "^0.13.0",
-    "firebase-tools": "^8.2.0",
+    "firebase-tools": "^8.4.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
