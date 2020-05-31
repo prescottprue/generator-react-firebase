@@ -43,6 +43,7 @@ jobs:
 
       - name: Set App Environment Settings
         env:
+          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
           GITHUB_REF: ${{ github.ref }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
@@ -52,8 +53,16 @@ jobs:
           # Throw a clear error if FIREBASE_TOKEN secret is not set
           if [ -z "$FIREBASE_TOKEN" ];
             then
-              errMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
-              echo "::error ::$errMsg"
+              missingTokenErrMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              echo "::error ::$missingTokenErrMsg"
+              exit 1
+          fi
+
+          # Throw a clear error if MASTER_SERVICE_ACCOUNT secret is not set
+          if [ -z "$SERVICE_ACCOUNT" ];
+            then
+              missingSaErrMsg="\"MASTER_SERVICE_ACCOUNT\" github secret is required to run functions unit tests. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              echo "::error ::$missingSaErrMsg"
               exit 1
           fi
 
@@ -61,20 +70,27 @@ jobs:
           gitBranch=${GITHUB_REF##*/}
 
           # Find the config associated to the firebase project in .firebaserc (falling back to default)
-          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$projectAlias" '.projects[$alias] // .projects.default')
+          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$gitBranch" '.projects[$alias] // .projects.default')
           appName=<%= appName %>
-
-          echo Setting configuration from the \"$gcloudProject\" Firebase Project and \"$appName\" App...
-
-          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+          echo "Setting environment for branch: $gitBranch, project: $gcloudProject, and app: $appName..."
 
           echo "Setting emulator settings to environment..."
           databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
           emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
-
+          
+          # Set variables to environment to be used in later steps
           echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
           echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
           echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
+          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+
+          # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
+          echo "Generating Service Account File..."
+          echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
+          echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::$HOME/serviceAccount.json"
+
+          # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
+          # NOTE: databaseURL is intentionally removed since it is set above
 
           # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
           firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
@@ -92,19 +108,26 @@ jobs:
             eval $line
           done <<< "$firebaseConfig"
 
+      - name: Build Functions
+        run: |
+          yarn functions:build<% if(includeFunctionsTests) { %>
+
+      - name: Unit Test Functions
+        run: |
+          yarn functions:test:cov -- --project $GCLOUD_PROJECT # Run unit tests with coverage
+
+      - name: Upload Test Coverage For Functions
+        # NOTE: Token will need to be added if using codecov with private repos
+        run: |
+          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %>
+
       - name: Verify App
         run: |
           yarn lint # Check for lint in app code
-          yarn build # Build app bundles
 
-      - name: Verify Functions
+      - name: Build App
         run: |
-          <% if(includeFunctionsTests) { %>yarn functions:test:cov # Run unit tests with coverage
-          <% } %>yarn functions:build<% } %><% if(includeFunctionsTests) { %>
-
-      - name: Upload Test Coverage For Functions
-        run: |
-          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %><% if(!useYarn) { %>
+          yarn build<% } %><% if(!useYarn) { %>
 
       - name: Dependencies Cache
         uses: actions/cache@v1
@@ -122,6 +145,7 @@ jobs:
 
       - name: Set App Environment Settings
         env:
+          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
           GITHUB_REF: ${{ github.ref }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
@@ -140,21 +164,27 @@ jobs:
           gitBranch=${GITHUB_REF##*/}
 
           # Find the config associated to the firebase project in .firebaserc (falling back to default)
-          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$projectAlias" '.projects[$alias] // .projects.default')
+          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$gitBranch" '.projects[$alias] // .projects.default')
           appName=<%= appName %>
-
-          echo Setting configuration from the \"$gcloudProject\" Firebase Project and \"$appName\" App...
+          echo "Setting environment for branch: $gitBranch, project: $gcloudProject, and app: $appName..."
 
           echo "Setting emulator settings to environment..."
           databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
           emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
 
+          # Set variables to environment to be used in later steps
           echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
           echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
           echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
           echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+            
+          # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
+          echo "Generating Service Account File..."
+          echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
+          export GOOGLE_APPLICATION_CREDENTIALS="$HOME/serviceAccount.json"
 
-          # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
+          # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
+          # NOTE: databaseURL is intentionally removed since it is set above
           firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
             $(npx firebase --project $gcloudProject apps:list WEB | grep $appName | awk '{ print $4}') | \
               tr '\n' ' ' | \
@@ -170,15 +200,26 @@ jobs:
             eval $line
           done <<< "$firebaseConfig"
 
+      - name: Build Functions
+        run: |
+          npm run functions build<% if(includeFunctionsTests) { %>
+
+      - name: Unit Test Functions
+        run: |
+          npm run functions:test:cov -- --project $GCLOUD_PROJECT # Run unit tests with coverage
+
+      - name: Upload Test Coverage For Functions
+        # NOTE: Token will need to be added if using codecov with private repos
+        run: |
+          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %>
+
       - name: Verify App
         run: |
           npm run lint # Check for lint in app code
-          npm run build # Build app bundles
 
-      - name: Verify Functions
+      - name: Build App
         run: |
-          <% if(includeFunctionsTests) { %>npm run functions:test:cov # Run unit tests with coverage
-          <% } %>npm run functions:build<% } %>
+          npm run build<% } %>
   
       - name: Archive Build Artifact
         uses: actions/upload-artifact@v2
@@ -233,33 +274,36 @@ jobs:
 
       - name: Set Test Environment Settings
         env:
-          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
           FIREBASE_APP_NAME: ${{ secrets.FIREBASE_APP_NAME }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
           GITHUB_REF: ${{ github.ref }}
         run: |
           set -o pipefail
 
-          export GIT_BRANCH=${GITHUB_REF##*/}
-          export GCLOUD_PROJECT=$(cat .firebaserc | jq -r --arg GIT_BRANCH "$GIT_BRANCH" '.projects[$GIT_BRANCH] // .projects.default')
-          echo "::set-env name=GCLOUD_PROJECT::$GCLOUD_PROJECT"
-          echo "Environment set for branch: $GIT_BRANCH and project: $GCLOUD_PROJECT"
+          gitBranch=${GITHUB_REF##*/}
+          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$gitBranch" '.projects[$alias] // .projects.default')
+          echo "Setting environment for branch: $gitBranch and project: $gcloudProject"
   
           echo "Setting emulator settings to environment..."
-          export FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat firebase.json | jq .emulators.database.port)
-          export FIRESTORE_EMULATOR_HOST=localhost:$(cat firebase.json | jq .emulators.firestore.port)
-          echo "::set-env name=FIREBASE_DATABASE_EMULATOR_HOST::$FIREBASE_DATABASE_EMULATOR_HOST"
-          echo "::set-env name=FIRESTORE_EMULATOR_HOST::$FIRESTORE_EMULATOR_HOST"
+          databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
+          emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
+
+          # Set variables to environment to be used in later steps
+          echo "::set-env name=FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
+          echo "::set-env name=FIRESTORE_EMULATOR_HOST::$emulatorHost"
           echo "::set-env name=CYPRESS_BASE_URL::http://localhost:$(cat package.json | jq .config.port)"
-          echo "::set-env name=CYPRESS_FB_databaseURL::http://$FIREBASE_DATABASE_EMULATOR_HOST?ns=$GCLOUD_PROJECT"
+          echo "::set-env name=CYPRESS_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
+          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
   
+          # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
           echo "Generating Service Account File..."
           echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
           echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::$HOME/serviceAccount.json"
 
           # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
-          firebaseConfig=$(npx firebase --project $GCLOUD_PROJECT apps:sdkconfig WEB \
-            $(npx firebase --project $GCLOUD_PROJECT apps:list WEB | grep $FIREBASE_APP_NAME | awk '{ print $4}') | \
+          firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
+            $(npx firebase --project $gcloudProject apps:list WEB | grep $FIREBASE_APP_NAME | awk '{ print $4}') | \
               tr '\n' ' ' | \
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \

@@ -19,7 +19,7 @@
     "test:ui:run": "env-cmd -f .env.local cypress run",
     "test:ui": "env-cmd -f .env.local cypress open",
     "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run test:ui",<% } %>
-    "emulators:db": "firebase emulators:start --only firestore,database",
+    "emulators": "firebase emulators:start --only firestore,database,pubsub",
     "emulators:hosting": "firebase emulators:start --only firestore,database,hosting",
     "emulators:all": "firebase emulators:start",
     "lint": "eslint .",

@@ -4,9 +4,6 @@
       "targets": {
         "node": "10"
       }
-    }],
-    ["minify", {
-      "keepFnName": true
     }]
   ],
   "plugins": [
@@ -17,9 +14,11 @@
   ],
   "env": {
     "production": {
-      "comments": false,
-      "minified": true,
-      "sourceMaps": "inline"
+      "presets": [
+        ["minify", {
+          "keepFnName": true
+        }]
+      ]
     }
   }
 }
