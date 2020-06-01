@@ -37,7 +37,10 @@ jobs:
         run: yarn lint
 
       - name: Run Tests
-        run: yarn test:cov
+        run: |
+          git config --global user.name "Test User"
+          git config --global user.email "test@test.com"
+          yarn test:cov
 
       - name: Upload Code Coverage (Codecov)
         env:
