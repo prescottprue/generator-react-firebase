@@ -1,10 +1,7 @@
 # <%= appName %>
 
-<% if (includeCI && ciProvider == 'githubActions') { %>
-[![Build Status][build-status-image]][build-status-url]<% } %><% if (includeCI && ciProvider == 'travis') { %>
-[![Dependency Status][daviddm-image]][daviddm-url]<% } %><% if (codeClimate && includeComponentTests) { %>
-[![Code Coverage][coverage-image]][coverage-url]
-[![Code Climate][climate-image]][climate-url]<% } %>
+<% if (includeCI) { %>[![Build Status][build-status-image]][build-status-url]<% } %><% if (includeFunctionsTests) { %>
+[![Code Coverage][coverage-image]][coverage-url]<% } %>
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -35,24 +32,24 @@
     # Needed to skip warnings from jest@beta in package.json
     SKIP_PREFLIGHT_CHECK=true
 
-    FIREBASE_PROJECT_ID="<%= firebaseProjectId %>"
-    FIREBASE_API_KEY="<%= firebaseKey %>"
+    FIREBASE_PROJECT_ID="<- projectId from Firebase Console ->"
+    FIREBASE_API_KEY="<- apiKey from Firebase Console ->"
 
     # App environment
-    REACT_APP_FIREBASE_API_KEY=$FIREBASE_API_KEY
-    REACT_APP_FIREBASE_AUTH_DOMAIN="<%= firebaseProjectId %>.firebaseapp.com"
-    REACT_APP_FIREBASE_DATABASE_URL="https://<%= firebaseProjectId %>.firebaseio.com"
-    REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
-    REACT_APP_FIREBASE_STORAGE_BUCKET="<%= firebaseProjectId %>.appspot.com"<% if(messagingSenderId) { %>
-    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="<%= messagingSenderId %>"<% } %><% if(includeAnalytics && measurementId) { %>
-    REACT_APP_FIREBASE_MEASUREMENT_ID="<%= measurementId %>"<% } %><% if(appId) { %>
-    REACT_APP_FIREBASE_APP_ID="<%= appId %>"<% } %><% if (includeMessaging) { %>
-    REACT_APP_PUBLIC_VAPID_KEY="<%= firebasePublicVapidKey %>"<% } %><% if (includeSentry) { %>
+    REACT_APP_FIREBASE_apiKey=$FIREBASE_API_KEY
+    REACT_APP_FIREBASE_authDomain="<- authdomain from Firebase Console ->"
+    REACT_APP_FIREBASE_databaseURL="<- databaseURL from Firebase Console ->"
+    REACT_APP_FIREBASE_projectId=$FIREBASE_PROJECT_ID
+    REACT_APP_FIREBASE_storageBucket="<- storageBucket from Firebase Console ->"<% if(messagingSenderId) { %>
+    REACT_APP_FIREBASE_messagingSenderId="<- messagingSenderId from Firebase Console ->"<% } %><% if(includeAnalytics && measurementId) { %>
+    REACT_APP_FIREBASE_measurementId="<- measurementId from Firebase Console ->"<% } %><% if(appId) { %>
+    REACT_APP_FIREBASE_appId="<- appId from Firebase Console ->"<% } %><% if (includeMessaging) { %>
+    REACT_APP_PUBLIC_VAPID_KEY="<- public vapid key from messaging tab of Firebase Console ->"<% } %><% if (includeSentry) { %>
     REACT_APP_SENTRY_DSN="<%= sentryDsn %>"<% } %><% if (includeUiTests) { %>
 
     # Cypress Environment
-    CYPRESS_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
-    CYPRESS_FIREBASE_API_KEY=$FIREBASE_API_KEY<% } %>
+    CYPRESS_FIREBASE_projectId=$FIREBASE_PROJECT_ID
+    CYPRESS_FIREBASE_apiKey=$FIREBASE_API_KEY<% } %>
    ```
 
 1. Start Development server: `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> start`
@@ -60,20 +57,20 @@
 While developing, you will probably rely mostly on `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> start`; however, there are additional scripts at your disposal:
 
 | `<% if (useYarn) { %>yarn<% } else { %>npm run<% } %> <script>` <% if (useYarn) { %>  <% } %> | Description                                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| `start`            | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
-| `start:dist`       | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
-| `start:emulate`    | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`            | Builds the application to `./dist`                                                                                      | <% if (includeComponentTests) { %>
-| `emulators`        | Starts database emulators for use with `start:emulate`                                                                  | <% if (includeUiTests) { %>
-| `emulators:all`    | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | <% } %>
-| `test`             | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`       | Runs `test` in watch mode to re-run tests when changed                                                                  | <% } %><% if (includeUiTests) { %>
-| `test:ui:run`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
-| `test:ui`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`  | Same as `test:ui` but with tests pointed at emulators                                                              | <% } %>
-| `lint`             | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
-| `lint:fix`         | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `start`             | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
+| `start:dist`        | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
+| `start:emulate`     | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
+| `build`             | Builds the application to `./build`                                                                                     | <% if (includeComponentTests) { %>
+| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       | <% } %><% if (includeUiTests) { %>
+| `emulators:hosting` | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | <% } %>
+| `test`              | Runs unit tests with Jest. See [testing](#testing)                                                                      |
+| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  | <% if (includeUiTests) { %>
+| `test:ui:run`       | Runs UI tests with Cypress. See [testing](#testing)                                                                     |
+| `test:ui`           | Opens UI tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
+| `test:ui:emulate`   | Same as `test:ui` but with tests pointed at emulators                                                                   | <% } %>
+| `lint`              | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
+| `lint:fix`          | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
@@ -96,8 +93,13 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── workflows                # Github Actions CI Workflows
 │   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
 │   │  └── verify.yml            # Paths for application routes
-│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
-├── public                       # All build-related configuration
+│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app<% if (includeUiTests) { %>
+├── cypress                      # UI Integration Tests<% } %><% if (includeFunctions) { %>
+├── functions                    # Cloud Functions
+│   ├── src                      # Cloud Functions Source code (each folder represents a function)
+│   └── index.js                 # Mount point of Cloud Functions (loads functions by name)<% } %>
+├── public                       # All build-related configuration<% if (includeMessaging) { %>
+│   ├── firebase-messaging-sw.js # Service worker for Firebase Cloud Messaging<% } %>
 │   └── index.html               # Main HTML page container for app
 ├── src                          # Application source code
 │   ├── components               # Global Reusable Presentational Components
@@ -116,10 +118,10 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── store                    # Redux-specific pieces
 │   │   ├── createStore.js       # Create and instrument redux store
 │   │   └── reducers.js          # Reducer registry and injection<% } %>
-│   └── utils                    # General Utilities (used throughout application)
-│   │   ├── components.js        # Utilities for building/implementing react components
-│   │   ├── form.js              # For forms
-│   │   └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
+│   └── utils                    # General Utilities (used throughout application)<% if (includeRedux) { %>
+│       ├── components.js        # Utilities for building/implementing React components<% } %>
+│       ├── form.js              # Utilities for forms (validation)
+│       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
 ├── .env.local                   # Environment settings for when running locally
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
@@ -218,8 +220,9 @@ Before starting make sure to install Firebase Command Line Tool: `npm i -g fireb
 
 #### CI Deploy (recommended)
 
-**Note**: Config for this is located within<% } %><% if (ciProvider == 'travis') { %>`.travis.yml`<% } %><% if (ciProvider == 'gitlab') { %>`.gitlab-ci.yml`<% } %>
-<% if (includeCI) { %>`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
+**Note**: Config for this is located within `.github/workflows`
+
+`firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give CI rights to deploy on your behalf)
 1. Set `FIREBASE_TOKEN` environment variable within CI environment
@@ -238,10 +241,10 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
    - Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
    - What Firebase project do you want to associate as default? -> **your Firebase project name**
 1. Build Project: `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> build`
-1. Confirm Firebase config by running locally: `firebase serve`
+1. Confirm Firebase config by running locally: `yarn emulators:hosting`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> build` first.
+**NOTE:** You can use `yarn emulators:hosting` to test how your application will work when deployed to Firebase, but make sure you run `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> build` first.
 
 ## FAQ
 
@@ -249,16 +252,11 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-<% if (includeCI && ciProvider == 'travis') { %>[build-status-image]: https://img.shields.io/travis/<%= githubUser %>/<%= appName %>/master.svg?style=flat-square
-[build-status-url]: https://travis-ci.org/<%= githubUser %>/<%= appName %>
-[daviddm-image]: https://img.shields.io/david/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/<%= githubUser %>/<%= appName %><% } %><% if (includeCI && ciProvider == 'githubActions') { %>[build-status-image]: https://img.shields.io/github/workflow/status/<%= githubUser %>/<%= appName %>/Verify%20App?style=flat-square
-[build-status-url]: https://github.com/<%= githubUser %>/<%= appName %>/actions<% } %>
-<% if (codeClimate) { %>[climate-image]: https://img.shields.io/codeclimate/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[climate-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %>
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/<%= githubUser %>/<%= appName %><% } %>
-[license-image]: https://img.shields.io/npm/l/<%= appName %>.svg?style=flat-square
+<% if (includeCI) { %>[build-status-image]: https://img.shields.io/github/workflow/status/<%= githubUser %>/<%= appName %>/Deploy?style=flat-square
+[build-status-url]: https://github.com/<%= githubUser %>/<%= appName %>/actions<% } %><% if (includeFunctionsTests) { %>
+[coverage-image]: https://img.shields.io/codecov/c/github/<%= githubUser %>/<%= appName %>.svg?style=flat-square
+[coverage-url]: https://codecov.io/gh/<%= githubUser %>/<%= appName %><% } %>
+[license-image]: https://img.shields.io/github/license/<%= githubUser %>/<%= appName %>?style=flat-square
 [license-url]: https://github.com/<%= githubUser %>/<%= appName %>/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/

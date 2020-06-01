@@ -58,14 +58,6 @@ jobs:
               exit 1
           fi
 
-          # Throw a clear error if MASTER_SERVICE_ACCOUNT secret is not set
-          if [ -z "$SERVICE_ACCOUNT" ];
-            then
-              missingSaErrMsg="\"MASTER_SERVICE_ACCOUNT\" github secret is required to run functions unit tests. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
-              echo "::error ::$missingSaErrMsg"
-              exit 1
-          fi
-
           # Get branch name from github ref (i.e. refs/heads/master -> master)
           gitBranch=${GITHUB_REF##*/}
 

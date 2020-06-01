@@ -269,11 +269,12 @@ module.exports = class extends Generator {
         )} generator!`
       )
     )
-    return this.user.github.username().then((githubUsername) => {
+
+    function runPrompts(githubUsername) {
       // Set github username as default
       const [firstPrompt, ...restOfPrompts] = prompts
       const modifiedPrompts = [
-        { ...firstPrompt, default: githubUsername },
+        { ...firstPrompt, default: githubUsername || '' },
         ...restOfPrompts
       ]
       return this.prompt(modifiedPrompts).then((props) => {
@@ -289,7 +290,16 @@ module.exports = class extends Generator {
         }
         this.data = Object.assign({}, this.initialData, this.answers)
       })
-    })
+    }
+    const boundRunPrompts = runPrompts.bind(this)
+
+    // Run prompts regardless of if getting github username is successful
+    return this.user.github
+      .username()
+      .then(boundRunPrompts)
+      .catch(() => {
+        boundRunPrompts()
+      })
   }
 
   writing() {

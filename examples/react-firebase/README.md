@@ -1,8 +1,6 @@
 # react-firebase
 
 [![Build Status][build-status-image]][build-status-url]
-[![Code Coverage][coverage-image]][coverage-url]
-[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -33,18 +31,18 @@
     # Needed to skip warnings from jest@beta in package.json
     SKIP_PREFLIGHT_CHECK=true
 
-    FIREBASE_PROJECT_ID="redux-firebasev3"
-    FIREBASE_API_KEY="AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots"
+    FIREBASE_PROJECT_ID="<- projectId from Firebase Console ->"
+    FIREBASE_API_KEY="<- apiKey from Firebase Console ->"
 
     # App environment
-    REACT_APP_FIREBASE_API_KEY=$FIREBASE_API_KEY
-    REACT_APP_FIREBASE_AUTH_DOMAIN="redux-firebasev3.firebaseapp.com"
-    REACT_APP_FIREBASE_DATABASE_URL="https://redux-firebasev3.firebaseio.com"
-    REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
-    REACT_APP_FIREBASE_STORAGE_BUCKET="redux-firebasev3.appspot.com"
-    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="823357791673"
-    REACT_APP_FIREBASE_APP_ID="1:823357791673:web:e53b561c7e36427fe06a68"
-    REACT_APP_PUBLIC_VAPID_KEY="BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg"
+    REACT_APP_FIREBASE_apiKey=$FIREBASE_API_KEY
+    REACT_APP_FIREBASE_authDomain="<- authdomain from Firebase Console ->"
+    REACT_APP_FIREBASE_databaseURL="<- databaseURL from Firebase Console ->"
+    REACT_APP_FIREBASE_projectId=$FIREBASE_PROJECT_ID
+    REACT_APP_FIREBASE_storageBucket="<- storageBucket from Firebase Console ->"
+    REACT_APP_FIREBASE_messagingSenderId="<- messagingSenderId from Firebase Console ->"
+    REACT_APP_FIREBASE_appId="<- appId from Firebase Console ->"
+    REACT_APP_PUBLIC_VAPID_KEY="<- public vapid key from messaging tab of Firebase Console ->"
    ```
 
 1. Start Development server: `yarn start`
@@ -54,10 +52,10 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 | `yarn <script>` | Description                                                                                                             |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `start`         | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
-| `start:dist`    | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
+| `start:dist`    | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
 | `start:emulate` | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`         | Builds the application to `./dist`                                                                                      |
-| `emulators`     | Starts database emulators for use with `start:emulate`                                                                  |
+| `build`         | Builds the application to `./build`                                                                                     |
+| `emulators`     | Starts database and pubsub emulators for use with `start:emulate`                                                       |
 | `test`          | Runs unit tests with Jest. See [testing](#testing)                                                                      |
 | `test:watch`    | Runs `test` in watch mode to re-run tests when changed                                                                  |
 | `lint`          | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
@@ -86,6 +84,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │  └── verify.yml            # Paths for application routes
 │   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
 ├── public                       # All build-related configuration
+│   ├── firebase-messaging-sw.js # Service worker for Firebase Cloud Messaging
 │   └── index.html               # Main HTML page container for app
 ├── src                          # Application source code
 │   ├── components               # Global Reusable Presentational Components
@@ -102,9 +101,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │       ├── components       # Presentational React Components
 │   │       └── routes/**        # Fractal sub-routes (** optional)
 │   └── utils                    # General Utilities (used throughout application)
-│   │   ├── components.js        # Utilities for building/implementing react components
-│   │   ├── form.js              # For forms
-│   │   └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
+│       ├── form.js              # Utilities for forms (validation)
+│       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
 ├── .env.local                   # Environment settings for when running locally
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
@@ -172,7 +170,8 @@ Before starting make sure to install Firebase Command Line Tool: `npm i -g fireb
 
 #### CI Deploy (recommended)
 
-**Note**: Config for this is located within
+**Note**: Config for this is located within `.github/workflows`
+
 `firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give CI rights to deploy on your behalf)
@@ -192,10 +191,10 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
    - Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
    - What Firebase project do you want to associate as default? -> **your Firebase project name**
 1. Build Project: `yarn build`
-1. Confirm Firebase config by running locally: `firebase serve`
+1. Confirm Firebase config by running locally: `yarn emulators:hosting`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `yarn build` first.
+**NOTE:** You can use `yarn emulators:hosting` to test how your application will work when deployed to Firebase, but make sure you run `yarn build` first.
 
 ## FAQ
 
@@ -203,13 +202,9 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firebase/Verify%20App?style=flat-square
+[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firebase/Verify?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firebase/actions
-[climate-image]: https://img.shields.io/codeclimate/github/prescottprue/react-firebase.svg?style=flat-square
-[climate-url]: https://codeclimate.com/github/prescottprue/react-firebase
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/prescottprue/react-firebase.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/prescottprue/react-firebase
-[license-image]: https://img.shields.io/npm/l/react-firebase.svg?style=flat-square
+[license-image]: https://img.shields.io/github/license/prescottprue/react-firebase?style=flat-square
 [license-url]: https://github.com/prescottprue/react-firebase/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/
