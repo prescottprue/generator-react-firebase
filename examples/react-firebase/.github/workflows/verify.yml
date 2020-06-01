@@ -1,4 +1,4 @@
-name: Verify App
+name: Verify
 
 on: [pull_request]
 
@@ -15,50 +15,106 @@ jobs:
         with:
           node-version: 10
 
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get Library Versions For Binary Caching
+        id: cache-settings
+        run: |
+          echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache npm dependencies
+      - name: Cache App Dependencies
         uses: actions/cache@v1
         with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-app-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.cache-settings.outputs.dir }}
+          key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
         env:
-          CI: true
           CYPRESS_INSTALL_BINARY: 0 # Skip install of Cypress (handled in its own job)
           HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
         run: |
           yarn install --frozen-lockfile
           yarn --cwd functions install --frozen-lockfile
 
-      - name: Set Environment Settings
+      - name: Set App Environment Settings
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REF: ${{ github.ref }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
+          set -o pipefail
+
+          # Throw a clear error if FIREBASE_TOKEN secret is not set
+          if [ -z "$FIREBASE_TOKEN" ];
+            then
+              missingTokenErrMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              echo "::error ::$missingTokenErrMsg"
+              exit 1
+          fi
+
+          # Throw a clear error if MASTER_SERVICE_ACCOUNT secret is not set
+          if [ -z "$SERVICE_ACCOUNT" ];
+            then
+              missingSaErrMsg="\"MASTER_SERVICE_ACCOUNT\" github secret is required to run functions unit tests. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              echo "::error ::$missingSaErrMsg"
+              exit 1
+          fi
+
+          # Get branch name from github ref (i.e. refs/heads/master -> master)
+          gitBranch=${GITHUB_REF##*/}
+
+          # Find the config associated to the firebase project in .firebaserc (falling back to default)
+          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$gitBranch" '.projects[$alias] // .projects.default')
+          appName=react-firebase
+          echo "Setting environment for branch: $gitBranch, project: $gcloudProject, and app: $appName..."
+
           echo "Setting emulator settings to environment..."
-          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.database.port)"
-          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::localhost:$(cat firebase.json | jq .emulators.firestore.port)"
+          databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
+          emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
+          
+          # Set variables to environment to be used in later steps
+          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
+          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
+          echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
+          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+
+          # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
+          echo "Generating Service Account File..."
+          echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
+          echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::$HOME/serviceAccount.json"
+
+          # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
+          # NOTE: databaseURL is intentionally removed since it is set above
+
+          # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
+          firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
+            $(npx firebase --project $gcloudProject apps:list WEB | grep $appName | awk '{ print $4}') | \
+              tr '\n' ' ' | \
+              sed 's/.*initializeApp(//g' | \
+              sed 's/);//g' | \
+              jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
+              sed 's/:"/:/g; s/^/echo \"::set-env name=REACT_APP_FIREBASE_/g' \
+          )
+
+          # Loop through each line of config and evaluate to export env vars
+          while IFS= read -r line; do
+            echo Evaluating: $line
+            eval $line
+          done <<< "$firebaseConfig"
 
       - name: Verify App
         run: |
-          yarn build:config # Create env specific src/config.js
           yarn lint # Check for lint in app code
-          yarn build # Build app bundles
 
-      - name: Verify Functions
+      - name: Build Functions
         run: |
-          yarn --cwd functions test:cov # Run unit tests with coverage
-          yarn --cwd functions build
+          yarn functions:build
+
+      - name: Build App
+        run: |
+          yarn build
 
       - name: Archive Build Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: build
           path: build
-
-      - name: Archive Functions Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: functions-build
-          path: functions/dist

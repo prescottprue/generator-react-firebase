@@ -17,8 +17,7 @@
           "storageBucket": "redux-firebasev3.appspot.com",
           "measurementId": "G-62D5FVVQWZ",
           "appId": "1:823357791673:web:819546ad651f4513e06a68"
-        },
-        "segmentId": ""
+        }
       },
       "prod": {
         "env": "production",
@@ -30,8 +29,7 @@
           "storageBucket": "redux-firebasev3.appspot.com",
           "measurementId": "G-62D5FVVQWZ",
           "appId": "1:823357791673:web:819546ad651f4513e06a68"
-        },
-        "segmentId": ""
+        }
       }
     }
   }

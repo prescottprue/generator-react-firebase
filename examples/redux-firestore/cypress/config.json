@@ -1,0 +1,5 @@
+{
+  "TEST_UID": "<- uid of test user here ->",
+  "FIREBASE_PROJECT_ID": "redux-firebasev3",
+  "FIREBASE_API_KEY": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots"
+}

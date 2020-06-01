@@ -5,12 +5,13 @@ import { useParams } from 'react-router-dom'
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from 'components/LoadingSpinner'
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 
 function ProjectData() {
   const { projectId } = useParams()
 
   // Create listener for projects
-  useFirestoreConnect([{ collection: 'projects', doc: projectId }])
+  useFirestoreConnect([{ collection: PROJECTS_COLLECTION, doc: projectId }])
 
   // Get projects from redux state
   const project = useSelector(

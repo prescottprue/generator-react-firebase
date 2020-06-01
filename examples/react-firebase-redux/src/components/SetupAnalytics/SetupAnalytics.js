@@ -1,18 +1,11 @@
 import { useEffect } from 'react'
-import { useAnalytics, useUser } from 'reactfire'
-import { useLocation } from 'react-router-dom'
-import { setErrorUser } from 'utils/errorHandler'
+import firebase from 'firebase/app'
+import 'firebase/messaging'
 import { version } from '../../../package.json'
 
 function SetupAnalytics() {
-  const analytics = useAnalytics()
-  const location = useLocation()
-  const user = useUser()
-
-  // Disable analytics data collection when Cypress is being run
-  if (window.Cypress) {
-    analytics.setAnalyticsCollectionEnabled(false)
-  }
+  const analytics = firebase.analytics()
+  const user = firebase.auth().currentUser
 
   // By passing `user.uid` to the second argument of `useEffect`,
   // we only set user id when it exists
@@ -26,7 +19,6 @@ function SetupAnalytics() {
         avatar: user.photoURL,
         version
       })
-      setErrorUser(user)
     }
   }, [user?.uid]) // eslint-disable-line react-hooks/exhaustive-deps
 

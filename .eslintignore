@@ -5,7 +5,5 @@ examples/**
 dist/**
 *.spec.js
 **/**/index.html
-generators/app/templates/**
-generators/**/templates
+generators/**/templates/**
 test/tmp/**
-examples/redux-firestore/**

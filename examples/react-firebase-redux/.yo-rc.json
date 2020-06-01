@@ -10,8 +10,7 @@
         "Continuous Integration config",
         "Firebase Functions (with ESNext support)",
         "Tests for UI (Cypress)",
-        "Firebase Analytics",
-        "Segment.io Analytics"
+        "Firebase Analytics"
       ],
       "messagingSenderId": "823357791673",
       "firebasePublicVapidKey": "BJUvLhbfhXa7azobq9UVR58Xdhovnqo3RkcFgvj4Zz_ESHf2RSHn_zedUeNi1JHp6I8JcggnCW48HcOBemBy1Zg",

@@ -32,24 +32,21 @@
     # Needed to skip warnings from jest@beta in package.json
     SKIP_PREFLIGHT_CHECK=true
 
-    FIREBASE_PROJECT_ID="<%= firebaseProjectId %>"
-    FIREBASE_API_KEY="<%= firebaseKey %>"
+    FIREBASE_PROJECT_ID="redux-firebasev3"
+    FIREBASE_API_KEY="AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots"
 
     # App environment
     REACT_APP_FIREBASE_API_KEY=$FIREBASE_API_KEY
-    REACT_APP_FIREBASE_AUTH_DOMAIN="<%= firebaseProjectId %>.firebaseapp.com"
-    REACT_APP_FIREBASE_DATABASE_URL="https://<%= firebaseProjectId %>.firebaseio.com"
+    REACT_APP_FIREBASE_AUTH_DOMAIN="redux-firebasev3.firebaseapp.com"
+    REACT_APP_FIREBASE_DATABASE_URL="https://redux-firebasev3.firebaseio.com"
     REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
-    REACT_APP_FIREBASE_STORAGE_BUCKET="<%= firebaseProjectId %>.appspot.com"<% if(messagingSenderId) { %>
-    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="<%= messagingSenderId %>"<% } %><% if(includeAnalytics && measurementId) { %>
-    REACT_APP_FIREBASE_MEASUREMENT_ID="<%= measurementId %>"<% } %><% if(appId) { %>
-    REACT_APP_FIREBASE_APP_ID="<%= appId %>"<% } %><% if (includeMessaging) { %>
-    REACT_APP_PUBLIC_VAPID_KEY="<%= firebasePublicVapidKey %>"<% } %><% if (includeSentry) { %>
-    REACT_APP_SENTRY_DSN="<%= sentryDsn %>"<% } %><% if (includeUiTests) { %>
+    REACT_APP_FIREBASE_STORAGE_BUCKET="redux-firebasev3.appspot.com"
+    REACT_APP_FIREBASE_MEASUREMENT_ID="G-62D5FVVQWZ"
+    REACT_APP_FIREBASE_APP_ID="1:823357791673:web:819546ad651f4513e06a68"
 
     # Cypress Environment
     CYPRESS_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
-    CYPRESS_FIREBASE_API_KEY=$FIREBASE_API_KEY<% } %>
+    CYPRESS_FIREBASE_API_KEY=$FIREBASE_API_KEY
    ```
 
 1. Start Development server: `yarn start`
@@ -62,9 +59,9 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 | `start:dist`       | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
 | `start:emulate`    | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
 | `build`            | Builds the application to `./dist`                                                                                      | 
-| `test:ui`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
-| `test:ui:open`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`  | Same as `test:ui:open` but with tests pointed at emulators                                                              | 
+| `test:ui:run`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
+| `test:ui`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
+| `test:ui:emulate`  | Same as `test:ui` but with tests pointed at emulators                                                              | 
 | `lint`             | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
 | `lint:fix`         | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
@@ -74,8 +71,8 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 
 There are multiple configuration files:
 
-- Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
-- Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+- Firebase Project Configuration - `.firebaserc`
+- Project Configuration - `.env.local`
 - Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
@@ -85,39 +82,43 @@ More details in the [Application Structure Section](#application-structure)
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications.
 
 ```
-├── public                   # All build-related configuration
-│   └── index.html           # Main HTML page container for app
-├── src                      # Application source code
-│   ├── components           # Global Reusable Presentational Components
-│   ├── constants            # Project constants such as firebase paths and form names
-│   │  └── paths.js          # Paths for application routes
-│   ├── containers           # Global Reusable Container Components
-│   ├── layouts              # Components that dictate major page structure
-│   │   └── CoreLayout       # Global application layout in which routes are rendered
-│   ├── routes               # Main route definitions and async split points
-│   │   ├── index.js         # Bootstrap main application routes
-│   │   └── Home             # Fractal route
-│   │       ├── index.js     # Route definitions and async split points
-│   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
-│   │       └── routes/**    # Fractal sub-routes (** optional)
-│   ├── store                # Redux-specific pieces
-│   │   ├── createStore.js   # Create and instrument redux store
-│   │   └── reducers.js      # Reducer registry and injection
-│   ├── styles               # Application-wide styles (generally settings)
-│   └── utils                # General Utilities (used throughout application)
-│   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js          # For forms
-│   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
-├── tests                    # Unit tests
-├── .env.local               # Environment settings for when running locally
-├── .eslintignore            # ESLint ignore file
-├── .eslintrc.js             # ESLint configuration
-├── .firebaserc              # Firebase Project configuration settings (including ci settings)
-├── database.rules.json      # Rules for Firebase Real Time Database
-├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
-├── firestore.indexes.json   # Indexes for Cloud Firestore
-├── firestore.rules          # Rules for Cloud Firestore
-└── storage.rules            # Rules for Cloud Storage For Firebase
+├── .github                      # All Github configuration
+│   ├── workflows                # Github Actions CI Workflows
+│   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
+│   │  └── verify.yml            # Paths for application routes
+│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
+├── public                       # All build-related configuration
+│   └── index.html               # Main HTML page container for app
+├── src                          # Application source code
+│   ├── components               # Global Reusable Presentational Components
+│   ├── constants                # Project constants such as firebase paths and form names
+│   │  ├── firebasePaths.js      # Paths within Firebase (i.e. Collections + Sub-Collections)
+│   │  └── paths.js              # Paths for application routes
+│   ├── containers               # Global Reusable Container Components
+│   ├── layouts                  # Components that dictate major page structure
+│   │   └── CoreLayout           # Global application layout in which routes are rendered
+│   ├── routes                   # Main route definitions and async split points
+│   │   ├── index.js             # Bootstrap main application routes
+│   │   └── Home                 # Fractal route
+│   │       ├── index.js         # Route definitions and async split points
+│   │       ├── components       # Presentational React Components
+│   │       └── routes/**        # Fractal sub-routes (** optional)
+│   ├── store                    # Redux-specific pieces
+│   │   ├── createStore.js       # Create and instrument redux store
+│   │   └── reducers.js          # Reducer registry and injection
+│   └── utils                    # General Utilities (used throughout application)
+│   │   ├── components.js        # Utilities for building/implementing react components
+│   │   ├── form.js              # For forms
+│   │   └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
+├── .env.local                   # Environment settings for when running locally
+├── .eslintignore                # ESLint ignore file
+├── .eslintrc.js                 # ESLint configuration
+├── .firebaserc                  # Firebase Project configuration settings (including ci settings)
+├── database.rules.json          # Rules for Firebase Real Time Database
+├── firebase.json                # Firebase Service settings (Hosting, Functions, etc)
+├── firestore.indexes.json       # Indexes for Cloud Firestore
+├── firestore.rules              # Rules for Cloud Firestore
+└── storage.rules                # Rules for Cloud Storage For Firebase
 ```
 
 ## Routing
@@ -168,21 +169,31 @@ More about how routing works is available in [the react-router-dom docs](https:/
 
 ### UI Tests
 
-Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests:
+Cypress is used to write and run UI tests which live in the `cypress` folder. [`cypress-firebase`](https://github.com/prescottprue/cypress-firebase) is used to generate a custom auth token for the test user and to communicate with Firebase databases with admin privileges.
 
-- Run using Cypress run: `yarn test:ui`
-- Open Test Runner UI (`cypress open`): `npm run test:ui:open`
+#### Tests Setup
+1. Visit the [Firebase Console](https://console.firebase.google.com/)
+1. Select your project
+1. Navigate to Project Settings (gear icon button at the top left of the page).
+1. Navigate to "Service Accounts" tab
+1. Click "Generate New Private Key"
+1. Save the service account file to the root of the repo under `serviceAccount.json`
+
+#### Running Tests
+The following npm scripts can be used to run tests:
+
+- Run using Cypress run: `yarn test:ui:run`
+- Open Test Runner UI (`cypress open`): `yarn test:ui`
 
 To run tests against emulators:
 
-1. Start database emulators: `yarn emulate`
+1. Start database emulators: `yarn emulators`
 1. Start React app pointed at emulators: `yarn start:emulate`
 1. Open Cypress test runner with test utils pointed at emulators: `yarn test:ui:emulate`
 
 To Run tests in CI add the following environment variables within your CI provider:
 
 - `SERVICE_ACCOUNT` - Used to create custom auth tokens for test user login
-- `FIREBASE_APP_NAME` - name of Firebase app (used to load SDK config)
 - `TEST_UID` - UID of the user used for testing
 
 ## Deployment

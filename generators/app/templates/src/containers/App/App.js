@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'<% if (!includeRedux) { %>
-import { FirebaseAppProvider<% if (includeFirestore) { %>, SuspenseWithPerf<% } %> } from 'reactfire'<% } %>
+import { FirebaseAppProvider<% if (!includeRedux) { %>, SuspenseWithPerf<% } %> } from 'reactfire'<% } %>
 import { BrowserRouter as Router } from 'react-router-dom'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
