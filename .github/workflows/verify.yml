@@ -30,7 +30,6 @@ jobs:
 
       - name: Install Dependencies
         env:
-          CI: true
           HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
         run: yarn install --frozen-lockfile
 
