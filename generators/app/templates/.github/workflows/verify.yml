@@ -25,21 +25,21 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cache/firebase/emulators
-          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}<% } %>
+          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}<% } %><% } %>
 
       - name: Cache App Dependencies
         uses: actions/cache@v1
         with:
-          path: ${{ steps.cache-settings.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          path: <% if(!useYarn) { %>~/.npm<% } else { %>${{ steps.cache-settings.outputs.dir }}<% } %>
+          key: ${{ runner.os }}-app-${{ hashFiles('<% if(useYarn) { %>yarn.lock<% } else { %>package-lock.json<% } %>') }}
 
       - name: Install Dependencies
         env:
           CYPRESS_INSTALL_BINARY: 0 # Skip install of Cypress (handled in its own job)
           HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
         run: |
-          yarn install --frozen-lockfile
-          yarn --cwd functions install --frozen-lockfile
+          <% if(useYarn) { %>yarn install --frozen-lockfile<% } else { %>npm ci --loglevel error<% } %>
+          <% if(useYarn) { %>yarn --cwd functions install --frozen-lockfile<% } else { %>npm --prefix functions ci --loglevel error<% } %>
 
       - name: Set App Environment Settings
         env:
@@ -108,119 +108,29 @@ jobs:
             eval $line
           done <<< "$firebaseConfig"
 
-      - name: Build Functions
-        run: |
-          yarn functions:build<% if(includeFunctionsTests) { %>
-
-      - name: Unit Test Functions
-        run: |
-          yarn functions:test:cov -- --project $GCLOUD_PROJECT # Run unit tests with coverage
-
-      - name: Upload Test Coverage For Functions
-        # NOTE: Token will need to be added if using codecov with private repos
-        run: |
-          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %>
-
       - name: Verify App
         run: |
-          yarn lint # Check for lint in app code
+          <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> lint # Check for lint in app code<% if(includeFunctionsTests) { %>
 
-      - name: Build App
-        run: |
-          yarn build<% } %><% if(!useYarn) { %>
+      # NOTE: Skipped because of "Channel credentials must be a ChannelCredentials object" error from firebase-admin
+      # See https://github.com/firebase/firebase-tools/issues/2207 for more info
+      # - name: Unit Test Functions
+      #   run: |
+      #     <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> functions:test:cov -- --project $GCLOUD_PROJECT # Run unit tests with coverage
 
-      - name: Dependencies Cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Dependencies
-        env:
-          CYPRESS_INSTALL_BINARY: 0 # Skip installing of Cypress (handled in its own job)
-          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
-          run: |
-            npm ci --loglevel error
-            npm --prefix functions ci --loglevel error
-
-      - name: Set App Environment Settings
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
-          GITHUB_HEAD_REF: ${{ github.head_ref }}
-          GITHUB_REF: ${{ github.ref }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: |
-          set -o pipefail
-
-          # Throw a clear error if FIREBASE_TOKEN secret is not set
-          if [ -z "$FIREBASE_TOKEN" ];
-            then
-              errMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
-              echo "::error ::$errMsg"
-              exit 1
-          fi
-
-          # Get branch name from github ref (i.e. refs/heads/master -> master)
-          gitBranch=${GITHUB_REF##*/}
-
-          # Find the config associated to the firebase project in .firebaserc (falling back to default)
-          gcloudProject=$(cat .firebaserc | jq -r --arg alias "$gitBranch" '.projects[$alias] // .projects.default')
-          appName=<%= appName %>
-          echo "Setting environment for branch: $gitBranch, project: $gcloudProject, and app: $appName..."
-
-          echo "Setting emulator settings to environment..."
-          databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
-          emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
-
-          # Set variables to environment to be used in later steps
-          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
-          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
-          echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
-          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
-            
-          # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
-          echo "Generating Service Account File..."
-          echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
-          export GOOGLE_APPLICATION_CREDENTIALS="$HOME/serviceAccount.json"
-
-          # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
-          # NOTE: databaseURL is intentionally removed since it is set above
-          firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
-            $(npx firebase --project $gcloudProject apps:list WEB | grep $appName | awk '{ print $4}') | \
-              tr '\n' ' ' | \
-              sed 's/.*initializeApp(//g' | \
-              sed 's/);//g' | \
-              jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
-              sed 's/:"/:/g; s/^/echo \"::set-env name=REACT_APP_FIREBASE_/g' \
-          )
-
-          # Loop through each line of config and evaluate to export env vars
-          while IFS= read -r line; do
-            echo Evaluating: $line
-            eval $line
-          done <<< "$firebaseConfig"
+      # - name: Upload Test Coverage For Functions
+      #   # NOTE: Token will need to be added if using codecov with private repos
+      #   run: |
+      #     bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %>
 
       - name: Build Functions
         run: |
-          npm run functions build<% if(includeFunctionsTests) { %>
-
-      - name: Unit Test Functions
-        run: |
-          npm run functions:test:cov -- --project $GCLOUD_PROJECT # Run unit tests with coverage
-
-      - name: Upload Test Coverage For Functions
-        # NOTE: Token will need to be added if using codecov with private repos
-        run: |
-          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'<% } %>
-
-      - name: Verify App
-        run: |
-          npm run lint # Check for lint in app code
+          <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> functions:build
 
       - name: Build App
         run: |
-          npm run build<% } %>
-  
+          <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> build
+
       - name: Archive Build Artifact
         uses: actions/upload-artifact@v2
         with:
