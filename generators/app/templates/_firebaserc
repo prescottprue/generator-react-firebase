@@ -3,40 +3,5 @@
     "default": "<%= firebaseProjectId %>",
     "master": "<%= firebaseProjectId %>",
     "prod": "<%= firebaseProjectId %>"
-  },
-  "ci": {<% if(includeFunctions) { %>
-    "copyVersion": true,<% } %>
-    "createConfig": {
-      "master": {
-        "env": "staging",
-        "firebase": {
-          "apiKey": "<%= firebaseKey %>",
-          "authDomain": "<%= firebaseProjectId %>.firebaseapp.com",
-          "databaseURL": "https://<%= firebaseProjectId %>.firebaseio.com",
-          "projectId": "<%= firebaseProjectId %>",
-          "storageBucket": "<%= firebaseProjectId %>.appspot.com"<% if(messagingSenderId) { %>,
-          "messagingSenderId": "<%= messagingSenderId %>"<% } %><% if(measurementId) { %>,
-          "measurementId": "<%= measurementId %>"<% } %><% if(appId) { %>,
-          "appId": "<%= appId %>"<% } %>
-        }<% if(includeSentry) { %>,
-        "sentryDsn": "<%= sentryDsn %>"<% } %><% if(includeMessaging) { %>,
-        "publicVapidKey": "<%= firebasePublicVapidKey %>"<% } %>
-      },
-      "prod": {
-        "env": "production",
-        "firebase": {
-          "apiKey": "<%= firebaseKey %>",
-          "authDomain": "<%= firebaseProjectId %>.firebaseapp.com",
-          "databaseURL": "https://<%= firebaseProjectId %>.firebaseio.com",
-          "projectId": "<%= firebaseProjectId %>",
-          "storageBucket": "<%= firebaseProjectId %>.appspot.com"<% if(messagingSenderId) { %>,
-          "messagingSenderId": "<%= messagingSenderId %>"<% } %><% if(measurementId) { %>,
-          "measurementId": "<%= measurementId %>"<% } %><% if(appId) { %>,
-          "appId": "<%= appId %>"<% } %>
-        }<% if(includeSentry) { %>,
-        "sentryDsn": "<%= sentryDsn %>"<% } %><% if(includeMessaging) { %>,
-        "publicVapidKey": "<%= firebasePublicVapidKey %>"<% } %>
-      }
-    }
   }
 }
