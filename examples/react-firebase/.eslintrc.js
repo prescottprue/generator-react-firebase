@@ -1,5 +1,5 @@
 module.exports = {
-  'extends': ['standard', 'standard-react', 'prettier', 'prettier/react'],
+  extends: ['standard', 'standard-react', 'prettier', 'prettier/react'],
   root: true,
   parser: 'babel-eslint',
   plugins: ['import', 'react', 'react-hooks', 'prettier'],
@@ -14,9 +14,7 @@ module.exports = {
     }
   },
   rules: {
-    semi: [
-      2, 'never'
-    ],
+    semi: [2, 'never'],
     'no-console': 'error',
     'react/forbid-prop-types': 0,
     'react/require-default-props': 0,
@@ -54,7 +52,8 @@ module.exports = {
         'no-restricted-globals': 0,
         'no-console': 0
       }
-    },{
+    },
+    {
       files: ['./src/**/*.test.js', './src/**/*.spec.js'],
       env: {
         jest: true

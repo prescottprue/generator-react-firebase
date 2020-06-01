@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser'
-import { firebase, sentryDsn, env as environment } from '../config'
+import StackdriverErrorReporter from 'stackdriver-errors-js'
 import { version } from '../../package.json'
 
 let errorHandler // eslint-disable-line import/no-mutable-exports
@@ -8,28 +8,31 @@ let errorHandler // eslint-disable-line import/no-mutable-exports
  * Initialize Stackdriver Error Reporter only if api key exists
  */
 function initStackdriverErrorReporter() {
-  if (typeof window.StackdriverErrorReporter === 'function') {
-    window.addEventListener('DOMContentLoaded', () => {
-      errorHandler = new window.StackdriverErrorReporter()
-      errorHandler.start({
-        key: firebase.apiKey,
-        projectId: firebase.projectId,
-        service: 'redux-firestore-site',
-        version
-      })
+  try {
+    const errorHandler = new StackdriverErrorReporter()
+    errorHandler.start({
+      key: process.env.REACT_APP_FIREBASE_apiKey,
+      projectId: process.env.REACT_APP_FIREBASE_projectId,
+      service: 'redux-firestore-site',
+      version
     })
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(
+      'Error setting up stackdriver client side error reporting',
+      err
+    )
   }
-  return errorHandler
 }
 
 /**
  * Initialize Sentry (reports to sentry.io)
  */
 function initSentry() {
-  if (environment !== 'dev') {
+  if (process.env.REACT_APP_SENTRY_DSN) {
     Sentry.init({
-      dsn: sentryDsn,
-      environment,
+      dsn: process.env.REACT_APP_SENTRY_DSN,
+      environment: process.env.REACT_APP_ENVIRONMENT || 'production',
       release: version
     })
   }
@@ -40,7 +43,7 @@ function initSentry() {
  * initialized if in production environment.
  */
 export function init() {
-  if (!window.location.hostname.includes('localhost')) {
+  if (!window.location.hostname.includes('localhost') && !window.Cypress) {
     initStackdriverErrorReporter()
     initSentry()
   } else {
@@ -55,9 +58,9 @@ export function init() {
  * @param {String} auth.uid - User's id
  */
 export function setErrorUser(auth) {
-  if (auth && auth.uid && environment !== 'dev') {
+  if (auth?.uid) {
     // Set user within Stackdriver
-    if (errorHandler && errorHandler.setUser) {
+    if (errorHandler?.setUser) {
       errorHandler.setUser(auth.uid)
     }
     // Set user within Sentry

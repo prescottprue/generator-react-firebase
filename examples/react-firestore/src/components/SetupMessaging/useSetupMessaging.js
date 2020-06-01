@@ -1,6 +1,5 @@
 import { useMessaging, useUser, useFirestore } from 'reactfire'
 
-import { publicVapidKey } from '../../config'
 import { useNotifications } from 'modules/notification'
 import { USERS_COLLECTION } from 'constants/firebasePaths'
 
@@ -66,10 +65,10 @@ export default function useSetupMessaging() {
    */
   function initializeMessaging() {
     // Exit if public vapid key is not set
-    if (!publicVapidKey) {
+    if (!process.env.REACT_APP_PUBLIC_VAPID_KEY) {
       /* eslint-disable no-console */
       console.warn(
-        'Skipping messaging initialization, publicVapidKey not set in src/config.js'
+        'Skipping messaging initialization, REACT_APP_PUBLIC_VAPID_KEY not set in environment'
       )
       /* eslint-enable no-console */
       return
@@ -78,7 +77,7 @@ export default function useSetupMessaging() {
       return
     }
 
-    messaging.usePublicVapidKey(publicVapidKey)
+    messaging.usePublicVapidKey(process.env.REACT_APP_PUBLIC_VAPID_KEY)
 
     // Handle Instance ID token updates
     messaging.onTokenRefresh(() => {
@@ -90,7 +89,7 @@ export default function useSetupMessaging() {
     // - the user clicks on an app notification created by a service worker
     //   `messaging.setBackgroundMessageHandler` handler.
     messaging.onMessage((payload) => {
-      console.log('Message', payload) // eslint-disable-line no-console
+      console.debug('FCM Message received', payload) // eslint-disable-line no-console
       showSuccess(payload.notification.body)
     })
 

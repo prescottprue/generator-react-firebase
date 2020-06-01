@@ -1,8 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'<% if (!includeRedux) { %>
 import { SuspenseWithPerf } from 'reactfire'
-import LoadingSpinner from 'components/LoadingSpinner'
-import { PrivateRoute } from 'utils/router'<% } %>
+import LoadingSpinner from '../components/LoadingSpinner'
+import { PrivateRoute } from '../utils/router'<% } %><% if (includeAnalytics) { %>
+import SetupAnalytics from '../components/SetupAnalytics'<% } %>
 import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import LoginRoute from './Login'
@@ -16,6 +17,7 @@ export default function createRoutes() {
     <CoreLayout>
       <% if (!includeRedux) { %><SuspenseWithPerf fallback={<LoadingSpinner />} traceId="router-wait">
         <Switch>
+          {/* eslint-disable-next-line react/jsx-pascal-case */}
           <Route exact path={Home.path} component={() => <Home.component />} />
           {
             /* Build Route components from routeSettings */
@@ -33,7 +35,10 @@ export default function createRoutes() {
               )
             )
           }
-          <Route component={NotFoundRoute.component} />
+          <Route component={NotFoundRoute.component} /><% if (includeAnalytics) { %>
+          <SuspenseWithPerf traceId="analytics-setup">
+            <SetupAnalytics />
+          </SuspenseWithPerf><% } %>
         </Switch>
       </SuspenseWithPerf><% } %><% if (includeRedux) { %><Switch>
         <Route exact path={Home.path} component={() => <Home.component />} />
@@ -49,7 +54,8 @@ export default function createRoutes() {
             <Route key={`Route-${settings.path}`} {...settings} />
           ))
         }
-        <Route component={NotFoundRoute.component} />
+        <Route component={NotFoundRoute.component} /><% if (includeAnalytics) { %>
+        <SetupAnalytics /><% } %>
       </Switch><% } %>
     </CoreLayout>
   )

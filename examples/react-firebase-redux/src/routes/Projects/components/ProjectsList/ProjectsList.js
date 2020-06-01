@@ -9,6 +9,7 @@ import {
 } from 'react-redux-firebase'
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -25,7 +26,7 @@ function useProjectsList() {
   // Create listeners based on current users UID
   useFirebaseConnect([
     {
-      path: 'projects',
+      path: PROJECTS_COLLECTION,
       queryParams: [
         'orderByChild=createdBy',
         `equalTo=${auth.uid}`,
@@ -46,7 +47,7 @@ function useProjectsList() {
       return showError('You must be logged in to create a project')
     }
     return firebase
-      .push('projects', {
+      .push(PROJECTS_COLLECTION, {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firebase.database.ServerValue.TIMESTAMP

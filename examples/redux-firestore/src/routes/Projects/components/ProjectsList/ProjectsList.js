@@ -9,6 +9,7 @@ import {
 import { useSelector } from 'react-redux'
 import { useNotifications } from 'modules/notification'
 import LoadingSpinner from 'components/LoadingSpinner'
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -25,7 +26,7 @@ function useProjectsList() {
 
   useFirestoreConnect([
     {
-      collection: 'projects',
+      collection: PROJECTS_COLLECTION,
       where: ['createdBy', '==', auth.uid]
     }
   ])
@@ -42,7 +43,7 @@ function useProjectsList() {
       return showError('You must be logged in to create a project')
     }
     return firestore
-      .add('projects', {
+      .add(PROJECTS_COLLECTION, {
         ...newInstance,
         createdBy: auth.uid,
         createdAt: firestore.FieldValue.serverTimestamp()

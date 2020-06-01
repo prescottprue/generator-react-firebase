@@ -10,19 +10,18 @@
     "start": "react-scripts start",
     "start:dist": "npm run build && firebase emulators:start --only hosting",
     "start:emulate": "cross-env REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %> REACT_APP_FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run start",<% if (includeComponentTests) { %>
-    "test": "react-scripts test",<% } %><% if (deployTo !== 'firebase') { %>
-    "create-config": "node build/create-config",<% } else { %>
-    "build:config": "firebase-ci createConfig",<% } %><% if (includeFunctions) { %>
-    "functions:start": "npm run start --prefix functions",
-    "functions:serve": "npm run serve --prefix functions",
-    "functions:watch": "npm run watch --prefix functions",
-    "functions:build": "npm run build --prefix functions",<% } %><% if (includeFunctionsTests) { %>
-    "functions:test": "npm run test --prefix functions",<% } %><% if (includeUiTests) { %>
-    "test:ui:run": "cypress run",
-    "test:ui": "cypress open",
+    "test": "react-scripts test",<% } %><% if (includeFunctions) { %>
+    "functions:start": "<% if(useYarn) { %>yarn --cwd functions start<% } else { %>npm run start --prefix functions<% } %>",
+    "functions:watch": "<% if(useYarn) { %>yarn --cwd functions watch<% } else { %>npm run watch --prefix functions<% } %>",
+    "functions:build": "<% if(useYarn) { %>yarn --cwd functions build<% } else { %>npm run build --prefix functions<% } %>",<% } %><% if (includeFunctionsTests) { %>
+    "functions:test": "firebase emulators:exec --only firestore,database,pubsub \"<% if(useYarn) { %>yarn --cwd<% } else { %>npm run --prefix<% } %> functions test:base\"",
+    "functions:test:cov": "firebase emulators:exec --only firestore,database,pubsub \"<% if(useYarn) { %>yarn --cwd<% } else { %>npm run --prefix<% } %> functions test:cov:base\"",<% } %><% if (includeUiTests) { %>
+    "test:ui:run": "env-cmd -f .env.local cypress run",
+    "test:ui": "env-cmd -f .env.local cypress open",
     "test:ui:emulate": "cross-env FIREBASE_DATABASE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.database.port)\"<% if (includeFirestore) { %>  FIRESTORE_EMULATOR_HOST=\"localhost:$(cat firebase.json | jq .emulators.firestore.port)\"<% } %> npm run test:ui",<% } %>
-    "emulators": "firebase emulators:start --only firestore,database",
-    "emulators:all": "firebase emulators:start --only firestore,database,hosting",
+    "emulators": "firebase emulators:start --only firestore,database,pubsub",
+    "emulators:hosting": "firebase emulators:start --only firestore,database,hosting",
+    "emulators:all": "firebase emulators:start",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\""
@@ -49,38 +48,39 @@
     "react-google-button": "^0.7.0",<% if (includeRedux) { %>
     "react-redux": "^7.1.1",
     "react-redux-firebase": "^3.1.2",<% } %>
-    "react-hook-form": "^5.6.2",
+    "react-hook-form": "^5.7.2",
     "react-router-dom": "^5.1.2",<% if (!includeRedux) { %>
     "reactfire": "^2.0.3"<% } %><% if (includeRedux) { %>
     "recompose": "^0.30.0",
     "redux": "^4.0.4",
     "redux-auth-wrapper": "^2.1.0",<% } %><% if (includeRedux && includeFirestore) { %>
     "redux-firestore": "^0.11.0",<% } %><% if (includeRedux) { %>
-    "redux-thunk": "^2.3.0"<% } %>
+    "redux-thunk": "^2.3.0"<% } %><% if (includeErrorHandling) { %>,
+    "stackdriver-errors-js": "^0.8.0"<% } %>
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",<% if (includeUiTests) { %>
-    "cypress": "^4.5.0",
-    "cypress-firebase": "^1.1.0",<% } %>
-    "eslint": "^6.8.0",
+    "cypress": "^4.7.0",
+    "cypress-firebase": "^1.2.0",<% } %>
+    "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-standard-react": "^9.2.0",<% if (includeUiTests) { %>
     "eslint-plugin-chai-friendly": "^0.6.0",
-    "eslint-plugin-cypress": "^2.10.3",<% } %>
+    "eslint-plugin-cypress": "^2.11.1",<% } %>
     "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsdoc": "^24.0.6",
+    "eslint-plugin-jsdoc": "^26.0.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-plugin-standard": "^4.0.1",<% if (includeUiTests) { %>
-    "firebase-admin": "^8.12.0",<% } %><% if (deployTo === 'firebase') { %>
+    "firebase-admin": "^8.12.0",<% } %>
     "firebase-ci": "^0.13.0",
-    "firebase-tools": "^8.2.0",<% } %>
+    "firebase-tools": "^8.4.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",

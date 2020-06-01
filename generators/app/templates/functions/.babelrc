@@ -14,9 +14,11 @@
   ],
   "env": {
     "production": {
-      "comments": false,
-      "minified": true,
-      "sourceMaps": "inline"
+      "presets": [
+        ["minify", {
+          "keepFnName": true
+        }]
+      ]
     }
   }
 }

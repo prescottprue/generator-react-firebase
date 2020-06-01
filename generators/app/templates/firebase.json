@@ -14,12 +14,18 @@
     },
     "hosting": {
       "port": 3000
+    },<% if (includeFunctions) { %>
+    "functions": {
+      "port": 5001
+    },<% } %>
+    "pubsub": {
+      "port": 8085
     }
   }<% if (includeFirestore) { %>,
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
-  }<% } %><% if (deployTo === 'firebase') { %>,
+  }<% } %>,
   "hosting": {
     "public": "build",
     "ignore": [
@@ -35,17 +41,20 @@
         "destination": "/index.html"
       }
     ]
-  }<% } %><% if (includeFunctions) { %>,
+  }<% if (includeFunctions) { %>,
   "functions": {
-    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build:prod"],
+    "predeploy": [
+      "if [ \"${CI}\" = \"true\" ]; then echo Skipping functions build since environment is CI; else npm --prefix \"$RESOURCE_DIR\" run build; fi"
+    ],
     "ignore": [
       "**/.*",
       "**/*.spec.js",
-      "**/node_modules/**",
-      "mocha.opts",
-      "coverage/**",
-      "src",
-      "scripts/**",
+      "**/node_modules/**",<% if (includeFunctionsTests && functionsTestTool === 'jest') { %>
+      "jest.config.js",<% } %><% if (includeFunctionsTests && functionsTestTool !== 'jest') { %>
+      ".mocharc.js",<% } %><% if (includeFunctionsTests) { %>
+      "coverage/**",<% } %>
+      "src",<% if (includeFunctionsTests) { %>
+      "scripts/**",<% } %>
       "jsconfig.json"
     ]
   }<% } %>

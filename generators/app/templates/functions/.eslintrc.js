@@ -1,5 +1,5 @@
 module.exports = {
-  'extends': ['../.eslintrc.js',  'plugin:jsdoc/recommended'],
+  extends: ['../.eslintrc.js', 'plugin:jsdoc/recommended'],
   plugins: ['jsdoc'],
   settings: {
     'import/resolver': {
@@ -21,7 +21,7 @@ module.exports = {
       },
       globals: {
         functionsTest: true,
-        projectId: true,<% if(functionsTestTool === 'mocha') { %>
+        projectId: true<% if(functionsTestTool === 'mocha') { %>,
         expect: true,
         sinon: true<% } %>
       },
@@ -33,4 +33,4 @@ module.exports = {
       }
     }
   ]<% } %>
-};
+}

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { SuspenseWithPerf } from 'reactfire'
-import LoadingSpinner from 'components/LoadingSpinner'
-import { PrivateRoute } from 'utils/router'
+import LoadingSpinner from '../components/LoadingSpinner'
+import { PrivateRoute } from '../utils/router'
 import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import LoginRoute from './Login'
@@ -16,6 +16,7 @@ export default function createRoutes() {
     <CoreLayout>
       <SuspenseWithPerf fallback={<LoadingSpinner />} traceId="router-wait">
         <Switch>
+          {/* eslint-disable-next-line react/jsx-pascal-case */}
           <Route exact path={Home.path} component={() => <Home.component />} />
           {
             /* Build Route components from routeSettings */

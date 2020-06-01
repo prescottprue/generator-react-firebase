@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDatabase, useUser, useDatabaseList } from 'reactfire'
 import { useNotifications } from 'modules/notification'
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 import ProjectTile from '../ProjectTile'
 import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
@@ -16,9 +17,9 @@ function useProjectsList() {
   // Create a ref for projects owned by the current user
   const database = useDatabase()
   const projectsRef = database
-    .ref('projects')
+    .ref(PROJECTS_COLLECTION)
     .orderByChild('createdBy')
-    .equalTo(auth && auth.uid)
+    .equalTo(auth?.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
   const projects = useDatabaseList(projectsRef)
@@ -29,7 +30,7 @@ function useProjectsList() {
 
   function addProject(newInstance) {
     return database
-      .ref('projects')
+      .ref(PROJECTS_COLLECTION)
       .push({
         ...newInstance,
         createdBy: auth.uid,

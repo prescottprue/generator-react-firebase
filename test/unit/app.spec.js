@@ -22,10 +22,8 @@ const srcFiles = [
   'src/modules/notification/actionTypes.js',
   'src/modules/notification/index.js',
   'src/modules/notification/reducer.js',
-  'src/utils/components.js',
   'src/utils/form.js',
   'src/utils/router.js',
-  'src/config.js',
   'src/constants/paths.js',
   'src/index.js',
   'src/index.css',
@@ -52,8 +50,6 @@ const firebaseFiles = ['firebase.json', '.firebaserc', 'database.rules.json']
 
 const firestoreFiles = ['firestore.indexes.json', 'firestore.rules']
 
-const herokuFiles = ['Procfile', 'app.json']
-
 const defaultOtherFeatures = [
   'Continuous Integration config',
   'Firebase Cloud Messaging',
@@ -68,14 +64,14 @@ const messagingFiles = [
 
 describe('generator-react-firebase:app', function() {
   this.timeout(15000)
-  describe('firebaseName', () => {
+  describe('firebaseProjectId', () => {
     describe('validate', () => {
       before(() =>
         helpers
           .run(path.join(__dirname, '../../generators/app'))
           .withPrompts({
             githubUser: 'testuser',
-            firebaseName: 'asdf.firebaseio.com',
+            firebaseProjectId: 'asdf.firebaseio.com',
             otherFeatures: [defaultOtherFeatures[0]],
             ciProvider: 'gitlab'
           })
@@ -103,14 +99,13 @@ describe('generator-react-firebase:app', function() {
             otherFeatures: [defaultOtherFeatures[0], defaultOtherFeatures[1]],
             ciProvider: 'gitlab',
             includeRedux: 'Y',
-            deployTo: 'firebase',
             includeFirestore: false
           })
           .toPromise()
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles.concat(messagingFiles))
+          checkForEachFile(projectFiles.concat(messagingFiles).concat(['src/utils/components.js']))
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
@@ -132,7 +127,6 @@ describe('generator-react-firebase:app', function() {
             ],
             includeFirestore: false,
             includeRedux: false,
-            deployTo: 'firebase',
             useYarn: true
           })
           .toPromise()
@@ -158,7 +152,6 @@ describe('generator-react-firebase:app', function() {
             firebaseInstance: 'testing',
             otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[3]],
             includeRedux: 'Y',
-            deployTo: 'firebase',
             includeFirestore: true,
             useYarn: true
           })
@@ -188,7 +181,6 @@ describe('generator-react-firebase:app', function() {
             firebaseInstance: 'testing',
             otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]],
             includeRedux: 'Y',
-            deployTo: 'firebase',
             includeFirestore: true
           })
           .toPromise()
@@ -218,7 +210,6 @@ describe('generator-react-firebase:app', function() {
             includeFirestore: false,
             includeRedux: false,
             otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]],
-            deployTo: 'firebase'
           })
           .toPromise()
       )
@@ -242,7 +233,6 @@ describe('generator-react-firebase:app', function() {
             githubUser: 'testuser',
             firebaseInstance: 'testing',
             includeRedux: 'Y',
-            deployTo: 'firebase',
             otherFeatures: [
               defaultOtherFeatures[0],
               defaultOtherFeatures[1],
@@ -278,8 +268,7 @@ describe('generator-react-firebase:app', function() {
             includeCI: 'Y',
             ciProvider: 'travis',
             includeRedux: 'Y',
-            otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]],
-            deployTo: 'firebase'
+            otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]]
           })
           .toPromise()
       )
@@ -293,33 +282,6 @@ describe('generator-react-firebase:app', function() {
         })
         describe('firebase', () => {
           checkForEachFile(firebaseFiles)
-        })
-      })
-    })
-
-    describe('Heroku', () => {
-      before(() =>
-        helpers
-          .run(path.join(__dirname, '../../generators/app'))
-          .withPrompts({
-            githubUser: 'testuser',
-            firebaseInstance: 'testing',
-            includeFirestore: false,
-            otherFeatures: [defaultOtherFeatures[1], defaultOtherFeatures[2]],
-            includeRedux: 'N',
-            deployTo: 'heroku'
-          })
-          .toPromise()
-      )
-      describe('creates files for', () => {
-        describe('project', () => {
-          checkForEachFile(projectFiles)
-        })
-        describe('application', () => {
-          checkForEachFile(srcFiles, 'src/')
-        })
-        describe('Heroku', () => {
-          checkForEachFile(herokuFiles)
         })
       })
     })
@@ -338,8 +300,7 @@ describe('generator-react-firebase:app', function() {
             otherFeatures: [defaultOtherFeatures[0], defaultOtherFeatures[1], defaultOtherFeatures[2]],
             includeCI: 'Y',
             ciProvider: 'githubActions',
-            includeRedux: 'N',
-            deployTo: 'firebase'
+            includeRedux: 'N'
           })
           .toPromise()
         )
@@ -358,35 +319,12 @@ describe('generator-react-firebase:app', function() {
             includeFirestore: false,
             otherFeatures: [defaultOtherFeatures[0], defaultOtherFeatures[1], defaultOtherFeatures[2]],
             ciProvider: 'gitlab',
-            includeRedux: 'N',
-            deployTo: 'firebase'
+            includeRedux: 'N'
           })
           .toPromise()
       )
       describe('Creates files for CI', () => {
         checkForEachFile(['.gitlab-ci.yml'])
-      })
-    })
-
-    describe('Travis', () => {
-      before(() =>
-        helpers
-          .run(path.join(__dirname, '../../generators/app'))
-          .withPrompts({
-            githubUser: 'testuser',
-            firebaseInstance: 'testing',
-            includeFirestore: false,
-            otherFeatures: [defaultOtherFeatures[0], defaultOtherFeatures[1], defaultOtherFeatures[2]],
-            includeCI: 'Y',
-            ciProvider: 'travis',
-            includeRedux: 'N',
-            deployTo: 'firebase'
-          })
-          .toPromise()
-      )
-
-      describe('Creates files for CI', () => {
-        checkForEachFile(['.travis.yml'])
       })
     })
   })

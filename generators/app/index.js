@@ -2,7 +2,6 @@
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
-const semver = require('semver')
 const path = require('path')
 const capitalize = require('lodash/capitalize')
 const commandExistsSync = require('command-exists').sync
@@ -46,11 +45,6 @@ const featureChoices = [
     checked: true
   },
   {
-    answerName: 'includeSegment',
-    name: 'Segment.io Analytics',
-    checked: true
-  },
-  {
     answerName: 'includeSentry',
     name: 'Error Tracking (Sentry.io)',
     checked: true
@@ -79,24 +73,10 @@ const prompts = [
     store: true
   },
   {
-    name: 'firebaseName',
-    message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
-    required: true,
-    /* istanbul ignore next: Tested in utils */
-    validate: utils.firebaseUrlValidate,
-    store: true
-  },
-  {
-    name: 'firebaseKey',
-    message: 'Firebase apiKey',
-    required: true,
-    store: true
-  },
-  {
     type: 'confirm',
     name: 'includeRedux',
     message: 'Include redux for local state-management?',
-    default: true,
+    default: false,
     store: true
   },
   {
@@ -133,25 +113,36 @@ const prompts = [
     store: true
   },
   {
-    name: 'messagingSenderId',
-    message: 'Firebase messagingSenderId',
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+    name: 'firebaseKey',
+    message: 'Firebase apiKey',
+    required: true,
     store: true
   },
   {
-    name: 'measurementId',
-    message: 'Firebase Analytics MeasurementID',
+    name: 'firebaseProjectId',
+    message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
+    required: true,
+    /* istanbul ignore next: Tested in utils */
+    validate: utils.validateFirebaseName,
+    store: true
+  },
+  {
+    name: 'messagingSenderId',
+    message: 'Firebase Messaging Sender ID',
     when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeAnalytics'),
+      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
     store: true
   },
   {
     name: 'appId',
     message: 'Firebase App Id',
+    store: true
+  },
+  {
+    name: 'measurementId',
+    message: 'Firebase Analytics Measurement ID (leave blank to skip)',
     when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeAnalytics') ||
-      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
+      checkAnswersForFeature(currentAnswers, 'includeAnalytics'),
     store: true
   },
   {
@@ -163,14 +154,8 @@ const prompts = [
     store: true
   },
   {
-    name: 'segmentId',
-    message: 'Segment ID',
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeSegment')
-  },
-  {
     name: 'sentryDsn',
-    message: 'Sentry DSN',
+    message: 'Sentry DSN (leave blank to skip)',
     when: (currentAnswers) =>
       checkAnswersForFeature(currentAnswers, 'includeSentry')
   },
@@ -187,10 +172,6 @@ const prompts = [
       {
         name: 'Gitlab',
         value: 'gitlab'
-      },
-      {
-        name: 'Travis',
-        value: 'travis'
       }
     ],
     message: 'What provider which you like to use for CI?',
@@ -198,34 +179,11 @@ const prompts = [
     store: true
   },
   {
-    type: 'list',
-    name: 'deployTo',
-    choices: [
-      {
-        name: 'Firebase',
-        value: 'firebase'
-      },
-      {
-        name: 'AWS S3',
-        value: 's3'
-      },
-      {
-        name: 'Heroku',
-        value: 'heroku'
-      }
-    ],
-    message: 'What service are you deploying to?',
-    default: 0,
-    store: true
-  },
-  {
     type: 'confirm',
     name: 'useYarn',
     message: 'Use Yarn?',
-    // Only offer if using versions of node/npm that benefit from yarn (adds lock file when not there before)
-    when: () =>
-      semver.satisfies(process.version, '<=6.0.0') && commandExistsSync('yarn'),
-    default: false
+    when: () => commandExistsSync('yarn'),
+    default: true
   }
 ]
 
@@ -245,7 +203,6 @@ const filesArray = [
   { src: 'public/index.html' },
   { src: 'public/manifest.json' },
   { src: 'public/robots.txt' },
-  { src: 'src/config.js' },
   { src: 'src/index.js' },
   { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
@@ -265,7 +222,11 @@ const filesArray = [
   { src: 'src/utils/form.js' },
   { src: '.github/ISSUE_TEMPLATE/**', dest: '.github/ISSUE_TEMPLATE' },
   { src: '.github/CONTRIBUTING.md' },
-  { src: '.github/PULL_REQUEST_TEMPLATE.md' }
+  { src: '.github/PULL_REQUEST_TEMPLATE.md' },
+  { src: 'firebase.json', dest: 'firebase.json' },
+  { src: '_firebaserc', dest: '.firebaserc' },
+  { src: 'database.rules.json', dest: 'database.rules.json' },
+  { src: 'storage.rules', dest: 'storage.rules' }
 ]
 
 module.exports = class extends Generator {
@@ -276,7 +237,7 @@ module.exports = class extends Generator {
     this.argument('skipInstall', { type: Boolean, required: false })
     const appName =
       this.options.name || path.basename(process.cwd()) || 'react-firebase'
-    this.intialData = {
+    this.initialData = {
       version: '0.0.1',
       messagingSenderId: null,
       measurementId: null,
@@ -291,7 +252,6 @@ module.exports = class extends Generator {
       includeFunctions: false,
       functionsTestTool: false,
       sentryDsn: null,
-      segmentId: null,
       ciProvider: null,
       codeClimate: true,
       appPath: this.env.options.appPath,
@@ -310,25 +270,41 @@ module.exports = class extends Generator {
       )
     )
 
-    return this.prompt(prompts).then((props) => {
-      this.answers = props
-      // Map features array to answerNames
-      if (props.otherFeatures) {
-        featureChoices.forEach((choice) => {
-          const matching = props.otherFeatures.find(
-            (feature) => choice.name === feature
-          )
-          this.answers[choice.answerName] = !!matching
-        })
-      }
-      this.data = Object.assign({}, this.intialData, this.answers)
-    })
+    function runPrompts(githubUsername) {
+      // Set github username as default
+      const [firstPrompt, ...restOfPrompts] = prompts
+      const modifiedPrompts = [
+        { ...firstPrompt, default: githubUsername || '' },
+        ...restOfPrompts
+      ]
+      return this.prompt(modifiedPrompts).then((props) => {
+        this.answers = props
+        // Map features array to answerNames
+        if (props.otherFeatures) {
+          featureChoices.forEach((choice) => {
+            const matching = props.otherFeatures.find(
+              (feature) => choice.name === feature
+            )
+            this.answers[choice.answerName] = !!matching
+          })
+        }
+        this.data = Object.assign({}, this.initialData, this.answers)
+      })
+    }
+    const boundRunPrompts = runPrompts.bind(this)
+
+    // Run prompts regardless of if getting github username is successful
+    return this.user.github
+      .username()
+      .then(boundRunPrompts)
+      .catch(() => {
+        boundRunPrompts()
+      })
   }
 
   writing() {
     const ciFilesByProvider = {
       githubActions: { src: '.github/workflows/**', dest: '.github/workflows' },
-      travis: { src: '_travis.yml', dest: '.travis.yml' },
       gitlab: { src: 'gitlab-ci.yml', dest: '.gitlab-ci.yml' }
     }
     // CI Settings
@@ -339,27 +315,6 @@ module.exports = class extends Generator {
       }
     }
 
-    if (this.answers.deployTo === 'heroku') {
-      filesArray.push(
-        { src: 'Procfile', dest: 'Procfile' },
-        { src: 'app.json', dest: 'app.json' }
-      )
-    }
-
-    if (this.answers.deployTo === 'firebase') {
-      filesArray.push(
-        { src: 'firebase.json', dest: 'firebase.json' },
-        { src: '_firebaserc', dest: '.firebaserc' },
-        { src: 'database.rules.json', dest: 'database.rules.json' },
-        { src: 'storage.rules', dest: 'storage.rules' }
-      )
-    } else {
-      // TODO: Replace this with something else
-      // filesArray.push({
-      //   src: 'build/create-config.js',
-      //   dest: 'build/create-config.js'
-      // })
-    }
     const ignorePaths = []
     if (this.answers.includeRedux) {
       filesArray.push(
@@ -388,6 +343,12 @@ module.exports = class extends Generator {
         { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
         { src: 'firestore.rules', dest: 'firestore.rules' }
       )
+      if (!this.answers.includeRedux) {
+        filesArray.push({
+          src: 'src/components/SetupFirestore',
+          dest: 'src/components/SetupFirestore'
+        })
+      }
     }
     // Cloud Functions
     if (this.answers.includeFunctions) {
@@ -450,13 +411,15 @@ module.exports = class extends Generator {
 
     if (this.answers.includeAnalytics) {
       filesArray.push(
+        { src: 'src/components/SetupAnalytics/index.js' },
+        { src: 'src/components/SetupAnalytics/SetupAnalytics.js' },
         { src: 'src/utils/analytics.js' },
         { src: 'src/utils/index.js' }
       )
     }
 
     filesArray.forEach((file) => {
-      if (file.noTemplating || file.src.indexOf('.png') !== -1) {
+      if (file.noTemplating || file.src.includes('.png')) {
         return this.fs.copy(
           this.templatePath(file.src),
           this.destinationPath(file.dest || file.src || file),

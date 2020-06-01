@@ -27,6 +27,7 @@ function LoginForm({ onSubmit }) {
         type="email"
         name="email"
         placeholder="email"
+        autoComplete="email"
         margin="normal"
         fullWidth
         inputRef={register({
@@ -40,6 +41,7 @@ function LoginForm({ onSubmit }) {
         type="password"
         name="password"
         placeholder="password"
+        autoComplete="current-password"
         margin="normal"
         fullWidth
         inputRef={register({

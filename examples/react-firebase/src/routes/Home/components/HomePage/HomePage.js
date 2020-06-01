@@ -4,7 +4,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
-import { ACCOUNT_PATH, LIST_PATH } from 'constants/paths'
+import {
+  ACCOUNT_PATH,
+  LIST_PATH,
+  LOGIN_PATH,
+  SIGNUP_PATH
+} from 'constants/paths'
 import styles from './HomePage.styles'
 
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
@@ -75,8 +80,7 @@ function Home() {
               Forms
             </Typography>
             <Typography variant="subtitle1" gutterBottom>
-              User is redirected to <pre>/login</pre> if not authenticated and
-              trying to vist:
+              Input validation and context management
             </Typography>
             <div>
               <span>
@@ -89,12 +93,17 @@ function Home() {
               </span>
             </div>
             <span>The following routes use react-hook-form:</span>
-            <Link to={LIST_PATH}>
-              <p>Projects</p>
-            </Link>
-            <Link to={ACCOUNT_PATH}>
-              <p>Account Page</p>
-            </Link>
+            <ul>
+              <li>
+                <Link to={LOGIN_PATH}>Login</Link>
+              </li>
+              <li>
+                <Link to={SIGNUP_PATH}>Signup</Link>
+              </li>
+              <li>
+                <Link to={ACCOUNT_PATH}>Account</Link>
+              </li>
+            </ul>
           </Grid>
         </Grid>
       </Paper>

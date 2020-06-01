@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'<% if (!includeRedux) { %>
-import { FirebaseAppProvider<% if (includeMessaging) { %>, SuspenseWithPerf<% } %> } from 'reactfire'<% } %>
+import { FirebaseAppProvider<% if (!includeRedux) { %>, SuspenseWithPerf<% } %> } from 'reactfire'<% } %>
 import { BrowserRouter as Router } from 'react-router-dom'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
@@ -8,16 +8,25 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (i
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'<% if (includeMessaging) { %>
-import SetupMessaging from 'components/SetupMessaging'<% } %>
+import SetupMessaging from 'components/SetupMessaging'<% } %><% if (!includeRedux && includeFirestore) { %>
+import SetupFirestore from 'components/SetupFirestore'<% } %>
 import ThemeSettings from '../../theme'<% if (includeRedux) { %>
-import { defaultRRFConfig } from '../../defaultConfig'<% } %><% if (!includeRedux) { %>
-import * as config from '../../config'<% } %><% if (includeRedux) { %>
+import { defaultRRFConfig } from '../../defaultConfig'<% } %><% if (includeRedux) { %>
 import initializeFirebase from '../../initializeFirebase'<% } %>
 
 const theme = createMuiTheme(ThemeSettings)
 
 <% if (includeRedux) { %>initializeFirebase()
-<% } %><% if (!includeRedux) { %>const { firebase: firebaseConfig } = config
+<% } %><% if (!includeRedux) { %>const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_apiKey,
+  authDomain: process.env.REACT_APP_FIREBASE_authDomain,
+  databaseURL: process.env.REACT_APP_FIREBASE_databaseURL,
+  projectId: process.env.REACT_APP_FIREBASE_projectId,
+  storageBucket: process.env.REACT_APP_FIREBASE_storageBucket<% if(messagingSenderId) { %>,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_messagingSenderId<% } %><% if(measurementId) { %>,
+  measurementId: process.env.REACT_APP_FIREBASE_measurementId'<% } %><% if(appId) { %>,
+  appId: process.env.REACT_APP_FIREBASE_appId<% } %>
+}
 
 // Enable Real Time Database emulator if environment variable is set
 if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
@@ -29,13 +38,16 @@ function App({ routes }) {
   return (
     <MuiThemeProvider theme={theme}>
       <FirebaseAppProvider firebaseConfig={firebaseConfig} initPerformance>
-        <NotificationsProvider><% if (includeMessaging) { %>
+        <NotificationsProvider><% if (includeMessaging || includeFirestore) { %>
           <>
-            <Router>{routes}</Router>
-            <SuspenseWithPerf traceId="load-messaging">
+            <Router>{routes}</Router><% if (includeFirestore) { %>
+            <SuspenseWithPerf traceId="setup-firestore">
+              <SetupFirestore />
+            </SuspenseWithPerf><% } %><% if (includeMessaging) { %>
+            <SuspenseWithPerf traceId="setup-messaging">
               <SetupMessaging />
-            </SuspenseWithPerf>
-          </><% } %><% if (!includeMessaging) { %>
+            </SuspenseWithPerf><% } %>
+          </><% } %><% if (!includeMessaging && !includeFirestore) { %>
           <Router>{routes}</Router><% } %>
         </NotificationsProvider>
       </FirebaseAppProvider>

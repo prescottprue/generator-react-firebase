@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "5.7.3",
+  "version": "6.0.0",
   "description": "React and Firebase (with option for Redux) starter project generator.",
   "main": "generators/index.js",
   "scripts": {
@@ -11,11 +11,12 @@
     "test:clean": "rimraf test/tmp"
   },
   "dependencies": {
-    "chalk": "^3.0.0",
-    "command-exists": "^1.2.8",
+    "chalk": "^4.0.0",
+    "command-exists": "^1.2.9",
+    "glob": "^7.1.6",
     "lodash": "^4.17.15",
     "semver": "^7.3.2",
-    "yeoman-generator": "^4.9.0",
+    "yeoman-generator": "^4.10.1",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
@@ -27,12 +28,12 @@
     "@babel/register": "^7.9.0",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
@@ -45,7 +46,7 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^2.3.0"
+    "yeoman-test": "^2.6.0"
   },
   "homepage": "https://github.com/prescottprue/generator-react-firebase",
   "license": "MIT",

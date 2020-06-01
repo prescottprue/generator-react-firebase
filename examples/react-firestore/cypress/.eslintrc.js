@@ -1,13 +1,10 @@
 module.exports = {
-  'extends': '../.eslintrc.js',
+  extends: '../.eslintrc.js',
   env: {
     mocha: true,
     'cypress/globals': true
   },
-  plugins: [
-    'cypress',
-    'chai-friendly'
-  ],
+  plugins: ['cypress', 'chai-friendly'],
   rules: {
     'no-console': 0,
     'no-unused-expressions': 0,

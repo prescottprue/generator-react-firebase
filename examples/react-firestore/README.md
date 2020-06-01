@@ -1,9 +1,7 @@
 # react-firestore
 
-
 [![Build Status][build-status-image]][build-status-url]
 [![Code Coverage][coverage-image]][coverage-url]
-[![Code Climate][climate-image]][climate-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
 
@@ -28,27 +26,30 @@
 ## Getting Started
 
 1. Install app and functions dependencies: `npm i && npm i --prefix functions`
-1. Create `src/config.js` file that looks like so if it does not already exist:
+1. Create `.env.local` file that looks like so if it does not already exist:
 
-   ```js
-   const firebase = {
-     // Config from Firebase console
-   }
+   ```shell
+    # Needed to skip warnings from jest@beta in package.json
+    SKIP_PREFLIGHT_CHECK=true
 
-   // Overrides for for react-redux-firebase/redux-firestore config
-   export const reduxFirebase = {}
+    FIREBASE_PROJECT_ID="<- projectId from Firebase Console ->"
+    FIREBASE_API_KEY="<- apiKey from Firebase Console ->"
 
-   export const segmentId = '<- Segment ID ->'
+    # App environment
+    REACT_APP_FIREBASE_apiKey=$FIREBASE_API_KEY
+    REACT_APP_FIREBASE_authDomain="<- authdomain from Firebase Console ->"
+    REACT_APP_FIREBASE_databaseURL="<- databaseURL from Firebase Console ->"
+    REACT_APP_FIREBASE_projectId=$FIREBASE_PROJECT_ID
+    REACT_APP_FIREBASE_storageBucket="<- storageBucket from Firebase Console ->"
+    REACT_APP_FIREBASE_messagingSenderId="<- messagingSenderId from Firebase Console ->"
+    REACT_APP_FIREBASE_measurementId="<- measurementId from Firebase Console ->"
+    REACT_APP_FIREBASE_appId="<- appId from Firebase Console ->"
+    REACT_APP_PUBLIC_VAPID_KEY="<- public vapid key from messaging tab of Firebase Console ->"
+    REACT_APP_SENTRY_DSN=""
 
-   export const publicVapidKey = '<- publicVapidKey from Firebase console ->'
-
-   export default {
-     env,
-     firebase,
-     reduxFirebase,
-     publicVapidKey,
-     segmentId
-   }
+    # Cypress Environment
+    CYPRESS_FIREBASE_projectId=$FIREBASE_PROJECT_ID
+    CYPRESS_FIREBASE_apiKey=$FIREBASE_API_KEY
    ```
 
 1. Start Development server: `yarn start`
@@ -56,20 +57,20 @@
 While developing, you will probably rely mostly on `yarn start`; however, there are additional scripts at your disposal:
 
 | `yarn <script>`    | Description                                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| `start`            | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
-| `start:dist`       | Builds the application to `./dist` then serves at `localhost:3000` using firebase hosting emulator                      |
-| `start:emulate`    | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`            | Builds the application to `./dist`                                                                                      | 
-| `emulators`        | Starts database emulators for use with `start:emulate`                                                                  | 
-| `emulators:all`    | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | 
-| `test`             | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`       | Runs `test` in watch mode to re-run tests when changed                                                                  | 
-| `test:ui:run`          | Runs ui tests with Cypress. See [testing](#testing)                                                                     |
-| `test:ui`     | Opens ui tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`  | Same as `test:ui` but with tests pointed at emulators                                                              | 
-| `lint`             | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
-| `lint:fix`         | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `start`             | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
+| `start:dist`        | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
+| `start:emulate`     | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
+| `build`             | Builds the application to `./build`                                                                                     | 
+| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       | 
+| `emulators:hosting` | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | 
+| `test`              | Runs unit tests with Jest. See [testing](#testing)                                                                      |
+| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  | 
+| `test:ui:run`       | Runs UI tests with Cypress. See [testing](#testing)                                                                     |
+| `test:ui`           | Opens UI tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
+| `test:ui:emulate`   | Same as `test:ui` but with tests pointed at emulators                                                                   | 
+| `lint`              | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
+| `lint:fix`          | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
@@ -77,8 +78,8 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 
 There are multiple configuration files:
 
-- Firebase Project Configuration (including settings for how `src/config.js` is built on CI) - `.firebaserc`
-- Project Configuration used within source (can change based on environment variables on CI) - `src/config.js`
+- Firebase Project Configuration - `.firebaserc`
+- Project Configuration - `.env.local`
 - Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
@@ -88,39 +89,44 @@ More details in the [Application Structure Section](#application-structure)
 The application structure presented in this boilerplate is **fractal**, where functionality is grouped primarily by feature rather than file type. Please note, however, that this structure is only meant to serve as a guide, it is by no means prescriptive. That said, it aims to represent generally accepted guidelines and patterns for building scalable applications.
 
 ```
-├── public                   # All build-related configuration
-│   └── index.html           # Main HTML page container for app
-├── src                      # Application source code
-│   ├── components           # Global Reusable Presentational Components
-│   ├── constants            # Project constants such as firebase paths and form names
-│   │  └── paths.js          # Paths for application routes
-│   ├── containers           # Global Reusable Container Components
-│   ├── layouts              # Components that dictate major page structure
-│   │   └── CoreLayout       # Global application layout in which routes are rendered
-│   ├── routes               # Main route definitions and async split points
-│   │   ├── index.js         # Bootstrap main application routes
-│   │   └── Home             # Fractal route
-│   │       ├── index.js     # Route definitions and async split points
-│   │       ├── components   # Presentational React Components (state connect and handler logic in enhancers)
-│   │       └── routes/**    # Fractal sub-routes (** optional)
-│   ├── store                # Redux-specific pieces
-│   │   ├── createStore.js   # Create and instrument redux store
-│   │   └── reducers.js      # Reducer registry and injection
-│   ├── styles               # Application-wide styles (generally settings)
-│   └── utils                # General Utilities (used throughout application)
-│   │   ├── components.js    # Utilities for building/implementing react components (often used in enhancers)
-│   │   ├── form.js          # For forms
-│   │   └── router.js        # Utilities for routing such as those that redirect back to home if not logged in
-├── tests                    # Unit tests
-├── .env.local               # Environment settings for when running locally
-├── .eslintignore            # ESLint ignore file
-├── .eslintrc.js             # ESLint configuration
-├── .firebaserc              # Firebase Project configuration settings (including ci settings)
-├── database.rules.json      # Rules for Firebase Real Time Database
-├── firebase.json            # Firebase Service settings (Hosting, Functions, etc)
-├── firestore.indexes.json   # Indexes for Cloud Firestore
-├── firestore.rules          # Rules for Cloud Firestore
-└── storage.rules            # Rules for Cloud Storage For Firebase
+├── .github                      # All Github configuration
+│   ├── workflows                # Github Actions CI Workflows
+│   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
+│   │  └── verify.yml            # Paths for application routes
+│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
+├── cypress                      # UI Integration Tests
+├── functions                    # Cloud Functions
+│   ├── src                      # Cloud Functions Source code (each folder represents a function)
+│   └── index.js                 # Mount point of Cloud Functions (loads functions by name)
+├── public                       # All build-related configuration
+│   ├── firebase-messaging-sw.js # Service worker for Firebase Cloud Messaging
+│   └── index.html               # Main HTML page container for app
+├── src                          # Application source code
+│   ├── components               # Global Reusable Presentational Components
+│   ├── constants                # Project constants such as firebase paths and form names
+│   │  ├── firebasePaths.js      # Paths within Firebase (i.e. Collections + Sub-Collections)
+│   │  └── paths.js              # Paths for application routes
+│   ├── containers               # Global Reusable Container Components
+│   ├── layouts                  # Components that dictate major page structure
+│   │   └── CoreLayout           # Global application layout in which routes are rendered
+│   ├── routes                   # Main route definitions and async split points
+│   │   ├── index.js             # Bootstrap main application routes
+│   │   └── Home                 # Fractal route
+│   │       ├── index.js         # Route definitions and async split points
+│   │       ├── components       # Presentational React Components
+│   │       └── routes/**        # Fractal sub-routes (** optional)
+│   └── utils                    # General Utilities (used throughout application)
+│       ├── form.js              # Utilities for forms (validation)
+│       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
+├── .env.local                   # Environment settings for when running locally
+├── .eslintignore                # ESLint ignore file
+├── .eslintrc.js                 # ESLint configuration
+├── .firebaserc                  # Firebase Project configuration settings (including ci settings)
+├── database.rules.json          # Rules for Firebase Real Time Database
+├── firebase.json                # Firebase Service settings (Hosting, Functions, etc)
+├── firestore.indexes.json       # Indexes for Cloud Firestore
+├── firestore.rules              # Rules for Cloud Firestore
+└── storage.rules                # Rules for Cloud Storage For Firebase
 ```
 
 ## Routing
@@ -200,7 +206,6 @@ To run tests against emulators:
 To Run tests in CI add the following environment variables within your CI provider:
 
 - `SERVICE_ACCOUNT` - Used to create custom auth tokens for test user login
-- `FIREBASE_APP_NAME` - name of Firebase app (used to load SDK config)
 - `TEST_UID` - UID of the user used for testing
 
 ## Deployment
@@ -211,7 +216,8 @@ Before starting make sure to install Firebase Command Line Tool: `npm i -g fireb
 
 #### CI Deploy (recommended)
 
-**Note**: Config for this is located within
+**Note**: Config for this is located within `.github/workflows`
+
 `firebase-ci` has been added to simplify the CI deployment process. All that is required is providing authentication with Firebase:
 
 1. Login: `firebase login:ci` to generate an authentication token (will be used to give CI rights to deploy on your behalf)
@@ -231,10 +237,10 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
    - Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
    - What Firebase project do you want to associate as default? -> **your Firebase project name**
 1. Build Project: `yarn build`
-1. Confirm Firebase config by running locally: `firebase serve`
+1. Confirm Firebase config by running locally: `yarn emulators:hosting`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
 
-**NOTE:** You can use `firebase serve` to test how your application will work when deployed to Firebase, but make sure you run `yarn build` first.
+**NOTE:** You can use `yarn emulators:hosting` to test how your application will work when deployed to Firebase, but make sure you run `yarn build` first.
 
 ## FAQ
 
@@ -242,13 +248,11 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Verify%20App?style=flat-square
+[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Verify?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firestore/actions
-[climate-image]: https://img.shields.io/codeclimate/github/prescottprue/react-firestore.svg?style=flat-square
-[climate-url]: https://codeclimate.com/github/prescottprue/react-firestore
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/prescottprue/react-firestore.svg?style=flat-square
-[coverage-url]: https://codeclimate.com/github/prescottprue/react-firestore
-[license-image]: https://img.shields.io/npm/l/react-firestore.svg?style=flat-square
+[coverage-image]: https://img.shields.io/codecov/c/github/prescottprue/react-firestore.svg?style=flat-square
+[coverage-url]: https://codecov.io/gh/prescottprue/react-firestore
+[license-image]: https://img.shields.io/github/license/prescottprue/react-firestore?style=flat-square
 [license-url]: https://github.com/prescottprue/react-firestore/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/

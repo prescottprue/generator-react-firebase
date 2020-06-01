@@ -1,26 +1,15 @@
 module.exports = {
   root: true,
   parser: 'babel-eslint',
-  extends: [
-    'standard',
-    'standard-react',
-    'prettier'
-  ],
-  plugins: [
-    'babel',
-    'react',
-    'prettier'
-  ],
+  extends: ['standard', 'standard-react', 'prettier'],
+  plugins: ['babel', 'react', 'prettier'],
   settings: {
     react: {
       version: '16.10'
     }
   },
   rules: {
-    semi: [
-      2,
-      'never'
-    ],
+    semi: [2, 'never'],
     'no-console': 'error',
     'prettier/prettier': [
       'error',

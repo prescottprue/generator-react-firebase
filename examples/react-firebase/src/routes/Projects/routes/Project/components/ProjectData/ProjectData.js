@@ -3,11 +3,12 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
 import { useDatabaseObject, useDatabase } from 'reactfire'
+import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 
 function ProjectData() {
   const { projectId } = useParams()
   const database = useDatabase()
-  const projectRef = database.ref(`projects/${projectId}`)
+  const projectRef = database.ref(`${PROJECTS_COLLECTION}/${projectId}`)
 
   const projectSnap = useDatabaseObject(projectRef)
   const project = projectSnap.snapshot.val()

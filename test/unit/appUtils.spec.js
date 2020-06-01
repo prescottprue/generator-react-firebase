@@ -4,21 +4,21 @@ import { checkForEachFile } from '../utils'
 import utils from '../../generators/app/utils'
 
 describe('generator-react-firebase:app utils', () => {
-  describe('firebaseUrlValidate', () => {
+  describe('validateFirebaseName', () => {
     describe('exists', () => {
-      expect(utils).to.respondTo('firebaseUrlValidate')
+      expect(utils).to.respondTo('validateFirebaseName')
     })
     describe('handles valid input', () => {
-      expect(utils.firebaseUrlValidate('asdfasdf'))
+      expect(utils.validateFirebaseName('asdfasdf'))
     })
     describe('handles no input', () => {
-      expect(utils.firebaseUrlValidate())
+      expect(utils.validateFirebaseName())
     })
     describe('warns when input contains http or firebaseio.com', () => {
-      expect(utils.firebaseUrlValidate('http:'))
+      expect(utils.validateFirebaseName('http:'))
     })
     describe('warns when invalid input contains symbols', () => {
-      expect(utils.firebaseUrlValidate(':!!!  '))
+      expect(utils.validateFirebaseName(':!!!  '))
     })
   })
 })

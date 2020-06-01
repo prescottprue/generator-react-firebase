@@ -2,17 +2,13 @@
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const fs = require('fs')
-const path = require('path')
+const glob = require('glob')
 const semver = require('semver')
 const camelCase = require('lodash/camelCase')
 const startCase = require('lodash/startCase')
 const get = require('lodash/get')
 
 const styleChoices = [
-  {
-    name: 'JSS with HOC (withStyles)',
-    value: 'localized'
-  },
   {
     name: 'SCSS File',
     value: 'scss'
@@ -47,18 +43,13 @@ const prompts = [
     message: 'Do you want to include a custom hook?',
     when: () => reactVersionHasHooks(),
     default: false
-  },
-  {
-    type: 'confirm',
-    name: 'includeEnhancer',
-    message: 'Do you want to include an enhancer?',
-    when: ({ styleType }) => styleType !== 'localized', // HOC included automatically
-    default: false
   }
 ]
 
-function loadProjectPackageFile() {
-  const packagePath = path.join(process.cwd(), 'package.json')
+function loadProjectPackageFile(extraPath) {
+  const packagePath = `${process.cwd()}${
+    extraPath ? `/${extraPath}` : ''
+  }/package.json`
   // If functions package file does not exist, default to null
   if (!fs.existsSync(packagePath)) {
     return null
@@ -72,8 +63,8 @@ function loadProjectPackageFile() {
 }
 
 function dependencyExists(depName, opts = {}) {
-  const { dev = false } = opts
-  const projectPackageFile = loadProjectPackageFile()
+  const { dev = false, checkParent = false } = opts
+  const projectPackageFile = loadProjectPackageFile(checkParent && '../../')
   return !!get(
     projectPackageFile,
     `${dev ? 'devDependencies' : 'dependencies'}.${depName}`
@@ -84,6 +75,12 @@ function reactVersionHasHooks() {
   const projectPackageFile = loadProjectPackageFile()
   const reactVersion = get(projectPackageFile, 'dependencies.react')
   return semver.satisfies(semver.coerce(reactVersion), '>=16.9.0')
+}
+
+function projectHasJsx(basePath) {
+  // Load all folders within dist directory (mirrors layout of src)
+  const files = glob.sync(`src/**.jsx`)
+  return !!files.length
 }
 
 module.exports = class extends Generator {
@@ -117,11 +114,12 @@ module.exports = class extends Generator {
         hasPropTypes:
           !projectPackageFile || dependencyExists('prop-types') || false,
         airbnbLinting:
-          dependencyExists('eslint-config-airbnb', { dev: true }) || false,
-        // Default including of enhancer to true (not asked with manual styles)
-        includeEnhancer:
-          get(props, 'styleType') === 'localized' ||
-          get(props, 'includeEnhancer', true),
+          dependencyExists('eslint-config-airbnb', { dev: true }) ||
+          dependencyExists('@side-eng/eslint-config-base', {
+            dev: true,
+            checkParent: true
+          }) ||
+          false,
         // Default style type to scss for when localized styles is not an option
         styleType: props.styleType || 'scss'
       })
@@ -134,6 +132,7 @@ module.exports = class extends Generator {
       : ''
     const basePath = `src/${basePathOption}components/${this.options.name}`
     const withLintSuffix = `_main${this.answers.airbnbLinting ? '-airbnb' : ''}`
+    const startCaseName = startCase(this.options.name).replace(/ /g, '')
     const filesArray = [
       {
         src: `_index${this.answers.airbnbLinting ? '-airbnb' : ''}.js`,
@@ -141,9 +140,11 @@ module.exports = class extends Generator {
       },
       {
         src: `${withLintSuffix}${
-          this.answers.styleType === 'hooks' ? '-hooks' : ''
+          this.answers.includeHook === 'hooks' ? '-hooks' : ''
         }.js`,
-        dest: `${basePath}/${this.options.name}.js`
+        dest: `${basePath}/${this.options.name}.${
+          projectHasJsx(basePathOption) ? 'jsx' : 'js'
+        }`
       }
     ]
 
@@ -164,14 +165,7 @@ module.exports = class extends Generator {
     if (this.answers.includeHook) {
       filesArray.push({
         src: `_main.hook.js`,
-        dest: `${basePath}/${this.options.name}.hook.js`
-      })
-    }
-
-    if (this.answers.includeEnhancer) {
-      filesArray.push({
-        src: `_main${this.answers.airbnbLinting ? '-airbnb' : ''}.enhancer.js`,
-        dest: `${basePath}/${this.options.name}.enhancer.js`
+        dest: `${basePath}/use${startCaseName}.js`
       })
     }
 
@@ -183,7 +177,8 @@ module.exports = class extends Generator {
           name: this.options.name,
           lowerName: this.options.name.toLowerCase(),
           camelName: camelCase(this.options.name),
-          startCaseName: startCase(this.options.name).replace(/ /g, '')
+          startCaseName,
+          hasJsx: projectHasJsx()
         })
       )
     })

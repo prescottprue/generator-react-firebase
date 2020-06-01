@@ -26,6 +26,7 @@ function SignupForm({ onSubmit }) {
       <TextField
         name="username"
         placeholder="username"
+        autoComplete="username"
         margin="normal"
         fullWidth
         inputRef={register}
@@ -34,6 +35,7 @@ function SignupForm({ onSubmit }) {
         type="email"
         name="email"
         placeholder="email"
+        autoComplete="email"
         margin="normal"
         fullWidth
         inputRef={register({
@@ -47,6 +49,7 @@ function SignupForm({ onSubmit }) {
         type="password"
         name="password"
         placeholder="password"
+        autoComplete="current-password"
         margin="normal"
         fullWidth
         inputRef={register({
