@@ -270,36 +270,19 @@ module.exports = class extends Generator {
       )
     )
 
-    function runPrompts(githubUsername) {
-      // Set github username as default
-      const [firstPrompt, ...restOfPrompts] = prompts
-      const modifiedPrompts = [
-        { ...firstPrompt, default: githubUsername || '' },
-        ...restOfPrompts
-      ]
-      return this.prompt(modifiedPrompts).then((props) => {
-        this.answers = props
-        // Map features array to answerNames
-        if (props.otherFeatures) {
-          featureChoices.forEach((choice) => {
-            const matching = props.otherFeatures.find(
-              (feature) => choice.name === feature
-            )
-            this.answers[choice.answerName] = !!matching
-          })
-        }
-        this.data = Object.assign({}, this.initialData, this.answers)
-      })
-    }
-    const boundRunPrompts = runPrompts.bind(this)
-
-    // Run prompts regardless of if getting github username is successful
-    return this.user.github
-      .username()
-      .then(boundRunPrompts)
-      .catch(() => {
-        boundRunPrompts()
-      })
+    return this.prompt(prompts).then((props) => {
+      this.answers = props
+      // Map features array to answerNames
+      if (props.otherFeatures) {
+        featureChoices.forEach((choice) => {
+          const matching = props.otherFeatures.find(
+            (feature) => choice.name === feature
+          )
+          this.answers[choice.answerName] = !!matching
+        })
+      }
+      this.data = Object.assign({}, this.initialData, this.answers)
+    })
   }
 
   writing() {
