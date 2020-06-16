@@ -477,6 +477,10 @@ For full projects built out using this as a starting place, check the next secti
 1. Why node `10` instead of a newer version?
   [Cloud Functions runtime is still on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
+1. Why camel-cased environment variables instead of full capital letters (i.e. `process.env.REACT_APP_FIREBASE_projectId` instead of `process.env.REACT_APP_FIREBASE_PROJECT_ID`)
+
+  In CI the settings for you app are loaded dynamically through `firebase-tools` when using the `apps:sdkconfig` command, the values that are returned use camel-casing. Instead of making things more unclear by changing the case of these variables, they are left matching what the Firebase JS SDK is expecting. This pattern is also used in the `.env.local` file.
+
 1. How do I deploy my application?
   The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
 

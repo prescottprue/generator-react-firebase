@@ -3,7 +3,7 @@
     "promptValues": {
       "githubUser": "prescottprue",
       "firebaseProjectId": "redux-firebasev3",
-      "firebaseKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
+      "firebaseKey": "AIzaSyCz8fdvlyeVpwz22bjuw-MEI3wckXhSx9s",
       "includeRedux": true,
       "includeFirestore": false,
       "otherFeatures": [

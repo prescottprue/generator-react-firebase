@@ -24,7 +24,7 @@ const theme = createMuiTheme(ThemeSettings)
   projectId: process.env.REACT_APP_FIREBASE_projectId,
   storageBucket: process.env.REACT_APP_FIREBASE_storageBucket<% if(messagingSenderId) { %>,
   messagingSenderId: process.env.REACT_APP_FIREBASE_messagingSenderId<% } %><% if(measurementId) { %>,
-  measurementId: process.env.REACT_APP_FIREBASE_measurementId'<% } %><% if(appId) { %>,
+  measurementId: process.env.REACT_APP_FIREBASE_measurementId<% } %><% if(appId) { %>,
   appId: process.env.REACT_APP_FIREBASE_appId<% } %>
 }
 
