@@ -2,7 +2,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/analytics'
 import { version } from '../../package.json'
-import * as config from '../config' // eslint-disable-line import/no-unresolved
 
 /**
  * From https://firebase.google.com/docs/reference/js/firebase.analytics.html?authuser=0#event-name-string
@@ -24,7 +23,7 @@ export function setAnalyticsUser(auth) {
   // Only set user if UID exists
   if (auth && auth.uid) {
     // Only set user if measurementId exists
-    if (config.firebase.measurementId) {
+    if (process.env.REACT_APP_FIREBASE_measurementId) {
       firebase.analytics().setUserId(auth.uid)
       firebase.analytics().setUserProperties({
         name: auth.displayName,

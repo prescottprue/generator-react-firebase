@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import firebase from 'firebase/app'
 import 'firebase/messaging'
 import { version } from '../../../package.json'
 
 function SetupAnalytics() {
+  const location = useLocation()
   const analytics = firebase.analytics()
   const user = firebase.auth().currentUser
 
@@ -11,7 +13,7 @@ function SetupAnalytics() {
   // we only set user id when it exists
   useEffect(() => {
     // NOTE: optional chaining causes "Cannot read property 'references' of undefined" error in eslint
-    if (user && user.uid) {
+    if (user?.uid) {
       analytics.setUserId(user.uid)
       analytics.setUserProperties({
         name: user.displayName,

@@ -137,7 +137,7 @@ jobs:
         id: check
         uses: EndBug/version-check@v1
 
-      - name: Create Release
+      - name: Create Github Release
         if: github.ref == 'refs/heads/prod' && steps.check.outputs.changed == 'true'
         id: create_release
         uses: actions/create-release@v1

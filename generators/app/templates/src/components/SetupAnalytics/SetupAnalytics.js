@@ -1,14 +1,14 @@
 import { useEffect } from 'react'<% if (!includeRedux) { %>
-import { useAnalytics, useUser } from 'reactfire'
-import { useLocation } from 'react-router-dom'<% } %><% if (includeRedux) { %>
+import { useAnalytics, useUser } from 'reactfire'<% } %>
+import { useLocation } from 'react-router-dom'<% if (includeRedux) { %>
 import firebase from 'firebase/app'
 import 'firebase/messaging'<% } %><% if (includeErrorHandling) { %>
 import { setErrorUser } from 'utils/errorHandler'<% } %>
 import { version } from '../../../package.json'
 
-function SetupAnalytics() {<% if (!includeRedux) { %>
+function SetupAnalytics() {
+  const location = useLocation()<% if (!includeRedux) { %>
   const analytics = useAnalytics()
-  const location = useLocation()
   const user = useUser()<% } %><% if (includeRedux) { %>
   const analytics = firebase.analytics()
   const user = firebase.auth().currentUser<% } %><% if (!includeRedux) { %>
@@ -22,7 +22,7 @@ function SetupAnalytics() {<% if (!includeRedux) { %>
   // we only set user id when it exists
   useEffect(() => {
     // NOTE: optional chaining causes "Cannot read property 'references' of undefined" error in eslint
-    if (user && user.uid) {
+    if (user?.uid) {
       analytics.setUserId(user.uid)
       analytics.setUserProperties({
         name: user.displayName,

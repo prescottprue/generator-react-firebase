@@ -1,7 +1,7 @@
 {
   "name": "generator-react-firebase",
-  "version": "6.1.0",
-  "description": "React and Firebase (with option for Redux) starter project generator.",
+  "version": "6.1.1",
+  "description": "React and Firebase project generator (with option for Redux).",
   "main": "generators/index.js",
   "scripts": {
     "lint": "eslint generators test",
@@ -11,7 +11,7 @@
     "test:clean": "rimraf test/tmp"
   },
   "dependencies": {
-    "chalk": "^4.0.0",
+    "chalk": "^4.1.0",
     "command-exists": "^1.2.9",
     "glob": "^7.1.6",
     "lodash": "^4.17.15",
@@ -20,15 +20,15 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.6",
-    "@babel/plugin-transform-runtime": "^7.9.6",
-    "@babel/polyfill": "^7.8.7",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/register": "^7.9.0",
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/polyfill": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.1",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
-    "eslint": "^7.0.0",
+    "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
@@ -40,9 +40,9 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.2",
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.1",
+    "lint-staged": "^10.2.10",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "yeoman-assert": "^3.1.1",
@@ -55,7 +55,7 @@
     "url": "git+https://github.com/prescottprue/generator-react-firebase.git"
   },
   "author": {
-    "name": "Scott Prue",
+    "name": "Prescott Prue",
     "url": "https://github.com/prescottprue"
   },
   "keywords": [
