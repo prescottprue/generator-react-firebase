@@ -58,8 +58,8 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",<% if (includeUiTests) { %>
-    "cypress": "^4.7.0",
-    "cypress-firebase": "^1.2.0",<% } %>
+    "cypress": "^4.11.0",
+    "cypress-firebase": "^1.4.2",<% } %>
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
@@ -76,7 +76,7 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-standard": "^4.0.1",<% if (includeUiTests) { %>
     "firebase-admin": "^9.0.0",<% } %>
-    "firebase-ci": "^0.13.0",
+    "firebase-ci": "^0.14.0",
     "firebase-tools": "^8.6.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",

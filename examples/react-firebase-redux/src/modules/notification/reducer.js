@@ -31,8 +31,8 @@ function byId(state = {}, action) {
         [action.payload.id]: notification(state[action.payload.id], action)
       }
     case NOTIFICATION_DISMISS:
+      // eslint-disable-next-line no-case-declarations
       const {
-        // eslint-disable-next-line no-case-declarations
         [action.payload.id]: notificationToDismiss,
         ...newState
       } = state

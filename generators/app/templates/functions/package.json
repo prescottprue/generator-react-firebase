@@ -31,10 +31,10 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",<% if(includeFunctionsTests) { %>
-    "@babel/register": "^7.10.1",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",<% if(includeFunctionsTests) { %>
+    "@babel/register": "^7.10.5",
     "@firebase/testing": "^0.20.7",<% } %>
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-minify": "^0.5.1",<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>

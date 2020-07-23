@@ -6697,10 +6697,10 @@ find-versions@^3.2.0:
   dependencies:
     semver-regex "^2.0.0"
 
-firebase-ci@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/firebase-ci/-/firebase-ci-0.13.0.tgz#f7056c2a3f8381ff21c98ee9cfbcbadb5f6f474c"
-  integrity sha512-6MdUHc+Y0R1WJ1aW2doWK0hwfspOx+jhVa+xz1zIKG2vqhQPHv1ND0dqJTOGQbC9ESDpF2u316L7X3xr5fg4Pg==
+firebase-ci@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/firebase-ci/-/firebase-ci-0.14.0.tgz#dce5a4733deb33eeaf6de353a8541f4dfc0e3ab3"
+  integrity sha512-EapJbOPKD3AsWrkATDNRFH20mF6cXcsya2YuyJx4BGTPz8Bh8luRkqdU1Ub0V+0Yz11QCw5UUdU9Q2zoNtCz2Q==
   dependencies:
     chalk "^3.0.0"
     command-exists "^1.2.8"
@@ -9627,11 +9627,6 @@ lodash.values@^2.4.1:
     lodash.keys "~2.4.1"
 
 "lodash@>=3.5 <5", lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.17.5:
-  version "4.17.19"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
-  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
-
-lodash@^4.17.19:
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
   integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
