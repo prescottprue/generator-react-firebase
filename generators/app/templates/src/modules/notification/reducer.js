@@ -1,6 +1,5 @@
 <% if(includeRedux) { %>import { combineReducers } from 'redux'
-<% } %>import { without, omit } from 'lodash'
-import { NOTIFICATION_SHOW, NOTIFICATION_DISMISS } from './actionTypes'
+<% } %>import { NOTIFICATION_SHOW, NOTIFICATION_DISMISS } from './actionTypes'
 
 <% if(!includeRedux) { %>function combineReducers(reducers) {
   // First get an array with all the keys of the reducers (the reducer names)
@@ -45,7 +44,7 @@ function allIds(state = [], action) {
     case NOTIFICATION_SHOW:
       return [...state, action.payload.id]
     case NOTIFICATION_DISMISS:
-      return without(state, action.payload)
+      return [...state.filter((currentId) => currentId === action.payload.id)]
     default:
       return state
   }
@@ -59,7 +58,12 @@ function byId(state = {}, action) {
         [action.payload.id]: notification(state[action.payload.id], action)
       }
     case NOTIFICATION_DISMISS:
-      return omit(state, action.payload)
+      // eslint-disable-next-line no-case-declarations
+      const {
+        [action.payload.id]: notificationToDismiss,
+        ...newState
+      } = state
+      return newState
     default:
       return state
   }

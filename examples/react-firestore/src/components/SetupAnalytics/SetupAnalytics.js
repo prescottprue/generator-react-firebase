@@ -5,8 +5,8 @@ import { setErrorUser } from 'utils/errorHandler'
 import { version } from '../../../package.json'
 
 function SetupAnalytics() {
-  const analytics = useAnalytics()
   const location = useLocation()
+  const analytics = useAnalytics()
   const user = useUser()
 
   // Disable analytics data collection when Cypress is being run
@@ -18,7 +18,7 @@ function SetupAnalytics() {
   // we only set user id when it exists
   useEffect(() => {
     // NOTE: optional chaining causes "Cannot read property 'references' of undefined" error in eslint
-    if (user && user.uid) {
+    if (user?.uid) {
       analytics.setUserId(user.uid)
       analytics.setUserProperties({
         name: user.displayName,

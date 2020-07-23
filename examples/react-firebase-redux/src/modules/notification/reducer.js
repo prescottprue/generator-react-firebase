@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import { without, omit } from 'lodash'
 import { NOTIFICATION_SHOW, NOTIFICATION_DISMISS } from './actionTypes'
 
 function notification(state = {}, action) {
@@ -18,7 +17,7 @@ function allIds(state = [], action) {
     case NOTIFICATION_SHOW:
       return [...state, action.payload.id]
     case NOTIFICATION_DISMISS:
-      return without(state, action.payload)
+      return [...state.filter((currentId) => currentId === action.payload.id)]
     default:
       return state
   }
@@ -32,7 +31,12 @@ function byId(state = {}, action) {
         [action.payload.id]: notification(state[action.payload.id], action)
       }
     case NOTIFICATION_DISMISS:
-      return omit(state, action.payload)
+      const {
+        // eslint-disable-next-line no-case-declarations
+        [action.payload.id]: notificationToDismiss,
+        ...newState
+      } = state
+      return newState
     default:
       return state
   }

@@ -248,7 +248,7 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 [Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
 
-[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Verify?style=flat-square
+[build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Deploy?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firestore/actions
 [coverage-image]: https://img.shields.io/codecov/c/github/prescottprue/react-firestore.svg?style=flat-square
 [coverage-url]: https://codecov.io/gh/prescottprue/react-firestore

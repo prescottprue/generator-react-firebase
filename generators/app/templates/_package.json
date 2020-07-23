@@ -36,22 +36,19 @@
   "author": "<%= githubUser %> (https://github.com/<%= githubUser %>)",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.9.13",
+    "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",<% if (includeSentry) { %>
     "@sentry/browser": "^5.15.5",<% } %>
-    "firebase": "^7.14.3",
-    "history": "^4.10.1",
-    "lodash": "^4.17.15",
+    "firebase": "7.14.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-button": "^0.7.0",<% if (includeRedux) { %>
     "react-redux": "^7.1.1",
     "react-redux-firebase": "^3.1.2",<% } %>
-    "react-hook-form": "^5.7.2",
-    "react-router-dom": "^5.1.2",<% if (!includeRedux) { %>
+    "react-hook-form": "^6.0.8",
+    "react-router-dom": "^5.2.0",<% if (!includeRedux) { %>
     "reactfire": "^2.0.3"<% } %><% if (includeRedux) { %>
-    "recompose": "^0.30.0",
     "redux": "^4.0.4",
     "redux-auth-wrapper": "^2.1.0",<% } %><% if (includeRedux && includeFirestore) { %>
     "redux-firestore": "^0.11.0",<% } %><% if (includeRedux) { %>
@@ -63,24 +60,24 @@
     "cross-env": "^7.0.2",<% if (includeUiTests) { %>
     "cypress": "^4.7.0",
     "cypress-firebase": "^1.2.0",<% } %>
-    "eslint": "^7.1.0",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-standard-react": "^9.2.0",<% if (includeUiTests) { %>
     "eslint-plugin-chai-friendly": "^0.6.0",
     "eslint-plugin-cypress": "^2.11.1",<% } %>
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsdoc": "^26.0.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsdoc": "^30.0.3",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.0",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-standard": "^4.0.1",<% if (includeUiTests) { %>
-    "firebase-admin": "^8.12.0",<% } %>
+    "firebase-admin": "^9.0.0",<% } %>
     "firebase-ci": "^0.13.0",
-    "firebase-tools": "^8.4.1",
+    "firebase-tools": "^8.6.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
