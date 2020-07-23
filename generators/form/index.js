@@ -4,8 +4,10 @@ const chalk = require('chalk')
 const fs = require('fs')
 const path = require('path')
 const camelCase = require('lodash/camelCase')
-const upperFirst = require('lodash/upperFirst')
-const get = require('lodash/get')
+
+function upperFirst(string) {
+  return string ? string.charAt(0).toUpperCase() + string.slice(1) : ''
+}
 
 const prompts = [
   {
@@ -50,10 +52,9 @@ function loadProjectPackageFile() {
 function dependencyExists(depName, opts = {}) {
   const { dev = false } = opts
   const projectPackageFile = loadProjectPackageFile()
-  return !!get(
-    projectPackageFile,
-    `${dev ? 'devDependencies' : 'dependencies'}.${depName}`
-  )
+  const { [dev ? 'devDependencies' : 'dependencies']: deps = {} } =
+    projectPackageFile || {}
+  return !!deps[depName]
 }
 
 module.exports = class extends Generator {

@@ -11,6 +11,11 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.4.0
+        with:
+          access_token: ${{ github.token }}
+
       - name: Checkout Repo
         uses: actions/checkout@v2
 
@@ -155,7 +160,7 @@ jobs:
         id: check
         uses: EndBug/version-check@v1
 
-      - name: Create Release
+      - name: Create Github Release
         if: github.ref == 'refs/heads/prod' && steps.check.outputs.changed == 'true'
         id: create_release
         uses: actions/create-release@v1
@@ -167,7 +172,8 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Create Release In Sentry
+      - name: Create Sentry Release
+        if: github.ref == 'refs/heads/prod' && steps.check.outputs.changed == 'true'
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: prescottprue
@@ -180,9 +186,8 @@ jobs:
               echo "::warning ::$warningMsg"
               exit 0
           fi
-
-          envName=$(if [ $GIT_BRANCH == "master" ]; then echo staging; else echo $GIT_BRANCH; fi;)
-          releaseSuffix=$envName@$PACKAGE_VERSION
+          gitBranch=${GITHUB_REF##*/}
+          releaseSuffix=$(if [ $gitBranch != "prod" ]; then echo $gitBranch; fi;)@$PACKAGE_VERSION
           releaseName=react-firestore-$releaseSuffix
 
           echo Creating Sentry release \"$releaseName\" for project \"$SENTRY_PROJECT\"...

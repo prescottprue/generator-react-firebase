@@ -105,7 +105,7 @@ describe('generator-react-firebase:app', function() {
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles.concat(messagingFiles).concat(['src/utils/components.js']))
+          checkForEachFile(projectFiles.concat(messagingFiles))
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')

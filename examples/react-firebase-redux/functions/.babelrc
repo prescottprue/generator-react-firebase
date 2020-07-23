@@ -7,7 +7,6 @@
     }]
   ],
   "plugins": [
-    "lodash",
     ["module-resolver", {
       "root": ["./src"]
     }]

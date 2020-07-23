@@ -18,17 +18,15 @@
     "deploy": "firebase deploy --only functions"
   },
   "dependencies": {
-    "firebase-admin": "^8.12.1",
-    "firebase-functions": "^3.7.0",
+    "firebase-admin": "^9.0.0",
+    "firebase-functions": "^3.8.0",
     "glob": "^7.1.6",
-    "lodash": "^4.17.19",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
-    "babel-plugin-lodash": "^3.3.4",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-minify": "^0.5.1",
     "cross-env": "^7.0.2",

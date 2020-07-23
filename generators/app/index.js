@@ -305,7 +305,6 @@ module.exports = class extends Generator {
         { src: 'src/store/reducers.js' },
         { src: 'src/store/location.js' },
         { src: 'src/defaultConfig.js' },
-        { src: 'src/utils/components.js' },
         { src: 'src/initializeFirebase.js' }
       )
     } else {
