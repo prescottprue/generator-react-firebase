@@ -20,7 +20,7 @@
 
 ## Requirements
 
-- node `^10.15.0`
+- node `^12.18.0`
 - npm `^6.0.0`
 
 ## Getting Started
@@ -248,9 +248,9 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 ## FAQ
 
-1. Why node `10` instead of a newer version?
+1. Why node `12` instead of a newer version?
 
-[Cloud Functions runtime runs on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the CI build version.
+[Cloud Functions runtime runs on `12`](https://cloud.google.com/functions/docs/concepts/nodejs-runtime), which is why that is what is used for the CI build version.
 
 <% if (includeCI) { %>[build-status-image]: https://img.shields.io/github/workflow/status/<%= githubUser %>/<%= appName %>/Deploy?style=flat-square
 [build-status-url]: https://github.com/<%= githubUser %>/<%= appName %>/actions<% } %><% if (includeFunctionsTests) { %>
