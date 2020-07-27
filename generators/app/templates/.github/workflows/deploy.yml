@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 10<% if(useYarn) { %>
+          node-version: 12<% if(useYarn) { %>
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings

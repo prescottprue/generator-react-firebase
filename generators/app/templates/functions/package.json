@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "engines": {
-    "node": "10"
+    "node": "12"
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.js .",

@@ -23,14 +23,14 @@
     "url": "git+https://github.com/prescottprue/react-firebase.git"
   },
   "engines": {
-    "node": ">=10.15.0"
+    "node": ">12.18.0"
   },
   "author": "prescottprue (https://github.com/prescottprue)",
   "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "firebase": "7.14.3",
+    "firebase": "7.17.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
