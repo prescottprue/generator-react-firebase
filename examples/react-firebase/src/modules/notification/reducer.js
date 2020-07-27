@@ -27,17 +27,13 @@ function combineReducers(reducers) {
   }
 }
 
-function notification(state = {}, action) {
-  switch (action.type) {
-    case NOTIFICATION_SHOW:
-      return action.payload
-    case NOTIFICATION_DISMISS:
-      return undefined
-    default:
-      return state
-  }
-}
-
+/**
+ * Reducer for managing list of ids associated with
+ * visible notifications.
+ * @param {Array} state - Current allIds state
+ * @param {Object} action - Dispatched action
+ * @returns {Array} allIds state
+ */
 function allIds(state = [], action) {
   switch (action.type) {
     case NOTIFICATION_SHOW:
@@ -49,12 +45,18 @@ function allIds(state = [], action) {
   }
 }
 
+/**
+ * Reducer for storying notifications by id.
+ * @param {Object} state - Current byId state
+ * @param {Object} action - Dispatched action
+ * @returns {Object} byId state
+ */
 function byId(state = {}, action) {
   switch (action.type) {
     case NOTIFICATION_SHOW:
       return {
         ...state,
-        [action.payload.id]: notification(state[action.payload.id], action)
+        [action.payload.id]: action.payload
       }
     case NOTIFICATION_DISMISS:
       // eslint-disable-next-line no-case-declarations
@@ -65,6 +67,6 @@ function byId(state = {}, action) {
   }
 }
 
-export const notifications = combineReducers({ byId, allIds })
+const notifications = combineReducers({ byId, allIds })
 
 export default notifications
