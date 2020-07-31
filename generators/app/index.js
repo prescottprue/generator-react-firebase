@@ -203,7 +203,7 @@ const filesArray = [
   { src: 'public/index.html' },
   { src: 'public/manifest.json' },
   { src: 'public/robots.txt' },
-  { src: 'src/index.js' },
+  { src: 'src/index.jsx' },
   { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
   {
@@ -394,7 +394,7 @@ module.exports = class extends Generator {
     if (this.answers.includeAnalytics) {
       filesArray.push(
         { src: 'src/components/SetupAnalytics/index.js' },
-        { src: 'src/components/SetupAnalytics/SetupAnalytics.js' },
+        { src: 'src/components/SetupAnalytics/SetupAnalytics.jsx' },
         { src: 'src/utils/analytics.js' },
         { src: 'src/utils/index.js' }
       )

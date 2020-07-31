@@ -19,7 +19,7 @@ function Navbar() {
   const auth = useSelector(({ firebase }) => firebase.auth)
   const authExists = isLoaded(auth) && !isEmpty(auth)<% } %><% if (!includeRedux) { %>
   const auth = useUser()
-  const authExists = !!auth && !!auth.uid<% } %>
+  const authExists = !!auth?.uid<% } %>
 
   return (
     <NavbarWithoutAuth brandPath={authExists ? LIST_PATH : '/'}>

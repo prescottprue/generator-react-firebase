@@ -5,18 +5,18 @@ import { checkForEachFile } from '../utils'
 
 const srcFiles = [
   'src/components/LoadingSpinner/index.js',
-  'src/components/LoadingSpinner/LoadingSpinner.js',
+  'src/components/LoadingSpinner/LoadingSpinner.jsx',
   'src/components/LoadingSpinner/LoadingSpinner.styles.js',
-  'src/containers/App/App.js',
+  'src/containers/App/App.jsx',
   'src/containers/App/index.js',
-  'src/containers/Navbar/AccountMenu.js',
+  'src/containers/Navbar/AccountMenu.jsx',
   'src/containers/Navbar/index.js',
-  'src/containers/Navbar/Navbar.js',
+  'src/containers/Navbar/Navbar.jsx',
   'src/containers/Navbar/Navbar.styles.js',
-  'src/layouts/CoreLayout/CoreLayout.js',
+  'src/layouts/CoreLayout/CoreLayout.jsx',
   'src/layouts/CoreLayout/index.js',
-  'src/modules/notification/Notifications.js',
-  'src/modules/notification/NotificationsProvider.js',
+  'src/modules/notification/Notifications.jsx',
+  'src/modules/notification/NotificationsProvider.jsx',
   'src/modules/notification/useNotifications.js',
   'src/modules/notification/actions.js',
   'src/modules/notification/actionTypes.js',
@@ -25,7 +25,7 @@ const srcFiles = [
   'src/utils/form.js',
   'src/utils/router.js',
   'src/constants/paths.js',
-  'src/index.js',
+  'src/index.jsx',
   'src/index.css',
   'src/theme.js',
   'public/index.html',
@@ -58,7 +58,7 @@ const defaultOtherFeatures = [
 
 const messagingFiles = [
   'src/components/SetupMessaging/index.js',
-  'src/components/SetupMessaging/SetupMessaging.js',
+  'src/components/SetupMessaging/SetupMessaging.jsx',
   'src/components/SetupMessaging/useSetupMessaging.js',
 ]
 

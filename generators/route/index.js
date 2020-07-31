@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const fs = require('fs')
 const path = require('path')
 const semver = require('semver')
+const glob = require('glob')
 const get = require('lodash/get')
 const lowerFirst = require('lodash/lowerFirst')
 const startCase = require('lodash/startCase')
@@ -36,6 +37,12 @@ function isOldReact() {
   const projectPackageFile = loadProjectPackageFile()
   const reactVersion = get(projectPackageFile, 'dependencies.react')
   return semver.satisfies(semver.coerce(reactVersion), '<16.0.0')
+}
+
+function projectHasJsx(basePath) {
+  // Load all folders within src directory
+  const files = glob.sync('src/**.jsx')
+  return !!files.length
 }
 
 const prompts = [
@@ -162,7 +169,9 @@ module.exports = class extends Generator {
         src: `component/_main${lintStyleSuffix}${
           this.answers.styleType === 'hooks' ? '-hooks' : ''
         }.js`,
-        dest: `${pageComponentPath}/${name}.js`
+        dest: `${pageComponentPath}/${name}.${
+          projectHasJsx(basePathOption) ? 'jsx' : 'js'
+        }`
       }
     ]
 

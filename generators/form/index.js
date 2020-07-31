@@ -1,6 +1,7 @@
 'use strict'
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
+const glob = require('glob')
 const fs = require('fs')
 const path = require('path')
 const camelCase = require('lodash/camelCase')
@@ -55,6 +56,12 @@ function dependencyExists(depName, opts = {}) {
   const { [dev ? 'devDependencies' : 'dependencies']: deps = {} } =
     projectPackageFile || {}
   return !!deps[depName]
+}
+
+function projectHasJsx(basePath) {
+  // Load all folders within src directory
+  const files = glob.sync('src/**.jsx')
+  return !!files.length
 }
 
 module.exports = class extends Generator {
@@ -120,7 +127,12 @@ module.exports = class extends Generator {
         dest: `${basePath}/${name}.enhancer.js`
       })
     } else {
-      filesArray.push({ src: '_main.js', dest: `${basePath}/${name}.js` })
+      filesArray.push({
+        src: '_main.js',
+        dest: `${basePath}/${name}.${
+          projectHasJsx(basePathOption) ? 'jsx' : 'js'
+        }`
+      })
     }
 
     if (this.answers.addStyle) {
