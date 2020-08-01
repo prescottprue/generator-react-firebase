@@ -207,13 +207,11 @@ const filesArray = [
   { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
   {
-    src: 'src/components/LoadingSpinner',
-    dest: 'src/components/LoadingSpinner'
+    src: 'src/components/LoadingSpinner'
   },
-  { src: 'src/containers/**', dest: 'src/containers' },
-  { src: 'src/utils/index.js' },
-  { src: 'v1theme.js', dest: 'src/theme.js' },
-  { src: 'src/containers/Navbar/Navbar.styles.js' },
+  { src: 'src/components/Navbar' },
+  { src: 'src/App.jsx' },
+  { src: 'src/theme.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
@@ -309,7 +307,6 @@ module.exports = class extends Generator {
       )
     } else {
       // Handle files that do not do internal string templateing well
-      filesArray.push({ src: 'src/utils/firebase.js' })
       ignorePaths.push('**/NewProjectDialog.enhancer.js')
       ignorePaths.push('**/AccountForm.enhancer.js')
       ignorePaths.push('**/AccountPage.enhancer.js')
@@ -394,10 +391,11 @@ module.exports = class extends Generator {
     if (this.answers.includeAnalytics) {
       filesArray.push(
         { src: 'src/components/SetupAnalytics/index.js' },
-        { src: 'src/components/SetupAnalytics/SetupAnalytics.jsx' },
-        { src: 'src/utils/analytics.js' },
-        { src: 'src/utils/index.js' }
+        { src: 'src/components/SetupAnalytics/SetupAnalytics.jsx' }
       )
+      if (this.answers.includeRedux) {
+        filesArray.push({ src: 'src/utils/analytics.js' })
+      }
     }
 
     filesArray.forEach((file) => {

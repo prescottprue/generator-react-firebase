@@ -1,20 +1,16 @@
-import { useEffect } from 'react'<% if (!includeRedux) { %>
-import { useAnalytics, useUser } from 'reactfire'<% } %><% if (includeRedux) { %>
-import firebase from 'firebase/app'
-import 'firebase/messaging'<% } %><% if (includeErrorHandling) { %>
-import { setErrorUser } from 'utils/errorHandler'<% } %>
+import { useEffect } from 'react'
+import { useAnalytics, useUser } from 'reactfire'
+import { setErrorUser } from 'utils/errorHandler'
 import { version } from '../../../package.json'
 
 function SetupAnalytics() {
-  <% if (!includeRedux) { %>const analytics = useAnalytics()
-  const user = useUser()<% } %><% if (includeRedux) { %>
-  const analytics = firebase.analytics()
-  const user = firebase.auth().currentUser<% } %><% if (!includeRedux) { %>
+  const analytics = useAnalytics()
+  const user = useUser()
 
   // Disable analytics data collection when Cypress is being run
   if (window.Cypress) {
     analytics.setAnalyticsCollectionEnabled(false)
-  }<% } %>
+  }
 
   // By passing `user.uid` to the second argument of `useEffect`,
   // we only set user id when it exists
@@ -27,8 +23,8 @@ function SetupAnalytics() {
         email: user.email,
         avatar: user.photoURL,
         version
-      })<% if (includeErrorHandling) { %>
-      setErrorUser(user)<% } %>
+      })
+      setErrorUser(user)
     }
   }, [user?.uid]) // eslint-disable-line react-hooks/exhaustive-deps
 

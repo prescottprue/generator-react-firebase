@@ -49,17 +49,17 @@
 
 While developing, you will probably rely mostly on `yarn start`; however, there are additional scripts at your disposal:
 
-| `yarn <script>` | Description                                                                                                             |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `start`         | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
-| `start:dist`    | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
-| `start:emulate` | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`         | Builds the application to `./build`                                                                                     |
-| `emulators`     | Starts database and pubsub emulators for use with `start:emulate`                                                       |
-| `test`          | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`    | Runs `test` in watch mode to re-run tests when changed                                                                  |
-| `lint`          | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
-| `lint:fix`      | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
+| `yarn <script>`    | Description                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `start`             | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
+| `start:dist`        | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
+| `start:emulate`     | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
+| `build`             | Builds the application to `./build`                                                                                     | 
+| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       | 
+| `test`              | Runs unit tests with Jest. See [testing](#testing)                                                                      |
+| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  | 
+| `lint`              | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
+| `lint:fix`          | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 

@@ -21,11 +21,10 @@ export const NotificationsContext = React.createContext({
 
 export default function NotificationsProvider({ children }) {
   const [state, dispatch] = useReducer(reducer)
-  const { allIds, byId } = state || {}
 
   const showNotification = useCallback(
     (notif) => {
-      const payload = Object.assign({}, notif)
+      const payload = { ...notif }
       // Set default id to now if none provided
       if (!payload.id) {
         payload.id = Date.now()
@@ -43,8 +42,8 @@ export default function NotificationsProvider({ children }) {
   )
 
   const contextValue = {
-    allIds,
-    byId,
+    allIds: state.allIds,
+    byId: state.byId,
     showSuccess: useCallback(
       (message) => showNotification({ type: 'success', message }),
       [showNotification]

@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { initScripts } from './utils'
 import { version } from '../package.json'
 import App from './App'
+import { init as initErrorHandling } from './utils/errorHandler'
 import './index.css'
 
 // import * as serviceWorker from './serviceWorker'
@@ -10,6 +10,10 @@ import './index.css'
 // Window Variables
 // ------------------------------------
 window.version = version
+
+// Initialize Error Handling
+// ------------------------------------
+initErrorHandling()
 
 // Initialize Redux Store
 // ------------------------------------

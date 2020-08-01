@@ -56,19 +56,19 @@
 
 While developing, you will probably rely mostly on `yarn start`; however, there are additional scripts at your disposal:
 
-| `yarn <script>`     | Description                                                                                                             |
+| `yarn <script>`    | Description                                                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `start`             | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
 | `start:dist`        | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
 | `start:emulate`     | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`             | Builds the application to `./build`                                                                                     |
-| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       |
-| `emulators:hosting` | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |
+| `build`             | Builds the application to `./build`                                                                                     | 
+| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       | 
+| `emulators:hosting` | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | 
 | `test`              | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  |
+| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  | 
 | `test:ui:run`       | Runs UI tests with Cypress. See [testing](#testing)                                                                     |
 | `test:ui`           | Opens UI tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`   | Same as `test:ui` but with tests pointed at emulators                                                                   |
+| `test:ui:emulate`   | Same as `test:ui` but with tests pointed at emulators                                                                   | 
 | `lint`              | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
 | `lint:fix`          | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
@@ -184,7 +184,6 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 Cypress is used to write and run UI tests which live in the `cypress` folder. [`cypress-firebase`](https://github.com/prescottprue/cypress-firebase) is used to generate a custom auth token for the test user and to communicate with Firebase databases with admin privileges.
 
 #### Tests Setup
-
 1. Visit the [Firebase Console](https://console.firebase.google.com/)
 1. Select your project
 1. Navigate to Project Settings (gear icon button at the top left of the page).
@@ -193,7 +192,6 @@ Cypress is used to write and run UI tests which live in the `cypress` folder. [`
 1. Save the service account file to the root of the repo under `serviceAccount.json`
 
 #### Running Tests
-
 The following npm scripts can be used to run tests:
 
 - Run using Cypress run: `yarn test:ui:run`
