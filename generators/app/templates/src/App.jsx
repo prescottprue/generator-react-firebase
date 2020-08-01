@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'<% if (!includeRedux) { %>
+import React from 'react'<% if (includeRedux) { %>
+import PropTypes from 'prop-types'<% } %><% if (!includeRedux) { %>
 import { FirebaseAppProvider<% if (!includeRedux) { %>, SuspenseWithPerf<% } %> } from 'reactfire'<% } %>
 import { BrowserRouter as Router } from 'react-router-dom'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
@@ -80,11 +80,11 @@ function App({ routes, store }) {
       </Provider>
     </MuiThemeProvider>
   )
-}<% } %>
+}<% } %><% if (includeRedux) { %>
 
 App.propTypes = {
-  routes: PropTypes.object.isRequired<% if (includeRedux) { %>,
-  store: PropTypes.object.isRequired<% } %>
-}
+  routes: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired
+}<% } %>
 
 export default App

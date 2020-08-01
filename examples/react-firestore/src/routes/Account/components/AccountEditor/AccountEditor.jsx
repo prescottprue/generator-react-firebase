@@ -19,16 +19,15 @@ function AccountEditor() {
   const profileSnap = useFirestoreDoc(accountRef)
   const profile = profileSnap.data()
 
-  function updateAccount(newAccount) {
-    return auth
-      .updateProfile(newAccount)
-      .then(() => accountRef.set(newAccount, { merge: true }))
-      .then(() => showSuccess('Profile updated successfully'))
-      .catch((error) => {
-        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-        showError('Error updating profile: ', error.message || error)
-        return Promise.reject(error)
-      })
+  async function updateAccount(newAccount) {
+    try {
+      await auth.updateProfile(newAccount)
+      await accountRef.set(newAccount, { merge: true })
+      showSuccess('Profile updated successfully')
+    } catch(err) {
+      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+      showError('Error updating profile: ', error.message)
+    }
   }
 
   return (

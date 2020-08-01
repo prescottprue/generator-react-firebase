@@ -27,12 +27,12 @@ async function indexUser(change, context) {
       await publicProfileRef.delete()
       console.log(`Successfully removed user with id: ${userId} from index.`)
       return null
-    } catch(err) {
+    } catch (err) {
       console.error(
-        'Error running delete promises:',
-        nameRemoveErr.message || nameRemoveErr
+        `Error removing public profile of user with id: ${userId}`,
+        err
       )
-      throw nameRemoveErr
+      throw err
     }
   }
 
@@ -55,7 +55,7 @@ async function indexUser(change, context) {
       },
       { merge: true }
     )
-  } catch(err) {
+  } catch (err) {
     // Handle errors updating displayName index
     console.error(
       `Error running updating displayName index for profile with userId: ${userId}`,

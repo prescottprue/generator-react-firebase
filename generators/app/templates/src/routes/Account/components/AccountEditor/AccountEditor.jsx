@@ -36,23 +36,15 @@ function AccountEditor() {
     return <LoadingSpinner />
   }<% } %>
 
-  function updateAccount(newAccount) {
-    return <% if (includeRedux) { %>firebase
-      .updateProfile(newAccount)
-      .then(() => showSuccess('Profile updated successfully'))
-      .catch((error) => {
-        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-        showError('Error updating profile: ', error.message || error)
-        return Promise.reject(error)
-      })<% } %><% if (!includeRedux) { %>auth
-      .updateProfile(newAccount)
-      .then(() => accountRef.set(newAccount, { merge: true }))
-      .then(() => showSuccess('Profile updated successfully'))
-      .catch((error) => {
-        console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-        showError('Error updating profile: ', error.message || error)
-        return Promise.reject(error)
-      })<% } %>
+  async function updateAccount(newAccount) {
+    try {
+      await <% if (includeRedux) { %>firebase.updateProfile(newAccount)<% } %><% if (!includeRedux) { %>auth.updateProfile(newAccount)
+      await accountRef.set(newAccount, { merge: true })<% } %>
+      showSuccess('Profile updated successfully')
+    } catch(err) {
+      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
+      showError('Error updating profile: ', error.message)
+    }
   }
 
   return (

@@ -5,6 +5,9 @@ export default () => ({
   appBar: {
     // backgroundColor: theme.palette.primary1Color // Update this to change navbar color
   },
+  accountButton: {
+    color: 'white'
+  },
   signIn: {
     color: 'white',
     textDecoration: 'none',

@@ -9,13 +9,14 @@ const defaultDismissTime = 2500 // 2.5 seconds
 /**
  * Publish a notification. if `dismissAfter` is set, the notification will be
  * auto dismissed after the given period.
- * @param {Object} notif - Object containing
- * @param {Object} notif.kind - Kinda of notification (success, warning, failure)
- * @param {Object} notif.message - Notification message
- * @param {Object} notif.dismissAfter - Time after which to dismiss notification (default time set in constants)
+ * @param {Object} notification - Notification object containing settings
+ * @param {Object} notification.type - Type of notification (success, warning, failure)
+ * @param {Object} notification.message - Notification message
+ * @param {Object} notification.dismissAfter - Time after which to dismiss notification (default
+ * time set in constants)
  */
-export function showNotification(notif) {
-  const payload = Object.assign({}, notif)
+export function showNotification(notification) {
+  const payload = { ...notification }
   // Set default id to now if none provided
   if (!payload.id) {
     payload.id = Date.now()

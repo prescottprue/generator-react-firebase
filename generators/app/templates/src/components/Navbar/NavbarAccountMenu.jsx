@@ -1,42 +1,35 @@
 import React, { useState } from 'react'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
 import { useFirebaseApp } from 'reactfire'<% } %>
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { makeStyles } from '@material-ui/core/styles'
 import { ACCOUNT_PATH } from 'constants/paths'
+import styles from './Navbar.styles'
 
-const useStyles = makeStyles(() => ({
-  buttonRoot: {
-    color: 'white'
-  }
-}))
+const useStyles = makeStyles(styles)
 
 function AccountMenu() {
   const classes = useStyles()
-  const [anchorEl, setMenu] = useState(null)
-  const history = useHistory()<% if (includeRedux) { %>
+  const [anchorEl, setMenu] = useState(null)<% if (includeRedux) { %>
   const firebase = useFirebase()<% } %><% if (!includeRedux) { %>
   const firebase = useFirebaseApp()<% } %>
 
   function closeAccountMenu() {
     setMenu(null)
   }
-  function handleMenu(e) {
+  function handleMenuClick(e) {
     setMenu(e.target)
   }
   function handleLogout() {
     closeAccountMenu()
     <% if (includeRedux) { %>// redirect to '/' handled by UserIsAuthenticated HOC
     return firebase.logout()<% } %><% if (!includeRedux) { %>
+    // redirect to '/login' will occur if on a route where auth is required
     return firebase.auth().signOut()<% } %>
-  }
-  function goToAccount() {
-    closeAccountMenu()
-    history.push(ACCOUNT_PATH)
   }
 
   return (
@@ -44,8 +37,8 @@ function AccountMenu() {
       <IconButton
         aria-owns={anchorEl ? 'menu-appbar' : null}
         aria-haspopup="true"
-        onClick={handleMenu}
-        classes={{ root: classes.buttonRoot }}>
+        onClick={handleMenuClick}
+        classes={{ root: classes.accountButton }}>
         <AccountCircle />
       </IconButton>
       <Menu
@@ -55,7 +48,13 @@ function AccountMenu() {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={Boolean(anchorEl)}
         onClose={closeAccountMenu}>
-        <MenuItem onClick={goToAccount}>Account</MenuItem>
+        <MenuItem
+          component={Link}
+          to={ACCOUNT_PATH}
+          onClick={closeAccountMenu}
+        >
+          Account
+        </MenuItem>
         <MenuItem onClick={handleLogout}>Sign Out</MenuItem>
       </Menu>
     </>

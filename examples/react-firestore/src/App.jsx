@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { FirebaseAppProvider, SuspenseWithPerf } from 'reactfire'
 import { BrowserRouter as Router } from 'react-router-dom'
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
@@ -51,10 +50,6 @@ function App() {
       </FirebaseAppProvider>
     </MuiThemeProvider>
   )
-}
-
-App.propTypes = {
-  routes: PropTypes.object.isRequired
 }
 
 export default App
