@@ -474,8 +474,21 @@ For full projects built out using this as a starting place, check the next secti
 
 ## FAQ
 
-1. Why node `10` instead of a newer version?
-  [Cloud Functions runtime is still on `10`](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
+1. Why use `.jsx` extension for React component files? What if I want to use `.js` instead?
+
+  `.jsx` is used to clearly identify files which are using React JSX, which is non-standard javascript functionality. Some eslint configurations, such as [Airbnb](https://github.com/airbnb/javascript), have this as a rule ([here is an issue that discusses why](https://github.com/airbnb/javascript/pull/985)).
+
+  If you would still like to use `.js` instead, you can switch the extension of all `.jsx` files to `.js` using the following command:
+
+  ```bash
+  for f in src/**/*.jsx; do
+    mv -- "$f" "${f%.jsx}.js"
+  done
+  ```
+
+1. Why node `12` instead of a newer version?
+
+  It is the newest node supported by [the Cloud Functions runtime](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
 1. Why camel-cased environment variables instead of full capital letters (i.e. `process.env.REACT_APP_FIREBASE_projectId` instead of `process.env.REACT_APP_FIREBASE_PROJECT_ID`)
 
@@ -489,44 +502,9 @@ For full projects built out using this as a starting place, check the next secti
     1. Add a `path` of the new route to `constants/paths` (i.e. `MYROUTE_PATH`)
     1. Add the route to the list of routes in `src/routes/index.js`
 
-1. Where are the settings for changing how my project deploys through Continious integration?  
+1. Where are the settings for changing how my project deploys through Continuous integration?  
 
     Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
-
-1. How does one override `react-redux-firebase` and `redux-firestore` configuration based on the environment? Like adding logging only to staging?
-
-    Add the following to `.firebaserc` under the branch associated with the environment you wish to change:
-
-    ```json
-    "reduxFirebase": {
-      "userProfile": "users",
-      "enableLogging": false
-    }
-    ```
-
-    Should look end up looking similar to the following:
-
-    ```json
-    "ci": {
-      "copyVersion": true,
-      "createConfig": {
-        "master": {
-          "env": "staging",
-          "firebase": {
-            "apiKey": "${STAGE_FIREBASE_API_KEY}",
-            "authDomain": "some-project.firebaseapp.com",
-            "databaseURL": "https://some-project.firebaseio.com",
-            "projectId": "some-project",
-            "storageBucket": "some-project.appspot.com"
-          },
-          "reduxFirebase": {
-            "userProfile": "users",
-            "enableLogging": true
-          }
-        }
-      }
-    }
-    ```
 
 1. Why are there `__snapshots__` folders everywhere when opting into Jest?
 
@@ -540,7 +518,7 @@ For full projects built out using this as a starting place, check the next secti
         `"snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"`
 
 1. How do I move/rename the `cypress` folder to something more general?
-    If you wanted to move the `cypress` folder into `test/ui` for intance, you could modify your `cypress.json` file to match the following:
+    If you wanted to move the `cypress` folder into `test/ui` for instance, you could modify your `cypress.json` file to match the following:
 
     **cypress.json**
     ```json

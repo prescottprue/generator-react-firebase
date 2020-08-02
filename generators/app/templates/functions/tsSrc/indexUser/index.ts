@@ -3,15 +3,18 @@ import * as functions from 'firebase-functions'<% if (!includeFirestore) { %>
 
 /**
  * Index user's by placing their displayName into the users_public collection
- * @param {functions.Change} change - Database event from function being
- * @param {admin.database.DataSnapshot} change.before - Snapshot of data before change
- * @param {admin.database.DataSnapshot} change.after - Snapshot of data after change
- * @param {functions.EventContext} context - Function context which includes
+ * @param change - Database event from function being
+ * @param change.before - Snapshot of data before change
+ * @param change.after - Snapshot of data after change
+ * @param context - Function context which includes
  * data about the event. More info in docs:
  * https://firebase.google.com/docs/reference/functions/functions.EventContext
- * @returns {Promise} Resolves with user's profile
+ * @returns Resolves with user's profile
  */
-async function indexUser(change, context) {
+async function indexUser(
+  change: functions.Change<admin.database.Snapshot>,
+  context: functions.EventContext
+): Promise<null> {
   const { userId } = context.params || {}
   const publicProfileRef = admin.database().ref(`users_public/${userId}`)
 
@@ -37,7 +40,7 @@ async function indexUser(change, context) {
     `Display Name for userId: ${userId} changed, updating user index...`
   )
 
-  // Update displayName within index
+  // Update displayName within public profile
   try {
     await publicProfileRef.update({
       displayName: change.after.val()
@@ -67,15 +70,18 @@ export default functions.database
 
 /**
  * Index user's by placing their displayName into the users_public collection
- * @param {functions.Change} change - Database event from function being
- * @param {admin.firestore.DataSnapshot} change.before - Snapshot of data before change
- * @param {admin.firestore.DataSnapshot} change.after - Snapshot of data after change
- * @param {functions.EventContext} context - Function context which includes
+ * @param change - Database event from function being
+ * @param change.before - Snapshot of data before change
+ * @param change.after - Snapshot of data after change
+ * @param context - Function context which includes
  * data about the event. More info in docs:
  * https://firebase.google.com/docs/reference/functions/functions.EventContext
- * @returns {Promise} Resolves with user's profile
+ * @returns Resolves with user's profile
  */
-async function indexUser(change, context) {
+async function indexUser(
+  change: functions.Change<admin.firestore.DocumentSnapshot>,
+  context: functions.EventContext
+): Promise<null> {
   const { userId } = context.params || {}
   const publicProfileRef = admin
     .firestore()
@@ -101,7 +107,7 @@ async function indexUser(change, context) {
   }
 
   const previousData = change.before.data()
-  const newData = change.after.data()
+  const newData = change.after.data() || {}
 
   // Check to see if displayName has changed
   if (previousData?.displayName === newData.displayName) {
@@ -111,7 +117,7 @@ async function indexUser(change, context) {
     return null
   }
 
-  // Update displayName within index
+  // Update displayName within public profile
   try {
     await publicProfileRef.set(
       {
@@ -128,7 +134,7 @@ async function indexUser(change, context) {
     throw err
   }
 
-  return newData
+  return null
 }
 
 /**
