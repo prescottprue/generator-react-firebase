@@ -30,5 +30,5 @@ files.forEach((functionFile) => {
   // Load single function from default export of function folder's index file
   !process.env.FUNCTION_NAME || process.env.FUNCTION_NAME === folderName // eslint-disable-line no-unused-expressions
     ? (exports[folderName] = require(functionFile).default) // eslint-disable-line global-require
-    : () => {}
+    : () => {} // eslint-disable-line @typescript-eslint/no-empty-function
 })

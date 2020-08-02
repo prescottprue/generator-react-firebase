@@ -113,6 +113,15 @@ const prompts = [
     store: true
   },
   {
+    type: 'confirm',
+    name: 'typescriptCloudFunctions',
+    when: (currentAnswers) =>
+      checkAnswersForFeature(currentAnswers, 'includeFunctions'),
+    message: 'Use Typescript for cloud functions?',
+    default: true,
+    store: true
+  },
+  {
     name: 'firebaseKey',
     message: 'Firebase apiKey',
     required: true,
@@ -252,6 +261,7 @@ module.exports = class extends Generator {
       sentryDsn: null,
       ciProvider: null,
       codeClimate: true,
+      typescriptCloudFunctions: true,
       appPath: this.env.options.appPath,
       appName,
       capitalAppName: capitalize(appName),
@@ -335,11 +345,17 @@ module.exports = class extends Generator {
         { src: 'functions/.runtimeconfig.json' },
         { src: 'functions/jsconfig.json' },
         { src: 'functions/.eslintrc.js' },
-        { src: 'functions/.babelrc' },
         { src: 'functions/package.json' },
-        { src: 'functions/src' },
         { src: 'functions/index.js' }
       )
+      if (this.answers.typescriptCloudFunctions) {
+        filesArray.push(
+          { src: 'functions/tsconfig.json' },
+          { src: 'functions/tsSrc', dest: 'functions/src' }
+        )
+      } else {
+        filesArray.push({ src: 'functions/.babelrc' }, { src: 'functions/src' })
+      }
     }
 
     // Cloud Functions Tests
@@ -351,7 +367,12 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: `functions/${testConfigFile}` },
         { src: 'functions/scripts/testSetup.js' },
-        { src: 'functionsTests', dest: 'functions/src' }
+        {
+          src: 'functionsTests/indexUser/indexUser.spec.js',
+          dest: `functions/src/indexUser/indexUser.spec.${
+            this.answers.typescriptCloudFunctions ? 't' : 'j'
+          }s`
+        }
       )
     }
 

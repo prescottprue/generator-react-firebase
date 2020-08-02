@@ -1,2 +1,3 @@
-import ThemeProvider, { ThemeContext } from './ThemeProvider'
+import ThemeProvider from './ThemeProvider'
+import ThemeContext from './ThemeContext'
 export { ThemeProvider, ThemeContext }

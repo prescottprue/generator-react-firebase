@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import LightThemeIcon from '@material-ui/icons/BrightnessHigh';
 import DarkThemeIcon from '@material-ui/icons/Brightness4';
 import { makeStyles } from '@material-ui/core/styles'
-import { ThemeContext } from 'modules/theme/ThemeProvider'
+import { ThemeContext } from 'modules/theme'
 import styles from './Navbar.styles'
 
 const useStyles = makeStyles(styles)
