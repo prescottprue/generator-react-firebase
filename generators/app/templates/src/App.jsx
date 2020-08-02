@@ -7,16 +7,13 @@ import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'<% if (includeMessaging) { %>
+import ThemeProvider from 'modules/theme/ThemeProvider'<% if (includeMessaging) { %>
 import SetupMessaging from 'components/SetupMessaging'<% } %><% if (!includeRedux && includeFirestore) { %>
 import SetupFirestore from 'components/SetupFirestore'<% } %><% if (includeAnalytics) { %>
-import SetupAnalytics from 'components/SetupAnalytics'<% } %>
-import ThemeSettings from './theme'<% if (includeRedux) { %>
+import SetupAnalytics from 'components/SetupAnalytics'<% } %><% if (includeRedux) { %>
 import { defaultRRFConfig } from './defaultConfig'<% } %><% if (includeRedux) { %>
 import initializeFirebase from './initializeFirebase'<% } %><% if (!includeRedux) { %>
 import createRoutes from './routes'<% } %>
-
-const theme = createMuiTheme(ThemeSettings)
 
 <% if (includeRedux) { %>initializeFirebase()
 <% } %><% if (!includeRedux) { %>const firebaseConfig = {
@@ -39,7 +36,7 @@ if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
 function App() {
   const routes = createRoutes()
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider>
       <FirebaseAppProvider firebaseConfig={firebaseConfig} initPerformance>
         <NotificationsProvider><% if (includeMessaging || includeFirestore || includeAnalytics) { %>
           <>
@@ -57,12 +54,12 @@ function App() {
           <Router>{routes}</Router><% } %>
         </NotificationsProvider>
       </FirebaseAppProvider>
-    </MuiThemeProvider>
+    </ThemeProvider>
   )
 }<% } else { %>
 function App({ routes, store }) {
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider>
       <Provider store={store}>
         <NotificationsProvider>
           <ReactReduxFirebaseProvider
@@ -78,7 +75,7 @@ function App({ routes, store }) {
           </ReactReduxFirebaseProvider>
         </NotificationsProvider>
       </Provider>
-    </MuiThemeProvider>
+    </ThemeProvider>
   )
 }<% } %><% if (includeRedux) { %>
 
