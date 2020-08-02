@@ -11,7 +11,7 @@
     "lint": "eslint -c .eslintrc.js .",
     "lint:fix": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> lint <% if(!useYarn) { %>-- <% } %>--fix",
     "clean": "rimraf dist etc",
-    "build": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> clean && babel src -d --out-dir dist",
+    "build": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> clean && <% if(!typescriptCloudFunctions) { %>babel src -d --out-dir dist<% } %><% if(typescriptCloudFunctions) { %>tsc<% } %>",
     "watch": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> build <% if(!useYarn) { %>-- <% } %>--watch",
     "shell": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> build && firebase functions:shell",
     "start": "<% if(useYarn) { %>yarn<% } else { %>npm run<% } %> shell",
@@ -31,8 +31,9 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {<% if(typescriptCloudFunctions) { %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
-    "@istanbuljs/nyc-config-typescript": "^1.0.1",<% } %>
-    "@types/chai": "^4.2.11",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/chai": "^4.2.11",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
+    "@types/jest": "^26.0.8",<% } %>
     "@types/mkdirp": "^1.0.1",<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "@types/mocha": "^7.0.2",<% } %>
     "@types/node": "^14.0.13",
