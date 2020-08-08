@@ -34,7 +34,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
             inputRef={register({
               required: true
             })}
-            inputProps={{ tabIndex: "1" }}
+            inputProps={{ tabIndex: '1' }}
             margin="normal"
             fullWidth
           />

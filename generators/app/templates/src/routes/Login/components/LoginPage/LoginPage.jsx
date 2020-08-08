@@ -41,7 +41,7 @@ function LoginPage() {
       await auth.signInWithPopup(provider)
       // NOTE: window.location used since history.push/replace does not always work
       window.location = LIST_PATH
-    } catch(err) {
+    } catch (err) {
       showError(err.message)
     }
   }
@@ -54,7 +54,7 @@ function LoginPage() {
       )
       // NOTE: window.location used since history.push/replace does not always work
       window.location = LIST_PATH
-    } catch(err) {
+    } catch (err) {
       showError(err.message)
     }
   }<% } %>

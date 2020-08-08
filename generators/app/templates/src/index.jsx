@@ -14,9 +14,9 @@ window.version = version<% if (includeErrorHandling) { %>
 
 // Initialize Error Handling
 // ------------------------------------
-initErrorHandling()<% } %>
+initErrorHandling()<% } %><% if (includeRedux) { %>
 
-<% if (includeRedux) { %>// Initialize Redux Store
+// Initialize Redux Store
 // ------------------------------------
 const initialState = window.___INITIAL_STATE__ || {
   firebase: { authError: null }
