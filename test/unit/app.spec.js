@@ -17,7 +17,7 @@ const srcFiles = [
   'src/modules/notification/useNotifications.js',
   'src/modules/notification/index.js',
   'src/utils/form.js',
-  'src/utils/router.js',
+  'src/utils/router.jsx',
   'src/constants/paths.js',
   'src/App.jsx',
   'src/index.jsx',
@@ -28,6 +28,7 @@ const srcFiles = [
   '.github/ISSUE_TEMPLATE/feature_request.md',
   '.github/CONTRIBUTING.md',
   '.github/PULL_REQUEST_TEMPLATE.md',
+  '.github/dependabot.yml'
 ]
 
 const reduxFiles = ['src/store/createStore.js', 'src/store/reducers.js']

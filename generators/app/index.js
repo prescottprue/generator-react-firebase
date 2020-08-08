@@ -229,6 +229,7 @@ const filesArray = [
   { src: 'src/utils/form.js' },
   { src: '.github/ISSUE_TEMPLATE/**', dest: '.github/ISSUE_TEMPLATE' },
   { src: '.github/CONTRIBUTING.md' },
+  { src: '.github/dependabot.yml' },
   { src: '.github/PULL_REQUEST_TEMPLATE.md' },
   { src: 'firebase.json', dest: 'firebase.json' },
   { src: '_firebaserc', dest: '.firebaserc' },
