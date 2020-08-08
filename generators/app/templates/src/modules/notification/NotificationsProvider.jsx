@@ -15,20 +15,21 @@ export default function NotificationsProvider({ children }) {
   const onClickDismiss = key => () => { 
     notistackRef.current.closeSnackbar(key);
   }
-  const notificationWithVariant = (variant) => (message) => {
-    notistackRef.current.enqueueSnackbar(message, { variant })
-  }
+
   const contextValue = {
     showSuccess: useCallback(
-      notificationWithVariant('success'),
+      (message) =>
+        notistackRef.current.enqueueSnackbar(message, { variant: 'success' }),
       [notistackRef]
     ),
     showError: useCallback(
-      notificationWithVariant('error'),
+      (message) =>
+        notistackRef.current.enqueueSnackbar(message, { variant: 'error' }),
       [notistackRef]
     ),
     showWarning: useCallback(
-      notificationWithVariant('warning'),
+      (message) =>
+        notistackRef.current.enqueueSnackbar(message, { variant: 'warning' }),
       [notistackRef]
     )
   }

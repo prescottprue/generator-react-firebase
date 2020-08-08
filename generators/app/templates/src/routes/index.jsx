@@ -2,8 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'<% if (!includeRedux) { %>
 import { SuspenseWithPerf } from 'reactfire'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { PrivateRoute } from '../utils/router'<% } %><% if (includeAnalytics) { %>
-import SetupAnalytics from '../components/SetupAnalytics'<% } %>
+import { PrivateRoute } from '../utils/router'<% } %>
 import CoreLayout from '../layouts/CoreLayout'
 import Home from './Home'
 import LoginRoute from './Login'
