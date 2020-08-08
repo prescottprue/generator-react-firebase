@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
-import firebase from 'firebase/app' // imported for auth provider
 import { useAuth } from 'reactfire'<% } %>
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
@@ -33,27 +32,31 @@ function LoginPage() {
     return firebase.login(creds).catch((err) => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
   const auth = useAuth()
+  const { GoogleAuthProvider } = useAuth
   const { showError } = useNotifications()
 
-  function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    return auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        // NOTE: window.location used since history.push/replace does not always work
-        window.location = LIST_PATH
-      })
-      .catch((err) => showError(err.message))
+  async function googleLogin() {
+    const provider = new GoogleAuthProvider()
+    try {
+      await auth.signInWithPopup(provider)
+      // NOTE: window.location used since history.push/replace does not always work
+      window.location = LIST_PATH
+    } catch(err) {
+      showError(err.message)
+    }
   }
 
-  function emailLogin(creds) {
-    return auth
-      .signInWithEmailAndPassword(creds.email, creds.password)
-      .then((result) => {
-        // NOTE: window.location used since history.push/replace does not always work
-        window.location = LIST_PATH
-      })
-      .catch((err) => showError(err.message))
+  async function emailLogin(formValues) {
+    try {
+      await auth.signInWithEmailAndPassword(
+        formValues.email,
+        formValues.password
+      )
+      // NOTE: window.location used since history.push/replace does not always work
+      window.location = LIST_PATH
+    } catch(err) {
+      showError(err.message)
+    }
   }<% } %>
 
   return (

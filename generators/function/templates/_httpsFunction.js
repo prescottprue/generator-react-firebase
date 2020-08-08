@@ -10,6 +10,7 @@ import * as functions from 'firebase-functions'
  * @returns {Promise} Resolves after handling request
  */
 export async function <%= name %>Request(data, context) {
+  console.log('request', { data, context })
   // Return data back to client to end function execution
   return { message: 'Hello World' }
 }<% } else { %>/**

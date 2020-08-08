@@ -1,4 +1,4 @@
 module.exports = {
-  require: ['@babel/register', './scripts/testSetup'],
+  require: ['ts-node/register', './scripts/testSetup'],
   recursive: true
 }

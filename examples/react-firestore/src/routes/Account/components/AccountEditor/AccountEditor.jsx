@@ -24,9 +24,9 @@ function AccountEditor() {
       await auth.updateProfile(newAccount)
       await accountRef.set(newAccount, { merge: true })
       showSuccess('Profile updated successfully')
-    } catch(err) {
-      console.error('Error updating profile', error.message || error) // eslint-disable-line no-console
-      showError('Error updating profile: ', error.message)
+    } catch (err) {
+      console.error('Error updating profile', err) // eslint-disable-line no-console
+      showError(`Error updating profile: ${err.message}`)
     }
   }
 

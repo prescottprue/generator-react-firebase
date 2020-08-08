@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import Paper from '@material-ui/core/Paper'
-import firebase from 'firebase/app' // imported for auth provider
 import { useAuth } from 'reactfire'
 import { makeStyles } from '@material-ui/core/styles'
 import { LOGIN_PATH, LIST_PATH } from 'constants/paths'
@@ -16,26 +15,30 @@ function SignupPage() {
   const classes = useStyles()
   const { showError } = useNotifications()
   const auth = useAuth()
+  const { GoogleAuthProvider } = useAuth
 
-  function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    return auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        // NOTE: window.location used since history.push/replace does not always work
-        window.location = LIST_PATH
-      })
-      .catch((err) => showError(err.message))
+  async function googleLogin() {
+    const provider = new GoogleAuthProvider()
+    try {
+      await auth.signInWithPopup(provider)
+      // NOTE: window.location used since history.push/replace does not always work
+      window.location = LIST_PATH
+    } catch (err) {
+      showError(err.message)
+    }
   }
 
-  function emailSignup(creds) {
-    return auth
-      .createUserWithEmailAndPassword(creds.email, creds.password)
-      .then((result) => {
-        // NOTE: window.location used since history.push/replace does not always work
-        window.location = LIST_PATH
-      })
-      .catch((err) => showError(err.message))
+  async function emailSignup(formValues) {
+    try {
+      await auth.createUserWithEmailAndPassword(
+        formValues.email,
+        formValues.password
+      )
+      // NOTE: window.location used since history.push/replace does not always work
+      window.location = LIST_PATH
+    } catch (err) {
+      showError(err.message)
+    }
   }
 
   return (

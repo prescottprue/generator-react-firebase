@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "lib": ["es6"],
-    "types": ["node"],
     "skipLibCheck": true,
     "target": "ES2019",
     "module": "commonjs",
@@ -17,6 +16,6 @@
     "esModuleInterop": true
   },
   "typeRoots": ["./types", "./node_modules/@types"],
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

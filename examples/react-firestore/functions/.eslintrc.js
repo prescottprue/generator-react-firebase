@@ -10,11 +10,13 @@ module.exports = {
   rules: {
     'no-console': 0,
     'jsdoc/newline-after-description': 0,
+    'jsdoc/require-param-type': 0,
+    'jsdoc/require-returns-type': 0,
     '@typescript-eslint/no-explicit-any': 0
   },
   overrides: [
     {
-      files: ['./index.js'],
+      files: ['./index.js', 'scripts/testSetup.ts'],
       rules: {
         '@typescript-eslint/no-var-requires': 0
       }

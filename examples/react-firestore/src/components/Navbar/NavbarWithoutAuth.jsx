@@ -6,15 +6,15 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
-import LightThemeIcon from '@material-ui/icons/BrightnessHigh';
-import DarkThemeIcon from '@material-ui/icons/Brightness4';
+import LightThemeIcon from '@material-ui/icons/BrightnessHigh'
+import DarkThemeIcon from '@material-ui/icons/Brightness4'
 import { makeStyles } from '@material-ui/core/styles'
 import { ThemeContext } from 'modules/theme'
 import styles from './Navbar.styles'
 
 const useStyles = makeStyles(styles)
 
-function NavbarWithoutAuth({ children, brandPath }) {
+function NavbarWithoutAuth({ children, brandPath = '/' }) {
   const classes = useStyles()
   const { toggleDarkMode, isDarkMode } = useContext(ThemeContext)
 
@@ -25,15 +25,17 @@ function NavbarWithoutAuth({ children, brandPath }) {
           color="inherit"
           variant="h6"
           component={Link}
-          to={brandPath || '/'}
+          to={brandPath}
           className={classes.brand}
           data-test="brand">
           React-firestore
         </Typography>
         <div className={classes.flex} />
         <Tooltip title="Toggle light/dark theme">
-          <IconButton onClick={toggleDarkMode} className={classes.themeModeButton}>
-          { isDarkMode ? <LightThemeIcon /> : <DarkThemeIcon />}
+          <IconButton
+            onClick={toggleDarkMode}
+            className={classes.themeModeButton}>
+            {isDarkMode ? <LightThemeIcon /> : <DarkThemeIcon />}
           </IconButton>
         </Tooltip>
         {children}

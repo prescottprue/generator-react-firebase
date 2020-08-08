@@ -225,7 +225,7 @@ const filesArray = [
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/modules/**', dest: 'src/modules' },
-  { src: 'src/utils/router.js' },
+  { src: 'src/utils/router.jsx' },
   { src: 'src/utils/form.js' },
   { src: '.github/ISSUE_TEMPLATE/**', dest: '.github/ISSUE_TEMPLATE' },
   { src: '.github/CONTRIBUTING.md' },
@@ -366,7 +366,11 @@ module.exports = class extends Generator {
           : '.mocharc.js'
       filesArray.push(
         { src: `functions/${testConfigFile}` },
-        { src: 'functions/scripts/testSetup.js' },
+        {
+          src: `functions/scripts/testSetup.${
+            this.answers.typescriptCloudFunctions ? 't' : 'j'
+          }s`
+        },
         {
           src: 'functionsTests/indexUser/indexUser.spec.js',
           dest: `functions/src/indexUser/indexUser.spec.${

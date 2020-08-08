@@ -24,7 +24,6 @@ function AccountMenu() {
   }
   function handleLogout() {
     closeAccountMenu()
-    
     // redirect to '/login' will occur if on a route where auth is required
     return firebase.auth().signOut()
   }
@@ -45,11 +44,7 @@ function AccountMenu() {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={Boolean(anchorEl)}
         onClose={closeAccountMenu}>
-        <MenuItem
-          component={Link}
-          to={ACCOUNT_PATH}
-          onClick={closeAccountMenu}
-        >
+        <MenuItem component={Link} to={ACCOUNT_PATH} onClick={closeAccountMenu}>
           Account
         </MenuItem>
         <MenuItem onClick={handleLogout}>Sign Out</MenuItem>

@@ -24,7 +24,7 @@ module.exports = {
   },
   overrides: [
     <% if(typescriptCloudFunctions) { %>{
-      files: ['./index.js'],
+      files: ['./index.js'<% if(includeFunctionsTests) { %>, 'scripts/testSetup.ts'<% } %>],
       rules: {
         '@typescript-eslint/no-var-requires': 0
       }

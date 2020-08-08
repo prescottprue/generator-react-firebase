@@ -1,6 +1,9 @@
 import * as firebaseTesting from '@firebase/testing'
+import functionsTestLib from 'firebase-functions-test'
 import indexUserOriginal from './index'
 
+const functionsTest = functionsTestLib()
+const projectId = process.env.GCLOUD_PROJECT || 'unit-test-project'
 const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PATH = `${USERS_COLLECTION}/${USER_UID}`

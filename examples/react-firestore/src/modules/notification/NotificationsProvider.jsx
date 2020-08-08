@@ -1,79 +1,50 @@
-import React, { useReducer, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import reducer from './reducer'
-import {
-  NOTIFICATION_SHOW,
-  NOTIFICATION_DISMISS,
-  NOTIFICATION_CLEAR
-} from './actionTypes'
-
-const defaultDismissTime = 5000 // 5 seconds
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
+import { SnackbarProvider } from 'notistack'
 
 export const NotificationsContext = React.createContext({
-  allIds: [],
-  byId: {},
-  showError: () => {},
-  showMessage: () => {},
   showSuccess: () => {},
-  dismissNotification: () => {},
-  clearNotifications: () => {}
+  showError: () => {},
+  showWarning: () => {}
 })
 
 export default function NotificationsProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer)
-
-  const showNotification = useCallback(
-    (notif) => {
-      const payload = { ...notif }
-      // Set default id to now if none provided
-      if (!payload.id) {
-        payload.id = Date.now()
-      }
-      dispatch({ type: NOTIFICATION_SHOW, payload })
-
-      setTimeout(() => {
-        dispatch({
-          type: NOTIFICATION_DISMISS,
-          payload: payload.id
-        })
-      }, payload.dismissAfter || defaultDismissTime)
-    },
-    [dispatch]
-  )
-
+  const notistackRef = React.createRef()
+  const onClickDismiss = (key) => () => {
+    notistackRef.current.closeSnackbar(key)
+  }
+  const notificationWithVariant = (variant) => (message) => {
+    notistackRef.current.enqueueSnackbar(message, { variant })
+  }
   const contextValue = {
-    allIds: state?.allIds,
-    byId: state?.byId,
-    showSuccess: useCallback(
-      (message) => showNotification({ type: 'success', message }),
-      [showNotification]
-    ),
-    showError: useCallback(
-      (message) =>
-        showNotification({ type: 'error', message: `Error: ${message || ''}` }),
-      [showNotification]
-    ),
-    showMessage: useCallback(
-      (message) => showNotification({ type: 'info', message }),
-      [showNotification]
-    ),
-    dismissNotification: useCallback(
-      (payload) =>
-        dispatch({
-          type: NOTIFICATION_DISMISS,
-          payload
-        }),
-      [dispatch]
-    ),
-    clearNotifications: useCallback(
-      () => dispatch({ type: NOTIFICATION_CLEAR }),
-      [dispatch]
-    )
+    showSuccess: useCallback(notificationWithVariant('success'), [
+      notistackRef
+    ]),
+    showError: useCallback(notificationWithVariant('error'), [notistackRef]),
+    showWarning: useCallback(notificationWithVariant('warning'), [notistackRef])
   }
 
   return (
     <NotificationsContext.Provider value={contextValue}>
-      {children}
+      <SnackbarProvider
+        ref={notistackRef}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        action={(key) => (
+          <IconButton
+            key={`close-${key}`}
+            aria-label="Close"
+            color="inherit"
+            onClick={onClickDismiss(key)}>
+            <CloseIcon />
+          </IconButton>
+        )}>
+        {children}
+      </SnackbarProvider>
     </NotificationsContext.Provider>
   )
 }

@@ -16,9 +16,9 @@ window.version = version<% if (includeErrorHandling) { %>
 // ------------------------------------
 initErrorHandling()<% } %>
 
-// Initialize Redux Store
+<% if (includeRedux) { %>// Initialize Redux Store
 // ------------------------------------
-<% if (includeRedux) { %>const initialState = window.___INITIAL_STATE__ || {
+const initialState = window.___INITIAL_STATE__ || {
   firebase: { authError: null }
 }
 const store = createStore(initialState)

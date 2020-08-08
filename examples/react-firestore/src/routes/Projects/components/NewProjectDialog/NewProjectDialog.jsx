@@ -34,18 +34,20 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
             inputRef={register({
               required: true
             })}
+            inputProps={{ tabIndex: '1' }}
             margin="normal"
             fullWidth
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onRequestClose} color="secondary">
+          <Button onClick={onRequestClose} tabIndex="3">
             Cancel
           </Button>
           <Button
             type="submit"
             color="primary"
-            disabled={isSubmitting || !isValid}>
+            disabled={isSubmitting || !isValid}
+            tabIndex="2">
             {isSubmitting ? 'Creating...' : 'Create'}
           </Button>
         </DialogActions>

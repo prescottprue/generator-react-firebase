@@ -3,13 +3,13 @@ import { useRouteMatch } from 'react-router-dom'<% } %><% if (!includeRedux) { %
 import PropTypes from 'prop-types'
 import { Route, Redirect, useRouteMatch } from 'react-router-dom'
 import { AuthCheck } from 'reactfire'
-import { LOGIN_PATH } from 'constants/paths'<% } %><% if (includeRedux) { %>
+import { LOGIN_PATH } from '../constants/paths'<% } %><% if (includeRedux) { %>
 import { Route } from 'react-router-dom'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import { createBrowserHistory } from 'history'<% } %>
-import LoadingSpinner from 'components/LoadingSpinner'<% if (includeRedux) { %>
-import { LIST_PATH } from 'constants/paths'
+import LoadingSpinner from '../components/LoadingSpinner'<% if (includeRedux) { %>
+import { LIST_PATH } from '../constants/paths'
 
 const locationHelper = locationHelperBuilder({})
 const history = createBrowserHistory()
@@ -91,27 +91,6 @@ export function renderChildren(routes, parentProps) {
 }<% } else { %>
 
 /**
- * Render children based on route config objects
- * @param {Array} routes - Routes settings array
- * @param {Object} match - Routes settings array
- * @param {Object} parentProps - Props to pass to children from parent
- * @returns {Array} List of routes
- */
-export function renderChildren(routes, parentProps) {
-  return routes.map((route) => {
-    const match = useRouteMatch()
-    const RouteComponent = route.authRequired ? PrivateRoute : Route
-    return (
-      <RouteComponent
-        key={`${match.url}-${route.path}`}
-        path={`${match.url}/${route.path}`}
-        render={(props) => <route.component {...parentProps} {...props} />}
-      />
-    )
-  })
-}
-
-/**
  * A wrapper for <Route> that redirects to the login
  * @param {Object} props - Route props
  * @param {string} props.path - Path of route
@@ -139,6 +118,27 @@ PrivateRoute.propTypes = {
   children: PropTypes.element,
   path: PropTypes.string.isRequired,
   component: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+}
+
+/**
+ * Render children based on route config objects
+ * @param {Array} routes - Routes settings array
+ * @param {Object} match - Routes settings array
+ * @param {Object} parentProps - Props to pass to children from parent
+ * @returns {Array} List of routes
+ */
+export function renderChildren(routes, parentProps) {
+  return routes.map((route) => {
+    const match = useRouteMatch()
+    const RouteComponent = route.authRequired ? PrivateRoute : Route
+    return (
+      <RouteComponent
+        key={`${match.url}-${route.path}`}
+        path={`${match.url}/${route.path}`}
+        render={(props) => <route.component {...parentProps} {...props} />}
+      />
+    )
+  })
 }<% } %>
 
 /**

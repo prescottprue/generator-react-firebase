@@ -2,16 +2,24 @@ import * as functions from 'firebase-functions';
 
 <% if (eventType === 'onCall') { %>/**
  * Handle request from firebase client calling <%= name %> httpsCallable
+ *
  * @param {object} data - Data passed into httpsCallable by client
  * @param {object} context - Cloud function context
  * @param {object} context.auth - Cloud function context
  * @param {object} context.auth.uid - UID of user that made the request
- * @param {object} context.auth.name - Name of user that made the request
  * @returns {Promise} Resolves after handling request
+ * @example
+ * firebase.functions()
+ *  .httpsCallable('<%= name %>')({text: messageText})
+ *  .then((result) => {
+ *   // Read result of the Cloud Function.
+ *   const { message } = result.data;
+ * })
  */
 async function <%= name %>Request(data, context) {
+  console.log('request', { data, context });
   // Return data back to client to end function execution
-  return {};
+  return { message: 'Hello World' };
 }<% } else { %>/**
  * Handle request from calling /<%= name %> endpoint
  * @param {object} req - Express HTTP Request

@@ -2,29 +2,8 @@ import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect, useRouteMatch } from 'react-router-dom'
 import { AuthCheck } from 'reactfire'
-import { LOGIN_PATH } from 'constants/paths'
-import LoadingSpinner from 'components/LoadingSpinner'
-
-/**
- * Render children based on route config objects
- * @param {Array} routes - Routes settings array
- * @param {Object} match - Routes settings array
- * @param {Object} parentProps - Props to pass to children from parent
- * @returns {Array} List of routes
- */
-export function renderChildren(routes, parentProps) {
-  return routes.map((route) => {
-    const match = useRouteMatch()
-    const RouteComponent = route.authRequired ? PrivateRoute : Route
-    return (
-      <RouteComponent
-        key={`${match.url}-${route.path}`}
-        path={`${match.url}/${route.path}`}
-        render={(props) => <route.component {...parentProps} {...props} />}
-      />
-    )
-  })
-}
+import { LOGIN_PATH } from '../constants/paths'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 /**
  * A wrapper for <Route> that redirects to the login
@@ -54,6 +33,27 @@ PrivateRoute.propTypes = {
   children: PropTypes.element,
   path: PropTypes.string.isRequired,
   component: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+}
+
+/**
+ * Render children based on route config objects
+ * @param {Array} routes - Routes settings array
+ * @param {Object} match - Routes settings array
+ * @param {Object} parentProps - Props to pass to children from parent
+ * @returns {Array} List of routes
+ */
+export function renderChildren(routes, parentProps) {
+  return routes.map((route) => {
+    const match = useRouteMatch()
+    const RouteComponent = route.authRequired ? PrivateRoute : Route
+    return (
+      <RouteComponent
+        key={`${match.url}-${route.path}`}
+        path={`${match.url}/${route.path}`}
+        render={(props) => <route.component {...parentProps} {...props} />}
+      />
+    )
+  })
 }
 
 /**

@@ -50,7 +50,7 @@ async function indexUser(
     return null
   }
 
-  // Update displayName within index
+  // Update displayName within public profile
   try {
     await publicProfileRef.set(
       {
