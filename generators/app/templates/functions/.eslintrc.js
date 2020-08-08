@@ -24,11 +24,17 @@ module.exports = {
   },
   overrides: [
     <% if(typescriptCloudFunctions) { %>{
-      files: ['./index.js'<% if(includeFunctionsTests) { %>, 'scripts/testSetup.ts'<% } %>],
+      files: ['./index.js'],
       rules: {
         '@typescript-eslint/no-var-requires': 0
       }
-    }<% } %><% if(includeFunctionsTests) { %>,
+    }<% if(includeFunctionsTests) { %>,
+    {
+      files: ['scripts/testSetup.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 0
+      }
+    }<% } %><% } %><% if(includeFunctionsTests) { %>,
     {
       files: ['src/**/*.spec.<% if(typescriptCloudFunctions) { %>t<% } else { %>j<% } %>s'],
       env: {<% if(functionsTestTool === 'mocha') { %>

@@ -16,9 +16,15 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['./index.js', 'scripts/testSetup.ts'],
+      files: ['./index.js'],
       rules: {
         '@typescript-eslint/no-var-requires': 0
+      }
+    },
+    {
+      files: ['scripts/testSetup.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 0
       }
     },
     {

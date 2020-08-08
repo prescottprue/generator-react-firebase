@@ -1,9 +1,10 @@
 <% if (!includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/testing'
-import functionsTestLib from 'firebase-functions-test'
+import functionsTestLib from 'firebase-functions-test'<% if (typescriptCloudFunctions) { %>
+import { expect } from 'chai'<% } %>
 import indexUserOriginal from './index'
 
 const functionsTest = functionsTestLib()
-const projectId = process.env.GCLOUD_PROJECT || 'unit-test-project'
+const projectId = 'unit-test-project'
 const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PUBLIC_PATH = `users_public/${USER_UID}`
@@ -31,7 +32,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
     const newDisplayName = 'newname'
     // Build a RTDB create event object on users path
     const beforeSnap = functionsTest.database.makeDataSnapshot(
-      null,
+      null<% if (typescriptCloudFunctions) { %> as any<% } %>,
       DISPLAYNAME_PATH
     )
     const afterSnap = functionsTest.database.makeDataSnapshot(
@@ -80,11 +81,12 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
     expect(newUserRes.val()).to.be.null
   })
 })<% } %><% if (includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/testing'
-import functionsTestLib from 'firebase-functions-test'
+import functionsTestLib from 'firebase-functions-test'<% if (typescriptCloudFunctions) { %>
+import { expect } from 'chai'<% } %>
 import indexUserOriginal from './index'
 
 const functionsTest = functionsTestLib()
-const projectId = process.env.GCLOUD_PROJECT || 'unit-test-project'
+const projectId = 'unit-test-project'
 const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PATH = `${USERS_COLLECTION}/${USER_UID}`
@@ -117,7 +119,7 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
     const userData = { displayName: 'some' }
     // Build a Firestore create event object on users path
     const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(
-      null,
+      null<% if (typescriptCloudFunctions) { %> as any<% } %>,
       USER_PATH
     )
     const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
@@ -166,7 +168,7 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
       USER_PATH
     )
     const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
-      null,
+      null<% if (typescriptCloudFunctions) { %> as any<% } %>,
       USER_PATH
     )
     const changeEvent = { before: beforeSnap, after: afterSnap }
@@ -210,7 +212,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
     const newDisplayName = 'newname'
     // Build a RTDB create event object on users path
     const beforeSnap = functionsTest.database.makeDataSnapshot(
-      null,
+      null<% if (typescriptCloudFunctions) { %> as any<% } %>,
       DISPLAYNAME_PATH
     )
     const afterSnap = functionsTest.database.makeDataSnapshot(
@@ -305,7 +307,7 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
     const userData = { displayName: 'data' }
     // Build a Firstore create event object on user's path
     const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(
-      null as any,
+      null<% if (typescriptCloudFunctions) { %> as any<% } %>,
       USER_PATH
     )
     const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
@@ -332,7 +334,7 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
       USER_PATH
     )
     const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
-      null as any,
+      null<% if (typescriptCloudFunctions) { %> as any<% } %>,
       USER_PATH
     )
     const changeEvent = { before: beforeSnap, after: afterSnap }
