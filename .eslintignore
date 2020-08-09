@@ -2,6 +2,7 @@ coverage/**
 .nyc_output
 node_modules/**
 examples/**
+examples/**/package.json
 dist/**
 *.spec.js
 **/**/index.html

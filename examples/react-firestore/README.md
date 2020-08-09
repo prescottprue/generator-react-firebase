@@ -79,8 +79,8 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 There are multiple configuration files:
 
 - Firebase Project Configuration - `.firebaserc`
-- Project Configuration - `.env.local`
-- Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
+- Local Project Configuration - `.env.local`
+- Local Cloud Functions Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
 
@@ -97,6 +97,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── cypress                      # UI Integration Tests
 ├── functions                    # Cloud Functions
 │   ├── src                      # Cloud Functions Source code (each folder represents a function)
+│   ├── .runtimeconfig.json      # Cloud Functions local configuration
 │   └── index.js                 # Mount point of Cloud Functions (loads functions by name)
 ├── public                       # All build-related configuration
 │   ├── firebase-messaging-sw.js # Service worker for Firebase Cloud Messaging
@@ -118,7 +119,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   └── utils                    # General Utilities (used throughout application)
 │       ├── form.js              # Utilities for forms (validation)
 │       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
-├── .env.local                   # Environment settings for when running locally
+├── .env.local                   # Local Environment settings (automatically loaded up by react-scripts commands)
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
 ├── .firebaserc                  # Firebase Project configuration settings (including ci settings)

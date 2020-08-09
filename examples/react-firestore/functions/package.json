@@ -11,14 +11,14 @@
     "lint": "eslint -c .eslintrc.js .",
     "lint:fix": "yarn lint --fix",
     "clean": "rimraf dist etc",
-    "build": "yarn clean && babel src -d --out-dir dist",
+    "build": "yarn clean && tsc",
     "watch": "yarn build --watch",
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
     "deploy": "firebase deploy --only functions",
     "test": "yarn --cwd .. functions:test",
     "test:cov": "yarn --cwd .. functions:test:cov",
-    "test:base": "cross-env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') mocha ./src/**/*.spec.js",
+    "test:base": "cross-env FIRESTORE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.firestore.port') FIREBASE_DATABASE_EMULATOR_HOST=localhost:$(cat ../firebase.json | jq '.emulators.database.port') mocha ./src/**/*.spec.ts",
     "test:cov:base": "nyc --reporter=lcov yarn test:base",
     "test:watch": "yarn test --watch"
   },
@@ -29,20 +29,23 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "@babel/register": "^7.10.5",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/chai": "^4.2.11",
+    "@types/mkdirp": "^1.0.1",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.13",
+    "@types/node-fetch": "^2.5.7",
+    "@types/sinon": "^9.0.4",
+    "@types/sinon-chai": "^3.2.4",
     "@firebase/testing": "^0.20.7",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "babel-preset-minify": "^0.5.1",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "firebase-functions-test": "^0.2.1",
-    "prettier": "^2.0.5",
     "mocha": "^7.1.2",
     "nyc": "^15.0.0",
     "rimraf": "^3.0.2",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   }
 }

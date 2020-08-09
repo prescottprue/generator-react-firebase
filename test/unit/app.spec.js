@@ -5,27 +5,22 @@ import { checkForEachFile } from '../utils'
 
 const srcFiles = [
   'src/components/LoadingSpinner/index.js',
-  'src/components/LoadingSpinner/LoadingSpinner.js',
+  'src/components/LoadingSpinner/LoadingSpinner.jsx',
   'src/components/LoadingSpinner/LoadingSpinner.styles.js',
-  'src/containers/App/App.js',
-  'src/containers/App/index.js',
-  'src/containers/Navbar/AccountMenu.js',
-  'src/containers/Navbar/index.js',
-  'src/containers/Navbar/Navbar.js',
-  'src/containers/Navbar/Navbar.styles.js',
-  'src/layouts/CoreLayout/CoreLayout.js',
+  'src/components/Navbar/NavbarAccountMenu.jsx',
+  'src/components/Navbar/index.js',
+  'src/components/Navbar/Navbar.jsx',
+  'src/components/Navbar/Navbar.styles.js',
+  'src/layouts/CoreLayout/CoreLayout.jsx',
   'src/layouts/CoreLayout/index.js',
-  'src/modules/notification/Notifications.js',
-  'src/modules/notification/NotificationsProvider.js',
+  'src/modules/notification/NotificationsProvider.jsx',
   'src/modules/notification/useNotifications.js',
-  'src/modules/notification/actions.js',
-  'src/modules/notification/actionTypes.js',
   'src/modules/notification/index.js',
-  'src/modules/notification/reducer.js',
   'src/utils/form.js',
-  'src/utils/router.js',
+  'src/utils/router.jsx',
   'src/constants/paths.js',
-  'src/index.js',
+  'src/App.jsx',
+  'src/index.jsx',
   'src/index.css',
   'src/theme.js',
   'public/index.html',
@@ -33,6 +28,7 @@ const srcFiles = [
   '.github/ISSUE_TEMPLATE/feature_request.md',
   '.github/CONTRIBUTING.md',
   '.github/PULL_REQUEST_TEMPLATE.md',
+  '.github/dependabot.yml'
 ]
 
 const reduxFiles = ['src/store/createStore.js', 'src/store/reducers.js']
@@ -58,7 +54,7 @@ const defaultOtherFeatures = [
 
 const messagingFiles = [
   'src/components/SetupMessaging/index.js',
-  'src/components/SetupMessaging/SetupMessaging.js',
+  'src/components/SetupMessaging/SetupMessaging.jsx',
   'src/components/SetupMessaging/useSetupMessaging.js',
 ]
 

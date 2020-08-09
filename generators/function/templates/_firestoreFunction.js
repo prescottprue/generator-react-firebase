@@ -1,85 +1,48 @@
 import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %>
-import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
-
-const eventName = '<%= camelName %>'<% if (airbnbLinting) { %>;<% } %>
 
 /**
- * <% if (!functionsV1) { %>@param {functions.Event} event - Function event
- * @param {admin.firestore.DataSnapshot} event.data - Data snapshot of the event<% } %><% if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>@param  {admin.Change} change - Function change interface containing state objects
+ * Handle Firestore <%= eventType %> event
+ *
+ * <% if (eventType === 'onWrite' || eventType === 'onUpdate') { %>@param {functions.Change} change - Function change interface containing state objects
  * @param {admin.firestore.DataSnapshot} change.before - State prior to the event.
- * @param {Function} change.before.data - Value before change event
- * @param {admin.firestore.DataSnapshot} change.after - State after the event.
- * @param {Function} change.after.data - Value after change event<% } else if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>
- * @param {admin.firestore.DataSnapshot} snap - Data snapshot of the event
- * @param {Function} snap.data - Value of document<% } %><% if (functionsV1) { %>
+ * @param {admin.firestore.DataSnapshot} change.after - State after the event.<% } else if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>@param {admin.firestore.DataSnapshot} snap - Data snapshot of the event<% } %>
  * @param {functions.EventContext} context - Function event context
- * @param {object} context.auth - Authentication information for the user that triggered the function<% } %>
- * @returns {Promise}
+ * @param {object} context.auth - Authentication information for the user that triggered the function
+ * @returns {Promise} Resolves after handle event
  */
-<% if (functionsV1 && eventType !== 'onWrite' && eventType !== 'onUpdate') { %>async function <%= camelName %>Event(snap, context) {
-  // const { params, auth, timestamp } = context<% if (airbnbLinting) { %>;<% } %>
-  console.log('<%= camelName %> <%= eventType %> event:', snap.data())<% if (airbnbLinting) { %>;<% } %>
-
-  // Create Firestore Collection Reference for the response
-  const collectionRef = admin.firestore().collection(`${eventName}_responses`)<% if (airbnbLinting) { %>;<% } %>
-
-  try {
-    // Write data to Firestore
-    await collectionRef.add({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
-  } catch(writeErr) {
-    // Handle errors writing data to RTDB
-    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
-    throw writeErr<% if (airbnbLinting) { %>;<% } %>
-  }
+<% if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>async function <%= camelName %>Event(snap, context) {
+  const { params, timestamp } = context<% if (airbnbLinting) { %>;<% } %>
+  console.log('<%= camelName %> <%= eventType %> event:', {
+    data: snap.data(),
+    params,
+    timestamp<% if (airbnbLinting) { %>,<% } %>
+  })<% if (airbnbLinting) { %>;<% } %>
 
   // End function execution by returning
   return null<% if (airbnbLinting) { %>;<% } %>
-}<% } else if (functionsV1 && (eventType === 'onWrite' || eventType === 'onUpdate')) { %>async function <%= camelName %>Event(change, context) {
-  // const { params, auth, timestamp } = context<% if (airbnbLinting) { %>;<% } %>
+}<% } else if (eventType === 'onWrite' || eventType === 'onUpdate') { %>async function <%= camelName %>Event(change, context) {
+  const { params, timestamp } = context<% if (airbnbLinting) { %>;<% } %>
   const { before, after } = change<% if (airbnbLinting) { %>;<% } %>
 
-  console.log('<%= camelName %> <%= eventType %> event:', { before: before.data(), after: after.data() })<% if (airbnbLinting) { %>;<% } %>
-
-  // Create Firestore Collection Reference for the response
-  const collectionRef = admin.firestore().collection(`${eventName}_responses`)<% if (airbnbLinting) { %>;<% } %>
-
-  try {
-    // Write data to Firestore
-    await collectionRef.add({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
-  } catch(writeErr) {
-    // Handle errors writing data to RTDB
-    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
-    throw writeErr<% if (airbnbLinting) { %>;<% } %>
-  }
-
-  // End function execution by returning
-  return null<% if (airbnbLinting) { %>;<% } %>
-}<% } else { %>async function <%= camelName %>Event(event) {
-  const { params: { docId }, data } = event<% if (airbnbLinting) { %>;<% } %>
-
-  console.log(`<%= camelName %> <%= eventType %> event for id: "${docId}"`, data.data())<% if (airbnbLinting) { %>;<% } %>
-
-  // Create Firestore Collection Reference for the response
-  const collectionRef = admin.firestore().collection(`${eventName}_responses`)<% if (airbnbLinting) { %>;<% } %>
-
-  try {
-    // Write data to Firestore
-    await collectionRef.add({ hello: 'world' })<% if (airbnbLinting) { %>;<% } %>
-  } catch(writeErr) {
-    // Handle errors writing data to RTDB
-    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)<% if (airbnbLinting) { %>;<% } %>
-    throw writeErr<% if (airbnbLinting) { %>;<% } %>
-  }
+  console.log('<%= camelName %> <%= eventType %> event:', {
+    before: before.data(),
+    after: after.data(),
+    params,
+    timestamp<% if (airbnbLinting) { %>,<% } %>
+  })<% if (airbnbLinting) { %>;<% } %>
 
   // End function execution by returning
   return null<% if (airbnbLinting) { %>;<% } %>
 }<% } %>
 
 /**
- * Cloud Function triggered by Firestore Event
+ * Cloud Function triggered by Firestore <%= eventType %> Event
+ *
+ * Trigger: `Firestore - <%= eventType %>`
+ *
  * @name <%= camelName %>
  * @type {functions.CloudFunction}
  */
-export default functions.firestore
-  .document(`${eventName}/{docId}`)
-  .<%= eventType %>(<%= camelName %>Event)<% if (airbnbLinting) { %>;<% } %>
+export default functions.firestore<% if (camelName.length >= 5) { %>
+  <% } %>.document('<%= camelName %>/{docId}')<% if (camelName.length >= 5) { %>
+  <% } %>.<%= eventType %>(<%= camelName %>Event)<% if (airbnbLinting) { %>;<% } %>

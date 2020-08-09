@@ -27,13 +27,13 @@ jobs:
           echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
@@ -109,16 +109,14 @@ jobs:
         run: |
           yarn lint # Check for lint in app code
 
-      # NOTE: Skipped because of "Channel credentials must be a ChannelCredentials object" error from firebase-admin
-      # See https://github.com/firebase/firebase-tools/issues/2207 for more info
-      # - name: Unit Test Functions
-      #   run: |
-      #     yarn functions:test:cov -- --project $GCLOUD_PROJECT # Run unit tests with coverage
+      - name: Unit Test Functions
+        run: |
+          yarn functions:test:cov -- --project $GCLOUD_PROJECT # Run unit tests with coverage
 
-      # - name: Upload Test Coverage For Functions
-      #   # NOTE: Token will need to be added if using codecov with private repos
-      #   run: |
-      #     bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'
+      - name: Upload Test Coverage For Functions
+        # NOTE: Token will need to be added if using codecov with private repos
+        run: |
+          bash <(curl -s https://codecov.io/bash) -f functions/coverage/lcov.info || echo 'Codecov failed to upload'
 
       - name: Build Functions
         run: |
@@ -155,19 +153,19 @@ jobs:
           echo "::set-output name=cypress::$(yarn list -s --depth=0 --pattern cypress | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache Cypress Binary
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ steps.cache-settings.outputs.cypress }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
@@ -235,7 +233,7 @@ jobs:
       # This stage tests a version of the app which is running locally in the
       # container on port 3000.
       - name: Cypress Run
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           record: true
           start: yarn emulators:hosting --project ${{ env.GCLOUD_PROJECT }}

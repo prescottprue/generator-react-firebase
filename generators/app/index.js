@@ -113,6 +113,15 @@ const prompts = [
     store: true
   },
   {
+    type: 'confirm',
+    name: 'typescriptCloudFunctions',
+    when: (currentAnswers) =>
+      checkAnswersForFeature(currentAnswers, 'includeFunctions'),
+    message: 'Use Typescript for cloud functions?',
+    default: true,
+    store: true
+  },
+  {
     name: 'firebaseKey',
     message: 'Firebase apiKey',
     required: true,
@@ -203,25 +212,24 @@ const filesArray = [
   { src: 'public/index.html' },
   { src: 'public/manifest.json' },
   { src: 'public/robots.txt' },
-  { src: 'src/index.js' },
+  { src: 'src/index.jsx' },
   { src: 'src/index.css' },
   { src: 'src/constants/**', dest: 'src/constants' },
   {
-    src: 'src/components/LoadingSpinner',
-    dest: 'src/components/LoadingSpinner'
+    src: 'src/components/LoadingSpinner'
   },
-  { src: 'src/containers/**', dest: 'src/containers' },
-  { src: 'src/utils/index.js' },
-  { src: 'v1theme.js', dest: 'src/theme.js' },
-  { src: 'src/containers/Navbar/Navbar.styles.js' },
+  { src: 'src/components/Navbar' },
+  { src: 'src/App.jsx' },
+  { src: 'src/theme.js' },
   { src: 'src/layouts/**', dest: 'src/layouts' },
   { src: 'src/routes/**', dest: 'src/routes' },
   { src: 'src/static/**', dest: 'src/static', noTemplating: true },
   { src: 'src/modules/**', dest: 'src/modules' },
-  { src: 'src/utils/router.js' },
+  { src: 'src/utils/router.jsx' },
   { src: 'src/utils/form.js' },
   { src: '.github/ISSUE_TEMPLATE/**', dest: '.github/ISSUE_TEMPLATE' },
   { src: '.github/CONTRIBUTING.md' },
+  { src: '.github/dependabot.yml' },
   { src: '.github/PULL_REQUEST_TEMPLATE.md' },
   { src: 'firebase.json', dest: 'firebase.json' },
   { src: '_firebaserc', dest: '.firebaserc' },
@@ -254,6 +262,7 @@ module.exports = class extends Generator {
       sentryDsn: null,
       ciProvider: null,
       codeClimate: true,
+      typescriptCloudFunctions: true,
       appPath: this.env.options.appPath,
       appName,
       capitalAppName: capitalize(appName),
@@ -309,7 +318,6 @@ module.exports = class extends Generator {
       )
     } else {
       // Handle files that do not do internal string templateing well
-      filesArray.push({ src: 'src/utils/firebase.js' })
       ignorePaths.push('**/NewProjectDialog.enhancer.js')
       ignorePaths.push('**/AccountForm.enhancer.js')
       ignorePaths.push('**/AccountPage.enhancer.js')
@@ -338,11 +346,17 @@ module.exports = class extends Generator {
         { src: 'functions/.runtimeconfig.json' },
         { src: 'functions/jsconfig.json' },
         { src: 'functions/.eslintrc.js' },
-        { src: 'functions/.babelrc' },
         { src: 'functions/package.json' },
-        { src: 'functions/src' },
         { src: 'functions/index.js' }
       )
+      if (this.answers.typescriptCloudFunctions) {
+        filesArray.push(
+          { src: 'functions/tsconfig.json' },
+          { src: 'functions/tsSrc', dest: 'functions/src' }
+        )
+      } else {
+        filesArray.push({ src: 'functions/.babelrc' }, { src: 'functions/src' })
+      }
     }
 
     // Cloud Functions Tests
@@ -353,8 +367,17 @@ module.exports = class extends Generator {
           : '.mocharc.js'
       filesArray.push(
         { src: `functions/${testConfigFile}` },
-        { src: 'functions/scripts/testSetup.js' },
-        { src: 'functionsTests', dest: 'functions/src' }
+        {
+          src: `functions/scripts/testSetup.${
+            this.answers.typescriptCloudFunctions ? 't' : 'j'
+          }s`
+        },
+        {
+          src: 'functionsTests/indexUser/indexUser.spec.js',
+          dest: `functions/src/indexUser/indexUser.spec.${
+            this.answers.typescriptCloudFunctions ? 't' : 'j'
+          }s`
+        }
       )
     }
 
@@ -394,10 +417,11 @@ module.exports = class extends Generator {
     if (this.answers.includeAnalytics) {
       filesArray.push(
         { src: 'src/components/SetupAnalytics/index.js' },
-        { src: 'src/components/SetupAnalytics/SetupAnalytics.js' },
-        { src: 'src/utils/analytics.js' },
-        { src: 'src/utils/index.js' }
+        { src: 'src/components/SetupAnalytics/SetupAnalytics.jsx' }
       )
+      if (this.answers.includeRedux) {
+        filesArray.push({ src: 'src/utils/analytics.js' })
+      }
     }
 
     filesArray.forEach((file) => {

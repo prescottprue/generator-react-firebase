@@ -78,8 +78,8 @@ function reactVersionHasHooks() {
 }
 
 function projectHasJsx(basePath) {
-  // Load all folders within dist directory (mirrors layout of src)
-  const files = glob.sync(`src/**.jsx`)
+  // Load all folders within src directory
+  const files = glob.sync('src/**.jsx')
   return !!files.length
 }
 

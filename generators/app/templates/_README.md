@@ -56,19 +56,19 @@
 
 While developing, you will probably rely mostly on `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> start`; however, there are additional scripts at your disposal:
 
-| `<% if (useYarn) { %>yarn<% } else { %>npm run<% } %> <script>` <% if (useYarn) { %>  <% } %> | Description                                                                                                             |
+| `<% if (useYarn) { %>yarn<% } else { %>npm run<% } %> <script>` <% if (useYarn) { %>  <% } %>  | Description                                                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `start`             | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
 | `start:dist`        | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
 | `start:emulate`     | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`             | Builds the application to `./build`                                                                                     | <% if (includeComponentTests) { %>
-| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       | <% } %><% if (includeUiTests) { %>
-| `emulators:hosting` | Starts database and hosting emulators (used in verify workflow by Cypress)                                              | <% } %>
+| `build`             | Builds the application to `./build`                                                                                     |<% if (includeComponentTests) { %>
+| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       |<% } %><% if (includeUiTests) { %>
+| `emulators:hosting` | Starts database and hosting emulators (used in verify workflow by Cypress)                                              |<% } %>
 | `test`              | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  | <% if (includeUiTests) { %>
+| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  |<% if (includeUiTests) { %>
 | `test:ui:run`       | Runs UI tests with Cypress. See [testing](#testing)                                                                     |
 | `test:ui`           | Opens UI tests runner (Cypress Dashboard). See [testing](#testing)                                                      |
-| `test:ui:emulate`   | Same as `test:ui` but with tests pointed at emulators                                                                   | <% } %>
+| `test:ui:emulate`   | Same as `test:ui` but with tests pointed at emulators                                                                   |<% } %>
 | `lint`              | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
 | `lint:fix`          | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
@@ -79,8 +79,8 @@ While developing, you will probably rely mostly on `<% if (useYarn) { %>yarn<% }
 There are multiple configuration files:
 
 - Firebase Project Configuration - `.firebaserc`
-- Project Configuration - `.env.local`
-- Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
+- Local Project Configuration - `.env.local`
+- Local Cloud Functions Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
 
@@ -97,6 +97,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 ├── cypress                      # UI Integration Tests<% } %><% if (includeFunctions) { %>
 ├── functions                    # Cloud Functions
 │   ├── src                      # Cloud Functions Source code (each folder represents a function)
+│   ├── .runtimeconfig.json      # Cloud Functions local configuration
 │   └── index.js                 # Mount point of Cloud Functions (loads functions by name)<% } %>
 ├── public                       # All build-related configuration<% if (includeMessaging) { %>
 │   ├── firebase-messaging-sw.js # Service worker for Firebase Cloud Messaging<% } %>
@@ -122,7 +123,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │       ├── components.js        # Utilities for building/implementing React components<% } %>
 │       ├── form.js              # Utilities for forms (validation)
 │       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
-├── .env.local                   # Environment settings for when running locally
+├── .env.local                   # Local Environment settings (automatically loaded up by react-scripts commands)
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
 ├── .firebaserc                  # Firebase Project configuration settings (including ci settings)
@@ -188,6 +189,7 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 Cypress is used to write and run UI tests which live in the `cypress` folder. [`cypress-firebase`](https://github.com/prescottprue/cypress-firebase) is used to generate a custom auth token for the test user and to communicate with Firebase databases with admin privileges.
 
 #### Tests Setup
+
 1. Visit the [Firebase Console](https://console.firebase.google.com/)
 1. Select your project
 1. Navigate to Project Settings (gear icon button at the top left of the page).
@@ -196,6 +198,7 @@ Cypress is used to write and run UI tests which live in the `cypress` folder. [`
 1. Save the service account file to the root of the repo under `serviceAccount.json`
 
 #### Running Tests
+
 The following npm scripts can be used to run tests:
 
 - Run using Cypress run: `<% if (useYarn) { %>yarn<% } else { %>npm run<% } %> test:ui:run`
