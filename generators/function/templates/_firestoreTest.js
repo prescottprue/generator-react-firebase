@@ -6,7 +6,7 @@ const adminApp = firebaseTesting.initializeAdminApp({
   databaseName: process.env.GCLOUD_PROJECT,
 })
 
-const eventPath = 'users'
+const eventPath = '<%= camelName %>'
 
 const <%= camelName %> = functionsTest.wrap(<%= camelName %>Original)
 

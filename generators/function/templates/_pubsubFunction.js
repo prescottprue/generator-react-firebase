@@ -69,6 +69,7 @@ const schedule = 'every 5 minutes'<% if (airbnbLinting) { %>;<% } %>
  * Cloud Function triggered on a specified CRON schedule
  *
  * Trigger: `PubSub - onRun`
+ * 
  * @name <%= camelName %>
  * @type {functions.CloudFunction}
  */

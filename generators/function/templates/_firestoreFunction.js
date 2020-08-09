@@ -1,13 +1,11 @@
 import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %>
-import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
 
 /**
  * Handle Firestore <%= eventType %> event
  *
  * <% if (eventType === 'onWrite' || eventType === 'onUpdate') { %>@param {functions.Change} change - Function change interface containing state objects
  * @param {admin.firestore.DataSnapshot} change.before - State prior to the event.
- * @param {admin.firestore.DataSnapshot} change.after - State after the event.<% } else if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>
- * @param {admin.firestore.DataSnapshot} snap - Data snapshot of the event<% } %>
+ * @param {admin.firestore.DataSnapshot} change.after - State after the event.<% } else if (eventType !== 'onWrite' && eventType !== 'onUpdate') { %>@param {admin.firestore.DataSnapshot} snap - Data snapshot of the event<% } %>
  * @param {functions.EventContext} context - Function event context
  * @param {object} context.auth - Authentication information for the user that triggered the function
  * @returns {Promise} Resolves after handle event
@@ -45,6 +43,6 @@ import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
  * @name <%= camelName %>
  * @type {functions.CloudFunction}
  */
-export default functions.firestore
-  .document('<%= camelName %>/{docId}')
-  .<%= eventType %>(<%= camelName %>Event)<% if (airbnbLinting) { %>;<% } %>
+export default functions.firestore<% if (camelName.length >= 5) { %>
+  <% } %>.document('<%= camelName %>/{docId}')<% if (camelName.length >= 5) { %>
+  <% } %>.<%= eventType %>(<%= camelName %>Event)<% if (airbnbLinting) { %>;<% } %>
