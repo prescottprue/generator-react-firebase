@@ -2,14 +2,13 @@
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const fs = require('fs')
+const path = require('path')
 const camelCase = require('lodash/camelCase')
 const get = require('lodash/get')
 const capitalize = require('lodash/capitalize')
-const semver = require('semver')
-const path = require('path')
 
-function loadProjectPackageFile() {
-  const packagePath = path.join(process.cwd(), 'package.json')
+function loadJsonFile(filePath) {
+  const packagePath = path.join(process.cwd(), filePath)
   // If functions package file does not exist, default to not functions v1.0.0
   if (!fs.existsSync(packagePath)) {
     return null
@@ -23,41 +22,11 @@ function loadProjectPackageFile() {
 }
 
 function loadFunctionsPackageFile() {
-  // TODO: Add support for functions.source setting in firebase.json
-  const packagePath = `${process.cwd()}/functions/package.json`
-  // If functions package file does not exist, default to not functions v1.0.0
-  if (!fs.existsSync(packagePath)) {
-    return null
-  }
-  // Load package file handling errors
-  try {
-    return require(packagePath)
-  } catch (err) {
-    return null
-  }
+  const firebaseJson = loadJsonFile('firebase.json')
+  // Load functions source from firebase.json if it exist, otherwise use "functions"
+  const functionsFolder = get(firebaseJson, 'functions.source') || 'functions'
+  return loadJsonFile(`${functionsFolder}/package.json`)
 }
-
-function jestExists() {
-  const pkgFile = loadFunctionsPackageFile()
-  return !!get(pkgFile, 'devDependencies.jest')
-}
-
-function getFirebaseFunctionsVersion() {
-  const pkgFile = loadFunctionsPackageFile()
-  // If functions package file does not exist, default to not functions v1.0.0
-  if (!pkgFile) {
-    return '0.0.0'
-  }
-  // Load package file handling errors
-  try {
-    return semver.coerce(get(pkgFile, 'dependencies.firebase-functions'))
-  } catch (err) {
-    return '0.0.0'
-  }
-}
-
-const functionsVersion = getFirebaseFunctionsVersion()
-const functionsV1 = semver.satisfies(functionsVersion, '>=1.x.x')
 
 const HTTPS_FUNCTION_TYPE = 'https'
 const RTDB_FUNCTION_TYPE = 'rtdb'
@@ -79,11 +48,9 @@ const choicesByTriggerType = {
   https: ['onCall', 'onRequest'],
   rtdb: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
   firestore: ['onWrite', 'onCreate', 'onUpdate', 'onDelete'],
-  auth: ['onCreate', 'onDelete'],
+  auth: ['onCreate', 'onDelete', 'onOperation'],
   pubsub: ['onPublish', 'onRun'],
-  storage: functionsV1
-    ? ['onArchive', 'onDelete', 'onFinalize', 'onMetadataUpdate']
-    : ['onChange']
+  storage: ['onArchive', 'onDelete', 'onFinalize', 'onMetadataUpdate']
 }
 
 function buildEventTypePrompt(triggerTypeName, { triggerFlag }) {
@@ -165,6 +132,7 @@ module.exports = class extends Generator {
       type: String,
       desc: 'The function name'
     })
+    // TODO: Try loading functions source folder from firebase.json
     // Adds support for a flags
     functionTypeOptions.forEach((functionType) => {
       this.option(functionType)
@@ -178,7 +146,8 @@ module.exports = class extends Generator {
     this.triggerFlag = functionTypeOptions.find(
       (optionName) => !!this.options[optionName]
     )
-    const projectPackageFile = loadProjectPackageFile()
+    const projectPackageFile = loadJsonFile('package.json')
+    const functionsPackageFile = loadFunctionsPackageFile()
     const prompts = buildPrompts(this)
     return this.prompt(prompts).then((props) => {
       this.answers = Object.assign({}, props, this.answers, {
@@ -188,17 +157,19 @@ module.exports = class extends Generator {
             projectPackageFile,
             'devDependencies.eslint-config-airbnb-base'
           ) ||
+          !!get(
+            projectPackageFile,
+            'devDependencies.@side/eslint-config-base'
+          ) ||
           false,
-        jestTesting: this.options.jest || jestExists()
-      })
-
-      this.answers.functionsV1 = functionsV1
-
-      if (!functionsV1) {
-        this.log(
-          'You should checkout the latest firebase-functions for sweet new features!'
+        jestTesting:
+          this.options.jest ||
+          !!get(projectPackageFile, 'devDependencies.jest'),
+        usingTypescript: !!get(
+          functionsPackageFile,
+          'devDependencies.typescript'
         )
-      }
+      })
     })
   }
 
@@ -221,15 +192,16 @@ module.exports = class extends Generator {
       Trigger Type: ${chalk.cyan(triggerTypeName)}
       Event Type: ${chalk.cyan(this.answers.eventType) || ''}`
     )
-    const lintSuffix =
-      this.answers.airbnbLinting &&
-      [PUBSUB_FUNCTION_TYPE, HTTPS_FUNCTION_TYPE].includes(triggerType)
-        ? '-airbnb'
-        : ''
+
+    const firebaseJson = loadJsonFile('firebase.json')
+    // Load functions source from firebase.json if it exist, otherwise use "functions"
+    const functionsFolder = get(firebaseJson, 'functions.source') || 'functions'
     const filesArray = [
       {
-        src: `_${triggerType}Function${lintSuffix}.js`,
-        dest: `functions/src/${camelName}/index.js`
+        src: `_${triggerType}Function.js`,
+        dest: `${functionsFolder}/src/${camelName}/index.${
+          this.answers.usingTypescript ? 't' : 'j'
+        }s`
       }
     ]
 
@@ -238,7 +210,9 @@ module.exports = class extends Generator {
         src: `_${triggerType}Test${
           this.answers.airbnbLinting ? '-airbnb' : ''
         }.js`,
-        dest: `functions/src/${camelName}/${camelName}.spec.js`
+        dest: `${functionsFolder}/src/${camelName}/${camelName}.spec.${
+          this.answers.usingTypescript ? 't' : 'j'
+        }s`
       })
     }
 

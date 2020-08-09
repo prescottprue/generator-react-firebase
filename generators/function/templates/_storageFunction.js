@@ -5,53 +5,18 @@ import os from 'os'<% if (airbnbLinting) { %>;<% } %>
 import fs from 'fs'<% if (airbnbLinting) { %>;<% } %>
 
 /**
- * Handle <%= camelName %> event
- * @param {functions.Event} event - Function event
+ * Handle storage <%= eventType %> event
+ * @param {functions.storage.Object} object - Object associated with storage event
+ * @param {functions.EventContext} context - Function event context
  * @returns {Promise} After handling <%= camelName %> event
  */
-<% if (functionsV1) { %>async function <%= camelName %>Event(object, context) {
-  const { name: filePath, contentType } = object<% if (airbnbLinting) { %>;<% } %>
-
-  const bucket = admin.storage().bucket()<% if (airbnbLinting) { %>;<% } %>
-  const fileName = path.basename(filePath)<% if (airbnbLinting) { %>;<% } %>
-  const tempFilePath = path.join(os.tmpdir(), fileName)<% if (airbnbLinting) { %>;<% } %>
-
-  // Download the file
-  await bucket.file(filePath).download({ destination: tempFilePath })<% if (airbnbLinting) { %>;<% } %>
-
-  // Delete the local files to free up disk space
-  return fs.unlinkSync()<% if (airbnbLinting) { %>;<% } %>
-}<% } else { %>async function <%= camelName %>Event(event) {
-  const {
-    name: filePath,
-    resourceState,
-    metageneration<% if (airbnbLinting) { %>,<% } %>
-    // contentType,
-  } = event.data<% if (airbnbLinting) { %>;<% } %>
-
-  // Exit if this is a move or deletion event.
-  if (resourceState === 'not_exists') {
-    console.log('This is a deletion event.')<% if (airbnbLinting) { %>;<% } %>
-    return null<% if (airbnbLinting) { %>;<% } %>
-  }
-
-  // Exit if file exists but is not new and is only being triggered
-  // because of a metadata change.
-  if (resourceState === 'exists' && metageneration > 1) {
-    console.log('This is a metadata change event.')<% if (airbnbLinting) { %>;<% } %>
-    return null<% if (airbnbLinting) { %>;<% } %>
-  }
-
-  const bucket = admin.storage().bucket()<% if (airbnbLinting) { %>;<% } %>
-  const fileName = path.basename(filePath)<% if (airbnbLinting) { %>;<% } %>
-  const tempFilePath = path.join(os.tmpdir(), fileName)<% if (airbnbLinting) { %>;<% } %>
-
-  // Download the file
-  await bucket.file(filePath).download({ destination: tempFilePath })<% if (airbnbLinting) { %>;<% } %>
-
-  // Delete the local files to free up disk space
-  return fs.unlinkSync()<% if (airbnbLinting) { %>;<% } %>
-}<% } %>
+async function <%= camelName %>Event(object, context) {
+  const { name, contentType } = object<% if (airbnbLinting) { %>;<% } %>
+  console.log('Storage <%= eventType %> event:', { name, contentType, context })  
+  // Download the file as a buffer
+  // const bucket = admin.storage().bucket()<% if (airbnbLinting) { %>;<% } %>
+  // const [fileBuffer] = await bucket.file(name).download()<% if (airbnbLinting) { %>;<% } %>
+}
 
 /**
  * Cloud Function triggered by Cloud Storage <%= eventType %> Event
