@@ -37,7 +37,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",<% if (includeSentry) { %>
-    "@sentry/browser": "^5.15.5",<% } %>
+    "@sentry/browser": "^5.21.1",<% } %>
     "firebase": "^7.17.2",
     "notistack": "^0.9.17",
     "prop-types": "^15.7.2",
@@ -46,7 +46,7 @@
     "react-google-button": "^0.7.0",<% if (includeRedux) { %>
     "react-redux": "^7.1.1",
     "react-redux-firebase": "^3.7.0",<% } %>
-    "react-hook-form": "^6.3.1",
+    "react-hook-form": "^6.4.0",
     "react-router-dom": "^5.2.0",<% if (!includeRedux) { %>
     "reactfire": "^2.0.3"<% } %><% if (includeRedux) { %>
     "redux": "^4.0.4",
@@ -56,14 +56,14 @@
     "stackdriver-errors-js": "^0.8.0"<% } %>
   },
   "devDependencies": {
-    "@sentry/cli": "^1.55.0",<% if(includeFunctions && typescriptCloudFunctions) { %>
-    "@typescript-eslint/eslint-plugin": "^3.8.0",
-    "@typescript-eslint/parser": "^3.8.0",<% } %>
+    "@sentry/cli": "^1.55.1",<% if(includeFunctions && typescriptCloudFunctions) { %>
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",<% } %>
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",<% if (includeUiTests) { %>
     "cypress": "^4.12.1",
     "cypress-firebase": "^1.4.3",<% } %>
-    "eslint": "^7.6.0",
+    "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-standard-react": "^9.2.0",<% if (includeUiTests) { %>
@@ -84,7 +84,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
-    "react-scripts": "^3.4.1"<% if (includeComponentTests) { %>,
+    "react-scripts": "^3.4.3"<% if (includeComponentTests) { %>,
     "react-test-renderer": "^16.13.1"<%} %><% if(includeFunctions && typescriptCloudFunctions) { %>,
     "typescript": "^3.9.5"<% } %>
   },

@@ -19,9 +19,10 @@ npm install -g yo generator-react-firebase
 ```
 
 ## Before Starting
+
 1. Do the following in the Firebase Console:
-    1. Create both a Firestore Database and Real Time Database within your project
-    1. Enable Google and/or Email Sign In Methods in the Authentication tab (required to enable login/signup within your application)
+   1. Create both a Firestore Database and Real Time Database within your project
+   1. Enable Google and/or Email Sign In Methods in the Authentication tab (required to enable login/signup within your application)
 
 ## Getting Started
 
@@ -29,7 +30,7 @@ npm install -g yo generator-react-firebase
 1. Generate project: `yo react-firebase` (project will be named after current folder)
 1. Start application: `npm start` or `yarn start`
 
-    Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
+   Project will default to being named with the name of the folder that it is generated within (in this case `myProject`)
 
 **Note**: To skip installing dependencies during generation pass the skip install flag (i.e. `--skip-install`)
 
@@ -37,45 +38,45 @@ npm install -g yo generator-react-firebase
 
 1. [Deploy](#deployment) your application either [manually through firebase-tools](#manual-deploy) or by [setting up CI Deployment](#ci-deploy)
 1. Enable APIs for features which were opted into:
-    * [Firebase Cloud Messaging API](https://console.cloud.google.com/apis/api/fcm.googleapis.com/overview)
-1. Checkout and understand `src/config.js`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
-1. Tryout the [Sub Generators](#sub-generators) to add new features to your project quickly
-1. Tryout Firestore (you can generate a new project with `yes` as the answer to `Do you want to use Firestore`). Things work mostly the same, but it runs through [`redux-firestore`](https://github.com/prescottprue/redux-firestore).
+   - [Firebase Cloud Messaging API](https://console.cloud.google.com/apis/api/fcm.googleapis.com/overview)
+1. Checkout and understand `.env.local`. This was generated for you for your local development environment, but is is ignored from git tracking (within `.gitignore`). You can have different settings within this file based on environment or if multiple developers are running the same code.
+1. Tryout the [Sub Generators](#sub-generators) to add new features such as routes, components, and Cloud Functions to your project quickly
 
 ## Features
 
-* React + React Dom `^16.13.0` (has hooks)
-* Material-UI application styling including Navbar
-* Full Authentication with validation (through Email, Google or Github)
-* Async route loading (using `React.lazy` and `React.Suspense`)
-* Route protection (only view certain pages when logged in)
-* Firebase Functions Setup with function splitting for faster cold-starts (including support within function sub-generator)
-* Automatic Build/Deploy config for multiple CI Providers including:
-    * Github Actions
-    * Gitlab (uses pipelines)
-    * Travis
-* Component Testing With Jest
-* UI Testing with Cypress
-* Account Management Page
+- React + React Dom `^16.13.0` (has hooks)
+- Material-UI application styling including Navbar
+- Full Authentication with validation (through Email, Google or Github)
+- Async route loading (using `React.lazy` and `React.Suspense`)
+- Route protection (only view certain pages when logged in)
+- Firebase Functions Setup with function splitting for faster cold-starts (including support within function sub-generator)
+- Automatic Build/Deploy config for multiple CI Providers including:
+  - Github Actions
+  - Gitlab (uses pipelines)
+  - Travis
+- Component Testing With Jest
+- UI Testing with Cypress
+- Dependabot settings for automatic PRs for dependency version updates
+- Account Management Page
 
 ## Uses
 
-* [react](https://facebook.github.io/react/) - Rendering + Components
-* [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
-* [material-ui](https://material-ui.com) - Google Material Styling React Components
-* [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
-* [react-hook-form](https://react-hook-form.com/) - Form input validation + state
-* [react-scripts](https://www.npmjs.com/package/react-scripts) - Build + Dev tooling from [create-react-app](https://github.com/facebook/create-react-app#readme)
+- [react](https://facebook.github.io/react/) - Rendering + Components
+- [react-router](https://github.com/ReactTraining/react-router) - Routing (including async route loading)
+- [material-ui](https://material-ui.com) - Google Material Styling React Components
+- [eslint](http://eslint.org/) - Linting (also implements [`prettier`](https://github.com/prettier/prettier-eslint))
+- [react-hook-form](https://react-hook-form.com/) - Form input validation + state
+- [react-scripts](https://www.npmjs.com/package/react-scripts) - Build + Dev tooling from [create-react-app](https://github.com/facebook/create-react-app#readme)
 
-*When opting into redux*
+_When opting out of redux (default)_
 
-* [redux](http://redux.js.org/) - Client Side state
-* [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
-* [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
+- [reactfire](https://github.com/FirebaseExtended/reactfire)
 
-*When not opting into redux*
+_When opting into redux_
 
-* [reactfire](https://github.com/FirebaseExtended/reactfire)
+- [redux](http://redux.js.org/) - Client Side state
+- [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
+- [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
 
 ## Sub generators
 
@@ -84,6 +85,7 @@ Sub generators are included to help speed up the application building process. Y
 Example: To call the `component` sub-generator with "SomeThing" as the first parameter write: `yo react-firebase:component SomeThing`
 
 ##### Path Argument
+
 Another argument can be passed to sub generators (unless otherwise noted) to provide the base path in which you would like to run the generator (starts from `src`). For example: `yo react-firebase:component Car routes/Project` runs the component generator within the Project route folder meaning that the component will be added to `routes/Project/components` instead of the top level `src/components` folder.
 
 #### Function
@@ -101,43 +103,35 @@ A component is best for things that will be reused in multiple places. Our examp
 ```
 /functions
 --/uppercaser
+----uppercaser.spec.js
 ----index.js
 ```
 
-For firebase-functions `>v1.0.0`:
-
-*/functions/uppercaser/index.js:*
+_/functions/uppercaser/index.js:_
 
 ```js
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import { to } from 'utils/async';
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import { to } from "utils/async";
 
-const eventName = 'uppercaser';
+const eventName = "uppercaser";
 
 /**
- * @param  {functions.Event} event - Function event
+ * @param {functions.Change} change - Function change interface containing state objects
+ * @param {functions.EventContext} context - Function event context
  * @return {Promise}
  */
-async function uppercaserEvent(event) {
-  const { params: { pushId }, data } = event;
+async function uppercaserEvent(change, context) {
+  const { params, auth, timestamp } = context;
+  const { before, after } = change;
 
-  console.log('uppercaser onUpdate event:', data.val());
-
-  // Create RTDB for response
-  const ref = admin.database().ref(`responses/${eventName}/${pushId}`);
-
-  // Write data to RTDB
-  const [writeErr] = await to(ref.set({ hello: 'world' }));
-
-  // Handle errors writing data to RTDB
-  if (writeErr) {
-    console.error(
-      `Error writing response: ${writeErr.message || ''}`,
-      writeErr
-    );
-    throw writeErr;
-  }
+  console.log("<%= camelName %> <%= eventType %> event:", {
+    before: before.val(),
+    after: after.val(),
+    uid: auth?.uid,
+    params,
+    timestamp,
+  });
 
   // End function execution by returning
   return null;
@@ -156,60 +150,7 @@ export default functions.database
   .onUpdate(uppercaserEvent);
 ```
 
-For firebase-functions `>=v1.0.0`:
-
-*/functions/uppercaser/index.js:*
-
-```js
-import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
-import { to } from 'utils/async'
-
-const eventName = 'uppercaser'
-
-/**
- * 
- * @param  {functions.database.DataSnapshot} snap - Data snapshot of the event
- * @param {Function} snap.val - Value after event
- * @param {functions.EventContext} context - Function event context
- * @param {Object} context.auth - Authentication information for the user that triggered the function
- * @return {Promise}
- */
-async function uppercaserEvent(snap, context) {
-  const { params: { pushId } } = context
-
-  console.log('uppercaser onCreate event:', snap.val())
-
-  // Create RTDB for response
-  const ref = admin.database().ref(`responses/${eventName}/${pushId}`)
-
-  // Write data to RTDB
-  const [writeErr] = await to(ref.set({ hello: 'world' }))
-
-  // Handle errors writing data to RTDB
-  if (writeErr) {
-    console.error(`Error writing response: ${writeErr.message || ''}`, writeErr)
-    throw writeErr
-  }
-
-  // End function execution by returning
-  return null
-}
-
-/**
- * Cloud Function that is called every time new data is created in Firebase Realtime Database.
- *
- * Trigger: `RTDB - onCreate - '/requests/uppercaser/{pushId}'`
- * @name uppercaser
- * @type {functions.CloudFunction}
- * @public
- */
-export default functions.database
-  .ref(`/requests/${eventName}/{pushId}`)
-  .onCreate(uppercaserEvent)
-```
-
-**Note:** This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
+**Note:** This sub-generator does not support the Path Argument (functions are automatically placed within the folder indicated within `functions.source` of `firebase.json`, otherwise `functions`).
 
 #### Component
 
@@ -234,28 +175,28 @@ A component is best for things that will be reused in multiple places. Our examp
 ------Car.scss // option (SCSS File)
 ```
 
-*/app/components/Car.js:*
+_/app/components/Car.js:_
 
 ```jsx
-import React from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import styles from './Car.styles'
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import styles from "./Car.styles";
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 
 function Car({ car }) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <span>Car Component</span>
       <pre>{JSON.stringify(car, null, 2)}</pre>
     </div>
-  )
+  );
 }
 
-export default Car
+export default Car;
 ```
 
 **NOTE:** Option to use Javascript file for styles is only offered if `@material-ui/core` is included in `package.json`
@@ -284,30 +225,59 @@ _or_
 ------CarForm.styles.js
 ```
 
-*/app/components/CarForm.js:*
+_/app/components/CarForm.js:_
 
 ```jsx
-import React from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import styles from './Car.styles'
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import styles from "./CarForm.styles";
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 
-function CarForm({ car }) {
-  const classes = useStyles()
+function CarForm({ onSubmit }) {
+  const classes = useStyles();
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState: { isSubmitting, isValid },
+  } = useForm({
+    mode: "onChange",
+    nativeValidation: false,
+  });
 
   return (
-    <div className={classes.container}>
-      <span>CarForm Component</span>
-      <pre>{JSON.stringify(car, null, 2)}</pre>
-    </div>
-  )
+    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+      <TextField
+        error={!!errors.name}
+        helperText={errors.name && "Name is required"}
+        name="name"
+        label="Name"
+        inputRef={register({
+          required: true,
+        })}
+        margin="normal"
+        fullWidth
+      />
+      <Button
+        type="submit"
+        color="primary"
+        className={classes.submit}
+        disabled={isSubmitting || !isValid}
+      >
+        {isSubmitting ? "Saving..." : "Save"}
+      </Button>
+    </form>
+  );
 }
 
-export default CarForm
-```
+CarForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
+export default CarForm;
+```
 
 #### Hook
 
@@ -335,24 +305,6 @@ export default function useProjectTile() {
 }
 ```
 
-#### Enhancer
-
-Generates an enhancer for a react component. Also includes an index file that wraps the component in the enhancer.
-
-**command**
-
-`yo react-firebase:enhancer Project`
-
-**result**
-
-```
-/app
---/components
-----/Project
-------index.js
-------Project.enhancer.js
-```
-
 #### Route
 
 Generates a React component along with a matching component (which has an scss file, an enhancer, and its own index file).
@@ -360,7 +312,6 @@ Generates a React component along with a matching component (which has an scss f
 **command**
 
 `yo react-firebase:route Project`
-
 
 **result**
 
@@ -372,7 +323,6 @@ Generates a React component along with a matching component (which has an scss f
 ------components
 --------ProjectPage
 ----------index.js
-----------Project.enhancer.js // optional
 ----------Project.js
 ----------Project.styles.js
 ```
@@ -384,7 +334,6 @@ Generates a React component along with a matching component (which has an scss f
 **command**
 
 `yo react-firebase:module notification`
-
 
 **result**
 
@@ -401,6 +350,22 @@ Generates a React component along with a matching component (which has an scss f
 
 Note: This sub-generator does not support the Path Argument (functions are already placed within a folder matching their name).
 
+#### Enhancer
+
+Generates an enhancer for a react component. Also includes an index file that wraps the component in the enhancer.
+
+**command**
+
+`yo react-firebase:enhancer Project`
+
+**result**
+
+```
+/app
+--/components
+----/Project
+------index.js
+```
 
 ## Generated Project
 
@@ -414,14 +379,14 @@ To add a unit test, create a `.spec.js` or `.test.js` file anywhere inside of `s
 
 #### UI Tests
 
-Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests: 
+Cypress is used to write and run UI tests which live in the `cypress` folder. The following npm scripts can be used to run tests:
 
     * Run using Cypress run: `npm run test:ui`
     * Open Test Runner UI (`cypress open`): `npm run test:ui:open`
 
 ### Deployment
-Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
+Build code before deployment by running `npm run build`. There are multiple options below for types of deployment, if you are unsure, checkout the Firebase section.
 
 1. Install Firebase Command Line Tool: `npm i -g firebase-tools`
 
@@ -442,10 +407,10 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 1. Run `firebase login`
 1. Initialize project with `firebase init` then answer:
-    * What file should be used for Database Rules?  -> `database.rules.json`
-    * What do you want to use as your public directory? -> `build`
-    * Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
-    * What Firebase project do you want to associate as default?  -> **your Firebase project name**
+   - What file should be used for Database Rules? -> `database.rules.json`
+   - What do you want to use as your public directory? -> `build`
+   - Configure as a single-page app (rewrite all urls to /index.html)? -> `Yes`
+   - What Firebase project do you want to associate as default? -> **your Firebase project name**
 1. Build Project: `npm run build`
 1. Confirm Firebase config by running locally: `firebase serve`
 1. Deploy to Firebase (everything including Hosting and Functions): `firebase deploy`
@@ -456,136 +421,143 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 Complete examples of generator output available in [Examples](https://github.com/prescottprue/generator-react-firebase/tree/master/examples)
 
-* [react-firebase-redux example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firebase Real Time Database
-* [redux-firestore](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firestore
-* [react-firebase example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - Firebase Real Time Database
+- [react-firebase-redux example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firebase Real Time Database
+- [redux-firestore](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - `redux` and Firestore
+- [react-firebase example](https://github.com/prescottprue/generator-react-firebase/tree/master/examples/react-firebase-redux) - Firebase Real Time Database
 
 For full projects built out using this as a starting place, check the next section.
 
 ## Projects Started Using This
 
-* [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations.
-* [devshare.io](https://devshare.io) - Codesharing site based on Firebase's Firepad and Realtime Database
-* A number of projects at [Reside](https://www.residebrokerage.com/careers/)
-* [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/material) - Shows usage of react-redux-firebase with material-ui
-* [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore) - Shows usage of react-redux-firebase with firestore
+- [fireadmin.io](https://fireadmin.io) - Application for Managing Firebase Applications. Includes support for multiple environments and data migrations.
+- [devshare.io](https://devshare.io) - Codesharing site based on Firebase's Firepad and Realtime Database
+- A number of projects at [Reside](https://www.residebrokerage.com/careers/)
+- [react-redux-firebase material example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/material) - Shows usage of react-redux-firebase with material-ui
+- [react-redux-firebase firestore example](https://github.com/prescottprue/react-redux-firebase/tree/v2.0.0/examples/complete/firestore) - Shows usage of react-redux-firebase with firestore
 
-*open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included*
+_open an issue or reach out [over gitter](https://gitter.im/redux-firebase/Lobby) if you would like your project to be included_
 
 ## FAQ
 
 1. Why use `.jsx` extension for React component files? What if I want to use `.js` instead?
 
-  `.jsx` is used to clearly identify files which are using React JSX, which is non-standard javascript functionality. Some eslint configurations, such as [Airbnb](https://github.com/airbnb/javascript), have this as a rule ([here is an issue that discusses why](https://github.com/airbnb/javascript/pull/985)).
+`.jsx` is used to clearly identify files which are using React JSX, which is non-standard javascript functionality. Some eslint configurations, such as [Airbnb](https://github.com/airbnb/javascript), have this as a rule ([here is an issue that discusses why](https://github.com/airbnb/javascript/pull/985)).
 
-  If you would still like to use `.js` instead, you can switch the extension of all `.jsx` files to `.js` using the following command:
+If you would still like to use `.js` instead, you can switch the extension of all `.jsx` files to `.js` using the following command:
 
-  ```bash
-  for f in src/**/*.jsx; do
-    mv -- "$f" "${f%.jsx}.js"
-  done
-  ```
+```bash
+for f in src/**/*.jsx; do
+  mv -- "$f" "${f%.jsx}.js"
+done
+```
 
 1. Why node `12` instead of a newer version?
 
-  It is the newest node supported by [the Cloud Functions runtime](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
+It is the newest node supported by [the Cloud Functions runtime](https://cloud.google.com/functions/docs/writing/#the_cloud_functions_runtime), which is why that is what is used for the suggested build version as well as the version used when building within CI.
 
 1. Why camel-cased environment variables instead of full capital letters (i.e. `process.env.REACT_APP_FIREBASE_projectId` instead of `process.env.REACT_APP_FIREBASE_PROJECT_ID`)
 
-  In CI the settings for you app are loaded dynamically through `firebase-tools` when using the `apps:sdkconfig` command, the values that are returned use camel-casing. Instead of making things more unclear by changing the case of these variables, they are left matching what the Firebase JS SDK is expecting. This pattern is also used in the `.env.local` file.
+In CI the settings for you app are loaded dynamically through `firebase-tools` when using the `apps:sdkconfig` command, the values that are returned use camel-casing. Instead of making things more unclear by changing the case of these variables, they are left matching what the Firebase JS SDK is expecting. This pattern is also used in the `.env.local` file.
 
 1. How do I deploy my application?
-  The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
+   The README of your generated project specifies deployment instructions based on your choices while generating. For an example, checkout any of the `README.md` files at the root of projects in [the examples folder](/examples/react-firebase-redux/) including [this one](/examples/react-firebase-redux/README.md).
 
 1. How do I add a route?
-    1. Use the route sub-generator to add the route: `yo react-firebase:route MyRoute`
-    1. Add a `path` of the new route to `constants/paths` (i.e. `MYROUTE_PATH`)
-    1. Add the route to the list of routes in `src/routes/index.js`
 
-1. Where are the settings for changing how my project deploys through Continuous integration?  
+   1. Use the route sub-generator to add the route: `yo react-firebase:route MyRoute`
+   1. Add a `path` of the new route to `constants/paths` (i.e. `MYROUTE_PATH`)
+   1. Add the route to the list of routes in `src/routes/index.js`
 
-    Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
+1. Where are the settings for changing how my project deploys through Continuous integration?
+
+   Within `.firebaserc` under the `ci` section. These settings are loaded by [firebase-ci][firebase-ci-url]
 
 1. Why are there `__snapshots__` folders everywhere when opting into Jest?
 
-    Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
+   Jest just recently added support for adding your own snapshot resolver that allows you to place the `__snapshots__` folder at the top level (logic included in `scripts/snapshotResolver.js`). Since feature is still in alpha, it is not yet included with this generator. While testing supporting a top level `__snapshots__` folder, there were a number of issues, but the provided resolver did work as expected in some cases.
 
-    I got it working by:
-      1. Ejecting result of generator (`yarn eject`)
-      1. Installing beta version of Jest that is at least  `24.0.0-alpha.6` - `yarn add jest@beta --dev`
-      1. Adding [a snapshot resolver to place snapshots where you want](https://gist.github.com/prescottprue/5ece5e173bcfba7ed86dae6a91444451) as `scripts/snapshotResolver.js`
-      1. Referencing the snapshot resolver reference within `package.json` (which should contain jest config after ejecting):
-        `"snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"`
+   I got it working by:
+
+   1. Ejecting result of generator (`yarn eject`)
+   1. Installing beta version of Jest that is at least `24.0.0-alpha.6` - `yarn add jest@beta --dev`
+   1. Adding [a snapshot resolver to place snapshots where you want](https://gist.github.com/prescottprue/5ece5e173bcfba7ed86dae6a91444451) as `scripts/snapshotResolver.js`
+   1. Referencing the snapshot resolver reference within `package.json` (which should contain jest config after ejecting):
+      `"snapshotResolver": "<rootDir>/scripts/snapshotResolver.js"`
 
 1. How do I move/rename the `cypress` folder to something more general?
-    If you wanted to move the `cypress` folder into `test/ui` for instance, you could modify your `cypress.json` file to match the following:
+   If you wanted to move the `cypress` folder into `test/ui` for instance, you could modify your `cypress.json` file to match the following:
 
-    **cypress.json**
-    ```json
-    {
-      "chromeWebSecurity": false,
-      "fixturesFolder": "test/ui/fixtures",
-      "integrationFolder": "test/ui/integration",
-      "pluginsFile": "test/ui/plugins/index.js",
-      "screenshotsFolder": "test/ui/screenshots",
-      "videosFolder": "test/ui/videos",
-      "supportFile": "test/ui/support/index.js"
-    }
-    ```
+   **cypress.json**
+
+   ```json
+   {
+     "chromeWebSecurity": false,
+     "fixturesFolder": "test/ui/fixtures",
+     "integrationFolder": "test/ui/integration",
+     "pluginsFile": "test/ui/plugins/index.js",
+     "screenshotsFolder": "test/ui/screenshots",
+     "videosFolder": "test/ui/videos",
+     "supportFile": "test/ui/support/index.js"
+   }
+   ```
 
 1. Some of my answers were saved, how did that happen? Why?
 
-    Yeoman has the `store` option, which uses [the Yeoman Storage API to store answers](https://yeoman.io/authoring/storage.html) to questions within within a `.yo-rc.json`. This allows you to rerun the generator in the future to recieve updates without having to remember the answers you used or re-lookup them up.
+   Yeoman has the `store` option, which uses [the Yeoman Storage API to store answers](https://yeoman.io/authoring/storage.html) to questions within within a `.yo-rc.json`. This allows you to rerun the generator in the future to recieve updates without having to remember the answers you used or re-lookup them up.
 
-    This also shows you how examples were done by answering the generator questions.
+   This also shows you how examples were done by answering the generator questions.
 
 1. How can I extend the build settings of my app after generating?
 
-    There are two options:
-    * Use `npm run eject` or `yarn eject` to eject from react-scripts (this cannot be undone)
-    * Use `customize-cra` and `react-app-rewired` to modify settings without ejecting (for more see the question about not ejecting)
+   There are two options:
+
+   - Use `npm run eject` or `yarn eject` to eject from react-scripts (this cannot be undone)
+   - Use `customize-cra` and `react-app-rewired` to modify settings without ejecting (for more see the question about not ejecting)
 
 1. How do I extend the webpack/babel config without ejecting?
 
-    1. Install `customize-cra` and `react-app-rewired`:
+   1. Install `customize-cra` and `react-app-rewired`:
 
-        ```bash
-        npm i --save-dev customize-cra react-app-rewired
-        ```
-    1. Add the following to the `scripts` section of your `package.json` file:
+      ```bash
+      npm i --save-dev customize-cra react-app-rewired
+      ```
 
-        ```json
-        "start": "react-app-rewired start",
-        "build": "react-app-rewired build",
-        "eject": "react-app-rewired eject",
-        "test": "react-app-rewired test"
-        ```
-    1. Add `config-overrides.js` that looks like so (any utils can be used in `override`):
+   1. Add the following to the `scripts` section of your `package.json` file:
 
-        ```js
-        const utils = require('customize-cra');
+      ```json
+      "start": "react-app-rewired start",
+      "build": "react-app-rewired build",
+      "eject": "react-app-rewired eject",
+      "test": "react-app-rewired test"
+      ```
 
-        module.exports = utils.override(
-          utils.disableEsLint(),
-          utils.useBabelRc()
-        );
-        ```
+   1. Add `config-overrides.js` that looks like so (any utils can be used in `override`):
+
+      ```js
+      const utils = require("customize-cra");
+
+      module.exports = utils.override(
+        utils.disableEsLint(),
+        utils.useBabelRc()
+      );
+      ```
+
 1. What happened to the `scss` from before? What if I want to do the same setup?
 
-    It was removed in favor of Javascript styling through `*.styles.js` files. It is common to use Javascript styles with material-ui, so following this pattern allows mirrors their examples/docs.
+   It was removed in favor of Javascript styling through `*.styles.js` files. It is common to use Javascript styles with material-ui, so following this pattern allows mirrors their examples/docs.
 
-    If you want to do the same setup as before, make sure you reference the scss files correctly (now that the build config is through `react-scripts`). For example if you want to import `styles/_base.scss` make sure you switch your imports like the following:
+   If you want to do the same setup as before, make sure you reference the scss files correctly (now that the build config is through `react-scripts`). For example if you want to import `styles/_base.scss` make sure you switch your imports like the following:
 
-    ```diff
-    - @import 'base';
-    + @import 'styles/_base.scss';
-    ```
+   ```diff
+   - @import 'base';
+   + @import 'styles/_base.scss';
+   ```
 
 ## In the future
 
-* Airbnb linting option (currently only `standard`)
-* Option to use simple file structure instead of fractal pattern
-* Open to ideas
+- Airbnb linting option (currently only `standard`)
+- Option to use simple file structure instead of fractal pattern
+- Open to ideas
 
 ## License
 

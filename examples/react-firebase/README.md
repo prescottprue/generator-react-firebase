@@ -49,15 +49,15 @@
 
 While developing, you will probably rely mostly on `yarn start`; however, there are additional scripts at your disposal:
 
-| `yarn <script>`    | Description                                                                                                             |
+| `yarn <script>`     | Description                                                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `start`             | Serves your app at `localhost:3000` with automatic refreshing and hot module replacement                                |
 | `start:dist`        | Builds the application to `./build` then serves at `localhost:3000` using firebase hosting emulator                     |
 | `start:emulate`     | Same as `start`, but pointed to database emulators (make sure to call `emulators` first to boot up emulators)           |
-| `build`             | Builds the application to `./build`                                                                                     | 
-| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       | 
+| `build`             | Builds the application to `./build`                                                                                     |
+| `emulators`         | Starts database and pubsub emulators for use with `start:emulate`                                                       |
 | `test`              | Runs unit tests with Jest. See [testing](#testing)                                                                      |
-| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  | 
+| `test:watch`        | Runs `test` in watch mode to re-run tests when changed                                                                  |
 | `lint`              | [Lints](http://stackoverflow.com/questions/8503559/what-is-linting) the project for potential errors                    |
 | `lint:fix`          | Lints the project and [fixes all correctable errors](http://eslint.org/docs/user-guide/command-line-interface.html#fix) |
 
@@ -68,8 +68,8 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 There are multiple configuration files:
 
 - Firebase Project Configuration - `.firebaserc`
-- Project Configuration - `.env.local`
-- Cloud Functions Local Configuration - `functions/.runtimeconfig.json`
+- Local Project Configuration - `.env.local`
+- Local Cloud Functions Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
 
@@ -103,7 +103,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   └── utils                    # General Utilities (used throughout application)
 │       ├── form.js              # Utilities for forms (validation)
 │       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
-├── .env.local                   # Environment settings for when running locally
+├── .env.local                   # Local Environment settings (automatically loaded up by react-scripts commands)
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
 ├── .firebaserc                  # Firebase Project configuration settings (including ci settings)

@@ -44,17 +44,11 @@ function Home() {
                 </a>
               </span>
               <span> and </span>
-              <pre>
-                <a
-                  href={`${reactfireUrl}/blob/master/docs/reference.md#AuthCheck`}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  AuthCheck
-                </a>
-              </pre>
-              from
-              <a href={reactfireUrl} target="_blank" rel="noopener noreferrer">
-                reactfire
+              <a
+                href={`${reactfireUrl}/blob/master/docs/reference.md#AuthCheck`}
+                target="_blank"
+                rel="noopener noreferrer">
+                reactfire's <pre>AuthCheck</pre>
               </a>
             </div>
           </Grid>

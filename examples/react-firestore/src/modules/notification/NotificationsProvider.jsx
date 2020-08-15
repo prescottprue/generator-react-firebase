@@ -11,19 +11,27 @@ export const NotificationsContext = React.createContext({
 })
 
 export default function NotificationsProvider({ children }) {
-  const notistackRef = React.createRef()
-  const onClickDismiss = (key) => () => {
-    notistackRef.current.closeSnackbar(key)
+  const notistackRef = React.createRef();
+  const onClickDismiss = key => () => { 
+    notistackRef.current.closeSnackbar(key);
   }
-  const notificationWithVariant = (variant) => (message) => {
-    notistackRef.current.enqueueSnackbar(message, { variant })
-  }
+
   const contextValue = {
-    showSuccess: useCallback(notificationWithVariant('success'), [
-      notistackRef
-    ]),
-    showError: useCallback(notificationWithVariant('error'), [notistackRef]),
-    showWarning: useCallback(notificationWithVariant('warning'), [notistackRef])
+    showSuccess: useCallback(
+      (message) =>
+        notistackRef.current.enqueueSnackbar(message, { variant: 'success' }),
+      [notistackRef]
+    ),
+    showError: useCallback(
+      (message) =>
+        notistackRef.current.enqueueSnackbar(message, { variant: 'error' }),
+      [notistackRef]
+    ),
+    showWarning: useCallback(
+      (message) =>
+        notistackRef.current.enqueueSnackbar(message, { variant: 'warning' }),
+      [notistackRef]
+    )
   }
 
   return (
@@ -32,17 +40,19 @@ export default function NotificationsProvider({ children }) {
         ref={notistackRef}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'right'
+          horizontal: 'right',
         }}
         action={(key) => (
           <IconButton
             key={`close-${key}`}
             aria-label="Close"
             color="inherit"
-            onClick={onClickDismiss(key)}>
+            onClick={onClickDismiss(key)}
+          >
             <CloseIcon />
           </IconButton>
-        )}>
+        )}
+      >
         {children}
       </SnackbarProvider>
     </NotificationsContext.Provider>

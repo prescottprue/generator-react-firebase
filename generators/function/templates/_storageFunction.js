@@ -1,8 +1,5 @@
 import * as functions from 'firebase-functions'<% if (airbnbLinting) { %>;<% } %>
-import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
-import path from 'path'<% if (airbnbLinting) { %>;<% } %>
-import os from 'os'<% if (airbnbLinting) { %>;<% } %>
-import fs from 'fs'<% if (airbnbLinting) { %>;<% } %>
+// import * as admin from 'firebase-admin'<% if (airbnbLinting) { %>;<% } %>
 
 /**
  * Handle storage <%= eventType %> event

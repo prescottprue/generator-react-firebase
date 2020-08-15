@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { initScripts } from './utils'
 import { version } from '../package.json'
 import App from './App'
 import './index.css'
@@ -10,10 +9,6 @@ import './index.css'
 // Window Variables
 // ------------------------------------
 window.version = version
-
-// Initialize Redux Store
-// ------------------------------------
-
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
