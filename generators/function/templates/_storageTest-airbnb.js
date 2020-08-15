@@ -1,39 +1,15 @@
-describe('<%= camelName %> Storage Cloud Function', () => {
-  let myFunctions;
-  let configStub;
-  let adminInitStub;
-  let functions;
-  let admin;
+import <%= camelName %>Unwrapped from './index';
 
-  before(() => {
-    /* eslint-disable global-require */
-    admin = require('firebase-admin');
-    // Stub Firebase's admin.initializeApp
-    adminInitStub = sinon.stub(admin, 'initializeApp');
-    // Stub Firebase's functions.config()
-    functions = require('firebase-functions');
-    configStub = sinon.stub(functions, 'config').returns({
-      firebase: {
-        databaseURL: 'https://not-a-project.firebaseio.com',
-        storageBucket: 'not-a-project.appspot.com',
-        projectId: 'not-a-project.appspot',
-        messagingSenderId: '823357791673',
-      },
-      // Stub any other config values needed by your functions here
-    });
-    myFunctions = require('../../index');
-    /* eslint-enable global-require */
+const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped);
+
+describe('<%= camelName %> Storage Cloud Function (Storage:<%= eventType %>)', () => {
+  after(async () => {
+    functionsTest.cleanup();
   });
 
-  after(() => {
-    // Restoring our stubs to the original methods.
-    configStub.restore();
-    adminInitStub.restore();
-  });
-
-  <% if (jestTesting) { %>test<% } else { %>it<% } %>('invokes successfully', () => {
-    // Invoke storage function with fake request + response objects
-    const fakeObject = {};
-    return myFunctions.<%= camelName %> (fakeObject);
+  it('handles event', async () => {
+    await <%= camelName %>({});
+    // TODO: Switch this to a real assertion which confirms functionality
+    expect(null).<% if (jestTesting) { %>toEqual(null)<% } else { %>to.be.null<% } %>;
   });
 });

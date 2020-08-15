@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "React and Firebase project generator (with option for Redux).",
   "main": "generators/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "@babel/register": "^7.10.5",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
-    "eslint": "^7.5.0",
+    "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
