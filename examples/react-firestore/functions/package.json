@@ -23,28 +23,26 @@
     "test:watch": "yarn test --watch"
   },
   "dependencies": {
-    "firebase-admin": "^9.0.0",
-    "firebase-functions": "^3.8.0",
+    "firebase-admin": "^9.1.0",
+    "firebase-functions": "^3.9.1",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@types/chai": "^4.2.11",
-    "@types/mkdirp": "^1.0.1",
+    "@types/chai": "^4.2.12",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.13",
-    "@types/node-fetch": "^2.5.7",
     "@types/sinon": "^9.0.4",
     "@types/sinon-chai": "^3.2.4",
-    "@firebase/testing": "^0.20.7",
+    "@firebase/testing": "^0.20.10",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "firebase-functions-test": "^0.2.1",
-    "mocha": "^7.1.2",
-    "nyc": "^15.0.0",
+    "mocha": "^8.1.1",
+    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "sinon": "^9.0.2",
+    "sinon": "^9.0.3",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   }

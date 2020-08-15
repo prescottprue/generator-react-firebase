@@ -1,4 +1,4 @@
-import Notifications from './Notifications'
+import NotificationsProvider from './NotificationsProvider'
 import useNotifications from './useNotifications'
 
-export { useNotifications, Notifications }
+export { useNotifications, NotificationsProvider }

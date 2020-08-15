@@ -1,14 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { FirebaseAppProvider, SuspenseWithPerf } from 'reactfire'
 import { BrowserRouter as Router } from 'react-router-dom'
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import ThemeProvider from 'modules/theme/ThemeProvider'
 import SetupMessaging from 'components/SetupMessaging'
-import ThemeSettings from './theme'
 import createRoutes from './routes'
-
-const theme = createMuiTheme(ThemeSettings)
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_apiKey,
@@ -29,7 +25,7 @@ if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
 function App() {
   const routes = createRoutes()
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider>
       <FirebaseAppProvider firebaseConfig={firebaseConfig} initPerformance>
         <NotificationsProvider>
           <>
@@ -40,12 +36,8 @@ function App() {
           </>
         </NotificationsProvider>
       </FirebaseAppProvider>
-    </MuiThemeProvider>
+    </ThemeProvider>
   )
-}
-
-App.propTypes = {
-  routes: PropTypes.object.isRequired
 }
 
 export default App

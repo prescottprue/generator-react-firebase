@@ -7,7 +7,7 @@ import { NotificationsContext } from './NotificationsProvider'
  * @example
  * import React from 'react'
  * import { useNotifications } from 'modules/notification'
- * 
+ *
  * function SomeComponent() {
  *   const { showError } = useNotifications()
  *   return (
