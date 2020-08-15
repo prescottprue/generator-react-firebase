@@ -10,11 +10,16 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 14.x]
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ github.token }}
+
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.1
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -23,7 +28,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       # Setup dependency caching
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.0
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
