@@ -39,8 +39,8 @@
     "@types/sinon": "^9.0.4",
     "@types/sinon-chai": "^3.2.4",<% } %><% } %><% if(!typescriptCloudFunctions) { %>
     "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",<% } %><% if(includeFunctionsTests && !typescriptCloudFunctions) { %>
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",<% } %><% if(includeFunctionsTests && !typescriptCloudFunctions) { %>
     "@babel/register": "^7.10.5",<% } %><% if(includeFunctionsTests) { %>
     "@firebase/testing": "^0.20.10",<% } %><% if(!typescriptCloudFunctions) { %>
     "babel-plugin-module-resolver": "^4.0.0",
