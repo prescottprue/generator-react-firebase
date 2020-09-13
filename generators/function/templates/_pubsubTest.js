@@ -7,9 +7,8 @@ describe('<%= camelName %> PubSub Cloud Function (PubSub:<%= eventType %>)', () 
     functionsTest.cleanup()
   })
 
-  it('handles event', async () => {
-    await <%= camelName %>({})
-    // TODO: Switch this to a real assertion which confirms functionality
-    expect(null).<% if (jestTesting) { %>toBeNull()<% } else { %>to.be.null<% } %>
+  it('should handle event', async () => {
+    const results = await <%= camelName %>({})
+    expect(results).<% if (jestTesting) { %>toBeNull()<% } else { %>to.be.null<% } %>
   })
 })

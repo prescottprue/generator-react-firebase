@@ -1,11 +1,6 @@
 import * as firebaseTesting from '@firebase/testing'
 import <%= camelName %>Original from './index'
 
-const adminApp = firebaseTesting.initializeAdminApp({
-  projectId: process.env.GCLOUD_PROJECT,
-  databaseName: process.env.GCLOUD_PROJECT,
-})
-
 const eventPath = '<%= camelName %>'
 
 const <%= camelName %> = functionsTest.wrap(<%= camelName %>Original)
@@ -25,7 +20,7 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     await Promise.all(firebaseTesting.apps().map((app) => app.delete()))
   })
 
-  it('handles event', async () => {
+  it('should handle event', async () => {
     const eventData = { some: 'value' }<% if (eventType === 'onWrite') { %>
     const beforeData = { another: 'thing' }
     // Build create change event
@@ -38,15 +33,13 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     const fakeContext = {
       params: {},
     }
-    await <%= camelName %>({ after: snap }, fakeContext)<% } else { %>
+    const results = await <%= camelName %>({ after: snap }, fakeContext)<% } else { %>
     // Build onCreate
     const snap = functionsTest.firestore.makeDocumentSnapshot(eventData, eventPath)
     const fakeContext = {
       params: {},
     }
-    await <%= camelName %>(snap, fakeContext)<% } %>
-    // TODO: Switch this to a real assertion which confirms functionality
-    const result = await adminApp.firestore().doc('some/path').get()
-    expect(result).<% if (jestTesting) { %>toBeNull()<% } else { %>to.be.null<% } %>
+    const results = await <%= camelName %>(snap, fakeContext)<% } %>
+    expect(results).<% if (jestTesting) { %>toBeNull()<% } else { %>to.be.null<% } %>
   })
 })
