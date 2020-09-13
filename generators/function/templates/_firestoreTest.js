@@ -18,18 +18,18 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     })
   })
 
-  after(async () => {
+  after<% if (jestTesting) { %>All<% } %>(async () => {
     // Restoring stubs to the original methods
     functionsTest.cleanup()
     // Cleanup all apps (keeps active listeners from preventing JS from exiting)
     await Promise.all(firebaseTesting.apps().map((app) => app.delete()))
   })
 
-  <% if (jestTesting) { %>test<% } else { %>it<% } %>('handles event', async () => {
+  it('handles event', async () => {
     const eventData = { some: 'value' }<% if (eventType === 'onWrite') { %>
     const beforeData = { another: 'thing' }
     // Build create change event
-    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(beforeData, 'document/path');
+    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(beforeData, 'document/path')
     const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
       eventData,
       eventPath
@@ -47,6 +47,6 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     await <%= camelName %>(snap, fakeContext)<% } %>
     // TODO: Switch this to a real assertion which confirms functionality
     const result = await adminApp.firestore().doc('some/path').get()
-    expect(result).<% if (jestTesting) { %>toEqual(null)<% } else { %>to.be.null<% } %>``
+    expect(result).<% if (jestTesting) { %>toBeNull()<% } else { %>to.be.null<% } %>
   })
 })

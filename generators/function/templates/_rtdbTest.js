@@ -5,7 +5,7 @@ const eventPath = '<%= camelName %>'
 const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped)
 
 describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
-  after(async () => {
+  after<% if (jestTesting) { %>All<% } %>(async () => {
     functionsTest.cleanup()
   })
 

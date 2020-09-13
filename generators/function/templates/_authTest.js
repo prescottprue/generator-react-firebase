@@ -8,9 +8,9 @@ describe('<%= camelName %> Auth Cloud Function (Auth:<%= eventType %>)', () => {
     functionsTest.cleanup()
   })
 
-  <% if (jestTesting) { %>test<% } else { %>it<% } %>('handles event', async () => {
+  it('handles event', async () => {
     await <%= camelName %>({})
     // TODO: Switch this to a real assertion which confirms functionality
-    expect(null).<% if (jestTesting) { %>toEqual(null)<% } else { %>to.be.null<% } %>
+    expect(null).<% if (jestTesting) { %>toBeNull()<% } else { %>to.be.null<% } %>
   })
 })

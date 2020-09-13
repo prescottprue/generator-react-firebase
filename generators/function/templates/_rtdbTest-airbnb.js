@@ -5,7 +5,7 @@ const eventPath = '<%= camelName %>';
 const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped);
 
 describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
-  after(async () => {
+  after<% if (jestTesting) { %>All<% } %>(async () => {
     functionsTest.cleanup();
   });
 
@@ -26,7 +26,7 @@ describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
       params: {},
     };
     await <%= camelName %>(changeEvent, fakeContext)<% } else { %>
-    // Build onCreate
+    // Build fake onCreate event
     const snap = functionsTest.database.makeDataSnapshot(eventData, eventPath);
     const fakeContext = {
       params: {},
