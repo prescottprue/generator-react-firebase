@@ -1,23 +1,24 @@
 import <%= camelName %>Unwrapped from './index'
 
-const eventPath = '<%= camelName %>'
+const { cleanup, functionsTesting } = registerFunctionsTesting()
+const <%= camelName %> = functionsTesting.wrap(<%= camelName %>Unwrapped)
 
-const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped)
+const eventPath = '<%= camelName %>'
 
 describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
   after<% if (jestTesting) { %>All<% } %>(async () => {
-    functionsTest.cleanup()
+    await cleanup()
   })
 
   it('should handle event', async () => {
     const eventData = { some: 'value' }<% if (eventType === 'onWrite') { %>
     const beforeData = { another: 'thing' }
     // Build create change event
-    const beforeSnap = functionsTest.database.makeDataSnapshot(
+    const beforeSnap = functionsTesting.database.makeDataSnapshot(
       beforeData,
       eventPath
     )
-    const afterSnap = functionsTest.database.makeDataSnapshot(
+    const afterSnap = functionsTesting.database.makeDataSnapshot(
       eventData,
       eventPath
     )
@@ -27,7 +28,7 @@ describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
     }
     const results = await <%= camelName %>(changeEvent, fakeContext)<% } else { %>
     // Build onCreate
-    const snap = functionsTest.database.makeDataSnapshot(eventData, eventPath)
+    const snap = functionsTesting.database.makeDataSnapshot(eventData, eventPath)
     const fakeContext = {
       params: {},
     }

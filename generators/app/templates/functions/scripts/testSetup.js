@@ -8,12 +8,37 @@ process.env.NODE_ENV = 'test'<% } %>
 const projectId = 'unit-test-project'
 const { FIREBASE_DATABASE_EMULATOR_HOST, FIRESTORE_EMULATOR_HOST } = process.env
 
-// Setup firebase-functions-tests to online mode (will communicate with emulators)
-global.functionsTest = functionsTestSetup({
-  databaseURL: `https://${projectId}.firebaseio.com`, // Can not be emulator
-  storageBucket: `${projectId}.appspot.com`,
-  projectId
-})
+/**
+ * Create utils useful for firebase-functions tests
+ * @returns {Object} Utils object containing admin, cleanup, functionsTesting, and wrapper
+ */
+function registerFunctionsTesting() {
+  // Setup firebase-functions-tests to online mode (communicates with emulators)
+  const functionsTesting = functionsTestSetup({
+    databaseURL: `https://${projectId}.firebaseio.com`, // Can not be emulator
+    storageBucket: `${projectId}.appspot.com`,
+    projectId,
+  });
+  // Admin application instance pointed to emulators (removed in cleanup)
+  const adminApp = firebaseTesting.initializeAdminApp({
+    projectId,
+    databaseName: projectId,
+  });
+  /**
+   * Cleanup functionsTesting and adminApp instances
+   */
+  async function cleanup() {
+    functionsTesting.cleanup();
+    // Cleanup current app (all remaining apps are also cleared in global afterAll)
+    await adminApp.delete();
+  }
+  return {
+    admin: adminApp,
+    functionsTesting,
+    cleanup,
+  };
+}
+global.registerFunctionsTesting = registerFunctionsTesting;
 
 global.projectId = projectId
 <% if (functionsTestTool === 'mocha') { %>global.chai = chai

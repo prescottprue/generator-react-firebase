@@ -1,24 +1,22 @@
-import * as firebaseTesting from '@firebase/testing';
 import <%= camelName %>Original from './index';
+
+const { cleanup, functionsTesting } = registerFunctionsTesting()
+const <%= camelName %> = functionsTesting.wrap(<%= camelName %>Original);
 
 const eventPath = '<%= camelName %>';
 
-const <%= camelName %> = functionsTest.wrap(<%= camelName %>Original);
-
 describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
   after<% if (jestTesting) { %>All<% } %>(async () => {
-    // Restoring stubs to the original methods
-    functionsTest.cleanup()
     // Cleanup all apps (keeps active listeners from preventing JS from exiting)
-    await Promise.all(firebaseTesting.apps().map((app) => app.delete()));
+    await cleanup();
   });
 
   it('should handle event', async () => {
     const eventData = { some: 'value' }<% if (eventType === 'onWrite') { %>
     const beforeData = { another: 'thing' };
     // Build create change event
-    const beforeSnap = functionsTest.firestore.makeDocumentSnapshot(beforeData, 'document/path');
-    const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
+    const beforeSnap = functionsTesting.firestore.makeDocumentSnapshot(beforeData, 'document/path');
+    const afterSnap = functionsTesting.firestore.makeDocumentSnapshot(
       eventData,
       eventPath
     );
@@ -26,9 +24,9 @@ describe('<%= camelName %> Firestore Cloud Function (<%= eventType %>)', () => {
     const fakeContext = {
       params: {},
     };
-    const results = await <%= camelName %>({ after: snap }, fakeContext);<% } else { %>
+    const results = await <%= camelName %>(changeEvent, fakeContext);<% } else { %>
     // Build onCreate
-    const snap = functionsTest.firestore.makeDocumentSnapshot(eventData, eventPath);
+    const snap = functionsTesting.firestore.makeDocumentSnapshot(eventData, eventPath);
     const fakeContext = {
       params: {},
     };

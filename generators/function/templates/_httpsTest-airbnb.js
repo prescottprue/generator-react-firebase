@@ -1,9 +1,15 @@
 <% if (eventType !== 'onCall') { %>import <%= name %> from './index';<% } %><% if (eventType === 'onCall') { %>
 import <%= camelName %>Unwrapped from './index';
 
-const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped);<% } %>
+const { cleanup, functionsTesting } = registerFunctionsTesting();
+const <%= camelName %> = functionsTesting.wrap(<%= camelName %>Unwrapped);<% } %>
 
 <% if (eventType === 'onCall') { %>describe('<%= camelName %> HTTPS Callable Cloud Function', () => {
+  after<% if (jestTesting) { %>All<% } %>(async () => {
+    // Cleanup all apps (keeps active listeners from preventing JS from exiting)
+    await cleanup()
+  })
+
   it('should respond with hello message when sent an empty request', async () => {
     const data = {};
     const context = {};
