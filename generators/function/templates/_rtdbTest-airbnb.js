@@ -5,11 +5,11 @@ const eventPath = '<%= camelName %>';
 const <%= camelName %> = functionsTest.wrap(<%= camelName %>Unwrapped);
 
 describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
-  after(async () => {
+  after<% if (jestTesting) { %>All<% } %>(async () => {
     functionsTest.cleanup();
   });
 
-  it('handles event', async () => {
+  it('should handle event', async () => {
     const eventData = { some: 'value' };<% if (eventType === 'onWrite') { %>
     const beforeData = { another: 'thing' };
     // Build create change event
@@ -25,14 +25,14 @@ describe('<%= camelName %> RTDB Cloud Function (RTDB:<%= eventType %>)', () => {
     const fakeContext = {
       params: {},
     };
-    await <%= camelName %>(changeEvent, fakeContext)<% } else { %>
-    // Build onCreate
+    const results = await <%= camelName %>(changeEvent, fakeContext)<% } else { %>
+    // Build fake onCreate event
     const snap = functionsTest.database.makeDataSnapshot(eventData, eventPath);
     const fakeContext = {
       params: {},
     };
-    await <%= camelName %>(snap, fakeContext)<% } %>;
+    const results = await <%= camelName %>(snap, fakeContext)<% } %>;
     // TODO: Switch this to a real assertion which confirms functionality
-    expect(null).<% if (jestTesting) { %>toEqual(null)<% } else { %>to.be.null<% } %>;
+    expect(results).<% if (jestTesting) { %>toBeNull()<% } else { %>to.be.null<% } %>;
   });
 });
