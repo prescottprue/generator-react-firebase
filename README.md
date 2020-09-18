@@ -78,6 +78,12 @@ _When opting into redux_
 - [react-redux-firebase](https://react-redux-firebase.com) - Easily Persist results of Firebase queries to redux state
 - [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
 
+## Screenshots
+![image](https://user-images.githubusercontent.com/2992224/93631046-f486e000-f9b8-11ea-9eed-9e150dd42bdb.png)
+
+![image](https://user-images.githubusercontent.com/2992224/93629646-a07afc00-f9b6-11ea-873b-9ca777939546.png)
+
+
 ## Sub generators
 
 Sub generators are included to help speed up the application building process. You can run a sub-generator by calling `yo react-firebase:<name of sub-generator> <param1>`.
