@@ -98,8 +98,7 @@ export default function useSetupMessaging() {
       .requestPermission()
       .then(() => getTokenAndWriteToProfile(messaging))
       .catch((err) => {
-        console.error('Unable to get permission to notify: ', err) // eslint-disable-line no-console
-        return Promise.reject(err)
+        console.log('Unable to get permission to notify: ', err) // eslint-disable-line no-console
       })
   }
   return { initializeMessaging }
