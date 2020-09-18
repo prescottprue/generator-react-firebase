@@ -5,32 +5,29 @@
   "main": "index.js",
   "private": true,
   "engines": {
-    "node": "10"
+    "node": "12"
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.js .",
     "lint:fix": "yarn lint --fix",
     "clean": "rimraf dist etc",
-    "build": "yarn clean && babel src -d --out-dir dist",
+    "build": "yarn clean && tsc",
     "watch": "yarn build --watch",
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
     "deploy": "firebase deploy --only functions"
   },
   "dependencies": {
-    "firebase-admin": "^9.0.0",
-    "firebase-functions": "^3.8.0",
+    "firebase-admin": "^9.1.0",
+    "firebase-functions": "^3.9.1",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "babel-preset-minify": "^0.5.1",
+    "@types/node": "^14.0.13",
     "cross-env": "^7.0.2",
-    "prettier": "^2.0.5",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   }
 }

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.4.0
+        uses: styfle/cancel-workflow-action@0.4.1
         with:
           access_token: ${{ github.token }}
 
@@ -16,9 +16,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.1
         with:
-          node-version: 10
+          node-version: 12
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings
@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache App Dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
@@ -125,9 +125,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.1
         with:
-          node-version: 10
+          node-version: 12
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings
@@ -137,19 +137,19 @@ jobs:
           echo "::set-output name=cypress::$(yarn list -s --depth=0 --pattern cypress | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache Cypress Binary
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ steps.cache-settings.outputs.cypress }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
@@ -217,7 +217,7 @@ jobs:
       # This stage tests a version of the app which is running locally in the
       # container on port 3000.
       - name: Cypress Run
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           record: true
           start: yarn emulators:hosting --project ${{ env.GCLOUD_PROJECT }}

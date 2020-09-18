@@ -9,7 +9,7 @@ let errorHandler // eslint-disable-line import/no-mutable-exports
  */
 function initStackdriverErrorReporter() {
   try {
-    const errorHandler = new StackdriverErrorReporter()
+    errorHandler = new StackdriverErrorReporter()
     errorHandler.start({
       key: process.env.REACT_APP_FIREBASE_apiKey,
       projectId: process.env.REACT_APP_FIREBASE_projectId,
