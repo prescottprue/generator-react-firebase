@@ -10,7 +10,10 @@
 # React App
 build
 src/config.js
-.env<% if (includeFunctions) { %>
+.env
+
+# Firebase
+.firebase<% if (includeFunctions) { %>
 
 # Functions
 functions/etc

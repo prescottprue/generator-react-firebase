@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
@@ -31,13 +31,13 @@ jobs:
           echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.2
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.2
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}

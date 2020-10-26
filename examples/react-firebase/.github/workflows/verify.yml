@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.2
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
