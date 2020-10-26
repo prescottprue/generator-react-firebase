@@ -11,9 +11,9 @@ export const NotificationsContext = React.createContext({
 })
 
 export default function NotificationsProvider({ children }) {
-  const notistackRef = React.createRef();
-  const onClickDismiss = key => () => { 
-    notistackRef.current.closeSnackbar(key);
+  const notistackRef = React.createRef()
+  const onClickDismiss = (key) => () => { 
+    notistackRef.current.closeSnackbar(key)
   }
 
   const contextValue = {
