@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.6.0
+        uses: styfle/cancel-workflow-action@0.4.1
         with:
           access_token: ${{ github.token }}
 
@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Node
-        uses: actions/setup-node@v2.1.1
+        uses: actions/setup-node@v2.1.2
         with:
           node-version: 12
 
@@ -27,13 +27,13 @@ jobs:
           echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v2.1.2
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.2
+        uses: actions/cache@v2.1.0
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
@@ -141,7 +141,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Node
-        uses: actions/setup-node@v2.1.1
+        uses: actions/setup-node@v2.1.2
         with:
           node-version: 12
 
@@ -153,19 +153,19 @@ jobs:
           echo "::set-output name=cypress::$(yarn list -s --depth=0 --pattern cypress | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v2.1.2
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache Cypress Binary
-        uses: actions/cache@v2.1.2
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ steps.cache-settings.outputs.cypress }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.2
+        uses: actions/cache@v2.1.0
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}

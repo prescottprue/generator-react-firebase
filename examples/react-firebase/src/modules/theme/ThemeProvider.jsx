@@ -22,18 +22,16 @@ export default function ThemeProvider({ children }) {
           ...ThemeSettings.palette,
           type: isDarkMode ? 'dark' : 'light'
         }
-      })
+      }),
     [isDarkMode]
   )
 
   const contextValue = {
     isDarkMode,
-    toggleDarkMode: useCallback(
-      () => changeIsDarkMode(!isDarkMode),
-      [
-        changeIsDarkMode,
-        isDarkMode
-      ])
+    toggleDarkMode: useCallback(() => changeIsDarkMode(!isDarkMode), [
+      changeIsDarkMode,
+      isDarkMode
+    ])
   }
 
   return (
