@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from 'formik-material-ui'
+import { useForm } from 'react-hook-form'
+import { makeStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'<% if (addStyle && styleType === 'localized') { %>
 import styles from './<%= name %>.styles'
 

@@ -44,11 +44,7 @@ function AccountMenu() {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={Boolean(anchorEl)}
         onClose={closeAccountMenu}>
-        <MenuItem
-          component={Link}
-          to={ACCOUNT_PATH}
-          onClick={closeAccountMenu}
-        >
+        <MenuItem component={Link} to={ACCOUNT_PATH} onClick={closeAccountMenu}>
           Account
         </MenuItem>
         <MenuItem onClick={handleLogout}>Sign Out</MenuItem>

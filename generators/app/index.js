@@ -393,11 +393,7 @@ module.exports = class extends Generator {
 
     // React Component Tests
     if (this.answers.includeComponentTests) {
-      filesArray.push(
-        { src: 'jestTests/**', dest: 'src' },
-        // { src: 'scripts/**', dest: 'scripts' },
-        { src: 'env.test', dest: '.env.test' }
-      )
+      filesArray.push({ src: 'jestTests/**', dest: 'src' })
     }
 
     if (this.answers.includeMessaging) {

@@ -11,9 +11,9 @@ export const NotificationsContext = React.createContext({
 })
 
 export default function NotificationsProvider({ children }) {
-  const notistackRef = React.createRef();
-  const onClickDismiss = key => () => { 
-    notistackRef.current.closeSnackbar(key);
+  const notistackRef = React.createRef()
+  const onClickDismiss = (key) => () => {
+    notistackRef.current.closeSnackbar(key)
   }
 
   const contextValue = {
@@ -40,19 +40,17 @@ export default function NotificationsProvider({ children }) {
         ref={notistackRef}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         action={(key) => (
           <IconButton
             key={`close-${key}`}
             aria-label="Close"
             color="inherit"
-            onClick={onClickDismiss(key)}
-          >
+            onClick={onClickDismiss(key)}>
             <CloseIcon />
           </IconButton>
-        )}
-      >
+        )}>
         {children}
       </SnackbarProvider>
     </NotificationsContext.Provider>

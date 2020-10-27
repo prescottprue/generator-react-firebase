@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import CssBaseline from '@material-ui/core/CssBaseline'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import ThemeSettings from '../../theme'
 import ThemeContext from './ThemeContext'
 
 export default function ThemeProvider({ children }) {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const [isDarkMode, changeIsDarkMode] = useState(false)
 
   useEffect(() => {
@@ -21,17 +21,17 @@ export default function ThemeProvider({ children }) {
         palette: {
           ...ThemeSettings.palette,
           type: isDarkMode ? 'dark' : 'light'
-        },
+        }
       }),
-    [isDarkMode],
-  );
+    [isDarkMode]
+  )
 
   const contextValue = {
     isDarkMode,
-    toggleDarkMode: useCallback(
-      () => changeIsDarkMode(!isDarkMode),
-      [changeIsDarkMode, isDarkMode]
-    ),
+    toggleDarkMode: useCallback(() => changeIsDarkMode(!isDarkMode), [
+      changeIsDarkMode,
+      isDarkMode
+    ])
   }
 
   return (

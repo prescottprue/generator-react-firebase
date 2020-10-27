@@ -12,4 +12,7 @@ build
 src/config.js
 .env
 
+# Firebase
+.firebase
+
 # Tests
