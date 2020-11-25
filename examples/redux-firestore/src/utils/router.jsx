@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
-import { useRouteMatch } from 'react-router-dom'
-import { Route } from 'react-router-dom'
+import { useRouteMatch, Route } from 'react-router-dom'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import { createBrowserHistory } from 'history'

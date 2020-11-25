@@ -25,7 +25,7 @@ function AccountMenu() {
     setMenu(e.target)
   }
   function handleLogout() {
-    closeAccountMenu()<% if (includeRedux) { %>// redirect to '/' handled by UserIsAuthenticated HOC
+    closeAccountMenu()<% if (includeRedux) { %> // redirect to '/' handled by UserIsAuthenticated HOC
     return firebase.logout()<% } %><% if (!includeRedux) { %>
     // redirect to '/login' will occur if on a route where auth is required
     return firebase.auth().signOut()<% } %>

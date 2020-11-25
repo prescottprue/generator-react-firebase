@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
@@ -69,15 +69,15 @@ jobs:
           emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
           
           # Set variables to environment to be used in later steps
-          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
-          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
-          echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
-          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+          echo "REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=$databaseEmulatorHost" >> $GITHUB_ENV
+          echo "REACT_APP_FIRESTORE_EMULATOR_HOST=$emulatorHost" >> $GITHUB_ENV
+          echo "REACT_APP_FB_databaseURL=http://$databaseEmulatorHost?ns=$gcloudProject" >> $GITHUB_ENV
+          echo "GCLOUD_PROJECT=$gcloudProject" >> $GITHUB_ENV
 
           # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
           echo "Generating Service Account File..."
           echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
-          echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::$HOME/serviceAccount.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/serviceAccount.json" >> $GITHUB_ENV
 
           # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
           # NOTE: databaseURL is intentionally removed since it is set above
@@ -89,13 +89,13 @@ jobs:
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \
               jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
-              sed 's/:"/:/g; s/^/echo \"::set-env name=REACT_APP_FIREBASE_/g' \
+              sed 's/:"/:/g; s/^/echo \"REACT_APP_FB_/g' \
           )
 
           # Loop through each line of config and evaluate to export env vars
           while IFS= read -r line; do
             echo Evaluating: $line
-            eval $line
+            eval $line >> $GITHUB_ENV
           done <<< "$firebaseConfig"
 
       - name: Verify App
