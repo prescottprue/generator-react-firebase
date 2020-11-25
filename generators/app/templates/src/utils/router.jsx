@@ -1,10 +1,9 @@
 import React, { Suspense } from 'react'<% if (includeRedux) { %>
-import { useRouteMatch } from 'react-router-dom'<% } %><% if (!includeRedux) { %>
+import { useRouteMatch, Route } from 'react-router-dom'<% } %><% if (!includeRedux) { %>
 import PropTypes from 'prop-types'
 import { Route, Redirect, useRouteMatch } from 'react-router-dom'
 import { AuthCheck } from 'reactfire'
 import { LOGIN_PATH } from '../constants/paths'<% } %><% if (includeRedux) { %>
-import { Route } from 'react-router-dom'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import { createBrowserHistory } from 'history'<% } %>
