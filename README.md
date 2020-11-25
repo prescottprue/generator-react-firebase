@@ -23,6 +23,7 @@ npm install -g yo generator-react-firebase
 1. Do the following in the Firebase Console:
    1. Create both a Firestore Database and Real Time Database within your project
    1. Enable Google and/or Email Sign In Methods in the Authentication tab (required to enable login/signup within your application)
+1. Make sure to have Node ^12 installed and selected - this is to match the `engines` setting in `functions/package.json` which defines the function runtime node version (more in the FAQ section)
 
 ## Getting Started
 
