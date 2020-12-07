@@ -48,7 +48,7 @@ jobs:
           yarn test:cov
 
       - name: Check version changes
-        uses: EndBug/version-check@v1
+        uses: EndBug/version-check@v2
         id: check
 
       - name: Version update detected
