@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
@@ -27,13 +27,13 @@ jobs:
           echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
@@ -76,15 +76,15 @@ jobs:
           emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
           
           # Set variables to environment to be used in later steps
-          echo "::set-env name=REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
-          echo "::set-env name=REACT_APP_FIRESTORE_EMULATOR_HOST::$emulatorHost"
-          echo "::set-env name=REACT_APP_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
-          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+          echo "REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=$databaseEmulatorHost" >> $GITHUB_ENV
+          echo "REACT_APP_FIRESTORE_EMULATOR_HOST=$emulatorHost" >> $GITHUB_ENV
+          echo "REACT_APP_FB_databaseURL=http://$databaseEmulatorHost?ns=$gcloudProject" >> $GITHUB_ENV
+          echo "GCLOUD_PROJECT=$gcloudProject" >> $GITHUB_ENV
 
           # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
           echo "Generating Service Account File..."
           echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
-          echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::$HOME/serviceAccount.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/serviceAccount.json" >> $GITHUB_ENV
 
           # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
           # NOTE: databaseURL is intentionally removed since it is set above
@@ -96,13 +96,13 @@ jobs:
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \
               jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
-              sed 's/:"/:/g; s/^/echo \"::set-env name=REACT_APP_FIREBASE_/g' \
+              sed 's/:"/:/g; s/^/echo \"REACT_APP_FB_/g' \
           )
 
           # Loop through each line of config and evaluate to export env vars
           while IFS= read -r line; do
             echo Evaluating: $line
-            eval $line
+            eval $line >> $GITHUB_ENV
           done <<< "$firebaseConfig"
 
       - name: Verify App
@@ -153,19 +153,19 @@ jobs:
           echo "::set-output name=cypress::$(yarn list -s --depth=0 --pattern cypress | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache Cypress Binary
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ steps.cache-settings.outputs.cypress }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
@@ -195,16 +195,16 @@ jobs:
           emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
 
           # Set variables to environment to be used in later steps
-          echo "::set-env name=FIREBASE_DATABASE_EMULATOR_HOST::$databaseEmulatorHost"
-          echo "::set-env name=FIRESTORE_EMULATOR_HOST::$emulatorHost"
-          echo "::set-env name=CYPRESS_BASE_URL::http://localhost:$(cat package.json | jq .config.port)"
-          echo "::set-env name=CYPRESS_FB_databaseURL::http://$databaseEmulatorHost?ns=$gcloudProject"
-          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+          echo "FIREBASE_DATABASE_EMULATOR_HOST=$databaseEmulatorHost" >> $GITHUB_ENV
+          echo "FIRESTORE_EMULATOR_HOST=$emulatorHost" >> $GITHUB_ENV
+          echo "CYPRESS_BASE_URL=http://localhost:$(cat package.json | jq .config.port)" >> $GITHUB_ENV
+          echo "CYPRESS_FB_databaseURL=http://$databaseEmulatorHost?ns=$gcloudProject" >> $GITHUB_ENV
+          echo "GCLOUD_PROJECT=$gcloudProject" >> $GITHUB_ENV
   
           # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
           echo "Generating Service Account File..."
           echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
-          echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::$HOME/serviceAccount.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/serviceAccount.json" >> $GITHUB_ENV
 
           # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
           firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
@@ -213,13 +213,13 @@ jobs:
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \
               jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
-              sed 's/:"/:/g; s/^/echo \"::set-env name=CYPRESS_FIREBASE_/g' \
+              sed 's/:"/:/g; s/^/echo \"CYPRESS_FIREBASE_/g' \
           )
 
           # Loop through each line of config and evaluate to export env vars
           while IFS= read -r line; do
             echo Evaluating: $line
-            eval $line
+            eval $line >> $GITHUB_ENV
           done <<< "$firebaseConfig"
 
       # Download Built app since we are testing locally

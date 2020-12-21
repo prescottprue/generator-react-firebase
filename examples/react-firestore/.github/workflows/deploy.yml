@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
@@ -31,13 +31,13 @@ jobs:
           echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
 
       - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ~/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: Cache App Dependencies
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.3
         with:
           path: ${{ steps.cache-settings.outputs.dir }}
           key: ${{ runner.os }}-app-${{ hashFiles('yarn.lock') }}
@@ -77,7 +77,7 @@ jobs:
           echo "Setting environment for branch: $gitBranch, project: $gcloudProject, and app: $appName..."
 
           # Set variables to environment to be used in later steps
-          echo "::set-env name=GCLOUD_PROJECT::$gcloudProject"
+          echo "GCLOUD_PROJECT=$gcloudProject" >> $GITHUB_ENV
 
           # Get value of Service Account associated with branch (i.e. STAGE_SERVICE_ACCOUNT)
           branchPrefix=$(echo $gitBranch | tr a-z A-Z | tr - _)
@@ -96,7 +96,7 @@ jobs:
           # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
           echo "Generating Service Account File..."
           echo "$(echo $serviceAccount | jq .)" > $HOME/serviceAccount.json
-          echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::$HOME/serviceAccount.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/serviceAccount.json" >> $GITHUB_ENV
 
           # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
           # NOTE: databaseURL is intentionally removed since it is set above
@@ -106,13 +106,13 @@ jobs:
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \
               jq -r 'to_entries[] | [.key, (.value | tojson)] | join("::")' | \
-              sed 's/:"/:/g; s/^/echo \"::set-env name=REACT_APP_FIREBASE_/g' \
+              sed 's/:"/:/g; s/^/echo \"REACT_APP_FB_/g' \
           )
 
           # Loop through each line of config and evaluate to export env vars
           while IFS= read -r line; do
             echo Evaluating: $line
-            eval $line
+            eval $line >> $GITHUB_ENV
           done <<< "$firebaseConfig"
 
       - name: Verify App

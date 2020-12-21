@@ -3,7 +3,6 @@
 **/*.log
 .DS_Store
 **/.DS_Store
-
 # Dependencies
 **/node_modules
 
@@ -11,6 +10,7 @@
 build
 src/config.js
 .env
+.eslintcache
 
 # Firebase
 .firebase<% if (includeFunctions) { %>
