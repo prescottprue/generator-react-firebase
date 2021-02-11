@@ -29,7 +29,7 @@ const useStyles = makeStyles(styles)
 function useProjectsList() {
   const { showSuccess, showError } = useNotifications()
   <% if (!includeRedux) { %>// Get current user (loading handled by Suspense in ProjectsList)
-  const auth = useUser()<% } %><% if (!includeRedux && includeFirestore) { %>
+  const { data: auth } = useUser()<% } %><% if (!includeRedux && includeFirestore) { %>
   // Create a ref for projects owned by the current user
   const firestore = useFirestore()
   const { FieldValue, FieldPath } = useFirestore
@@ -40,16 +40,24 @@ function useProjectsList() {
     .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })<% } %><% if (!includeRedux && !includeFirestore) { %>
+  const {
+    data: projects
+  } = useFirestoreCollectionData(
+    projectsRef,
+    {
+      idField: 'id'
+    }
+  )<% } %><% if (!includeRedux && !includeFirestore) { %>
   // Create a ref for projects owned by the current user
   const database = useDatabase()
+  const { ServerValue } = useDatabase
   const projectsRef = database
     .ref(PROJECTS_COLLECTION)
     .orderByChild('createdBy')
     .equalTo(auth?.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const projects = useDatabaseList(projectsRef)<% } %><% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()
+  const { data: projects } = useDatabaseList(projectsRef)<% } %><% if (includeRedux && !includeFirestore) { %>const firebase = useFirebase()
 
   // Get auth from redux state
   const auth = useSelector(({ firebase: { auth } }) => auth)
@@ -110,9 +118,7 @@ function useProjectsList() {
       .push({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: Date.now()
-        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
-        // createdAt: database.ServerValue.TIMESTAMP
+        createdAt: ServerValue.TIMESTAMP
       })<% } %>
       .then(() => {
         toggleDialog()

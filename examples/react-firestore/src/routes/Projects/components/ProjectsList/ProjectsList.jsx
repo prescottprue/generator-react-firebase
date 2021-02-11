@@ -13,7 +13,7 @@ const useStyles = makeStyles(styles)
 function useProjectsList() {
   const { showSuccess, showError } = useNotifications()
   // Get current user (loading handled by Suspense in ProjectsList)
-  const auth = useUser()
+  const { data: auth } = useUser()
   // Create a ref for projects owned by the current user
   const firestore = useFirestore()
   const { FieldValue, FieldPath } = useFirestore
@@ -24,7 +24,14 @@ function useProjectsList() {
     .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const projects = useFirestoreCollectionData(projectsRef, { idField: 'id' })
+  const {
+    data: projects
+  } = useFirestoreCollectionData(
+    projectsRef,
+    {
+      idField: 'id'
+    }
+  )
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)

@@ -18,7 +18,7 @@ function Navbar() {
   // Get auth from redux state
   const auth = useSelector(({ firebase }) => firebase.auth)
   const authExists = isLoaded(auth) && !isEmpty(auth)<% } %><% if (!includeRedux) { %>
-  const auth = useUser()
+  const { data: auth } = useUser()
   const authExists = !!auth?.uid<% } %>
 
   return (

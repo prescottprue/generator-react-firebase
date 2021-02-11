@@ -13,16 +13,17 @@ const useStyles = makeStyles(styles)
 function useProjectsList() {
   const { showSuccess, showError } = useNotifications()
   // Get current user (loading handled by Suspense in ProjectsList)
-  const auth = useUser()
+  const { data: auth } = useUser()
   // Create a ref for projects owned by the current user
   const database = useDatabase()
+  const { ServerValue } = useDatabase
   const projectsRef = database
     .ref(PROJECTS_COLLECTION)
     .orderByChild('createdBy')
     .equalTo(auth?.uid)
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const projects = useDatabaseList(projectsRef)
+  const { data: projects } = useDatabaseList(projectsRef)
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
@@ -34,9 +35,7 @@ function useProjectsList() {
       .push({
         ...newInstance,
         createdBy: auth.uid,
-        createdAt: Date.now()
-        // Not currently supported in reactfire (see https://github.com/FirebaseExtended/reactfire/issues/227)
-        // createdAt: database.ServerValue.TIMESTAMP
+        createdAt: ServerValue.TIMESTAMP
       })
       .then(() => {
         toggleDialog()

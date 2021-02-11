@@ -29,7 +29,10 @@ function App() {
   const routes = createRoutes()
   return (
     <ThemeProvider>
-      <FirebaseAppProvider firebaseConfig={firebaseConfig} initPerformance>
+      <FirebaseAppProvider
+        firebaseConfig={firebaseConfig}
+        suspense
+        initPerformance>
         <NotificationsProvider>
           <>
             <Router>{routes}</Router>
