@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDatabase, useDatabaseObject, useUser } from 'reactfire'
+import { useDatabase, useDatabaseObjectData, useUser } from 'reactfire'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import { useNotifications } from 'modules/notification'
@@ -14,10 +14,9 @@ function AccountEditor() {
   const classes = useStyles()
   const { showSuccess, showError } = useNotifications()
   const database = useDatabase()
-  const auth = useUser()
+  const { data: auth } = useUser()
   const accountRef = database.ref(`${USERS_COLLECTION}/${auth.uid}`)
-  const profileSnap = useDatabaseObject(accountRef)
-  const profile = profileSnap.snapshot.val()
+  const { data: profile } = useDatabaseObjectData(accountRef)
 
   async function updateAccount(newAccount) {
     try {

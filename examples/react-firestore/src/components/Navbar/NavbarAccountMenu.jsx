@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useFirebaseApp } from 'reactfire'
+import { useAuth } from 'reactfire'
 import { Link } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles)
 function AccountMenu() {
   const classes = useStyles()
   const [anchorEl, setMenu] = useState(null)
-  const firebase = useFirebaseApp()
+  const auth = useAuth()
 
   function closeAccountMenu() {
     setMenu(null)
@@ -25,7 +25,7 @@ function AccountMenu() {
   function handleLogout() {
     closeAccountMenu()
     // redirect to '/login' will occur if on a route where auth is required
-    return firebase.auth().signOut()
+    return auth.signOut()
   }
 
   return (

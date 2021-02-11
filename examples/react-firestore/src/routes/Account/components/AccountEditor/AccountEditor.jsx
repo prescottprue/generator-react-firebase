@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFirestore, useFirestoreDoc, useUser } from 'reactfire'
+import { useFirestore, useFirestoreDocData, useUser } from 'reactfire'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import { useNotifications } from 'modules/notification'
@@ -14,10 +14,9 @@ function AccountEditor() {
   const classes = useStyles()
   const { showSuccess, showError } = useNotifications()
   const firestore = useFirestore()
-  const auth = useUser()
+  const { data: auth } = useUser()
   const accountRef = firestore.doc(`${USERS_COLLECTION}/${auth.uid}`)
-  const profileSnap = useFirestoreDoc(accountRef)
-  const profile = profileSnap.data()
+  const { data: profile } = useFirestoreDocData(accountRef)
 
   async function updateAccount(newAccount) {
     try {
