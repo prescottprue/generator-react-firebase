@@ -1,6 +1,6 @@
 import React, { useState } from 'react'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
-import { useFirebaseApp } from 'reactfire'<% } %>
+import { useAuth } from 'reactfire'<% } %>
 import { Link } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -16,7 +16,7 @@ function AccountMenu() {
   const classes = useStyles()
   const [anchorEl, setMenu] = useState(null)<% if (includeRedux) { %>
   const firebase = useFirebase()<% } %><% if (!includeRedux) { %>
-  const firebase = useFirebaseApp()<% } %>
+  const auth = useAuth()<% } %>
 
   function closeAccountMenu() {
     setMenu(null)
@@ -28,7 +28,7 @@ function AccountMenu() {
     closeAccountMenu()<% if (includeRedux) { %> // redirect to '/' handled by UserIsAuthenticated HOC
     return firebase.logout()<% } %><% if (!includeRedux) { %>
     // redirect to '/login' will occur if on a route where auth is required
-    return firebase.auth().signOut()<% } %>
+    return auth.signOut()<% } %>
   }
 
   return (
