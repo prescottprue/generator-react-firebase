@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles)
 
 function Navbar() {
   const classes = useStyles()
-  const auth = useUser()
+  const { data: auth } = useUser()
   const authExists = !!auth?.uid
 
   return (

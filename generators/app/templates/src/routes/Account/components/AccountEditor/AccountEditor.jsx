@@ -1,6 +1,6 @@
 import React from 'react'<% if (!includeRedux && includeFirestore) { %>
-import { useFirestore, useFirestoreDoc, useUser } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
-import { useDatabase, useDatabaseObject, useUser } from 'reactfire'<% } %>
+import { useFirestore, useFirestoreDocData, useUser } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
+import { useDatabase, useDatabaseObjectData, useUser } from 'reactfire'<% } %>
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'<% if (includeRedux) { %>
 import { useSelector } from 'react-redux'
@@ -18,15 +18,13 @@ function AccountEditor() {
   const classes = useStyles()
   const { showSuccess, showError } = useNotifications()<% if (!includeRedux && includeFirestore) { %>
   const firestore = useFirestore()
-  const auth = useUser()
+  const { data: auth } = useUser()
   const accountRef = firestore.doc(`${USERS_COLLECTION}/${auth.uid}`)
-  const profileSnap = useFirestoreDoc(accountRef)
-  const profile = profileSnap.data()<% } %><% if (!includeRedux && !includeFirestore) { %>
+  const { data: profile } = useFirestoreDocData(accountRef)<% } %><% if (!includeRedux && !includeFirestore) { %>
   const database = useDatabase()
-  const auth = useUser()
+  const { data: auth } = useUser()
   const accountRef = database.ref(`${USERS_COLLECTION}/${auth.uid}`)
-  const profileSnap = useDatabaseObject(accountRef)
-  const profile = profileSnap.snapshot.val()<% } %><% if (includeRedux) { %>
+  const { data: profile } = useDatabaseObjectData(accountRef)<% } %><% if (includeRedux) { %>
   const firebase = useFirebase()
 
   // Get profile from redux state

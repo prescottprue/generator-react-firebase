@@ -2,7 +2,7 @@ import React from 'react'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
-import { useFirestoreDoc, useFirestore } from 'reactfire'
+import { useFirestoreDocData, useFirestore } from 'reactfire'
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 
 function ProjectData() {
@@ -10,8 +10,7 @@ function ProjectData() {
   const firestore = useFirestore()
   const projectRef = firestore.doc(`${PROJECTS_COLLECTION}/${projectId}`)
 
-  const projectSnap = useFirestoreDoc(projectRef)
-  const project = projectSnap.data()
+  const { data: project } = useFirestoreDocData(projectRef)
 
   return (
     <CardContent>

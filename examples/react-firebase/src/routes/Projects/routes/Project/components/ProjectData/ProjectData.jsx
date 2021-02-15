@@ -2,7 +2,7 @@ import React from 'react'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { useParams } from 'react-router-dom'
-import { useDatabaseObject, useDatabase } from 'reactfire'
+import { useDatabaseObjectData, useDatabase } from 'reactfire'
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 
 function ProjectData() {
@@ -10,8 +10,7 @@ function ProjectData() {
   const database = useDatabase()
   const projectRef = database.ref(`${PROJECTS_COLLECTION}/${projectId}`)
 
-  const projectSnap = useDatabaseObject(projectRef)
-  const project = projectSnap.snapshot.val()
+  const { data: project } = useDatabaseObjectData(projectRef)
 
   return (
     <CardContent>
