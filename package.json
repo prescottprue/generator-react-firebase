@@ -46,7 +46,6 @@
     "prettier": "^2.2.",
     "rimraf": "^3.0.2",
     "yeoman-assert": "^3.1.1",
-    "yeoman-environment": "^3.1.0",
     "yeoman-test": "^5.1.0"
   },
   "homepage": "https://github.com/prescottprue/generator-react-firebase",
