@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['standard', 'standard-react', 'prettier', 'prettier/react'],
+  extends: ['standard', 'standard-react', 'prettier'],
   root: true,
   parser: 'babel-eslint',
   plugins: ['import', 'react', 'react-hooks', 'prettier'],
@@ -55,6 +55,7 @@ module.exports = {
     },
     {
       files: ['./src/**/*.test.jsx', './src/**/*.spec.jsx'],
+      extends: ['plugin:react/recommended'],
       env: {
         jest: true
       }
