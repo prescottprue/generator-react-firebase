@@ -2,8 +2,7 @@ module.exports = {
   <% if(!typescriptCloudFunctions) { %>extends: ['../.eslintrc.js','plugin:jsdoc/recommended'],<% } %><% if(typescriptCloudFunctions) { %>extends: [
     '../.eslintrc.js',
     'plugin:jsdoc/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint'
+    'plugin:@typescript-eslint/recommended'
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['node', 'jsdoc', '@typescript-eslint'],<% } %><% if(!typescriptCloudFunctions) { %>
