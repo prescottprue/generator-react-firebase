@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.6.0
+        uses: styfle/cancel-workflow-action@0.8.0
         with:
           access_token: ${{ github.token }}
 
@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2.1.4
         with:
-          node-version: 12<% if(useYarn) { %>
+          node-version: 14<% if(useYarn) { %>
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings
@@ -143,7 +143,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2.1.4
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings
