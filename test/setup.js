@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 
 process.env.NODE_ENV = 'test'
-var chai = require('chai')
-var sinon = require('sinon')
-var path = require('path')
+const chai = require('chai')
+const sinon = require('sinon')
+const path = require('path')
 
 // globals
 global.expect = chai.expect
