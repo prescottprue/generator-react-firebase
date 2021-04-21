@@ -2,8 +2,7 @@ module.exports = {
   extends: [
     '../.eslintrc.js',
     'plugin:jsdoc/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint'
+    'plugin:@typescript-eslint/recommended'
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['node', 'jsdoc', '@typescript-eslint'],
