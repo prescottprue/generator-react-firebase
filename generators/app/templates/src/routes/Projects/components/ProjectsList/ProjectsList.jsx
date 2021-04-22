@@ -40,14 +40,9 @@ function useProjectsList() {
     .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const {
-    data: projects
-  } = useFirestoreCollectionData(
-    projectsRef,
-    {
-      idField: 'id'
-    }
-  )<% } %><% if (!includeRedux && !includeFirestore) { %>
+  const { data: projects } = useFirestoreCollectionData(projectsRef, {
+    idField: 'id'
+  })<% } %><% if (!includeRedux && !includeFirestore) { %>
   // Create a ref for projects owned by the current user
   const database = useDatabase()
   const { ServerValue } = useDatabase

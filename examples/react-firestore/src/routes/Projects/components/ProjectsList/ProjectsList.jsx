@@ -24,14 +24,9 @@ function useProjectsList() {
     .orderBy(FieldPath.documentId())
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const {
-    data: projects
-  } = useFirestoreCollectionData(
-    projectsRef,
-    {
-      idField: 'id'
-    }
-  )
+  const { data: projects } = useFirestoreCollectionData(projectsRef, {
+    idField: 'id'
+  })
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
