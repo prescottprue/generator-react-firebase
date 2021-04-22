@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "engines": {
-    "node": "12"
+    "node": "14"
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.js .",
@@ -29,7 +29,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@firebase/rules-unit-testing": "^1.1.11",
+    "@firebase/rules-unit-testing": "^1.2.9",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.2.0",
@@ -44,6 +44,6 @@
     "rimraf": "^3.0.2",
     "sinon": "^9.2.4",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.5"
+    "typescript": "^4.2.4"
   }
 }

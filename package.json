@@ -8,7 +8,8 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha -R spec ./test/unit/** && npm run test:clean",
     "test:cov": "nyc --reporter=lcov --reporter=html npm test",
-    "test:clean": "rimraf test/tmp"
+    "test:clean": "rimraf test/tmp",
+    "prepare": "husky install"
   },
   "dependencies": {
     "chalk": "^4.1.0",

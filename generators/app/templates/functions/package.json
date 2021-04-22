@@ -31,7 +31,7 @@
     "tslib": "^2.2.0"<% } %>
   },
   "devDependencies": {<% if(includeFunctionsTests) { %>
-    "@firebase/rules-unit-testing": "^1.1.11",<% } %><% if(typescriptCloudFunctions) { %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "@firebase/rules-unit-testing": "^1.2.9",<% } %><% if(typescriptCloudFunctions) { %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chai": "^4.2.12",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
     "@types/jest": "^26.0.9",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
@@ -55,6 +55,6 @@
     "sinon": "^9.2.4"<% } %><% if(typescriptCloudFunctions && includeFunctionsTests && functionsTestTool === 'jest') { %>,
     "ts-jest": "^26.4.2a"<% } %><% if(typescriptCloudFunctions) { %>,
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.5"<% } %>
+    "typescript": "^4.2.4"<% } %>
   }
 }

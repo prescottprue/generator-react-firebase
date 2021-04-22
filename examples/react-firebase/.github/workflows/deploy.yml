@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings
