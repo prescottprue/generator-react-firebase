@@ -106,7 +106,7 @@ jobs:
               sed 's/.*initializeApp(//g' | \
               sed 's/);//g' | \
               jq -r 'to_entries[] | [.key, (.value | tojson)] | join("::")' | \
-              sed 's/:"/:/g; s/^/echo \"REACT_APP_FB_/g' \
+              sed 's/::"/=/g; s/^/echo \"REACT_APP_FB_/g' \
           )
 
           # Loop through each line of config and evaluate to export env vars
