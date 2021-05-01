@@ -18,8 +18,8 @@ global.functionsTest = functionsTestSetup({
 process.env.FIREBASE_CONFIG = JSON.stringify({
   databaseURL: `https://${projectId}.firebaseio.com`, // Can not be emulator
   storageBucket: `${projectId}.appspot.com`,
-  projectId,
-});
+  projectId
+})
 
 global.projectId = projectId
 <% if (functionsTestTool === 'mocha') { %>global.chai = chai
