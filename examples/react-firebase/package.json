@@ -15,25 +15,26 @@
     "emulators:all": "firebase emulators:start",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\""
+    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\"",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prescottprue/react-firebase.git"
   },
   "engines": {
-    "node": ">12.18.0"
+    "node": ">14.15.0"
   },
   "author": "prescottprue (https://github.com/prescottprue)",
   "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
-    "firebase": "^8.2.10",
+    "firebase": "^8.4.1",
     "notistack": "^1.0.5",
     "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-google-button": "^0.7.2",
     "react-hook-form": "^6.15.4",
     "react-router-dom": "^5.2.0",
@@ -43,12 +44,12 @@
     "@sentry/cli": "^1.63.1",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
-    "eslint": "^7.21.0",
-    "eslint-config-prettier": "^8.1.0",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-config-standard-react": "^11.0.1",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsdoc": "^32.2.0",
+    "eslint-plugin-jsdoc": "^33.0.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -78,11 +79,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{json,md}": [

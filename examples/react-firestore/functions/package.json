@@ -29,7 +29,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@firebase/rules-unit-testing": "^1.2.9",
+    "@firebase/rules-unit-testing": "^1.2.11",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.2.0",
