@@ -199,11 +199,14 @@ const prompts = [
 const filesArray = [
   { src: '_README.md', dest: 'README.md' },
   { src: 'jsconfig.json' },
+  { src: 'config' },
+  { src: 'bin' },
+  { src: 'craco.config.js' },
   { src: 'LICENSE' },
   { src: '_package.json', dest: 'package.json' },
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
-  { src: 'env.local', dest: '.env.local' },
+  { src: 'env', dest: '.env' },
   { src: 'eslintrc.js', dest: '.eslintrc.js' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'public/**', dest: 'public' }, // individual files copied
@@ -245,6 +248,7 @@ module.exports = class extends Generator {
     this.argument('skipInstall', { type: Boolean, required: false })
     const appName =
       this.options.name || path.basename(process.cwd()) || 'react-firebase'
+    const yarnExists = commandExistsSync('yarn')
     this.initialData = {
       version: '0.0.1',
       messagingSenderId: null,
@@ -266,7 +270,8 @@ module.exports = class extends Generator {
       appPath: this.env.options.appPath,
       appName,
       capitalAppName: capitalize(appName),
-      useYarn: commandExistsSync('yarn')
+      useYarn: yarnExists,
+      scriptPrefix: yarnExists ? 'yarn' : 'npm start'
     }
   }
 

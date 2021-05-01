@@ -23,35 +23,18 @@
 - node `^12.18.0`
 - npm `^6.0.0`
 
+## Before Starting
+1. Make sure you have `firebase-tools` installed an you are logged in (`firebase login`)
+
 ## Getting Started
 
 1. Install app and functions dependencies: <% if (useYarn) { %>`npm i && npm i --prefix functions`<% } else { %>`yarn install && yarn install --cwd functions`<% } %>
-1. Create `.env.local` file that looks like so if it does not already exist:
+1. Create a `.env` file which has `GCLOUD_PROJECT` set within it, for example:
 
-   ```shell
-    # Needed to skip warnings from jest@beta in package.json
-    SKIP_PREFLIGHT_CHECK=true
+    ```
+    GCLOUD_PROJECT="some-project"
 
-    FIREBASE_PROJECT_ID="<- projectId from Firebase Console ->"
-    FIREBASE_API_KEY="<- apiKey from Firebase Console ->"
-
-    # App environment
-    REACT_APP_FIREBASE_apiKey=$FIREBASE_API_KEY
-    REACT_APP_FIREBASE_authDomain="<- authdomain from Firebase Console ->"
-    REACT_APP_FIREBASE_databaseURL="<- databaseURL from Firebase Console ->"
-    REACT_APP_FIREBASE_projectId=$FIREBASE_PROJECT_ID
-    REACT_APP_FIREBASE_storageBucket="<- storageBucket from Firebase Console ->"<% if(messagingSenderId) { %>
-    REACT_APP_FIREBASE_messagingSenderId="<- messagingSenderId from Firebase Console ->"<% } %><% if(includeAnalytics && measurementId) { %>
-    REACT_APP_FIREBASE_measurementId="<- measurementId from Firebase Console ->"<% } %><% if(appId) { %>
-    REACT_APP_FIREBASE_appId="<- appId from Firebase Console ->"<% } %><% if (includeMessaging) { %>
-    REACT_APP_PUBLIC_VAPID_KEY="<- public vapid key from messaging tab of Firebase Console ->"<% } %><% if (includeSentry) { %>
-    REACT_APP_SENTRY_DSN="<%= sentryDsn %>"<% } %><% if (includeUiTests) { %>
-
-    # Cypress Environment
-    CYPRESS_FIREBASE_projectId=$FIREBASE_PROJECT_ID
-    CYPRESS_FIREBASE_apiKey=$FIREBASE_API_KEY<% } %>
-   ```
-
+    ```
 1. Start Development server: `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> start`
 
 While developing, you will probably rely mostly on `<% if (useYarn) { %>yarn<% } else { %>npm<% } %> start`; however, there are additional scripts at your disposal:
@@ -93,7 +76,9 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   ├── workflows                # Github Actions CI Workflows
 │   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
 │   │  └── verify.yml            # Paths for application routes
-│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app<% if (includeUiTests) { %>
+│   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
+├── bin                          # Scripts used by npm scripts and CI config
+├── config                       # Configuration files (loaded by node-config)<% if (includeUiTests) { %>
 ├── cypress                      # UI Integration Tests<% } %><% if (includeFunctions) { %>
 ├── functions                    # Cloud Functions
 │   ├── src                      # Cloud Functions Source code (each folder represents a function)
@@ -123,7 +108,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │       ├── components.js        # Utilities for building/implementing React components<% } %>
 │       ├── form.js              # Utilities for forms (validation)
 │       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
-├── .env.local                   # Local Environment settings (automatically loaded up by react-scripts commands)
+├── .env                         # Local Environment settings (automatically loaded up by npm scripts)
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
 ├── .firebaserc                  # Firebase Project configuration settings (including ci settings)

@@ -22,29 +22,18 @@
 - node `^12.18.0`
 - npm `^6.0.0`
 
+## Before Starting
+1. Make sure you have `firebase-tools` installed an you are logged in (`firebase login`)
+
 ## Getting Started
 
 1. Install app and functions dependencies: `npm i && npm i --prefix functions`
-1. Create `.env.local` file that looks like so if it does not already exist:
+1. Create a `.env` file which has `GCLOUD_PROJECT` set within it, for example:
 
-   ```shell
-    # Needed to skip warnings from jest@beta in package.json
-    SKIP_PREFLIGHT_CHECK=true
+    ```
+    GCLOUD_PROJECT="some-project"
 
-    FIREBASE_PROJECT_ID="<- projectId from Firebase Console ->"
-    FIREBASE_API_KEY="<- apiKey from Firebase Console ->"
-
-    # App environment
-    REACT_APP_FIREBASE_apiKey=$FIREBASE_API_KEY
-    REACT_APP_FIREBASE_authDomain="<- authdomain from Firebase Console ->"
-    REACT_APP_FIREBASE_databaseURL="<- databaseURL from Firebase Console ->"
-    REACT_APP_FIREBASE_projectId=$FIREBASE_PROJECT_ID
-    REACT_APP_FIREBASE_storageBucket="<- storageBucket from Firebase Console ->"
-    REACT_APP_FIREBASE_messagingSenderId="<- messagingSenderId from Firebase Console ->"
-    REACT_APP_FIREBASE_appId="<- appId from Firebase Console ->"
-    REACT_APP_PUBLIC_VAPID_KEY="<- public vapid key from messaging tab of Firebase Console ->"
-   ```
-
+    ```
 1. Start Development server: `yarn start`
 
 While developing, you will probably rely mostly on `yarn start`; however, there are additional scripts at your disposal:
@@ -83,6 +72,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
 │   │  └── verify.yml            # Paths for application routes
 │   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
+├── bin                          # Scripts used by npm scripts and CI config
+├── config                       # Configuration files (loaded by node-config)
 ├── public                       # All build-related configuration
 │   ├── firebase-messaging-sw.js # Service worker for Firebase Cloud Messaging
 │   └── index.html               # Main HTML page container for app
@@ -103,7 +94,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   └── utils                    # General Utilities (used throughout application)
 │       ├── form.js              # Utilities for forms (validation)
 │       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
-├── .env.local                   # Local Environment settings (automatically loaded up by react-scripts commands)
+├── .env                         # Local Environment settings (automatically loaded up by npm scripts)
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
 ├── .firebaserc                  # Firebase Project configuration settings (including ci settings)

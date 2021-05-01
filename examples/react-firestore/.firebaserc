@@ -1,7 +1,7 @@
 {
   "projects": {
     "default": "redux-firebasev3",
-    "master": "redux-firebasev3",
+    "main": "redux-firebasev3",
     "prod": "redux-firebasev3"
   }
 }
