@@ -17,8 +17,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
   const {
     register,
     handleSubmit,
-    errors,
-    formState: { isSubmitting, isValid }
+    formState: { isSubmitting, isValid, errors }
   } = useForm({ mode: 'onChange' })
 
   return (
@@ -29,11 +28,12 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
           <TextField
             error={!!errors.name}
             helperText={errors.name && 'Name is required'}
-            name="name"
             label="Project Name"
-            inputRef={register({
-              required: true
-            })}
+            inputProps={{
+              ...register('name', {
+                required: true,
+              })
+            }}
             inputProps={{ tabIndex: '1' }}
             margin="normal"
             fullWidth
