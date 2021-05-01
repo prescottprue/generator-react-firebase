@@ -8,6 +8,6 @@ describe('Login Page', () => {
 
   it('Shows Login Through Google Button', () => {
     cy.url().should('include', '/login')
-    cy.get(createSelector('google-auth-button')).should('exist')
+    cy.findByRole('button', { name: /Sign in with Google/i }).should('exist')
   })
 })

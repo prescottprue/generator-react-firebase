@@ -1,4 +1,4 @@
-<% if (!includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/testing'
+<% if (!includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'<% if (typescriptCloudFunctions) { %>
 import { expect } from 'chai'<% } %>
 import indexUserOriginal from './index'
@@ -80,7 +80,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
     const newUserRes = await userPublicRef.once('value')
     expect(newUserRes.val()).to.be.null
   })
-})<% } %><% if (includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/testing'
+})<% } %><% if (includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'<% if (typescriptCloudFunctions) { %>
 import { expect } from 'chai'<% } %>
 import indexUserOriginal from './index'
@@ -179,7 +179,7 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
     expect(newUserRes.exists).to.be.false
     expect(newUserRes.data()).to.be.undefined
   })
-})<% } %><% if (!includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/testing'
+})<% } %><% if (!includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'
 import indexUserOriginal from './index'
 
@@ -269,7 +269,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
     const newUserRes = await userPublicRef.once('value')
     expect(newUserRes.val()).toEqual(null)
   })
-})<% } %><% if (includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/testing'
+})<% } %><% if (includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'
 import indexUserOriginal from './index'
 

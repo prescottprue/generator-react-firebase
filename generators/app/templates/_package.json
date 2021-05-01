@@ -61,7 +61,8 @@
   "devDependencies": {
     "@craco/craco": "6.1.2",
     "@sentry/cli": "^1.63.1",<% if (includeUiTests) { %>
-    "@testing-library/cypress": "^7.0.3",<% } %><% if(includeFunctions && typescriptCloudFunctions) { %>
+    "@testing-library/cypress": "^7.0.3",<% } %>
+    <% if(includeFunctions && typescriptCloudFunctions) { %>
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",<% } %>
     "babel-eslint": "^10.1.0",

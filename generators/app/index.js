@@ -248,13 +248,11 @@ module.exports = class extends Generator {
     this.argument('skipInstall', { type: Boolean, required: false })
     const appName =
       this.options.name || path.basename(process.cwd()) || 'react-firebase'
-    const yarnExists = commandExistsSync('yarn')
     this.initialData = {
       version: '0.0.1',
       messagingSenderId: null,
       measurementId: null,
       appId: null,
-      materialv1: true,
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
@@ -270,8 +268,7 @@ module.exports = class extends Generator {
       appPath: this.env.options.appPath,
       appName,
       capitalAppName: capitalize(appName),
-      useYarn: yarnExists,
-      scriptPrefix: yarnExists ? 'yarn' : 'npm start'
+      useYarn: commandExistsSync('yarn')
     }
   }
 
@@ -391,7 +388,6 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'cypress/.eslintrc.js', dest: 'cypress/.eslintrc.js' },
         { src: 'cypress/**', dest: 'cypress' },
-        { src: 'cypress.env.json' },
         { src: 'cypress.json' }
       )
     }

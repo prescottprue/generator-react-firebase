@@ -97,7 +97,6 @@ module.exports = class extends Generator {
         reduxFormExists: reduxFormExists || false,
         hasPropTypes:
           !projectPackageFile || dependencyExists('prop-types') || false,
-        materialv1: dependencyExists('@material-ui/core'),
         airbnbLinting:
           dependencyExists('eslint-config-airbnb', { dev: true }) || false,
         // Default style type to scss for when localized styles is not an option

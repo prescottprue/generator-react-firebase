@@ -1,5 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'<% if (includeRedux) { %>
+import ReactDOM from 'react-dom'
+import config from 'config'<% if (includeRedux) { %>
 import createStore from './store/createStore'<% } %>
 import { version } from '../package.json'
 import App from './App'<% if (includeErrorHandling) { %>
@@ -10,7 +11,8 @@ import './index.css'
 
 // Window Variables
 // ------------------------------------
-window.version = version<% if (includeErrorHandling) { %>
+window.version = version
+window.config = config<% if (includeErrorHandling) { %>
 
 // Initialize Error Handling
 // ------------------------------------

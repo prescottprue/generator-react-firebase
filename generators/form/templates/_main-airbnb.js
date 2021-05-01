@@ -1,7 +1,7 @@
 <% if (hasPropTypes) { %>import React from 'react';
 import PropTypes from 'prop-types';<% } else { %>import React, { PropTypes } from 'react';<% } %>
-import { useForm } from 'react-hook-form'<% if (!materialv1) { %>
-import Button from 'material-ui/Button';<% } else { %>import Button from '@material-ui/core/Button';<%}%><% if (addStyle && styleType === 'scss') { %>
+import { useForm } from 'react-hook-form';
+import Button from '@material-ui/core/Button';<% if (addStyle && styleType === 'scss') { %>
 import classes from './<%= name %>.scss';<% } %><% if (addStyle && styleType === 'localized') { %>
 import styles from './<%= name %>.styles';
 
@@ -32,18 +32,13 @@ function <%= name %>({ onSubmit, <% if (addStyle && styleType !== 'scss') { %> c
         margin="normal"
         fullWidth
       />
-      <% if (!materialv1) { %><RaisedButton
-        type="submit"
-        primary
-        label="Save"
-        disabled={isSubmitting || !isValid}
-      /><% } %><% if (materialv1) { %><Button
+      <Button
         type="submit"
         color="primary"
         className={classes.submit}
         disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Saving...' : 'Save'}
-      </Button><% } %>
+      </Button>
     </form>
   );
 }
