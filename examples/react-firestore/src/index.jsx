@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import config from 'config'
 import { version } from '../package.json'
 import App from './App'
 import { init as initErrorHandling } from './utils/errorHandler'
@@ -10,6 +11,7 @@ import './index.css'
 // Window Variables
 // ------------------------------------
 window.version = version
+window.config = config
 
 // Initialize Error Handling
 // ------------------------------------

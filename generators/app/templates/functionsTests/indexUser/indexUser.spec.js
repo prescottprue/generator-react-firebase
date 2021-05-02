@@ -1,10 +1,15 @@
-<% if (!includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/testing'
+<% if (!includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'<% if (typescriptCloudFunctions) { %>
 import { expect } from 'chai'<% } %>
 import indexUserOriginal from './index'
 
-const functionsTest = functionsTestLib()
-const projectId = 'unit-test-project'
+const projectId = process.env.GCLOUD_PROJECT || 'unit-test-project'
+// Setup firebase-functions-tests to online mode (communicates with emulators)
+const functionsTest = functionsTestLib({
+  databaseURL: `https://${projectId}.firebaseio.com`, // Can not be emulator
+  storageBucket: `${projectId}.appspot.com`,
+  projectId
+})
 const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PUBLIC_PATH = `users_public/${USER_UID}`
@@ -80,7 +85,7 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
     const newUserRes = await userPublicRef.once('value')
     expect(newUserRes.val()).to.be.null
   })
-})<% } %><% if (includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/testing'
+})<% } %><% if (includeFirestore && functionsTestTool == 'mocha') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'<% if (typescriptCloudFunctions) { %>
 import { expect } from 'chai'<% } %>
 import indexUserOriginal from './index'
@@ -179,12 +184,17 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
     expect(newUserRes.exists).to.be.false
     expect(newUserRes.data()).to.be.undefined
   })
-})<% } %><% if (!includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/testing'
+})<% } %><% if (!includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'
 import indexUserOriginal from './index'
 
-const functionsTest = functionsTestLib()
 const projectId = process.env.GCLOUD_PROJECT || 'unit-test-project'
+// Setup firebase-functions-tests to online mode (communicates with emulators)
+const functionsTest = functionsTestLib({
+  databaseURL: `https://${projectId}.firebaseio.com`, // Can not be emulator
+  storageBucket: `${projectId}.appspot.com`,
+  projectId
+})
 const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PUBLIC_PATH = `users_public/${USER_UID}`
@@ -269,12 +279,17 @@ describe('indexUser RTDB Cloud Function (RTDB:onWrite)', () => {
     const newUserRes = await userPublicRef.once('value')
     expect(newUserRes.val()).toEqual(null)
   })
-})<% } %><% if (includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/testing'
+})<% } %><% if (includeFirestore && functionsTestTool == 'jest') { %>import * as firebaseTesting from '@firebase/rules-unit-testing'
 import functionsTestLib from 'firebase-functions-test'
 import indexUserOriginal from './index'
 
-const functionsTest = functionsTestLib()
 const projectId = process.env.GCLOUD_PROJECT || 'unit-test-project'
+// Setup firebase-functions-tests to online mode (communicates with emulators)
+const functionsTest = functionsTestLib({
+  databaseURL: `https://${projectId}.firebaseio.com`, // Can not be emulator
+  storageBucket: `${projectId}.appspot.com`,
+  projectId
+})
 const USER_UID = '123ABC'
 const USERS_COLLECTION = 'users'
 const USER_PATH = `${USERS_COLLECTION}/${USER_UID}`
@@ -334,7 +349,7 @@ describe('indexUser Firestore Cloud Function (onWrite)', () => {
       USER_PATH
     )
     const afterSnap = functionsTest.firestore.makeDocumentSnapshot(
-      null<% if (typescriptCloudFunctions) { %> as any<% } %>,
+      userData,
       USER_PATH
     )
     const changeEvent = { before: beforeSnap, after: afterSnap }

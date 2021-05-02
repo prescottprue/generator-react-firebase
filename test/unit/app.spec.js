@@ -220,38 +220,6 @@ describe('generator-react-firebase:app', function() {
     })
   })
 
-  describe('material-ui > v1 option', () => {
-    describe('include', () => {
-      before(() =>
-        helpers
-          .run(path.join(__dirname, '../../generators/app'))
-          .withPrompts({
-            githubUser: 'testuser',
-            firebaseInstance: 'testing',
-            includeRedux: 'Y',
-            otherFeatures: [
-              defaultOtherFeatures[0],
-              defaultOtherFeatures[1],
-              defaultOtherFeatures[2]
-            ],
-            includeFirestore: true
-          })
-          .toPromise()
-      )
-      describe('creates files for', () => {
-        describe('project', () => {
-          checkForEachFile(projectFiles)
-        })
-        describe('application', () => {
-          checkForEachFile(takeRight(srcFiles), 'src/')
-        })
-        describe('Firestore', () => {
-          checkForEachFile(firestoreFiles)
-        })
-      })
-    })
-  })
-
   describe('deploy options', () => {
     describe('Firebase', () => {
       before(() =>

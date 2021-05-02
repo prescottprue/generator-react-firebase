@@ -1,4 +1,5 @@
-import { useEffect } from 'react'<% if (!includeRedux) { %>
+import { useEffect } from 'react'
+import config from 'config'<% if (!includeRedux) { %>
 import { useAnalytics, useUser } from 'reactfire'<% } %><% if (includeRedux) { %>
 import firebase from 'firebase/app'
 import 'firebase/messaging'<% } %><% if (includeErrorHandling) { %>
@@ -36,7 +37,7 @@ function SetupAnalytics() {
   // we only log on first render and when the `pathname` changes
   useEffect(() => {
     // Trigger event in Firebase analytics
-    if (!window.Cypress && process.env.REACT_APP_FIREBASE_MEASUREMENT_ID) {
+    if (!window.Cypress && config.firebase.measurementId) {
       // NOTE: window.location is used in place of useLocation since this it outside of router context
       analytics.logEvent('page-view', { path_name: window.location.pathname })
     }

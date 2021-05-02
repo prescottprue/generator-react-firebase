@@ -5,7 +5,7 @@ module.exports = {
   plugins: ['babel', 'react', 'prettier'],
   settings: {
     react: {
-      version: '16.10'
+      version: '17.0.0'
     }
   },
   rules: {

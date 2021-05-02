@@ -1,7 +1,8 @@
 import React from 'react'<% if (includeRedux) { %>
 import PropTypes from 'prop-types'<% } %><% if (!includeRedux) { %>
 import { FirebaseAppProvider<% if (!includeRedux) { %>, SuspenseWithPerf<% } %> } from 'reactfire'<% } %>
-import { BrowserRouter as Router } from 'react-router-dom'<% if (includeRedux) { %>
+import { BrowserRouter as Router } from 'react-router-dom'
+import config from 'config'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
 import firebase from 'firebase/app'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
@@ -16,21 +17,9 @@ import initializeFirebase from './initializeFirebase'<% } %><% if (!includeRedux
 import createRoutes from './routes'<% } %>
 
 <% if (includeRedux) { %>initializeFirebase()
-<% } %><% if (!includeRedux) { %>const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_apiKey,
-  authDomain: process.env.REACT_APP_FIREBASE_authDomain,
-  databaseURL: process.env.REACT_APP_FIREBASE_databaseURL,
-  projectId: process.env.REACT_APP_FIREBASE_projectId,
-  storageBucket: process.env.REACT_APP_FIREBASE_storageBucket<% if(messagingSenderId) { %>,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_messagingSenderId<% } %><% if(measurementId) { %>,
-  measurementId: process.env.REACT_APP_FIREBASE_measurementId<% } %><% if(appId) { %>,
-  appId: process.env.REACT_APP_FIREBASE_appId<% } %>
-}
-
-// Enable Real Time Database emulator if environment variable is set
-if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
-  firebaseConfig.databaseURL = `http://${process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST}?ns=${firebaseConfig.projectId}`
-  console.debug(`RTDB emulator enabled: ${firebaseConfig.databaseURL}`) // eslint-disable-line no-console
+<% } %><% if (!includeRedux) { %>// Enable Real Time Database emulator if environment variable is set
+if (config.firebase.databaseURL.includes('localhost')) {
+  console.debug(`RTDB emulator enabled: ${config.firebase.databaseURL}`) // eslint-disable-line no-console
 }
 
 function App() {
@@ -38,7 +27,7 @@ function App() {
   return (
     <ThemeProvider>
       <FirebaseAppProvider
-        firebaseConfig={firebaseConfig}
+        firebaseConfig={config.firebase}
         suspense
         initPerformance>
         <NotificationsProvider><% if (includeMessaging || includeFirestore || includeAnalytics) { %>

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux && includeFirestore) { %>
+import { makeStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'<% if (!includeRedux && includeFirestore) { %>
 import { useFirestore, useUser, useFirestoreCollectionData } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
 import { useDatabase, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
@@ -20,7 +23,6 @@ import { useNotifications } from 'modules/notification'<% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 import ProjectTile from '../ProjectTile'
-import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
 
@@ -145,51 +147,60 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
+      <Button variant="contained" onClick={toggleDialog}>
+        Add Project
+      </Button>
       <NewProjectDialog
         onSubmit={addProject}
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
-      <div className={classes.tiles}>
-        <NewProjectTile onClick={toggleDialog} />
-        {<% if (!includeRedux && includeFirestore) { %>projects &&
+      <div className={classes.tiles} role="list">
+        {<% if (!includeRedux && includeFirestore) { %>projects?.length ?
           projects.map((project, ind) => {
             return (
               <ProjectTile
-                key={`Project-${project.id}-${ind}`}
-                name={project && project.name}
+                key={project.id}
+                name={project?.name}
                 projectId={project.id}
               />
             )
-          })<% } %><% if (!includeRedux && !includeFirestore) { %>projects &&
+          })<% } %><% if (!includeRedux && !includeFirestore) { %>projects?.length ?
           projects.map(({ snapshot }, ind) => {
             const project = snapshot.val()
             return (
               <ProjectTile
-                key={`Project-${snapshot.key}-${ind}`}
-                name={project && project.name}
+                key={snapshot.key}
+                name={project?.name}
                 projectId={snapshot.key}
               />
             )
-          })<% } %><% if (includeRedux && !includeFirestore) { %>!isEmpty(projects) &&
+          })<% } %><% if (includeRedux && !includeFirestore) { %>!isEmpty(projects) ?
           projects.map((project, ind) => {
             return (
               <ProjectTile
-                key={`Project-${project.key}-${ind}`}
-                name={project && project.value.name}
+                key={project.key}
+                name={project?.value.name}
                 projectId={project.key}
               />
             )
-          })<% } %><% if (includeRedux && includeFirestore) { %>!isEmpty(projects) &&
+          })<% } %><% if (includeRedux && includeFirestore) { %>!isEmpty(projects) ?
           projects.map((project, ind) => {
             return (
               <ProjectTile
-                key={`Project-${project.id}-${ind}`}
-                name={project && project.name}
+                key={project.id}
+                name={project?.name}
                 projectId={project.id}
               />
             )
-          })<% } %>}
+          })<% } %>
+        : (
+          <Paper className={classes.empty}>
+            <Typography>
+              No Projects Found. Click "Add Project" above to add one
+            </Typography>
+          </Paper>
+        )}
       </div>
     </div>
   )

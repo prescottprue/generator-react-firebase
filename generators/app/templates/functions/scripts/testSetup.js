@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import functionsTestSetup from 'firebase-functions-test'
 import * as admin from 'firebase-admin'<% if (functionsTestTool === 'mocha') { %>
 import chai from 'chai'
 import sinon from 'sinon'
@@ -15,6 +14,12 @@ global.functionsTest = functionsTestSetup({
   projectId
 })
 
+// Prevents warning from firebase-admin saying that project is being inferred from GCLOUD_PROJECT
+process.env.FIREBASE_CONFIG = JSON.stringify({
+  databaseURL: `https://${projectId}.firebaseio.com`, // Can not be emulator
+  storageBucket: `${projectId}.appspot.com`,
+  projectId
+})
 global.projectId = projectId
 <% if (functionsTestTool === 'mocha') { %>global.chai = chai
 global.sinon = sinon

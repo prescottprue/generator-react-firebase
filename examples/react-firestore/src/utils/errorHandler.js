@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
+import config from 'config'
 import { version } from '../../package.json'
 
 let errorHandler // eslint-disable-line import/no-mutable-exports
@@ -11,8 +12,8 @@ function initStackdriverErrorReporter() {
   try {
     errorHandler = new StackdriverErrorReporter()
     errorHandler.start({
-      key: process.env.REACT_APP_FIREBASE_apiKey,
-      projectId: process.env.REACT_APP_FIREBASE_projectId,
+      key: config.firebase.apiKey,
+      projectId: config.firebase.projectId,
       service: 'react-firestore-site',
       version
     })
@@ -29,10 +30,10 @@ function initStackdriverErrorReporter() {
  * Initialize Sentry (reports to sentry.io)
  */
 function initSentry() {
-  if (process.env.REACT_APP_SENTRY_DSN) {
+  if (config.sentry.enabled) {
     Sentry.init({
-      dsn: process.env.REACT_APP_SENTRY_DSN,
-      environment: process.env.REACT_APP_ENVIRONMENT || 'production',
+      dsn: config.sentry.dsn,
+      environment: config.environment,
       release: version
     })
   }
