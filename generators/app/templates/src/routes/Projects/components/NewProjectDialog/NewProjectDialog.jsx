@@ -29,12 +29,13 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
             error={!!errors.name}
             helperText={errors.name && 'Name is required'}
             label="Project Name"
+            autoFocus
             inputProps={{
+              tabIndex: '1',
               ...register('name', {
                 required: true,
               })
             }}
-            inputProps={{ tabIndex: '1' }}
             margin="normal"
             fullWidth
           />
