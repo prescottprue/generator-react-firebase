@@ -18,10 +18,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node 12
+      - name: Use Node 14
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: 12
+          node-version: 14
           registry-url: https://registry.npmjs.org/
 
       - name: Get yarn cache
