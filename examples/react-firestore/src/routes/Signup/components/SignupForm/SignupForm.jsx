@@ -14,8 +14,7 @@ function SignupForm({ onSubmit }) {
   const {
     register,
     handleSubmit,
-    errors,
-    formState: { isSubmitting, isValid }
+    formState: { isSubmitting, isValid, errors }
   } = useForm({
     mode: 'onChange',
     nativeValidation: false
@@ -24,37 +23,40 @@ function SignupForm({ onSubmit }) {
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
       <TextField
-        name="username"
         placeholder="username"
         autoComplete="username"
         margin="normal"
         fullWidth
-        inputRef={register}
+        inputProps={{
+          ...register('username')
+        }}
       />
       <TextField
         type="email"
-        name="email"
         placeholder="email"
         autoComplete="email"
         margin="normal"
         fullWidth
-        inputRef={register({
-          required: true,
-          validate: validateEmail
-        })}
+        inputProps={{
+          ...register('email', {
+            required: true,
+            validate: validateEmail
+          })
+        }}
         error={!!errors.email}
         helperText={errors.email && 'Email must be valid'}
       />
       <TextField
         type="password"
-        name="password"
         placeholder="password"
         autoComplete="current-password"
         margin="normal"
         fullWidth
-        inputRef={register({
-          required: true
-        })}
+        inputProps={{
+          ...register('password', {
+            required: true
+          })
+        }}
         error={!!errors.password}
         helperText={errors.password && 'Password is required'}
       />

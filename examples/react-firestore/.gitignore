@@ -8,10 +8,10 @@
 
 # React App
 build
-src/config.js
 .env
 .eslintcache
 config/default.json
+src/client-config.json
 
 # Firebase
 .firebase

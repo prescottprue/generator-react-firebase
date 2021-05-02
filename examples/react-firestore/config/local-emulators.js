@@ -23,11 +23,11 @@ const config = {
   emulators: {
     databaseHost,
     firestoreHost,
-    functionsHost: `http://localhost:${emulators.functions.port}`,
+    functionsHost: `http://localhost:${emulators.functions.port}`
   },
   firebase: {
-    databaseURL: `http://${databaseHost}?ns=${gcloudProject}`,
-  },
+    databaseURL: `http://${databaseHost}?ns=${gcloudProject}`
+  }
 }
 
 module.exports = config

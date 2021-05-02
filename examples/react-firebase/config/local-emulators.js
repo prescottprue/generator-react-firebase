@@ -21,11 +21,11 @@ const config = {
   cloudFunctionsUrl: `http://localhost:${emulators.functions.port}/${gcloudProject}/us-central1`,
   emulators: {
     databaseHost,
-    functionsHost: `http://localhost:${emulators.functions.port}`,
+    functionsHost: `http://localhost:${emulators.functions.port}`
   },
   firebase: {
-    databaseURL: `http://${databaseHost}?ns=${gcloudProject}`,
-  },
+    databaseURL: `http://${databaseHost}?ns=${gcloudProject}`
+  }
 }
 
 module.exports = config

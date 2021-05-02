@@ -36,13 +36,13 @@ function ProjectTile({ name, projectId, showDelete }) {
   }
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} role="listitem">
       <div className={classes.top}>
         <span className={classes.name} onClick={goToProject}>
           {name || 'No Name'}
         </span>
         {showDelete ? (
-          <Tooltip title="delete">
+          <Tooltip title="Delete">
             <IconButton onClick={deleteProject}>
               <DeleteIcon />
             </IconButton>

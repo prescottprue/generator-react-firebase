@@ -16,8 +16,7 @@ function AccountForm({ account, onSubmit }) {
   const {
     register,
     handleSubmit,
-    errors,
-    formState: { isSubmitting, isValid }
+    formState: { isSubmitting, isValid, errors }
   } = useForm({
     mode: 'onChange',
     nativeValidation: false,
@@ -28,30 +27,33 @@ function AccountForm({ account, onSubmit }) {
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.fields}>
         <TextField
-          name="displayName"
           label="Display Name"
           margin="normal"
-          inputRef={register}
           fullWidth
+          inputProps={{
+            ...register('displayName')
+          }}
         />
         <TextField
           type="email"
-          name="email"
           placeholder="email"
           margin="normal"
           fullWidth
-          inputRef={register({
-            required: true,
-            validate: validateEmail
-          })}
+          inputProps={{
+            ...register('email', {
+              required: true,
+              validate: validateEmail
+            })
+          }}
           error={!!errors.email}
           helperText={errors.email && 'Email must be valid'}
         />
         <TextField
-          name="avatarUrl"
           label="Avatar Url"
           margin="normal"
-          inputRef={register}
+          inputProps={{
+            ...register('avatarUrl')
+          }}
           fullWidth
         />
       </div>

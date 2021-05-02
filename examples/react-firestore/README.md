@@ -7,9 +7,10 @@
 
 ## Table of Contents
 
-1. [Features](#features)
-1. [Requirements](#requirements)
+1. [Before Starting](#before-starting)
 1. [Getting Started](#getting-started)
+1. [Gotchas](#gotchas)
+1. [Config Files](#config-files)
 1. [Application Structure](#application-structure)
 1. [Development](#development)
    1. [Routing](#routing)
@@ -20,11 +21,14 @@
 
 ## Requirements
 
-- node `^12.18.0`
+- node `^14.15.0`
 - npm `^6.0.0`
 
 ## Before Starting
 1. Make sure you have `firebase-tools` installed an you are logged in (`firebase login`)
+1. Create a project within the Firebase Console (or have one prepared to use)
+1. Confirm billing is enabled for your project
+1. Confirm [Firebase Hosting API](https://console.cloud.google.com/apis/library/firebasehosting.googleapis.com) is enabled for your project
 
 ## Getting Started
 
@@ -57,12 +61,17 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
+## Gotchas
+* Preview Channels are only for hosting - functions changes will not be included (functions will point to your default project)
+* UI Tests run in verify workflow use emulators (including functions)
+
 ## Config Files
 
 There are multiple configuration files:
 
 - Firebase Project Configuration - `.firebaserc`
-- Local Project Configuration - `.env.local`
+- Project Configuration - `config` (file names match branch and environment names)
+- Local Project Configuration Override - `.env`
 - Local Cloud Functions Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
@@ -171,6 +180,12 @@ Cypress is used to write and run UI tests which live in the `cypress` folder. [`
 
 #### Tests Setup
 
+1. Run yarn `test:ui:emulate`
+1. Visit "Runs" tab of Cypress Test Runner
+1. Setup a Project for recording (will save setting to `cypress.json`)
+1. Save Record key as `CYPRESS_KEY` secret within CI settings
+
+#### Running Hosted Tests 
 1. Visit the [Firebase Console](https://console.firebase.google.com/)
 1. Select your project
 1. Navigate to Project Settings (gear icon button at the top left of the page).
@@ -232,9 +247,9 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 ## FAQ
 
-1. Why node `12` instead of a newer version?
+1. Why node `14` instead of a newer version?
 
-[Cloud Functions runtime runs on `12`](https://cloud.google.com/functions/docs/concepts/nodejs-runtime), which is why that is what is used for the CI build version.
+[Cloud Functions runtime runs on `14`](https://cloud.google.com/functions/docs/concepts/nodejs-runtime), which is why that is what is used for the CI build version.
 
 [build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firestore/Deploy?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firestore/actions

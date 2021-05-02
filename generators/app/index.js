@@ -438,38 +438,4 @@ module.exports = class extends Generator {
       )
     })
   }
-
-  install() {
-    /* eslint-disable no-console */
-    console.log(chalk.blue('\nProject Generated successfully'))
-    const yarnExists = commandExistsSync('yarn')
-    const installCommand = yarnExists ? 'yarnInstall' : 'npmInstall'
-    const depManagerName = yarnExists ? 'Yarn' : 'NPM'
-    if (!this.options.skipInstall) {
-      console.log(`Installing dependencies using ${depManagerName}...`)
-      // Promise chaining used since this.npmInstall.then not a function
-      return Promise.resolve()
-        .then(() => {
-          return this[installCommand]()
-        })
-        .then(() => {
-          console.log(
-            chalk.blue(
-              `Dependencies successfully installed using ${depManagerName}...`
-            )
-          )
-          if (this.answers.includeFunctions) {
-            console.log(
-              chalk.blue(
-                `Installing functions dependencies using ${depManagerName}...`
-              )
-            )
-            return this[installCommand](undefined, {
-              [yarnExists ? 'cwd' : 'prefix']: 'functions'
-            })
-          }
-        })
-      /* eslint-enable no-console */
-    }
-  }
 }
