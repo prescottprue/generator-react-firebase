@@ -199,11 +199,14 @@ const prompts = [
 const filesArray = [
   { src: '_README.md', dest: 'README.md' },
   { src: 'jsconfig.json' },
+  { src: 'config' },
+  { src: 'bin' },
+  { src: 'craco.config.js' },
   { src: 'LICENSE' },
   { src: '_package.json', dest: 'package.json' },
   { src: 'CONTRIBUTING.md' },
   { src: 'gitignore', dest: '.gitignore' },
-  { src: 'env.local', dest: '.env.local' },
+  { src: 'env', dest: '.env' },
   { src: 'eslintrc.js', dest: '.eslintrc.js' },
   { src: 'eslintignore', dest: '.eslintignore' },
   // { src: 'public/**', dest: 'public' }, // individual files copied
@@ -250,7 +253,6 @@ module.exports = class extends Generator {
       messagingSenderId: null,
       measurementId: null,
       appId: null,
-      materialv1: true,
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
@@ -386,7 +388,6 @@ module.exports = class extends Generator {
       filesArray.push(
         { src: 'cypress/.eslintrc.js', dest: 'cypress/.eslintrc.js' },
         { src: 'cypress/**', dest: 'cypress' },
-        { src: 'cypress.env.json' },
         { src: 'cypress.json' }
       )
     }

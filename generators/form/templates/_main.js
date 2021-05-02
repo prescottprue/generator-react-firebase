@@ -33,18 +33,13 @@ function <%= name %>({ onSubmit }) {
         margin="normal"
         fullWidth
       />
-      <% if (!materialv1) { %><RaisedButton
-        type="submit"
-        primary
-        label="Save"
-        disabled={isSubmitting || !isValid}
-      /><% } %><% if (materialv1) { %><Button
+      <Button
         type="submit"
         color="primary"
         className={classes.submit}
         disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Saving...' : 'Save'}
-      </Button><% } %>
+      </Button>
     </form>
   )
 }

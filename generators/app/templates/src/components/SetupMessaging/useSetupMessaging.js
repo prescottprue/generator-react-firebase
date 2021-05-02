@@ -1,5 +1,6 @@
 <% if (!includeRedux) { %>import { useMessaging, useUser, useFirestore } from 'reactfire'
-<% } %><% if (includeRedux) { %>import firebase from 'firebase/app'
+<% } %>import config from 'config'
+<% if (includeRedux) { %>import firebase from 'firebase/app'
 import 'firebase/messaging'<% } %>
 import { useNotifications } from 'modules/notification'
 import { USERS_COLLECTION } from 'constants/firebasePaths'
@@ -70,10 +71,10 @@ export default function useSetupMessaging() {<% if (!includeRedux) { %>
    */
   function initializeMessaging() {
     // Exit if public vapid key is not set
-    if (!process.env.REACT_APP_PUBLIC_VAPID_KEY) {
+    if (!config.publicVapidKey) {
       /* eslint-disable no-console */
       console.warn(
-        'Skipping messaging initialization, REACT_APP_PUBLIC_VAPID_KEY not set in environment'
+        'Skipping messaging initialization, config.publicVapidKey not set in environment'
       )
       /* eslint-enable no-console */
       return
@@ -82,7 +83,7 @@ export default function useSetupMessaging() {<% if (!includeRedux) { %>
       return
     }
 
-    messaging.usePublicVapidKey(process.env.REACT_APP_PUBLIC_VAPID_KEY)
+    messaging.usePublicVapidKey(config.publicVapidKey)
 
     // Handle Instance ID token updates
     messaging.onTokenRefresh(() => {

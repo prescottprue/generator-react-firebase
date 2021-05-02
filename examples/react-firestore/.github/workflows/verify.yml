@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings
@@ -46,12 +46,7 @@ jobs:
           yarn install --frozen-lockfile
           yarn --cwd functions install --frozen-lockfile
 
-      - name: Set App Environment Settings
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.MASTER_SERVICE_ACCOUNT }}
-          GITHUB_HEAD_REF: ${{ github.head_ref }}
-          GITHUB_REF: ${{ github.ref }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Set environment
         run: |
           set -o pipefail
 
@@ -69,41 +64,18 @@ jobs:
           # Find the config associated to the firebase project in .firebaserc (falling back to default)
           gcloudProject=$(cat .firebaserc | jq -r --arg alias "$gitBranch" '.projects[$alias] // .projects.default')
           appName=react-firestore
+
           echo "Setting environment for branch: $gitBranch, project: $gcloudProject, and app: $appName..."
 
-          echo "Setting emulator settings to environment..."
-          databaseEmulatorHost=localhost:$(cat firebase.json | jq .emulators.database.port)
-          emulatorHost=localhost:$(cat firebase.json | jq .emulators.firestore.port)
-          
           # Set variables to environment to be used in later steps
-          echo "REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST=$databaseEmulatorHost" >> $GITHUB_ENV
-          echo "REACT_APP_FIRESTORE_EMULATOR_HOST=$emulatorHost" >> $GITHUB_ENV
-          echo "REACT_APP_FB_databaseURL=http://$databaseEmulatorHost?ns=$gcloudProject" >> $GITHUB_ENV
           echo "GCLOUD_PROJECT=$gcloudProject" >> $GITHUB_ENV
+          echo "NODE_CONFIG_ENV=$branch" >> $GITHUB_ENV
+          echo "ENV=$branch" >> $GITHUB_ENV
 
-          # Generate Service Account file required to prevent credential error during functions unit tests (jq used to format)
-          echo "Generating Service Account File..."
-          echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/serviceAccount.json" >> $GITHUB_ENV
-
-          # Use Firebase SDK API to get the app's configuration and export to REACT_APP prefixed environment variables
-          # NOTE: databaseURL is intentionally removed since it is set above
-
-          # Use firebase SDK API to get the app's configuration and export to CYPRESS. NOTE: databaseURL is intentionally removed
-          firebaseConfig=$(npx firebase --project $gcloudProject apps:sdkconfig WEB \
-            $(npx firebase --project $gcloudProject apps:list WEB | grep $appName | awk '{ print $4}') | \
-              tr '\n' ' ' | \
-              sed 's/.*initializeApp(//g' | \
-              sed 's/);//g' | \
-              jq -r 'del(.databaseURL) | to_entries[] | [.key, (.value | tojson)] | join("::")' | \
-              sed 's/:"/:/g; s/^/echo \"REACT_APP_FB_/g' \
-          )
-
-          # Loop through each line of config and evaluate to export env vars
-          while IFS= read -r line; do
-            echo Evaluating: $line
-            eval $line >> $GITHUB_ENV
-          done <<< "$firebaseConfig"
+      - name: Generate Firebase SDK config for ${{ env.GCLOUD_PROJECT }}
+        run: bin/generate-firebase-sdk-config.js --file ./config/default.json
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Verify App
         run: |
@@ -143,7 +115,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Get Library Versions For Binary Caching
         id: cache-settings

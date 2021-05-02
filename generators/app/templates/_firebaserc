@@ -1,7 +1,7 @@
 {
   "projects": {
     "default": "<%= firebaseProjectId %>",
-    "master": "<%= firebaseProjectId %>",
+    "main": "<%= firebaseProjectId %>",
     "prod": "<%= firebaseProjectId %>"
   }
 }
