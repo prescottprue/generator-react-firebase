@@ -6,9 +6,10 @@
 
 ## Table of Contents
 
-1. [Features](#features)
-1. [Requirements](#requirements)
+1. [Before Starting](#before-starting)
 1. [Getting Started](#getting-started)
+1. [Gotchas](#gotchas)
+1. [Config Files](#config-files)
 1. [Application Structure](#application-structure)
 1. [Development](#development)
    1. [Routing](#routing)
@@ -19,32 +20,24 @@
 
 ## Requirements
 
-- node `^12.18.0`
+- node `^14.15.0`
 - npm `^6.0.0`
+
+## Before Starting
+1. Make sure you have `firebase-tools` installed an you are logged in (`firebase login`)
+1. Create a project within the Firebase Console (or have one prepared to use)
+1. Confirm billing is enabled for your project
+1. Confirm [Firebase Hosting API](https://console.cloud.google.com/apis/library/firebasehosting.googleapis.com) is enabled for your project
 
 ## Getting Started
 
 1. Install app and functions dependencies: `npm i && npm i --prefix functions`
-1. Create `.env.local` file that looks like so if it does not already exist:
+1. Create a `.env` file which has `GCLOUD_PROJECT` set within it, for example:
 
-   ```shell
-    # Needed to skip warnings from jest@beta in package.json
-    SKIP_PREFLIGHT_CHECK=true
+    ```
+    GCLOUD_PROJECT="some-project"
 
-    FIREBASE_PROJECT_ID="<- projectId from Firebase Console ->"
-    FIREBASE_API_KEY="<- apiKey from Firebase Console ->"
-
-    # App environment
-    REACT_APP_FIREBASE_apiKey=$FIREBASE_API_KEY
-    REACT_APP_FIREBASE_authDomain="<- authdomain from Firebase Console ->"
-    REACT_APP_FIREBASE_databaseURL="<- databaseURL from Firebase Console ->"
-    REACT_APP_FIREBASE_projectId=$FIREBASE_PROJECT_ID
-    REACT_APP_FIREBASE_storageBucket="<- storageBucket from Firebase Console ->"
-    REACT_APP_FIREBASE_messagingSenderId="<- messagingSenderId from Firebase Console ->"
-    REACT_APP_FIREBASE_appId="<- appId from Firebase Console ->"
-    REACT_APP_PUBLIC_VAPID_KEY="<- public vapid key from messaging tab of Firebase Console ->"
-   ```
-
+    ```
 1. Start Development server: `yarn start`
 
 While developing, you will probably rely mostly on `yarn start`; however, there are additional scripts at your disposal:
@@ -63,12 +56,17 @@ While developing, you will probably rely mostly on `yarn start`; however, there 
 
 [Husky](https://github.com/typicode/husky) is used to enable `prepush` hook capability. The `prepush` script currently runs `eslint`, which will keep you from pushing if there is any lint within your code. If you would like to disable this, remove the `prepush` script from the `package.json`.
 
+## Gotchas
+* Preview Channels are only for hosting - functions changes will not be included (functions will point to your default project)
+* UI Tests run in verify workflow use emulators (including functions)
+
 ## Config Files
 
 There are multiple configuration files:
 
 - Firebase Project Configuration - `.firebaserc`
-- Local Project Configuration - `.env.local`
+- Project Configuration - `config` (file names match branch and environment names)
+- Local Project Configuration Override - `.env`
 - Local Cloud Functions Configuration - `functions/.runtimeconfig.json`
 
 More details in the [Application Structure Section](#application-structure)
@@ -83,6 +81,8 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   │  ├── deploy.yml            # Deploy workflow (deploys when pushing to specific branches)
 │   │  └── verify.yml            # Paths for application routes
 │   └── PULL_REQUEST_TEMPLATE.md # Main HTML page container for app
+├── bin                          # Scripts used by npm scripts and CI config
+├── config                       # Configuration files (loaded by node-config)
 ├── public                       # All build-related configuration
 │   ├── firebase-messaging-sw.js # Service worker for Firebase Cloud Messaging
 │   └── index.html               # Main HTML page container for app
@@ -103,7 +103,7 @@ The application structure presented in this boilerplate is **fractal**, where fu
 │   └── utils                    # General Utilities (used throughout application)
 │       ├── form.js              # Utilities for forms (validation)
 │       └── router.js            # Utilities for routing such as those that redirect back to home if not logged in
-├── .env.local                   # Local Environment settings (automatically loaded up by react-scripts commands)
+├── .env                         # Local Environment settings (automatically loaded up by npm scripts)
 ├── .eslintignore                # ESLint ignore file
 ├── .eslintrc.js                 # ESLint configuration
 ├── .firebaserc                  # Firebase Project configuration settings (including ci settings)
@@ -198,9 +198,9 @@ For more options on CI settings checkout the [firebase-ci docs](https://github.c
 
 ## FAQ
 
-1. Why node `12` instead of a newer version?
+1. Why node `14` instead of a newer version?
 
-[Cloud Functions runtime runs on `12`](https://cloud.google.com/functions/docs/concepts/nodejs-runtime), which is why that is what is used for the CI build version.
+[Cloud Functions runtime runs on `14`](https://cloud.google.com/functions/docs/concepts/nodejs-runtime), which is why that is what is used for the CI build version.
 
 [build-status-image]: https://img.shields.io/github/workflow/status/prescottprue/react-firebase/Deploy?style=flat-square
 [build-status-url]: https://github.com/prescottprue/react-firebase/actions

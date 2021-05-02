@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/analytics'
+import config from 'config'
 import { version } from '../../package.json'
 
 /**
@@ -23,7 +24,7 @@ export function setAnalyticsUser(auth) {
   // Only set user if UID exists
   if (auth && auth.uid) {
     // Only set user if measurementId exists
-    if (process.env.REACT_APP_FIREBASE_measurementId) {
+    if (config.firebase.measurementId) {
       firebase.analytics().setUserId(auth.uid)
       firebase.analytics().setUserProperties({
         name: auth.displayName,

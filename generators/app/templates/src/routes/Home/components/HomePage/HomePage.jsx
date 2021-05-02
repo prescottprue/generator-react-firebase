@@ -25,7 +25,7 @@ function Home() {
       <Typography variant="h3" component="h3" gutterBottom>
         Home Page
       </Typography>
-      <Paper>
+      <Paper role="article">
         <Grid container justify="center">
           <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>

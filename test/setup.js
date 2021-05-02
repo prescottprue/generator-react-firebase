@@ -1,9 +1,15 @@
 /* eslint-disable no-unused-vars */
 
 process.env.NODE_ENV = 'test'
-var chai = require('chai')
-var sinon = require('sinon')
-var path = require('path')
+const chai = require('chai')
+const sinon = require('sinon')
+const path = require('path')
+const yeoman = require('yeoman-environment')
+const env = yeoman.createEnv()
+
+// The #lookup() method will search the user computer for installed generators
+// The search if done from the current working directory
+env.lookup()
 
 // globals
 global.expect = chai.expect

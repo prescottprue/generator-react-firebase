@@ -1,6 +1,6 @@
 {
   "name": "generator-react-firebase",
-  "version": "7.6.7",
+  "version": "8.0.0",
   "description": "React and Firebase project generator (with option for Redux).",
   "main": "generators/index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "mocha -R spec ./test/unit/** && npm run test:clean",
     "test:cov": "nyc --reporter=lcov --reporter=html npm test",
-    "test:clean": "rimraf test/tmp"
+    "test:clean": "rimraf test/tmp",
+    "prepare": "husky install"
   },
   "dependencies": {
     "chalk": "^4.1.0",
@@ -16,37 +17,38 @@
     "glob": "^7.1.6",
     "lodash": "^4.17.20",
     "semver": "^7.3.4",
-    "yeoman-generator": "^4.11.0",
+    "yeoman-generator": "^5.2.0",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.0",
-    "@babel/core": "^7.13.8",
-    "@babel/plugin-transform-runtime": "^7.13.9",
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.14.0",
+    "@babel/plugin-transform-runtime": "^7.13.15",
     "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.13.9",
-    "@babel/register": "^7.13.8",
+    "@babel/preset-env": "^7.14.0",
+    "@babel/register": "^7.13.16",
     "babel-eslint": "^10.1.0",
-    "chai": "^4.3.0",
-    "eslint": "^7.21.0",
-    "eslint-config-prettier": "^8.1.0",
+    "chai": "^4.3.4",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.2.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-config-standard-react": "^11.0.1",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-standard": "^5.0.0",
-    "husky": "^4.3.0",
+    "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
-    "mocha": "^8.3.0",
+    "mocha": "^8.3.2",
     "nyc": "^15.1.0",
-    "prettier": "^2.2.0",
+    "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^2.7.0"
+    "yeoman-environment": "^3.3.0",
+    "yeoman-test": "^6.0.0"
   },
   "homepage": "https://github.com/prescottprue/generator-react-firebase",
   "license": "MIT",
@@ -75,11 +77,6 @@
   "files": [
     "generators"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{json,md}": [
       "prettier --write"

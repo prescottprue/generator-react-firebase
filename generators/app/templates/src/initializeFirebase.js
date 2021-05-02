@@ -1,3 +1,4 @@
+import config from 'config'
 import firebase from 'firebase/app'<% if (includeRedux) { %>
 import 'firebase/auth'
 import 'firebase/database'<% } %><% if (includeRedux && includeFirestore) { %>
@@ -9,27 +10,16 @@ import { setAnalyticsUser } from 'utils/analytics'<% } %><% if (!includeRedux &&
 import { setErrorUser } from 'utils/errorHandler'<% } %>
 
 export default function initializeFirebase() {
-  const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_apiKey,
-    authDomain: process.env.REACT_APP_FIREBASE_authDomain,
-    databaseURL: process.env.REACT_APP_FIREBASE_databaseURL,
-    projectId: process.env.REACT_APP_FIREBASE_projectId,
-    storageBucket: process.env.REACT_APP_FIREBASE_storageBucket<% if(messagingSenderId) { %>,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_messagingSenderId<% } %><% if(measurementId) { %>,
-    measurementId: process.env.REACT_APP_FIREBASE_measurementId<% } %><% if(appId) { %>,
-    appId: process.env.REACT_APP_FIREBASE_appId<% } %>
-  }
 
   // Enable Real Time Database emulator if environment variable is set
-  if (process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST) {
-    firebaseConfig.databaseURL = `http://${process.env.REACT_APP_FIREBASE_DATABASE_EMULATOR_HOST}?ns=${firebaseConfig.projectId}`
-    console.debug(`RTDB emulator enabled: ${firebaseConfig.databaseURL}`) // eslint-disable-line no-console
+  if (config.firebase.databaseURL.includes('localhost')) {
+    console.debug(`RTDB emulator enabled: ${config.firebase.databaseURL}`) // eslint-disable-line no-console
   }
 
   // Initialize Firebase instance
-  firebase.initializeApp(firebaseConfig)<% if (includeAnalytics) { %>
+  firebase.initializeApp(config.firebase)<% if (includeAnalytics) { %>
   // Initialize Firebase analytics if measurementId exists
-  if (firebaseConfig.measurementId) {
+  if (config.firebase.measurementId) {
     firebase.analytics()
   }<% } %><% if (!includeRedux && (includeMessaging || includeAnalytics || includeSentry || includeErrorHandling)) { %>
   firebase.auth().onAuthStateChanged(auth => {

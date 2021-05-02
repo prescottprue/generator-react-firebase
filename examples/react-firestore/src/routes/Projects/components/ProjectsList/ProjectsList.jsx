@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 import { useFirestore, useUser, useFirestoreCollectionData } from 'reactfire'
 import { useNotifications } from 'modules/notification'
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 import ProjectTile from '../ProjectTile'
-import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsList.styles'
 
@@ -65,23 +67,32 @@ function ProjectsList() {
 
   return (
     <div className={classes.root}>
+      <Button variant="contained" onClick={toggleDialog}>
+        Add Project
+      </Button>
       <NewProjectDialog
         onSubmit={addProject}
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
-      <div className={classes.tiles}>
-        <NewProjectTile onClick={toggleDialog} />
-        {projects &&
+      <div className={classes.tiles} role="list">
+        {projects?.length ?
           projects.map((project, ind) => {
             return (
               <ProjectTile
-                key={`Project-${project.id}-${ind}`}
-                name={project && project.name}
+                key={project.id}
+                name={project?.name}
                 projectId={project.id}
               />
             )
-          })}
+          })
+        : (
+          <Paper className={classes.empty}>
+            <Typography>
+              No Projects Found. Click "Add Project" above to add one
+            </Typography>
+          </Paper>
+        )}
       </div>
     </div>
   )
