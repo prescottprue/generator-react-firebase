@@ -16,7 +16,6 @@ process.env.FIREBASE_CONFIG = JSON.stringify({
   storageBucket: `${projectId}.appspot.com`,
   projectId
 })
-
 ;(global as any).projectId = projectId
 <% if (functionsTestTool === 'mocha') { %>;(global as any).chai = chai
 ;(global as any).sinon = sinon
