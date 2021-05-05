@@ -117,10 +117,18 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GITHUB_REF: ${{ github.ref }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
-        # Deploy to project associated with branch name alias in .firebaserc.
+        # Deploy to project associated with branch name alias in .firebaserc with message set to commit's message.
         # Force flag is used to automatically delete any removed cloud functions
         run: |
           $(yarn bin)/firebase-ci deploy -s --force
+
+      # Archive debug logs if deploy fails
+      - name: Archive Debug Logs
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: debug-logs
+          path: ./*.log
 
       - name: Check if version has been updated
         if: github.ref == 'refs/heads/prod'

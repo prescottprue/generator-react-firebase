@@ -128,7 +128,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: debug-logs
-          path: '*.log'
+          path: ./*.log
 
       - name: Check if version has been updated
         if: github.ref == 'refs/heads/prod'
