@@ -64,7 +64,7 @@ jobs:
 
       - name: Generate Firebase SDK config for ${{ env.GCLOUD_PROJECT }}
         # Skip for forks (since they don't have access to secrets)
-        if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+        if: github.event.pull_request.head.repo.full_name == github.repository
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
@@ -86,7 +86,7 @@ jobs:
 
       - name: Unit Test Functions
         # Skip for forks (since they don't have access to secrets)
-        if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+        if: github.event.pull_request.head.repo.full_name == github.repository
         env:
           SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
         run: |
