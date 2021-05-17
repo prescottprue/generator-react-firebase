@@ -76,9 +76,9 @@
     "eslint-config-standard": "^16.0.2",
     "eslint-config-standard-react": "^11.0.1",<% if (includeUiTests) { %>
     "eslint-plugin-chai-friendly": "^0.6.0",
-    "eslint-plugin-cypress": "^2.11.2",<% } %>
+    "eslint-plugin-cypress": "^2.11.3",<% } %>
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsdoc": "^33.0.0",
+    "eslint-plugin-jsdoc": "^34.7.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
