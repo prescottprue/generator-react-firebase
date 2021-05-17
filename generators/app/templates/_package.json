@@ -42,7 +42,7 @@
     "@material-ui/icons": "^4.11.2",<% if (includeSentry) { %>
     "@sentry/browser": "^6.1.0",<% } %>
     "firebase": "^8.4.1",
-    "notistack": "^1.0.5",
+    "notistack": "^1.0.7",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -68,10 +68,10 @@
     "babel-eslint": "^10.1.0",
     "config": "^3.3.6",
     "cross-env": "^7.0.3",<% if (includeUiTests) { %>
-    "cypress": "^7.2.0",
-    "cypress-firebase": "^1.8.0",<% } %>
+    "cypress": "^7.3.0",
+    "cypress-firebase": "^1.9.1",<% } %>
     "env-cmd": "^10.1.0",
-    "eslint": "^7.25.0",
+    "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-config-standard-react": "^11.0.1",<% if (includeUiTests) { %>
