@@ -5,7 +5,7 @@ on: [pull_request]
 jobs:
   verify:
     name: Verify
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.0
@@ -144,7 +144,7 @@ jobs:
 
   ui-tests:
     name: UI Tests
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     needs: verify
     steps:
       - name: Checkout Repo
