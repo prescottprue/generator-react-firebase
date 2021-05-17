@@ -10,6 +10,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-20.04
+    timeout-minutes: 20
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.0
@@ -120,7 +121,7 @@ jobs:
       - name: Create Github Release
         if: github.ref == 'refs/heads/prod' && steps.check.outputs.changed == 'true'
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
