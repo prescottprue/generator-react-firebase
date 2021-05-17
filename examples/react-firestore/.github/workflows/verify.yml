@@ -63,6 +63,8 @@ jobs:
           echo "ENV=$branch" >> $GITHUB_ENV
 
       - name: Generate Firebase SDK config for ${{ env.GCLOUD_PROJECT }}
+        # Skip for forks (since they don't have access to secrets)
+        if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
@@ -83,6 +85,8 @@ jobs:
           yarn lint # Check for lint in app code
 
       - name: Unit Test Functions
+        # Skip for forks (since they don't have access to secrets)
+        if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
         env:
           SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
         run: |

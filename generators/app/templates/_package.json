@@ -40,7 +40,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",<% if (includeSentry) { %>
-    "@sentry/browser": "^6.1.0",<% } %>
+    "@sentry/browser": "^6.4.0",<% } %>
     "firebase": "^8.4.1",
     "notistack": "^1.0.7",
     "prop-types": "^15.7.2",
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@craco/craco": "6.1.2",
-    "@sentry/cli": "^1.63.1",<% if (includeUiTests) { %>
+    "@sentry/cli": "^1.64.2",<% if (includeUiTests) { %>
     "@testing-library/cypress": "^7.0.3",<% } %>
     <% if(includeFunctions && typescriptCloudFunctions) { %>
     "@typescript-eslint/eslint-plugin": "^4.15.0",
@@ -86,13 +86,13 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-standard": "^5.0.0",<% if (includeUiTests) { %>
-    "firebase-admin": "^9.7.0",<% } %>
+    "firebase-admin": "^9.8.0",<% } %>
     "firebase-ci": "^0.15.0",
-    "firebase-tools": "^9.10.0",
+    "firebase-tools": "^9.10.2",
     "husky": "^6.0.0",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^11.0.0",
     "minimist": "1.2.5",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "react-scripts": "^4.0.3"<% if (includeComponentTests) { %>,
     "react-test-renderer": "^17.0.2"<%} %><% if(includeFunctions && typescriptCloudFunctions) { %>,
     "typescript": "^4.2.4"<% } %>
