@@ -46,7 +46,6 @@ jobs:
         env:
           GCLOUD_PROJECT: <%= firebaseProjectId %>
           PR_NUMBER: ${{ github.event.number }}
-          APP_NAME: ${{ matrix.app }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
           ./bin/remove-preview-channel.js --pullRequest=$PR_NUMBER

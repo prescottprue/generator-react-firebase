@@ -5,7 +5,8 @@ on: [pull_request]
 jobs:
   verify:
     name: Verify
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    timeout-minutes: 20
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.0
@@ -63,6 +64,8 @@ jobs:
           echo "ENV=$branch" >> $GITHUB_ENV
 
       - name: Generate Firebase SDK config for ${{ env.GCLOUD_PROJECT }}
+        # Skip for forks (since they don't have access to secrets)
+        if: github.event.pull_request.head.repo.full_name == github.repository
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
@@ -83,6 +86,8 @@ jobs:
           yarn lint # Check for lint in app code
 
       - name: Unit Test Functions
+        # Skip for forks (since they don't have access to secrets)
+        if: github.event.pull_request.head.repo.full_name == github.repository
         env:
           SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
         run: |
@@ -140,8 +145,9 @@ jobs:
 
   ui-tests:
     name: UI Tests
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     needs: verify
+    timeout-minutes: 20
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
