@@ -40,7 +40,7 @@
     "react-google-button": "^0.7.2",
     "react-hook-form": "^7.6.0",
     "react-router-dom": "^5.2.0",
-    "reactfire": "^3.0.0-rc.2"
+    "reactfire": "^3.0.0-rc.0"
   },
   "devDependencies": {
     "@craco/craco": "6.2.0",
@@ -63,8 +63,8 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-standard": "^5.0.0",
     "firebase-ci": "^0.15.0",
-    "firebase-tools": "^9.10.2",
-    "husky": "^6.0.0",
+    "firebase-tools": "^9.16.0",
+    "husky": "^7.0.1",
     "lint-staged": "^11.0.0",
     "minimist": "1.2.5",
     "prettier": "^2.3.0",
