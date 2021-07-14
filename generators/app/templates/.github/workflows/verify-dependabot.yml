@@ -77,7 +77,7 @@ jobs:
           echo "FIRESTORE_EMULATOR_HOST=localhost:$(cat firebase.json | jq .emulators.firestore.port)" >> $GITHUB_ENV
 
           # Run tests and generate coverage
-          <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> functions:test:cov <% if(useYarn) { %>-- <% } %>--project $GCLOUD_PROJECT # Run unit tests with coverage
+          <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> functions:test:cov <% if(useYarn) { %>-- <% } %>--project $GCLOUD_PROJECT # Run unit tests with coverage<% } %>
 
       - name: Build Functions
         run: |

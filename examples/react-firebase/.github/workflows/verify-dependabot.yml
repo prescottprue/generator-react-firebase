@@ -1,4 +1,4 @@
-name: Verify
+name: Verify (dependabot)
 
 on: [pull_request]
 
@@ -57,24 +57,6 @@ jobs:
           echo "NODE_CONFIG_ENV=$branch" >> $GITHUB_ENV
           echo "ENV=$branch" >> $GITHUB_ENV
 
-      - name: Generate Firebase SDK config for ${{ env.GCLOUD_PROJECT }}
-        # Skip for forks (since they don't have access to secrets)
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: |
-          set -o pipefail
-
-          # Throw a clear error if FIREBASE_TOKEN secret is not set
-          if [ -z "$FIREBASE_TOKEN" ];
-            then
-              missingTokenErrMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
-              echo "::error ::$missingTokenErrMsg"
-              exit 1
-          fi
-
-          bin/generate-firebase-sdk-config.js --file ./config/default.json
-
       - name: Verify App
         run: |
           yarn lint # Check for lint in app code
@@ -86,18 +68,3 @@ jobs:
       - name: Build App
         run: |
           yarn build
-
-      - name: Deploy to Firebase hosting preview channel
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        id: preview-deploy
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.SERVICE_ACCOUNT }}"
-          expires: 7d
-          projectId: ${{ env.GCLOUD_PROJECT }}
-
-      - name: Archive Build Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: build

@@ -41,8 +41,8 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",<% if (includeSentry) { %>
     "@sentry/browser": "^6.4.0",<% } %>
-    "firebase": "^8.6.1",
-    "notistack": "^1.0.7",
+    "firebase": "^8.7.1",
+    "notistack": "^1.0.9",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -59,21 +59,20 @@
     "stackdriver-errors-js": "^0.8.0"<% } %>
   },
   "devDependencies": {
-    "@craco/craco": "6.1.2",
-    "@sentry/cli": "^1.64.2",<% if (includeUiTests) { %>
-    "@testing-library/cypress": "^7.0.3",<% } %>
-    <% if(includeFunctions && typescriptCloudFunctions) { %>
+    "@craco/craco": "6.2.0",
+    "@sentry/cli": "^1.67.1",<% if (includeUiTests) { %>
+    "@testing-library/cypress": "^7.0.3",<% } %><% if(includeFunctions && typescriptCloudFunctions) { %>
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",<% } %>
     "babel-eslint": "^10.1.0",
     "config": "^3.3.6",
     "cross-env": "^7.0.3",<% if (includeUiTests) { %>
-    "cypress": "^7.3.0",
-    "cypress-firebase": "^1.9.1",<% } %>
+    "cypress": "^7.7.0",
+    "cypress-firebase": "^2.0.0",<% } %>
     "env-cmd": "^10.1.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.2",
+    "eslint-config-standard": "^16.0.3",
     "eslint-config-standard-react": "^11.0.1",<% if (includeUiTests) { %>
     "eslint-plugin-chai-friendly": "^0.7.1",
     "eslint-plugin-cypress": "^2.11.3",<% } %>
