@@ -26,7 +26,7 @@ function Home() {
         Home Page
       </Typography>
       <Paper role="article">
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid item xs className={classes.section}>
             <Typography variant="h6" gutterBottom>
               Routing

@@ -12,7 +12,7 @@ function AccountPage() {
   const classes = useStyles()
 
   return (
-    <Grid container className={classes.root} justify="center">
+    <Grid container className={classes.root} justifyContent="center">
       <Grid item xs={10} md={8} lg={6} className={classes.gridItem}>
         <Paper className={classes.pane}>
           <Typography variant="h4">Account</Typography>

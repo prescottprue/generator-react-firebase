@@ -75,7 +75,7 @@ jobs:
           # Throw a clear error if FIREBASE_TOKEN secret is not set
           if [ -z "$FIREBASE_TOKEN" ];
             then
-              missingTokenErrMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              missingTokenErrMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Generate by calling firebase login:ci then visit https://github.com/${{ github.repository }}/settings/secrets to set."
               echo "::error ::$missingTokenErrMsg"
               exit 1
           fi
@@ -87,27 +87,7 @@ jobs:
           <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> lint # Check for lint in app code<% if(includeFunctionsTests) { %>
 
       - name: Unit Test Functions
-        # Skip for forks (since they don't have access to secrets)
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
         run: |
-          # Throw a clear error if SERVICE_ACCOUNT secret is not set
-          if [ -z "$SERVICE_ACCOUNT" ];
-            then
-              missingTokenErrMsg="\"SERVICE_ACCOUNT\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
-              echo "::error ::$missingTokenErrMsg"
-              exit 1
-          fi
-
-          # Generate Service Account file required to prevent credential error in unit tests (jq used to format)
-          projectId=$(echo $SERVICE_ACCOUNT | jq .project_id)
-          serviceAccountId=$(echo $SERVICE_ACCOUNT | jq .private_key_id)
-
-          echo "Generating service account file for project \"$projectId\" with id \"$serviceAccountId\""
-          echo "$(echo $SERVICE_ACCOUNT | jq .)" > $HOME/serviceAccount.json
-          export GOOGLE_APPLICATION_CREDENTIALS="$HOME/serviceAccount.json"
-
           echo "Setting emulator settings to environment..."
           # Set variables to environment to be used in later steps
           echo "FIREBASE_AUTH_EMULATOR_HOST=$(cat firebase.json | jq .emulators.auth.port)" >> $GITHUB_ENV
