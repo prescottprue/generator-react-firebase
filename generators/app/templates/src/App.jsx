@@ -4,7 +4,7 @@ import { FirebaseAppProvider<% if (!includeRedux) { %>, SuspenseWithPerf<% } %> 
 import { BrowserRouter as Router } from 'react-router-dom'
 import config from 'config'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
-import firebase from 'firebase/app'
+import { getDatabase, connectDatabaseEmulator }  from 'firebase/database'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
@@ -17,13 +17,19 @@ import initializeFirebase from './initializeFirebase'<% } %><% if (!includeRedux
 import createRoutes from './routes'<% } %>
 
 <% if (includeRedux) { %>initializeFirebase()
-<% } %><% if (!includeRedux) { %>// Enable Real Time Database emulator if environment variable is set
-if (config.firebase.databaseURL.includes('localhost')) {
-  console.debug(`RTDB emulator enabled: ${config.firebase.databaseURL}`) // eslint-disable-line no-console
-}
+<% } %><% if (!includeRedux) { %>
 
 function App() {
   const routes = createRoutes()
+
+  // Enable Real Time Database emulator if environment variable is set
+  if (process.env.NODE_ENV !== 'production') {
+    // Set up emulators
+    connectDatabaseEmulator(database, 'localhost', 9000);
+    connectAuthEmulator(auth, 'http://localhost:9099');
+    console.debug(`RTDB emulator enabled: ${config.firebase.databaseURL}`) // eslint-disable-line no-console
+  }
+
   return (
     <ThemeProvider>
       <FirebaseAppProvider

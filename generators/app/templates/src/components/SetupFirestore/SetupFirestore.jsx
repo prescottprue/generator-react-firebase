@@ -1,7 +1,12 @@
-import { useFirestore } from 'reactfire'
+import { initializeFirestore, enableIndexedDbPersistence } from 'reactfire'
 
 export default function SetupFirestore() {
-  const firestore = useFirestore()
+  const { status, data: firestoreInstance } = useInitFirestore(async (firebaseApp) => {
+    const db = initializeFirestore(firebaseApp, {});
+    await enableIndexedDbPersistence(db);
+    return db;
+  });
+
   if (process.env.REACT_APP_FIRESTORE_EMULATOR_HOST) {
     const firestoreSettings = {
       host: process.env.REACT_APP_FIRESTORE_EMULATOR_HOST,
