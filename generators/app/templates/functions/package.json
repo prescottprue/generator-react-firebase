@@ -31,7 +31,7 @@
     "tslib": "^2.3.1"<% } %>
   },
   "devDependencies": {<% if(includeFunctionsTests) { %>
-    "@firebase/rules-unit-testing": "^2.0.0",<% } %><% if(typescriptCloudFunctions) { %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "@firebase/rules-unit-testing": "^1.3.15",<% } %><% if(typescriptCloudFunctions) { %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chai": "^4.2.21",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
     "@types/jest": "^27.0.1",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
