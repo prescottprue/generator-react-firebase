@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.0
+        uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
 
@@ -68,7 +68,7 @@ jobs:
           # Throw a clear error if FIREBASE_TOKEN secret is not set
           if [ -z "$FIREBASE_TOKEN" ];
             then
-              missingTokenErrMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Visit https://github.com/${{ github.repository }}/settings/secrets to set."
+              missingTokenErrMsg="\"FIREBASE_TOKEN\" github secret is required to load project configuration. Generate by calling firebase login:ci then visit https://github.com/${{ github.repository }}/settings/secrets to set."
               echo "::error ::$missingTokenErrMsg"
               exit 1
           fi
