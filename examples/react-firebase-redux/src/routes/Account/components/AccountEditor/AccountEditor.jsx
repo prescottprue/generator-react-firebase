@@ -34,7 +34,7 @@ function AccountEditor() {
   }
 
   return (
-    <Grid container spacing={2} justify="center">
+    <Grid container spacing={2} justifyContent="center">
       <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
         <img
           className={classes.avatarCurrent}
