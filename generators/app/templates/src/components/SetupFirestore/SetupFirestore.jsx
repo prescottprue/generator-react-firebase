@@ -1,4 +1,5 @@
-import { initializeFirestore, enableIndexedDbPersistence } from 'reactfire'
+import { initializeFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
+import { useInitFirestore } from 'reactfire'
 
 export default function SetupFirestore() {
   const { status, data: firestoreInstance } = useInitFirestore(async (firebaseApp) => {

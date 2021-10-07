@@ -4,11 +4,14 @@ import { FirebaseAppProvider<% if (!includeRedux) { %>, SuspenseWithPerf<% } %> 
 import { BrowserRouter as Router } from 'react-router-dom'
 import config from 'config'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
+import { getAuth, connectAuthEmulator }  from 'firebase/auth'
+import { getFirestore, connectFirestoreEmulator }  from 'firebase/firestore'
 import { getDatabase, connectDatabaseEmulator }  from 'firebase/database'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
-import ThemeProvider from 'modules/theme/ThemeProvider'<% if (includeMessaging) { %>
+import ThemeProvider from 'modules/theme/ThemeProvider'
+import FirebaseComponents from 'components/FirebaseComponents'<% if (includeMessaging) { %>
 import SetupMessaging from 'components/SetupMessaging'<% } %><% if (!includeRedux && includeFirestore) { %>
 import SetupFirestore from 'components/SetupFirestore'<% } %><% if (includeAnalytics) { %>
 import SetupAnalytics from 'components/SetupAnalytics'<% } %><% if (includeRedux) { %>
@@ -16,41 +19,21 @@ import { defaultRRFConfig } from './defaultConfig'<% } %><% if (includeRedux) { 
 import initializeFirebase from './initializeFirebase'<% } %><% if (!includeRedux) { %>
 import createRoutes from './routes'<% } %>
 
-<% if (includeRedux) { %>initializeFirebase()
-<% } %><% if (!includeRedux) { %>
+<% if (includeRedux) { %>initializeFirebase()<% } %><% if (!includeRedux) { %>
 
 function App() {
   const routes = createRoutes()
-
-  // Enable Real Time Database emulator if environment variable is set
-  if (process.env.NODE_ENV !== 'production') {
-    // Set up emulators
-    connectDatabaseEmulator(database, 'localhost', 9000);
-    connectAuthEmulator(auth, 'http://localhost:9099');
-    console.debug(`RTDB emulator enabled: ${config.firebase.databaseURL}`) // eslint-disable-line no-console
-  }
 
   return (
     <ThemeProvider>
       <FirebaseAppProvider
         firebaseConfig={config.firebase}
-        suspense
-        initPerformance>
-        <NotificationsProvider><% if (includeMessaging || includeFirestore || includeAnalytics) { %>
-          <>
-            <Router>{routes}</Router><% if (includeFirestore) { %>
-            <SuspenseWithPerf traceId="setup-firestore">
-              <SetupFirestore />
-            </SuspenseWithPerf><% } %><% if (includeMessaging) { %>
-            <SuspenseWithPerf traceId="setup-messaging">
-              <SetupMessaging />
-            </SuspenseWithPerf><% } %><% if (includeAnalytics) { %>
-            <SuspenseWithPerf traceId="setup-analytics">
-              <SetupAnalytics />
-            </SuspenseWithPerf><% } %>
-          </><% } %><% if (!includeMessaging && !includeFirestore && !includeAnalytics) { %>
-          <Router>{routes}</Router><% } %>
-        </NotificationsProvider>
+        suspense>
+        <FirebaseComponents>
+          <NotificationsProvider>
+            <Router>{routes}</Router>
+          </NotificationsProvider>
+        </FirebaseComponents>
       </FirebaseAppProvider>
     </ThemeProvider>
   )

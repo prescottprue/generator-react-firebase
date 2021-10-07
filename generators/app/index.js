@@ -328,6 +328,7 @@ module.exports = class extends Generator {
       ignorePaths.push('**/SignupForm.enhancer.js')
       ignorePaths.push('**/SignupPage.enhancer.js')
       ignorePaths.push('**/LoginPage.enhancer.js')
+      filesArray.push({ src: 'src/components/FirebaseComponents' })
     }
     // Firestore
     if (this.answers.includeFirestore) {
@@ -335,12 +336,12 @@ module.exports = class extends Generator {
         { src: 'firestore.indexes.json', dest: 'firestore.indexes.json' },
         { src: 'firestore.rules', dest: 'firestore.rules' }
       )
-      if (!this.answers.includeRedux) {
-        filesArray.push({
-          src: 'src/components/SetupFirestore',
-          dest: 'src/components/SetupFirestore'
-        })
-      }
+      // if (!this.answers.includeRedux) {
+      //   filesArray.push({
+      //     src: 'src/components/SetupFirestore',
+      //     dest: 'src/components/SetupFirestore'
+      //   })
+      // }
     }
     // Cloud Functions
     if (this.answers.includeFunctions) {
@@ -399,11 +400,11 @@ module.exports = class extends Generator {
 
     if (this.answers.includeMessaging) {
       filesArray.push(
-        { src: 'public/firebase-messaging-sw.js' },
-        {
-          src: 'src/components/SetupMessaging/**',
-          dest: 'src/components/SetupMessaging'
-        }
+        { src: 'public/firebase-messaging-sw.js' }
+        // {
+        //   src: 'src/components/SetupMessaging/**',
+        //   dest: 'src/components/SetupMessaging'
+        // }
       )
     }
 
@@ -412,10 +413,10 @@ module.exports = class extends Generator {
     }
 
     if (this.answers.includeAnalytics) {
-      filesArray.push(
-        { src: 'src/components/SetupAnalytics/index.js' },
-        { src: 'src/components/SetupAnalytics/SetupAnalytics.jsx' }
-      )
+      // filesArray.push(
+      //   { src: 'src/components/SetupAnalytics/index.js' },
+      //   { src: 'src/components/SetupAnalytics/SetupAnalytics.jsx' }
+      // )
       if (this.answers.includeRedux) {
         filesArray.push({ src: 'src/utils/analytics.js' })
       }
