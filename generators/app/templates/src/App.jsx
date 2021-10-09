@@ -11,10 +11,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (i
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
 import ThemeProvider from 'modules/theme/ThemeProvider'
-import FirebaseComponents from 'components/FirebaseComponents'<% if (includeMessaging) { %>
-import SetupMessaging from 'components/SetupMessaging'<% } %><% if (!includeRedux && includeFirestore) { %>
-import SetupFirestore from 'components/SetupFirestore'<% } %><% if (includeAnalytics) { %>
-import SetupAnalytics from 'components/SetupAnalytics'<% } %><% if (includeRedux) { %>
+import FirebaseComponents from 'components/FirebaseComponents'<% if (includeRedux) { %>
 import { defaultRRFConfig } from './defaultConfig'<% } %><% if (includeRedux) { %>
 import initializeFirebase from './initializeFirebase'<% } %><% if (!includeRedux) { %>
 import createRoutes from './routes'<% } %>

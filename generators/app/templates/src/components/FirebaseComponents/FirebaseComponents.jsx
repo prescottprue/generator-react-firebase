@@ -1,13 +1,14 @@
 import { useEffect } from 'react'
 import config from 'config'<% if (!includeRedux) { %>
-import { useAnalytics, useUser } from 'reactfire'<% } %><% if (includeRedux) { %>
+import { getAuth, connectAuthEmulator } from 'firebase/auth'
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
+import { useFirebaseApp, useAnalytics, useUser, AuthProvider, <% if (includeFirestore) { %>FirestoreProvider<% } else { %>DatabaseProvider<% } %> } from 'reactfire'<% } %><% if (includeRedux) { %>
 import firebase from 'firebase/app'
 import 'firebase/messaging'<% } %><% if (includeErrorHandling) { %>
 import { setErrorUser } from 'utils/errorHandler'<% } %>
 import { version } from '../../../package.json'
 
 function FirebaseComponents({ children }) {
-  const routes = createRoutes()
   const app = useFirebaseApp()
   const auth = getAuth(app)<% if (!includeFirestore) { %>
   const database = getDatabase(app)<% } %><% if (includeFirestore) { %>

@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import config from 'config'
-import { useAnalytics, useUser } from 'reactfire'
+import { getAuth, connectAuthEmulator } from 'firebase/auth'
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
+import { useFirebaseApp, useAnalytics, useUser, AuthProvider, FirestoreProvider } from 'reactfire'
 import { setErrorUser } from 'utils/errorHandler'
 import { version } from '../../../package.json'
 
 function FirebaseComponents({ children }) {
-  const routes = createRoutes()
   const app = useFirebaseApp()
   const auth = getAuth(app)
   const firestore = getFirestore(app)
