@@ -1,4 +1,11 @@
 export default {
+  components: {
+    MuiAppBar: {
+      defaultProps: {
+        enableColorOnDark: true,
+      },
+    },
+  },
   palette: {
     primary: {
       main: '#2196f3'

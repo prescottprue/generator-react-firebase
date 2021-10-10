@@ -5,11 +5,11 @@ import { useFirestore } from 'reactfire'<% } %><% if (!includeRedux && !includeF
 import { useDatabase } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { useFirestore } from 'react-redux-firebase'<% } %>
-import Paper from '@material-ui/core/Paper'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import Paper from '@mui/material/Paper'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 import { LIST_PATH } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
 import styles from './ProjectTile.styles'

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ContentAddCircle from '@material-ui/icons/AddCircle'
-import Paper from '@material-ui/core/Paper'
-import { makeStyles } from '@material-ui/core/styles'
+import ContentAddCircle from '@mui/icons-material/AddCircle'
+import Paper from '@mui/material/Paper'
+import makeStyles from '@mui/styles/makeStyles';
 import styles from './NewProjectTile.styles'
 
 const useStyles = makeStyles(styles)

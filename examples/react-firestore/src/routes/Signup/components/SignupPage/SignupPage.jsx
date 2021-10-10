@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 import { useAuth } from 'reactfire'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 import { LOGIN_PATH, LIST_PATH } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
 import SignupForm from '../SignupForm'

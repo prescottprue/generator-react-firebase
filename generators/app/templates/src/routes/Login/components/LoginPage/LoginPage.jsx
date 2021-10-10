@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
 import { useAuth } from 'reactfire'<% } %>
-import Paper from '@material-ui/core/Paper'
-import { makeStyles } from '@material-ui/core/styles'
+import Paper from '@mui/material/Paper'
+import { makeStyles } from '@mui/material/styles'
 import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH<% if (!includeRedux) { %>, LIST_PATH<% } %> } from 'constants/paths'<% if (includeRedux) { %>
 import { useNotifications } from 'modules/notification'<% } %><% if (!includeRedux) { %>

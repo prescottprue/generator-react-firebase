@@ -11,33 +11,35 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (i
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
 import ThemeProvider from 'modules/theme/ThemeProvider'
+import { StyledEngineProvider } from '@mui/material/styles';
 import FirebaseComponents from 'components/FirebaseComponents'<% if (includeRedux) { %>
 import { defaultRRFConfig } from './defaultConfig'<% } %><% if (includeRedux) { %>
-import initializeFirebase from './initializeFirebase'<% } %><% if (!includeRedux) { %>
-import createRoutes from './routes'<% } %>
-
-<% if (includeRedux) { %>initializeFirebase()<% } %><% if (!includeRedux) { %>
+import initializeFirebase from './initializeFirebase'<% } %>
+import { createTheme } from '@mui/material/styles';
+import theme from './theme'<% if (!includeRedux) { %>
+import createRoutes from './routes'<% } %><% if (includeRedux) { %>
+initializeFirebase()<% } %><% if (!includeRedux) { %>
 
 function App() {
   const routes = createRoutes()
 
   return (
-    <ThemeProvider>
-      <FirebaseAppProvider
-        firebaseConfig={config.firebase}
-        suspense>
-        <FirebaseComponents>
-          <NotificationsProvider>
-            <Router>{routes}</Router>
-          </NotificationsProvider>
-        </FirebaseComponents>
-      </FirebaseAppProvider>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={createTheme(theme)}>
+        <FirebaseAppProvider firebaseConfig={config.firebase} suspense>
+          <FirebaseComponents>
+            <NotificationsProvider>
+              <Router>{routes}</Router>
+            </NotificationsProvider>
+          </FirebaseComponents>
+        </FirebaseAppProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }<% } else { %>
 function App({ routes, store }) {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={createTheme(theme)}>
       <Provider store={store}>
         <NotificationsProvider>
           <ReactReduxFirebaseProvider

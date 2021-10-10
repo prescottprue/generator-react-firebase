@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'<% if (!includeRedux && includeFirestore) { %>
+import { makeStyles } from '@mui/material/styles'
+import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'<% if (!includeRedux && includeFirestore) { %>
 import { useFirestore, useUser, useFirestoreCollectionData } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
 import { useDatabase, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'

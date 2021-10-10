@@ -1,6 +1,6 @@
 import React from 'react'
-import Card from '@material-ui/core/Card'
-import { makeStyles } from '@material-ui/core/styles'<% if (!includeRedux) { %>
+import Card from '@mui/material/Card'
+import { makeStyles } from '@mui/material/styles'<% if (!includeRedux) { %>
 import { SuspenseWithPerf } from 'reactfire'
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import ProjectData from '../ProjectData'

@@ -2,18 +2,13 @@ import React, { useState } from 'react'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
 import { useAuth } from 'reactfire'<% } %>
 import { Link } from 'react-router-dom'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import IconButton from '@material-ui/core/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import IconButton from '@mui/material/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import { makeStyles } from '@material-ui/core/styles'
 import { ACCOUNT_PATH } from 'constants/paths'
-import styles from './Navbar.styles'
-
-const useStyles = makeStyles(styles)
 
 function AccountMenu() {
-  const classes = useStyles()
   const [anchorEl, setMenu] = useState(null)<% if (includeRedux) { %>
   const firebase = useFirebase()<% } %><% if (!includeRedux) { %>
   const auth = useAuth()<% } %>
@@ -37,7 +32,8 @@ function AccountMenu() {
         aria-owns={anchorEl ? 'menu-appbar' : null}
         aria-haspopup="true"
         onClick={handleMenuClick}
-        classes={{ root: classes.accountButton }}>
+        style={{ color: 'white' }}
+        size="large">
         <AccountCircle />
       </IconButton>
       <Menu

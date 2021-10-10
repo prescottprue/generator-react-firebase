@@ -1,8 +1,8 @@
 import React from 'react'<% if (!includeRedux && includeFirestore) { %>
 import { useFirestore, useFirestoreDocData, useUser } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
 import { useDatabase, useDatabaseObjectData, useUser } from 'reactfire'<% } %>
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'<% if (includeRedux) { %>
+import Grid from '@mui/material/Grid'
+import { makeStyles } from '@mui/material/styles'<% if (includeRedux) { %>
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>

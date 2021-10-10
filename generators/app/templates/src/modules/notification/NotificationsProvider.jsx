@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import IconButton from '@material-ui/core/IconButton'
+import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import { SnackbarProvider } from 'notistack'
 

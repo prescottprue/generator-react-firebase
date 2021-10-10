@@ -1,6 +1,6 @@
 import React from 'react'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 import { useParams } from 'react-router-dom'<% if (includeRedux && !includeFirestore) { %>
 import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %><% if (includeRedux && includeFirestore) { %>

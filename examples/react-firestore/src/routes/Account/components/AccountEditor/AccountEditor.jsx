@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFirestore, useFirestoreDocData, useUser } from 'reactfire'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@mui/material/Grid'
+import makeStyles from '@mui/styles/makeStyles';
 import { useNotifications } from 'modules/notification'
 import { USERS_COLLECTION } from 'constants/firebasePaths'
 import defaultUserImageUrl from 'static/User.png'

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from 'reactfire'
-import Paper from '@material-ui/core/Paper'
-import { makeStyles } from '@material-ui/core/styles'
+import Paper from '@mui/material/Paper'
+import makeStyles from '@mui/styles/makeStyles';
 import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH, LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'

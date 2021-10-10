@@ -4,15 +4,9 @@ export default (theme) => ({
   },
   appBar: {
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? theme.palette.background.default
         : theme.palette.primary1Color
-  },
-  accountButton: {
-    color: 'white'
-  },
-  themeModeButton: {
-    color: 'white'
   },
   signIn: {
     color: 'white',

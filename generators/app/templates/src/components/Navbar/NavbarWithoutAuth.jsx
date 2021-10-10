@@ -1,21 +1,16 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import IconButton from '@material-ui/core/IconButton'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
+import IconButton from '@mui/material/IconButton'
 import LightThemeIcon from '@material-ui/icons/BrightnessHigh'
 import DarkThemeIcon from '@material-ui/icons/Brightness4'
-import { makeStyles } from '@material-ui/core/styles'
 import { ThemeContext } from 'modules/theme'
-import styles from './Navbar.styles'
-
-const useStyles = makeStyles(styles)
 
 function NavbarWithoutAuth({ children, brandPath = '/' }) {
-  const classes = useStyles()
   const { toggleDarkMode, isDarkMode } = useContext(ThemeContext)
 
   return (
@@ -26,15 +21,12 @@ function NavbarWithoutAuth({ children, brandPath = '/' }) {
           variant="h6"
           component={Link}
           to={brandPath}
-          className={classes.brand}
           data-test="brand">
           <%= capitalAppName %>
         </Typography>
-        <div className={classes.flex} />
+        <div style={{ display: 'flex', flexGrow: 1 }} />
         <Tooltip title="Toggle light/dark theme">
-          <IconButton
-            onClick={toggleDarkMode}
-            className={classes.themeModeButton}>
+          <IconButton onClick={toggleDarkMode} style={{ color: 'white' }}>
             {isDarkMode ? <LightThemeIcon /> : <DarkThemeIcon />}
           </IconButton>
         </Tooltip>

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 import { SnackbarProvider } from 'notistack'
 
 export const NotificationsContext = React.createContext({
@@ -47,14 +47,15 @@ export default function NotificationsProvider({ children }) {
             key={`close-${key}`}
             aria-label="Close"
             color="inherit"
-            onClick={onClickDismiss(key)}>
+            onClick={onClickDismiss(key)}
+            size="large">
             <CloseIcon />
           </IconButton>
         )}>
         {children}
       </SnackbarProvider>
     </NotificationsContext.Provider>
-  )
+  );
 }
 
 NotificationsProvider.propTypes = {

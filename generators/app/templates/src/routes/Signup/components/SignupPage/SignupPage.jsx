@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
-import Paper from '@material-ui/core/Paper'<% if (includeRedux) { %>
+import Paper from '@mui/material/Paper'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
 import { useAuth } from 'reactfire'<% } %>
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 import { LOGIN_PATH<% if (!includeRedux) { %>, LIST_PATH<% } %> } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
 import SignupForm from '../SignupForm'

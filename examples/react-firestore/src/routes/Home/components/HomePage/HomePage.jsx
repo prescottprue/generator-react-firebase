@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Grid from '@mui/material/Grid'
 import {
   ACCOUNT_PATH,
   LIST_PATH,
@@ -12,22 +12,36 @@ import {
 } from 'constants/paths'
 import styles from './HomePage.styles'
 
+import { styled } from '@mui/material/styles';
+
+const Root = styled('div')(({ theme }) => ({
+  ...theme.flexColumnCenter,
+  padding: theme.spacing(2),
+}));
+
+
+const Section = styled(Grid)(({ theme }) => ({
+  ...theme.flexColumnCenter,
+  padding: theme.spacing(2),
+  textAlign: 'center'
+}));
+
 const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
 const reactfireUrl = 'https://github.com/FirebaseExtended/reactfire'
 
-const useStyles = makeStyles(styles)
+// const useStyles = makeStyles(styles)
 
 function Home() {
-  const classes = useStyles()
+  // const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <Root>
       <Typography variant="h3" component="h3" gutterBottom>
         Home Page
       </Typography>
       <Paper role="article">
         <Grid container justifyContent="center">
-          <Grid item xs className={classes.section}>
+          <Section item xs>
             <Typography variant="h6" gutterBottom>
               Routing
             </Typography>
@@ -51,8 +65,8 @@ function Home() {
                 reactfire's <pre>AuthCheck</pre>
               </a>
             </div>
-          </Grid>
-          <Grid item xs className={classes.section}>
+          </Section>
+          <Section item xs>
             <Typography variant="h6" gutterBottom>
               Auth
             </Typography>
@@ -68,8 +82,8 @@ function Home() {
                 <Link to={ACCOUNT_PATH}>Account</Link>
               </li>
             </ul>
-          </Grid>
-          <Grid item xs className={classes.section}>
+          </Section>
+          <Section item xs>
             <Typography variant="h6" gutterBottom>
               Forms
             </Typography>
@@ -98,10 +112,10 @@ function Home() {
                 <Link to={ACCOUNT_PATH}>Account</Link>
               </li>
             </ul>
-          </Grid>
+          </Section>
         </Grid>
       </Paper>
-    </div>
+    </Root>
   )
 }
 
