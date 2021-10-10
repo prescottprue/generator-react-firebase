@@ -1,17 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Button from '@mui/material/Button'
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/material/styles'
 import { useUser } from 'reactfire'
 import { LIST_PATH, LOGIN_PATH } from 'constants/paths'
 import AccountMenu from './NavbarAccountMenu'
 import NavbarWithoutAuth from './NavbarWithoutAuth'
-// import styles from './Navbar.styles'
-
-// const useStyles = makeStyles(styles)
 
 function Navbar() {
-  // const classes = useStyles()
   const { data: auth } = useUser()
   const authExists = !!auth?.uid
 
@@ -21,10 +17,10 @@ function Navbar() {
         <AccountMenu />
       ) : (
         <Button
-          // className={classes.signIn}
           component={Link}
           to={LOGIN_PATH}
-          data-test="sign-in">
+          data-test="sign-in"
+          color="inherit">
           Sign In
         </Button>
       )}

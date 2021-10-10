@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'

@@ -115,7 +115,7 @@ function Home() {
           </Section>
         </Grid>
       </Paper>
-    </div>
+    </Root>
   )
 }
 

@@ -1,18 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import makeStyles from '@mui/styles/makeStyles';
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
+import { styled } from '@mui/material/styles';
 import {
   ACCOUNT_PATH,
   LIST_PATH,
   LOGIN_PATH,
   SIGNUP_PATH
 } from 'constants/paths'
-import styles from './HomePage.styles'
 
-import { styled } from '@mui/material/styles';
+const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
+const reactfireUrl = 'https://github.com/FirebaseExtended/reactfire'
 
 const Root = styled('div')(({ theme }) => ({
   ...theme.flexColumnCenter,
@@ -26,14 +26,8 @@ const Section = styled(Grid)(({ theme }) => ({
   textAlign: 'center'
 }));
 
-const reactRouterUrl = 'https://github.com/ReactTraining/react-router'
-const reactfireUrl = 'https://github.com/FirebaseExtended/reactfire'
-
-// const useStyles = makeStyles(styles)
 
 function Home() {
-  // const classes = useStyles()
-
   return (
     <Root>
       <Typography variant="h3" component="h3" gutterBottom>

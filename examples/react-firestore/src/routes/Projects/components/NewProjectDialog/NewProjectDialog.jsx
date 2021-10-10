@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import TextField from '@mui/material/TextField'
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import { validateEmail } from 'utils/form'
 import ProviderDataForm from '../ProviderDataForm'

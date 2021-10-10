@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import Paper from '@mui/material/Paper'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
-import { useAuth } from 'reactfire'<% } %>
+import { useAuth } from 'reactfire'
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword
+} from 'firebase/auth'<% } %>
 import { makeStyles } from '@mui/material/styles'
 import { LOGIN_PATH<% if (!includeRedux) { %>, LIST_PATH<% } %> } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
 import SignupForm from '../SignupForm'
-import styles from './SignupPage.styles'
-
-const useStyles = makeStyles(styles)
 
 function SignupPage() {
-  const classes = useStyles()
   const { showError } = useNotifications()<% if (includeRedux) { %>
   const firebase = useFirebase()
 
@@ -36,12 +37,11 @@ function SignupPage() {
       .catch((err) => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
   const auth = useAuth()
-  const { GoogleAuthProvider } = useAuth
 
   async function googleLogin() {
     const provider = new GoogleAuthProvider()
     try {
-      await auth.signInWithPopup(provider)
+      await signInWithPopup(auth, provider)
       // NOTE: window.location used since history.push/replace does not always work
       window.location = LIST_PATH
     } catch (err) {
@@ -51,7 +51,8 @@ function SignupPage() {
 
   async function emailSignup(formValues) {
     try {
-      await auth.createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
+        auth,
         formValues.email,
         formValues.password
       )
@@ -63,17 +64,17 @@ function SignupPage() {
   }<% } %>
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.panel}>
+    <div>
+      <Paper>
         <SignupForm onSubmit={emailSignup} <% if (includeRedux) { %>onSubmitFail={onSubmitFail} <% } %>/>
       </Paper>
-      <div className={classes.orLabel}>or</div>
-      <div className={classes.providers}>
+      <div>or</div>
+      <div>
         <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
       </div>
-      <div className={classes.login}>
-        <span className={classes.loginLabel}>Already have an account?</span>
-        <Link className={classes.loginLink} to={LOGIN_PATH}>
+      <div>
+        <span>Already have an account?</span>
+        <Link to={LOGIN_PATH}>
           Login
         </Link>
       </div>

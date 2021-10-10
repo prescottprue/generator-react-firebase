@@ -5,6 +5,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import LightThemeIcon from '@material-ui/icons/BrightnessHigh'
 import DarkThemeIcon from '@material-ui/icons/Brightness4'
@@ -14,7 +15,7 @@ function NavbarWithoutAuth({ children, brandPath = '/' }) {
   const { toggleDarkMode, isDarkMode } = useContext(ThemeContext)
 
   return (
-    <AppBar position="static" className={classes.appBar}>
+    <AppBar position="static">
       <Toolbar>
         <Typography
           color="inherit"

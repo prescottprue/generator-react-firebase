@@ -1,20 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
-import makeStyles from '@mui/styles/makeStyles';
-import styles from './LoadingSpinner.styles'
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles(styles)
+const Root = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  paddingTop: '7rem',
+  height: '100%'
+}));
 
 function LoadingSpinner({ size }) {
-  const classes = useStyles()
-
   return (
-    <div className={classes.root}>
-      <div className={classes.progress}>
+    <Root>
+      <Box sx={{ display: 'flex' }}>
         <CircularProgress mode="indeterminate" size={size || 80} />
-      </div>
-    </div>
+      </Box>
+    </Root>
   )
 }
 

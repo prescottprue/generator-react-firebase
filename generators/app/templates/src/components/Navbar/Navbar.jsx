@@ -24,7 +24,8 @@ function Navbar() {<% if (includeRedux) { %>
         <Button
           component={Link}
           to={LOGIN_PATH}
-          data-test="sign-in">
+          data-test="sign-in"
+          color="inherit">
           Sign In
         </Button>
       )}

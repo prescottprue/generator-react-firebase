@@ -18,6 +18,13 @@ export default function ThemeProvider({ children }) {
     () =>
       createTheme({
         ...ThemeSettings,
+        overrides: {
+          MuiAppBar: {
+            colorPrimary: {
+              backgroundColor: "#FFC0CB" // Pink AppBar
+            }
+          }
+        },
         palette: {
           ...ThemeSettings.palette,
           type: isDarkMode ? 'dark' : 'light'

@@ -1,20 +1,29 @@
 import React from 'react'
 import { Link } from 'react-router-dom'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
-import { useAuth } from 'reactfire'<% } %>
+import { useAuth } from 'reactfire'
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword
+} from 'firebase/auth'<% } %>
 import Paper from '@mui/material/Paper'
-import { makeStyles } from '@mui/material/styles'
+import Box from '@mui/material/Box'
 import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH<% if (!includeRedux) { %>, LIST_PATH<% } %> } from 'constants/paths'<% if (includeRedux) { %>
 import { useNotifications } from 'modules/notification'<% } %><% if (!includeRedux) { %>
 import useNotifications from 'modules/notification/useNotifications'<% } %>
 import LoginForm from '../LoginForm'
-import styles from './LoginPage.styles'
+import {
+  Root,
+  Panel,
+  LoginProviderSection,
+  OrLabel,
+  SignUpSection,
+  SignUpLabel
+} from './LoginPage.styled'
 
-const useStyles = makeStyles(styles)
-
-function LoginPage() {
-  const classes = useStyles()<% if (includeRedux) { %>
+function LoginPage() {<% if (includeRedux) { %>
   const firebase = useFirebase()
   const { showError } = useNotifications()
 
@@ -32,13 +41,12 @@ function LoginPage() {
     return firebase.login(creds).catch((err) => showError(err.message))
   }<% } %><% if (!includeRedux) { %>
   const auth = useAuth()
-  const { GoogleAuthProvider } = useAuth
   const { showError } = useNotifications()
 
   async function googleLogin() {
     const provider = new GoogleAuthProvider()
     try {
-      await auth.signInWithPopup(provider)
+      await signInWithPopup(auth, provider)
       // NOTE: window.location used since history.push/replace does not always work
       window.location = LIST_PATH
     } catch (err) {
@@ -48,7 +56,8 @@ function LoginPage() {
 
   async function emailLogin(formValues) {
     try {
-      await auth.signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
+        auth,
         formValues.email,
         formValues.password
       )
@@ -60,21 +69,33 @@ function LoginPage() {
   }<% } %>
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.panel}>
-        <LoginForm onSubmit={emailLogin} <% if (includeRedux) { %>onSubmitFail={onSubmitFail} <% } %>/>
-      </Paper>
-      <div className={classes.orLabel}>or</div>
-      <div className={classes.providers}>
+    <Root>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          flexGrow: 1,
+          padding: '1.25rem',
+          width: '400px',
+          minHeight: '300px'
+        }}
+      >
+        <Paper>
+          <LoginForm onSubmit={emailLogin} <% if (includeRedux) { %>onSubmitFail={onSubmitFail} <% } %>/>
+        </Paper>
+      </Box>
+      <OrLabel>or</OrLabel>
+      <LoginProviderSection>
         <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
-      </div>
-      <div className={classes.signup}>
-        <span className={classes.signupLabel}>Need an account?</span>
-        <Link className={classes.signupLink} to={SIGNUP_PATH}>
+      </LoginProviderSection>
+      <SignUpSection>
+        <SignUpLabel>Need an account?</SignUpLabel>
+        <Link sx={{ fontSize: '1.2rem' }} to={SIGNUP_PATH}>
           Sign Up
         </Link>
-      </div>
-    </div>
+      </SignUpSection>
+    </Root>
   )
 }
 

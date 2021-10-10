@@ -25,7 +25,7 @@ function App() {
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={createTheme(theme)}>
+      <ThemeProvider>
         <FirebaseAppProvider firebaseConfig={config.firebase} suspense>
           <FirebaseComponents>
             <NotificationsProvider>

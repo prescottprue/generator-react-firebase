@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/material/styles'
 import styles from './NotFoundPage.styles'
 
 const useStyles = makeStyles(styles)

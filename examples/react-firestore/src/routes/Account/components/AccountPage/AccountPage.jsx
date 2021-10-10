@@ -2,7 +2,7 @@ import React from 'react'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/material/styles'
 import { SuspenseWithPerf } from 'reactfire'
 import LoadingSpinner from 'components/LoadingSpinner'
 import AccountEditor from '../AccountEditor'

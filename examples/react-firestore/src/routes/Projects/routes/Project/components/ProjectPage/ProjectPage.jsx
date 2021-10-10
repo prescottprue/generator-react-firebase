@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from '@mui/material/Card'
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@mui/material/styles'
 import { SuspenseWithPerf } from 'reactfire'
 import LoadingSpinner from 'components/LoadingSpinner'
 import ProjectData from '../ProjectData'
