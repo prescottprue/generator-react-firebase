@@ -6,11 +6,9 @@ import { checkForEachFile } from '../utils'
 const srcFiles = [
   'src/components/LoadingSpinner/index.js',
   'src/components/LoadingSpinner/LoadingSpinner.jsx',
-  'src/components/LoadingSpinner/LoadingSpinner.styles.js',
   'src/components/Navbar/NavbarAccountMenu.jsx',
   'src/components/Navbar/index.js',
   'src/components/Navbar/Navbar.jsx',
-  'src/components/Navbar/Navbar.styles.js',
   'src/layouts/CoreLayout/CoreLayout.jsx',
   'src/layouts/CoreLayout/index.js',
   'src/modules/notification/NotificationsProvider.jsx',
@@ -50,12 +48,6 @@ const defaultOtherFeatures = [
   'Continuous Integration config',
   'Firebase Cloud Messaging',
   'Firebase Functions (with Babel setup)',
-]
-
-const messagingFiles = [
-  'src/components/SetupMessaging/index.js',
-  'src/components/SetupMessaging/SetupMessaging.jsx',
-  'src/components/SetupMessaging/useSetupMessaging.js',
 ]
 
 describe('generator-react-firebase:app', function() {
@@ -101,7 +93,7 @@ describe('generator-react-firebase:app', function() {
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles.concat(messagingFiles))
+          checkForEachFile(projectFiles)
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
@@ -129,7 +121,7 @@ describe('generator-react-firebase:app', function() {
       )
       describe('creates files for', () => {
         describe('project', () => {
-          checkForEachFile(projectFiles.concat(messagingFiles))
+          checkForEachFile(projectFiles)
         })
         describe('application', () => {
           checkForEachFile(srcFiles, 'src/')
