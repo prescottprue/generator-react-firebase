@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword
 } from 'firebase/auth'
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH, LIST_PATH } from 'constants/paths'

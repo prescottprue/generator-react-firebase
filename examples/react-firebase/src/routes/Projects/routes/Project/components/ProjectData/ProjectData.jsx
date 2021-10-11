@@ -1,14 +1,15 @@
 import React from 'react'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 import { useParams } from 'react-router-dom'
+import { ref } from 'firebase/database'
 import { useDatabaseObjectData, useDatabase } from 'reactfire'
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
 
 function ProjectData() {
   const { projectId } = useParams()
   const database = useDatabase()
-  const projectRef = database.ref(`${PROJECTS_COLLECTION}/${projectId}`)
+  const projectRef = ref(database, `${PROJECTS_COLLECTION}/${projectId}`)
 
   const { data: project } = useDatabaseObjectData(projectRef)
 

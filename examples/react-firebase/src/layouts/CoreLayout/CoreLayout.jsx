@@ -6,12 +6,12 @@ import Navbar from 'components/Navbar'
 
 function CoreLayout({ children }) {
   return (
-    <div>
+    <>
       <SuspenseWithPerf fallback={<NavbarWithoutAuth />} traceId="load-navbar">
         <Navbar />
       </SuspenseWithPerf>
       {children}
-    </div>
+    </>
   )
 }
 

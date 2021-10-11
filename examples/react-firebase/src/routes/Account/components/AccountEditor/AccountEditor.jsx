@@ -1,21 +1,32 @@
 import React from 'react'
+import { ref } from 'firebase/database'
 import { useDatabase, useDatabaseObjectData, useUser } from 'reactfire'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@mui/material/Grid'
+import { styled } from '@mui/material/styles'
 import { useNotifications } from 'modules/notification'
 import { USERS_COLLECTION } from 'constants/firebasePaths'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
-import styles from './AccountEditor.styles'
 
-const useStyles = makeStyles(styles)
+export const GridItem = styled(Grid)(({ theme }) => ({
+  textAlign: 'center',
+  marginTop: theme.spacing(5)
+}));
+
+export const CurrentAvatar = styled('img')(() => ({
+  width: '100%',
+  maxWidth: '13rem',
+  marginTop: '3rem',
+  height: 'auto',
+  cursor: 'pointer'
+}));
+
 
 function AccountEditor() {
-  const classes = useStyles()
   const { showSuccess, showError } = useNotifications()
   const database = useDatabase()
   const { data: auth } = useUser()
-  const accountRef = database.ref(`${USERS_COLLECTION}/${auth.uid}`)
+  const accountRef = ref(database, `${USERS_COLLECTION}/${auth.uid}`)
   const { data: profile } = useDatabaseObjectData(accountRef)
 
   async function updateAccount(newAccount) {
@@ -31,14 +42,13 @@ function AccountEditor() {
 
   return (
     <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
-        <img
-          className={classes.avatarCurrent}
-          src={(profile && profile.avatarUrl) || defaultUserImageUrl}
+      <GridItem item xs={12} md={6} lg={6}>
+        <CurrentAvatar
+          src={profile?.avatarUrl || defaultUserImageUrl}
           alt=""
         />
-      </Grid>
-      <Grid item xs={12} md={6} lg={6} className={classes.gridItem}>
+      </GridItem>
+      <Grid item xs={12} md={6} lg={6}>
         <AccountForm onSubmit={updateAccount} account={profile} />
       </Grid>
     </Grid>
