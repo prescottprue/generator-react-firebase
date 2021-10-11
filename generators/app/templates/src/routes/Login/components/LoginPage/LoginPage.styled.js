@@ -1,5 +1,5 @@
 import Paper from '@mui/material/Paper'
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 
 export const Root = styled('div')(({ theme }) => ({
   ...theme.flexColumnCenter,
@@ -8,7 +8,7 @@ export const Root = styled('div')(({ theme }) => ({
   width: '100%',
   fontWeight: 400,
   paddingTop: '1.5rem'
-}));
+}))
 
 export const Panel = styled(Paper)(({ theme }) => ({
   ...theme.flexColumnCenter,
@@ -16,24 +16,19 @@ export const Panel = styled(Paper)(({ theme }) => ({
   padding: '1.25rem',
   minWidth: '250px',
   minHeight: '220px'
-}));
+}))
 
 export const LoginProviderSection = styled('div')(() => ({
   marginTop: '1rem'
-}));
+}))
 
 export const OrLabel = styled('span')(() => ({
   marginTop: '1rem',
   marginBottom: '.5rem'
-}));
+}))
 
 export const SignUpSection = styled('div')(({ theme }) => ({
   ...theme.flexColumnCenter,
   justifyContent: 'center',
   marginTop: '2rem'
-}));
-
-export const SignUpLabel = styled('span')(({ theme }) => ({
-  fontSize: '1rem',
-  fontWeight: 'bold'
-}));
+}))

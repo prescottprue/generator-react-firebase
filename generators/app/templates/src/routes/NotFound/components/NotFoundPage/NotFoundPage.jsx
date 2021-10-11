@@ -1,18 +1,17 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
-import { makeStyles } from '@mui/material/styles'
-import styles from './NotFoundPage.styles'
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles(styles)
+export const Root = styled('div')(({ theme }) => ({
+  ...theme.flexColumnCenter
+}));
 
 function NotFoundPage() {
-  const classes = useStyles()
-
   return (
-    <div className={classes.root}>
+    <Root>
       <Typography variant="h2">Whoops! 404!</Typography>
-      <p>This page was not found.</p>
-    </div>
+      <Typography>This page was not found.</Typography>
+    </Root>
   )
 }
 

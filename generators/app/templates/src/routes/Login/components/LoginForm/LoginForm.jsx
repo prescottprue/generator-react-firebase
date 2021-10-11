@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
+import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { validateEmail } from 'utils/form'
-import { styled } from '@mui/material/styles';
 
 const Root = styled('form')(({ theme }) => ({
   ...theme.flexColumnCenter,

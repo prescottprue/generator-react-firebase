@@ -15,7 +15,7 @@ export const Panel = styled(Paper)(({ theme }) => ({
   justifyContent: 'center',
   padding: '1.25rem',
   minWidth: '250px',
-  minHeight: '220px'
+  minHeight: '270px'
 }))
 
 export const LoginProviderSection = styled('div')(() => ({
@@ -27,7 +27,7 @@ export const OrLabel = styled('span')(() => ({
   marginBottom: '.5rem'
 }))
 
-export const SignUpSection = styled('div')(({ theme }) => ({
+export const LoginSection = styled('div')(({ theme }) => ({
   ...theme.flexColumnCenter,
   justifyContent: 'center',
   marginTop: '2rem'

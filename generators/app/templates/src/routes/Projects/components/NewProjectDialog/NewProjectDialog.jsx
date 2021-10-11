@@ -31,7 +31,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
             label="Project Name"
             autoFocus
             inputProps={{
-              tabIndex: '1',
+              tabIndex: 1,
               ...register('name', {
                 required: true,
               })
@@ -41,14 +41,14 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onRequestClose} tabIndex="3">
+          <Button onClick={onRequestClose} tabIndex={3}>
             Cancel
           </Button>
           <Button
             type="submit"
             color="primary"
             disabled={isSubmitting || !isValid}
-            tabIndex="2">
+            tabIndex={2}>
             {isSubmitting ? 'Creating...' : 'Create'}
           </Button>
         </DialogActions>

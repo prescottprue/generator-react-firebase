@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'<% if (!includeRedux && includeFirestore) { %>
-import { getFirestore, collection, query, where, orderBy, serverTimestamp, documentId } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, query, where, orderBy, serverTimestamp, documentId } from 'firebase/firestore'
 import { useFirestore, useUser, useFirestoreCollectionData } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
-import { ref, query, orderByChild, equalTo } from 'firebase/database'
+import { ref, query, orderByChild, equalTo, push } from 'firebase/database'
 import { useDatabase, useUser, useDatabaseList } from 'reactfire'<% } %><% if (includeRedux && !includeFirestore) { %>
 import { useSelector } from 'react-redux'
 import {
@@ -23,13 +24,9 @@ import { useSelector } from 'react-redux'<% } %>
 import { useNotifications } from 'modules/notification'<% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
-import ProjectTile from '../ProjectTile'
+import ProjectCard from '../ProjectCard'
 import NewProjectDialog from '../NewProjectDialog'
-import {
-  Root,
-  Tiles,
-  EmptyMessage
-} from './ProjectsList.styled'
+import { Root, CardsList } from './ProjectsList.styled'
 
 function useProjectsList() {
   const { showSuccess, showError } = useNotifications()
@@ -91,48 +88,50 @@ function useProjectsList() {
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
-  function addProject(newInstance) {<% if (includeRedux) { %>
+  async function addProject(newInstance) {<% if (includeRedux) { %>
     if (!auth.uid) {
       return showError('You must be logged in to create a project')
     }<% } %>
-    return <% if (includeRedux && !includeFirestore) { %>firebase
-      .push(PROJECTS_COLLECTION, {
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: firebase.database.ServerValue.TIMESTAMP
+    try {
+      await <% if (includeRedux && !includeFirestore) { %>firebase
+        .push(PROJECTS_COLLECTION, {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: firebase.database.ServerValue.TIMESTAMP
       })<% } %><% if (includeRedux && includeFirestore) { %>firestore
-      .add(PROJECTS_COLLECTION, {
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: firestore.serverTimestamp()
-      })<% } %><% if (!includeRedux && includeFirestore) { %>firestore
-      .collection(PROJECTS_COLLECTION)
-      .add({
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: serverTimestamp()
-      })<% } %><% if (!includeRedux && !includeFirestore) { %>database
-      .ref(PROJECTS_COLLECTION)
-      .push({
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: ServerValue.TIMESTAMP
-      })<% } %>
-      .then(() => {
-        toggleDialog()
-        showSuccess('Project added successfully')
-      })
-      .catch((err) => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not add project')
-        return Promise.reject(err)
-      })
+        .add(PROJECTS_COLLECTION, {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: firestore.serverTimestamp()
+      })<% } %><% if (!includeRedux && includeFirestore) { %>addDoc(
+        collection(firestore, PROJECTS_COLLECTION),
+        {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: serverTimestamp()
+        }
+      )<% } %><% if (!includeRedux && !includeFirestore) { %>push(
+        ref(database, PROJECTS_COLLECTION),
+        {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: ServerValue.TIMESTAMP
+        }
+      )<% } %>
+      toggleDialog()
+      showSuccess('Project added successfully')
+    } catch(err) {
+      console.error('Error:', err) // eslint-disable-line no-console
+      showError(err.message || 'Could not add project')
+      throw err
+    }
   }
 
   return { projects, addProject, newDialogOpen, toggleDialog }
 }
 
 function ProjectsList() {
+  const theme = useTheme()
   const {
     projects,
     addProject,
@@ -155,53 +154,54 @@ function ProjectsList() {
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
-      <Tiles role="list">
+      <CardsList role="list">
         {<% if (!includeRedux && includeFirestore) { %>projects?.length ?
           projects.map((project, ind) => {
+            const { id: projectId, ...rest } = project || {}
             return (
-              <ProjectTile
+              <ProjectCard
                 key={project.id}
-                name={project?.name}
-                projectId={project.id}
+                projectId={projectId}
+                {...rest}
               />
             )
           })<% } %><% if (!includeRedux && !includeFirestore) { %>projects?.length ?
           projects.map(({ snapshot }, ind) => {
-            const project = snapshot.val()
+            const { key: projectId } = snapshot.val() || {}
             return (
-              <ProjectTile
-                key={snapshot.key}
-                name={project?.name}
-                projectId={snapshot.key}
+              <ProjectCard
+                key={projectId}
+                projectId={projectId}
+                {...rest}
               />
             )
           })<% } %><% if (includeRedux && !includeFirestore) { %>!isEmpty(projects) ?
           projects.map((project, ind) => {
+            const { key: projectId, ...rest } = project || {}
             return (
-              <ProjectTile
-                key={project.key}
-                name={project?.value.name}
+              <ProjectCard
+                key={projectId}
                 projectId={project.key}
+                {...rest}
               />
             )
           })<% } %><% if (includeRedux && includeFirestore) { %>!isEmpty(projects) ?
           projects.map((project, ind) => {
+            const { id: projectId, ...rest } = project || {}
             return (
-              <ProjectTile
-                key={project.id}
-                name={project?.name}
-                projectId={project.id}
+              <ProjectCard
+                key={projectId}
+                projectId={projectId}
+                {...rest}
               />
             )
           })<% } %>
         : (
-          <EmptyMessage>
-            <Typography>
-              No Projects Found. Click "Add Project" above to add one
-            </Typography>
-          </EmptyMessage>
+          <Typography sx={{ padding: theme.spacing(4) }} variant="h5">
+            No Projects Found. Click "Add Project" above to add one
+          </Typography>
         )}
-      </Tiles>
+      </CardsList>
     </Root>
   )
 }

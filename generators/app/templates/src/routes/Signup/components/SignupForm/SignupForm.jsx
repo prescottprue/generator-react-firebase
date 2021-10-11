@@ -1,13 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
+import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField'
-import { makeStyles } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import { validateEmail } from 'utils/form'
-import styles from './SignupForm.styles'
 
-const useStyles = makeStyles(styles)
+const Root = styled('form')(({ theme }) => ({
+  ...theme.flexColumnCenter,
+  justifyContent: 'flex-start',
+  flexGrow: 1,
+  height: '100%',
+  width: '100%',
+  margin: '.2rem',
+  fontSize: '1.4rem'
+}));
+
+const SubmitSection = styled('form')(({ theme }) => ({
+  ...theme.flexColumnCenter,
+  justifyContent: 'center',
+  flexGrow: 1,
+  textAlign: 'center',
+  padding: '1.25rem',
+  minWidth: '192px',
+  marginTop: '1.5rem'
+}));
 
 function SignupForm({ onSubmit }) {
   const classes = useStyles()
@@ -21,7 +38,7 @@ function SignupForm({ onSubmit }) {
   })
 
   return (
-    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+    <Root onSubmit={handleSubmit(onSubmit)}>
       <TextField
         placeholder="username"
         autoComplete="username"
@@ -60,7 +77,7 @@ function SignupForm({ onSubmit }) {
         error={!!errors.password}
         helperText={errors.password && 'Password is required'}
       />
-      <div className={classes.submit}>
+      <SubmitSection className={classes.submit}>
         <Button
           color="primary"
           type="submit"
@@ -68,8 +85,8 @@ function SignupForm({ onSubmit }) {
           disabled={isSubmitting || !isValid}>
           {isSubmitting ? 'Loading' : 'Signup'}
         </Button>
-      </div>
-    </form>
+      </SubmitSection>
+    </Root>
   )
 }
 

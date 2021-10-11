@@ -17,8 +17,7 @@ import {
   Panel,
   LoginProviderSection,
   OrLabel,
-  SignUpSection,
-  SignUpLabel
+  SignUpSection
 } from './LoginPage.styled'
 
 function LoginPage() {
@@ -60,7 +59,7 @@ function LoginPage() {
         <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
       </LoginProviderSection>
       <SignUpSection>
-        <SignUpLabel>Need an account?</SignUpLabel>
+        <Typography>Need an account?</Typography>
         <Button component={Link} to={SIGNUP_PATH}>
           Sign Up
         </Button>

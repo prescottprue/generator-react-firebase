@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
-import Paper from '@mui/material/Paper'<% if (includeRedux) { %>
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'<% if (includeRedux) { %>
 import { useFirebase } from 'react-redux-firebase'<% } %><% if (!includeRedux) { %>
 import { useAuth } from 'reactfire'
 import {
@@ -13,6 +14,13 @@ import { makeStyles } from '@mui/material/styles'
 import { LOGIN_PATH<% if (!includeRedux) { %>, LIST_PATH<% } %> } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
 import SignupForm from '../SignupForm'
+import {
+  Root,
+  Panel,
+  LoginProviderSection,
+  OrLabel,
+  LoginSection,
+} from './SignupPage.styled'
 
 function SignupPage() {
   const { showError } = useNotifications()<% if (includeRedux) { %>
@@ -64,21 +72,21 @@ function SignupPage() {
   }<% } %>
 
   return (
-    <div>
-      <Paper>
+    <Root>
+      <Panel>
         <SignupForm onSubmit={emailSignup} <% if (includeRedux) { %>onSubmitFail={onSubmitFail} <% } %>/>
-      </Paper>
-      <div>or</div>
-      <div>
+      </Panel>
+      <OrLabel>or</OrLabel>
+      <LoginProviderSection>
         <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
-      </div>
-      <div>
-        <span>Already have an account?</span>
+      </LoginProviderSection>
+      <LoginSection>
+        <Typography>Already have an account?</Typography>
         <Link to={LOGIN_PATH}>
           Login
         </Link>
-      </div>
-    </div>
+      </LoginSection>
+    </Root>
   )
 }
 

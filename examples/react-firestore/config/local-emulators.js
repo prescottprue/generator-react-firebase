@@ -16,7 +16,6 @@ const firestoreHost = `localhost:${emulators.firestore.port}`
 
 // Set emulator env vars so Firebase internals know that we're using the emulators
 process.env.FIRESTORE_EMULATOR_HOST = firestoreHost
-process.env.FIREBASE_DATABASE_EMULATOR_HOST = databaseHost
 
 const config = {
   cloudFunctionsUrl: `http://localhost:${emulators.functions.port}/${gcloudProject}/us-central1`,
@@ -24,9 +23,6 @@ const config = {
     authHost,
     firestoreHost,
     functionsHost: `http://localhost:${emulators.functions.port}`
-  },
-  firebase: {
-    databaseURL: `http://${databaseHost}?ns=${gcloudProject}`
   }
 }
 
