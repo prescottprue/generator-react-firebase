@@ -16,12 +16,23 @@ function FirebaseComponents({ children }) {
 
 
   // Enable Real Time Database emulator if environment variable is set
-  if (process.env.NODE_ENV !== 'production') {
+  if (config.emulators) {
+    const { authHost, <% if (includeFirestore) { %>firestoreHost<% } else { %>databaseHost<% } %> } = config.emulators
     // Set up emulators
-    connectAuthEmulator(auth, 'http://localhost:9099')<% if (includeFirestore) { %>
-    connectFirestoreEmulator(firestore, 'localhost', 8080)<% } %><% if (!includeFirestore) { %>
-    connectDatabaseEmulator(database, 'localhost', 9000)<% } %>
-    console.debug('Auth, and <% if (!includeFirestore) { %>Firestore<% } else { %>RTDB<% } %> emulators enabled') // eslint-disable-line no-console
+    if (config.emulators.authHost) {
+      connectAuthEmulator(auth, `http://${config.emulators.authHost}`)
+      console.debug('Auth emulator connection enabled') // eslint-disable-line no-console
+  }<% if (includeFirestore) { %>
+    if (config.emulators.firestoreHost) {
+      const [, port] = config.emulators.firestoreHost.split(':')
+      connectFirestoreEmulator(firestore, 'localhost', port)
+      console.debug('Firestore emulator connection enabled') // eslint-disable-line no-console
+  }<% } %><% if (!includeFirestore) { %>
+    if (config.emulators.databaseHost) {
+      const [, port] = config.emulators.databaseHost.split(':')
+      connectDatabaseEmulator(database, 'localhost', port)
+      console.debug('RTDB emulator connection enabled') // eslint-disable-line no-console
+    }<% } %>
   }
 
   return (

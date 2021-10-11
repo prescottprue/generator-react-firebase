@@ -11,8 +11,8 @@ if (missingEnvVars.length) {
 }
 
 const gcloudProject = process.env.GCLOUD_PROJECT
+const authHost = `localhost:${emulators.auth.port}`
 const firestoreHost = `localhost:${emulators.firestore.port}`
-const databaseHost = `localhost:${emulators.database.port}`
 
 // Set emulator env vars so Firebase internals know that we're using the emulators
 process.env.FIRESTORE_EMULATOR_HOST = firestoreHost
@@ -21,7 +21,7 @@ process.env.FIREBASE_DATABASE_EMULATOR_HOST = databaseHost
 const config = {
   cloudFunctionsUrl: `http://localhost:${emulators.functions.port}/${gcloudProject}/us-central1`,
   emulators: {
-    databaseHost,
+    authHost,
     firestoreHost,
     functionsHost: `http://localhost:${emulators.functions.port}`
   },

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 import { ACCOUNT_PATH } from 'constants/paths'
 
 function AccountMenu() {

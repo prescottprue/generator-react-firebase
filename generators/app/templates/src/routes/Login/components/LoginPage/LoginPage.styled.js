@@ -13,10 +13,9 @@ export const Root = styled('div')(({ theme }) => ({
 export const Panel = styled(Paper)(({ theme }) => ({
   ...theme.flexColumnCenter,
   justifyContent: 'center',
-  flexGrow: 1,
   padding: '1.25rem',
   minWidth: '250px',
-  minHeight: '270px'
+  minHeight: '220px'
 }));
 
 export const LoginProviderSection = styled('div')(() => ({

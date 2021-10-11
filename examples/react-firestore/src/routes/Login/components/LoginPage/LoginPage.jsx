@@ -6,8 +6,8 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword
 } from 'firebase/auth'
+import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
-import Box from '@mui/material/Box'
 import GoogleButton from 'react-google-button'
 import { SIGNUP_PATH, LIST_PATH } from 'constants/paths'
 import useNotifications from 'modules/notification/useNotifications'
@@ -52,30 +52,18 @@ function LoginPage() {
 
   return (
     <Root>
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          flexGrow: 1,
-          padding: '1.25rem',
-          width: '400px',
-          minHeight: '300px'
-        }}
-      >
-        <Paper>
-          <LoginForm onSubmit={emailLogin} />
-        </Paper>
-      </Box>
+      <Panel>
+        <LoginForm onSubmit={emailLogin} />
+      </Panel>
       <OrLabel>or</OrLabel>
       <LoginProviderSection>
         <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
       </LoginProviderSection>
       <SignUpSection>
         <SignUpLabel>Need an account?</SignUpLabel>
-        <Link sx={{ fontSize: '1.2rem' }} to={SIGNUP_PATH}>
+        <Button component={Link} to={SIGNUP_PATH}>
           Sign Up
-        </Link>
+        </Button>
       </SignUpSection>
     </Root>
   )

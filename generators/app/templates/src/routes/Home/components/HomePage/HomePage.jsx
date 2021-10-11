@@ -1,8 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
+import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles';
 import {
   ACCOUNT_PATH,
@@ -44,26 +46,26 @@ function Home() {
             </Typography>
             <div>
               <span>
-                <a
+                <Link
                   href={reactRouterUrl}
                   target="_blank"
                   rel="noopener noreferrer">
                   react-router
-                </a>
+                </Link>
               </span>
               <span> and </span><% if (includeRedux) { %>
-              <a
+              <Link
                 href="https://github.com/mjrussell/redux-auth-wrapper"
                 target="_blank"
                 rel="noopener noreferrer">
                 redux-auth-wrapper
-              </a><% } %><% if (!includeRedux) { %>
-              <a
-                href={`${reactfireUrl}/blob/master/docs/reference.md#AuthCheck`}
+              </Link><% } %><% if (!includeRedux) { %>
+              <Link
+                href={`${reactfireUrl}/blob/main/docs/reference/modules/auth.md#usesignincheck`}
                 target="_blank"
                 rel="noopener noreferrer">
-                reactfire's <pre>AuthCheck</pre>
-              </a><% } %>
+                reactfire's <pre>useSignInCheck</pre>
+              </Link><% } %>
             </div>
           </Section>
           <Section item xs>
@@ -76,10 +78,10 @@ function Home() {
             </Typography>
             <ul>
               <li>
-                <Link to={LIST_PATH}>Projects</Link>
+                <Button component={RouterLink} to={LIST_PATH}>Projects</Button>
               </li>
               <li>
-                <Link to={ACCOUNT_PATH}>Account</Link>
+                <Button component={RouterLink} to={ACCOUNT_PATH}>Account</Button>
               </li>
             </ul>
           </Section>
@@ -92,24 +94,24 @@ function Home() {
             </Typography>
             <div>
               <span>
-                <a
+                <Link
                   href="https://react-hook-form.com/"
                   target="_blank"
                   rel="noopener noreferrer">
                   react-hook-form
-                </a>
+                </Link>
               </span>
             </div>
             <span>The following routes use react-hook-form:</span>
             <ul>
               <li>
-                <Link to={LOGIN_PATH}>Login</Link>
+                <Button component={RouterLink} to={LOGIN_PATH}>Login</Button>
               </li>
               <li>
-                <Link to={SIGNUP_PATH}>Signup</Link>
+                <Button component={RouterLink} to={SIGNUP_PATH}>Signup</Button>
               </li>
               <li>
-                <Link to={ACCOUNT_PATH}>Account</Link>
+                <Button component={RouterLink} to={ACCOUNT_PATH}>Account</Button>
               </li>
             </ul>
           </Section>

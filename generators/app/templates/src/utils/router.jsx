@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'<% if (includeRedux) { %>
 import { useRouteMatch, Route } from 'react-router-dom'<% } %><% if (!includeRedux) { %>
 import PropTypes from 'prop-types'
 import { Route, Redirect, useRouteMatch } from 'react-router-dom'
-import { AuthCheck } from 'reactfire'
+import { useSigninCheck } from 'reactfire'
 import { LOGIN_PATH } from '../constants/paths'<% } %><% if (includeRedux) { %>
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
@@ -97,20 +97,21 @@ export function renderChildren(routes, parentProps) {
  * @returns {React.Component}
  */
 export function PrivateRoute({ children, path, ...rest }) {
-  return (
-    <AuthCheck
-      key={path}
-      fallback={
-        <Redirect
-          to={{
-            pathname: LOGIN_PATH,
-            state: { from: path }
-          }}
-        />
-      }>
-      <Route key={`Route-${path}`} path={path} {...rest} />
-    </AuthCheck>
-  )
+  // Get signed in status (can cause component to suspend)
+  const { status, data: signInCheckResult } = useSigninCheck()
+
+  // Redirect to login page if user is not logged in
+  if (signInCheckResult.signedIn !== true) {
+    return (
+      <Redirect
+        to={{
+          pathname: LOGIN_PATH,
+          state: { from: path }
+        }}
+      />
+    )
+  }
+  return <Route key={`Route-${path}`} path={path} {...rest} />
 }
 
 PrivateRoute.propTypes = {

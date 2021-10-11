@@ -7,8 +7,8 @@ import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import LightThemeIcon from '@material-ui/icons/BrightnessHigh'
-import DarkThemeIcon from '@material-ui/icons/Brightness4'
+import LightThemeIcon from '@mui/icons-material/BrightnessHigh'
+import DarkThemeIcon from '@mui/icons-material/Brightness4'
 import { ThemeContext } from 'modules/theme'
 
 function NavbarWithoutAuth({ children, brandPath = '/' }) {

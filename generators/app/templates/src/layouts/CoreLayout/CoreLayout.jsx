@@ -6,13 +6,13 @@ import Navbar from 'components/Navbar'
 
 function CoreLayout({ children }) {
   return (
-    <div><% if (!includeRedux) { %>
+    <><% if (!includeRedux) { %>
       <SuspenseWithPerf fallback={<NavbarWithoutAuth />} traceId="load-navbar">
         <Navbar />
       </SuspenseWithPerf><% } %><% if (includeRedux) { %>
       <Navbar /><% } %>
       {children}
-    </div>
+    </>
   )
 }
 

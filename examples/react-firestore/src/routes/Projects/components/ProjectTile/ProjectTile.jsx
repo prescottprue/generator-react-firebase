@@ -5,16 +5,17 @@ import { useFirestore } from 'reactfire'
 import Paper from '@mui/material/Paper'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import DeleteIcon from '@material-ui/icons/Delete'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { makeStyles } from '@mui/material/styles'
 import { LIST_PATH } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
-import styles from './ProjectTile.styles'
-
-const useStyles = makeStyles(styles)
+import {
+  Root,
+  TileContent,
+  ProjectName
+} from './ProjectTile.styled'
 
 function ProjectTile({ name, projectId, showDelete }) {
-  const classes = useStyles()
   const history = useHistory()
   const { showError, showSuccess } = useNotifications()
   const firestore = useFirestore()
@@ -36,11 +37,11 @@ function ProjectTile({ name, projectId, showDelete }) {
   }
 
   return (
-    <Paper className={classes.root} role="listitem">
-      <div className={classes.top}>
-        <span className={classes.name} onClick={goToProject}>
+    <Root role="listitem">
+      <TileContent>
+        <ProjectName onClick={goToProject}>
           {name || 'No Name'}
-        </span>
+        </ProjectName>
         {showDelete ? (
           <Tooltip title="Delete">
             <IconButton onClick={deleteProject}>
@@ -48,8 +49,8 @@ function ProjectTile({ name, projectId, showDelete }) {
             </IconButton>
           </Tooltip>
         ) : null}
-      </div>
-    </Paper>
+      </TileContent>
+    </Root>
   )
 }
 

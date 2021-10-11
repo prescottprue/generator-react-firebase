@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import ListSubheader from '@mui/material/ListSubheader'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 
 function ProviderData({ providerData }) {
   return (

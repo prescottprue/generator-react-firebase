@@ -6,7 +6,9 @@ import { useFirebaseConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %><% if (includeRedux && includeFirestore) { %>
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'<% } %><% if (!includeRedux && includeFirestore) { %>
+import { doc } from 'firebase/firestore'
 import { useFirestoreDocData, useFirestore } from 'reactfire'<% } %><% if (!includeRedux && !includeFirestore) { %>
+import { ref } from 'firebase/database'
 import { useDatabaseObjectData, useDatabase } from 'reactfire'<% } %><% if (includeRedux) { %>
 import LoadingSpinner from 'components/LoadingSpinner'<% } %>
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
@@ -43,11 +45,11 @@ function ProjectData() {
     return <LoadingSpinner />
   }<% } %><% if (!includeRedux && !includeFirestore) { %>
   const database = useDatabase()
-  const projectRef = database.ref(`${PROJECTS_COLLECTION}/${projectId}`)
+  const projectRef = ref(database, `${PROJECTS_COLLECTION}/${projectId}`)
 
   const { data: project } = useDatabaseObjectData(projectRef)<% } %><% if (!includeRedux && includeFirestore) { %>
   const firestore = useFirestore()
-  const projectRef = firestore.doc(`${PROJECTS_COLLECTION}/${projectId}`)
+  const projectRef = doc(firestore, PROJECTS_COLLECTION, projectId)
 
   const { data: project } = useFirestoreDocData(projectRef)<% } %>
 

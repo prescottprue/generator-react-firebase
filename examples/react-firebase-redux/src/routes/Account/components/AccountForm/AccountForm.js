@@ -1,18 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
+import { styled } from '@mui/material/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { validateEmail } from 'utils/form'
 import ProviderDataForm from '../ProviderDataForm'
-import styles from './AccountForm.styles'
 
-const useStyles = makeStyles(styles)
+export const Root = styled('form')(({ theme }) => ({
+  ...theme.flexColumnCenter,
+  justifyContent: 'flex-start',
+  width: '100%',
+  height: '100%'
+}));
+
+export const Content = styled('form')(() => ({
+  width: '100%',
+  marginBottom: '2rem'
+}));
 
 function AccountForm({ account, onSubmit }) {
-  const classes = useStyles()
   const {
     register,
     handleSubmit,
@@ -25,8 +33,8 @@ function AccountForm({ account, onSubmit }) {
   })
 
   return (
-    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
-      <div className={classes.fields}>
+    <Root onSubmit={handleSubmit(onSubmit)}>
+      <Content>
         <TextField
           name="displayName"
           label="Display Name"
@@ -54,7 +62,7 @@ function AccountForm({ account, onSubmit }) {
           inputRef={register}
           fullWidth
         />
-      </div>
+      </Content>
       {!!account && !!account.providerData && (
         <div>
           <Typography variant="h6">Linked Accounts</Typography>
@@ -68,7 +76,7 @@ function AccountForm({ account, onSubmit }) {
         disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Saving' : 'Save'}
       </Button>
-    </form>
+    </Root>
   )
 }
 
