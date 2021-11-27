@@ -1,4 +1,5 @@
-import * as admin from 'firebase-admin'
+<% if (!includeFirestore) { %>import { getDatabase } from 'firebase-admin/database'<% } %> <% if (includeFirestore) { %>
+import { getFirestore } from 'firebase-admin/getFirestore'<% } %>
 import * as functions from 'firebase-functions'<% if (!includeFirestore) { %>
 
 /**
@@ -16,7 +17,7 @@ async function indexUser(
   context: functions.EventContext
 ): Promise<null> {
   const { userId } = context.params || {}
-  const publicProfileRef = admin.database().ref(`users_public/${userId}`)
+  const publicProfileRef = getDatabase().ref(`users_public/${userId}`)
 
   // Display Name being deleted
   if (!change.after.val()) {
@@ -83,8 +84,7 @@ async function indexUser(
   context: functions.EventContext
 ): Promise<null> {
   const { userId } = context.params || {}
-  const publicProfileRef = admin
-    .firestore()
+  const publicProfileRef = getFirestore()
     .collection('users_public')
     .doc(userId)
 

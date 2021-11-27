@@ -39,6 +39,7 @@
     "chai": "^4.3.4",
     "cross-env": "^7.0.3",
     "firebase-functions-test": "^0.3.2",
+    "jest-node-exports-resolver": "^1.1.2",
     "mocha": "^9.0.2",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
