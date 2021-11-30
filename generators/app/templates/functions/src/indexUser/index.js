@@ -1,5 +1,4 @@
-<% if (!includeFirestore) { %>import { getDatabase } from 'firebase-admin/database'<% } %><% if (includeFirestore) { %>
-import { getFirestore } from 'firebase-admin/getFirestore'<% } %>
+<% if (!includeFirestore) { %>import { getDatabase } from 'firebase-admin/database'<% } %><% if (includeFirestore) { %>import { getFirestore } from 'firebase-admin/firestore'<% } %>
 import * as functions from 'firebase-functions'<% if (!includeFirestore) { %>
 
 /**
@@ -28,7 +27,6 @@ async function indexUser(change, context) {
     } catch(err) {
       console.error(
         `Error removing users_public value for userId: ${userId}`,
-        err
       )
       throw err
     }
@@ -78,9 +76,7 @@ export default functions.database
  */
 async function indexUser(change, context) {
   const { userId } = context.params || {}
-  const publicProfileRef = getFirestore()
-    .collection('users_public')
-    .doc(userId)
+  const publicProfileRef = getFirestore().doc(`users_public/${userId}`)
 
   // User Profile being deleted
   if (!change.after.exists) {

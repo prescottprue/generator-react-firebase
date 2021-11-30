@@ -7,14 +7,15 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['node', 'jsdoc', '@typescript-eslint'],<% } %><% if(!typescriptCloudFunctions) { %>
-  plugins: ['jsdoc'],
+  plugins: ['jsdoc'],<% } %>
   settings: {
     'import/resolver': {
-      node: {
+      node: {<% if(typescriptCloudFunctions) { %>
+        extensions: ['.js', '.ts'],<% } %>
         moduleDirectory: ['node_modules', '/']
       }
     }
-  },<% } %>
+  },
   rules: {
     'no-console': 0,
     'jsdoc/newline-after-description': 0,
@@ -33,9 +34,9 @@ module.exports = {
           'firebase-admin/project-management',
           'firebase-admin/remote-config',
           'firebase-admin/instanceId',
-          'firebase-admin/machine-learning',
-        ],
-      },
+          'firebase-admin/machine-learning'
+        ]
+      }
     ]<% if(typescriptCloudFunctions) { %>,
     'jsdoc/require-param-type': 0,
     'jsdoc/require-returns-type': 0,

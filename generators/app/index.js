@@ -122,36 +122,11 @@ const prompts = [
     store: true
   },
   {
-    name: 'firebaseKey',
-    message: 'Firebase apiKey',
-    required: true,
-    store: true
-  },
-  {
     name: 'firebaseProjectId',
     message: `Firebase projectId (Firebase Console > Authentication > Web Setup)`,
     required: true,
     /* istanbul ignore next: Tested in utils */
     validate: utils.validateFirebaseName,
-    store: true
-  },
-  {
-    name: 'messagingSenderId',
-    message: 'Firebase Messaging Sender ID',
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeMessaging'),
-    store: true
-  },
-  {
-    name: 'appId',
-    message: 'Firebase App Id',
-    store: true
-  },
-  {
-    name: 'measurementId',
-    message: 'Firebase Analytics Measurement ID (leave blank to skip)',
-    when: (currentAnswers) =>
-      checkAnswersForFeature(currentAnswers, 'includeAnalytics'),
     store: true
   },
   {
@@ -250,9 +225,6 @@ module.exports = class extends Generator {
       this.options.name || path.basename(process.cwd()) || 'react-firebase'
     this.initialData = {
       version: '0.0.1',
-      messagingSenderId: null,
-      measurementId: null,
-      appId: null,
       firebasePublicVapidKey: null,
       includeMessaging: false,
       includeSentry: false,
