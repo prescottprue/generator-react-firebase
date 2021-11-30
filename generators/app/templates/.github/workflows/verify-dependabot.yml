@@ -13,7 +13,7 @@ jobs:
   verify:
     name: Verify
     runs-on: ubuntu-latest
-    if: github.actor != 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]'
     timeout-minutes: 20
     steps:
       - name: Checkout Repo
@@ -74,7 +74,7 @@ jobs:
           echo "FIRESTORE_EMULATOR_HOST=localhost:$(cat firebase.json | jq .emulators.firestore.port)" >> $GITHUB_ENV
 
           # Run tests and generate coverage
-          <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> functions:test:cov <% if(useYarn) { %>-- <% } %>--project $GCLOUD_PROJECT # Run unit tests with coverage<% } %>
+          <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> functions:test:cov <% if(!useYarn) { %>-- <% } %>--project $GCLOUD_PROJECT # Run unit tests with coverage<% } %>
 
       - name: Build Functions
         run: |

@@ -49,7 +49,8 @@
     "chai": "^4.3.4",<% } %>
     "cross-env": "^7.0.3",<% if(includeFunctionsTests) { %>
     "firebase-functions-test": "^0.3.2",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
-    "jest": "^27.4.0",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "jest": "^27.4.0",
+    "jest-node-exports-resolver": "^1.1.2",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "mocha": "^9.0.2",
     "nyc": "^15.1.0",<% } %>
     "rimraf": "^3.0.2"<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>,

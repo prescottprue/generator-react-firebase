@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - prod
 
 concurrency:
   group: deploy-${{ github.ref }}

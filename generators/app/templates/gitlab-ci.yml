@@ -174,7 +174,7 @@ UI Tests:
   script:
      # Create environment specific test config including auth token
      # (saved to cypress.env.json) then run E2E Tests through Cypress
-    - npm run test:stage -- --record --key $CYPRESS_KEY
+    - npm run test:stage -- --record --key $CYPRESS_RECORD_KEY
 
 <% } %># Build Production Stage
 ## Build production version of bundle (has different config)

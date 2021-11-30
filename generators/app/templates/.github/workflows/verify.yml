@@ -61,6 +61,13 @@ jobs:
           echo "NODE_CONFIG_ENV=$branch" >> $GITHUB_ENV
           echo "ENV=$branch" >> $GITHUB_ENV
 
+          if [[ -v $SERVICE_ACCOUNT ]]; then
+            echo "SERVICE_ACCOUNT_EXISTS=true" >> $GITHUB_ENV
+          else
+            message="SERVICE_ACCOUNT secret must be set to deploy to preview channel - skipping"
+            echo "::warning title=SERVICE_ACCOUNT secret missing::$message"
+          fi
+
       - name: Generate Firebase SDK config for ${{ env.GCLOUD_PROJECT }}
         # Skip for forks (since they don't have access to secrets)
         if: github.event.pull_request.head.repo.full_name == github.repository
@@ -109,6 +116,7 @@ jobs:
 
       - name: Deploy to Firebase hosting preview channel
         uses: FirebaseExtended/action-hosting-deploy@v0
+        if: env.SERVICE_ACCOUNT_EXISTS
         id: preview-deploy
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
@@ -176,7 +184,15 @@ jobs:
           # Set variables to environment to be used in later steps
           echo "GCLOUD_PROJECT=$gcloudProject" >> $GITHUB_ENV
           echo "NODE_CONFIG_ENV=$branch" >> $GITHUB_ENV
+          echo "NODE_APP_INSTANCE=emulators" >> $GITHUB_ENV
           echo "ENV=$branch" >> $GITHUB_ENV
+          echo "FIREBASE_AUTH_EMULATOR_HOST=$(cat firebase.json | jq .emulators.auth.port)" >> $GITHUB_ENV
+          echo "FIREBASE_DATABASE_EMULATOR_HOST=$(cat firebase.json | jq .emulators.database.port)" >> $GITHUB_ENV
+          echo "FIRESTORE_EMULATOR_HOST=localhost:$(cat firebase.json | jq .emulators.firestore.port)" >> $GITHUB_ENV
+
+          if [[ -v $SERVICE_ACCOUNT ]]; then
+            echo "RECORD_KEY_EXISTS=true" >> $GITHUB_ENV
+          fi
 
       - name: Generate Firebase SDK config for ${{ env.GCLOUD_PROJECT }}
         env:
@@ -196,14 +212,15 @@ jobs:
       - name: Cypress Run
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          record: ${{ env.RECORD_KEY_EXISTS }}
           start: <% if(useYarn) { %>yarn<% } else { %>npm run<% } %> emulators:hosting<% if(!useYarn) { %> --<% } %> --project ${{ env.GCLOUD_PROJECT }}
           wait-on: ${{ env.CYPRESS_BASE_URL }}
           # wait for 2 minutes for the server to respond
           wait-on-timeout: 120
         env:
           # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
-          GITHUB_REF: ${{ github.ref }}<% } %>
+          GITHUB_REF: ${{ github.ref }}
+          CYPRESS_BASE_URL: http://localhost:3000/<% } %>
