@@ -186,6 +186,7 @@ jobs:
           echo "NODE_CONFIG_ENV=$branch" >> $GITHUB_ENV
           echo "NODE_APP_INSTANCE=emulators" >> $GITHUB_ENV
           echo "ENV=$branch" >> $GITHUB_ENV
+          echo "CYPRESS_BASE_URL=$(cat firebase.json | jq .emulators.hosting.port)" >> $GITHUB_ENV
           echo "FIREBASE_AUTH_EMULATOR_HOST=$(cat firebase.json | jq .emulators.auth.port)" >> $GITHUB_ENV
           echo "FIREBASE_DATABASE_EMULATOR_HOST=$(cat firebase.json | jq .emulators.database.port)" >> $GITHUB_ENV
           echo "FIRESTORE_EMULATOR_HOST=localhost:$(cat firebase.json | jq .emulators.firestore.port)" >> $GITHUB_ENV
@@ -222,5 +223,4 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
           GITHUB_HEAD_REF: ${{ github.head_ref }}
-          GITHUB_REF: ${{ github.ref }}
-          CYPRESS_BASE_URL: http://localhost:3000/<% } %>
+          GITHUB_REF: ${{ github.ref }}<% } %>
