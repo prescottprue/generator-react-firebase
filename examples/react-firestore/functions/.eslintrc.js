@@ -1,7 +1,8 @@
 module.exports = {
   extends: [
     '../.eslintrc.js',
-    'plugin:jsdoc/recommended',
+    // TODO: Uncomment when "Cannot read property 'nodejsScope' of undefined" is addressed
+    // 'plugin:jsdoc/recommended',
     'plugin:@typescript-eslint/recommended'
   ],
   parser: '@typescript-eslint/parser',

@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
+import { useTheme } from '@mui/material/styles';
+import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+import { ref, query, orderByChild, equalTo, push } from 'firebase/database'
 import { useDatabase, useUser, useDatabaseList } from 'reactfire'
 import { useNotifications } from 'modules/notification'
 import { PROJECTS_COLLECTION } from 'constants/firebasePaths'
-import ProjectTile from '../ProjectTile'
+import ProjectCard from '../ProjectCard'
 import NewProjectDialog from '../NewProjectDialog'
-import styles from './ProjectsList.styles'
-
-const useStyles = makeStyles(styles)
+import { Root, CardsList } from './ProjectsList.styled'
 
 function useProjectsList() {
   const { showSuccess, showError } = useNotifications()
@@ -19,42 +18,40 @@ function useProjectsList() {
   // Create a ref for projects owned by the current user
   const database = useDatabase()
   const { ServerValue } = useDatabase
-  const projectsRef = database
-    .ref(PROJECTS_COLLECTION)
-    .orderByChild('createdBy')
-    .equalTo(auth?.uid)
+  const projectsRef = ref(database, PROJECTS_COLLECTION)
+  const projectsQuery = query(projectsRef, orderByChild('createdBy'), equalTo(auth?.uid))
 
   // Query for projects (loading handled by Suspense in ProjectsList)
-  const { data: projects } = useDatabaseList(projectsRef)
+  const { data: projects } = useDatabaseList(projectsQuery)
 
   // New dialog
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
-  function addProject(newInstance) {
-    return database
-      .ref(PROJECTS_COLLECTION)
-      .push({
-        ...newInstance,
-        createdBy: auth.uid,
-        createdAt: ServerValue.TIMESTAMP
-      })
-      .then(() => {
-        toggleDialog()
-        showSuccess('Project added successfully')
-      })
-      .catch((err) => {
-        console.error('Error:', err) // eslint-disable-line no-console
-        showError(err.message || 'Could not add project')
-        return Promise.reject(err)
-      })
+  async function addProject(newInstance) {
+    try {
+      await push(
+        ref(database, PROJECTS_COLLECTION),
+        {
+          ...newInstance,
+          createdBy: auth.uid,
+          createdAt: ServerValue.TIMESTAMP
+        }
+      )
+      toggleDialog()
+      showSuccess('Project added successfully')
+    } catch(err) {
+      console.error('Error:', err) // eslint-disable-line no-console
+      showError(err.message || 'Could not add project')
+      throw err
+    }
   }
 
   return { projects, addProject, newDialogOpen, toggleDialog }
 }
 
 function ProjectsList() {
-  const classes = useStyles()
+  const theme = useTheme()
   const {
     projects,
     addProject,
@@ -63,7 +60,7 @@ function ProjectsList() {
   } = useProjectsList()
 
   return (
-    <div className={classes.root}>
+    <Root>
       <Button variant="contained" onClick={toggleDialog}>
         Add Project
       </Button>
@@ -72,27 +69,25 @@ function ProjectsList() {
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
-      <div className={classes.tiles} role="list">
+      <CardsList role="list">
         {projects?.length ?
           projects.map(({ snapshot }, ind) => {
-            const project = snapshot.val()
+            const { key: projectId } = snapshot.val() || {}
             return (
-              <ProjectTile
-                key={snapshot.key}
-                name={project?.name}
-                projectId={snapshot.key}
+              <ProjectCard
+                key={projectId}
+                projectId={projectId}
+                {...rest}
               />
             )
           })
         : (
-          <Paper className={classes.empty}>
-            <Typography>
-              No Projects Found. Click "Add Project" above to add one
-            </Typography>
-          </Paper>
+          <Typography sx={{ padding: theme.spacing(4) }} variant="h5">
+            No Projects Found. Click "Add Project" above to add one
+          </Typography>
         )}
-      </div>
-    </div>
+      </CardsList>
+    </Root>
   )
 }
 

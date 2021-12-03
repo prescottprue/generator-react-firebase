@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin'
+<% if (!includeFirestore) { %>import { getDatabase, Snapshot } from 'firebase-admin/database'<% } %><% if (includeFirestore) { %>import { getFirestore, DocumentSnapshot } from 'firebase-admin/firestore'<% } %>
 import * as functions from 'firebase-functions'<% if (!includeFirestore) { %>
 
 /**
@@ -12,11 +12,11 @@ import * as functions from 'firebase-functions'<% if (!includeFirestore) { %>
  * @returns Resolves with user's profile
  */
 async function indexUser(
-  change: functions.Change<admin.database.Snapshot>,
+  change: functions.Change<Snapshot>,
   context: functions.EventContext
 ): Promise<null> {
   const { userId } = context.params || {}
-  const publicProfileRef = admin.database().ref(`users_public/${userId}`)
+  const publicProfileRef = getDatabase().ref(`users_public/${userId}`)
 
   // Display Name being deleted
   if (!change.after.val()) {
@@ -79,14 +79,11 @@ export default functions.database
  * @returns Resolves with user's profile
  */
 async function indexUser(
-  change: functions.Change<admin.firestore.DocumentSnapshot>,
+  change: functions.Change<DocumentSnapshot>,
   context: functions.EventContext
 ): Promise<null> {
   const { userId } = context.params || {}
-  const publicProfileRef = admin
-    .firestore()
-    .collection('users_public')
-    .doc(userId)
+  const publicProfileRef = getFirestore().doc(`users_public/${userId}`)
 
   // User Profile being deleted
   if (!change.after.exists) {

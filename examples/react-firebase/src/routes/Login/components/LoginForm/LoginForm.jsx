@@ -1,16 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
-import TextField from '@material-ui/core/TextField'
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 import { validateEmail } from 'utils/form'
-import styles from './LoginForm.styles'
 
-const useStyles = makeStyles(styles)
+const Root = styled('form')(({ theme }) => ({
+  ...theme.flexColumnCenter,
+  justifyContent: 'flex-start',
+  flexGrow: 1,
+  height: '100%',
+  width: '100%',
+  margin: '.2rem'
+}));
+
+const SubmitSection = styled('div')(({ theme }) => ({
+  ...theme.flexColumnCenter,
+  justifyContent: 'center',
+  flexGrow: 1,
+  textAlign: 'center',
+  padding: '1.25rem',
+  minWidth: '192px',
+  marginTop: '1.5rem'
+}));
 
 function LoginForm({ onSubmit }) {
-  const classes = useStyles()
   const {
     register,
     handleSubmit,
@@ -21,7 +36,7 @@ function LoginForm({ onSubmit }) {
   })
 
   return (
-    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+    <Root onSubmit={handleSubmit(onSubmit)}>
       <TextField
         type="email"
         placeholder="email"
@@ -52,7 +67,7 @@ function LoginForm({ onSubmit }) {
         error={!!errors.password}
         helperText={errors.password && 'Password is required'}
       />
-      <div className={classes.submit}>
+      <SubmitSection>
         <Button
           color="primary"
           type="submit"
@@ -60,8 +75,8 @@ function LoginForm({ onSubmit }) {
           disabled={isSubmitting || !isValid}>
           {isSubmitting ? 'Loading' : 'Login'}
         </Button>
-      </div>
-    </form>
+      </SubmitSection>
+    </Root>
   )
 }
 

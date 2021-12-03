@@ -24,6 +24,12 @@
 - node `^14.15.0`
 - npm `^6.0.0`
 
+<% if (includeCI && ciProvider === 'githubActions') { %>## Repo Configuration
+1. Generate a [Service Account key within the Firebase Console](https://console.firebase.google.com/project/<%= firebaseProjectId %>/settings/serviceaccounts/adminsdk)
+1. Set `SERVICE_ACCOUNT` secret to the contents of the service account file within Github Actions secrets - this is required for deploying to preview channel
+1. Remove this section from the README - this setup only needs to be done once by the repo owner
+
+<% } %>
 ## Before Starting
 1. Make sure you have `firebase-tools` installed an you are logged in (`firebase login`)
 1. Create a project within the Firebase Console (or have one prepared to use)
@@ -187,7 +193,7 @@ Cypress is used to write and run UI tests which live in the `cypress` folder. [`
 1. Run yarn `test:ui:emulate`
 1. Visit "Runs" tab of Cypress Test Runner
 1. Setup a Project for recording (will save setting to `cypress.json`)
-1. Save Record key as `CYPRESS_KEY` secret within CI settings
+1. Save Record key as `CYPRESS_RECORD_KEY` secret within CI settings
 
 #### Running Hosted Tests 
 1. Visit the [Firebase Console](https://console.firebase.google.com/)

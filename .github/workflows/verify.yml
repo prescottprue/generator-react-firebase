@@ -2,6 +2,10 @@ name: Verify
 
 on: [pull_request]
 
+concurrency:
+  group: verify-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
@@ -10,28 +14,14 @@ jobs:
       matrix:
         node-version: [12.x, 14.x]
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
-
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.4.1
+      - name: Use Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.5.0
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      # Setup dependency caching
-      - uses: actions/cache@v2.1.6
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          cache: 'yarn'
 
       - name: Install Dependencies
         env:

@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
-import TextField from '@material-ui/core/TextField'
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import styles from './NewProjectDialog.styles'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles(styles)
+export const NewProjectForm = styled('form')(({ theme }) => ({
+  padding: theme.spacing(2)
+}));
 
 function NewProjectDialog({ onSubmit, open, onRequestClose }) {
-  const classes = useStyles()
   const {
     register,
     handleSubmit,
@@ -23,7 +23,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
   return (
     <Dialog open={open} onClose={onRequestClose}>
       <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
-      <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+      <NewProjectForm onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <TextField
             error={!!errors.name}
@@ -31,7 +31,7 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
             label="Project Name"
             autoFocus
             inputProps={{
-              tabIndex: '1',
+              tabIndex: 1,
               ...register('name', {
                 required: true,
               })
@@ -41,18 +41,18 @@ function NewProjectDialog({ onSubmit, open, onRequestClose }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onRequestClose} tabIndex="3">
+          <Button onClick={onRequestClose} tabIndex={3}>
             Cancel
           </Button>
           <Button
             type="submit"
             color="primary"
             disabled={isSubmitting || !isValid}
-            tabIndex="2">
+            tabIndex={2}>
             {isSubmitting ? 'Creating...' : 'Create'}
           </Button>
         </DialogActions>
-      </form>
+      </NewProjectForm>
     </Dialog>
   )
 }

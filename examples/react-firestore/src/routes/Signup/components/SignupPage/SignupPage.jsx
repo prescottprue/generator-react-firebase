@@ -1,26 +1,34 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
 import { useAuth } from 'reactfire'
-import { makeStyles } from '@material-ui/core/styles'
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword
+} from 'firebase/auth'
+import { makeStyles } from '@mui/material/styles'
 import { LOGIN_PATH, LIST_PATH } from 'constants/paths'
 import { useNotifications } from 'modules/notification'
 import SignupForm from '../SignupForm'
-import styles from './SignupPage.styles'
-
-const useStyles = makeStyles(styles)
+import {
+  Root,
+  Panel,
+  LoginProviderSection,
+  OrLabel,
+  LoginSection,
+} from './SignupPage.styled'
 
 function SignupPage() {
-  const classes = useStyles()
   const { showError } = useNotifications()
   const auth = useAuth()
-  const { GoogleAuthProvider } = useAuth
 
   async function googleLogin() {
     const provider = new GoogleAuthProvider()
     try {
-      await auth.signInWithPopup(provider)
+      await signInWithPopup(auth, provider)
       // NOTE: window.location used since history.push/replace does not always work
       window.location = LIST_PATH
     } catch (err) {
@@ -30,7 +38,8 @@ function SignupPage() {
 
   async function emailSignup(formValues) {
     try {
-      await auth.createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
+        auth,
         formValues.email,
         formValues.password
       )
@@ -42,21 +51,21 @@ function SignupPage() {
   }
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.panel}>
+    <Root>
+      <Panel>
         <SignupForm onSubmit={emailSignup} />
-      </Paper>
-      <div className={classes.orLabel}>or</div>
-      <div className={classes.providers}>
+      </Panel>
+      <OrLabel>or</OrLabel>
+      <LoginProviderSection>
         <GoogleButton onClick={googleLogin} data-test="google-auth-button" />
-      </div>
-      <div className={classes.login}>
-        <span className={classes.loginLabel}>Already have an account?</span>
-        <Link className={classes.loginLink} to={LOGIN_PATH}>
+      </LoginProviderSection>
+      <LoginSection>
+        <Typography>Already have an account?</Typography>
+        <Link to={LOGIN_PATH}>
           Login
         </Link>
-      </div>
-    </div>
+      </LoginSection>
+    </Root>
   )
 }
 

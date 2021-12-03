@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles'
 import ThemeSettings from '../../theme'
 import ThemeContext from './ThemeContext'
 
@@ -20,7 +20,7 @@ export default function ThemeProvider({ children }) {
         ...ThemeSettings,
         palette: {
           ...ThemeSettings.palette,
-          type: isDarkMode ? 'dark' : 'light'
+          mode: isDarkMode ? 'dark' : 'light'
         }
       }),
     [isDarkMode]

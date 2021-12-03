@@ -1,18 +1,20 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'
 import { useNotifications } from 'modules/notification'
 import defaultUserImageUrl from 'static/User.png'
 import AccountForm from '../AccountForm'
-import styles from './AccountEditor.styles'
 
-const useStyles = makeStyles(styles)
+export const TileContent = styled(Paper)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '100%'
+}));
 
 function AccountEditor() {
-  const classes = useStyles()
   const { showSuccess, showError } = useNotifications()
   const firebase = useFirebase()
 

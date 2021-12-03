@@ -1,10 +1,10 @@
 const glob = require('glob')
 const path = require('path')
-const admin = require('firebase-admin')
+const { initializeApp } = require('firebase-admin/app')
 
 // Initialize firebase-admin so it is available within functions
 try {
-  admin.initializeApp()
+  initializeApp()
 } catch (err) {
   /* istanbul ignore next: not called in tests */
   console.error(

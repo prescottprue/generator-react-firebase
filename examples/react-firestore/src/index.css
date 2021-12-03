@@ -7,8 +7,6 @@
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: #F2F2F2;
-    font-family: 'Roboto', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   a {
     text-decoration: none !important;
@@ -18,6 +16,4 @@
   *:after {
     box-sizing: inherit;
   }
-  /* [type=button]{
-    -webkit-appearance: none !important;
-  } */
+

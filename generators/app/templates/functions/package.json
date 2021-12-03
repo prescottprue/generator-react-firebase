@@ -25,18 +25,19 @@
     "test:watch": "<% if(useYarn) { %>yarn<% } else { %>npm<% } %> test <% if(!useYarn) { %>-- <% } %>--watch"<% } %>
   },
   "dependencies": {
-    "firebase-admin": "^9.11.1",
-    "firebase-functions": "^3.15.5",
+    "firebase-admin": "^10.0.0",
+    "firebase-functions": "^3.16.0",
     "glob": "^7.1.7"<% if(typescriptCloudFunctions) { %>,
     "tslib": "^2.3.1"<% } %>
   },
   "devDependencies": {<% if(includeFunctionsTests) { %>
-    "@firebase/rules-unit-testing": "^1.3.15",<% } %><% if(typescriptCloudFunctions) { %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "@firebase/rules-unit-testing": "^1.3.15",<% } %><% if(typescriptCloudFunctions) { %>
+    "@tsconfig/node14": "^1.0.1",<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chai": "^4.2.21",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
     "@types/jest": "^27.0.1",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "@types/mocha": "^8.2.3",<% } %>
-    "@types/node": "^16.9.1",<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "@types/node": "^16.11.11",<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "@types/sinon": "^10.0.2",
     "@types/sinon-chai": "^3.2.5",<% } %><% } %><% if(!typescriptCloudFunctions) { %>
     "@babel/cli": "^7.14.5",
@@ -48,13 +49,14 @@
     "chai": "^4.3.4",<% } %>
     "cross-env": "^7.0.3",<% if(includeFunctionsTests) { %>
     "firebase-functions-test": "^0.3.2",<% } %><% if(includeFunctionsTests && functionsTestTool === 'jest') { %>
-    "jest": "^27.2.0",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
+    "jest": "^27.4.3",
+    "jest-node-exports-resolver": "^1.1.2",<% } %><% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>
     "mocha": "^9.0.2",
     "nyc": "^15.1.0",<% } %>
     "rimraf": "^3.0.2"<% if(includeFunctionsTests && functionsTestTool === 'mocha') { %>,
     "sinon": "^10.0.0"<% } %><% if(typescriptCloudFunctions && includeFunctionsTests && functionsTestTool === 'jest') { %>,
-    "ts-jest": "^27.0.5"<% } %><% if(typescriptCloudFunctions) { %>,
-    "ts-node": "^10.1.0",
+    "ts-jest": "^27.0.7"<% } %><% if(typescriptCloudFunctions) { %>,
+    "ts-node": "^10.4.0",
     "typescript": "^4.4.3"<% } %>
   }
 }

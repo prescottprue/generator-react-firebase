@@ -4,54 +4,42 @@ import { FirebaseAppProvider<% if (!includeRedux) { %>, SuspenseWithPerf<% } %> 
 import { BrowserRouter as Router } from 'react-router-dom'
 import config from 'config'<% if (includeRedux) { %>
 import { Provider } from 'react-redux'
-import firebase from 'firebase/app'
+import { getAuth, connectAuthEmulator }  from 'firebase/auth'
+import { getFirestore, connectFirestoreEmulator }  from 'firebase/firestore'
+import { getDatabase, connectDatabaseEmulator }  from 'firebase/database'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'<% } %><% if (includeRedux && includeFirestore) { %>
 import { createFirestoreInstance } from 'redux-firestore'<% } %>
 import NotificationsProvider from 'modules/notification/NotificationsProvider'
-import ThemeProvider from 'modules/theme/ThemeProvider'<% if (includeMessaging) { %>
-import SetupMessaging from 'components/SetupMessaging'<% } %><% if (!includeRedux && includeFirestore) { %>
-import SetupFirestore from 'components/SetupFirestore'<% } %><% if (includeAnalytics) { %>
-import SetupAnalytics from 'components/SetupAnalytics'<% } %><% if (includeRedux) { %>
+import ThemeProvider from 'modules/theme/ThemeProvider'
+import { StyledEngineProvider } from '@mui/material/styles';
+import FirebaseComponents from 'components/FirebaseComponents'<% if (includeRedux) { %>
 import { defaultRRFConfig } from './defaultConfig'<% } %><% if (includeRedux) { %>
-import initializeFirebase from './initializeFirebase'<% } %><% if (!includeRedux) { %>
-import createRoutes from './routes'<% } %>
-
-<% if (includeRedux) { %>initializeFirebase()
-<% } %><% if (!includeRedux) { %>// Enable Real Time Database emulator if environment variable is set
-if (config.firebase.databaseURL.includes('localhost')) {
-  console.debug(`RTDB emulator enabled: ${config.firebase.databaseURL}`) // eslint-disable-line no-console
-}
+import initializeFirebase from './initializeFirebase'<% } %>
+import { createTheme } from '@mui/material/styles';
+import theme from './theme'<% if (!includeRedux) { %>
+import createRoutes from './routes'<% } %><% if (includeRedux) { %>
+initializeFirebase()<% } %><% if (!includeRedux) { %>
 
 function App() {
   const routes = createRoutes()
+
   return (
-    <ThemeProvider>
-      <FirebaseAppProvider
-        firebaseConfig={config.firebase}
-        suspense
-        initPerformance>
-        <NotificationsProvider><% if (includeMessaging || includeFirestore || includeAnalytics) { %>
-          <>
-            <Router>{routes}</Router><% if (includeFirestore) { %>
-            <SuspenseWithPerf traceId="setup-firestore">
-              <SetupFirestore />
-            </SuspenseWithPerf><% } %><% if (includeMessaging) { %>
-            <SuspenseWithPerf traceId="setup-messaging">
-              <SetupMessaging />
-            </SuspenseWithPerf><% } %><% if (includeAnalytics) { %>
-            <SuspenseWithPerf traceId="setup-analytics">
-              <SetupAnalytics />
-            </SuspenseWithPerf><% } %>
-          </><% } %><% if (!includeMessaging && !includeFirestore && !includeAnalytics) { %>
-          <Router>{routes}</Router><% } %>
-        </NotificationsProvider>
-      </FirebaseAppProvider>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider>
+        <FirebaseAppProvider firebaseConfig={config.firebase} suspense>
+          <FirebaseComponents>
+            <NotificationsProvider>
+              <Router>{routes}</Router>
+            </NotificationsProvider>
+          </FirebaseComponents>
+        </FirebaseAppProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }<% } else { %>
 function App({ routes, store }) {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={createTheme(theme)}>
       <Provider store={store}>
         <NotificationsProvider>
           <ReactReduxFirebaseProvider

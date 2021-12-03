@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect, useRouteMatch } from 'react-router-dom'
-import { AuthCheck } from 'reactfire'
+import { useSigninCheck } from 'reactfire'
 import { LOGIN_PATH } from '../constants/paths'
 import LoadingSpinner from '../components/LoadingSpinner'
 
@@ -13,20 +13,21 @@ import LoadingSpinner from '../components/LoadingSpinner'
  * @returns {React.Component}
  */
 export function PrivateRoute({ children, path, ...rest }) {
-  return (
-    <AuthCheck
-      key={path}
-      fallback={
-        <Redirect
-          to={{
-            pathname: LOGIN_PATH,
-            state: { from: path }
-          }}
-        />
-      }>
-      <Route key={`Route-${path}`} path={path} {...rest} />
-    </AuthCheck>
-  )
+  // Get signed in status (can cause component to suspend)
+  const { status, data: signInCheckResult } = useSigninCheck()
+
+  // Redirect to login page if user is not logged in
+  if (signInCheckResult.signedIn !== true) {
+    return (
+      <Redirect
+        to={{
+          pathname: LOGIN_PATH,
+          state: { from: path }
+        }}
+      />
+    )
+  }
+  return <Route key={`Route-${path}`} path={path} {...rest} />
 }
 
 PrivateRoute.propTypes = {
