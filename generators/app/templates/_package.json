@@ -72,7 +72,7 @@
     "config": "^3.3.6",
     "cross-env": "^7.0.3",<% if (includeUiTests) { %>
     "cypress": "^9.1.0",
-    "cypress-firebase": "^2.1.1",<% } %>
+    "cypress-firebase": "^2.2.0",<% } %>
     "env-cmd": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",

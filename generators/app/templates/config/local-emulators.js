@@ -18,6 +18,7 @@ const firestoreHost = `localhost:${emulators.firestore.port}`<% } %>
 // Set emulator env vars so Firebase internals know that we're using the emulators<% if (includeFirestore) { %>
 process.env.FIRESTORE_EMULATOR_HOST = firestoreHost<% } %>
 process.env.FIREBASE_DATABASE_EMULATOR_HOST = databaseHost
+process.env.FIREBASE_AUTH_EMULATOR_HOST = authHost
 
 const config = {
   cloudFunctionsUrl: `http://localhost:${emulators.functions.port}/${gcloudProject}/us-central1`,
