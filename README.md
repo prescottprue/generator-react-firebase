@@ -9,6 +9,7 @@
 [![Code Coverage][coverage-image]][coverage-url]
 [![License][license-image]][license-url]
 [![Code Style][code-style-image]][code-style-url]
+[![semantic-release][semantic-release-image]][semantic-release-url]
 
 ## Installation
 
@@ -48,7 +49,7 @@ npm install -g yo generator-react-firebase
 
 ## Features
 
-- React + React Dom `^16.13.0` (has hooks)
+- React + React Dom `^17.0.0` (has hooks)
 - Material-UI application styling including Navbar
 - Full Authentication with validation (through Email, Google or Github)
 - Async route loading (using `React.lazy` and `React.Suspense`)
@@ -83,10 +84,10 @@ _When opting into redux_
 - [redux-auth-wrapper](https://github.com/mjrussell/redux-auth-wrapper) - Easily create HOCs for route/component protection based on auth state
 
 ## Screenshots
+
 ![image](https://user-images.githubusercontent.com/2992224/93631046-f486e000-f9b8-11ea-9eed-9e150dd42bdb.png)
 
 ![image](https://user-images.githubusercontent.com/2992224/93629646-a07afc00-f9b6-11ea-873b-9ca777939546.png)
-
 
 ## Sub generators
 
@@ -586,6 +587,8 @@ MIT © [Prescott Prue](http://prue.io)
 [license-url]: https://github.com/prescottprue/generator-react-firebase/blob/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [code-style-url]: http://standardjs.com/
+[semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square
+[semantic-release-url]: https://github.com/semantic-release/semantic-release
 [gitter-image]: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
 [gitter-url]: https://gitter.im/prescottprue/generator-react-firebase
 [firebase-ci-url]: https://github.com/prescottprue/firebase-ci

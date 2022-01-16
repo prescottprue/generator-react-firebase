@@ -17,18 +17,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
 
       - name: Use Node ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v2.5.0
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: https://registry.npmjs.org/
-          cache: 'yarn'
+          cache: "yarn"
+
+      - name: Configure package manager
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set '//registry.npmjs.org/:_authToken' ${{ env.NPM_TOKEN }}
+          npm whoami
 
       - name: Install Dependencies
-        env:
-          HUSKY_SKIP_INSTALL: 1 # Skip install of Husky
         run: yarn install --frozen-lockfile
 
       - name: Check Lint
@@ -40,48 +44,20 @@ jobs:
           git config --global user.email "test@test.com"
           yarn test:cov
 
-      - name: Check version changes
-        uses: EndBug/version-check@v2
-        id: check
-
-      - name: Version update detected
-        if: steps.check.outputs.changed == 'true'
-        run: 'echo "Version change found! New version: ${{ steps.check.outputs.version }} (${{ steps.check.outputs.type }})"'
-  
-      - name: Publish
-        if: steps.check.outputs.changed == 'true'
-        id: publish
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_REF: ${{ github.ref }}
-        run: |
-          npm publish $([ "$GITHUB_REF" == 'refs/heads/next' ] && echo '--tag next')
-          echo "::set-output name=version::$(cat package.json | jq -r '.version')"
-
-      # - name: Semantic Release
-      #   id: semantic
-      #   uses: cycjimmy/semantic-release-action@v2
-      #   with:
-      #     semantic_version: ^17.0.4
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Upload Code Coverage (Codecov)
-        if: steps.check.outputs.changed == 'true' && success()
-        env:
-          CODE_COV: ${{ secrets.CODE_COV }}
-        run: bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
-
-      - name: Create Release
-        if: github.ref == 'refs/heads/master' && steps.check.outputs.changed == 'true'
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.publish.outputs.version }}
-          release_name: v${{ steps.publish.outputs.version }}
-          draft: false
-          prerelease: false
+          branches: |
+            [
+              '+([0-9])?(.{+([0-9]),x}).x',
+              'main',
+              'next',
+              'next-major',
+              {name: 'beta', prerelease: true},
+              {name: 'alpha', prerelease: true}
+            ]
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
