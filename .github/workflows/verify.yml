@@ -36,4 +36,5 @@ jobs:
           yarn test:cov
 
       - name: Upload coverage to Codecov
+        if: matrix.node-version == '14.x'
         uses: codecov/codecov-action@v2
