@@ -12,7 +12,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.1",
     "command-exists": "^1.2.9",
     "glob": "^7.2.0",
     "lodash": "^4.17.21",
